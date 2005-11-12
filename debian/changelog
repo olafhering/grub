@@ -1,4 +1,4 @@
-grub2 (1.91-0) UNRELEASED; urgency=low
+grub2 (1.91-0) unstable; urgency=low
 
   * New upstream release. Closes: #331211
   * debian/watch: added.
@@ -7,7 +7,7 @@ grub2 (1.91-0) UNRELEASED; urgency=low
   * Remove Robert Millan as uploader;
   * Add myself as uploader;
 
- -- Otavio Salvador <otavio@debian.org>  Sat, 12 Nov 2005 15:38:18 -0200
+ -- Otavio Salvador <otavio@debian.org>  Sat, 12 Nov 2005 16:35:18 -0200
 
 grub2 (0.6+20050203-2) unstable; urgency=low
 

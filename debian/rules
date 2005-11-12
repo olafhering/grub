@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 # This file is PUBLIC DOMAIN. 
 
-DEB_TAR_SRCDIR			:= src
+DEB_TAR_SRCDIR			:= grub-1.91
 DEB_AUTO_UPDATE_DEBIAN_CONTROL	:= yes
 DEB_AUTO_CLEANUP_RCS		:= yes
 package				:= grub2
@@ -13,7 +13,7 @@ include /usr/share/cdbs/1/rules/simple-patchsys.mk
 
 install/$(package):: common-install-prehook-arch
 	install -m 644 $(DEB_SRCDIR)/moddep.lst \
-		debian/$(package)/usr/share/grub/$(DEB_HOST_GNU_CPU)-*/
+		debian/$(package)/usr/share/grub/$(DEB_HOST_ARCH_CPU)-*/
 
 clean::
 	sed -e "s/@cpu@/$(DEB_HOST_GNU_CPU)/g" \
