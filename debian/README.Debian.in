@@ -1,0 +1,16 @@
+GRUB2 for Debian
+----------------
+
+You may generate a core image with:
+
+  $ grub-mkimage -v -d /usr/share/grub/@cpu@-pc/ -o /tmp/core.img _chain ext2
+
+Which can be used to grab a GRUB2 floppy:
+
+  $ dd if=/usr/share/grub/@cpu@-pc/boot.img of=/dev/fd0 bs=512 count=1
+  $ dd if=/tmp/core.img of=/dev/fd0 bs=512 seek=1
+
+Or for installing GRUB2 into a device, by using "grub-setup". See --help output
+for details.
+
+ -- Robert Millan <rmh@debian.org>, Mon, 15 Sep 2003 14:58:42 +0000

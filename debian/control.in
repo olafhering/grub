@@ -1,0 +1,26 @@
+Source: grub2
+Section: admin
+Priority: extra
+Maintainer: GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
+Uploaders: Jason Thomas <jason@debian.org>, Robert Millan <rmh@debian.org>
+Build-Depends: @cdbs@, autoconf, liblzo-dev, ruby
+Build-Conflicts: autoconf2.13
+Standards-Version: 3.5.9
+
+Package: grub2
+Cpu: i386
+System: any
+Depends: ${shlibs:Depends}
+Provides: pupa
+Replaces: pupa
+Conflicts: pupa
+Suggests: bochs
+Description: The next generation of GNU GRUB [EXPERIMENTAL]
+ GRUB2 (also known as PUPA) is the Preliminary Universal Programming
+ Architecture for GRUB. It is a research project for the next generation of
+ GNU GRUB. The most important goal is to make GNU GRUB cleaner, safer, more
+ robust, more powerful, and more portable.
+ .
+ This package contains EXPERIMENTAL software which hasn't been properly tested
+ and doesn't have all the expected features. For a stable and usable
+ bootloader look at GRUB instead.

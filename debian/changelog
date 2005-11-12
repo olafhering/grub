@@ -1,0 +1,87 @@
+grub2 (0.6+20050203-2) unstable; urgency=low
+
+  * Disable for powerpc.  Reportedly it fails to boot.
+
+ -- Robert Millan <rmh@debian.org>  Fri,  4 Feb 2005 01:52:09 +0100
+
+grub2 (0.6+20050203-1) unstable; urgency=low
+
+  * New upstream snapshot.
+  * Install moddep.lst properly in a cpu-independant way. (Closes: #264115)
+  * Use cdbs debian/control autogeneration.
+    - Set DEB_AUTO_UPDATE_DEBIAN_CONTROL = yes.
+    - Move control to control.in.
+    - Add a @cdbs@ tag and replace Architecture with Cpu/System.
+  * control.in (Build-Depends):  Add ruby.
+
+ -- Robert Millan <rmh@debian.org>  Thu,  3 Feb 2005 22:33:39 +0100
+
+grub2 (0.6+20040805-1) unstable; urgency=low
+
+  * New upstream snapshot.
+  * Uploading to unstable so that powerpc users can be blessed by GRUB too.
+  * Use type-handling to generate dpkg arch list.
+    - control.in
+    - rules
+
+ -- Robert Millan <rmh@debian.org>  Thu,  5 Aug 2004 20:50:16 +0200
+
+grub2 (0.6+20040502-1) experimental; urgency=low
+
+  * New upstream snapshot.
+    - Fix FTBFS on powerpc.
+
+ -- Robert Millan <rmh@debian.org>  Sun,  2 May 2004 18:16:29 +0200
+
+grub2 (0.6+20040429-1) experimental; urgency=low
+
+  * New upstream snapshot.
+    - control (Architecture): Add powerpc.
+
+ -- Robert Millan <rmh@debian.org>  Thu, 29 Apr 2004 20:41:31 +0200
+
+grub2 (0.6+20031125-1) experimental; urgency=low
+
+  * New upstream snapshot.
+    - patches/multiboot.diff: Nuked.
+    - install,docs: Update directory name.
+  * control (Maintainer): Set to pkg-grub-devel mailing list.
+  * control (Uploaders): Add myself.
+  * control (Architecture): Add freebsd-i386 and netbsd-i386.
+
+ -- Robert Millan <rmh@debian.org>  Tue, 25 Nov 2003 23:48:18 +0100
+
+grub2 (0.6+20031114-1) experimental; urgency=low
+
+  * New upstream snapshot.
+    - README.Debian: s/fat/ext2/g (We now have ext2fs support).
+  * Add multiboot support, thanks to Jeroen Dekkers for his patch.
+    - patches/multiboot.diff: New.
+    - control (Architecture): Add hurd-i386 (which needed multiboot).
+  * Rename package to grub2 (to follow upstream tendency).
+    - control: Ditto.
+    - README.Debian: Likewise.
+  * Switch to tarball mode.
+    - rules: Ditto.
+    - docs: Prefix paths in order to workaround dh_installdocs bug.
+    - install: Likewise, but not because of bug (should be in rules, actualy).
+  * Fix FTBFS. (Closes: #213868)
+    - control (Build-Depends): Add autoconf.
+    - control (Build-Conflicts): Add autoconf2.13.
+
+ -- Robert Millan <rmh@debian.org>  Fri, 14 Nov 2003 13:16:12 +0100
+
+pupa (0.6+20031008-1) experimental; urgency=low
+
+  * New upstream snapshot.
+  * Uploading to experimental.
+  * debian/control: Add Jason Thomas to Uploaders.
+
+ -- Robert Millan <rmh@debian.org>  Wed,  8 Oct 2003 13:22:50 +0000
+
+pupa (0.6+20030915-1) unstable; urgency=low
+
+  * Initial Release. (Closes: #211030)
+
+ -- Robert Millan <rmh@debian.org>  Mon, 15 Sep 2003 14:58:42 +0000
+

@@ -1,0 +1,25 @@
+Source: grub2
+Section: admin
+Priority: extra
+Maintainer: GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
+Uploaders: Jason Thomas <jason@debian.org>, Robert Millan <rmh@debian.org>
+Build-Depends: cdbs (>= 0.4.23-1.1), build-essential, autotools-dev, cdbs (>= 0.4.26-2), type-handling (>= 0.2.5), debhelper (>= 4.1.0), cdbs (>= 0.4.26-1.1), autoconf, liblzo-dev, ruby
+Build-Conflicts: autoconf2.13
+Standards-Version: 3.5.9
+
+Package: grub2
+Architecture: i386 darwin-i386 freebsd-i386 kfreebsd-i386 knetbsd-i386 netbsd-i386 openbsd-i386 hurd-i386
+Depends: ${shlibs:Depends}
+Provides: pupa
+Replaces: pupa
+Conflicts: pupa
+Suggests: bochs
+Description: The next generation of GNU GRUB [EXPERIMENTAL]
+ GRUB2 (also known as PUPA) is the Preliminary Universal Programming
+ Architecture for GRUB. It is a research project for the next generation of
+ GNU GRUB. The most important goal is to make GNU GRUB cleaner, safer, more
+ robust, more powerful, and more portable.
+ .
+ This package contains EXPERIMENTAL software which hasn't been properly tested
+ and doesn't have all the expected features. For a stable and usable
+ bootloader look at GRUB instead.
