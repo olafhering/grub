@@ -1,6 +1,6 @@
 grub2 (1.91-0) UNRELEASED; urgency=low
 
-  * New upstream release.
+  * New upstream release. Closes: #331211
   * debian/watch: added.
 
  -- Otavio Salvador <otavio@debian.org>  Sat, 12 Nov 2005 15:38:18 -0200
