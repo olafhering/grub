@@ -2,13 +2,13 @@ Source: grub2
 Section: admin
 Priority: extra
 Maintainer: GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
-Uploaders: Jason Thomas <jason@debian.org>, Robert Millan <rmh@debian.org>
-Build-Depends: @cdbs@, autoconf, liblzo-dev, ruby
+Uploaders: Jason Thomas <jason@debian.org>, Otavio Salvador <otavio@debian.org>
+Build-Depends: @cdbs@, autoconf, liblzo-dev, ruby, libncurses5-dev
 Build-Conflicts: autoconf2.13
 Standards-Version: 3.5.9
 
 Package: grub2
-Cpu: i386
+Cpu: i386, powerpc
 System: any
 Depends: ${shlibs:Depends}
 Provides: pupa

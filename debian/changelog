@@ -2,6 +2,10 @@ grub2 (1.91-0) UNRELEASED; urgency=low
 
   * New upstream release. Closes: #331211
   * debian/watch: added.
+  * debian/control.in, debian/control: Add libncurses5-dev in
+    Build-Depends. Closes: #304638
+  * Remove Robert Millan as uploader;
+  * Add myself as uploader;
 
  -- Otavio Salvador <otavio@debian.org>  Sat, 12 Nov 2005 15:38:18 -0200
 
