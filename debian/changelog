@@ -1,4 +1,4 @@
-grub2 (1.92-1) UNRELEASED; urgency=low
+grub2 (1.92-1) unstable; urgency=low
 
   * New upstream release.
     - Add support for GPT partition table format.
@@ -10,7 +10,7 @@ grub2 (1.92-1) UNRELEASED; urgency=low
     /bin/grub-mkimage instead of /sbin/grub-mkimage. Closes: #338824
   
   
- -- Otavio Salvador <otavio@debian.org>  Thu,  5 Jan 2006 13:34:08 -0200
+ -- Otavio Salvador <otavio@debian.org>  Thu,  5 Jan 2006 13:55:32 -0200
 
 grub2 (1.91-0) unstable; urgency=low
 
