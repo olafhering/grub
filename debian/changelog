@@ -8,9 +8,9 @@ grub2 (1.92-1) unstable; urgency=low
     - Add support for Apple HFS+ filesystems.
   * 01_fix_grub-install.patch: Added. Fix grub-install to use
     /bin/grub-mkimage instead of /sbin/grub-mkimage. Closes: #338824
+  * Do not use CDBS tarball mode anymore. Closes: #344272  
   
-  
- -- Otavio Salvador <otavio@debian.org>  Thu,  5 Jan 2006 13:55:32 -0200
+ -- Otavio Salvador <otavio@debian.org>  Thu,  5 Jan 2006 15:20:40 -0200
 
 grub2 (1.91-0) unstable; urgency=low
 
