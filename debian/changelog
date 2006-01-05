@@ -1,7 +1,12 @@
 grub2 (1.92-1) UNRELEASED; urgency=low
 
-  * * New upstream release.
-
+  * New upstream release.
+    - Add support for GPT partition table format.
+    - Add a new command "play" to play an audio file on PC.
+    - Add support for Linux/ADFS partition table format.
+    - Add support for BASH-like scripting.
+    - Add support for Apple HFS+ filesystems.
+  
  -- Otavio Salvador <otavio@debian.org>  Thu,  5 Jan 2006 13:34:08 -0200
 
 grub2 (1.91-0) unstable; urgency=low
