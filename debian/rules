@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 # This file is PUBLIC DOMAIN. 
 
-DEB_TAR_SRCDIR			:= grub-1.91
+DEB_TAR_SRCDIR			:= grub-1.92
 DEB_AUTO_UPDATE_DEBIAN_CONTROL	:= yes
 DEB_AUTO_CLEANUP_RCS		:= yes
 package				:= grub2
