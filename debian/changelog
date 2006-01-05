@@ -6,6 +6,9 @@ grub2 (1.92-1) UNRELEASED; urgency=low
     - Add support for Linux/ADFS partition table format.
     - Add support for BASH-like scripting.
     - Add support for Apple HFS+ filesystems.
+  * 01_fix_grub-install.patch: Added. Fix grub-install to use
+    /bin/grub-mkimage instead of /sbin/grub-mkimage. Closes: #338824
+  
   
  -- Otavio Salvador <otavio@debian.org>  Thu,  5 Jan 2006 13:34:08 -0200
 

@@ -1,0 +1,12 @@
+diff -Nur trunk/build-tree/grub-1.92/util/i386/pc/grub-install.in trunk.new/build-tree/grub-1.92/util/i386/pc/grub-install.in
+--- trunk/build-tree/grub-1.92/util/i386/pc/grub-install.in	2005-08-07 14:02:35.000000000 -0300
++++ trunk.new/build-tree/grub-1.92/util/i386/pc/grub-install.in	2006-01-05 13:51:20.524195200 -0200
+@@ -31,7 +31,7 @@
+ pkgdatadir=${datadir}/${PACKAGE_TARNAME}/${host_cpu}-${host_vendor}
+ 
+ grub_setup=${sbindir}/grub-setup
+-grub_mkimage=${sbindir}/grub-mkimage
++grub_mkimage=${bindir}/grub-mkimage
+ grub_mkdevicemap=${sbindir}/grub-mkdevicemap
+ grub_probefs=${sbindir}/grub-probefs
+ rootdir=
