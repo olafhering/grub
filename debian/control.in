@@ -3,7 +3,7 @@ Section: admin
 Priority: extra
 Maintainer: GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
 Uploaders: Jason Thomas <jason@debian.org>, Otavio Salvador <otavio@debian.org>
-Build-Depends: @cdbs@, autoconf, liblzo-dev, ruby, libncurses5-dev
+Build-Depends: @cdbs@, autoconf, liblzo-dev, ruby, libncurses5-dev, bison
 Build-Conflicts: autoconf2.13
 Standards-Version: 3.5.9
 
