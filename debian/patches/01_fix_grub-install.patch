@@ -1,7 +1,15 @@
-diff -Nur trunk/build-tree/grub-1.92/util/i386/pc/grub-install.in trunk.new/build-tree/grub-1.92/util/i386/pc/grub-install.in
---- grub-1.92/util/i386/pc/grub-install.in	2005-08-07 14:02:35.000000000 -0300
-+++ grub-1.92/util/i386/pc/grub-install.in	2006-01-05 13:51:20.524195200 -0200
-@@ -31,7 +31,7 @@
+diff -Nur grub2-1.92/util/i386/pc/grub-install.in grub2-1.92.new/util/i386/pc/grub-install.in
+--- grub2-1.92/util/i386/pc/grub-install.in	2005-08-07 14:02:35.000000000 -0300
++++ grub2-1.92.new/util/i386/pc/grub-install.in	2006-01-06 09:46:07.730083392 -0200
+@@ -20,6 +20,7 @@
+ # Initialize some variables.
+ prefix=@prefix@
+ exec_prefix=@exec_prefix@
++bindir=@bindir@
+ sbindir=@sbindir@
+ datadir=@datadir@
+ PACKAGE_NAME=@PACKAGE_NAME@
+@@ -31,7 +32,7 @@
  pkgdatadir=${datadir}/${PACKAGE_TARNAME}/${host_cpu}-${host_vendor}
  
  grub_setup=${sbindir}/grub-setup
@@ -10,3 +18,12 @@ diff -Nur trunk/build-tree/grub-1.92/util/i386/pc/grub-install.in trunk.new/buil
  grub_mkdevicemap=${sbindir}/grub-mkdevicemap
  grub_probefs=${sbindir}/grub-probefs
  rootdir=
+@@ -210,7 +211,7 @@
+ fs_module=`$grub_probefs --device-map=${device_map} ${grubdir}`
+ if test "x$fs_module" = x -a "x$modules" = x; then
+     echo "Auto-detection of a filesystem module failed." 1>&2
+-    echo "Please specify the module with the option `--modules' explicitly." 1>&2
++    echo "Please specify the module with the option \`--modules' explicitly." 1>&2
+     exit 1
+ fi
+ 
