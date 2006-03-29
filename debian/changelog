@@ -1,3 +1,9 @@
+grub2 (1.92-3) UNRELEASED; urgency=low
+
+  * Update Standards version to 3.6.2. No changes need.
+
+ -- Otavio Salvador <otavio@debian.org>  Tue, 28 Mar 2006 22:49:31 -0300
+
 grub2 (1.92-2) unstable; urgency=low
 
   * Add bison on build-depends field. Closes: #346178
