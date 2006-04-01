@@ -1,5 +1,7 @@
-grub2 (1.92-3) UNRELEASED; urgency=low
+grub2 (1.93-1) UNRELEASED; urgency=low
 
+  * New upstream release.
+    - Added support to PowerPC. Closes: #357853
   * Update Standards version to 3.6.2. No changes need.
   * Start to use new dpkg architecture definition. Closes: #360134
 
