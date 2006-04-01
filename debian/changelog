@@ -1,6 +1,7 @@
 grub2 (1.92-3) UNRELEASED; urgency=low
 
   * Update Standards version to 3.6.2. No changes need.
+  * Start to use new dpkg architecture definition. Closes: #360134
 
  -- Otavio Salvador <otavio@debian.org>  Tue, 28 Mar 2006 22:49:31 -0300
 
