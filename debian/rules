@@ -16,3 +16,11 @@ install/$(package):: common-install-prehook-arch
 clean::
 	sed -e "s/@cpu@/$(DEB_HOST_GNU_CPU)/g" \
 	< debian/README.Debian.in > debian/README.Debian
+
+# Grab fixes from CVS using our version as reference.
+cvs-sync:
+	cvs -d:pserver:anonymous@cvs.savannah.gnu.org:/cvsroot/grub checkout -d grub2-cvs grub2; \
+	UVERSION=$$(dpkg-parsechangelog | grep Version | sed 's,Version: ,,g;s,-[0-9]*$$,,g;s,\.,_,g'); \
+	cd grub2-cvs && \
+	cvs diff -uN -r release_$$UVERSION -r HEAD > ../debian/patches/00_cvs-sync.patch; \
+	cd .. && rm -rf grub2-cvs

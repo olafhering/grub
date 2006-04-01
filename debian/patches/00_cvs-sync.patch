@@ -1,0 +1,5181 @@
+Index: ChangeLog
+===================================================================
+RCS file: /cvsroot/grub/grub2/ChangeLog,v
+retrieving revision 1.225
+retrieving revision 1.228
+diff -u -r1.225 -r1.228
+--- ChangeLog	10 Mar 2006 22:27:24 -0000	1.225
++++ ChangeLog	31 Mar 2006 14:26:33 -0000	1.228
+@@ -1,3 +1,197 @@
++2006-03-31  Vesa Jaaskelainen  <chaac@nic.fi>
++
++	* DISTLIST: Added include/grub/i386/pc/vbeblit.h,
++	include/grub/i386/pc/vbefill.h, video/i386/pc/vbeblit.c,
++	video/i386/pc/vbefill.c.
++
++	* conf/i386-pc.rmk (vbe_mod_SOURCES): Added video/i386/pc/vbeblit.c,
++	video/i386/pc/vbefill.c.
++
++	* include/grub/video.h (grub_video_blit_format): New enum.
++	(grub_video_mode_info): Added new member blit_format.
++	(grub_video_get_blit_format): New function prototype.
++
++	* include/grub/i386/pc/vbe.h (grub_video_vbe_get_video_ptr): New
++	function prototype.
++	(grub_video_vbe_map_rgb): Likewise.
++	(grub_video_vbe_unmap_color): Likewise.
++
++	* include/grub/i386/pc/vbeblit.h: New file.
++
++	* include/grub/i386/pc/vbefill.h: New file.
++
++	* video/video.c (grub_video_get_blit_format): New function.
++	(grub_video_vbe_get_video_ptr): Re-declared as non-static.
++	(grub_video_vbe_map_rgb): Likewise.
++	(grub_video_vbe_unmap_color): Likewise.
++
++	* video/i386/pc/vbe.c (grub_video_vbe_fill_rect): Changed to use more
++	optimized fills.
++	(grub_video_vbe_blit_render_target): Changed to use more optimized
++	blits.
++	(grub_video_vbe_setup): Added detection for optimized settings.
++	(grub_video_vbe_create_render_target): Likewise.
++
++	* video/i386/pc/vbeblit.c: New file.
++
++	* video/i386/pc/vbefill.c: New file.
++
++2006-03-30  Vesa Jaaskelainen  <chaac@nic.fi>
++
++	* font/manager.c (grub_font_get_glyph): Removed font fixup from
++	here...
++
++	* util/unifont2pff.rb: ... and moved it to here.  Improved argument
++	parsing to support both hex and dec ranges.  If filename was missing
++	show usage information.
++
++2006-03-14  Vesa Jaaskelainen  <chaac@nic.fi>
++
++	* DISTLIST: Added include/grub/video.h, term/gfxterm.c,
++	video/video.c, commands/videotest.c.  Removed term/i386/pc/vesafb.c.
++
++	* conf/i386-pc.rmk (pkgdata_MODULES): Added video.mod,
++	gfxterm.mod, videotest.mod.  Removed vga.mod, vesafb.mod.
++	(video_mod_SOURCES): Added.
++	(video_mod_CFLAGS): Likewise.
++	(video_mod_LDFLAGS): Likewise.
++	(gfxterm_mod_SOURCES): Likewise.
++	(gfxterm_mod_CFLAGS): Likewise.
++	(gfxterm_mod_LDFLAGS): Likewise.
++	(videotest_mod_SOURCES): Likewise.
++	(videotest_mod_CFLAGS): Likewise.
++	(videotest_mod_LDFLAGS): Likewise.
++	(vesafb_mod_SOURCES): Removed.
++	(vesafb_mod_CFLAGS): Likewise.
++	(vesafb_mod_LDFLAGS): Likewise.
++	(vga_mod_SOURCES): Likewise.
++	(vga_mod_CFLAGS): Likewise.
++	(vga_mod_LDFLAGS): Likewise.
++
++	* commands/videotest.c: New file.
++
++	* font/manager.c (fill_with_default_glyph): Modified to use
++	grub_font_glyph.
++	(grub_font_get_glyph): Likewise.
++	(fontmanager): Renamed from this...
++	(font_manager): ... to this.
++
++	* include/grub/font.h (grub_font_glyph): Added new structure.
++	(grub_font_get_glyph): Modified to use grub_font_glyph.
++
++	* include/grub/misc.h (grub_abs): Added as inline function.
++
++	* include/grub/video.h: New file.
++
++	* include/grub/i386/pc/vbe.h (GRUB_VBE_STATUS_OK): New macro.
++	(GRUB_VBE_MEMORY_MODEL_PACKED_PIXEL): Likewise.
++	(GRUB_VBE_MEMORY_MODEL_DIRECT_COLOR): Likewise.
++	(grub_vbe_get_controller_info): Renamed from this...
++	(grub_vbe_bios_get_controller_info): ... to this.
++	(grub_vbe_get_mode_info): Renamed from this...
++	(grub_vbe_bios_get_mode_info): ... to this.
++	(grub_vbe_set_mode): Renamed from this...
++	(grub_vbe_bios_set_mode): ... to this.
++	(grub_vbe_get_mode): Renamed from this...
++	(grub_vbe_bios_get_mode): ... to this.
++	(grub_vbe_set_memory_window): Renamed from this...
++	(grub_vbe_bios_set_memory_window): ... to this.
++	(grub_vbe_get_memory_window): Renamed from this...
++	(grub_vbe_bios_get_memory_window): ... to this.
++	(grub_vbe_set_scanline_length): Renamed from this...
++	(grub_vbe_set_scanline_length): ... to this.
++	(grub_vbe_get_scanline_length): Renamed from this...
++	(grub_vbe_bios_get_scanline_length): ... to this.
++	(grub_vbe_set_display_start): Renamed from this...
++	(grub_vbe_bios_set_display_start): ... to this.
++	(grub_vbe_get_display_start): Renamed from this...
++	(grub_vbe_bios_get_display_start): ... to this.
++	(grub_vbe_set_palette_data): Renamed from this...
++	(grub_vbe_bios_set_palette_data): ... to this.
++	(grub_vbe_set_pixel_rgb): Removed.
++	(grub_vbe_set_pixel_index): Likewise.
++
++	* kern/i386/pc/startup.S (grub_vbe_get_controller_info): Renamed
++	from this...
++	(grub_vbe_bios_get_controller_info): ... to this.
++	(grub_vbe_get_mode_info): Renamed from this...
++	(grub_vbe_bios_get_mode_info): ... to this.
++	(grub_vbe_set_mode): Renamed from this...
++	(grub_vbe_bios_set_mode): ... to this.
++	(grub_vbe_get_mode): Renamed from this...
++	(grub_vbe_bios_get_mode): ... to this.
++	(grub_vbe_set_memory_window): Renamed from this...
++	(grub_vbe_bios_set_memory_window): ... to this.
++	(grub_vbe_get_memory_window): Renamed from this...
++	(grub_vbe_bios_get_memory_window): ... to this.
++	(grub_vbe_set_scanline_length): Renamed from this...
++	(grub_vbe_set_scanline_length): ... to this.
++	(grub_vbe_get_scanline_length): Renamed from this...
++	(grub_vbe_bios_get_scanline_length): ... to this.
++	(grub_vbe_set_display_start): Renamed from this...
++	(grub_vbe_bios_set_display_start): ... to this.
++	(grub_vbe_get_display_start): Renamed from this...
++	(grub_vbe_bios_get_display_start): ... to this.
++	(grub_vbe_set_palette_data): Renamed from this...
++	(grub_vbe_bios_set_palette_data): ... to this.
++	(grub_vbe_bios_get_controller_info): Fixed problem with registers
++	getting corrupted after calling it.  Added more pushes and pops.
++	(grub_vbe_bios_set_mode): Likewise.
++	(grub_vbe_bios_get_mode): Likewise.
++	(grub_vbe_bios_get_memory_window): Likewise.
++	(grub_vbe_bios_set_scanline_length): Likewise.
++	(grub_vbe_bios_get_scanline_length): Likewise.
++	(grub_vbe_bios_get_display_start): Likewise.
++	(grub_vbe_bios_set_palette_data): Likewise.
++
++	* normal/cmdline.c (cl_set_pos): Refresh the screen.
++	(cl_insert): Likewise.
++	(cl_delete): Likewise.
++
++	* term/gfxterm.c: New file.
++
++	* term/i386/pc/vesafb.c: Removed file.
++
++	* video/video.c: New file.
++
++	* video/i386/pc/vbe.c (real2pm): Added new function.
++	(grub_video_vbe_draw_pixel): Likewise.
++	(grub_video_vbe_get_video_ptr): Likewise.
++	(grub_video_vbe_get_pixel): Likewise
++	(grub_video_vbe_init): Likewise.
++	(grub_video_vbe_fini): Likewise.
++	(grub_video_vbe_setup): Likewise.
++	(grub_video_vbe_get_info): Likewise.
++	(grub_video_vbe_set_palette): Likewise.
++	(grub_video_vbe_get_palette): Likewise.
++	(grub_video_vbe_set_viewport): Likewise.
++	(grub_video_vbe_get_viewport): Likewise.
++	(grub_video_vbe_map_color): Likewise.
++	(grub_video_vbe_map_rgb): Likewise.
++	(grub_video_vbe_map_rgba): Likewise.
++	(grub_video_vbe_unmap_color): Likewise.
++	(grub_video_vbe_fill_rect): Likewise.
++	(grub_video_vbe_blit_glyph): Likewise.
++	(grub_video_vbe_blit_bitmap): Likewise.
++	(grub_video_vbe_blit_render_target): Likewise.
++	(grub_video_vbe_scroll): Likewise.
++	(grub_video_vbe_swap_buffers): Likewise.
++	(grub_video_vbe_create_render_target): Likewise.
++	(grub_video_vbe_delete_render_target): Likewise.
++	(grub_video_vbe_set_active_render_target): Likewise.
++	(grub_vbe_set_pixel_rgb): Remove function.
++	(grub_vbe_set_pixel_index): Likewise.
++	(index_color_mode): Remove static variable.
++	(active_mode): Likewise.
++	(framebuffer): Likewise.
++	(bytes_per_scan_line): Likewise.
++	(grub_video_vbe_adapter): Added new static variable.
++	(framebuffer): Likewise.
++	(render_target): Likewise.
++	(initial_mode): Likewise.
++	(mode_in_use): Likewise.
++	(mode_list): Likewise.
++
+ 2006-03-10  Marco Gerards  <marco@gnu.org>
+ 
+ 	* configure.ac (AC_INIT): Bumped to 1.93.
+Index: DISTLIST
+===================================================================
+RCS file: /cvsroot/grub/grub2/DISTLIST,v
+retrieving revision 1.23
+retrieving revision 1.25
+diff -u -r1.23 -r1.25
+--- DISTLIST	10 Mar 2006 22:27:24 -0000	1.23
++++ DISTLIST	31 Mar 2006 14:26:33 -0000	1.25
+@@ -41,6 +41,7 @@
+ commands/terminal.c
+ commands/test.c
+ commands/timeout.c
++commands/videotest.c
+ commands/i386/pc/halt.c
+ commands/i386/pc/play.c
+ commands/i386/pc/reboot.c
+@@ -107,6 +108,7 @@
+ include/grub/terminfo.h
+ include/grub/tparm.h
+ include/grub/types.h
++include/grub/video.h
+ include/grub/i386/setjmp.h
+ include/grub/i386/types.h
+ include/grub/i386/pc/biosdisk.h
+@@ -122,6 +124,8 @@
+ include/grub/i386/pc/serial.h
+ include/grub/i386/pc/time.h
+ include/grub/i386/pc/vbe.h
++include/grub/i386/pc/vbeblit.h
++include/grub/i386/pc/vbefill.h
+ include/grub/i386/pc/vga.h
+ include/grub/i386/pc/util/biosdisk.h
+ include/grub/ieee1275/ieee1275.h
+@@ -209,6 +213,7 @@
+ partmap/sun.c
+ term/terminfo.c
+ term/tparm.c
++term/gfxterm.c
+ term/i386/pc/console.c
+ term/i386/pc/serial.c
+ term/i386/pc/vesafb.c
+@@ -230,4 +235,7 @@
+ util/i386/pc/misc.c
+ util/powerpc/ieee1275/grub-mkimage.c
+ util/powerpc/ieee1275/misc.c
++video/video.c
+ video/i386/pc/vbe.c
++video/i386/pc/vbeblit.c
++video/i386/pc/vbefill.c
+Index: commands/videotest.c
+===================================================================
+RCS file: commands/videotest.c
+diff -N commands/videotest.c
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ commands/videotest.c	14 Mar 2006 19:08:33 -0000	1.1
+@@ -0,0 +1,130 @@
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2006  Free Software Foundation, Inc.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, write to the Free Software
++ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ */
++
++#include <grub/machine/memory.h>
++#include <grub/video.h>
++#include <grub/types.h>
++#include <grub/dl.h>
++#include <grub/misc.h>
++#include <grub/normal.h>
++#include <grub/arg.h>
++#include <grub/mm.h>
++#include <grub/font.h>
++#include <grub/term.h>
++
++static grub_err_t
++grub_cmd_videotest (struct grub_arg_list *state __attribute__ ((unused)),
++                    int argc __attribute__ ((unused)),
++                    char **args __attribute__ ((unused)))
++{
++  if (grub_video_setup (1024, 768,
++                        GRUB_VIDEO_MODE_TYPE_INDEX_COLOR) != GRUB_ERR_NONE)
++    return grub_errno;
++  
++  grub_getkey ();
++
++  grub_video_color_t color;
++  unsigned int x;
++  unsigned int y;
++  unsigned int width;
++  unsigned int height;
++  int i;
++  struct grub_font_glyph glyph;
++  struct grub_video_render_target *text_layer;
++  grub_video_color_t palette[16];
++  
++  grub_video_get_viewport (&x, &y, &width, &height);
++
++  grub_video_create_render_target (&text_layer, width, height,
++                                   GRUB_VIDEO_MODE_TYPE_RGB
++                                   | GRUB_VIDEO_MODE_TYPE_ALPHA);
++
++  grub_video_set_active_render_target (GRUB_VIDEO_RENDER_TARGET_DISPLAY);                                   
++
++  color = grub_video_map_rgb (0, 0, 0);
++  grub_video_fill_rect (color, 0, 0, width, height);
++  
++  color = grub_video_map_rgb (255, 0, 0);
++  grub_video_fill_rect (color, 0, 0, 100, 100);
++  
++  color = grub_video_map_rgb (0, 255, 255);
++  grub_video_fill_rect (color, 100, 100, 100, 100);
++
++  grub_font_get_glyph ('*', &glyph);  
++  grub_video_blit_glyph (&glyph, color, 200 ,0);
++
++  grub_video_set_viewport (x + 150, y + 150,
++                           width - 150 * 2, height - 150 * 2);
++  color = grub_video_map_rgb (77, 33, 77);
++  grub_video_fill_rect (color, 0, 0, width, height);
++  
++  grub_video_set_active_render_target (text_layer);
++  
++  color = grub_video_map_rgb (255, 255, 255);
++  
++  grub_font_get_glyph ('A', &glyph);  
++  grub_video_blit_glyph (&glyph, color, 16, 16);
++  grub_font_get_glyph ('B', &glyph);  
++  grub_video_blit_glyph (&glyph, color, 16 * 2, 16);
++
++  grub_font_get_glyph ('*', &glyph);  
++  
++  for (i = 0; i < 16; i++)
++    {
++      color = grub_video_map_color (i);
++      palette[i] = color;
++      grub_video_blit_glyph (&glyph, color, 16 + i * 16, 32);
++    }
++
++  grub_video_set_active_render_target (GRUB_VIDEO_RENDER_TARGET_DISPLAY);
++
++  for (i = 0; i < 255; i++)
++    {
++      color = grub_video_map_rgb (i, 33, 77);
++      grub_video_fill_rect (color, 0, 0, width, height);
++      grub_video_blit_render_target (text_layer, 0, 0, 0, 0, width, height);
++    }
++  
++  grub_getkey ();
++  
++  grub_video_delete_render_target (text_layer);
++  
++  grub_video_restore ();
++  
++  for (i = 0; i < 16; i++)
++    grub_printf("color %d: %08x\n", i, palette[i]);
++  
++  grub_errno = GRUB_ERR_NONE;
++  return grub_errno;
++}
++
++GRUB_MOD_INIT(videotest)
++{
++  grub_register_command ("videotest",
++                         grub_cmd_videotest,
++                         GRUB_COMMAND_FLAG_BOTH,
++                         "videotest",
++                         "Test video subsystem",
++                         0);
++}
++
++GRUB_MOD_FINI(videotest)
++{
++  grub_unregister_command ("videotest");
++}
+Index: conf/i386-pc.mk
+===================================================================
+RCS file: /cvsroot/grub/grub2/conf/i386-pc.mk,v
+retrieving revision 1.61
+retrieving revision 1.63
+diff -u -r1.61 -r1.63
+--- conf/i386-pc.mk	25 Dec 2005 15:59:50 -0000	1.61
++++ conf/i386-pc.mk	31 Mar 2006 14:26:33 -0000	1.63
+@@ -1367,9 +1367,10 @@
+ 
+ 
+ # Modules.
+-pkgdata_MODULES = _chain.mod _linux.mod linux.mod normal.mod vga.mod	\
++pkgdata_MODULES = _chain.mod _linux.mod linux.mod normal.mod \
+ 	_multiboot.mod chain.mod multiboot.mod reboot.mod halt.mod	\
+-	vbe.mod vesafb.mod vbetest.mod vbeinfo.mod play.mod
++	vbe.mod vbetest.mod vbeinfo.mod video.mod gfxterm.mod \
++	videotest.mod play.mod
+ 
+ # For _chain.mod.
+ _chain_mod_SOURCES = loader/i386/pc/chainloader.c
+@@ -1999,57 +2000,6 @@
+ halt_mod_CFLAGS = $(COMMON_CFLAGS)
+ halt_mod_LDFLAGS = $(COMMON_LDFLAGS)
+ 
+-# For vga.mod.
+-vga_mod_SOURCES = term/i386/pc/vga.c
+-CLEANFILES += vga.mod mod-vga.o mod-vga.c pre-vga.o vga_mod-term_i386_pc_vga.o def-vga.lst und-vga.lst
+-MOSTLYCLEANFILES += vga_mod-term_i386_pc_vga.d
+-DEFSYMFILES += def-vga.lst
+-UNDSYMFILES += und-vga.lst
+-
+-vga.mod: pre-vga.o mod-vga.o
+-	-rm -f $@
+-	$(LD) $(vga_mod_LDFLAGS) $(LDFLAGS) -r -d -o $@ $^
+-	$(STRIP) --strip-unneeded -K grub_mod_init -K grub_mod_fini -R .note -R .comment $@
+-
+-pre-vga.o: vga_mod-term_i386_pc_vga.o
+-	-rm -f $@
+-	$(LD) $(vga_mod_LDFLAGS) -r -d -o $@ $^
+-
+-mod-vga.o: mod-vga.c
+-	$(CC) $(CPPFLAGS) $(CFLAGS) $(vga_mod_CFLAGS) -c -o $@ $<
+-
+-mod-vga.c: moddep.lst genmodsrc.sh
+-	sh $(srcdir)/genmodsrc.sh 'vga' $< > $@ || (rm -f $@; exit 1)
+-
+-def-vga.lst: pre-vga.o
+-	$(NM) -g --defined-only -P -p $< | sed 's/^\([^ ]*\).*/\1 vga/' > $@
+-
+-und-vga.lst: pre-vga.o
+-	echo 'vga' > $@
+-	$(NM) -u -P -p $< | cut -f1 -d' ' >> $@
+-
+-vga_mod-term_i386_pc_vga.o: term/i386/pc/vga.c
+-	$(CC) -Iterm/i386/pc -I$(srcdir)/term/i386/pc $(CPPFLAGS) $(CFLAGS) $(vga_mod_CFLAGS) -c -o $@ $<
+-
+-vga_mod-term_i386_pc_vga.d: term/i386/pc/vga.c
+-	set -e; 	  $(CC) -Iterm/i386/pc -I$(srcdir)/term/i386/pc $(CPPFLAGS) $(CFLAGS) $(vga_mod_CFLAGS) -M $< 	  | sed 's,vga\.o[ :]*,vga_mod-term_i386_pc_vga.o $@ : ,g' > $@; 	  [ -s $@ ] || rm -f $@
+-
+--include vga_mod-term_i386_pc_vga.d
+-
+-CLEANFILES += cmd-vga_mod-term_i386_pc_vga.lst fs-vga_mod-term_i386_pc_vga.lst
+-COMMANDFILES += cmd-vga_mod-term_i386_pc_vga.lst
+-FSFILES += fs-vga_mod-term_i386_pc_vga.lst
+-
+-cmd-vga_mod-term_i386_pc_vga.lst: term/i386/pc/vga.c gencmdlist.sh
+-	set -e; 	  $(CC) -Iterm/i386/pc -I$(srcdir)/term/i386/pc $(CPPFLAGS) $(CFLAGS) $(vga_mod_CFLAGS) -E $< 	  | sh $(srcdir)/gencmdlist.sh vga > $@ || (rm -f $@; exit 1)
+-
+-fs-vga_mod-term_i386_pc_vga.lst: term/i386/pc/vga.c genfslist.sh
+-	set -e; 	  $(CC) -Iterm/i386/pc -I$(srcdir)/term/i386/pc $(CPPFLAGS) $(CFLAGS) $(vga_mod_CFLAGS) -E $< 	  | sh $(srcdir)/genfslist.sh vga > $@ || (rm -f $@; exit 1)
+-
+-
+-vga_mod_CFLAGS = $(COMMON_CFLAGS)
+-vga_mod_LDFLAGS = $(COMMON_LDFLAGS)
+-
+ # For serial.mod.
+ serial_mod_SOURCES = term/i386/pc/serial.c
+ serial_mod_CFLAGS = $(COMMON_CFLAGS)
+@@ -2158,9 +2108,10 @@
+ multiboot_mod_LDFLAGS = $(COMMON_LDFLAGS)
+ 
+ # For vbe.mod.
+-vbe_mod_SOURCES = video/i386/pc/vbe.c
+-CLEANFILES += vbe.mod mod-vbe.o mod-vbe.c pre-vbe.o vbe_mod-video_i386_pc_vbe.o def-vbe.lst und-vbe.lst
+-MOSTLYCLEANFILES += vbe_mod-video_i386_pc_vbe.d
++vbe_mod_SOURCES = video/i386/pc/vbe.c video/i386/pc/vbeblit.c \
++		  video/i386/pc/vbefill.c
++CLEANFILES += vbe.mod mod-vbe.o mod-vbe.c pre-vbe.o vbe_mod-video_i386_pc_vbe.o vbe_mod-video_i386_pc_vbeblit.o vbe_mod-video_i386_pc_vbefill.o def-vbe.lst und-vbe.lst
++MOSTLYCLEANFILES += vbe_mod-video_i386_pc_vbe.d vbe_mod-video_i386_pc_vbeblit.d vbe_mod-video_i386_pc_vbefill.d
+ DEFSYMFILES += def-vbe.lst
+ UNDSYMFILES += und-vbe.lst
+ 
+@@ -2169,7 +2120,7 @@
+ 	$(LD) $(vbe_mod_LDFLAGS) $(LDFLAGS) -r -d -o $@ $^
+ 	$(STRIP) --strip-unneeded -K grub_mod_init -K grub_mod_fini -R .note -R .comment $@
+ 
+-pre-vbe.o: vbe_mod-video_i386_pc_vbe.o
++pre-vbe.o: vbe_mod-video_i386_pc_vbe.o vbe_mod-video_i386_pc_vbeblit.o vbe_mod-video_i386_pc_vbefill.o
+ 	-rm -f $@
+ 	$(LD) $(vbe_mod_LDFLAGS) -r -d -o $@ $^
+ 
+@@ -2205,59 +2156,46 @@
+ 	set -e; 	  $(CC) -Ivideo/i386/pc -I$(srcdir)/video/i386/pc $(CPPFLAGS) $(CFLAGS) $(vbe_mod_CFLAGS) -E $< 	  | sh $(srcdir)/genfslist.sh vbe > $@ || (rm -f $@; exit 1)
+ 
+ 
+-vbe_mod_CFLAGS = $(COMMON_CFLAGS)
+-vbe_mod_LDFLAGS = $(COMMON_LDFLAGS)
+-
+-# For vesafb.mod.
+-vesafb_mod_SOURCES = term/i386/pc/vesafb.c
+-CLEANFILES += vesafb.mod mod-vesafb.o mod-vesafb.c pre-vesafb.o vesafb_mod-term_i386_pc_vesafb.o def-vesafb.lst und-vesafb.lst
+-MOSTLYCLEANFILES += vesafb_mod-term_i386_pc_vesafb.d
+-DEFSYMFILES += def-vesafb.lst
+-UNDSYMFILES += und-vesafb.lst
++vbe_mod-video_i386_pc_vbeblit.o: video/i386/pc/vbeblit.c
++	$(CC) -Ivideo/i386/pc -I$(srcdir)/video/i386/pc $(CPPFLAGS) $(CFLAGS) $(vbe_mod_CFLAGS) -c -o $@ $<
+ 
+-vesafb.mod: pre-vesafb.o mod-vesafb.o
+-	-rm -f $@
+-	$(LD) $(vesafb_mod_LDFLAGS) $(LDFLAGS) -r -d -o $@ $^
+-	$(STRIP) --strip-unneeded -K grub_mod_init -K grub_mod_fini -R .note -R .comment $@
++vbe_mod-video_i386_pc_vbeblit.d: video/i386/pc/vbeblit.c
++	set -e; 	  $(CC) -Ivideo/i386/pc -I$(srcdir)/video/i386/pc $(CPPFLAGS) $(CFLAGS) $(vbe_mod_CFLAGS) -M $< 	  | sed 's,vbeblit\.o[ :]*,vbe_mod-video_i386_pc_vbeblit.o $@ : ,g' > $@; 	  [ -s $@ ] || rm -f $@
+ 
+-pre-vesafb.o: vesafb_mod-term_i386_pc_vesafb.o
+-	-rm -f $@
+-	$(LD) $(vesafb_mod_LDFLAGS) -r -d -o $@ $^
++-include vbe_mod-video_i386_pc_vbeblit.d
+ 
+-mod-vesafb.o: mod-vesafb.c
+-	$(CC) $(CPPFLAGS) $(CFLAGS) $(vesafb_mod_CFLAGS) -c -o $@ $<
++CLEANFILES += cmd-vbe_mod-video_i386_pc_vbeblit.lst fs-vbe_mod-video_i386_pc_vbeblit.lst
++COMMANDFILES += cmd-vbe_mod-video_i386_pc_vbeblit.lst
++FSFILES += fs-vbe_mod-video_i386_pc_vbeblit.lst
+ 
+-mod-vesafb.c: moddep.lst genmodsrc.sh
+-	sh $(srcdir)/genmodsrc.sh 'vesafb' $< > $@ || (rm -f $@; exit 1)
++cmd-vbe_mod-video_i386_pc_vbeblit.lst: video/i386/pc/vbeblit.c gencmdlist.sh
++	set -e; 	  $(CC) -Ivideo/i386/pc -I$(srcdir)/video/i386/pc $(CPPFLAGS) $(CFLAGS) $(vbe_mod_CFLAGS) -E $< 	  | sh $(srcdir)/gencmdlist.sh vbe > $@ || (rm -f $@; exit 1)
+ 
+-def-vesafb.lst: pre-vesafb.o
+-	$(NM) -g --defined-only -P -p $< | sed 's/^\([^ ]*\).*/\1 vesafb/' > $@
++fs-vbe_mod-video_i386_pc_vbeblit.lst: video/i386/pc/vbeblit.c genfslist.sh
++	set -e; 	  $(CC) -Ivideo/i386/pc -I$(srcdir)/video/i386/pc $(CPPFLAGS) $(CFLAGS) $(vbe_mod_CFLAGS) -E $< 	  | sh $(srcdir)/genfslist.sh vbe > $@ || (rm -f $@; exit 1)
+ 
+-und-vesafb.lst: pre-vesafb.o
+-	echo 'vesafb' > $@
+-	$(NM) -u -P -p $< | cut -f1 -d' ' >> $@
+ 
+-vesafb_mod-term_i386_pc_vesafb.o: term/i386/pc/vesafb.c
+-	$(CC) -Iterm/i386/pc -I$(srcdir)/term/i386/pc $(CPPFLAGS) $(CFLAGS) $(vesafb_mod_CFLAGS) -c -o $@ $<
++vbe_mod-video_i386_pc_vbefill.o: video/i386/pc/vbefill.c
++	$(CC) -Ivideo/i386/pc -I$(srcdir)/video/i386/pc $(CPPFLAGS) $(CFLAGS) $(vbe_mod_CFLAGS) -c -o $@ $<
+ 
+-vesafb_mod-term_i386_pc_vesafb.d: term/i386/pc/vesafb.c
+-	set -e; 	  $(CC) -Iterm/i386/pc -I$(srcdir)/term/i386/pc $(CPPFLAGS) $(CFLAGS) $(vesafb_mod_CFLAGS) -M $< 	  | sed 's,vesafb\.o[ :]*,vesafb_mod-term_i386_pc_vesafb.o $@ : ,g' > $@; 	  [ -s $@ ] || rm -f $@
++vbe_mod-video_i386_pc_vbefill.d: video/i386/pc/vbefill.c
++	set -e; 	  $(CC) -Ivideo/i386/pc -I$(srcdir)/video/i386/pc $(CPPFLAGS) $(CFLAGS) $(vbe_mod_CFLAGS) -M $< 	  | sed 's,vbefill\.o[ :]*,vbe_mod-video_i386_pc_vbefill.o $@ : ,g' > $@; 	  [ -s $@ ] || rm -f $@
+ 
+--include vesafb_mod-term_i386_pc_vesafb.d
++-include vbe_mod-video_i386_pc_vbefill.d
+ 
+-CLEANFILES += cmd-vesafb_mod-term_i386_pc_vesafb.lst fs-vesafb_mod-term_i386_pc_vesafb.lst
+-COMMANDFILES += cmd-vesafb_mod-term_i386_pc_vesafb.lst
+-FSFILES += fs-vesafb_mod-term_i386_pc_vesafb.lst
++CLEANFILES += cmd-vbe_mod-video_i386_pc_vbefill.lst fs-vbe_mod-video_i386_pc_vbefill.lst
++COMMANDFILES += cmd-vbe_mod-video_i386_pc_vbefill.lst
++FSFILES += fs-vbe_mod-video_i386_pc_vbefill.lst
+ 
+-cmd-vesafb_mod-term_i386_pc_vesafb.lst: term/i386/pc/vesafb.c gencmdlist.sh
+-	set -e; 	  $(CC) -Iterm/i386/pc -I$(srcdir)/term/i386/pc $(CPPFLAGS) $(CFLAGS) $(vesafb_mod_CFLAGS) -E $< 	  | sh $(srcdir)/gencmdlist.sh vesafb > $@ || (rm -f $@; exit 1)
++cmd-vbe_mod-video_i386_pc_vbefill.lst: video/i386/pc/vbefill.c gencmdlist.sh
++	set -e; 	  $(CC) -Ivideo/i386/pc -I$(srcdir)/video/i386/pc $(CPPFLAGS) $(CFLAGS) $(vbe_mod_CFLAGS) -E $< 	  | sh $(srcdir)/gencmdlist.sh vbe > $@ || (rm -f $@; exit 1)
+ 
+-fs-vesafb_mod-term_i386_pc_vesafb.lst: term/i386/pc/vesafb.c genfslist.sh
+-	set -e; 	  $(CC) -Iterm/i386/pc -I$(srcdir)/term/i386/pc $(CPPFLAGS) $(CFLAGS) $(vesafb_mod_CFLAGS) -E $< 	  | sh $(srcdir)/genfslist.sh vesafb > $@ || (rm -f $@; exit 1)
++fs-vbe_mod-video_i386_pc_vbefill.lst: video/i386/pc/vbefill.c genfslist.sh
++	set -e; 	  $(CC) -Ivideo/i386/pc -I$(srcdir)/video/i386/pc $(CPPFLAGS) $(CFLAGS) $(vbe_mod_CFLAGS) -E $< 	  | sh $(srcdir)/genfslist.sh vbe > $@ || (rm -f $@; exit 1)
+ 
+ 
+-vesafb_mod_CFLAGS = $(COMMON_CFLAGS)
+-vesafb_mod_LDFLAGS = $(COMMON_LDFLAGS)
++vbe_mod_CFLAGS = $(COMMON_CFLAGS)
++vbe_mod_LDFLAGS = $(COMMON_LDFLAGS)
+ 
+ # For vbeinfo.mod.
+ vbeinfo_mod_SOURCES = commands/i386/pc/vbeinfo.c
+@@ -2412,4 +2350,157 @@
+ play_mod_CFLAGS = $(COMMON_CFLAGS)
+ play_mod_LDFLAGS = $(COMMON_LDFLAGS)
+ 
++# For video.mod.
++video_mod_SOURCES = video/video.c
++CLEANFILES += video.mod mod-video.o mod-video.c pre-video.o video_mod-video_video.o def-video.lst und-video.lst
++MOSTLYCLEANFILES += video_mod-video_video.d
++DEFSYMFILES += def-video.lst
++UNDSYMFILES += und-video.lst
++
++video.mod: pre-video.o mod-video.o
++	-rm -f $@
++	$(LD) $(video_mod_LDFLAGS) $(LDFLAGS) -r -d -o $@ $^
++	$(STRIP) --strip-unneeded -K grub_mod_init -K grub_mod_fini -R .note -R .comment $@
++
++pre-video.o: video_mod-video_video.o
++	-rm -f $@
++	$(LD) $(video_mod_LDFLAGS) -r -d -o $@ $^
++
++mod-video.o: mod-video.c
++	$(CC) $(CPPFLAGS) $(CFLAGS) $(video_mod_CFLAGS) -c -o $@ $<
++
++mod-video.c: moddep.lst genmodsrc.sh
++	sh $(srcdir)/genmodsrc.sh 'video' $< > $@ || (rm -f $@; exit 1)
++
++def-video.lst: pre-video.o
++	$(NM) -g --defined-only -P -p $< | sed 's/^\([^ ]*\).*/\1 video/' > $@
++
++und-video.lst: pre-video.o
++	echo 'video' > $@
++	$(NM) -u -P -p $< | cut -f1 -d' ' >> $@
++
++video_mod-video_video.o: video/video.c
++	$(CC) -Ivideo -I$(srcdir)/video $(CPPFLAGS) $(CFLAGS) $(video_mod_CFLAGS) -c -o $@ $<
++
++video_mod-video_video.d: video/video.c
++	set -e; 	  $(CC) -Ivideo -I$(srcdir)/video $(CPPFLAGS) $(CFLAGS) $(video_mod_CFLAGS) -M $< 	  | sed 's,video\.o[ :]*,video_mod-video_video.o $@ : ,g' > $@; 	  [ -s $@ ] || rm -f $@
++
++-include video_mod-video_video.d
++
++CLEANFILES += cmd-video_mod-video_video.lst fs-video_mod-video_video.lst
++COMMANDFILES += cmd-video_mod-video_video.lst
++FSFILES += fs-video_mod-video_video.lst
++
++cmd-video_mod-video_video.lst: video/video.c gencmdlist.sh
++	set -e; 	  $(CC) -Ivideo -I$(srcdir)/video $(CPPFLAGS) $(CFLAGS) $(video_mod_CFLAGS) -E $< 	  | sh $(srcdir)/gencmdlist.sh video > $@ || (rm -f $@; exit 1)
++
++fs-video_mod-video_video.lst: video/video.c genfslist.sh
++	set -e; 	  $(CC) -Ivideo -I$(srcdir)/video $(CPPFLAGS) $(CFLAGS) $(video_mod_CFLAGS) -E $< 	  | sh $(srcdir)/genfslist.sh video > $@ || (rm -f $@; exit 1)
++
++
++video_mod_CFLAGS = $(COMMON_CFLAGS)
++video_mod_LDFLAGS = $(COMMON_LDFLAGS)
++
++# For gfxterm.mod.
++gfxterm_mod_SOURCES = term/gfxterm.c
++CLEANFILES += gfxterm.mod mod-gfxterm.o mod-gfxterm.c pre-gfxterm.o gfxterm_mod-term_gfxterm.o def-gfxterm.lst und-gfxterm.lst
++MOSTLYCLEANFILES += gfxterm_mod-term_gfxterm.d
++DEFSYMFILES += def-gfxterm.lst
++UNDSYMFILES += und-gfxterm.lst
++
++gfxterm.mod: pre-gfxterm.o mod-gfxterm.o
++	-rm -f $@
++	$(LD) $(gfxterm_mod_LDFLAGS) $(LDFLAGS) -r -d -o $@ $^
++	$(STRIP) --strip-unneeded -K grub_mod_init -K grub_mod_fini -R .note -R .comment $@
++
++pre-gfxterm.o: gfxterm_mod-term_gfxterm.o
++	-rm -f $@
++	$(LD) $(gfxterm_mod_LDFLAGS) -r -d -o $@ $^
++
++mod-gfxterm.o: mod-gfxterm.c
++	$(CC) $(CPPFLAGS) $(CFLAGS) $(gfxterm_mod_CFLAGS) -c -o $@ $<
++
++mod-gfxterm.c: moddep.lst genmodsrc.sh
++	sh $(srcdir)/genmodsrc.sh 'gfxterm' $< > $@ || (rm -f $@; exit 1)
++
++def-gfxterm.lst: pre-gfxterm.o
++	$(NM) -g --defined-only -P -p $< | sed 's/^\([^ ]*\).*/\1 gfxterm/' > $@
++
++und-gfxterm.lst: pre-gfxterm.o
++	echo 'gfxterm' > $@
++	$(NM) -u -P -p $< | cut -f1 -d' ' >> $@
++
++gfxterm_mod-term_gfxterm.o: term/gfxterm.c
++	$(CC) -Iterm -I$(srcdir)/term $(CPPFLAGS) $(CFLAGS) $(gfxterm_mod_CFLAGS) -c -o $@ $<
++
++gfxterm_mod-term_gfxterm.d: term/gfxterm.c
++	set -e; 	  $(CC) -Iterm -I$(srcdir)/term $(CPPFLAGS) $(CFLAGS) $(gfxterm_mod_CFLAGS) -M $< 	  | sed 's,gfxterm\.o[ :]*,gfxterm_mod-term_gfxterm.o $@ : ,g' > $@; 	  [ -s $@ ] || rm -f $@
++
++-include gfxterm_mod-term_gfxterm.d
++
++CLEANFILES += cmd-gfxterm_mod-term_gfxterm.lst fs-gfxterm_mod-term_gfxterm.lst
++COMMANDFILES += cmd-gfxterm_mod-term_gfxterm.lst
++FSFILES += fs-gfxterm_mod-term_gfxterm.lst
++
++cmd-gfxterm_mod-term_gfxterm.lst: term/gfxterm.c gencmdlist.sh
++	set -e; 	  $(CC) -Iterm -I$(srcdir)/term $(CPPFLAGS) $(CFLAGS) $(gfxterm_mod_CFLAGS) -E $< 	  | sh $(srcdir)/gencmdlist.sh gfxterm > $@ || (rm -f $@; exit 1)
++
++fs-gfxterm_mod-term_gfxterm.lst: term/gfxterm.c genfslist.sh
++	set -e; 	  $(CC) -Iterm -I$(srcdir)/term $(CPPFLAGS) $(CFLAGS) $(gfxterm_mod_CFLAGS) -E $< 	  | sh $(srcdir)/genfslist.sh gfxterm > $@ || (rm -f $@; exit 1)
++
++
++gfxterm_mod_CFLAGS = $(COMMON_CFLAGS)
++gfxterm_mod_LDFLAGS = $(COMMON_LDFLAGS)
++
++# For videotest.mod.
++videotest_mod_SOURCES = commands/videotest.c
++CLEANFILES += videotest.mod mod-videotest.o mod-videotest.c pre-videotest.o videotest_mod-commands_videotest.o def-videotest.lst und-videotest.lst
++MOSTLYCLEANFILES += videotest_mod-commands_videotest.d
++DEFSYMFILES += def-videotest.lst
++UNDSYMFILES += und-videotest.lst
++
++videotest.mod: pre-videotest.o mod-videotest.o
++	-rm -f $@
++	$(LD) $(videotest_mod_LDFLAGS) $(LDFLAGS) -r -d -o $@ $^
++	$(STRIP) --strip-unneeded -K grub_mod_init -K grub_mod_fini -R .note -R .comment $@
++
++pre-videotest.o: videotest_mod-commands_videotest.o
++	-rm -f $@
++	$(LD) $(videotest_mod_LDFLAGS) -r -d -o $@ $^
++
++mod-videotest.o: mod-videotest.c
++	$(CC) $(CPPFLAGS) $(CFLAGS) $(videotest_mod_CFLAGS) -c -o $@ $<
++
++mod-videotest.c: moddep.lst genmodsrc.sh
++	sh $(srcdir)/genmodsrc.sh 'videotest' $< > $@ || (rm -f $@; exit 1)
++
++def-videotest.lst: pre-videotest.o
++	$(NM) -g --defined-only -P -p $< | sed 's/^\([^ ]*\).*/\1 videotest/' > $@
++
++und-videotest.lst: pre-videotest.o
++	echo 'videotest' > $@
++	$(NM) -u -P -p $< | cut -f1 -d' ' >> $@
++
++videotest_mod-commands_videotest.o: commands/videotest.c
++	$(CC) -Icommands -I$(srcdir)/commands $(CPPFLAGS) $(CFLAGS) $(videotest_mod_CFLAGS) -c -o $@ $<
++
++videotest_mod-commands_videotest.d: commands/videotest.c
++	set -e; 	  $(CC) -Icommands -I$(srcdir)/commands $(CPPFLAGS) $(CFLAGS) $(videotest_mod_CFLAGS) -M $< 	  | sed 's,videotest\.o[ :]*,videotest_mod-commands_videotest.o $@ : ,g' > $@; 	  [ -s $@ ] || rm -f $@
++
++-include videotest_mod-commands_videotest.d
++
++CLEANFILES += cmd-videotest_mod-commands_videotest.lst fs-videotest_mod-commands_videotest.lst
++COMMANDFILES += cmd-videotest_mod-commands_videotest.lst
++FSFILES += fs-videotest_mod-commands_videotest.lst
++
++cmd-videotest_mod-commands_videotest.lst: commands/videotest.c gencmdlist.sh
++	set -e; 	  $(CC) -Icommands -I$(srcdir)/commands $(CPPFLAGS) $(CFLAGS) $(videotest_mod_CFLAGS) -E $< 	  | sh $(srcdir)/gencmdlist.sh videotest > $@ || (rm -f $@; exit 1)
++
++fs-videotest_mod-commands_videotest.lst: commands/videotest.c genfslist.sh
++	set -e; 	  $(CC) -Icommands -I$(srcdir)/commands $(CPPFLAGS) $(CFLAGS) $(videotest_mod_CFLAGS) -E $< 	  | sh $(srcdir)/genfslist.sh videotest > $@ || (rm -f $@; exit 1)
++
++
++videotest_mod_CFLAGS = $(COMMON_CFLAGS)
++videotest_mod_LDFLAGS = $(COMMON_LDFLAGS)
++
+ include $(srcdir)/conf/common.mk
+Index: conf/i386-pc.rmk
+===================================================================
+RCS file: /cvsroot/grub/grub2/conf/i386-pc.rmk,v
+retrieving revision 1.58
+retrieving revision 1.60
+diff -u -r1.58 -r1.60
+--- conf/i386-pc.rmk	25 Dec 2005 15:59:50 -0000	1.58
++++ conf/i386-pc.rmk	31 Mar 2006 14:26:33 -0000	1.60
+@@ -113,9 +113,10 @@
+ grub_install_SOURCES = util/i386/pc/grub-install.in
+ 
+ # Modules.
+-pkgdata_MODULES = _chain.mod _linux.mod linux.mod normal.mod vga.mod	\
++pkgdata_MODULES = _chain.mod _linux.mod linux.mod normal.mod \
+ 	_multiboot.mod chain.mod multiboot.mod reboot.mod halt.mod	\
+-	vbe.mod vesafb.mod vbetest.mod vbeinfo.mod play.mod
++	vbe.mod vbetest.mod vbeinfo.mod video.mod gfxterm.mod \
++	videotest.mod play.mod
+ 
+ # For _chain.mod.
+ _chain_mod_SOURCES = loader/i386/pc/chainloader.c
+@@ -157,11 +158,6 @@
+ halt_mod_CFLAGS = $(COMMON_CFLAGS)
+ halt_mod_LDFLAGS = $(COMMON_LDFLAGS)
+ 
+-# For vga.mod.
+-vga_mod_SOURCES = term/i386/pc/vga.c
+-vga_mod_CFLAGS = $(COMMON_CFLAGS)
+-vga_mod_LDFLAGS = $(COMMON_LDFLAGS)
+-
+ # For serial.mod.
+ serial_mod_SOURCES = term/i386/pc/serial.c
+ serial_mod_CFLAGS = $(COMMON_CFLAGS)
+@@ -178,15 +174,11 @@
+ multiboot_mod_LDFLAGS = $(COMMON_LDFLAGS)
+ 
+ # For vbe.mod.
+-vbe_mod_SOURCES = video/i386/pc/vbe.c
++vbe_mod_SOURCES = video/i386/pc/vbe.c video/i386/pc/vbeblit.c \
++		  video/i386/pc/vbefill.c
+ vbe_mod_CFLAGS = $(COMMON_CFLAGS)
+ vbe_mod_LDFLAGS = $(COMMON_LDFLAGS)
+ 
+-# For vesafb.mod.
+-vesafb_mod_SOURCES = term/i386/pc/vesafb.c
+-vesafb_mod_CFLAGS = $(COMMON_CFLAGS)
+-vesafb_mod_LDFLAGS = $(COMMON_LDFLAGS)
+-
+ # For vbeinfo.mod.
+ vbeinfo_mod_SOURCES = commands/i386/pc/vbeinfo.c
+ vbeinfo_mod_CFLAGS = $(COMMON_CFLAGS)
+@@ -202,4 +194,19 @@
+ play_mod_CFLAGS = $(COMMON_CFLAGS)
+ play_mod_LDFLAGS = $(COMMON_LDFLAGS)
+ 
++# For video.mod.
++video_mod_SOURCES = video/video.c
++video_mod_CFLAGS = $(COMMON_CFLAGS)
++video_mod_LDFLAGS = $(COMMON_LDFLAGS)
++
++# For gfxterm.mod.
++gfxterm_mod_SOURCES = term/gfxterm.c
++gfxterm_mod_CFLAGS = $(COMMON_CFLAGS)
++gfxterm_mod_LDFLAGS = $(COMMON_LDFLAGS)
++
++# For videotest.mod.
++videotest_mod_SOURCES = commands/videotest.c
++videotest_mod_CFLAGS = $(COMMON_CFLAGS)
++videotest_mod_LDFLAGS = $(COMMON_LDFLAGS)
++
+ include $(srcdir)/conf/common.mk
+Index: font/manager.c
+===================================================================
+RCS file: /cvsroot/grub/grub2/font/manager.c,v
+retrieving revision 1.6
+retrieving revision 1.8
+diff -u -r1.6 -r1.8
+--- font/manager.c	13 Nov 2005 15:47:09 -0000	1.6
++++ font/manager.c	31 Mar 2006 13:32:52 -0000	1.8
+@@ -1,6 +1,6 @@
+ /*
+  *  GRUB  --  GRand Unified Bootloader
+- *  Copyright (C) 2003,2005  Free Software Foundation, Inc.
++ *  Copyright (C) 2003,2005,2006  Free Software Foundation, Inc.
+  *
+  *  This program is free software; you can redistribute it and/or modify
+  *  it under the terms of the GNU General Public License as published by
+@@ -121,7 +121,7 @@
+ }
+ 
+ /* Return the offset of the glyph corresponding to the codepoint CODE
+-   in the font FONT. If no found, return zero.  */
++   in the font FONT.  If no found, return zero.  */
+ static grub_uint32_t
+ find_glyph (const struct font *font, grub_uint32_t code)
+ {
+@@ -151,26 +151,27 @@
+ 
+ /* Set the glyph to something stupid.  */
+ static void
+-fill_with_default_glyph (unsigned char bitmap[32], unsigned *width)
++fill_with_default_glyph (grub_font_glyph_t glyph)
+ {
+-  if (bitmap)
+-    {
+-      unsigned i;
++  unsigned i;
+ 
+-      for (i = 0; i < 16; i++)
+-	bitmap[i] = (i & 1) ? 0x55 : 0xaa;
+-    }
+-      
+-  *width = 1;
++  for (i = 0; i < 16; i++)
++    glyph->bitmap[i] = (i & 1) ? 0x55 : 0xaa;
++
++  glyph->char_width = 1;
++  glyph->width = glyph->char_width * 8;
++  glyph->height = 16;
++  glyph->baseline = (16 * 3) / 4;
+ }
+ 
+-/* Get a glyph corresponding to the codepoint CODE. Always fill BITMAP
+-   and WIDTH with something, even if no glyph is found.  */
++/* Get a glyph corresponding to the codepoint CODE.  Always fill glyph
++   information with something, even if no glyph is found.  */
+ int
+ grub_font_get_glyph (grub_uint32_t code,
+-		     unsigned char bitmap[32], unsigned *width)
++		     grub_font_glyph_t glyph)
+ {
+   struct font *font;
++  grub_uint8_t bitmap[32];
+ 
+   /* FIXME: It is necessary to cache glyphs!  */
+   
+@@ -183,12 +184,18 @@
+       if (offset)
+ 	{
+ 	  grub_uint32_t w;
++	  int len;
++
++          /* Make sure we can find glyphs for error messages.  Push active
++             error message to error stack and reset error message.  */
++          grub_error_push ();
+ 	  
+ 	  grub_file_seek (font->file, offset);
+-	  if (grub_file_read (font->file, (char *) &w, 4) != 4)
++	  if ((len = grub_file_read (font->file, (char *) &w, sizeof (w)))
++	      != sizeof (w))
+ 	    {
+-	      remove_font (font);
+-	      goto restart;
++              remove_font (font);
++              goto restart;
+ 	    }
+ 
+ 	  w = grub_le_to_cpu32 (w);
+@@ -207,13 +214,23 @@
+ 	      goto restart;
+ 	    }
+ 
+-	  *width = w;
++          /* Fill glyph with information.  */	    
++          grub_memcpy (glyph->bitmap, bitmap, w * 16);
++          
++	  glyph->char_width = w;
++	  glyph->width = glyph->char_width * 8;
++	  glyph->height = 16;
++	  glyph->baseline = (16 * 3) / 4;
++	  
++	  /* Restore old error message.  */
++          grub_error_pop ();
++          
+ 	  return 1;
+ 	}
+     }
+ 
+-  /* Uggh... No font was found.  */
+-  fill_with_default_glyph (bitmap, width);
++  /* Uggh...  No font was found.  */
++  fill_with_default_glyph (glyph);
+   return 0;
+ }
+ 
+@@ -232,15 +249,14 @@
+   return 0;
+ }
+ 
+-GRUB_MOD_INIT(fontmanager)
++GRUB_MOD_INIT(font_manager)
+ {
+-  (void) mod; /* Stop warning.  */
+   grub_register_command ("font", font_command, GRUB_COMMAND_FLAG_BOTH,
+ 			 "font FILE...",
+ 			 "Specify one or more font files to display.", 0);
+ }
+ 
+-GRUB_MOD_FINI(fontmanager)
++GRUB_MOD_FINI(font_manager)
+ {
+   grub_unregister_command ("font");
+ }
+Index: include/grub/font.h
+===================================================================
+RCS file: /cvsroot/grub/grub2/include/grub/font.h,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -u -r1.3 -r1.4
+--- include/grub/font.h	4 Apr 2004 13:46:00 -0000	1.3
++++ include/grub/font.h	14 Mar 2006 19:08:33 -0000	1.4
+@@ -24,7 +24,31 @@
+ 
+ #define GRUB_FONT_MAGIC	"PPF\x7f"
+ 
++struct grub_font_glyph
++{
++  /* Glyph width in pixels.  */
++  grub_uint8_t width;
++  
++  /* Glyph height in pixels.  */
++  grub_uint8_t height;
++  
++  /* Glyph width in characters.  */
++  grub_uint8_t char_width;
++  
++  /* Glyph baseline position in pixels (from up).  */
++  grub_uint8_t baseline;
++  
++  /* Glyph bitmap data array of bytes in ((width + 7) / 8) * height.
++     Bitmap is formulated by height scanlines, each scanline having
++     width number of pixels. Pixels are coded as bits, value 1 meaning
++     of opaque pixel and 0 is transparent. If width does not fit byte
++     boundary, it will be padded with 0 to make it fit.  */
++  grub_uint8_t bitmap[32];
++};
++
++typedef struct grub_font_glyph *grub_font_glyph_t;
++
+ int grub_font_get_glyph (grub_uint32_t code,
+-			 unsigned char bitmap[32], unsigned *width);
++			 grub_font_glyph_t glyph);
+ 
+ #endif /* ! GRUB_FONT_HEADER */
+Index: include/grub/misc.h
+===================================================================
+RCS file: /cvsroot/grub/grub2/include/grub/misc.h,v
+retrieving revision 1.17
+retrieving revision 1.18
+diff -u -r1.17 -r1.18
+--- include/grub/misc.h	24 Oct 2005 10:23:46 -0000	1.17
++++ include/grub/misc.h	14 Mar 2006 19:08:33 -0000	1.18
+@@ -76,4 +76,14 @@
+ 					     const grub_uint8_t *src,
+ 					     grub_size_t size);
+ 
++/* Inline functions.  */
++static inline unsigned int
++grub_abs (int x)
++{
++  if (x < 0)
++    return (unsigned int)(-x);
++  else
++    return (unsigned int)x;
++}
++
+ #endif /* ! GRUB_MISC_HEADER */
+Index: include/grub/video.h
+===================================================================
+RCS file: include/grub/video.h
+diff -N include/grub/video.h
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ include/grub/video.h	31 Mar 2006 14:26:33 -0000	1.2
+@@ -0,0 +1,329 @@
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2006  Free Software Foundation, Inc.
++ *
++ *  GRUB is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with GRUB; if not, write to the Free Software
++ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ */
++
++#ifndef GRUB_VIDEO_HEADER
++#define GRUB_VIDEO_HEADER	1
++
++#include <grub/err.h>
++#include <grub/symbol.h>
++#include <grub/types.h>
++
++typedef grub_uint32_t grub_video_color_t;
++
++struct grub_video_render_target;
++
++/* Defines used to describe video mode or rendering target.  */
++#define GRUB_VIDEO_MODE_TYPE_ALPHA		0x00000008
++#define GRUB_VIDEO_MODE_TYPE_DOUBLE_BUFFERED	0x00000004
++#define GRUB_VIDEO_MODE_TYPE_INDEX_COLOR	0x00000002
++#define GRUB_VIDEO_MODE_TYPE_RGB		0x00000001
++
++/* Defines used to mask flags.  */
++#define GRUB_VIDEO_MODE_TYPE_COLOR_MASK		0x00000003
++
++/* Defines used to specify requested bit depth.  */
++#define GRUB_VIDEO_MODE_TYPE_DEPTH_MASK		0x0000ff00
++#define GRUB_VIDEO_MODE_TYPE_DEPTH_POS		8
++
++/* Defined predefined render targets.  */
++#define GRUB_VIDEO_RENDER_TARGET_DISPLAY	((struct grub_video_render_target *) 0)
++#define GRUB_VIDEO_RENDER_TARGET_FRONT_BUFFER	((struct grub_video_render_target *) 0)
++#define GRUB_VIDEO_RENDER_TARGET_BACK_BUFFER	((struct grub_video_render_target *) 1)
++
++/* Defined blitting formats.  */
++enum grub_video_blit_format
++  {
++    /* Follow exactly field & mask information.  */
++    GRUB_VIDEO_BLIT_FORMAT_RGBA,
++    /* Make optimization assumption.  */
++    GRUB_VIDEO_BLIT_FORMAT_R8G8B8A8,
++    /* Follow exactly field & mask information.  */
++    GRUB_VIDEO_BLIT_FORMAT_RGB,
++    /* Make optimization assumption.  */
++    GRUB_VIDEO_BLIT_FORMAT_R8G8B8,
++    /* When needed, decode color or just use value as is.  */
++    GRUB_VIDEO_BLIT_FORMAT_INDEXCOLOR
++  };
++
++struct grub_video_mode_info
++{
++  /* Width of the screen.  */
++  unsigned int width;
++  
++  /* Height of the screen.  */
++  unsigned int height;
++
++  /* Mode type bitmask.  Contains information like is it Index color or 
++     RGB mode.  */
++  unsigned int mode_type;
++
++  /* Bits per pixel.  */
++  unsigned int bpp;
++  
++  /* Bytes per pixel.  */
++  unsigned int bytes_per_pixel;
++  
++  /* Pitch of one scanline.  How many bytes there are for scanline.  */
++  unsigned int pitch;
++
++  /* In index color mode, number of colors.  In RGB mode this is 256.  */
++  unsigned int number_of_colors;
++
++  /* Optimization hint how binary data is coded.  */
++  enum grub_video_blit_format blit_format;
++
++  /* How many bits are reserved for red color.  */
++  unsigned int red_mask_size;
++
++  /* What is location of red color bits.  In Index Color mode, this is 0.  */
++  unsigned int red_field_pos;
++
++  /* How many bits are reserved for green color.  */
++  unsigned int green_mask_size;
++
++  /* What is location of green color bits.  In Index Color mode, this is 0.  */
++  unsigned int green_field_pos;
++
++  /* How many bits are reserved for blue color.  */
++  unsigned int blue_mask_size;
++
++  /* What is location of blue color bits.  In Index Color mode, this is 0.  */
++  unsigned int blue_field_pos;
++
++  /* How many bits are reserved in color.  */
++  unsigned int reserved_mask_size;
++
++  /* What is location of reserved color bits.  In Index Color mode, 
++     this is 0.  */
++  unsigned int reserved_field_pos;
++};
++
++struct grub_video_render_target
++{
++  /* Copy of the screen's mode info structure, except that width, height and
++     mode_type has been re-adjusted to requested render target settings.  */
++  struct grub_video_mode_info mode_info;
++
++  struct
++  {
++    unsigned int x;
++    unsigned int y;
++    unsigned int width;
++    unsigned int height;	
++  } viewport;
++
++  /* Indicates wether the data has been allocated by us and must be freed 
++     when render target is destroyed.  */
++  int is_allocated;
++  
++  /* Pointer to data.  Can either be in video card memory or in local host's
++     memory.  */
++  void *data;
++};
++
++struct grub_video_palette_data
++{
++  grub_uint8_t r; /* Red color value (0-255).  */
++  grub_uint8_t g; /* Green color value (0-255).  */
++  grub_uint8_t b; /* Blue color value (0-255).  */
++  grub_uint8_t a; /* Reserved bits value (0-255).  */
++};
++
++struct grub_font_glyph;
++struct grub_video_bitmap;
++
++struct grub_video_adapter
++{
++  /* The video adapter name.  */
++  const char *name;
++
++  /* Initialize the video adapter.  */
++  grub_err_t (*init) (void);
++
++  /* Clean up the video adapter.  */
++  grub_err_t (*fini) (void);
++
++  grub_err_t (*setup) (unsigned int width, 
++		       unsigned int height,
++		       unsigned int mode_type);
++
++  grub_err_t (*get_info) (struct grub_video_mode_info *mode_info);
++  
++  grub_err_t (*set_palette) (unsigned int start,
++			     unsigned int count,
++			     struct grub_video_palette_data *palette_data);
++
++  grub_err_t (*get_palette) (unsigned int start,
++			     unsigned int count,
++			     struct grub_video_palette_data *palette_data);
++
++  grub_err_t (*set_viewport) (unsigned int x,
++			      unsigned int y,
++			      unsigned int width,
++			      unsigned int height);
++
++  grub_err_t (*get_viewport) (unsigned int *x,
++			      unsigned int *y,
++			      unsigned int *width,
++			      unsigned int *height);
++
++  grub_video_color_t (*map_color) (grub_uint32_t color_name);
++  
++  grub_video_color_t (*map_rgb) (grub_uint8_t red,
++			   	 grub_uint8_t green,
++			   	 grub_uint8_t blue);
++
++  grub_video_color_t (*map_rgba) (grub_uint8_t red,
++				  grub_uint8_t green,
++				  grub_uint8_t blue,
++				  grub_uint8_t alpha);
++
++  grub_err_t (*fill_rect) (grub_video_color_t color,
++			   int x,
++			   int y,
++			   unsigned int width,
++			   unsigned int height);
++
++  grub_err_t (*blit_glyph) (struct grub_font_glyph *glyph,
++			    grub_video_color_t color,
++			    int x,
++			    int y);
++
++  grub_err_t (*blit_bitmap) (struct grub_video_bitmap *bitmap,
++			     int x,
++			     int y,
++			     int offset_x,
++			     int offset_y,
++			     unsigned int width,
++			     unsigned int height);
++
++  grub_err_t (*blit_render_target) (struct grub_video_render_target *source,
++				    int x,
++				    int y,
++				    int offset_x,
++				    int offset_y,
++				    unsigned int width,
++				    unsigned int height);
++
++  grub_err_t (*scroll) (grub_video_color_t color,
++  			int dx,
++  			int dy);
++
++  grub_err_t (*swap_buffers) (void);
++
++  grub_err_t (*create_render_target) (struct grub_video_render_target **result,
++				      unsigned int width,
++				      unsigned int height,
++				      unsigned int mode_type);
++
++  grub_err_t (*delete_render_target) (struct grub_video_render_target *target);
++
++  grub_err_t (*set_active_render_target) (struct grub_video_render_target *target);
++
++  /* The next video adapter.  */
++  struct grub_video_adapter *next;
++};
++typedef struct grub_video_adapter *grub_video_adapter_t;
++
++void EXPORT_FUNC(grub_video_register) (grub_video_adapter_t adapter);
++void EXPORT_FUNC(grub_video_unregister) (grub_video_adapter_t adapter);
++void EXPORT_FUNC(grub_video_iterate) (int (*hook) (grub_video_adapter_t adapter));
++
++grub_err_t EXPORT_FUNC(grub_video_setup) (unsigned int width,
++					  unsigned int height,
++					  unsigned int mode_type);
++
++grub_err_t EXPORT_FUNC(grub_video_restore) (void);
++
++grub_err_t EXPORT_FUNC(grub_video_get_info) (struct grub_video_mode_info *mode_info);
++
++enum grub_video_blit_format EXPORT_FUNC(grub_video_get_blit_format) (struct grub_video_mode_info *mode_info);
++
++grub_err_t EXPORT_FUNC(grub_video_set_palette) (unsigned int start,
++						unsigned int count,
++						struct grub_video_palette_data *palette_data);
++
++grub_err_t EXPORT_FUNC(grub_video_get_palette) (unsigned int start,
++						unsigned int count,
++						struct grub_video_palette_data *palette_data);
++
++grub_err_t EXPORT_FUNC(grub_video_set_viewport) (unsigned int x,
++						 unsigned int y,
++						 unsigned int width,
++						 unsigned int height);
++
++grub_err_t EXPORT_FUNC(grub_video_get_viewport) (unsigned int *x,
++						 unsigned int *y,
++						 unsigned int *width,
++						 unsigned int *height);
++
++grub_video_color_t EXPORT_FUNC(grub_video_map_color) (grub_uint32_t color_name);
++
++grub_video_color_t EXPORT_FUNC(grub_video_map_rgb) (grub_uint8_t red,
++						    grub_uint8_t green,
++						    grub_uint8_t blue);
++
++grub_video_color_t EXPORT_FUNC(grub_video_map_rgba) (grub_uint8_t red,
++						     grub_uint8_t green,
++						     grub_uint8_t blue,
++						     grub_uint8_t alpha);
++
++grub_err_t EXPORT_FUNC(grub_video_fill_rect) (grub_video_color_t color,
++					      int x,
++					      int y,
++					      unsigned int width,
++					      unsigned int height);
++
++grub_err_t EXPORT_FUNC(grub_video_blit_glyph) (struct grub_font_glyph *glyph,
++					       grub_video_color_t color,
++					       int x,
++					       int y);
++
++grub_err_t EXPORT_FUNC(grub_video_blit_bitmap) (struct grub_video_bitmap *bitmap,
++						int x,
++						int y,
++						int offset_x,
++						int offset_y,
++						unsigned int width,
++						unsigned int height);
++
++grub_err_t EXPORT_FUNC(grub_video_blit_render_target) (struct grub_video_render_target *source,
++						       int x,
++						       int y,
++						       int offset_x,
++						       int offset_y,
++						       unsigned int width,
++						       unsigned int height);
++
++grub_err_t EXPORT_FUNC(grub_video_scroll) (grub_video_color_t color,
++					   int dx,
++					   int dy);
++
++grub_err_t EXPORT_FUNC(grub_video_swap_buffers) (void);
++
++grub_err_t EXPORT_FUNC(grub_video_create_render_target) (struct grub_video_render_target **result,
++							 unsigned int width,
++							 unsigned int height,
++							 unsigned int mode_type);
++
++grub_err_t EXPORT_FUNC(grub_video_delete_render_target) (struct grub_video_render_target *target);
++
++grub_err_t EXPORT_FUNC(grub_video_set_active_render_target) (struct grub_video_render_target *target);
++					   
++#endif /* ! GRUB_VIDEO_HEADER */
+Index: include/grub/i386/pc/vbe.h
+===================================================================
+RCS file: /cvsroot/grub/grub2/include/grub/i386/pc/vbe.h,v
+retrieving revision 1.3
+retrieving revision 1.5
+diff -u -r1.3 -r1.5
+--- include/grub/i386/pc/vbe.h	16 Aug 2005 18:34:17 -0000	1.3
++++ include/grub/i386/pc/vbe.h	31 Mar 2006 14:26:34 -0000	1.5
+@@ -1,6 +1,6 @@
+ /*
+  *  GRUB  --  GRand Unified Bootloader
+- *  Copyright (C) 2005  Free Software Foundation, Inc.
++ *  Copyright (C) 2005,2006  Free Software Foundation, Inc.
+  *
+  *  This program is free software; you can redistribute it and/or modify
+  *  it under the terms of the GNU General Public License as published by
+@@ -23,10 +23,18 @@
+ #include <grub/symbol.h>
+ #include <grub/types.h>
+ #include <grub/err.h>
++#include <grub/video.h>
+ 
+ /* Default video mode to be used.  */
+ #define GRUB_VBE_DEFAULT_VIDEO_MODE     0x101
+ 
++/* VBE status codes.  */
++#define GRUB_VBE_STATUS_OK		0x004f
++
++/* VBE memory model types.  */
++#define GRUB_VBE_MEMORY_MODEL_PACKED_PIXEL	0x04
++#define GRUB_VBE_MEMORY_MODEL_DIRECT_COLOR	0x06
++
+ /* Note:
+  
+    Please refer to VESA BIOS Extension 3.0 Specification for more descriptive
+@@ -117,7 +125,7 @@
+ 
+   /* Reserved field to make structure to be 256 bytes long, VESA BIOS 
+      Extension 3.0 Specification says to reserve 189 bytes here but 
+-     that doesn't make structure to be 256 bytes. So additional one is 
++     that doesn't make structure to be 256 bytes.  So additional one is 
+      added here.  */
+   grub_uint8_t reserved4[189 + 1];
+ } __attribute__ ((packed));
+@@ -147,45 +155,45 @@
+ /* Prototypes for kernel real mode thunks.  */
+ 
+ /* Call VESA BIOS 0x4f00 to get VBE Controller Information, return status.  */
+-grub_vbe_status_t EXPORT_FUNC(grub_vbe_get_controller_info) (struct grub_vbe_info_block *controller_info);
++grub_vbe_status_t EXPORT_FUNC(grub_vbe_bios_get_controller_info) (struct grub_vbe_info_block *controller_info);
+ 
+ /* Call VESA BIOS 0x4f01 to get VBE Mode Information, return status.  */
+-grub_vbe_status_t EXPORT_FUNC(grub_vbe_get_mode_info) (grub_uint32_t mode,
+-                                                       struct grub_vbe_mode_info_block *mode_info);
++grub_vbe_status_t EXPORT_FUNC(grub_vbe_bios_get_mode_info) (grub_uint32_t mode,
++                                                            struct grub_vbe_mode_info_block *mode_info);
+ 
+ /* Call VESA BIOS 0x4f02 to set video mode, return status.  */
+-grub_vbe_status_t EXPORT_FUNC(grub_vbe_set_mode) (grub_uint32_t mode,
+-                                                  struct grub_vbe_crtc_info_block *crtc_info);
++grub_vbe_status_t EXPORT_FUNC(grub_vbe_bios_set_mode) (grub_uint32_t mode,
++                                                       struct grub_vbe_crtc_info_block *crtc_info);
+ 
+ /* Call VESA BIOS 0x4f03 to return current VBE Mode, return status.  */
+-grub_vbe_status_t EXPORT_FUNC(grub_vbe_get_mode) (grub_uint32_t *mode);
++grub_vbe_status_t EXPORT_FUNC(grub_vbe_bios_get_mode) (grub_uint32_t *mode);
+ 
+ /* Call VESA BIOS 0x4f05 to set memory window, return status.  */
+-grub_vbe_status_t EXPORT_FUNC(grub_vbe_set_memory_window) (grub_uint32_t window,
+-                                                           grub_uint32_t position);
++grub_vbe_status_t EXPORT_FUNC(grub_vbe_bios_set_memory_window) (grub_uint32_t window,
++                                                                grub_uint32_t position);
+ 
+ /* Call VESA BIOS 0x4f05 to return memory window, return status.  */
+-grub_vbe_status_t EXPORT_FUNC(grub_vbe_get_memory_window) (grub_uint32_t window,
+-                                                           grub_uint32_t *position);
++grub_vbe_status_t EXPORT_FUNC(grub_vbe_bios_get_memory_window) (grub_uint32_t window,
++                                                                grub_uint32_t *position);
+ 
+ /* Call VESA BIOS 0x4f06 to set scanline length (in bytes), return status.  */
+-grub_vbe_status_t EXPORT_FUNC(grub_vbe_set_scanline_length) (grub_uint32_t length);
++grub_vbe_status_t EXPORT_FUNC(grub_vbe_bios_set_scanline_length) (grub_uint32_t length);
+ 
+ /* Call VESA BIOS 0x4f06 to return scanline length (in bytes), return status.  */
+-grub_vbe_status_t EXPORT_FUNC(grub_vbe_get_scanline_length) (grub_uint32_t *length);
++grub_vbe_status_t EXPORT_FUNC(grub_vbe_bios_get_scanline_length) (grub_uint32_t *length);
+ 
+ /* Call VESA BIOS 0x4f07 to set display start, return status.  */
+-grub_vbe_status_t EXPORT_FUNC(grub_vbe_set_display_start) (grub_uint32_t x,
+-                                                           grub_uint32_t y);
++grub_vbe_status_t EXPORT_FUNC(grub_vbe_bios_set_display_start) (grub_uint32_t x,
++                                                                grub_uint32_t y);
+ 
+ /* Call VESA BIOS 0x4f07 to get display start, return status.  */
+-grub_vbe_status_t EXPORT_FUNC(grub_vbe_get_display_start) (grub_uint32_t *x,
+-                                                           grub_uint32_t *y);
++grub_vbe_status_t EXPORT_FUNC(grub_vbe_bios_get_display_start) (grub_uint32_t *x,
++                                                                grub_uint32_t *y);
+ 
+ /* Call VESA BIOS 0x4f09 to set palette data, return status.  */
+-grub_vbe_status_t EXPORT_FUNC(grub_vbe_set_palette_data) (grub_uint32_t color_count,
+-                                                          grub_uint32_t start_index,
+-                                                          struct grub_vbe_palette_data *palette_data);
++grub_vbe_status_t EXPORT_FUNC(grub_vbe_bios_set_palette_data) (grub_uint32_t color_count,
++                                                               grub_uint32_t start_index,
++                                                               struct grub_vbe_palette_data *palette_data);
+ 
+ /* Prototypes for helper functions.  */
+ 
+@@ -195,13 +203,19 @@
+ grub_err_t grub_vbe_get_video_mode (grub_uint32_t *mode);
+ grub_err_t grub_vbe_get_video_mode_info (grub_uint32_t mode,
+                                          struct grub_vbe_mode_info_block *mode_info);
+-void grub_vbe_set_pixel_rgb (grub_uint32_t x,
+-                             grub_uint32_t y,
+-                             grub_uint8_t red,
+-                             grub_uint8_t green,
+-                             grub_uint8_t blue);
+-void grub_vbe_set_pixel_index (grub_uint32_t x,
+-                               grub_uint32_t y,
+-                               grub_uint8_t color);
++
++/* VBE module internal prototypes (should not be used from elsewhere).  */
++grub_uint8_t * grub_video_vbe_get_video_ptr (struct grub_video_render_target *source,
++                                             grub_uint32_t x,
++                                             grub_uint32_t y);
++
++grub_video_color_t grub_video_vbe_map_rgb (grub_uint8_t red, 
++                                           grub_uint8_t green,
++                                           grub_uint8_t blue);
++
++void grub_video_vbe_unmap_color (struct grub_video_render_target * source,
++                                 grub_video_color_t color, grub_uint8_t *red,
++                                 grub_uint8_t *green, grub_uint8_t *blue,
++                                 grub_uint8_t *alpha);
+ 
+ #endif /* ! GRUB_VBE_MACHINE_HEADER */
+Index: include/grub/i386/pc/vbeblit.h
+===================================================================
+RCS file: include/grub/i386/pc/vbeblit.h
+diff -N include/grub/i386/pc/vbeblit.h
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ include/grub/i386/pc/vbeblit.h	31 Mar 2006 14:26:34 -0000	1.1
+@@ -0,0 +1,66 @@
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2006  Free Software Foundation, Inc.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, write to the Free Software
++ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ */
++
++#ifndef GRUB_VBEBLIT_MACHINE_HEADER
++#define GRUB_VBEBLIT_MACHINE_HEADER	1
++
++void
++grub_video_i386_vbeblit_R8G8B8A8_R8G8B8A8 (struct grub_video_render_target *dst,
++                                           struct grub_video_render_target *src,
++                                           int x, int y, int width, int height,
++                                           int offset_x, int offset_y);
++
++void
++grub_video_i386_vbeblit_R8G8B8_R8G8B8A8 (struct grub_video_render_target *dst,
++                                         struct grub_video_render_target *src,
++                                         int x, int y, int width, int height,
++                                         int offset_x, int offset_y);
++
++void
++grub_video_i386_vbeblit_index_R8G8B8A8 (struct grub_video_render_target *dst,
++                                        struct grub_video_render_target *src,
++                                        int x, int y, int width, int height,
++                                        int offset_x, int offset_y);
++
++
++void
++grub_video_i386_vbeblit_R8G8B8A8_R8G8B8 (struct grub_video_render_target *dst,
++                                         struct grub_video_render_target *src,
++                                         int x, int y, int width, int height,
++                                         int offset_x, int offset_y);
++
++void
++grub_video_i386_vbeblit_R8G8B8_R8G8B8 (struct grub_video_render_target *dst,
++                                       struct grub_video_render_target *src,
++                                       int x, int y, int width, int height,
++                                       int offset_x, int offset_y);
++
++void
++grub_video_i386_vbeblit_index_R8G8B8 (struct grub_video_render_target *dst,
++                                      struct grub_video_render_target *src,
++                                      int x, int y, int width, int height,
++                                      int offset_x, int offset_y);
++
++void
++grub_video_i386_vbeblit_index_index (struct grub_video_render_target *dst,
++                                     struct grub_video_render_target *src,
++                                     int x, int y, int width, int height,
++                                     int offset_x, int offset_y);
++
++#endif /* ! GRUB_VBEBLIT_MACHINE_HEADER */
+Index: include/grub/i386/pc/vbefill.h
+===================================================================
+RCS file: include/grub/i386/pc/vbefill.h
+diff -N include/grub/i386/pc/vbefill.h
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ include/grub/i386/pc/vbefill.h	31 Mar 2006 14:26:34 -0000	1.1
+@@ -0,0 +1,40 @@
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2006  Free Software Foundation, Inc.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, write to the Free Software
++ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ */
++
++#ifndef GRUB_VBEFILL_MACHINE_HEADER
++#define GRUB_VBEFILL_MACHINE_HEADER	1
++
++#include <grub/video.h>
++
++void
++grub_video_i386_vbefill_R8G8B8A8 (struct grub_video_render_target *dst,
++                                  grub_video_color_t color,  int x, int y,
++                                  int width, int height);
++
++void
++grub_video_i386_vbefill_R8G8B8 (struct grub_video_render_target *dst,
++                                grub_video_color_t color, int x, int y,
++                                int width, int height);
++
++void
++grub_video_i386_vbefill_index (struct grub_video_render_target *dst,
++                               grub_video_color_t color, int x, int y,
++                               int width, int height);
++
++#endif /* ! GRUB_VBEFILL_MACHINE_HEADER */
+Index: kern/i386/pc/startup.S
+===================================================================
+RCS file: /cvsroot/grub/grub2/kern/i386/pc/startup.S,v
+retrieving revision 1.19
+retrieving revision 1.20
+diff -u -r1.19 -r1.20
+--- kern/i386/pc/startup.S	15 Oct 2005 17:28:36 -0000	1.19
++++ kern/i386/pc/startup.S	14 Mar 2006 19:08:33 -0000	1.20
+@@ -1758,14 +1758,15 @@
+ 	ret
+ 
+ /*
+- * grub_vbe_status_t grub_vbe_get_controller_info (struct grub_vbe_info_block *controller_info)
++ * grub_vbe_bios_status_t grub_vbe_get_controller_info (struct grub_vbe_info_block *controller_info)
+  *
+  * Register allocations for parameters:
+  * %eax		*controller_info
+  */
+-FUNCTION(grub_vbe_get_controller_info)
++FUNCTION(grub_vbe_bios_get_controller_info)
+ 	pushl	%ebp
+ 	pushl	%edi
++	pushl	%edx
+ 
+ 	movw	%ax, %di	/* Store *controller_info to %edx:%di.  */
+ 	xorw	%ax, %ax
+@@ -1791,19 +1792,20 @@
+ 	movl	%edx, %eax
+ 	andl	$0x0FFFF, %eax	/* Return value in %eax.  */
+ 	
++	pop	%edx
+ 	popl	%edi
+ 	popl	%ebp
+ 	ret
+ 
+ /*
+- * grub_vbe_status_t grub_vbe_get_mode_info (grub_uint32_t mode,
+- *					     struct grub_vbe_mode_info_block *mode_info)
++ * grub_vbe_status_t grub_vbe_bios_get_mode_info (grub_uint32_t mode,
++ *						  struct grub_vbe_mode_info_block *mode_info)
+  *
+  * Register allocations for parameters:
+  * %eax		mode
+  * %edx		*mode_info
+  */
+-FUNCTION(grub_vbe_get_mode_info)
++FUNCTION(grub_vbe_bios_get_mode_info)
+ 	pushl   %ebp
+ 	pushl   %edi
+ 
+@@ -1837,16 +1839,17 @@
+ 	ret
+ 
+ /*
+- * grub_vbe_status_t grub_vbe_set_mode (grub_uint32_t mode,
+- *					struct grub_vbe_crtc_info_block *crtc_info)
++ * grub_vbe_status_t grub_vbe_bios_set_mode (grub_uint32_t mode,
++ *					     struct grub_vbe_crtc_info_block *crtc_info)
+  *
+  * Register allocations for parameters:
+  * %eax		mode
+  * %edx		*crtc_info
+  */
+-FUNCTION(grub_vbe_set_mode)
++FUNCTION(grub_vbe_bios_set_mode)
+ 	pushl	%ebp
+ 	pushl	%ebx
++	pushl	%edi
+ 
+ 	movl	%eax, %ebx	/* Store mode in %ebx.  */
+ 
+@@ -1874,19 +1877,22 @@
+ 	movw	%dx, %ax
+ 	andl	$0xFFFF, %eax	/* Return value in %eax.  */
+ 
++	popl	%edi
+ 	popl	%ebx
+ 	popl	%ebp
+ 	ret
+ 
+ /*
+- * grub_vbe_status_t grub_vbe_get_mode (grub_uint32_t *mode)
++ * grub_vbe_status_t grub_vbe_bios_get_mode (grub_uint32_t *mode)
+  *
+  * Register allocations for parameters:
+  * %eax		*mode
+  */
+-FUNCTION(grub_vbe_get_mode)
++FUNCTION(grub_vbe_bios_get_mode)
+ 	pushl   %ebp
+ 	pushl   %ebx
++	pushl	%edi
++	pushl	%edx
+ 	pushl	%eax		/* Push *mode to stack.  */
+ 
+ 	call    prot_to_real
+@@ -1907,19 +1913,21 @@
+ 	movw	%dx, %ax
+ 	andl	$0xFFFF, %eax	/* Return value in %eax.  */
+ 
++	popl	%edx
++	popl	%edi
+ 	popl    %ebx
+ 	popl    %ebp
+ 	ret
+ 
+ /*
+- * grub_vbe_status_t grub_vbe_set_memory_window (grub_uint32_t window,
+- *						 grub_uint32_t position);
++ * grub_vbe_status_t grub_vbe_bios_set_memory_window (grub_uint32_t window,
++ *						      grub_uint32_t position);
+  *
+  * Register allocations for parameters:
+  * %eax		window
+  * %edx		position
+  */
+-FUNCTION(grub_vbe_set_memory_window)
++FUNCTION(grub_vbe_bios_set_memory_window)
+ 	pushl	%ebp
+ 	pushl	%ebx
+ 
+@@ -1945,16 +1953,17 @@
+ 	ret
+ 
+ /*
+- * grub_vbe_status_t grub_vbe_get_memory_window (grub_uint32_t window,
+- * 						 grub_uint32_t *position);
++ * grub_vbe_status_t grub_vbe_bios_get_memory_window (grub_uint32_t window,
++ * 						      grub_uint32_t *position);
+  *
+  * Register allocations for parameters:
+  * %eax		window
+  * %edx		*position
+  */
+-FUNCTION(grub_vbe_get_memory_window)
++FUNCTION(grub_vbe_bios_get_memory_window)
+ 	pushl   %ebp
+ 	pushl   %ebx
++	pushl	%edi
+ 	pushl	%edx		/* Push *position to stack.  */
+ 
+ 	movl	%eax, %ebx	/* Store window in %ebx.  */
+@@ -1979,19 +1988,21 @@
+ 	movw	%bx, %ax
+ 	andl	$0xFFFF, %eax	/* Return value in %eax.  */
+ 
++	popl	%edi
+ 	popl    %ebx
+ 	popl    %ebp
+ 	ret
+ 
+ /*
+- * grub_vbe_status_t grub_vbe_set_scanline_length (grub_uint32_t length)
++ * grub_vbe_status_t grub_vbe_bios_set_scanline_length (grub_uint32_t length)
+  *
+  * Register allocations for parameters:
+  * %eax		length
+  */
+-FUNCTION(grub_vbe_set_scanline_length)
++FUNCTION(grub_vbe_bios_set_scanline_length)
+ 	pushl	%ebp
+ 	pushl	%ebx
++	pushl	%edx
+ 
+ 	movl	%eax, %ecx	/* Store length in %ecx.  */
+ 
+@@ -2010,19 +2021,21 @@
+ 	movw	%dx, %ax
+ 	andl	$0xFFFF, %eax	/* Return value in %eax.  */
+ 
++	popl	%edx
+ 	popl	%ebx
+ 	popl	%ebp
+ 	ret
+ 
+ /*
+- * grub_vbe_status_t grub_vbe_get_scanline_length (grub_uint32_t *length)
++ * grub_vbe_status_t grub_vbe_bios_get_scanline_length (grub_uint32_t *length)
+  *
+  * Register allocations for parameters:
+  * %eax		*length
+  */
+-FUNCTION(grub_vbe_get_scanline_length)
++FUNCTION(grub_vbe_bios_get_scanline_length)
+ 	pushl   %ebp
+ 	pushl   %ebx
++	pushl	%edi
+ 	pushl	%edx		/* Push *length to stack.  */
+ 
+ 	call    prot_to_real
+@@ -2044,19 +2057,20 @@
+ 	movw	%dx, %ax
+ 	andl	$0xFFFF, %eax	/* Return value in %eax.  */
+ 
++	popl	%edi
+ 	popl    %ebx
+ 	popl    %ebp
+ 	ret
+ 
+ /*
+- * grub_vbe_status_t grub_vbe_set_display_start (grub_uint32_t x,
+- *						 grub_uint32_t y)
++ * grub_vbe_status_t grub_vbe_bios_set_display_start (grub_uint32_t x,
++ *						      grub_uint32_t y)
+  *
+  * Register allocations for parameters:
+  * %eax		x
+  * %edx		y
+  */
+-FUNCTION(grub_vbe_set_display_start)
++FUNCTION(grub_vbe_bios_set_display_start)
+ 	pushl	%ebp
+ 	pushl	%ebx
+ 
+@@ -2083,16 +2097,17 @@
+ 	ret
+ 
+ /*
+- * grub_vbe_status_t grub_vbe_get_display_start (grub_uint32_t *x,
+- *						 grub_uint32_t *y)
++ * grub_vbe_status_t grub_vbe_bios_get_display_start (grub_uint32_t *x,
++ *						      grub_uint32_t *y)
+  *
+  * Register allocations for parameters:
+  * %eax		*x
+  * %edx		*y
+  */
+-FUNCTION(grub_vbe_get_display_start)
++FUNCTION(grub_vbe_bios_get_display_start)
+ 	pushl   %ebp
+ 	pushl   %ebx
++	pushl	%edi
+ 	pushl	%eax		/* Push *x to stack.  */
+ 	pushl	%edx		/* Push *y to stack.  */
+ 
+@@ -2119,23 +2134,25 @@
+ 	movw	%bx, %ax
+ 	andl	$0xFFFF, %eax	/* Return value in %eax.  */
+ 
++	popl	%edi
+ 	popl    %ebx
+ 	popl    %ebp
+ 	ret
+ 
+ /*
+- * grub_vbe_status_t grub_vbe_set_palette_data (grub_uint32_t color_count,
+- *						grub_uint32_t start_index,
+- *						struct grub_vbe_palette_data *palette_data)
++ * grub_vbe_status_t grub_vbe_bios_set_palette_data (grub_uint32_t color_count,
++ *						     grub_uint32_t start_index,
++ *						     struct grub_vbe_palette_data *palette_data)
+  *
+  * Register allocations for parameters:
+  * %eax		color_count
+  * %edx		start_index
+  * %ecx		*palette_data
+  */
+-FUNCTION(grub_vbe_set_palette_data)
++FUNCTION(grub_vbe_bios_set_palette_data)
+ 	pushl	%ebp
+ 	pushl	%ebx
++	pushl	%edi
+ 
+ 	movl	%eax, %ebx	/* Store color_count in %ebx.  */
+ 
+@@ -2165,6 +2182,7 @@
+ 	movw	%dx, %ax
+ 	andl	$0xFFFF, %eax	/* Return value in %eax.  */
+ 
++	popl	%edi
+ 	popl	%ebx
+ 	popl	%ebp
+ 	ret
+Index: normal/cmdline.c
+===================================================================
+RCS file: /cvsroot/grub/grub2/normal/cmdline.c,v
+retrieving revision 1.19
+retrieving revision 1.20
+diff -u -r1.19 -r1.20
+--- normal/cmdline.c	28 Aug 2005 17:01:16 -0000	1.19
++++ normal/cmdline.c	14 Mar 2006 19:08:34 -0000	1.20
+@@ -231,6 +231,8 @@
+       xpos = (plen + lpos) % 79;
+       ypos = ystart + (plen + lpos) / 79;
+       grub_gotoxy (xpos, ypos);
++      
++      grub_refresh ();
+     }
+   
+   void cl_print (int pos, int c)
+@@ -271,6 +273,8 @@
+ 	  cl_print (lpos - len, echo_char);
+ 	  cl_set_pos ();
+ 	}
++      
++      grub_refresh ();
+     }
+ 
+   void cl_delete (unsigned len)
+@@ -290,6 +294,8 @@
+ 	  cl_print (lpos, echo_char);
+ 	  cl_set_pos ();
+ 	}
++      
++      grub_refresh ();
+     }
+   
+   plen = grub_strlen (prompt);
+Index: term/gfxterm.c
+===================================================================
+RCS file: term/gfxterm.c
+diff -N term/gfxterm.c
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ term/gfxterm.c	14 Mar 2006 19:08:34 -0000	1.1
+@@ -0,0 +1,794 @@
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2006  Free Software Foundation, Inc.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, write to the Free Software
++ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ */
++
++#include <grub/machine/memory.h>
++#include <grub/machine/console.h>
++#include <grub/term.h>
++#include <grub/types.h>
++#include <grub/dl.h>
++#include <grub/misc.h>
++#include <grub/normal.h>
++#include <grub/font.h>
++#include <grub/arg.h>
++#include <grub/mm.h>
++#include <grub/env.h>
++#include <grub/video.h>
++
++#define DEFAULT_VIDEO_WIDTH	640
++#define DEFAULT_VIDEO_HEIGHT	480
++#define DEFAULT_VIDEO_FLAGS	0
++
++#define DEFAULT_CHAR_WIDTH  	8
++#define DEFAULT_CHAR_HEIGHT 	16
++
++#define DEFAULT_BORDER_WIDTH	10
++
++#define DEFAULT_FG_COLOR    	0x0a
++#define DEFAULT_BG_COLOR    	0x00
++#define DEFAULT_CURSOR_COLOR	0x0f
++
++struct grub_dirty_region
++{
++  int top_left_x;
++  int top_left_y;
++  int bottom_right_x;
++  int bottom_right_y;
++};
++
++struct grub_colored_char
++{
++  /* An Unicode codepoint.  */
++  grub_uint32_t code;
++
++  /* Color values.  */
++  grub_video_color_t fg_color;
++  grub_video_color_t bg_color;
++
++  /* The width of this character minus one.  */
++  unsigned char width;
++
++  /* The column index of this character.  */
++  unsigned char index;
++};
++
++struct grub_virtual_screen
++{
++  /* Dimensions of the virtual screen.  */
++  unsigned int width;
++  unsigned int height;
++
++  /* Offset in the display.  */
++  unsigned int offset_x;
++  unsigned int offset_y;
++
++  /* TTY Character sizes.  */
++  unsigned int char_width;
++  unsigned int char_height;
++
++  /* Virtual screen TTY size.  */
++  unsigned int columns;
++  unsigned int rows;
++
++  /* Current cursor details.  */
++  unsigned int cursor_x;
++  unsigned int cursor_y;
++  int cursor_state;
++  
++  /* Color settings.  */
++  grub_video_color_t fg_color_setting;
++  grub_video_color_t bg_color_setting;
++  grub_video_color_t fg_color;
++  grub_video_color_t bg_color;
++  grub_video_color_t cursor_color;
++
++  /* Text buffer for virtual screen.  Contains (columns * rows) number
++     of entries.  */
++  struct grub_colored_char *text_buffer;
++};
++
++static struct grub_virtual_screen virtual_screen;
++
++static grub_dl_t my_mod;
++static struct grub_video_mode_info mode_info;
++
++static struct grub_video_render_target *text_layer;
++
++static struct grub_dirty_region dirty_region;
++
++static void dirty_region_reset (void);
++
++static int dirty_region_is_empty (void);
++
++static void dirty_region_add (int x, int y, 
++                              unsigned int width, unsigned int height);
++
++static void
++grub_virtual_screen_free (void)
++{
++  /* If virtual screen has been allocated, free it.  */
++  if (virtual_screen.text_buffer != 0)
++    grub_free (virtual_screen.text_buffer);
++
++  /* Reset virtual screen data.  */
++  grub_memset (&virtual_screen, 0, sizeof (virtual_screen));
++  
++  /* Free render targets.  */
++  grub_video_delete_render_target (text_layer);
++  text_layer = 0;
++}
++
++static grub_err_t
++grub_virtual_screen_setup (unsigned int x, unsigned int y,
++                           unsigned int width, unsigned int height)
++{
++  /* Free old virtual screen.  */
++  grub_virtual_screen_free ();
++
++  /* Initialize with default data.  */
++  virtual_screen.width = width;
++  virtual_screen.height = height;
++  virtual_screen.offset_x = x;
++  virtual_screen.offset_y = y;
++  virtual_screen.char_width = DEFAULT_CHAR_WIDTH;
++  virtual_screen.char_height = DEFAULT_CHAR_HEIGHT;
++  virtual_screen.cursor_x = 0;
++  virtual_screen.cursor_y = 0;
++  virtual_screen.cursor_state = 1;
++
++  /* Calculate size of text buffer.  */
++  virtual_screen.columns = virtual_screen.width / virtual_screen.char_width;
++  virtual_screen.rows = virtual_screen.height / virtual_screen.char_height;
++
++  /* Allocate memory for text buffer.  */
++  virtual_screen.text_buffer =
++    (struct grub_colored_char *) grub_malloc (virtual_screen.columns
++					      * virtual_screen.rows
++					      * sizeof (*virtual_screen.text_buffer));
++  if (grub_errno != GRUB_ERR_NONE)
++    return grub_errno;
++
++  /* Create new render target for text layer.  */
++  grub_video_create_render_target (&text_layer,
++                                   virtual_screen.width,
++                                   virtual_screen.height,
++                                   GRUB_VIDEO_MODE_TYPE_RGB
++                                   | GRUB_VIDEO_MODE_TYPE_ALPHA);
++  if (grub_errno != GRUB_ERR_NONE)
++    return grub_errno;
++  
++  /* As we want to have colors compatible with rendering target,
++     we can only have those after mode is initialized.  */    
++  grub_video_set_active_render_target (text_layer);
++  
++  virtual_screen.fg_color_setting = grub_video_map_color (DEFAULT_FG_COLOR);
++  virtual_screen.bg_color_setting = grub_video_map_color (DEFAULT_BG_COLOR);
++  virtual_screen.fg_color = virtual_screen.fg_color_setting;
++  virtual_screen.bg_color = virtual_screen.bg_color_setting;
++  virtual_screen.cursor_color = grub_video_map_color (DEFAULT_CURSOR_COLOR);
++  
++  grub_video_set_active_render_target (GRUB_VIDEO_RENDER_TARGET_DISPLAY);
++  
++  return grub_errno;
++}
++
++static grub_err_t
++grub_gfxterm_init (void)
++{
++  char *modevar;
++  int width = DEFAULT_VIDEO_WIDTH;
++  int height = DEFAULT_VIDEO_HEIGHT;
++  int depth = -1;
++  int flags = DEFAULT_VIDEO_FLAGS;
++  grub_video_color_t color;
++  
++  /* Parse gfxmode environment variable if set.  */
++  modevar = grub_env_get ("gfxmode");
++  if (modevar)
++    {
++      char *tmp;
++      char *param;
++      char *value;
++      
++      /* Take copy of env.var. as we don't want to modify that.  */
++      tmp = grub_strdup (modevar);
++      modevar = tmp;
++      
++      if (grub_errno != GRUB_ERR_NONE)
++        return grub_errno;        
++      
++      /* Skip whitespace.  */
++      while (grub_isspace (*tmp))
++        tmp++;
++      
++      /* Initialize token holders.  */
++      param = tmp;
++      value = NULL;
++
++      /* Parse <width>x<height>[x<depth>]*/
++
++      /* Find width value.  */
++      value = param;
++      param = grub_strchr(param, 'x');
++      if (param == NULL)
++        {
++          /* Free memory before returning.  */
++          grub_free (modevar);
++          return grub_error (GRUB_ERR_BAD_ARGUMENT, 
++                             "Invalid argument: %s\n",
++                             param);
++        }
++      
++      *param = 0;
++      param++;
++      
++      width = grub_strtoul (value, 0, 0);
++      if (grub_errno != GRUB_ERR_NONE)
++        {
++          /* Free memory before returning.  */
++          grub_free (modevar);
++          return grub_error (GRUB_ERR_BAD_ARGUMENT, 
++                             "Invalid argument: %s\n",
++                             param);
++        }
++
++      /* Find height value.  */
++      value = param;
++      param = grub_strchr(param, 'x');
++      if (param == NULL)
++        {
++          height = grub_strtoul (value, 0, 0);
++          if (grub_errno != GRUB_ERR_NONE)
++            {
++              /* Free memory before returning.  */
++              grub_free (modevar);
++              return grub_error (GRUB_ERR_BAD_ARGUMENT, 
++                                 "Invalid argument: %s\n",
++                                 param);
++            }
++        }
++      else
++        {
++          /* We have optional color depth value.  */
++          *param = 0;
++          param++;
++          
++          height = grub_strtoul (value, 0, 0);
++          if (grub_errno != GRUB_ERR_NONE)
++            {
++              /* Free memory before returning.  */
++              grub_free (modevar);
++              return grub_error (GRUB_ERR_BAD_ARGUMENT, 
++                                 "Invalid argument: %s\n",
++                                 param);
++            }
++          
++          /* Convert color depth value.  */
++          value = param;
++          depth = grub_strtoul (value, 0, 0);
++          if (grub_errno != GRUB_ERR_NONE)
++            {
++              /* Free memory before returning.  */
++              grub_free (modevar);
++              return grub_error (GRUB_ERR_BAD_ARGUMENT, 
++                                 "Invalid argument: %s\n",
++                                 param);
++            }
++        }
++      
++      /* Free memory.  */
++      grub_free (modevar);
++    }
++
++  /* If we have 8 or less bits, then assuem that it is indexed color mode.  */
++  if ((depth <= 8) && (depth != -1))
++    flags |= GRUB_VIDEO_MODE_TYPE_INDEX_COLOR;
++
++  /* We have more than 8 bits, then assume that it is RGB color mode.  */
++  if (depth > 8)
++    flags |= GRUB_VIDEO_MODE_TYPE_RGB;
++
++  /* If user requested specific depth, forward that information to driver.  */
++  if (depth != -1)
++    flags |= (depth << GRUB_VIDEO_MODE_TYPE_DEPTH_POS)
++             & GRUB_VIDEO_MODE_TYPE_DEPTH_MASK;
++
++  /* Initialize user requested mode.  */
++  if (grub_video_setup (width, height, flags) != GRUB_ERR_NONE)
++    return grub_errno;
++
++  /* Figure out what mode we ended up.  */
++  if (grub_video_get_info (&mode_info) != GRUB_ERR_NONE)
++    return grub_errno;
++
++  /* Make sure screen is black.  */
++  color = grub_video_map_rgb (0, 0, 0);
++  grub_video_fill_rect (color, 0, 0, mode_info.width, mode_info.height);
++
++  /* Leave borders for virtual screen.  */
++  width = mode_info.width - (2 * DEFAULT_BORDER_WIDTH);
++  height = mode_info.height - (2 * DEFAULT_BORDER_WIDTH);
++  
++  /* Create virtual screen.  */
++  if (grub_virtual_screen_setup (DEFAULT_BORDER_WIDTH, DEFAULT_BORDER_WIDTH,
++                                 width, height) != GRUB_ERR_NONE)
++    {
++      grub_video_restore ();
++      return grub_errno;
++    }
++
++  /* Mark whole screen as dirty.  */
++  dirty_region_reset ();  
++  dirty_region_add (0, 0, mode_info.width, mode_info.height);
++
++  return (grub_errno = GRUB_ERR_NONE);
++}
++
++static grub_err_t
++grub_gfxterm_fini (void)
++{
++  grub_virtual_screen_free ();
++
++  grub_video_restore ();
++
++  return GRUB_ERR_NONE;
++}
++
++static void
++redraw_screen_rect (unsigned int x, unsigned int y, 
++                    unsigned int width, unsigned int height)
++{
++  grub_video_color_t color;
++  
++  grub_video_set_active_render_target (GRUB_VIDEO_RENDER_TARGET_DISPLAY);
++
++  /* Render background layer.  */
++  color = virtual_screen.bg_color;
++  grub_video_fill_rect (color, x, y, width, height);
++  
++  /* Render text layer.  */
++  grub_video_blit_render_target (text_layer, x, y,
++                                 x - virtual_screen.offset_x,
++                                 y - virtual_screen.offset_y,
++                                 width, height);
++}
++
++static void
++dirty_region_reset (void)
++{
++  dirty_region.top_left_x = -1;
++  dirty_region.top_left_y = -1;
++  dirty_region.bottom_right_x = -1;
++  dirty_region.bottom_right_y = -1;
++}
++
++static int
++dirty_region_is_empty (void)
++{
++  if ((dirty_region.top_left_x == -1)
++      || (dirty_region.top_left_y == -1)
++      || (dirty_region.bottom_right_x == -1)
++      || (dirty_region.bottom_right_y == -1))
++    return 1;
++  return 0;
++}
++
++static void
++dirty_region_add (int x, int y, unsigned int width, unsigned int height)
++{
++  if ((width == 0) || (height == 0))
++    return;
++    
++  if (dirty_region_is_empty ())
++    {
++      dirty_region.top_left_x = x;
++      dirty_region.top_left_y = y;
++      dirty_region.bottom_right_x = x + width - 1;
++      dirty_region.bottom_right_y = y + height - 1;
++    } 
++  else
++    {
++      if (x < dirty_region.top_left_x)
++        dirty_region.top_left_x = x;
++      if (y < dirty_region.top_left_y)
++        dirty_region.top_left_y = y;
++      if ((x + (int)width - 1) > dirty_region.bottom_right_x)
++        dirty_region.bottom_right_x = x + width - 1;
++      if ((y + (int)height - 1) > dirty_region.bottom_right_y)
++        dirty_region.bottom_right_y = y + height - 1;
++    }
++} 
++
++static void
++dirty_region_add_virtualscreen (void)
++{
++  /* Mark virtual screen as dirty.  */
++  dirty_region_add (virtual_screen.offset_x, virtual_screen.offset_y,
++                    virtual_screen.width, virtual_screen.height);
++}
++
++
++static void
++dirty_region_redraw (void)
++{
++  int x;
++  int y;
++  int width;
++  int height;
++  
++  if (dirty_region_is_empty ())
++    return;
++  
++  x = dirty_region.top_left_x;
++  y = dirty_region.top_left_y;
++  
++  width = dirty_region.bottom_right_x - x + 1;
++  height = dirty_region.bottom_right_y - y + 1;
++  
++  redraw_screen_rect (x, y, width, height);
++  
++  dirty_region_reset ();
++}
++
++static void
++write_char (void)
++{
++  struct grub_colored_char *p;
++  struct grub_font_glyph glyph;
++  grub_video_color_t color;
++  grub_video_color_t bgcolor;    
++  unsigned int x;
++  unsigned int y;
++
++  /* Find out active character.  */
++  p = (virtual_screen.text_buffer
++       + virtual_screen.cursor_x
++       + (virtual_screen.cursor_y * virtual_screen.columns));
++
++  p -= p->index;
++
++  /* Get glyph for character.  */
++  grub_font_get_glyph (p->code, &glyph);
++
++  color = p->fg_color;
++  bgcolor = p->bg_color;
++
++  x = virtual_screen.cursor_x * virtual_screen.char_width;
++  y = virtual_screen.cursor_y * virtual_screen.char_height;
++
++  /* Render glyph to text layer.  */
++  grub_video_set_active_render_target (text_layer);
++  grub_video_fill_rect (bgcolor, x, y, glyph.width, glyph.height);
++  grub_video_blit_glyph (&glyph, color, x, y);  
++  grub_video_set_active_render_target (GRUB_VIDEO_RENDER_TARGET_DISPLAY);
++
++  /* Mark character to be drawn.  */
++  dirty_region_add (virtual_screen.offset_x + x, virtual_screen.offset_y + y,
++                    glyph.width, glyph.height);
++}
++
++static void
++write_cursor (void)
++{
++  unsigned int x;
++  unsigned int y;
++  unsigned int width;
++  unsigned int height;
++  grub_video_color_t color;
++
++  /* Determine cursor properties and position on text layer. */
++  x = virtual_screen.cursor_x * virtual_screen.char_width;
++  y = ((virtual_screen.cursor_y + 1) * virtual_screen.char_height) - 3;  
++  width = virtual_screen.char_width;
++  height = 2;
++
++  color = virtual_screen.cursor_color;
++
++  /* Render cursor to text layer.  */
++  grub_video_set_active_render_target (text_layer);
++  grub_video_fill_rect (color, x, y, width, height);
++  grub_video_set_active_render_target (GRUB_VIDEO_RENDER_TARGET_DISPLAY);
++
++  /* Mark cursor to be redrawn.  */
++  dirty_region_add (virtual_screen.offset_x + x, virtual_screen.offset_y + y,
++                    width, height);
++}
++
++static void
++scroll_up (void)
++{
++  unsigned int i;
++  grub_video_color_t color;
++
++  /* Scroll text buffer with one line to up.  */
++  grub_memmove (virtual_screen.text_buffer,
++		virtual_screen.text_buffer + virtual_screen.columns,
++                sizeof (*virtual_screen.text_buffer)
++                * virtual_screen.columns
++                * (virtual_screen.rows - 1));
++
++  /* Clear last line in text buffer.  */
++  for (i = virtual_screen.columns * (virtual_screen.rows - 1);
++       i < virtual_screen.columns * virtual_screen.rows;
++       i++)
++    {
++      virtual_screen.text_buffer[i].code = ' ';
++      virtual_screen.text_buffer[i].fg_color = virtual_screen.fg_color;
++      virtual_screen.text_buffer[i].bg_color = virtual_screen.bg_color;
++      virtual_screen.text_buffer[i].width = 0;
++      virtual_screen.text_buffer[i].index = 0;
++    }
++    
++  /* Scroll physical screen.  */
++  grub_video_set_active_render_target (text_layer);
++  color = virtual_screen.bg_color;
++  grub_video_scroll (color, 0, -virtual_screen.char_height);
++  grub_video_set_active_render_target (GRUB_VIDEO_RENDER_TARGET_DISPLAY);
++  
++  /* Mark virtual screen to be redrawn.  */
++  dirty_region_add_virtualscreen ();
++}
++
++static void
++grub_gfxterm_putchar (grub_uint32_t c)
++{
++  if (c == '\a')
++    /* FIXME */
++    return;
++
++  if (c == '\b' || c == '\n' || c == '\r')
++    {
++      /* Erase current cursor, if any.  */
++      if (virtual_screen.cursor_state)
++	write_char ();
++
++      switch (c)
++	{
++	case '\b':
++	  if (virtual_screen.cursor_x > 0)
++	    virtual_screen.cursor_x--;
++	  break;
++	  
++	case '\n':
++	  if (virtual_screen.cursor_y >= virtual_screen.rows - 1)
++	    scroll_up ();
++	  else
++	    virtual_screen.cursor_y++;
++	  break;
++	  
++	case '\r':
++	  virtual_screen.cursor_x = 0;
++	  break;
++	}
++
++      /* Redraw cursor if visible.  */
++      if (virtual_screen.cursor_state)
++	write_cursor ();
++    }
++  else
++    {
++      struct grub_font_glyph glyph;
++      struct grub_colored_char *p;
++  
++      /* Get properties of the character.  */    
++      grub_font_get_glyph (c, &glyph);
++
++      /* If we are about to exceed line length, wrap to next line.  */
++      if (virtual_screen.cursor_x + glyph.char_width > virtual_screen.columns)
++	grub_putchar ('\n');
++
++      /* Find position on virtual screen, and fill information.  */
++      p = (virtual_screen.text_buffer +
++	   virtual_screen.cursor_x +
++	   virtual_screen.cursor_y * virtual_screen.columns);
++      p->code = c;
++      p->fg_color = virtual_screen.fg_color;
++      p->bg_color = virtual_screen.bg_color;
++      p->width = glyph.char_width - 1;
++      p->index = 0;
++
++      /* If we have large glyph, add fixup info.  */
++      if (glyph.char_width > 1)
++	{
++	  unsigned i;
++
++	  for (i = 1; i < glyph.char_width; i++)
++	    {
++	      p[i].code = ' ';
++	      p[i].width = glyph.char_width - 1;
++	      p[i].index = i;
++	    }
++	}
++	  
++      /* Draw glyph.  */
++      write_char ();
++  
++      /* Make sure we scroll screen when needed and wrap line correctly.  */
++      virtual_screen.cursor_x += glyph.char_width;
++      if (virtual_screen.cursor_x >= virtual_screen.columns)
++	{
++	  virtual_screen.cursor_x = 0;
++	  
++	  if (virtual_screen.cursor_y >= virtual_screen.rows - 1)
++	    scroll_up ();
++	  else
++	    virtual_screen.cursor_y++;
++	}
++
++      /* Draw cursor if visible.  */
++      if (virtual_screen.cursor_state)
++	write_cursor ();
++    }
++}
++
++static grub_ssize_t
++grub_gfxterm_getcharwidth (grub_uint32_t c)
++{
++  struct grub_font_glyph glyph;
++  
++  if (! grub_font_get_glyph (c, &glyph))
++    return 0;
++
++  return glyph.char_width;
++}
++
++static grub_uint16_t
++grub_virtual_screen_getwh (void)
++{
++  return (virtual_screen.columns << 8) | virtual_screen.rows;
++}
++
++static grub_uint16_t
++grub_virtual_screen_getxy (void)
++{
++  return ((virtual_screen.cursor_x << 8) | virtual_screen.cursor_y);
++}
++
++static void
++grub_gfxterm_gotoxy (grub_uint8_t x, grub_uint8_t y)
++{
++  if (x >= virtual_screen.columns)
++    x = virtual_screen.columns - 1;
++  
++  if (y >= virtual_screen.rows)
++    y = virtual_screen.rows - 1;
++
++  if (virtual_screen.cursor_state)
++    write_char ();
++
++  virtual_screen.cursor_x = x;
++  virtual_screen.cursor_y = y;
++
++  if (virtual_screen.cursor_state)
++    write_cursor ();
++}
++
++static void
++grub_virtual_screen_cls (void)
++{
++  grub_uint32_t i;
++
++  for (i = 0; i < virtual_screen.columns * virtual_screen.rows; i++)
++    {
++      virtual_screen.text_buffer[i].code = ' ';
++      virtual_screen.text_buffer[i].fg_color = virtual_screen.fg_color;
++      virtual_screen.text_buffer[i].bg_color = virtual_screen.bg_color;
++      virtual_screen.text_buffer[i].width = 0;
++      virtual_screen.text_buffer[i].index = 0;
++    }
++
++  virtual_screen.cursor_x = virtual_screen.cursor_y = 0;
++}
++
++static void
++grub_gfxterm_cls (void)
++{
++  grub_video_color_t color;
++
++  /* Clear virtual screen.  */
++  grub_virtual_screen_cls ();
++  
++  /* Clear text layer.  */
++  grub_video_set_active_render_target (text_layer);
++  color = virtual_screen.bg_color_setting;
++  grub_video_fill_rect (color, 0, 0, mode_info.width, mode_info.height);
++  grub_video_set_active_render_target (GRUB_VIDEO_RENDER_TARGET_DISPLAY);
++  
++  /* Mark virtual screen to be redrawn.  */
++  dirty_region_add_virtualscreen ();
++}
++
++static void
++grub_virtual_screen_setcolorstate (grub_term_color_state state)
++{
++  switch (state)
++    {
++    case GRUB_TERM_COLOR_STANDARD:
++    case GRUB_TERM_COLOR_NORMAL:
++      virtual_screen.fg_color = virtual_screen.fg_color_setting;
++      virtual_screen.bg_color = virtual_screen.bg_color_setting;
++      break;
++    case GRUB_TERM_COLOR_HIGHLIGHT:
++      virtual_screen.fg_color = virtual_screen.bg_color_setting;
++      virtual_screen.bg_color = virtual_screen.fg_color_setting;
++      break;
++    default:
++      break;
++    }
++}
++
++static void
++grub_virtual_screen_setcolor (grub_uint8_t normal_color,
++                              grub_uint8_t highlight_color)
++{
++  virtual_screen.fg_color_setting = grub_video_map_color (normal_color);
++  virtual_screen.bg_color_setting = grub_video_map_color (highlight_color);
++}
++
++static void
++grub_gfxterm_setcursor (int on)
++{
++  if (virtual_screen.cursor_state != on)
++    {
++      if (virtual_screen.cursor_state)
++	write_char ();
++      else
++	write_cursor ();
++
++      virtual_screen.cursor_state = on;
++    }
++}
++
++static void
++grub_gfxterm_refresh (void)
++{
++  /* Redraw only changed regions.  */
++  dirty_region_redraw ();
++}
++
++static struct grub_term grub_video_term =
++  {
++    .name = "gfxterm",
++    .init = grub_gfxterm_init,
++    .fini = grub_gfxterm_fini,
++    .putchar = grub_gfxterm_putchar,
++    .getcharwidth = grub_gfxterm_getcharwidth,
++    .checkkey = grub_console_checkkey,
++    .getkey = grub_console_getkey,
++    .getwh = grub_virtual_screen_getwh,
++    .getxy = grub_virtual_screen_getxy,
++    .gotoxy = grub_gfxterm_gotoxy,
++    .cls = grub_gfxterm_cls,
++    .setcolorstate = grub_virtual_screen_setcolorstate,
++    .setcolor = grub_virtual_screen_setcolor,
++    .setcursor = grub_gfxterm_setcursor,
++    .refresh = grub_gfxterm_refresh,    
++    .flags = 0,
++    .next = 0
++  };
++
++GRUB_MOD_INIT(term_gfxterm)
++{
++  my_mod = mod;
++  grub_term_register (&grub_video_term);
++}
++
++GRUB_MOD_FINI(term_gfxterm)
++{
++  grub_term_unregister (&grub_video_term);
++}
+Index: util/unifont2pff.rb
+===================================================================
+RCS file: /cvsroot/grub/grub2/util/unifont2pff.rb,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -u -r1.2 -r1.3
+--- util/unifont2pff.rb	24 Feb 2004 17:21:53 -0000	1.2
++++ util/unifont2pff.rb	31 Mar 2006 13:32:52 -0000	1.3
+@@ -15,18 +15,26 @@
+ MAGIC = "PPF\x7f"
+ 
+ def usage(status = 0)
+-  puts "Usage: ruby unifont2pff.rb [RANGE...] FILE"
++  puts "Usage: ruby unifont2pff.rb [RANGE ...] FILE"
+   exit(status)
+ end
+ 
++if ARGV.length == 0
++  usage(1)
++end
++
+ file = ARGV.pop
+ 
+ ranges = []
+ ARGV.each do |range|
+-  if /\A([0-9a-fA-F]+):([0-9a-fA-F]+)\z/ =~ range
++  if /\A0x([0-9a-fA-F]+)[:-]0x([0-9a-fA-F]+)\z/ =~ range
+     ranges << [$1.hex, $2.hex]
+-  elsif /\A([0-9a-fA-F]+)\z/ =~ range
++  elsif /\A0x([0-9a-fA-F]+)\z/ =~ range
+     ranges << [$1.hex, $1.hex]
++  elsif /\A([0-9]+)[:-]([0-9]+)\z/ =~ range
++    ranges << [$1.to_i, $2.to_i]
++  elsif /\A([0-9]+)\z/ =~ range
++    ranges << [$1.to_i, $1.to_i]
+   else
+     usage(1)
+   end
+@@ -54,6 +62,17 @@
+       raise "invalid bitmap size: #{bitmap}"
+     end
+ 
++    # Fix byte ordering
++    w = (bitmap.size / 32)
++    temp = Array.new
++    for y in 0...16
++      for x in 0...w
++        temp[(y * w + x) * 2 + 0] = bitmap[(x * 16 + y) * 2 + 0].chr
++        temp[(y * w + x) * 2 + 1] = bitmap[(x * 16 + y) * 2 + 1].chr
++      end
++    end
++    bitmap = temp.to_s
++
+     fonts << [code, bitmap]
+   else
+     raise "invalid line format: #{line}"
+Index: video/video.c
+===================================================================
+RCS file: video/video.c
+diff -N video/video.c
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ video/video.c	31 Mar 2006 14:26:34 -0000	1.2
+@@ -0,0 +1,353 @@
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2006  Free Software Foundation, Inc.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, write to the Free Software
++ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ */
++
++#include <grub/video.h>
++#include <grub/types.h>
++#include <grub/dl.h>
++
++/* The list of video adapters registerd to system.  */
++static grub_video_adapter_t grub_video_adapter_list;
++
++/* Active video adapter.  */
++static grub_video_adapter_t grub_video_adapter_active;
++
++void
++grub_video_register (grub_video_adapter_t adapter)
++{
++  adapter->next = grub_video_adapter_list;
++  grub_video_adapter_list = adapter;
++}
++
++void
++grub_video_unregister (grub_video_adapter_t adapter)
++{
++  grub_video_adapter_t *p, q;
++  
++  for (p = &grub_video_adapter_list, q = *p; q; p = &(q->next), q = q->next)
++    if (q == adapter)
++      {
++        *p = q->next;
++        break;
++      }                                    
++}
++
++void
++grub_video_iterate (int (*hook) (grub_video_adapter_t adapter))
++{
++  grub_video_adapter_t p;
++  
++  for (p = grub_video_adapter_list; p; p = p->next)
++    if (hook (p))
++      break;
++}
++
++grub_err_t
++grub_video_setup (unsigned int width, unsigned int height,
++                  unsigned int mode_type)
++{
++  grub_video_adapter_t p;
++
++  /* De-activate last set video adapter.  */
++  if (grub_video_adapter_active)
++    {
++      /* Finalize adapter.  */
++      grub_video_adapter_active->fini ();
++      if (grub_errno != GRUB_ERR_NONE)
++        return grub_errno;
++        
++      /* Mark active adapter as not set.  */
++      grub_video_adapter_active = 0;
++    }
++  
++  /* Loop thru all possible video adapter trying to find requested mode.  */
++  for (p = grub_video_adapter_list; p; p = p->next)
++    {
++      /* Try to initialize adapter, if can't skip to next.  */
++      p->init ();
++      if (grub_errno != GRUB_ERR_NONE)
++        {
++          grub_errno = GRUB_ERR_NONE;
++          continue;
++        }
++
++      /* Try to initialize video mode.  */      
++      p->setup (width, height, mode_type);
++      if (grub_errno == GRUB_ERR_NONE)
++        {
++          /* Valid mode found from adapter, and it has been activated.
++             Specify it as active adapter.  */
++          grub_video_adapter_active = p;
++          return GRUB_ERR_NONE;
++        }
++      else
++        grub_errno = GRUB_ERR_NONE;        
++
++      /* No valid mode found in this adapter, finalize adapter.  */
++      p->fini ();
++      if (grub_errno != GRUB_ERR_NONE)
++        return grub_errno;
++    }
++  
++  /* We couldn't find suitable adapter for specified mode.  */
++  return grub_error (GRUB_ERR_UNKNOWN_DEVICE, 
++                     "Can't locate valid adapter for mode");
++}
++
++grub_err_t
++grub_video_restore (void)
++{
++  if (grub_video_adapter_active)
++    {
++      grub_video_adapter_active->fini ();
++      if (grub_errno != GRUB_ERR_NONE)
++        return grub_errno;
++      
++      grub_video_adapter_active = 0;
++    }
++  return GRUB_ERR_NONE;
++}
++
++grub_err_t
++grub_video_get_info (struct grub_video_mode_info *mode_info)
++{
++  if (! grub_video_adapter_active)
++    return grub_error (GRUB_ERR_BAD_DEVICE, "No video mode activated");
++  
++  return grub_video_adapter_active->get_info (mode_info);
++}
++
++enum grub_video_blit_format
++grub_video_get_blit_format (struct grub_video_mode_info *mode_info)
++{
++  /* Check if we have any knwon 32 bit modes.  */
++  if (mode_info->bpp == 32)
++    {
++      if ((mode_info->red_mask_size == 8)
++          && (mode_info->red_field_pos == 0)
++          && (mode_info->green_mask_size == 8)
++          && (mode_info->green_field_pos == 8)
++          && (mode_info->blue_mask_size == 8)
++          && (mode_info->blue_field_pos == 16)
++          && (mode_info->reserved_mask_size == 8)
++          && (mode_info->reserved_field_pos == 24))
++        {
++          return GRUB_VIDEO_BLIT_FORMAT_R8G8B8A8;
++        }
++    }
++
++  /* Check if we have any known 24 bit modes.  */
++  if (mode_info->bpp == 24)
++    {
++      if ((mode_info->red_mask_size == 8)
++          && (mode_info->red_field_pos == 0)
++          && (mode_info->green_mask_size == 8)
++          && (mode_info->green_field_pos == 8)
++          && (mode_info->blue_mask_size == 8)
++          && (mode_info->blue_field_pos == 16))
++        {
++          return GRUB_VIDEO_BLIT_FORMAT_R8G8B8;
++        }
++    }
++
++  /* If there are more than 8 bits per color, assume RGB(A) mode.  */
++  if (mode_info->bpp > 8)
++    {
++      if (mode_info->reserved_mask_size > 0)
++        {
++          return GRUB_VIDEO_BLIT_FORMAT_RGBA;
++        }
++      return GRUB_VIDEO_BLIT_FORMAT_RGB;
++    }
++
++  /* Assume as indexcolor mode.  */
++  return GRUB_VIDEO_BLIT_FORMAT_INDEXCOLOR;
++}
++
++grub_err_t
++grub_video_set_palette (unsigned int start, unsigned int count,
++                        struct grub_video_palette_data *palette_data)
++{
++  if (! grub_video_adapter_active)
++    return grub_error (GRUB_ERR_BAD_DEVICE, "No video mode activated");
++  
++  return grub_video_adapter_active->set_palette (start, count, palette_data);
++}
++
++grub_err_t
++grub_video_get_palette (unsigned int start, unsigned int count,
++                        struct grub_video_palette_data *palette_data)
++{
++  if (! grub_video_adapter_active)
++    return grub_error (GRUB_ERR_BAD_DEVICE, "No video mode activated");
++  
++  return grub_video_adapter_active->get_palette (start, count, palette_data);
++}
++
++grub_err_t
++grub_video_set_viewport (unsigned int x, unsigned int y,
++                         unsigned int width, unsigned int height)
++{
++  if (! grub_video_adapter_active)
++    return grub_error (GRUB_ERR_BAD_DEVICE, "No video mode activated");
++
++  return grub_video_adapter_active->set_viewport (x, y, width, height);
++}
++
++grub_err_t
++grub_video_get_viewport (unsigned int *x, unsigned int *y,
++                         unsigned int *width, unsigned int *height)
++{
++  if (! grub_video_adapter_active)
++    return grub_error (GRUB_ERR_BAD_DEVICE, "No video mode activated");
++
++  return grub_video_adapter_active->get_viewport (x, y, width, height);
++}
++
++grub_video_color_t
++grub_video_map_color (grub_uint32_t color_name)
++{
++  if (! grub_video_adapter_active)
++    return 0;
++
++  return grub_video_adapter_active->map_color (color_name);
++}
++
++grub_video_color_t
++grub_video_map_rgb (grub_uint8_t red, grub_uint8_t green, grub_uint8_t blue)
++{
++  if (! grub_video_adapter_active)
++    return 0;
++
++  return grub_video_adapter_active->map_rgb (red, green, blue);
++}
++
++grub_video_color_t
++grub_video_map_rgba (grub_uint8_t red, grub_uint8_t green, grub_uint8_t blue,
++                     grub_uint8_t alpha)
++{
++  if (! grub_video_adapter_active)
++    return 0;
++
++  return grub_video_adapter_active->map_rgba (red, green, blue, alpha);
++}
++
++grub_err_t
++grub_video_fill_rect (grub_video_color_t color, int x, int y,
++                      unsigned int width, unsigned int height)
++{
++  if (! grub_video_adapter_active)
++    return grub_error (GRUB_ERR_BAD_DEVICE, "No video mode activated");
++
++  return grub_video_adapter_active->fill_rect (color, x, y, width, height);
++}
++
++grub_err_t
++grub_video_blit_glyph (struct grub_font_glyph *glyph,
++                       grub_video_color_t color, int x, int y)
++{
++  if (! grub_video_adapter_active)
++    return grub_error (GRUB_ERR_BAD_DEVICE, "No video mode activated");
++
++  return grub_video_adapter_active->blit_glyph (glyph, color, x, y);
++}
++
++grub_err_t
++grub_video_blit_bitmap (struct grub_video_bitmap *bitmap,
++                        int x, int y, int offset_x, int offset_y,
++                        unsigned int width, unsigned int height)
++{
++  if (! grub_video_adapter_active)
++    return grub_error (GRUB_ERR_BAD_DEVICE, "No video mode activated");
++
++  return grub_video_adapter_active->blit_bitmap (bitmap, x, y,
++                                                 offset_x, offset_y,
++                                                 width, height);
++}
++
++grub_err_t
++grub_video_blit_render_target (struct grub_video_render_target *target,
++                               int x, int y, int offset_x, int offset_y,
++                               unsigned int width, unsigned int height)
++{
++  if (! grub_video_adapter_active)
++    return grub_error (GRUB_ERR_BAD_DEVICE, "No video mode activated");
++
++  return grub_video_adapter_active->blit_render_target (target, x, y,
++                                                        offset_x, offset_y, 
++                                                        width, height);
++}
++
++grub_err_t
++grub_video_scroll (grub_video_color_t color, int dx, int dy)
++{
++  if (! grub_video_adapter_active)
++    return grub_error (GRUB_ERR_BAD_DEVICE, "No video mode activated");
++
++  return grub_video_adapter_active->scroll (color, dx, dy);
++}
++
++grub_err_t
++grub_video_swap_buffers (void)
++{
++  if (! grub_video_adapter_active)
++    return grub_error (GRUB_ERR_BAD_DEVICE, "No video mode activated");
++
++  return grub_video_adapter_active->swap_buffers ();
++}
++
++grub_err_t
++grub_video_create_render_target (struct grub_video_render_target **result,
++                                 unsigned int width, unsigned int height,
++                                 unsigned int mode_type)
++{
++  if (! grub_video_adapter_active)
++    return grub_error (GRUB_ERR_BAD_DEVICE, "No video mode activated");
++
++  return grub_video_adapter_active->create_render_target (result,
++                                                          width, height,
++                                                          mode_type);
++}
++
++grub_err_t
++grub_video_delete_render_target (struct grub_video_render_target *target)
++{
++  if (! grub_video_adapter_active)
++    return grub_error (GRUB_ERR_BAD_DEVICE, "No video mode activated");
++
++  return grub_video_adapter_active->delete_render_target (target);
++}
++
++grub_err_t
++grub_video_set_active_render_target (struct grub_video_render_target *target)
++{
++  if (! grub_video_adapter_active)
++    return grub_error (GRUB_ERR_BAD_DEVICE, "No video mode activated");
++
++  return grub_video_adapter_active->set_active_render_target (target);
++}
++
++GRUB_MOD_INIT(video_video)
++{
++  grub_video_adapter_active = 0;
++  grub_video_adapter_list = 0;
++}
++
++GRUB_MOD_FINI(video_video)
++{
++}
+Index: video/i386/pc/vbe.c
+===================================================================
+RCS file: /cvsroot/grub/grub2/video/i386/pc/vbe.c,v
+retrieving revision 1.4
+retrieving revision 1.6
+diff -u -r1.4 -r1.6
+--- video/i386/pc/vbe.c	18 Sep 2005 21:04:41 -0000	1.4
++++ video/i386/pc/vbe.c	31 Mar 2006 14:26:34 -0000	1.6
+@@ -1,6 +1,6 @@
+ /*
+  *  GRUB  --  GRand Unified Bootloader
+- *  Copyright (C) 2005  Free Software Foundation, Inc.
++ *  Copyright (C) 2005,2006  Free Software Foundation, Inc.
+  *
+  *  This program is free software; you can redistribute it and/or modify
+  *  it under the terms of the GNU General Public License as published by
+@@ -19,18 +19,15 @@
+ 
+ #include <grub/err.h>
+ #include <grub/machine/memory.h>
+-#include <grub/machine/vga.h>
+ #include <grub/machine/vbe.h>
+-#include <grub/machine/console.h>
+-#include <grub/term.h>
++#include <grub/machine/vbeblit.h>
++#include <grub/machine/vbefill.h>
+ #include <grub/types.h>
+ #include <grub/dl.h>
+ #include <grub/misc.h>
+-#include <grub/normal.h>
+ #include <grub/font.h>
+-#include <grub/arg.h>
+ #include <grub/mm.h>
+-#include <grub/env.h>
++#include <grub/video.h>
+ 
+ /* Specify "standard" VGA palette, some video cards may
+    need this and this will also be used when using RGB modes.  */
+@@ -57,15 +54,37 @@
+   };
+ 
+ static int vbe_detected = -1;
+-static int index_color_mode = 0;
+ 
+ static struct grub_vbe_info_block controller_info;
+ static struct grub_vbe_mode_info_block active_mode_info;
+ 
+-static grub_uint32_t active_mode = 0;
++static struct
++{
++  struct grub_video_render_target render_target;
++
++  unsigned int bytes_per_scan_line;
++  unsigned int bytes_per_pixel;
++  grub_uint32_t active_mode;
++  grub_uint8_t *ptr;
++  int index_color_mode;
++  struct grub_video_palette_data palette[256];
++} framebuffer;  
++
++static struct grub_video_render_target *render_target;
++static grub_uint32_t initial_mode;
++static grub_uint32_t mode_in_use = 0x55aa;
++static grub_uint16_t *mode_list;
++
++static grub_video_color_t
++grub_video_vbe_map_rgba (grub_uint8_t red, grub_uint8_t green,
++                         grub_uint8_t blue, grub_uint8_t alpha);
+ 
+-static grub_uint8_t *framebuffer = 0;
+-static grub_uint32_t bytes_per_scan_line = 0;
++static void *
++real2pm (grub_vbe_farptr_t ptr)
++{
++  return (void *) ((((unsigned long) ptr & 0xFFFF0000) >> 12UL)
++                   + ((unsigned long) ptr & 0x0000FFFF));
++}
+ 
+ grub_err_t
+ grub_vbe_probe (struct grub_vbe_info_block *info_block)
+@@ -99,7 +118,7 @@
+       vbe_ib->signature[3] = '2';
+       
+       /* Try to get controller info block.  */
+-      status = grub_vbe_get_controller_info (vbe_ib);
++      status = grub_vbe_bios_get_controller_info (vbe_ib);
+       if (status == 0x004F)
+ 	{
+ 	  /* Copy it for later usage.  */
+@@ -128,11 +147,13 @@
+   grub_uint32_t old_mode;
+   
+   /* Make sure that VBE is supported.  */
+-  if (grub_vbe_probe (0) != GRUB_ERR_NONE)
++  grub_vbe_probe (0);
++  if (grub_errno != GRUB_ERR_NONE)
+     return grub_errno;
+ 
+   /* Try to get mode info.  */
+-  if (grub_vbe_get_video_mode_info (mode, &active_mode_info) != GRUB_ERR_NONE)
++  grub_vbe_get_video_mode_info (mode, &active_mode_info);
++  if (grub_errno != GRUB_ERR_NONE)
+     return grub_errno;
+ 
+   /* For all VESA BIOS modes, force linear frame buffer.  */
+@@ -144,12 +165,12 @@
+       /* Determine frame buffer pixel format.  */
+       switch (active_mode_info.memory_model)
+ 	{
+-	case 0x04:
+-	  index_color_mode = 1;
++	case GRUB_VBE_MEMORY_MODEL_PACKED_PIXEL:
++	  framebuffer.index_color_mode = 1;
+ 	  break;
+ 	  
+-	case 0x06:
+-	  index_color_mode = 0;
++	case GRUB_VBE_MEMORY_MODEL_DIRECT_COLOR:
++	  framebuffer.index_color_mode = 0;
+ 	  break;
+ 	  
+ 	default:
+@@ -160,51 +181,68 @@
+     }
+ 
+   /* Get current mode.  */
+-  if (grub_vbe_get_video_mode (&old_mode) != GRUB_ERR_NONE)
++  grub_vbe_get_video_mode (&old_mode);
++  if (grub_errno != GRUB_ERR_NONE)
+     return grub_errno;
+   
+   /* Try to set video mode.  */
+-  status = grub_vbe_set_mode (mode, 0);
+-  if (status != 0x004F)
++  status = grub_vbe_bios_set_mode (mode, 0);
++  if (status != GRUB_VBE_STATUS_OK)
+     return grub_error (GRUB_ERR_BAD_DEVICE, "cannot set VBE mode %x", mode);
+ 
+   /* Save information for later usage.  */
+-  active_mode = mode;
++  framebuffer.active_mode = mode;
+ 
+   if (mode < 0x100)
+     {
+       /* If this is not a VESA mode, guess address.  */
+-      framebuffer = (grub_uint8_t *) 0xA0000;
+-      index_color_mode = 1;
++      framebuffer.ptr = (grub_uint8_t *) 0xA0000;
++      framebuffer.index_color_mode = 1;
+     }
+   else
+     {
+-      framebuffer = (grub_uint8_t *) active_mode_info.phys_base_addr;
++      framebuffer.ptr = (grub_uint8_t *) active_mode_info.phys_base_addr;
+ 
+       if (controller_info.version >= 0x300)
+-	bytes_per_scan_line = active_mode_info.lin_bytes_per_scan_line;
++	framebuffer.bytes_per_scan_line = active_mode_info.lin_bytes_per_scan_line;
+       else
+-	bytes_per_scan_line = active_mode_info.bytes_per_scan_line;
++	framebuffer.bytes_per_scan_line = active_mode_info.bytes_per_scan_line;
++    }
++    
++  /* Calculate bytes_per_pixel value.  */
++  switch(active_mode_info.bits_per_pixel)
++    {
++    case 32: framebuffer.bytes_per_pixel = 4; break;
++    case 24: framebuffer.bytes_per_pixel = 3; break;
++    case 16: framebuffer.bytes_per_pixel = 2; break;
++    case 15: framebuffer.bytes_per_pixel = 2; break;
++    case 8: framebuffer.bytes_per_pixel = 1; break;
++    default:    
++      grub_vbe_bios_set_mode (old_mode, 0);
++      return grub_error (GRUB_ERR_BAD_DEVICE, 
++                         "cannot set VBE mode %x", 
++                         mode);
++      break;
+     }
+ 
+   /* If video mode is in indexed color, setup default VGA palette.  */
+-  if (index_color_mode)
++  if (framebuffer.index_color_mode)
+     {
+       struct grub_vbe_palette_data *palette
+ 	= (struct grub_vbe_palette_data *) GRUB_MEMORY_MACHINE_SCRATCH_ADDR;
+ 
+       /* Make sure that the BIOS can reach the palette.  */
+       grub_memcpy (palette, vga_colors, sizeof (vga_colors));
+-      status = grub_vbe_set_palette_data (sizeof (vga_colors) 
+-                                          / sizeof (struct grub_vbe_palette_data), 
+-                                          0, 
+-                                          palette);
++      status = grub_vbe_bios_set_palette_data (sizeof (vga_colors) 
++                                               / sizeof (struct grub_vbe_palette_data), 
++                                               0, 
++                                               palette);
+ 
+-      /* For now, ignore the status. Not sure if this is fatal.  */
++      /* For now, ignore the status.  Not sure if this is fatal.  */
+ #if 0
+-      if (status != 0x004F)
++      if (status != GRUB_VBE_STATUS_OK)
+ 	{
+-	  grub_vbe_set_mode (old_mode, 0);
++	  grub_vbe_bios_set_mode (old_mode, 0);
+ 	  return grub_error (GRUB_ERR_BAD_DEVICE,
+ 			     "cannot set the default VGA palette");
+ 	}
+@@ -224,12 +262,13 @@
+   grub_vbe_status_t status;
+ 
+   /* Make sure that VBE is supported.  */
+-  if (grub_vbe_probe (0) != GRUB_ERR_NONE)
++  grub_vbe_probe (0);
++  if (grub_errno != GRUB_ERR_NONE)
+     return grub_errno;
+ 
+   /* Try to query current mode from VESA BIOS.  */
+-  status = grub_vbe_get_mode (mode);
+-  if (status != 0x004F)
++  status = grub_vbe_bios_get_mode (mode);
++  if (status != GRUB_VBE_STATUS_OK)
+     return grub_error (GRUB_ERR_BAD_DEVICE, "cannot get current VBE mode");
+ 
+   return GRUB_ERR_NONE;
+@@ -244,15 +283,16 @@
+   grub_vbe_status_t status;
+ 
+   /* Make sure that VBE is supported.  */
+-  if (grub_vbe_probe (0) != GRUB_ERR_NONE)
++  grub_vbe_probe (0);
++  if (grub_errno != GRUB_ERR_NONE)
+     return grub_errno;
+ 
+   /* If mode is not VESA mode, skip mode info query.  */
+   if (mode >= 0x100)
+     {
+       /* Try to get mode info from VESA BIOS.  */
+-      status = grub_vbe_get_mode_info (mode, mi_tmp);
+-      if (status != 0x004F)
++      status = grub_vbe_bios_get_mode_info (mode, mi_tmp);
++      if (status != GRUB_VBE_STATUS_OK)
+ 	return grub_error (GRUB_ERR_BAD_DEVICE,
+ 			   "cannot get information on the mode %x", mode);
+ 
+@@ -266,60 +306,72 @@
+   return GRUB_ERR_NONE;
+ }
+ 
+-void
+-grub_vbe_set_pixel_rgb (grub_uint32_t x,
+-			grub_uint32_t y,
+-                        grub_uint8_t red,
+-                        grub_uint8_t green,
+-                        grub_uint8_t blue)
++grub_uint8_t *
++grub_video_vbe_get_video_ptr (struct grub_video_render_target *source,
++                              grub_uint32_t x, grub_uint32_t y)
+ {
+-  grub_uint32_t value;
++  grub_uint8_t *ptr = 0;
++  
++  switch (source->mode_info.bpp)
++    {
++    case 32:
++      ptr = (grub_uint8_t *)source->data
++            + y * source->mode_info.pitch
++            + x * 4;
++      break;
+ 
+-  if (x >= active_mode_info.x_resolution)
+-    return;
++    case 24:
++      ptr = (grub_uint8_t *)source->data
++            + y * source->mode_info.pitch
++            + x * 3;
++      break;
+ 
+-  if (y >= active_mode_info.y_resolution)
+-    return;
++    case 16:
++    case 15:
++      ptr = (grub_uint8_t *)source->data
++            + y * source->mode_info.pitch
++            + x * 2;
++      break;
+ 
+-  if (controller_info.version >= 0x300)
+-    {
+-      red >>= 8 - active_mode_info.lin_red_mask_size;
+-      green >>= 8 - active_mode_info.lin_green_mask_size;
+-      blue >>= 8 - active_mode_info.lin_blue_mask_size;
+-
+-      value = red << active_mode_info.lin_red_field_position;
+-      value |= green << active_mode_info.lin_green_field_position;
+-      value |= blue << active_mode_info.lin_blue_field_position;
++    case 8:
++      ptr = (grub_uint8_t *)source->data
++            + y * source->mode_info.pitch
++            + x;        
++      break;
+     }
+-  else
+-    {
+-      red >>= 8 - active_mode_info.red_mask_size;
+-      green >>= 8 - active_mode_info.green_mask_size;
+-      blue >>= 8 - active_mode_info.blue_mask_size;
++    
++  return ptr;
++}
+ 
+-      value = red << active_mode_info.red_field_position;
+-      value |= green << active_mode_info.green_field_position;
+-      value |= blue << active_mode_info.blue_field_position;
+-    }
++static void
++grub_video_vbe_draw_pixel (grub_uint32_t x, grub_uint32_t y,
++                           grub_video_color_t color)
++{
++  if (x >= render_target->mode_info.width)
++    return;
+ 
+-  switch (active_mode_info.bits_per_pixel)
++  if (y >= render_target->mode_info.height)
++    return;
++
++  switch (render_target->mode_info.bpp)
+     {
+     case 32:
+       {
+-	grub_uint32_t *ptr = (grub_uint32_t *) (framebuffer
+-						+ y * bytes_per_scan_line
+-						+ x * 4);
++	grub_uint32_t *ptr;
++	
++        ptr = (grub_uint32_t *)grub_video_vbe_get_video_ptr (render_target,
++                                                             x, y);
+ 	
+-	*ptr = value;
++	*ptr = color;
+       }
+       break;
+       
+     case 24:
+       {
+-	grub_uint8_t *ptr = (grub_uint8_t *) (framebuffer
+-					      + y * bytes_per_scan_line
+-					      + x * 3);
+-	grub_uint8_t *ptr2 = (grub_uint8_t *) &value;
++	grub_uint8_t *ptr;
++	grub_uint8_t *ptr2 = (grub_uint8_t *) &color;
++        
++        ptr = grub_video_vbe_get_video_ptr (render_target, x, y);
+ 	
+ 	ptr[0] = ptr2[0];
+ 	ptr[1] = ptr2[1];
+@@ -330,11 +382,23 @@
+     case 16:
+     case 15:
+       {
+-	grub_uint16_t *ptr = (grub_uint16_t *) (framebuffer
+-						+ y * bytes_per_scan_line
+-						+ x * 2);
++	grub_uint16_t *ptr;
+ 	
+-	*ptr = (grub_uint16_t) (value & 0xFFFF);
++        ptr = (grub_uint16_t *)grub_video_vbe_get_video_ptr (render_target,
++                                                             x, y);
++	
++	*ptr = (grub_uint16_t) (color & 0xFFFF);
++      }
++      break;
++
++    case 8:
++      {
++	grub_uint8_t *ptr;
++	
++        ptr = (grub_uint8_t *)grub_video_vbe_get_video_ptr (render_target,
++                                                            x, y);
++	
++	*ptr = (grub_uint8_t) (color & 0xFF);
+       }
+       break;
+ 
+@@ -343,44 +407,1160 @@
+     }
+ }
+ 
+-void
+-grub_vbe_set_pixel_index (grub_uint32_t x,
+-                          grub_uint32_t y,
+-                          grub_uint8_t color)
++static grub_video_color_t
++grub_video_vbe_get_pixel (struct grub_video_render_target *source,
++                          grub_uint32_t x, grub_uint32_t y)
+ {
+-  if (x >= active_mode_info.x_resolution)
+-    return;
++  grub_video_color_t color = 0;
++  
++  if (x >= source->mode_info.width)
++    return 0;
+ 
+-  if (y >= active_mode_info.y_resolution)
+-    return;
++  if (y >= source->mode_info.height)
++    return 0;
+ 
+-  if (index_color_mode == 1)
++  switch (source->mode_info.bpp)
+     {
+-      grub_uint8_t *ptr = (grub_uint8_t *) (framebuffer
+-					    + y * bytes_per_scan_line
+-					    + x);
++    case 32:
++      color = *(grub_uint32_t *)grub_video_vbe_get_video_ptr (source, x, y);
++      break;
++      
++    case 24:
++      {
++	grub_uint8_t *ptr;
++        ptr = grub_video_vbe_get_video_ptr (source, x, y);
++        color = ptr[0] | (ptr[1] << 8) | (ptr[2] << 16);
++      }
++      break;
+ 
+-      *ptr = color;
++    case 16:
++    case 15:
++      color = *(grub_uint16_t *)grub_video_vbe_get_video_ptr (source, x, y);
++      break;
++      
++    case 8:
++      color = *(grub_uint8_t *)grub_video_vbe_get_video_ptr (source, x, y);
++      break;
++      
++    default:
++      break;
++    }
++
++  return color;    
++}
++
++static grub_err_t
++grub_video_vbe_init (void)
++{
++  grub_uint16_t *rm_mode_list;
++  grub_uint16_t *p;
++  grub_size_t mode_list_size;
++  struct grub_vbe_info_block info_block;
++
++  /* Check if there is adapter present.
++  
++     Firmware note: There has been a report that some cards store video mode
++     list in temporary memory.  So we must first use vbe probe to get
++     refreshed information to receive valid pointers and data, and then
++     copy this information to somewhere safe.  */
++  grub_vbe_probe (&info_block);
++  if (grub_errno != GRUB_ERR_NONE)
++    return grub_errno;
++  
++  /* Copy modelist to local memory.  */
++  p = rm_mode_list = real2pm (info_block.video_mode_ptr);
++  while(*p++ != 0xFFFF)
++    ;
++  
++  mode_list_size = (grub_addr_t) p - (grub_addr_t) rm_mode_list;
++  mode_list = grub_malloc (mode_list_size);
++  if (! mode_list)
++    return grub_errno;
++  grub_memcpy (mode_list, rm_mode_list, mode_list_size);
++
++  /* Adapter could be found, figure out initial video mode.  */
++  grub_vbe_get_video_mode (&initial_mode);
++  if (grub_errno != GRUB_ERR_NONE)
++    {
++      /* Free allocated resources.  */
++      grub_free (mode_list);
++      mode_list = 0;
++      
++      return grub_errno;
++    }
++
++  /* Reset frame buffer and render target variables.  */
++  grub_memset (&framebuffer, 0, sizeof(framebuffer));  
++  render_target = &framebuffer.render_target;
++
++  return GRUB_ERR_NONE;
++}
++
++static grub_err_t
++grub_video_vbe_fini (void)
++{
++  grub_vbe_status_t status;
++  
++  /* Restore old video mode.  */
++  status = grub_vbe_bios_set_mode (initial_mode, 0);
++  if (status != GRUB_VBE_STATUS_OK)
++    /* TODO: Decide, is this something we want to do.  */
++    return grub_errno;
++  
++  /* TODO: Free any resources allocated by driver.  */
++  grub_free (mode_list);
++  mode_list = 0;
++
++  /* TODO: destroy render targets.  */
++  
++  /* Return success to caller.  */
++  return GRUB_ERR_NONE;
++}
++
++static grub_err_t
++grub_video_vbe_setup (unsigned int width, unsigned int height,
++                      unsigned int mode_type)
++{
++  grub_uint16_t *p;
++  struct grub_vbe_mode_info_block mode_info;
++  struct grub_vbe_mode_info_block best_mode_info;
++  grub_uint32_t best_mode = 0;
++  int depth;
++  unsigned int i;
++  
++  /* Decode depth from mode_type.  If it is zero, then autodetect.  */
++  depth = (mode_type & GRUB_VIDEO_MODE_TYPE_DEPTH_MASK) 
++          >> GRUB_VIDEO_MODE_TYPE_DEPTH_POS;
++  
++  /* Walk thru mode list and try to find matching mode.  */
++  for (p = mode_list; *p != 0xFFFF; p++)
++    {
++      grub_uint32_t mode = *p;
++      
++      grub_vbe_get_video_mode_info (mode, &mode_info);
++      if (grub_errno != GRUB_ERR_NONE)
++        {
++          /* Could not retrieve mode info, retreat.  */
++          grub_errno = GRUB_ERR_NONE;
++          break;
++        }
++
++      if ((mode_info.mode_attributes & 0x001) == 0)
++        /* If not available, skip it.  */
++        continue;
++
++      if ((mode_info.mode_attributes & 0x002) == 0)
++        /* Not enough information.  */
++        continue;
++
++      if ((mode_info.mode_attributes & 0x008) == 0)
++        /* Monochrome is unusable.  */
++        continue;
++
++      if ((mode_info.mode_attributes & 0x080) == 0)
++        /* We support only linear frame buffer modes.  */
++        continue;
++
++      if ((mode_info.mode_attributes & 0x010) == 0)
++        /* We allow only graphical modes.  */
++        continue;
++      
++      if ((mode_info.memory_model != GRUB_VBE_MEMORY_MODEL_PACKED_PIXEL)
++          && (mode_info.memory_model != GRUB_VBE_MEMORY_MODEL_DIRECT_COLOR))
++        /* Not compatible memory model.  */
++        continue;
++      
++      if ((mode_info.x_resolution != width)
++          || (mode_info.y_resolution != height))
++        /* Non matching resolution.  */
++        continue;
++
++      /* Check if user requested RGB or index color mode.  */
++      if ((mode_type & GRUB_VIDEO_MODE_TYPE_COLOR_MASK) != 0)
++        {
++          if (((mode_type & GRUB_VIDEO_MODE_TYPE_INDEX_COLOR) != 0)
++              && (mode_info.memory_model != GRUB_VBE_MEMORY_MODEL_PACKED_PIXEL))
++            /* Requested only index color modes.  */
++            continue;
++
++          if (((mode_type & GRUB_VIDEO_MODE_TYPE_RGB) != 0)
++              && (mode_info.memory_model != GRUB_VBE_MEMORY_MODEL_DIRECT_COLOR))
++            /* Requested only RGB modes.  */
++            continue;
++        }
++      
++      /* If there is a request for specific depth, ignore others.  */
++      if ((depth != 0) && (mode_info.bits_per_pixel != depth))
++        continue;
++      
++      /* Select mode with most number of bits per pixel.  */
++      if (best_mode != 0)
++        if (mode_info.bits_per_pixel < best_mode_info.bits_per_pixel)
++          continue;
++      
++      /* Save so far best mode information for later use.  */
++      best_mode = mode;
++      grub_memcpy (&best_mode_info, &mode_info, sizeof (mode_info));
++    }
++
++  /* Try to initialize best mode found.  */
++  if (best_mode != 0)
++    {
++      /* If this fails, then we have mode selection heuristics problem, 
++         or adapter failure.  */
++      grub_vbe_set_video_mode (best_mode, &active_mode_info);
++      if (grub_errno != GRUB_ERR_NONE)
++        return grub_errno;
++      
++      /* Now we are happily in requested video mode.  Cache some info
++         in order to fasten later operations.  */
++      mode_in_use = best_mode;
++
++      /* Reset render target to framebuffer one.  */
++      render_target = &framebuffer.render_target;
++      
++      /* Fill mode info details in framebuffer's render target.  */
++      render_target->mode_info.width = active_mode_info.x_resolution;
++      render_target->mode_info.height = active_mode_info.y_resolution;
++
++      if (framebuffer.index_color_mode)
++        render_target->mode_info.mode_type = GRUB_VIDEO_MODE_TYPE_INDEX_COLOR;
++      else
++        render_target->mode_info.mode_type = GRUB_VIDEO_MODE_TYPE_RGB;
++
++      render_target->mode_info.bpp = active_mode_info.bits_per_pixel;
++      render_target->mode_info.bytes_per_pixel = framebuffer.bytes_per_pixel;
++      render_target->mode_info.pitch = framebuffer.bytes_per_scan_line;
++      render_target->mode_info.number_of_colors = 256; /* TODO: fix me.  */
++      render_target->mode_info.red_mask_size = active_mode_info.red_mask_size;
++      render_target->mode_info.red_field_pos = active_mode_info.red_field_position;
++      render_target->mode_info.green_mask_size = active_mode_info.green_mask_size;
++      render_target->mode_info.green_field_pos = active_mode_info.green_field_position;
++      render_target->mode_info.blue_mask_size = active_mode_info.blue_mask_size;
++      render_target->mode_info.blue_field_pos = active_mode_info.blue_field_position;
++      render_target->mode_info.reserved_mask_size = active_mode_info.rsvd_mask_size;
++      render_target->mode_info.reserved_field_pos = active_mode_info.rsvd_field_position;
++
++      render_target->mode_info.blit_format = grub_video_get_blit_format (&render_target->mode_info);
++     
++      /* Reset viewport to match new mode.  */
++      render_target->viewport.x = 0;
++      render_target->viewport.y = 0;
++      render_target->viewport.width = active_mode_info.x_resolution;
++      render_target->viewport.height = active_mode_info.y_resolution;
++
++      /* Set framebuffer pointer and mark it as non allocated.  */
++      render_target->is_allocated = 0;
++      render_target->data = framebuffer.ptr;
++
++      /* Copy default palette to initialize emulated palette.  */
++      for (i = 0; 
++           i < (sizeof (vga_colors) 
++                / sizeof (struct grub_vbe_palette_data));
++           i++)
++        {
++          framebuffer.palette[i].r = vga_colors[i].red;
++          framebuffer.palette[i].g = vga_colors[i].green;
++          framebuffer.palette[i].b = vga_colors[i].blue;
++          framebuffer.palette[i].a = 0xFF;
++        }
++
++      return GRUB_ERR_NONE;
++    }
++
++  /* Couldn't found matching mode.  */
++  return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "no matching mode found.");
++}
++
++static grub_err_t
++grub_video_vbe_get_info (struct grub_video_mode_info *mode_info)
++{
++  /* Copy mode info from active render target.  */
++  grub_memcpy (mode_info, &render_target->mode_info, 
++               sizeof (struct grub_video_mode_info));
++  
++  return GRUB_ERR_NONE;
++}
++
++static grub_err_t
++grub_video_vbe_set_palette (unsigned int start, unsigned int count,
++                            struct grub_video_palette_data *palette_data)
++{
++  unsigned int i;
++  
++  if (framebuffer.index_color_mode)
++    {
++      /* TODO: Implement setting indexed color mode palette to hardware.  */
++      //status = grub_vbe_bios_set_palette_data (sizeof (vga_colors) 
++      //                                         / sizeof (struct grub_vbe_palette_data), 
++      //                                         0, 
++      //                                         palette);
++      
++    }
++
++  /* Then set color to emulated palette.  */
++  for (i = 0; (i < count) && ((i + start) < 256); i++)
++    framebuffer.palette[start + i] = palette_data[i];
++
++  return GRUB_ERR_NONE;
++}
++
++static grub_err_t
++grub_video_vbe_get_palette (unsigned int start, unsigned int count,
++                            struct grub_video_palette_data *palette_data)
++{
++  unsigned int i;
++
++  /* Assume that we know everything from index color palette.  */
++  for (i = 0; (i < count) && ((i + start) < 256); i++)
++    palette_data[i] = framebuffer.palette[start + i];
++
++  return GRUB_ERR_NONE;
++}
++
++static grub_err_t
++grub_video_vbe_set_viewport (unsigned int x, unsigned int y,
++                             unsigned int width, unsigned int height)
++{
++  /* Make sure viewport is withing screen dimensions.  If viewport was set
++     to be out of the reqion, mark its size as zero.  */
++  if (x > active_mode_info.x_resolution)
++    {
++      x = 0;
++      width = 0;
++    }
++  
++  if (y > active_mode_info.y_resolution)
++    {
++      y = 0;
++      height = 0;
++    }
++    
++  if (x + width > active_mode_info.x_resolution)
++    width = active_mode_info.x_resolution - x;
++
++  if (y + height > active_mode_info.y_resolution)
++    height = active_mode_info.y_resolution - y;
++
++  render_target->viewport.x = x;
++  render_target->viewport.y = y;
++  render_target->viewport.width = width;
++  render_target->viewport.height = height;
++  
++  return GRUB_ERR_NONE;
++}
++
++static grub_err_t
++grub_video_vbe_get_viewport (unsigned int *x, unsigned int *y,
++                             unsigned int *width, unsigned int *height)
++{
++  if (x) *x = render_target->viewport.x;
++  if (y) *y = render_target->viewport.y;
++  if (width) *width = render_target->viewport.width;
++  if (height) *height = render_target->viewport.height;
++  
++  return GRUB_ERR_NONE;
++}
++
++static grub_video_color_t
++grub_video_vbe_map_color (grub_uint32_t color_name)
++{
++  /* TODO: implement color theme mapping code.  */
++  
++  if (color_name < 256)
++    {
++      if ((render_target->mode_info.mode_type
++           & GRUB_VIDEO_MODE_TYPE_INDEX_COLOR) != 0)
++        return color_name;
++      else
++        {
++          grub_video_color_t color;
++          
++          color = grub_video_vbe_map_rgb (framebuffer.palette[color_name].r,
++                                          framebuffer.palette[color_name].g,
++                                          framebuffer.palette[color_name].b);
++          
++          return color;
++        }
++    }
++    
++  return 0;
++}
++
++grub_video_color_t
++grub_video_vbe_map_rgb (grub_uint8_t red, grub_uint8_t green,
++                        grub_uint8_t blue)
++{
++  if ((render_target->mode_info.mode_type 
++       & GRUB_VIDEO_MODE_TYPE_INDEX_COLOR) != 0)
++    {
++      int minindex = 0;
++      int delta = 0;
++      int tmp;
++      int val;
++      int i;
++      
++      /* Find best matching color.  */
++      for (i = 0; i < 256; i++)
++        {
++          val = framebuffer.palette[i].r - red;
++          tmp = val * val;
++          val = framebuffer.palette[i].g - green;
++          tmp += val * val;
++          val = framebuffer.palette[i].b - blue;
++          tmp += val * val;
++          
++          if (i == 0)
++            delta = tmp;
++          
++          if (tmp < delta)
++            {
++              delta = tmp;
++              minindex = i;
++              if (tmp == 0)
++                break;
++            }
++        }
++      
++      return minindex;
+     }
+   else
+     {
+-      color &= 0x0F;
++      grub_uint32_t value;
++      grub_uint8_t alpha = 255; /* Opaque color.  */
+       
+-      if (color < 16)
+-	{
+-	  grub_vbe_set_pixel_rgb (x,
+-                                  y,
+-                                  vga_colors[color].red,
+-                                  vga_colors[color].green,
+-                                  vga_colors[color].blue);
+-	}
++      red >>= 8 - render_target->mode_info.red_mask_size;
++      green >>= 8 - render_target->mode_info.green_mask_size;
++      blue >>= 8 - render_target->mode_info.blue_mask_size;
++      alpha >>= 8 - render_target->mode_info.reserved_mask_size;
++
++      value = red << render_target->mode_info.red_field_pos;
++      value |= green << render_target->mode_info.green_field_pos;
++      value |= blue << render_target->mode_info.blue_field_pos;
++      value |= alpha << render_target->mode_info.reserved_field_pos;
++      
++      return value;
++    }
++
++}
++
++static grub_video_color_t
++grub_video_vbe_map_rgba (grub_uint8_t red, grub_uint8_t green,
++                         grub_uint8_t blue, grub_uint8_t alpha)
++{
++  if ((render_target->mode_info.mode_type 
++       & GRUB_VIDEO_MODE_TYPE_INDEX_COLOR) != 0)
++    /* No alpha available in index color modes, just use
++       same value as in only RGB modes.  */
++    return grub_video_vbe_map_rgb (red, green, blue);
++  else
++    {
++      grub_uint32_t value;
++      
++      red >>= 8 - render_target->mode_info.red_mask_size;
++      green >>= 8 - render_target->mode_info.green_mask_size;
++      blue >>= 8 - render_target->mode_info.blue_mask_size;
++      alpha >>= 8 - render_target->mode_info.reserved_mask_size;
++
++      value = red << render_target->mode_info.red_field_pos;
++      value |= green << render_target->mode_info.green_field_pos;
++      value |= blue << render_target->mode_info.blue_field_pos;
++      value |= alpha << render_target->mode_info.reserved_field_pos;
++      
++      return value;
++    }
++}
++
++void
++grub_video_vbe_unmap_color (struct grub_video_render_target * source,
++                            grub_video_color_t color,
++                            grub_uint8_t *red, grub_uint8_t *green,
++                            grub_uint8_t *blue, grub_uint8_t *alpha)
++{
++  if ((source->mode_info.mode_type 
++       & GRUB_VIDEO_MODE_TYPE_INDEX_COLOR) != 0)
++    {
++      /* If we have out of bounds color, return trasnparent black.  */
++      if (color > 255)
++        {
++          *red = 0;
++          *green = 0;
++          *blue = 0;
++          *alpha = 0;
++          return;
++        }
++        
++      *red = framebuffer.palette[color].r;
++      *green = framebuffer.palette[color].g;
++      *blue = framebuffer.palette[color].b;
++      *alpha = framebuffer.palette[color].a;
++      return;
++    }
++  else
++    {      
++      grub_uint32_t tmp;
++      
++      /* Get red component.  */
++      tmp = color >> source->mode_info.red_field_pos;
++      tmp &= (1 << source->mode_info.red_mask_size) - 1;
++      tmp <<= 8 - source->mode_info.red_mask_size;
++      tmp |= (1 << (8 - source->mode_info.red_mask_size)) - 1;
++      *red = tmp & 0xFF;
++
++      /* Get green component.  */
++      tmp = color >> source->mode_info.green_field_pos;
++      tmp &= (1 << source->mode_info.green_mask_size) - 1;
++      tmp <<= 8 - source->mode_info.green_mask_size;
++      tmp |= (1 << (8 - source->mode_info.green_mask_size)) - 1;
++      *green = tmp & 0xFF;
++
++      /* Get blue component.  */
++      tmp = color >> source->mode_info.blue_field_pos;
++      tmp &= (1 << source->mode_info.blue_mask_size) - 1;
++      tmp <<= 8 - source->mode_info.blue_mask_size;
++      tmp |= (1 << (8 - source->mode_info.blue_mask_size)) - 1;
++      *blue = tmp & 0xFF;
++
++      /* Get alpha component.  */
++      if (source->mode_info.reserved_mask_size > 0)
++        {
++          tmp = color >> source->mode_info.reserved_field_pos;
++          tmp &= (1 << source->mode_info.reserved_mask_size) - 1;
++          tmp <<= 8 - source->mode_info.reserved_mask_size;
++          tmp |= (1 << (8 - source->mode_info.reserved_mask_size)) - 1;
++        }
+       else
+-	{
+-	  grub_vbe_set_pixel_rgb (x,
+-                                  y,
+-                                  0,
+-                                  0,
+-                                  0);
+-	}
++        /* If there is no alpha component, assume it opaque.  */
++        tmp = 255;
++
++      *alpha = tmp & 0xFF;
++    }
++}
++
++static grub_err_t
++grub_video_vbe_fill_rect (grub_video_color_t color, int x, int y,
++                          unsigned int width, unsigned int height)
++{
++  unsigned int i, j;
++
++  /* Make sure there is something to do.  */
++  if ((x > (int)render_target->viewport.width) || (x + (int)width < 0))
++    return GRUB_ERR_NONE;
++  if ((y > (int)render_target->viewport.height) || (y + (int)height < 0))
++    return GRUB_ERR_NONE;
++
++  /* Do not allow drawing out of viewport.  */
++  if (x < 0)
++    {
++      width += x;
++      x = 0;
++    }
++  if (y < 0)
++    {
++      height += y;
++      y = 0;
++    }
++  
++  if ((x + width) > render_target->viewport.width)
++    width = render_target->viewport.width - x;
++  if ((y + height) > render_target->viewport.height)
++    height = render_target->viewport.height - y;
++
++  /* Add viewport offset.  */
++  x += render_target->viewport.x;
++  y += render_target->viewport.y;
++
++  /* Try to figure out more optimized version.  */
++  if (render_target->mode_info.blit_format == GRUB_VIDEO_BLIT_FORMAT_R8G8B8A8)
++    {
++      grub_video_i386_vbefill_R8G8B8A8 (render_target, color, x, y, 
++                                        width, height);
++      return GRUB_ERR_NONE;
++    }
++
++  if (render_target->mode_info.blit_format == GRUB_VIDEO_BLIT_FORMAT_R8G8B8)
++    {
++      grub_video_i386_vbefill_R8G8B8 (render_target, color, x, y,
++                                      width, height);
++      return GRUB_ERR_NONE;
++    }
++    
++  if (render_target->mode_info.blit_format == GRUB_VIDEO_BLIT_FORMAT_INDEXCOLOR)
++    {
++      grub_video_i386_vbefill_index (render_target, color, x, y,
++                                     width, height);
++      return GRUB_ERR_NONE;
++    }
++  
++  /* Use backup method to fill area.  */
++  for (j = 0; j < height; j++)
++    for (i = 0; i < width; i++)
++      grub_video_vbe_draw_pixel (x+i, y+j, color);
++  
++  return GRUB_ERR_NONE;
++}
++
++static grub_err_t
++grub_video_vbe_blit_glyph (struct grub_font_glyph * glyph,
++                           grub_video_color_t color, int x, int y)
++{
++  unsigned int width;
++  unsigned int charwidth;
++  unsigned int height;
++  unsigned int i;
++  unsigned int j;
++  unsigned int x_offset = 0;
++  unsigned int y_offset = 0;
++  
++  /* Make sure there is something to do.  */
++  if (x > (int)render_target->viewport.width)
++    return GRUB_ERR_NONE;
++    
++  if (y > (int)render_target->viewport.height)
++    return GRUB_ERR_NONE;
++
++  /* Calculate glyph dimensions.  */
++  width = ((glyph->width + 7) / 8) * 8;
++  charwidth = width;
++  height = glyph->height;
++  
++  if (x + (int)width < 0)
++    return GRUB_ERR_NONE;
++    
++  if (y + (int)height < 0)
++    return GRUB_ERR_NONE;
++
++  /* Do not allow drawing out of viewport.  */
++  if (x < 0)
++    {
++      width += x;
++      x_offset = (unsigned int)-x;
++      x = 0;
++    }
++  if (y < 0)
++    {
++      height += y;
++      y_offset = (unsigned int)-y;
++      y = 0;
++    }
++  
++  if ((x + width) > render_target->viewport.width)
++    width = render_target->viewport.width - x;
++  if ((y + height) > render_target->viewport.height)
++    height = render_target->viewport.height - y;
++
++  /* Add viewport offset.  */
++  x += render_target->viewport.x;
++  y += render_target->viewport.y;
++  
++  /* Draw glyph.  */
++  for (j = 0; j < height; j++)
++    for (i = 0; i < width; i++)
++      if ((glyph->bitmap[((i + x_offset) / 8) 
++                         + (j + y_offset) * (charwidth / 8)] 
++           & (1 << ((charwidth - (i + x_offset) - 1) % 8))))
++        grub_video_vbe_draw_pixel (x+i, y+j, color);
++
++  return GRUB_ERR_NONE;
++}
++
++static grub_err_t
++grub_video_vbe_blit_bitmap (struct grub_video_bitmap * bitmap,
++                            int x, int y, int offset_x, int offset_y,
++                            unsigned int width, unsigned int height)
++{
++  /* Make sure there is something to do.  */
++  if ((x > (int)render_target->viewport.width) || (x + (int)width < 0))
++    return GRUB_ERR_NONE;
++  if ((y > (int)render_target->viewport.height) || (y + (int)height < 0))
++    return GRUB_ERR_NONE;
++
++  /* Do not allow drawing out of viewport.  */
++  if (offset_x < 0)
++    {
++      width += offset_x;
++      x -= offset_x;
++      offset_x = 0;
++    }
++    
++  if (offset_y < 0)
++    {
++      height += offset_y;
++      y -= offset_y;
++      offset_y = 0;
++    }
++
++  if (x < 0)
++    {
++      width += x;
++      offset_x += (unsigned int)-x;
++      x = 0;
++    }
++  if (y < 0)
++    {
++      height += y;
++      offset_y += (unsigned int)-y;
++      y = 0;
++    }
++  
++  if ((x + width) > render_target->viewport.width)
++    width = render_target->viewport.width - x;
++  if ((y + height) > render_target->viewport.height)
++    height = render_target->viewport.height - y;
++
++  /* TODO: Limit drawing to bitmap dimensions.  */
++
++  /* Add viewport offset.  */
++  x += render_target->viewport.x;
++  y += render_target->viewport.y;
++
++  /* TODO: Render bitmap.  */
++
++  return GRUB_ERR_NONE;
++}
++
++static grub_err_t
++grub_video_vbe_blit_render_target (struct grub_video_render_target *source,
++                                   int x, int y, int offset_x, int offset_y,
++                                   unsigned int width, unsigned int height)
++{
++  unsigned int i;
++  unsigned int j;
++
++  /* Make sure there is something to do.  */
++  if ((width == 0) || (height == 0))
++    return GRUB_ERR_NONE;
++  if ((x > (int)render_target->viewport.width) || (x + (int)width < 0))
++    return GRUB_ERR_NONE;
++  if ((y > (int)render_target->viewport.height) || (y + (int)height < 0))
++    return GRUB_ERR_NONE;    
++  if ((x + (int)source->mode_info.width) < 0)
++    return GRUB_ERR_NONE;
++  if ((y + (int)source->mode_info.height) < 0)
++    return GRUB_ERR_NONE;    
++  if ((offset_x > (int)source->mode_info.width) 
++      || (offset_x + (int)source->mode_info.width < 0))
++    return GRUB_ERR_NONE;
++  if ((offset_y > (int)source->mode_info.height) 
++      || (offset_y + (int)source->mode_info.height < 0))
++    return GRUB_ERR_NONE;    
++
++  /* If we have negative coordinates, optimize drawing to minimum.  */
++  if (offset_x < 0)
++    {
++      width += offset_x;
++      x -= offset_x;
++      offset_x = 0;
++    }
++    
++  if (offset_y < 0)
++    {
++      height += offset_y;
++      y -= offset_y;
++      offset_y = 0;
++    }
++    
++  if (x < 0)
++    {
++      width += x;
++      offset_x += (unsigned int)-x;
++      x = 0;
++    }
++    
++  if (y < 0)
++    {
++      height += y;
++      offset_y += (unsigned int)-y;
++      y = 0;
++    }
++  
++  /* Do not allow drawing out of viewport.  */
++  if ((x + width) > render_target->viewport.width)
++    width = render_target->viewport.width - x;
++  if ((y + height) > render_target->viewport.height)
++    height = render_target->viewport.height - y;
++  
++  if ((offset_x + width) > source->mode_info.width)
++    width = source->mode_info.width - offset_x;
++  if ((offset_y + height) > source->mode_info.height)
++    height = source->mode_info.height - offset_y;
++  
++  /* Limit drawing to source render target dimensions.  */
++  if (width > source->mode_info.width)
++    width = source->mode_info.width;
++  
++  if (height > source->mode_info.height)
++    height = source->mode_info.height;
++
++  /* Add viewport offset.  */
++  x += render_target->viewport.x;
++  y += render_target->viewport.y;
++
++  /* Try to figure out more optimized version.  */
++  if (source->mode_info.blit_format == GRUB_VIDEO_BLIT_FORMAT_R8G8B8A8)
++    {
++      if (render_target->mode_info.blit_format == GRUB_VIDEO_BLIT_FORMAT_R8G8B8A8)
++        {
++          grub_video_i386_vbeblit_R8G8B8A8_R8G8B8A8 (render_target, source,
++                                                     x, y, width, height,
++                                                     offset_x, offset_y);
++          return GRUB_ERR_NONE;
++        }
++
++      if (render_target->mode_info.blit_format == GRUB_VIDEO_BLIT_FORMAT_R8G8B8)
++        {
++          grub_video_i386_vbeblit_R8G8B8_R8G8B8A8 (render_target, source,
++                                                   x, y, width, height,
++                                                   offset_x, offset_y);
++          return GRUB_ERR_NONE;
++        }
++
++      if (render_target->mode_info.blit_format == GRUB_VIDEO_BLIT_FORMAT_INDEXCOLOR)
++        {
++          grub_video_i386_vbeblit_index_R8G8B8A8 (render_target, source,
++                                                  x, y, width, height,
++                                                  offset_x, offset_y);
++          return GRUB_ERR_NONE;
++        }
++    }    
++
++  if (source->mode_info.blit_format == GRUB_VIDEO_BLIT_FORMAT_R8G8B8)
++    {
++      if (render_target->mode_info.blit_format == GRUB_VIDEO_BLIT_FORMAT_R8G8B8A8)
++        {
++          grub_video_i386_vbeblit_R8G8B8A8_R8G8B8 (render_target, source,
++                                                   x, y, width, height,
++                                                   offset_x, offset_y);
++          return GRUB_ERR_NONE;
++        }
++
++      if (render_target->mode_info.blit_format == GRUB_VIDEO_BLIT_FORMAT_R8G8B8)
++        {
++          grub_video_i386_vbeblit_R8G8B8_R8G8B8 (render_target, source,
++                                                 x, y, width, height,
++                                                 offset_x, offset_y);
++          return GRUB_ERR_NONE;
++        }
++
++      if (render_target->mode_info.blit_format == GRUB_VIDEO_BLIT_FORMAT_INDEXCOLOR)
++        {
++          grub_video_i386_vbeblit_index_R8G8B8 (render_target, source,
++                                                x, y, width, height,
++                                                offset_x, offset_y);
++          return GRUB_ERR_NONE;
++        }
++    }    
++
++  if (source->mode_info.blit_format == GRUB_VIDEO_BLIT_FORMAT_INDEXCOLOR)
++    {
++      if (render_target->mode_info.blit_format == GRUB_VIDEO_BLIT_FORMAT_INDEXCOLOR)
++        {
++          grub_video_i386_vbeblit_index_index (render_target, source,
++                                               x, y, width, height,
++                                               offset_x, offset_y);
++          return GRUB_ERR_NONE;
++        }
++    }    
++
++  /* Use backup method to render.  */
++  for (j = 0; j < height; j++)
++    {
++      for (i = 0; i < width; i++)
++        {              
++          grub_uint8_t src_red;
++          grub_uint8_t src_green;
++          grub_uint8_t src_blue;
++          grub_uint8_t src_alpha;
++          grub_uint8_t dst_red;
++          grub_uint8_t dst_green;
++          grub_uint8_t dst_blue;
++          grub_uint8_t dst_alpha;
++          grub_video_color_t src_color;
++          grub_video_color_t dst_color;
++          
++          src_color = grub_video_vbe_get_pixel (source, i + offset_x, j + offset_y);
++          grub_video_vbe_unmap_color (source, src_color, &src_red, &src_green, 
++                                      &src_blue, &src_alpha);
++              
++          if (src_alpha == 0)
++            continue;
++          
++          if (src_alpha == 255)
++            {
++              dst_color = grub_video_vbe_map_rgba (src_red, src_green,
++                                                   src_blue, src_alpha);
++               grub_video_vbe_draw_pixel (x + i, y + j, dst_color);
++               continue;
++            }
++
++          dst_color = grub_video_vbe_get_pixel (render_target, x + i, y + j);
++          
++          grub_video_vbe_unmap_color (render_target,  dst_color, &dst_red, 
++                                      &dst_green, &dst_blue, &dst_alpha);
++          
++          dst_red = (((src_red * src_alpha)
++                      + (dst_red * (255 - src_alpha))) / 255);
++          dst_green = (((src_green * src_alpha)
++                        + (dst_green * (255 - src_alpha))) / 255);
++          dst_blue = (((src_blue * src_alpha)
++                       + (dst_blue * (255 - src_alpha))) / 255);
++                    
++          dst_alpha = src_alpha;
++          dst_color = grub_video_vbe_map_rgba (dst_red, dst_green, dst_blue,
++                                               dst_alpha);
++
++          grub_video_vbe_draw_pixel (x + i, y + j, dst_color);
++        }
++    }
++
++  return GRUB_ERR_NONE;
++}
++
++static grub_err_t
++grub_video_vbe_scroll (grub_video_color_t color, int dx, int dy)
++{
++  int width;
++  int height;
++  int src_x;
++  int src_y;
++  int dst_x;
++  int dst_y;
++  
++  /* 1. Check if we have something to do.  */
++  if ((dx == 0) && (dy == 0))
++    return GRUB_ERR_NONE;
++
++  width = render_target->viewport.width - grub_abs (dx);
++  height = render_target->viewport.height - grub_abs (dy);
++  
++  if (dx < 0)
++    {
++      src_x = render_target->viewport.x - dx;
++      dst_x = render_target->viewport.x;
+     }
++  else
++    {
++      src_x = render_target->viewport.x;
++      dst_x = render_target->viewport.x + dx;
++    }
++
++  if (dy < 0)
++    {
++      src_y = render_target->viewport.y - dy;
++      dst_y = render_target->viewport.y;
++    }
++  else
++    {
++      src_y = render_target->viewport.y;
++      dst_y = render_target->viewport.y + dy;
++    }
++
++  /* 2. Check if there is need to copy data.  */
++  if ((grub_abs (dx) < render_target->viewport.width) 
++       && (grub_abs (dy) < render_target->viewport.height))
++    {
++      /* 3. Move data in render target.  */
++      grub_uint8_t *src;
++      grub_uint8_t *dst;
++      int j;
++            
++      for (j = 0; j < height; j++)
++        {
++          dst = grub_video_vbe_get_video_ptr (render_target, dst_x, dst_y + j);
++          src = grub_video_vbe_get_video_ptr (render_target, src_x, src_y + j);
++          grub_memmove (dst, src,
++                        width * render_target->mode_info.bytes_per_pixel);
++        }
++    }
++  
++  /* 4. Fill empty space with specified color.  In this implementation
++     there might be colliding areas but at the moment there is no need
++     to optimize this.  */
++
++  /* 4a. Fill top & bottom parts.  */
++  if (dy > 0)
++    grub_video_vbe_fill_rect (color, 0, 0, render_target->viewport.width, dy);
++  else if (dy < 0)
++    {
++      if (render_target->viewport.height < grub_abs (dy))
++        dy = -render_target->viewport.height;
++        
++      grub_video_vbe_fill_rect (color, 0, render_target->viewport.height + dy,
++                                render_target->viewport.width, -dy);
++    }
++
++  /* 4b. Fill left & right parts.  */
++  if (dx > 0)
++    grub_video_vbe_fill_rect (color, 0, 0, 
++                              dx, render_target->viewport.height);
++  else if (dx < 0)
++    {
++      if (render_target->viewport.width < grub_abs (dx))
++        dx = -render_target->viewport.width;
++        
++      grub_video_vbe_fill_rect (color, render_target->viewport.width + dx, 0,
++                                -dx, render_target->viewport.height);
++    }
++  
++  return GRUB_ERR_NONE;
++}
++
++static grub_err_t 
++grub_video_vbe_swap_buffers (void)
++{
++  /* TODO: Implement buffer swapping.  */
++  return GRUB_ERR_NONE;
++}
++
++static grub_err_t
++grub_video_vbe_create_render_target (struct grub_video_render_target **result,
++                                     unsigned int width, unsigned int height,
++                                     unsigned int mode_type)
++{
++  struct grub_video_render_target *target;
++  unsigned int size;
++  
++  /* Validate arguments.  */
++  if ((! result)
++      || (width == 0)
++      || (height == 0))
++    return grub_error (GRUB_ERR_BAD_ARGUMENT,
++                       "invalid argument given.");
++  
++  /* Allocate memory for render target.  */
++  target = grub_malloc (sizeof (struct grub_video_render_target));
++  if (! target)
++    return grub_errno;
++
++  /* TODO: Implement other types too.
++     Currently only 32bit render targets are supported.  */
++  
++  /* Mark render target as allocated.  */
++  target->is_allocated = 1;
++  
++  /* Maximize viewport.  */
++  target->viewport.x = 0;
++  target->viewport.y = 0;
++  target->viewport.width = width;
++  target->viewport.height = height;
++
++  /* Setup render target format.  */
++  target->mode_info.width = width;
++  target->mode_info.height = height;
++  target->mode_info.mode_type = GRUB_VIDEO_MODE_TYPE_RGB 
++                                | GRUB_VIDEO_MODE_TYPE_ALPHA;
++  target->mode_info.bpp = 32;
++  target->mode_info.bytes_per_pixel = 4;
++  target->mode_info.pitch = target->mode_info.bytes_per_pixel * width;
++  target->mode_info.number_of_colors = 256; /* Emulated paletted.  */
++  target->mode_info.red_mask_size = 8;
++  target->mode_info.red_field_pos = 0;
++  target->mode_info.green_mask_size = 8;
++  target->mode_info.green_field_pos = 8;
++  target->mode_info.blue_mask_size = 8;
++  target->mode_info.blue_field_pos = 16;
++  target->mode_info.reserved_mask_size = 8;
++  target->mode_info.reserved_field_pos = 24;
++
++  target->mode_info.blit_format = grub_video_get_blit_format (&target->mode_info);
++
++  /* Calculate size needed for the data.  */
++  size = (width * target->mode_info.bytes_per_pixel) * height;
++  
++  target->data = grub_malloc (size);
++  if (! target->data)
++    {
++      grub_free (target);
++      return grub_errno;
++    }
++  
++  /* Clear render target with black and maximum transparency.  */
++  grub_memset (target->data, 0, size);
++
++  /* TODO: Add render target to render target list.  */
++  
++  /* Save result to caller.  */
++  *result = target;
++  
++  return GRUB_ERR_NONE;
++}
++
++static grub_err_t
++grub_video_vbe_delete_render_target (struct grub_video_render_target *target)
++{
++  /* If there is no target, then just return without error.  */
++  if (! target)
++    return GRUB_ERR_NONE;
++    
++  /* TODO: Delist render target fron render target list.  */
++    
++  /* If this is software render target, free it's memory.  */
++  if (target->is_allocated)
++    grub_free (target->data);
++        
++  /* Free render target.  */
++  grub_free (target);
++  
++  return GRUB_ERR_NONE;
++}
++
++static grub_err_t
++grub_video_vbe_set_active_render_target (struct grub_video_render_target *target)
++{
++  if (target == GRUB_VIDEO_RENDER_TARGET_FRONT_BUFFER)
++    {
++      render_target = &framebuffer.render_target;
++      
++      return GRUB_ERR_NONE;
++    }
++  
++  if (target == GRUB_VIDEO_RENDER_TARGET_BACK_BUFFER)
++    return grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET, 
++                       "double buffering not implemented yet.");
++    
++  if (! target->data)
++    return grub_error (GRUB_ERR_BAD_ARGUMENT, 
++                       "invalid render target given.");
++  
++  render_target = target;
++  
++  return GRUB_ERR_NONE;
++}
++
++static struct grub_video_adapter grub_video_vbe_adapter =
++  {
++    .name = "VESA BIOS Extension Video Driver",
++
++    .init = grub_video_vbe_init,
++    .fini = grub_video_vbe_fini,
++    .setup = grub_video_vbe_setup,
++    .get_info = grub_video_vbe_get_info,
++    .set_palette = grub_video_vbe_set_palette,
++    .get_palette = grub_video_vbe_get_palette,
++    .set_viewport = grub_video_vbe_set_viewport,
++    .get_viewport = grub_video_vbe_get_viewport,
++    .map_color = grub_video_vbe_map_color,
++    .map_rgb = grub_video_vbe_map_rgb,
++    .map_rgba = grub_video_vbe_map_rgba,
++    .fill_rect = grub_video_vbe_fill_rect,
++    .blit_glyph = grub_video_vbe_blit_glyph,
++    .blit_bitmap = grub_video_vbe_blit_bitmap,
++    .blit_render_target = grub_video_vbe_blit_render_target,
++    .scroll = grub_video_vbe_scroll,
++    .swap_buffers = grub_video_vbe_swap_buffers,
++    .create_render_target = grub_video_vbe_create_render_target,
++    .delete_render_target = grub_video_vbe_delete_render_target,
++    .set_active_render_target = grub_video_vbe_set_active_render_target,
++    
++    .next = 0  
++  };
++
++GRUB_MOD_INIT(video_i386_pc_vbe)
++{
++  grub_video_register (&grub_video_vbe_adapter);
++}
++
++GRUB_MOD_FINI(video_i386_pc_vbe)
++{
++  grub_video_unregister (&grub_video_vbe_adapter);
+ }
+Index: video/i386/pc/vbeblit.c
+===================================================================
+RCS file: video/i386/pc/vbeblit.c
+diff -N video/i386/pc/vbeblit.c
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ video/i386/pc/vbeblit.c	31 Mar 2006 14:26:34 -0000	1.1
+@@ -0,0 +1,369 @@
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2006  Free Software Foundation, Inc.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, write to the Free Software
++ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ */
++
++#include <grub/err.h>
++#include <grub/machine/memory.h>
++#include <grub/machine/vbe.h>
++#include <grub/machine/vbeblit.h>
++#include <grub/types.h>
++#include <grub/dl.h>
++#include <grub/misc.h>
++#include <grub/font.h>
++#include <grub/mm.h>
++#include <grub/video.h>
++
++void
++grub_video_i386_vbeblit_R8G8B8A8_R8G8B8A8 (struct grub_video_render_target *dst,
++                                           struct grub_video_render_target *src,
++                                           int x, int y, int width, int height,
++                                           int offset_x, int offset_y)
++{
++  grub_uint32_t color;
++  int i;
++  int j;
++  grub_uint32_t *srcptr;
++  grub_uint32_t *dstptr;
++  unsigned int sr;
++  unsigned int sg;
++  unsigned int sb;
++  unsigned int a;
++  unsigned int dr;
++  unsigned int dg;
++  unsigned int db;
++  
++  /* We do not need to worry about data being out of bounds
++     as we assume that everything has been checked before.  */
++  
++  for (j = 0; j < height; j++)
++    {
++      srcptr = (grub_uint32_t *)grub_video_vbe_get_video_ptr (src, offset_x,
++                                                              j + offset_y);
++
++      dstptr = (grub_uint32_t *)grub_video_vbe_get_video_ptr (dst, x, y + j);
++
++      for (i = 0; i < width; i++)
++        {
++          color = *srcptr++;
++          
++          a = color >> 24;
++          
++          if (a == 0)
++            {
++              dstptr++;
++              continue;
++            }
++
++          if (a == 255)
++            {
++              *dstptr++ = color;
++              continue;
++            }
++            
++          sr = (color >> 0) & 0xFF;
++          sg = (color >> 8) & 0xFF;
++          sb = (color >> 16) & 0xFF;
++          
++          color = *dstptr;
++          
++          dr = (color >> 0) & 0xFF;
++          dg = (color >> 8) & 0xFF;
++          db = (color >> 16) & 0xFF;
++          
++          dr = (dr * (255 - a) + sr * a) / 255;
++          dg = (dg * (255 - a) + sg * a) / 255;
++          db = (db * (255 - a) + sb * a) / 255;
++          
++          color = (a << 24) | (db << 16) | (dg << 8) | dr;
++
++          *dstptr++ = color;          
++        }
++    }
++}
++
++void
++grub_video_i386_vbeblit_R8G8B8_R8G8B8A8 (struct grub_video_render_target *dst,
++                                         struct grub_video_render_target *src,
++                                         int x, int y, int width, int height,
++                                         int offset_x, int offset_y)
++{
++  grub_uint32_t color;
++  int i;
++  int j;
++  grub_uint32_t *srcptr;
++  grub_uint8_t *dstptr;
++  unsigned int sr;
++  unsigned int sg;
++  unsigned int sb;
++  unsigned int a;
++  unsigned int dr;
++  unsigned int dg;
++  unsigned int db;
++  
++  /* We do not need to worry about data being out of bounds
++     as we assume that everything has been checked before.  */
++  
++  for (j = 0; j < height; j++)
++    {
++      srcptr = (grub_uint32_t *)grub_video_vbe_get_video_ptr (src, offset_x,
++                                                              j + offset_y);
++
++      dstptr = (grub_uint8_t *)grub_video_vbe_get_video_ptr (dst, x, y + j);
++
++      for (i = 0; i < width; i++)
++        {
++          color = *srcptr++;
++          
++          a = color >> 24;
++          
++          if (a == 0)
++            {
++              dstptr += 3;
++              continue;
++            }
++
++          sr = (color >> 0) & 0xFF;
++          sg = (color >> 8) & 0xFF;
++          sb = (color >> 16) & 0xFF;
++
++          if (a == 255)
++            {
++              *dstptr++ = sr;
++              *dstptr++ = sg;
++              *dstptr++ = sb;
++              
++              continue;
++            }
++            
++          dr = dstptr[0];
++          dg = dstptr[1];
++          db = dstptr[2];
++          
++          dr = (dr * (255 - a) + sr * a) / 255;
++          dg = (dg * (255 - a) + sg * a) / 255;
++          db = (db * (255 - a) + sb * a) / 255;
++          
++          *dstptr++ = dr;
++          *dstptr++ = dg;
++          *dstptr++ = db;
++        }
++    }
++}
++
++void
++grub_video_i386_vbeblit_index_R8G8B8A8 (struct grub_video_render_target *dst,
++                                        struct grub_video_render_target *src,
++                                        int x, int y, int width, int height,
++                                        int offset_x, int offset_y)
++{
++  grub_uint32_t color;
++  int i;
++  int j;
++  grub_uint32_t *srcptr;
++  grub_uint8_t *dstptr;
++  unsigned int sr;
++  unsigned int sg;
++  unsigned int sb;
++  unsigned int a;
++  unsigned char dr;
++  unsigned char dg;
++  unsigned char db;
++  unsigned char da;
++  
++  /* We do not need to worry about data being out of bounds
++     as we assume that everything has been checked before.  */
++  
++  for (j = 0; j < height; j++)
++    {
++      srcptr = (grub_uint32_t *)grub_video_vbe_get_video_ptr (src, offset_x,
++                                                              j + offset_y);
++
++      dstptr = (grub_uint8_t *)grub_video_vbe_get_video_ptr (dst, x, y + j);
++
++      for (i = 0; i < width; i++)
++        {
++          color = *srcptr++;
++          
++          a = color >> 24;
++          
++          if (a == 0)
++            {
++              dstptr++;
++              continue;
++            }
++
++          sr = (color >> 0) & 0xFF;
++          sg = (color >> 8) & 0xFF;
++          sb = (color >> 16) & 0xFF;
++          
++          if (a == 255)
++            {
++              color = grub_video_vbe_map_rgb(sr, sg, sb);
++              *dstptr++ = color & 0xFF;              
++              continue;
++            }
++            
++          grub_video_vbe_unmap_color (dst, *dstptr, &dr, &dg, &db, &da);
++          
++          dr = (dr * (255 - a) + sr * a) / 255;
++          dg = (dg * (255 - a) + sg * a) / 255;
++          db = (db * (255 - a) + sb * a) / 255;
++          
++          color = grub_video_vbe_map_rgb(dr, dg, db);
++
++          *dstptr++ = color & 0xFF;
++        }
++    }
++}
++
++void
++grub_video_i386_vbeblit_R8G8B8A8_R8G8B8 (struct grub_video_render_target *dst,
++                                         struct grub_video_render_target *src,
++                                         int x, int y, int width, int height,
++                                         int offset_x, int offset_y)
++{
++  grub_uint32_t color;
++  int i;
++  int j;
++  grub_uint8_t *srcptr;
++  grub_uint32_t *dstptr;
++  unsigned int sr;
++  unsigned int sg;
++  unsigned int sb;
++  
++  /* We do not need to worry about data being out of bounds
++     as we assume that everything has been checked before.  */
++  
++  for (j = 0; j < height; j++)
++    {
++      srcptr = (grub_uint8_t *)grub_video_vbe_get_video_ptr (src, offset_x,
++                                                             j + offset_y);
++
++      dstptr = (grub_uint32_t *)grub_video_vbe_get_video_ptr (dst, x, y + j);
++
++      for (i = 0; i < width; i++)
++        {
++          sr = *srcptr++;
++          sg = *srcptr++;
++          sb = *srcptr++;
++
++          color = 0xFF000000 | (sb << 16) | (sg << 8) | sr;
++          
++          *dstptr++ = color;
++        }
++    }
++}
++
++
++void
++grub_video_i386_vbeblit_R8G8B8_R8G8B8 (struct grub_video_render_target *dst,
++                                       struct grub_video_render_target *src,
++                                       int x, int y, int width, int height,
++                                       int offset_x, int offset_y)
++{
++  int i;
++  int j;
++  grub_uint8_t *srcptr;
++  grub_uint8_t *dstptr;
++  
++  /* We do not need to worry about data being out of bounds
++     as we assume that everything has been checked before.  */
++  
++  for (j = 0; j < height; j++)
++    {
++      srcptr = (grub_uint8_t *)grub_video_vbe_get_video_ptr (src, 
++                                                             offset_x,
++                                                             j + offset_y);
++
++      dstptr = (grub_uint8_t *)grub_video_vbe_get_video_ptr (dst,
++                                                             x, 
++                                                             y + j);
++
++      for (i = 0; i < width; i++)
++        {
++          *dstptr ++ = *srcptr++;
++          *dstptr ++ = *srcptr++;
++          *dstptr ++ = *srcptr++;
++        }
++    }
++}
++
++void
++grub_video_i386_vbeblit_index_R8G8B8 (struct grub_video_render_target *dst,
++                                      struct grub_video_render_target *src,
++                                      int x, int y, int width, int height,
++                                      int offset_x, int offset_y)
++{
++  grub_uint32_t color;
++  int i;
++  int j;
++  grub_uint8_t *srcptr;
++  grub_uint8_t *dstptr;
++  unsigned int sr;
++  unsigned int sg;
++  unsigned int sb;
++  
++  /* We do not need to worry about data being out of bounds
++     as we assume that everything has been checked before.  */
++  
++  for (j = 0; j < height; j++)
++    {
++      srcptr = (grub_uint8_t *)grub_video_vbe_get_video_ptr (src, offset_x,
++                                                             j + offset_y);
++
++      dstptr = (grub_uint8_t *)grub_video_vbe_get_video_ptr (dst, x, y + j);
++
++      for (i = 0; i < width; i++)
++        {
++          sr = *srcptr++;
++          sg = *srcptr++;
++          sb = *srcptr++;
++          
++          color = grub_video_vbe_map_rgb(sr, sg, sb);
++
++          *dstptr++ = color & 0xFF;
++        }
++    }
++}
++
++
++void
++grub_video_i386_vbeblit_index_index (struct grub_video_render_target *dst,
++                                     struct grub_video_render_target *src,
++                                     int x, int y, int width, int height,
++                                     int offset_x, int offset_y)
++{
++  int i;
++  int j;
++  grub_uint8_t *srcptr;
++  grub_uint8_t *dstptr;
++  
++  /* We do not need to worry about data being out of bounds
++     as we assume that everything has been checked before.  */
++  
++  for (j = 0; j < height; j++)
++    {
++      srcptr = (grub_uint8_t *)grub_video_vbe_get_video_ptr (src, offset_x,
++                                                             j + offset_y);
++                                                              
++      dstptr = (grub_uint8_t *)grub_video_vbe_get_video_ptr (dst, x, y + j);
++
++      for (i = 0; i < width; i++)
++          *dstptr++ = *srcptr++;
++    }
++}
+Index: video/i386/pc/vbefill.c
+===================================================================
+RCS file: video/i386/pc/vbefill.c
+diff -N video/i386/pc/vbefill.c
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ video/i386/pc/vbefill.c	31 Mar 2006 14:26:34 -0000	1.1
+@@ -0,0 +1,101 @@
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2006  Free Software Foundation, Inc.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, write to the Free Software
++ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ */
++
++#include <grub/err.h>
++#include <grub/machine/memory.h>
++#include <grub/machine/vbe.h>
++#include <grub/machine/vbefill.h>
++#include <grub/types.h>
++#include <grub/dl.h>
++#include <grub/misc.h>
++#include <grub/font.h>
++#include <grub/mm.h>
++#include <grub/video.h>
++
++void
++grub_video_i386_vbefill_R8G8B8A8 (struct grub_video_render_target *dst,
++                                  grub_video_color_t color, int x, int y,
++                                  int width, int height)
++{
++  int i;
++  int j;
++  grub_uint32_t *dstptr;
++  
++  /* We do not need to worry about data being out of bounds
++     as we assume that everything has been checked before.  */
++  
++  for (j = 0; j < height; j++)
++    {
++      dstptr = (grub_uint32_t *)grub_video_vbe_get_video_ptr (dst, x, y + j);
++
++      for (i = 0; i < width; i++)
++        *dstptr++ = color;
++    }
++}
++
++void
++grub_video_i386_vbefill_R8G8B8 (struct grub_video_render_target *dst,
++                                grub_video_color_t color, int x, int y,
++                                int width, int height)
++{
++  int i;
++  int j;
++  grub_uint8_t *dstptr;
++  grub_uint8_t fillr = (grub_uint8_t)((color >> 0) & 0xFF);
++  grub_uint8_t fillg = (grub_uint8_t)((color >> 8) & 0xFF);
++  grub_uint8_t fillb = (grub_uint8_t)((color >> 16) & 0xFF);
++  
++  /* We do not need to worry about data being out of bounds
++     as we assume that everything has been checked before.  */
++  
++  for (j = 0; j < height; j++)
++    {
++      dstptr = (grub_uint8_t *)grub_video_vbe_get_video_ptr (dst, x, y + j);
++
++      for (i = 0; i < width; i++)
++        {
++          *dstptr++ = fillr;
++          *dstptr++ = fillg;
++          *dstptr++ = fillb;
++        }
++    }
++}
++
++
++void
++grub_video_i386_vbefill_index (struct grub_video_render_target *dst,
++                               grub_video_color_t color, int x, int y,
++                               int width, int height)
++{
++  int i;
++  int j;
++  grub_uint8_t *dstptr;
++  grub_uint8_t fill = (grub_uint8_t)color & 0xFF;
++  
++  /* We do not need to worry about data being out of bounds
++     as we assume that everything has been checked before.  */
++  
++  for (j = 0; j < height; j++)
++    {
++      dstptr = (grub_uint8_t *)grub_video_vbe_get_video_ptr (dst, x, y + j);
++
++      for (i = 0; i < width; i++)
++        *dstptr++ = fill;
++    }
++}
