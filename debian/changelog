@@ -1,4 +1,4 @@
-grub2 (1.93-1) UNRELEASED; urgency=low
+grub2 (1.93-1) unstable; urgency=low
 
   * New upstream release.
     - Added support to PowerPC. Closes: #357853
@@ -6,7 +6,7 @@ grub2 (1.93-1) UNRELEASED; urgency=low
   * Update Standards version to 3.6.2. No changes need.
   * Start to use new dpkg architecture definition. Closes: #360134
 
- -- Otavio Salvador <otavio@debian.org>  Tue, 28 Mar 2006 22:49:31 -0300
+ -- Otavio Salvador <otavio@debian.org>  Sat,  1 Apr 2006 10:07:17 -0300
 
 grub2 (1.92-2) unstable; urgency=low
 
