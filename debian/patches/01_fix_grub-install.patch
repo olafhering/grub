@@ -18,12 +18,3 @@ diff -Nur grub2-1.92/util/i386/pc/grub-install.in grub2-1.92.new/util/i386/pc/gr
  grub_mkdevicemap=${sbindir}/grub-mkdevicemap
  grub_probefs=${sbindir}/grub-probefs
  rootdir=
-@@ -210,7 +211,7 @@
- fs_module=`$grub_probefs --device-map=${device_map} ${grubdir}`
- if test "x$fs_module" = x -a "x$modules" = x; then
-     echo "Auto-detection of a filesystem module failed." 1>&2
--    echo "Please specify the module with the option `--modules' explicitly." 1>&2
-+    echo "Please specify the module with the option \`--modules' explicitly." 1>&2
-     exit 1
- fi
- 
