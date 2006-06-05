@@ -4,6 +4,7 @@ grub2 (1.94-1) UNRELEASED; urgency=low
     - Fix powerpc building. Closes: #370259
   * Leave CDBS set debhelper compatibility level.
   * Allow amd64 build to happen. Closes: #364956
+  * Enforce building in 32bits while running in x86_64 machines.
 
  -- Otavio Salvador <otavio@debian.org>  Sat,  1 Apr 2006 11:20:36 -0300
 
