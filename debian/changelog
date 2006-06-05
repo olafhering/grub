@@ -2,10 +2,12 @@ grub2 (1.94-1) UNRELEASED; urgency=low
 
   * New upstream release.
     - Fix powerpc building. Closes: #370259
+    - 01_fix_grub-install.patch: merged upstream.
   * Leave CDBS set debhelper compatibility level.
   * Allow amd64 build to happen. Closes: #364956
   * Enforce building in 32bits while running in x86_64 machines.
   * Update Standards version to 3.7.2. No changes need.
+  * 
 
  -- Otavio Salvador <otavio@debian.org>  Mon,  5 Jun 2006 11:48:03 -0300
 
