@@ -1,6 +1,6 @@
 grub2 (1.93-2) UNRELEASED; urgency=low
 
-  * Sync with CVS due 20060401.
+  * Sync with CVS due 20060605. Closes: #370259
   * Leave CDBS set debhelper compatibility level.
 
  -- Otavio Salvador <otavio@debian.org>  Sat,  1 Apr 2006 11:20:36 -0300
