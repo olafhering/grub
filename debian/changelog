@@ -1,4 +1,4 @@
-grub2 (1.94-1) UNRELEASED; urgency=low
+grub2 (1.94-1) unstable; urgency=low
 
   * New upstream release.
     - Fix powerpc building. Closes: #370259
@@ -10,7 +10,7 @@ grub2 (1.94-1) UNRELEASED; urgency=low
   * Enforce building in 32bits while running in x86_64 machines.
   * Update Standards version to 3.7.2. No changes need.
 
- -- Otavio Salvador <otavio@debian.org>  Mon,  5 Jun 2006 11:48:03 -0300
+ -- Otavio Salvador <otavio@debian.org>  Mon,  5 Jun 2006 12:49:09 -0300
 
 grub2 (1.93-1) unstable; urgency=low
 
