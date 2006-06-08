@@ -1,9 +1,9 @@
 #!/usr/bin/make -f
 # This file is PUBLIC DOMAIN. 
 
-DEB_AUTO_UPDATE_DEBIAN_CONTROL	:= yes
-DEB_AUTO_CLEANUP_RCS		:= yes
-package				:= grub2
+DEB_AUTO_UPDATE_DEBIAN_CONTROL := yes
+DEB_AUTO_CLEANUP_RCS           := yes
+package                        := grub2
 
 include /usr/share/cdbs/1/class/autotools.mk
 include /usr/share/cdbs/1/rules/debhelper.mk
@@ -14,13 +14,14 @@ install/$(package):: common-install-prehook-arch
 		debian/$(package)/usr/lib/grub/$(DEB_HOST_ARCH_CPU)-*/
 
 clean::
-	sed -e "s/@cpu@/$(DEB_HOST_GNU_CPU)/g" \
-	< debian/README.Debian.in > debian/README.Debian
+	sed -e "s/@cpu@/$(DEB_HOST_GNU_CPU)/g" < debian/README.Debian.in \
+	                                       > debian/README.Debian
 
 # Grab fixes from CVS using our version as reference.
 cvs-sync:
 	cvs -d:pserver:anonymous@cvs.savannah.gnu.org:/cvsroot/grub checkout -d grub2-cvs grub2; \
-	UVERSION=$$(dpkg-parsechangelog | grep Version | sed 's,Version: ,,g;s,-[0-9]*$$,,g;s,\.,_,g'); \
+	UVERSION=$$(dpkg-parsechangelog | grep Version \
+	                                | sed 's,Version: ,,g;s,-[0-9]*$$,,g;s,\.,_,g'); \
 	cd grub2-cvs && \
 	cvs diff -uN -r release_$$UVERSION -r HEAD > ../debian/patches/00_cvs-sync.patch; \
 	cd .. && rm -rf grub2-cvs
