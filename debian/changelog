@@ -1,11 +1,11 @@
-grub2 (1.94-2) UNRELEASED; urgency=low
+grub2 (1.94-2) unstable; urgency=low
 
   * Update grub images paths in README.Debian
   * 01_fix_grub-install.patch: add to fix a problem with PowerPC
     installation. Refs: #371069
   * Fix FTBFS in amd64. Closes: #370803
 
- -- Otavio Salvador <otavio@debian.org>  Wed,  7 Jun 2006 21:26:00 -0300
+ -- Otavio Salvador <otavio@debian.org>  Fri,  9 Jun 2006 09:29:40 -0300
 
 grub2 (1.94-1) unstable; urgency=low
 
