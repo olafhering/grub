@@ -1,3 +1,9 @@
+grub2 (1.94-3) unstable; urgency=low
+
+  * Fix FTBFS in amd64. Closes: 372548
+
+ -- Otavio Salvador <otavio@debian.org>  Sat, 10 Jun 2006 19:57:01 -0300
+
 grub2 (1.94-2) unstable; urgency=low
 
   * Update grub images paths in README.Debian
