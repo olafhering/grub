@@ -1,3 +1,10 @@
+grub2 (1.94-4) UNRELEASED; urgency=low
+
+  * 01_fix_amd64_building.patch: dropped since it now supports amd64
+    native building.
+
+ -- Otavio Salvador <otavio@debian.org>  Mon, 12 Jun 2006 13:43:25 -0300
+
 grub2 (1.94-3) unstable; urgency=low
 
   * Fix FTBFS in amd64. Closes: 372548
