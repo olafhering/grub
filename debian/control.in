@@ -11,8 +11,8 @@ Package: grub2
 Architecture: any-i386 any-powerpc any-amd64
 Depends: ${shlibs:Depends}
 Provides: pupa
-Replaces: pupa
-Conflicts: pupa
+Replaces: pupa, grub
+Conflicts: pupa, grub
 Suggests: bochs
 Description: The next generation of GNU GRUB [EXPERIMENTAL]
  GRUB2 (also known as PUPA) is the Preliminary Universal Programming
