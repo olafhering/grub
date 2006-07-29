@@ -6,6 +6,7 @@ grub2 (1.94-4) UNRELEASED; urgency=low
   [ Robert Millan ]
   * Fork update-grub from grub legacy, and tweak a few commands in output to
     make it work for grub2.
+  * Update README.Debian with more recent (and easier) install instructions.
 
  -- Otavio Salvador <otavio@debian.org>  Mon, 12 Jun 2006 13:43:25 -0300
 
