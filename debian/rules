@@ -1,7 +1,6 @@
 #!/usr/bin/make -f
 # This file is PUBLIC DOMAIN. 
 
-DEB_AUTO_UPDATE_DEBIAN_CONTROL := yes
 DEB_AUTO_CLEANUP_RCS           := yes
 package                        := grub2
 
