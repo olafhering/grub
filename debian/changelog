@@ -12,6 +12,7 @@ grub2 (1.94-4) UNRELEASED; urgency=low
     future, see #361929).
   * Get rid of control.in, which I introduced in 0.6+20040805-1 and turned out
     to be an endless source of problems (and forbidden by policy as well).
+  * Fix FTBFS on amd64. Really closes: #372548.
 
  -- Otavio Salvador <otavio@debian.org>  Mon, 12 Jun 2006 13:43:25 -0300
 
