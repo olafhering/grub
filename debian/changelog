@@ -1,4 +1,4 @@
-grub2 (1.94-4) UNRELEASED; urgency=low
+grub2 (1.94-4) unstable; urgency=low
 
   [ Otavio Salvador ]
   * 01_fix_amd64_building.patch: dropped since it now supports amd64
@@ -17,7 +17,7 @@ grub2 (1.94-4) UNRELEASED; urgency=low
   * Remove convert_kernel26 usage since it's not necessary anymore and due
     initramfs-tools changes it's bug too.
 
- -- Otavio Salvador <otavio@debian.org>  Fri, 18 Aug 2006 15:37:59 -0300
+ -- Otavio Salvador <otavio@debian.org>  Fri, 18 Aug 2006 15:38:25 -0300
 
 grub2 (1.94-3) unstable; urgency=low
 
