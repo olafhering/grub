@@ -101,21 +101,6 @@ find_root_device ()
 	echo $device
 }
 
-# Usage: convert_kernel26 os_device
-# Convert system path to the kernel26 notation
-# I.e. /dev/ida/c0d0p2 -> /dev/ida!c0d0p2
-convert_kernel26 ()
-{
-    case "$1" in
-	/dev/rd/*)
-            echo "$1" | sed 's%^\(/dev/[^/]*\)/\(.*\)%\1!\2%'
-	    ;;
-	*)
-	    echo "$1"
-	    ;;
-    esac
-}
-
 # Usage: convert_raid1 os_device
 # Checks if os_device is a software raid1.
 # If so, converts to first physical device in array.
@@ -283,7 +268,6 @@ menu_file=$grub_dir/$menu_file_basename
 
 # the device for the / filesystem
 root_device=$(find_root_device)
-root_device_2_6=$(convert_kernel26 "$root_device")
 
 # the device for the /boot filesystem
 boot_device=$(find_device "/boot")
@@ -678,7 +662,7 @@ fi
 kopt=$(GetMenuOpt "kopt" "$kopt")
 
 # Set the kernel 2.6 option only for fresh install
-test -z "$(GetMenuOpt "kopt" "")" && kopt_2_6="root=$root_device_2_6 ro"
+test -z "$(GetMenuOpt "kopt" "")" && kopt_2_6="root=$root_device ro"
 
 # Extract options for specific kernels
 opts="$(ExtractMenuOpts "\(kopt_[[:alnum:]_]\+\)")"
