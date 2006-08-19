@@ -3,6 +3,8 @@ grub2 (1.94-5) UNRELEASED; urgency=low
   [ Robert Millan ]
   * control (Build-Depends): s/any-amd64/amd64 kfreebsd-amd64/g (this seems to
     confuse buildds).
+  * 02_not_remove_menu_lst.patch: New patch.  Skip menu.lst removal in
+    grub-install.  (Closes: #372934)
 
  -- Robert Millan <rmh@aybabtu.com>  Sat, 19 Aug 2006 12:47:50 +0200
 
