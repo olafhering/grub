@@ -11,6 +11,8 @@ grub2 (1.94-4) unstable; urgency=low
   [ Otavio Salvador ]
   * 01_fix_amd64_building.patch: dropped since it now supports amd64
     native building.
+  * Remove convert_kernel26 usage since it's not necessary anymore and due
+    initramfs-tools changes it's bug too.
   
   [ Robert Millan ]
   * Fork update-grub from grub legacy, and tweak a few commands in output to
@@ -22,8 +24,6 @@ grub2 (1.94-4) unstable; urgency=low
   * Get rid of control.in, which I introduced in 0.6+20040805-1 and turned out
     to be an endless source of problems (and forbidden by policy as well).
   * Fix FTBFS on amd64. Really closes: #372548.
-  * Remove convert_kernel26 usage since it's not necessary anymore and due
-    initramfs-tools changes it's bug too.
 
  -- Otavio Salvador <otavio@debian.org>  Fri, 18 Aug 2006 15:38:25 -0300
 
