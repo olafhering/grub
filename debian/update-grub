@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Insert a list of installed kernels in a grub config file
 #   Copyright 2001 Wichert Akkerman <wichert@linux.com>

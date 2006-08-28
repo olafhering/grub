@@ -1,3 +1,11 @@
+grub2 (1.94-6) UNRELEASED; urgency=low
+
+  [ Robert Millan ]
+  * update-grub:  Set interpreter to /bin/bash to cope with non-POSIX
+    extensions.  (mentioned in #361929)
+
+ -- Robert Millan <rmh@aybabtu.com>  Mon, 28 Aug 2006 16:59:15 +0200
+
 grub2 (1.94-5) unstable; urgency=low
 
   [ Robert Millan ]
