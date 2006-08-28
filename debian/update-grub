@@ -570,7 +570,7 @@ write_kernel_entry()
 		echo -n "$hypervisor $hypervisor_version / " >> $buffer
 	fi
 
-	echo -en "$title" >> $buffer
+	echo -n "$title" >> $buffer
 	if [ -n "$kernel_version" ]; then
 		echo -n ", linux $kernel_version" >> $buffer
 	fi
