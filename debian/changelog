@@ -1,4 +1,4 @@
-grub2 (1.94-6) UNRELEASED; urgency=low
+grub2 (1.94-6) unstable; urgency=low
 
   [ Robert Millan ]
   * update-grub:  Set interpreter to /bin/bash to cope with non-POSIX
@@ -8,7 +8,7 @@ grub2 (1.94-6) UNRELEASED; urgency=low
   * patches/04_mkdevicemap_dont_assume_floppies.diff:  New.  Don't assume
     /dev/fd0 exists when generating device.map.
 
- -- Robert Millan <rmh@aybabtu.com>  Thu, 14 Sep 2006 20:11:46 +0200
+ -- Otavio Salvador <otavio@debian.org>  Thu, 14 Sep 2006 16:07:30 -0300
 
 grub2 (1.94-5) unstable; urgency=low
 
