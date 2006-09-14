@@ -3,8 +3,12 @@ grub2 (1.94-6) UNRELEASED; urgency=low
   [ Robert Millan ]
   * update-grub:  Set interpreter to /bin/bash to cope with non-POSIX
     extensions.  (mentioned in #361929)
+  * patches/03_avoid_recursing_into_dot_static.diff:  New.  Avoid recursing into
+    dotdirs (e.g. ".static").
+  * patches/04_mkdevicemap_dont_assume_floppies.diff:  New.  Don't assume
+    /dev/fd0 exists when generating device.map.
 
- -- Robert Millan <rmh@aybabtu.com>  Mon, 28 Aug 2006 16:59:15 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Thu, 14 Sep 2006 20:11:46 +0200
 
 grub2 (1.94-5) unstable; urgency=low
 

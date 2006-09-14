@@ -1,0 +1,25 @@
+2006-09-14  Robert Millan  <rmh@aybabtu.com>
+
+        * util/i386/pc/getroot.c:  Don't recurse into dotdirs (e.g. ".static").
+
+Index: util/i386/pc/getroot.c
+===================================================================
+RCS file: /sources/grub/grub2/util/i386/pc/getroot.c,v
+retrieving revision 1.4
+diff -u -r1.4 getroot.c
+--- util/i386/pc/getroot.c	4 Apr 2004 13:46:03 -0000	1.4
++++ util/i386/pc/getroot.c	14 Sep 2006 17:36:24 -0000
+@@ -160,9 +160,11 @@
+ 	/* Don't follow symbolic links.  */
+ 	continue;
+       
+-      if (S_ISDIR (st.st_mode))
++      if (S_ISDIR (st.st_mode) && ent->d_name[0] != '.')
+ 	{
+-	  /* Find it recursively.  */
++	  /* Find it recursively, but avoid dotdirs (like ".static") since they
++          could contain duplicates, which would later break the pathname-based
++          check */
+ 	  char *res;
+ 
+ 	  res = find_root_device (ent->d_name, dev);
