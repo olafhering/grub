@@ -8,7 +8,7 @@ Build-Conflicts: autoconf2.13
 Standards-Version: 3.7.2
 
 Package: grub2
-Architecture: any-i386 any-powerpc any-amd64
+Architecture: any-i386 any-amd64 any-powerpc any-ppc64
 Depends: ${shlibs:Depends}
 Provides: pupa
 Replaces: pupa, grub
