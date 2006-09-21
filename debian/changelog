@@ -1,6 +1,9 @@
-grub2 (1.94-7) UNRELEASED; urgency=low
+grub2 (1.94+20060921-1) UNRELEASED; urgency=low
 
   [ Robert Millan ]
+  * New CVS snapshot.
+    - Delete a few patches (merged).
+    - Add 01_ftbfs.diff (reverts a commit that caused FTBFS).
   * Pure ppc64 support.
     - control (Architecture): Add any-ppc64.
     - control (Build-Depends): Add libc6-dev-powerpc [ppc64].
