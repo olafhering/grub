@@ -1,7 +1,10 @@
-grub2 (1.94+20060921-1) UNRELEASED; urgency=low
+grub2 (1.94+20060921-1) UNRELEASED; urgency=high
 
   [ Robert Millan ]
+  * Set urgency=high.  Might seem like a rush, but it can't possibly be worse than
+    1.94-5 (broken on systems that use udev, broken on amd64...).
   * New CVS snapshot.
+    - Fixes runtime breakage on amd64 (not in BTS).
     - Delete a few patches (merged).
     - Add 02_ftbfs.diff (reverts a commit that caused FTBFS).
   * Pure ppc64 support.
@@ -10,8 +13,10 @@ grub2 (1.94+20060921-1) UNRELEASED; urgency=low
   * patches/05_dont_error_if_realpath_fails.diff:  New.  Do what the patch name
     says ;).
   * rules: Remove moddep.lst install command (no longer needed).
+  * patches/03_revert_partition_numbering.diff:  New.  Revert a commit that
+    broke grub-probefs.
 
- -- Robert Millan <rmh@aybabtu.com>  Thu, 21 Sep 2006 23:56:17 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Thu, 21 Sep 2006 23:57:25 +0200
 
 grub2 (1.94-6) unstable; urgency=low
 
