@@ -14,10 +14,6 @@ else
 grub_cpu = $(DEB_HOST_ARCH_CPU)
 endif
 
-install/$(package):: common-install-prehook-arch
-	install -m 644 $(DEB_SRCDIR)/moddep.lst \
-		debian/$(package)/usr/lib/grub/$(grub_cpu)-*/
-
 clean::
 	sed -e "s/@cpu@/$(grub_cpu)/g" < debian/README.Debian.in \
 	                                       > debian/README.Debian
