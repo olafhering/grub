@@ -16,7 +16,11 @@ grub2 (1.94+20060921-1) UNRELEASED; urgency=high
   * patches/03_revert_partition_numbering.diff:  New.  Revert a commit that
     broke grub-probefs.
 
- -- Robert Millan <rmh@aybabtu.com>  Thu, 21 Sep 2006 23:57:25 +0200
+  [ Otavio Salvador ]
+  * Add XS-X-Vcs-Svn on control file and point it to our current svn
+    repository.
+
+ -- Otavio Salvador <otavio@ossystems.com.br>  Thu, 21 Sep 2006 21:16:24 -0300
 
 grub2 (1.94-6) unstable; urgency=low
 
