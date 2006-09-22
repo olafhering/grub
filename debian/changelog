@@ -1,4 +1,4 @@
-grub2 (1.94+20060921-1) UNRELEASED; urgency=high
+grub2 (1.94+20060922-1) UNRELEASED; urgency=high
 
   [ Robert Millan ]
   * Set urgency=high.  Might seem like a rush, but it can't possibly be worse than
@@ -6,7 +6,6 @@ grub2 (1.94+20060921-1) UNRELEASED; urgency=high
   * New CVS snapshot.
     - Fixes runtime breakage on amd64 (not in BTS).
     - Delete a few patches (merged).
-    - Add 02_ftbfs.diff (reverts a commit that caused FTBFS).
   * Pure ppc64 support.
     - control (Architecture): Add any-ppc64.
     - control (Build-Depends): Add libc6-dev-powerpc [ppc64].
