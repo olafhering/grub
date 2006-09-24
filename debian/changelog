@@ -1,11 +1,13 @@
-grub2 (1.94+20060922-1) UNRELEASED; urgency=high
+grub2 (1.94+20060924-1) UNRELEASED; urgency=high
+
+  * New CVS snapshot.
+    - Command-line editting fix (Closes: #381214).
+    - Fixes runtime breakage on amd64 (not in BTS).
+    - Delete a few patches (merged).
 
   [ Robert Millan ]
   * Set urgency=high.  Might seem like a rush, but it can't possibly be worse than
     1.94-5 (broken on systems that use udev, broken on amd64...).
-  * New CVS snapshot.
-    - Fixes runtime breakage on amd64 (not in BTS).
-    - Delete a few patches (merged).
   * Pure ppc64 support.
     - control (Architecture): Add any-ppc64.
     - control (Build-Depends): Add libc6-dev-powerpc [ppc64].
@@ -17,7 +19,7 @@ grub2 (1.94+20060922-1) UNRELEASED; urgency=high
   * Add XS-X-Vcs-Svn on control file and point it to our current svn
     repository.
 
- -- Otavio Salvador <otavio@ossystems.com.br>  Thu, 21 Sep 2006 21:16:24 -0300
+ -- Robert Millan <rmh@aybabtu.com>  Sun, 24 Sep 2006 21:54:15 +0200
 
 grub2 (1.94-6) unstable; urgency=low
 
