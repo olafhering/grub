@@ -14,12 +14,15 @@ grub2 (1.94+20060924-1) UNRELEASED; urgency=high
   * rules: Remove moddep.lst install command (no longer needed).
   * patches/03_revert_partition_numbering.diff:  New.  Revert a commit that
     broke grub-probefs.
+  * Add bug template to encourage sending upstream stuff directly to
+    upstream.
+    - presubj: New.
 
   [ Otavio Salvador ]
   * Add XS-X-Vcs-Svn on control file and point it to our current svn
     repository.
 
- -- Robert Millan <rmh@aybabtu.com>  Sun, 24 Sep 2006 21:54:15 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Mon, 25 Sep 2006 11:40:49 +0200
 
 grub2 (1.94-6) unstable; urgency=low
 

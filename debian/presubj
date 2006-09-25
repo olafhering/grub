@@ -1,0 +1,12 @@
+
+IMPORTANT NOTE FOR UPSTREAM BUGS
+
+Like many other FSF projects, GRUB upstream has specific requisites for
+accepting patches with regard to copyright assignment.  If you're going to
+submit a patch, it is likely that it will only be accepted in upstream if you're
+willing to submit your paperwork as well.
+
+Because of this, we want to avoid diverging from upstream by adding patches to
+the debian package unless we know the copyright issues can be sorted out.  We
+encourage you to submit your work to upstream directly by sending a mail to the
+GRUB maintainers <grub-devel@gnu.org>.
