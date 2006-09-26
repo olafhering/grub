@@ -1,4 +1,4 @@
-grub2 (1.94+20060924-1) UNRELEASED; urgency=high
+grub2 (1.94+20060926-1) UNRELEASED; urgency=high
 
   * New CVS snapshot.
     - Command-line editting fix (Closes: #381214).
@@ -21,8 +21,9 @@ grub2 (1.94+20060924-1) UNRELEASED; urgency=high
   [ Otavio Salvador ]
   * Add XS-X-Vcs-Svn on control file and point it to our current svn
     repository.
+  * Add cvs-snapshot to rules.
 
- -- Robert Millan <rmh@aybabtu.com>  Mon, 25 Sep 2006 11:40:49 +0200
+ -- Otavio Salvador <otavio@debian.org>  Tue, 26 Sep 2006 13:42:23 -0300
 
 grub2 (1.94-6) unstable; urgency=low
 

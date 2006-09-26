@@ -26,3 +26,10 @@ cvs-sync:
 	cd grub2-cvs && \
 	cvs diff -uN -r release_$$UVERSION -r HEAD > ../debian/patches/00_cvs-sync.patch; \
 	cd .. && rm -rf grub2-cvs
+
+cvs-snapshot:
+	UVERSION=$$(dpkg-parsechangelog | grep Version \
+	                                | sed 's,Version: ,,g;s,-[0-9]*$$,,g;s,\.,_,g'); \
+	cvs -d:pserver:anonymous@cvs.savannah.gnu.org:/cvsroot/grub export -d grub2-$$UVERSION -rHEAD grub2; \
+	(cd grub2-$$UVERSION ; sh autogen.sh); \
+	tar -czf grub2_$$UVERSION.orig.tar.gz grub2-$$UVERSION
