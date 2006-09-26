@@ -29,7 +29,9 @@ cvs-sync:
 
 cvs-snapshot:
 	UVERSION=$$(dpkg-parsechangelog | grep Version \
-	                                | sed 's,Version: ,,g;s,-[0-9]*$$,,g;s,\.,_,g'); \
+	                                | sed 's,Version: ,,g;s,-[0-9]*$$,,g'); \
 	cvs -d:pserver:anonymous@cvs.savannah.gnu.org:/cvsroot/grub export -d grub2-$$UVERSION -rHEAD grub2; \
 	(cd grub2-$$UVERSION ; sh autogen.sh); \
-	tar -czf grub2_$$UVERSION.orig.tar.gz grub2-$$UVERSION
+	tar -czf grub2_$$UVERSION.orig.tar.gz grub2-$$UVERSION; \
+	rm -rf grub2-$$UVERSION; \
+	mv grub2_$$UVERSION.orig.tar.gz ../tarballs/
