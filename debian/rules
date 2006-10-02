@@ -17,6 +17,12 @@ endif
 clean::
 	sed -e "s/@cpu@/$(grub_cpu)/g" < debian/README.Debian.in \
 	                                       > debian/README.Debian
+	rm -f debian/grub2.substvars
+
+ifneq (, $(filter powerpc ppc64, $(DEB_HOST_ARCH_CPU)))
+common-build-arch common-build-indep::
+	echo "powerpc:Depends=powerpc-ibm-utils" >> debian/grub2.substvars
+endif
 
 # Grab fixes from CVS using our version as reference.
 cvs-sync:

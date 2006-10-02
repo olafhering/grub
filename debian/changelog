@@ -1,9 +1,13 @@
 grub2 (1.94+20060926-2) UNRELEASED; urgency=low
 
+  [ Otavio Salvador ]
   * Change debhelper compatibility mode to 5:
     - debian/compat: setted to 5;
 
- -- Otavio Salvador <otavio@debian.org>  Tue, 26 Sep 2006 16:20:59 -0300
+  [ Robert Millan ]
+  * control (Depends):  Add powerpc-ibm-utils for powerpc/ppc64.
+
+ -- Robert Millan <rmh@aybabtu.com>  Mon,  2 Oct 2006 18:52:45 +0200
 
 grub2 (1.94+20060926-1) unstable; urgency=high
 
