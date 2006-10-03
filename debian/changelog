@@ -1,18 +1,21 @@
-grub2 (1.94+20061003-1) UNRELEASED; urgency=low
+grub2 (1.94+20061003-1) unstable; urgency=high
 
   * New CVS snapshot.
-  
+
   [ Otavio Salvador ]
   * Change debhelper compatibility mode to 5:
     - debian/compat: setted to 5;
   * control (Build-Depends): Add lib32ncurses5-dev for ppc64.
     Closes: #389873
+  * Set urgency=high since it's experimental stuff and tagged likewise. It
+    also solved a serious bug on PowerPC that leave users with a black
+    screen.
 
   [ Robert Millan ]
   * control (Depends):  Add powerpc-ibm-utils for powerpc/ppc64.
     (Closes: #372186)
 
- -- Otavio Salvador <otavio@debian.org>  Tue,  3 Oct 2006 15:36:09 -0300
+ -- Otavio Salvador <otavio@debian.org>  Tue,  3 Oct 2006 16:49:32 -0300
 
 grub2 (1.94+20060926-1) unstable; urgency=high
 
