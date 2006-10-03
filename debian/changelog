@@ -1,5 +1,7 @@
-grub2 (1.94+20060926-2) UNRELEASED; urgency=low
+grub2 (1.94+20061003-1) UNRELEASED; urgency=low
 
+  * New CVS snapshot.
+  
   [ Otavio Salvador ]
   * Change debhelper compatibility mode to 5:
     - debian/compat: setted to 5;
@@ -10,7 +12,7 @@ grub2 (1.94+20060926-2) UNRELEASED; urgency=low
   * control (Depends):  Add powerpc-ibm-utils for powerpc/ppc64.
     (Closes: #372186)
 
- -- Robert Millan <rmh@aybabtu.com>  Mon,  2 Oct 2006 18:52:45 +0200
+ -- Otavio Salvador <otavio@debian.org>  Tue,  3 Oct 2006 15:36:09 -0300
 
 grub2 (1.94+20060926-1) unstable; urgency=high
 
