@@ -1,3 +1,10 @@
+grub2 (1.94+20061014-1) unstable; urgency=low
+
+  * New CVS snapshot.
+    - patches/03_revert_partition_numbering.diff: Delete (obsoleted).
+
+ -- Robert Millan <rmh@aybabtu.com>  Sat, 14 Oct 2006 21:19:21 +0200
+
 grub2 (1.94+20061003-1) unstable; urgency=high
 
   * New CVS snapshot.
