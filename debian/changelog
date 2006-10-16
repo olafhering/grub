@@ -1,6 +1,6 @@
-grub2 (1.94+20061014-1) unstable; urgency=low
+grub2 (1.95-1) unstable; urgency=low
 
-  * New CVS snapshot.
+  * New upstream release.
     - patches/03_revert_partition_numbering.diff: Delete (obsoleted).
 
  -- Robert Millan <rmh@aybabtu.com>  Sat, 14 Oct 2006 21:19:21 +0200
