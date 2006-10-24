@@ -590,14 +590,16 @@ write_kernel_entry()
 
 	echo "	set root=$grub_root_device" >> $buffer
 
-	echo -n "	linux	"  >> $buffer
 	if [ -n "$hypervisor" ]; then
+		echo -n "	multiboot	"  >> $buffer
 		echo -n "$hypervisor_image" >> $buffer
 		if [ -n "$hypervisor_options" ]; then
 			echo -n " $hypervisor_options"  >> $buffer
 		fi
 		echo >> $buffer
 		echo -n "	module	"  >> $buffer
+	else
+		echo -n "	linux	"  >> $buffer
 	fi
 	echo -n "$kernel"  >> $buffer
 	if [ -n "$kernel_options" ]; then
