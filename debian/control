@@ -9,7 +9,7 @@ Standards-Version: 3.7.2
 XS-X-Vcs-Svn: svn://svn.debian.org/svn/pkg-grub/grub2/
 
 Package: grub2
-Architecture: any-i386 any-amd64 any-powerpc any-ppc64
+Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
 Depends: ${shlibs:Depends}, ${powerpc:Depends}
 Provides: pupa
 Replaces: pupa, grub
