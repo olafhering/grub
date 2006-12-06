@@ -10,7 +10,7 @@ XS-X-Vcs-Svn: svn://svn.debian.org/svn/pkg-grub/grub2/
 
 Package: grub2
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
-Depends: ${shlibs:Depends}, ${powerpc:Depends}
+Depends: ${shlibs:Depends}, ${powerpc:Depends}, debconf
 Provides: pupa
 Replaces: pupa, grub
 Conflicts: pupa, grub
