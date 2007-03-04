@@ -1,0 +1,61 @@
+# Galician translation of grub2's debconf templates
+# This file is distributed under the same license as the grub2 package.
+# Jacobo Tarrio <jtarrio@debian.org>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: grub2\n"
+"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2007-03-04 09:52+0100\n"
+"PO-Revision-Date: 2007-03-04 10:15+0100\n"
+"Last-Translator: Jacobo Tarrio <jtarrio@debian.org>\n"
+"Language-Team: Galician <proxecto@trasno.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid "GRUB 1.95 partition numbering scheme transition"
+msgstr "Transición do esquema de numeración de particións de GRUB 1.95"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"As of version 1.95, GRUB 2 has changed its partition numbering scheme. "
+"Partitions are now counted starting from 1 rather than 0. This is consistent "
+"with the device names of Linux and the other kernels used in the "
+"distribution. For example, when using Linux as the kernel, \"(hd0,1)\" "
+"refers to the same partition as the /dev/sda1 device node."
+msgstr ""
+"A partires da versión 1.95, GRUB 2 cambiou o esquema de numeración de "
+"particións. Agora as particións cóntanse a partires de 1 no canto de 0. Isto "
+"é consistente cos nomes de dispositivo de Linux e os outros núcleos da "
+"distribución. Por exemplo, ao empregar Linux coma núcleo, \"(hd0,1)\" "
+"refírese á mesma partición que o nodo de dispositivo /dev/sda1."
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"Because of this, there is a risk that the system becomes unbootable: if "
+"update-grub(8) is run before GRUB is updated, it will generate a grub.cfg "
+"file that the installed GRUB won't yet be able to parse correctly. To ensure "
+"that the system will be able to boot, you should:"
+msgstr ""
+"Debido a isto, hai un risco de que non se poida iniciar o sistema: se se "
+"executa update-grub(8) antes de actualizar GRUB, ha xerar un ficheiro grub."
+"cfg que o GRUB instalado non ha poder analizar correctamente. Para se "
+"asegurar de que o sistema poida iniciarse, debería facer isto:"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+" - Reinstall GRUB (typically, by running grub-install).\n"
+" - Rerun update-grub to generate a new grub.cfg."
+msgstr ""
+" - Reinstale GRUB (normalmente, executando grub-install).\n"
+" - Volva executar update-grub para xerar un novo grub.cfg."

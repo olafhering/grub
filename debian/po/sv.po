@@ -1,0 +1,45 @@
+# Swedish translation for grub2.
+# Copyright (C) 2007 Free Software Foundation, Inc.
+# This file is distributed under the same license as the grub2 package.
+# Daniel Nylander <po@danielnylander.se>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: grub2\n"
+"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2007-03-04 09:52+0100\n"
+"PO-Revision-Date: 2007-03-04 10:43+0100\n"
+"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
+"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid "GRUB 1.95 partition numbering scheme transition"
+msgstr "Övergång av partitionnumreringsschema för GRUB 1.95"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid "As of version 1.95, GRUB 2 has changed its partition numbering scheme. Partitions are now counted starting from 1 rather than 0. This is consistent with the device names of Linux and the other kernels used in the distribution. For example, when using Linux as the kernel, \"(hd0,1)\" refers to the same partition as the /dev/sda1 device node."
+msgstr "Från och med version 1.95 har GRUB 2 ändrat sitt partitionsnumreringsschema. Partitioner räknas nu fram med start från 1 istället för 0. Det här är gällande standard för enhetsnamnet i Linux och de andra kärnorna som används i distributionen. Till exempel när Linux används som kärna refererar \"(hd0,1)\" till samma partition som enhetsnoden /dev/sda1."
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid "Because of this, there is a risk that the system becomes unbootable: if update-grub(8) is run before GRUB is updated, it will generate a grub.cfg file that the installed GRUB won't yet be able to parse correctly. To ensure that the system will be able to boot, you should:"
+msgstr "På grund av det här kan det finnas en risk att systemet inte kan startas upp: om update-grub(8) körs innan GRUB har uppdaterats kommer den att generera en grub.cfg-fil som den installerade GRUB ännu inte kan tolka korrekt. För att försäkra dig om att systemet kan startas upp bör du:"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+" - Reinstall GRUB (typically, by running grub-install).\n"
+" - Rerun update-grub to generate a new grub.cfg."
+msgstr ""
+" - Installera om GRUB (vanligtvis genom att köra grub-install).\n"
+" - Kör update-grub igen för att generera en ny grub.cfg."
+

@@ -5,8 +5,11 @@ grub2 (1.95-3) UNRELEASED; urgency=low
   * Debconf translations:
     - French
     - Czech. Closes: #413327
+    - Galician. Closes: #413323
+    - Swedish. Closes: #413325
+    - Portuguese. Closes: #413332
 
- -- Christian Perrier <bubulle@debian.org>  Sun,  4 Mar 2007 11:51:50 +0100
+ -- Christian Perrier <bubulle@debian.org>  Sun,  4 Mar 2007 11:55:10 +0100
 
 grub2 (1.95-2) unstable; urgency=low
 

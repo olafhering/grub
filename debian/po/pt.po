@@ -1,0 +1,62 @@
+# Portuguese translation for grub2's debconf messages
+# Copyright (C) 2007 Miguel Figueiredo
+# This file is distributed under the same license as the grub2 package.
+# Miguel Figueiredo <elmig@debianpt.org>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: grub2\n"
+"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2007-03-04 09:52+0100\n"
+"PO-Revision-Date: 2007-03-04 10:24+0000\n"
+"Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
+"Language-Team: Portuguese <traduz@debianpt.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid "GRUB 1.95 partition numbering scheme transition"
+msgstr "Transição do esquema de numeração de partições do GRUB 1.95"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"As of version 1.95, GRUB 2 has changed its partition numbering scheme. "
+"Partitions are now counted starting from 1 rather than 0. This is consistent "
+"with the device names of Linux and the other kernels used in the "
+"distribution. For example, when using Linux as the kernel, \"(hd0,1)\" "
+"refers to the same partition as the /dev/sda1 device node."
+msgstr ""
+"Na versão 1.95, o GRUB 2 mudou o seu esquema de numeração de partições. "
+"As partições são agora contadas a partir de 1 em vez de 0. Isto é "
+"consistente com os nomes dos dispositivos em Linux e outros kernels "
+"utilizados na distribuição. Por exemplo, quando utilizar Linux como kernel, "
+"\"(hd0,1)\" refere-se à mesma partição que o nó do dispositivo /dev/sda1."
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"Because of this, there is a risk that the system becomes unbootable: if "
+"update-grub(8) is run before GRUB is updated, it will generate a grub.cfg "
+"file that the installed GRUB won't yet be able to parse correctly. To ensure "
+"that the system will be able to boot, you should:"
+msgstr ""
+"Por causa disto, existe o risco de o sistema não arrancar: se o "
+"update-grub(8) for corrido antes do GRUB ser actualizado, irá então gerar "
+"um ficheiro grub.cfg que o GRUB instalado não será capaz de processar "
+"correctamente. Para assegurar que o sistema será capaz de arrancar, você deve:"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+" - Reinstall GRUB (typically, by running grub-install).\n"
+" - Rerun update-grub to generate a new grub.cfg."
+msgstr ""
+" - Reinstalar o GRUB (tipicamente, correndo grub-install).\n"
+" - Correr novamente o update-grub para gerar um novo grub.cfg."
