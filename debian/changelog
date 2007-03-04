@@ -8,8 +8,9 @@ grub2 (1.95-3) UNRELEASED; urgency=low
     - Galician. Closes: #413323
     - Swedish. Closes: #413325
     - Portuguese. Closes: #413332
+    - German. Closes: #413365
 
- -- Christian Perrier <bubulle@debian.org>  Sun,  4 Mar 2007 11:55:10 +0100
+ -- Christian Perrier <bubulle@debian.org>  Sun,  4 Mar 2007 19:57:52 +0100
 
 grub2 (1.95-2) unstable; urgency=low
 
