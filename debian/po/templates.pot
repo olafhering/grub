@@ -1,0 +1,52 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2007-03-04 09:52+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid "GRUB 1.95 partition numbering scheme transition"
+msgstr ""
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"As of version 1.95, GRUB 2 has changed its partition numbering scheme. "
+"Partitions are now counted starting from 1 rather than 0. This is consistent "
+"with the device names of Linux and the other kernels used in the "
+"distribution. For example, when using Linux as the kernel, \"(hd0,1)\" "
+"refers to the same partition as the /dev/sda1 device node."
+msgstr ""
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"Because of this, there is a risk that the system becomes unbootable: if "
+"update-grub(8) is run before GRUB is updated, it will generate a grub.cfg "
+"file that the installed GRUB won't yet be able to parse correctly. To ensure "
+"that the system will be able to boot, you should:"
+msgstr ""
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+" - Reinstall GRUB (typically, by running grub-install).\n"
+" - Rerun update-grub to generate a new grub.cfg."
+msgstr ""

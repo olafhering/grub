@@ -1,3 +1,9 @@
+grub2 (1.95-3) UNRELEASED; urgency=low
+
+  * Switch to po-debconf for debconf templates. Closes: #402972
+
+ -- Christian Perrier <bubulle@debian.org>  Sun,  4 Mar 2007 09:59:21 +0100
+
 grub2 (1.95-2) unstable; urgency=low
 
   [ Robert Millan ]
