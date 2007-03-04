@@ -1,0 +1,65 @@
+# translation of fr.po to French
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Christian Perrier <bubulle@debian.org>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: grub2\n"
+"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2007-03-04 09:52+0100\n"
+"PO-Revision-Date: 2007-03-04 09:53+0100\n"
+"Last-Translator: Christian Perrier <bubulle@debian.org>\n"
+"Language-Team: French <debian-l10n-french@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid "GRUB 1.95 partition numbering scheme transition"
+msgstr "Changement de numérotation des partitions dans GRUB 1.95"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"As of version 1.95, GRUB 2 has changed its partition numbering scheme. "
+"Partitions are now counted starting from 1 rather than 0. This is consistent "
+"with the device names of Linux and the other kernels used in the "
+"distribution. For example, when using Linux as the kernel, \"(hd0,1)\" "
+"refers to the same partition as the /dev/sda1 device node."
+msgstr ""
+"À partir de la version 1.95, GRUB 2 a modifié son système de numérotation "
+"des partitions. La numérotation des partitions commence désormais à 1 et non "
+"à 0. Cette méthode est en cohérence avec les noms de périphériques de Linux "
+"et des autres noyaux utilisés dans la distribution. Par exemple, avec un "
+"noyau Linux, « (hd0,1) » fait référence à la même partition que /dev/sda1."
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"Because of this, there is a risk that the system becomes unbootable: if "
+"update-grub(8) is run before GRUB is updated, it will generate a grub.cfg "
+"file that the installed GRUB won't yet be able to parse correctly. To ensure "
+"that the system will be able to boot, you should:"
+msgstr ""
+"En raison de ces changements, il est possible que le système ne puisse plus "
+"démarrer si la commande update-grub(8) est exécutée avant la mise à jour de "
+"GRUB. Cela créerait un fichier grub.cfg que la version installée de GRUB ne "
+"pourrait pas analyser correctement. Pour garantir que le système pourra "
+"toujours démarrer, vous devez :"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+" - Reinstall GRUB (typically, by running grub-install).\n"
+" - Rerun update-grub to generate a new grub.cfg."
+msgstr ""
+" - Réinstaller GRUB (avec la commande « grub-install ») ;\n"
+" - Exécuter à nouveau la commande « update-grub » pour créer un nouveau\n"
+"   fichier grub.cfg."
