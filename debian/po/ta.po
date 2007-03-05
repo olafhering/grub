@@ -1,0 +1,55 @@
+# translation of grub2.po to TAMIL
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Dr.T.Vasudevan <agnihot3@gmail.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: grub2\n"
+"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2007-03-04 09:52+0100\n"
+"PO-Revision-Date: 2007-03-05 17:08+0530\n"
+"Last-Translator: Dr.T.Vasudevan <agnihot3@gmail.com>\n"
+"Language-Team: TAMIL <ubuntu-l10n-tam@lists.ubuntu.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid "GRUB 1.95 partition numbering scheme transition"
+msgstr "க்ரப் 1.95 பகிர்வு எண் அளிப்பதில் பாங்கு மாற்றம்."
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"As of version 1.95, GRUB 2 has changed its partition numbering scheme. "
+"Partitions are now counted starting from 1 rather than 0. This is consistent "
+"with the device names of Linux and the other kernels used in the "
+"distribution. For example, when using Linux as the kernel, \"(hd0,1)\" "
+"refers to the same partition as the /dev/sda1 device node."
+msgstr "வடிவமைப்பு 1.95 முதல் க்ரப் 2 எண் அளிப்பதில் மாற்றம் செய்துள்ளது. இப்போது பகிர்வுகள் 1 முதல் எண்ணப் படும். 0 லிருந்து அல்ல. இது லீனக்ஸ் சாதன பெயர்களுடன் இசைவுள்ளது. வினியோகத்தில் உள்ள மற்ற உட்கூறுகளுடனும் இசைவுள்ளது. உதாரணமாக லீனக்ஸ் ஐ உட்கூறாக பயன் படுத்தும் போது \"(hd0,1)\" என்பது /dev/sda1 சாதன கணு குறிப்பதையே தான் குறிக்கிறது."
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"Because of this, there is a risk that the system becomes unbootable: if "
+"update-grub(8) is run before GRUB is updated, it will generate a grub.cfg "
+"file that the installed GRUB won't yet be able to parse correctly. To ensure "
+"that the system will be able to boot, you should:"
+msgstr "இதனால் கணினியை துவக்கமுடியாமல் போகும் வாய்ப்பு உள்ளதால்: க்ரப் ஐ இற்றைப் படுத்தும் முன் update-grub(8) ஐ இயக்கினால் அது ஒரு grub.cfg கோப்பை உருவாக்கும். ஆனால் அதை க்ரப் சரியாக அலகிட முடியாது. ஆகவே கணினி துவக்கப் படுவதை உறுதி செய்ய நீங்கள் இதை செய்ய வேண்டும்:"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+" - Reinstall GRUB (typically, by running grub-install).\n"
+" - Rerun update-grub to generate a new grub.cfg."
+msgstr ""
+" - க்ரப் ஐ மீண்டும் நிறுவ வேண்டும். வழக்கமாக grub-install கட்டளை மூலம்.\n"
+" - update-grub கட்டளையை இயக்கி புதிய grub.cfg ஐ உருவாக்க வைக்க வேண்டும்."
+
