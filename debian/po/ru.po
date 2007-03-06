@@ -1,0 +1,65 @@
+# translation of grub2_debconf_ru.po to Russian
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Yuri Kozlov <kozlov.y@gmail.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.95-2\n"
+"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2007-03-04 09:52+0100\n"
+"PO-Revision-Date: 2007-03-05 21:22+0300\n"
+"Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
+"Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid "GRUB 1.95 partition numbering scheme transition"
+msgstr "Переход на новую схему нумерации разделов в GRUB 1.95"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"As of version 1.95, GRUB 2 has changed its partition numbering scheme. "
+"Partitions are now counted starting from 1 rather than 0. This is consistent "
+"with the device names of Linux and the other kernels used in the "
+"distribution. For example, when using Linux as the kernel, \"(hd0,1)\" "
+"refers to the same partition as the /dev/sda1 device node."
+msgstr ""
+"Начиная с версии 1.95, в GRUB 2 изменилась схема нумерации разделов. "
+"Номера разделов теперь начинают отсчитывать с 1, а не с 0. Это соответствует "
+"именам устройств Linux и другим ядрам, используемым в дистрибутивах. "
+"Например, при использовании ядра Linux, \"(hd0,1)\" указывает на "
+"тот же раздел что и устройство /dev/sda1."
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"Because of this, there is a risk that the system becomes unbootable: if "
+"update-grub(8) is run before GRUB is updated, it will generate a grub.cfg "
+"file that the installed GRUB won't yet be able to parse correctly. To ensure "
+"that the system will be able to boot, you should:"
+msgstr ""
+"В связи с этим, возникает опасность получить не загружаемую систему: если "
+"запустить update-grub(8) перед обновлением GRUB, то будет создан файл "
+"grub.cfg, который установленный GRUB ещё не может обработать правильно. "
+"Чтобы убедиться, что система сможет загрузиться, выполните:"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+" - Reinstall GRUB (typically, by running grub-install).\n"
+" - Rerun update-grub to generate a new grub.cfg."
+msgstr ""
+" - Переустановите загрузчик GRUB (обычно, запустив grub-install).\n"
+" - Перезапустите update-grub для создания нового grub.cfg."
+
