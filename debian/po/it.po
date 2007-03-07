@@ -1,0 +1,64 @@
+# Italian (it) translation of debconf templates for grub2
+# Copyright (C) 2007 Software in the Public Interest
+# This file is distributed under the same license as the grub2 package.
+# Luca Monducci <luca.mo@tiscali.it>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: grub2 italian debconf templates\n"
+"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2007-03-04 09:52+0100\n"
+"PO-Revision-Date: 2007-03-04 18:14+0100\n"
+"Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
+"Language-Team: Italian <tp@lists.linux.it>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid "GRUB 1.95 partition numbering scheme transition"
+msgstr "Cambio dello schema di numerazione delle partizioni in GRUB 1.95"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"As of version 1.95, GRUB 2 has changed its partition numbering scheme. "
+"Partitions are now counted starting from 1 rather than 0. This is consistent "
+"with the device names of Linux and the other kernels used in the "
+"distribution. For example, when using Linux as the kernel, \"(hd0,1)\" "
+"refers to the same partition as the /dev/sda1 device node."
+msgstr ""
+"Dalla versione 1.95, GRUB 2 ha cambiato il proprio schema di numerazione "
+"delle partizioni. Adesso le partizioni sono conteggiate a partire da 1 "
+"anziché da 0. Questo per coerenza con i nomi dei device di Linux e degli "
+"altri kernel usati nella distribuzione. Per esempio, usando Linux come "
+"kernel, \"(hd0,1)\" fa riferimento alla stessa partizione del device /dev"
+"/sda1."
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"Because of this, there is a risk that the system becomes unbootable: if "
+"update-grub(8) is run before GRUB is updated, it will generate a grub.cfg "
+"file that the installed GRUB won't yet be able to parse correctly. To ensure "
+"that the system will be able to boot, you should:"
+msgstr ""
+"Per questo motivo c'è il rischio che il sistema diventi non avviabile: se "
+"update-grub(8) è eseguito prima dell'aggiornamento di GRUB, viene generato "
+"un file grub.cfg che GRUB attualmente installato non è in grado di "
+"interpretare correttamente. Per assicurarsi che il sistema rimanga avviabile "
+"si deve:"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+" - Reinstall GRUB (typically, by running grub-install).\n"
+" - Rerun update-grub to generate a new grub.cfg."
+msgstr ""
+" - Reinstallare GRUB (tipicamente eseguendo grub-install).\n"
+" - Rieseguire update-grub per generare un nuovo grub.cfg."
