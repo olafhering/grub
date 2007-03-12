@@ -1,0 +1,63 @@
+# translation of ro.po to Romanian
+# Romanian translations for grub package
+# Traducerea în limba română pentru pachetul grub.
+# Copyright (C) 2007 THE grub'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the grub package.
+#
+# Eddy Petrisor <eddy.petrisor@gmail.com>, 2007.
+# Eddy Petrișor <eddy.petrisor@gmail.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: ro\n"
+"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2007-03-04 09:52+0100\n"
+"PO-Revision-Date: 2007-03-05 00:31+0200\n"
+"Last-Translator: Eddy Petrișor <eddy.petrisor@gmail.com>\n"
+"Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms:  nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid "GRUB 1.95 partition numbering scheme transition"
+msgstr "Tranziţia la schema de numerotare a partiţiilor pentru GRUB 1.95"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"As of version 1.95, GRUB 2 has changed its partition numbering scheme. "
+"Partitions are now counted starting from 1 rather than 0. This is consistent "
+"with the device names of Linux and the other kernels used in the "
+"distribution. For example, when using Linux as the kernel, \"(hd0,1)\" "
+"refers to the same partition as the /dev/sda1 device node."
+msgstr ""
+"Începând cu versiunea 1.95 GRUB 2 şi-a schimbat schema de numerotare a partiţiilor. "
+"Partiţiile sunt acum numerotate începând de la 1 (în loc de 0). Acest lucru este consecvent cu numele de dispozitive ale Linux-ului şi a altor nuclee folosite în "
+"distribuţie. De exemplu, când se foloseşte nucleul Linux, „(hd0,1)” se "
+"referă la aceiaşi partiţie ca şi nodul de dispozitiv /dev/sda1."
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+"Because of this, there is a risk that the system becomes unbootable: if "
+"update-grub(8) is run before GRUB is updated, it will generate a grub.cfg "
+"file that the installed GRUB won't yet be able to parse correctly. To ensure "
+"that the system will be able to boot, you should:"
+msgstr "De aceea, există riscul ca sistemul sa nu mai pornească: dacă update-grub(8) este rulat înainte ca GRUB să fie actualizat, va genera un fişier grub.cfg pe care GRUB-ul instalat nu-l va putea încă analiza corect. Pentru a asigura posibilitatea de a porni sistemul ar trebui să:"
+
+#. Type: error
+#. Description
+#: ../templates:1001
+msgid ""
+" - Reinstall GRUB (typically, by running grub-install).\n"
+" - Rerun update-grub to generate a new grub.cfg."
+msgstr ""
+" - Reinstalaţi GRUB (în mod normal prin rularea lui grub-install).\n"
+" - Rulaţi din nou update-grub pentru a genera noul grub.cfg."
+
