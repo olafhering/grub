@@ -1,5 +1,6 @@
-grub2 (1.95-3) UNRELEASED; urgency=low
+grub2 (1.95-3) unstable; urgency=low
 
+  [ Christian Perrier ]
   * Switch to po-debconf for debconf templates. Closes: #402972
   * Depend on ${misc:Depends} and not "debconf" to allow cdebconf to be used
   * Debconf translations:
@@ -14,7 +15,7 @@ grub2 (1.95-3) UNRELEASED; urgency=low
     - Italian. Closes: #413904
     - Romanian. Closes: #414443
 
- -- Christian Perrier <bubulle@debian.org>  Mon, 12 Mar 2007 19:35:29 +0100
+ -- Otavio Salvador <otavio@ossystems.com.br>  Tue, 20 Mar 2007 23:46:38 -0300
 
 grub2 (1.95-2) unstable; urgency=low
 
