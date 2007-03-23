@@ -1,3 +1,9 @@
+grub2 (1.95-4) unstable; urgency=low
+
+  * Fix powerpc grub-install binary path. Closes: #402838
+
+ -- Otavio Salvador <otavio@ossystems.com.br>  Thu, 22 Mar 2007 23:45:56 -0300
+
 grub2 (1.95-3) unstable; urgency=low
 
   [ Christian Perrier ]
