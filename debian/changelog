@@ -1,3 +1,10 @@
+grub2 (1.95-5) unstable; urgency=low
+
+  * Fix FTBFS on kFreeBSD. Thanks to Aurelien Jarno <aurel32@debian.org>
+    by providing the patch. Closes: #416408
+
+ -- Otavio Salvador <otavio@ossystems.com.br>  Fri, 30 Mar 2007 19:20:48 -0300
+
 grub2 (1.95-4) unstable; urgency=low
 
   * Fix powerpc grub-install binary path. Closes: #402838
