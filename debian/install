@@ -1,2 +1,2 @@
-debian/update-grub	usr/sbin
 debian/presubj		usr/share/bug/grub
+debian/default		etc

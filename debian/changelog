@@ -3,6 +3,7 @@ grub2 (1.95+20070501-1) UNRELEASED; urgency=low
   * New CVS snapshot.
     - patches/fix-grub-install.diff: Remove (merged).
     - control (Build-Depends): Remove libncurses5-dev (no longer needed).
+    - provides update-grub2.
   * control (Description): Make it less scary, and more informative.
 
  -- Robert Millan <rmh@aybabtu.com>  Thu,  3 May 2007 15:14:26 +0200
