@@ -1,9 +1,10 @@
 grub2 (1.95+20070501-1) UNRELEASED; urgency=low
 
   * New CVS snapshot.
+    - Improved grub.cfg parser.  (Closes: #381215)
     - patches/fix-grub-install.diff: Remove (merged).
     - control (Build-Depends): Remove libncurses5-dev (no longer needed).
-    - provides update-grub2.
+    - provides update-grub2.  (Closes: #419151)
   * control (Description): Make it less scary, and more informative.
   * postinst: Run update-grub to ensure the latest improvements always are
     applied.
