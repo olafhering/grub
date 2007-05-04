@@ -8,6 +8,9 @@ case "$1" in
       db_input critical grub2/numbering_scheme_transition || true
       db_go
     fi
+
+    mkdir -p /boot/grub
+    update-grub
   ;;
   abort-upgrade|abort-remove|abort-deconfigure)
   ;;
