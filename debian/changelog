@@ -1,16 +1,17 @@
-grub2 (1.95+20070501-1) UNRELEASED; urgency=low
+grub2 (1.95+20070505-1) unstable; urgency=low
 
   * New CVS snapshot.
     - Improved grub.cfg parser.  (Closes: #381215)
     - patches/fix-grub-install.diff: Remove (merged).
     - control (Build-Depends): Remove libncurses5-dev (no longer needed).
     - provides update-grub2.  (Closes: #419151)
+    - Supports GPT in PC/BIOS systems.  (Closes: #409073)
   * control (Build-Depends): Add gcc-multilib to fix FTBFS.
   * control (Description): Make it less scary, and more informative.
   * postinst: Run update-grub to ensure the latest improvements always are
     applied.
 
- -- Robert Millan <rmh@aybabtu.com>  Fri,  4 May 2007 23:01:15 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Sat,  5 May 2007 01:49:07 +0200
 
 grub2 (1.95-5) unstable; urgency=low
 
