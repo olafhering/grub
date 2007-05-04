@@ -10,6 +10,8 @@ grub2 (1.95+20070505-1) unstable; urgency=low
   * control (Description): Make it less scary, and more informative.
   * postinst: Run update-grub to ensure the latest improvements always are
     applied.
+  * patches/powerpc_probe.diff: Attempt at making grub-probe build/install
+    on powerpc (and hopefuly update-grub).
 
  -- Robert Millan <rmh@aybabtu.com>  Sat,  5 May 2007 01:49:07 +0200
 
