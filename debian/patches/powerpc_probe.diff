@@ -23,7 +23,7 @@ diff -u -r1.63 powerpc-ieee1275.rmk
 +grub_probe_SOURCES = util/i386/pc/grub-probe.c	\
 +	util/i386/pc/biosdisk.c	util/misc.c util/i386/pc/getroot.c	\
 +	kern/device.c kern/disk.c kern/err.c kern/misc.c fs/fat.c	\
-+	fs/ext2.c kern/parser.c kern/partition.c partmap/pc.c fs/ufs.c 	\
++	fs/ext2.c kern/parser.c kern/partition.c partmap/pc.c partmap/gpt.c fs/ufs.c 	\
 +	fs/minix.c fs/hfs.c fs/jfs.c kern/fs.c kern/env.c fs/fshelp.c 	\
 +	fs/xfs.c fs/affs.c fs/sfs.c fs/hfsplus.c disk/lvm.c disk/raid.c
 +
