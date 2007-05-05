@@ -26,7 +26,7 @@ configure/grub-efi::
 	mkdir -p $(subst configure/,build/,$@)
 	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=efi
 
-build/grub-pc build/grub-efi::
+build/grub-pc build/grub-efi build/grub-of::
 	$(MAKE) -C $@
 
 install/grub-pc install/grub-efi install/grub-of::
