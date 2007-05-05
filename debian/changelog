@@ -1,8 +1,12 @@
-grub2 (1.95+20070505-2) unstable; urgency=low
+grub2 (1.95+20070505.1-1) unstable; urgency=low
 
+  * New CVS snapshot.
   * patches/powerpc_probe.diff: Add partmap/gpt.c to grub-probe.
+  * control (Architecture): Temporarily disable powerpc.  Sorry, but runtime
+    is currently broken and we don't have the hardware to debug it.  Will be
+    re-enabled in next upload.
 
- -- Robert Millan <rmh@aybabtu.com>  Sat,  5 May 2007 14:28:13 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Sat,  5 May 2007 21:52:49 +0200
 
 grub2 (1.95+20070505-1) unstable; urgency=low
 
