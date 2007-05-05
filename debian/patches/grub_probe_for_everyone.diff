@@ -1,6 +1,6 @@
 diff -ur grub2-1.95+20070505.1.old/conf/i386-efi.rmk grub2-1.95+20070505.1/conf/i386-efi.rmk
---- grub2-1.95+20070505.1.old/conf/i386-efi.rmk	2006-12-13 23:30:19.000000000 +0100
-+++ grub2-1.95+20070505.1/conf/i386-efi.rmk	2007-05-05 23:59:09.000000000 +0200
+--- grub2-1.95+20070505.1.old/conf/i386-efi.rmk	2007-05-06 00:54:47.000000000 +0200
++++ grub2-1.95+20070505.1/conf/i386-efi.rmk	2007-05-06 00:59:58.000000000 +0200
 @@ -6,7 +6,7 @@
  
  # Utilities.
@@ -31,8 +31,8 @@ diff -ur grub2-1.95+20070505.1.old/conf/i386-efi.rmk grub2-1.95+20070505.1/conf/
  # For grub-emu.
  grub_emu_DEPENDENCIES = grub_script.tab.c grub_script.tab.h		\
 diff -ur grub2-1.95+20070505.1.old/conf/powerpc-ieee1275.rmk grub2-1.95+20070505.1/conf/powerpc-ieee1275.rmk
---- grub2-1.95+20070505.1.old/conf/powerpc-ieee1275.rmk	2007-02-22 00:22:20.000000000 +0100
-+++ grub2-1.95+20070505.1/conf/powerpc-ieee1275.rmk	2007-05-05 23:58:11.000000000 +0200
+--- grub2-1.95+20070505.1.old/conf/powerpc-ieee1275.rmk	2007-05-06 00:54:47.000000000 +0200
++++ grub2-1.95+20070505.1/conf/powerpc-ieee1275.rmk	2007-05-06 00:59:58.000000000 +0200
 @@ -26,14 +26,24 @@
  
  # Utilities.
@@ -59,9 +59,21 @@ diff -ur grub2-1.95+20070505.1.old/conf/powerpc-ieee1275.rmk grub2-1.95+20070505
  # For grub-emu
  grub_emu_DEPENDENCIES = grub_script.tab.c grub_script.tab.h		\
  	grub_modules_init.h
+diff -ur grub2-1.95+20070505.1.old/util/i386/pc/biosdisk.c grub2-1.95+20070505.1/util/i386/pc/biosdisk.c
+--- grub2-1.95+20070505.1.old/util/i386/pc/biosdisk.c	2007-05-05 01:00:56.000000000 +0200
++++ grub2-1.95+20070505.1/util/i386/pc/biosdisk.c	2007-05-06 00:55:18.000000000 +0200
+@@ -18,7 +18,7 @@
+  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+  */
+ 
+-#include <grub/machine/biosdisk.h>
++#include <grub/i386/pc/biosdisk.h>
+ #include <grub/disk.h>
+ #include <grub/partition.h>
+ #include <grub/pc_partition.h>
 diff -ur grub2-1.95+20070505.1.old/util/i386/pc/grub-probe.c grub2-1.95+20070505.1/util/i386/pc/grub-probe.c
---- grub2-1.95+20070505.1.old/util/i386/pc/grub-probe.c	2007-05-05 01:00:56.000000000 +0200
-+++ grub2-1.95+20070505.1/util/i386/pc/grub-probe.c	2007-05-06 00:39:48.000000000 +0200
+--- grub2-1.95+20070505.1.old/util/i386/pc/grub-probe.c	2007-05-06 00:54:47.000000000 +0200
++++ grub2-1.95+20070505.1/util/i386/pc/grub-probe.c	2007-05-06 00:59:58.000000000 +0200
 @@ -26,7 +26,7 @@
  #include <grub/fs.h>
  #include <grub/partition.h>
