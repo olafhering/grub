@@ -59,3 +59,15 @@ diff -ur grub2-1.95+20070505.1.old/conf/powerpc-ieee1275.rmk grub2-1.95+20070505
  # For grub-emu
  grub_emu_DEPENDENCIES = grub_script.tab.c grub_script.tab.h		\
  	grub_modules_init.h
+diff -ur grub2-1.95+20070505.1.old/util/i386/pc/grub-probe.c grub2-1.95+20070505.1/util/i386/pc/grub-probe.c
+--- grub2-1.95+20070505.1.old/util/i386/pc/grub-probe.c	2007-05-05 01:00:56.000000000 +0200
++++ grub2-1.95+20070505.1/util/i386/pc/grub-probe.c	2007-05-06 00:39:48.000000000 +0200
+@@ -26,7 +26,7 @@
+ #include <grub/fs.h>
+ #include <grub/partition.h>
+ #include <grub/pc_partition.h>
+-#include <grub/machine/util/biosdisk.h>
++#include <grub/i386/pc/util/biosdisk.h>
+ #include <grub/util/getroot.h>
+ #include <grub/term.h>
+ 
