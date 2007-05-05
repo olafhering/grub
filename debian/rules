@@ -1,8 +1,8 @@
 #!/usr/bin/make -f
 # This file is PUBLIC DOMAIN. 
 
-DEB_AUTO_CLEANUP_RCS           := yes
-package                        := grub2
+SHELL		:= bash
+package		:= grub2
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/rules/simple-patchsys.mk
@@ -31,10 +31,12 @@ build/grub-pc build/grub-efi build/grub-of::
 
 install/grub-pc install/grub-efi install/grub-of::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
+	cp debian/postinst.in debian/$(subst install/,,$@).postinst
 
 clean::
 	sed -e "s/@cpu@/$(grub_cpu)/g" < debian/README.Debian.in \
 					> debian/README.Debian
+	-rm -f debian/grub-{pc,efi,of}.postinst
 	-rm -rf build
 
 # Grab fixes from CVS using our version as reference.

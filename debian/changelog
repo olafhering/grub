@@ -1,3 +1,13 @@
+grub2 (1.95+20070505.1-3) unstable; urgency=low
+
+  * Split postinst into grub2.postinst (with the transition warning) and
+    postinst.in, with update-grub invocation for grub-{pc,efi,of}.
+    - postinst.in
+    - grub2.postinst
+    - rules
+
+ -- Robert Millan <rmh@aybabtu.com>  Sun,  6 May 2007 01:20:04 +0200
+
 grub2 (1.95+20070505.1-2) unstable; urgency=low
 
   * Add EFI build of GRUB.
