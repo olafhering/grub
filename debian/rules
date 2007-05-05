@@ -4,7 +4,6 @@
 DEB_AUTO_CLEANUP_RCS           := yes
 package                        := grub2
 
-include /usr/share/cdbs/1/class/autotools.mk
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/rules/simple-patchsys.mk
 
@@ -14,15 +13,29 @@ else
 grub_cpu = $(DEB_HOST_ARCH_CPU)
 endif
 
+CONFIGURE = CC="cc" CXX="g++" CFLAGS="-g -Wall -O2" CXXFLAGS="-g -Wall -O2" CPPFLAGS="" LDFLAGS="" \
+	$(CURDIR)/configure --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --includedir="\$${prefix}/include" \
+	--mandir="\$${prefix}/share/man" --infodir="\$${prefix}/share/info" --sysconfdir=/etc --localstatedir=/var \
+	--libexecdir="\$${prefix}/lib/grub2" --disable-maintainer-mode --disable-dependency-tracking --srcdir=$(CURDIR)
+
+configure/grub-pc configure/grub-of::
+	mkdir -p $(subst configure/,build/,$@)
+	cd $(subst configure/,build/,$@) && $(CONFIGURE)
+
+configure/grub-efi::
+	mkdir -p $(subst configure/,build/,$@)
+	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=efi
+
+build/grub-pc build/grub-efi::
+	$(MAKE) -C $@
+
+install/grub-pc install/grub-efi install/grub-of::
+	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
+
 clean::
 	sed -e "s/@cpu@/$(grub_cpu)/g" < debian/README.Debian.in \
-	                                       > debian/README.Debian
-	rm -f debian/grub2.substvars
-
-ifneq (, $(filter powerpc ppc64, $(DEB_HOST_ARCH_CPU)))
-common-build-arch common-build-indep::
-	echo "powerpc:Depends=powerpc-ibm-utils" >> debian/grub2.substvars
-endif
+					> debian/README.Debian
+	-rm -rf build
 
 # Grab fixes from CVS using our version as reference.
 cvs-sync:

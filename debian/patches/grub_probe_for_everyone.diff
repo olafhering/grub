@@ -1,0 +1,61 @@
+diff -ur grub2-1.95+20070505.1.old/conf/i386-efi.rmk grub2-1.95+20070505.1/conf/i386-efi.rmk
+--- grub2-1.95+20070505.1.old/conf/i386-efi.rmk	2006-12-13 23:30:19.000000000 +0100
++++ grub2-1.95+20070505.1/conf/i386-efi.rmk	2007-05-05 23:59:09.000000000 +0200
+@@ -6,7 +6,7 @@
+ 
+ # Utilities.
+ bin_UTILITIES = grub-mkimage
+-#sbin_UTILITIES = grub-setup grub-mkdevicemap grub-probe
++sbin_UTILITIES = grub-probe
+ #ifeq ($(enable_grub_emu), yes)
+ #sbin_UTILITIES += grub-emu
+ #endif
+@@ -27,12 +27,13 @@
+ #grub_mkdevicemap_SOURCES = util/i386/pc/grub-mkdevicemap.c util/misc.c
+ 
+ # For grub-probe.
+-#grub_probe_SOURCES = util/i386/pc/grub-probe.c	\
+-#	util/i386/pc/biosdisk.c	util/misc.c util/i386/pc/getroot.c	\
+-#	kern/device.c kern/disk.c kern/err.c kern/misc.c fs/fat.c	\
+-#	fs/ext2.c kern/parser.c kern/partition.c partmap/pc.c fs/ufs.c 	\
+-#	fs/minix.c fs/hfs.c fs/jfs.c kern/fs.c kern/env.c fs/fshelp.c 	\
+-#	fs/xfs.c fs/affs.c fs/sfs.c fs/hfsplus.c
++grub_probe_SOURCES = util/i386/pc/grub-probe.c	\
++	util/i386/pc/biosdisk.c	util/misc.c util/i386/pc/getroot.c	\
++	kern/device.c kern/disk.c kern/err.c kern/misc.c fs/fat.c	\
++	fs/ext2.c kern/parser.c kern/partition.c partmap/pc.c		\
++	partmap/gpt.c fs/ufs.c fs/minix.c fs/hfs.c fs/jfs.c kern/fs.c	\
++	kern/env.c fs/fshelp.c fs/xfs.c fs/affs.c fs/sfs.c fs/hfsplus.c	\
++	disk/lvm.c disk/raid.c
+ 
+ # For grub-emu.
+ grub_emu_DEPENDENCIES = grub_script.tab.c grub_script.tab.h		\
+diff -ur grub2-1.95+20070505.1.old/conf/powerpc-ieee1275.rmk grub2-1.95+20070505.1/conf/powerpc-ieee1275.rmk
+--- grub2-1.95+20070505.1.old/conf/powerpc-ieee1275.rmk	2007-02-22 00:22:20.000000000 +0100
++++ grub2-1.95+20070505.1/conf/powerpc-ieee1275.rmk	2007-05-05 23:58:11.000000000 +0200
+@@ -26,14 +26,24 @@
+ 
+ # Utilities.
+ bin_UTILITIES = grub-mkimage
++sbin_UTILITIES = grub-probe
+ ifeq ($(enable_grub_emu), yes)
+-sbin_UTILITIES = grub-emu
++sbin_UTILITIES += grub-emu
+ endif
+  
+ # For grub-mkimage.
+ grub_mkimage_SOURCES = util/powerpc/ieee1275/grub-mkimage.c util/misc.c \
+         util/resolve.c 
+ 
++# For grub-probe.
++grub_probe_SOURCES = util/i386/pc/grub-probe.c	\
++	util/i386/pc/biosdisk.c	util/misc.c util/i386/pc/getroot.c	\
++	kern/device.c kern/disk.c kern/err.c kern/misc.c fs/fat.c	\
++	fs/ext2.c kern/parser.c kern/partition.c partmap/pc.c		\
++	partmap/gpt.c fs/ufs.c fs/minix.c fs/hfs.c fs/jfs.c kern/fs.c	\
++	kern/env.c fs/fshelp.c fs/xfs.c fs/affs.c fs/sfs.c fs/hfsplus.c	\
++	disk/lvm.c disk/raid.c
++
+ # For grub-emu
+ grub_emu_DEPENDENCIES = grub_script.tab.c grub_script.tab.h		\
+ 	grub_modules_init.h

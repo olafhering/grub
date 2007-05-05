@@ -1,0 +1,8 @@
+#!/bin/sh -e
+cat << EOF
+
+There's no grub-install for EFI yet!
+
+Refer to http://grub.enbug.org/TestingOnEFI for install instructions.
+
+EOF
