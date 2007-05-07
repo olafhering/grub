@@ -1,4 +1,4 @@
 debian/presubj		usr/share/bug/grub
 debian/default		etc
-build/unifont.pff	boot
+build/unifont.pff	boot/grub
 debian/update-grub	usr/lib/grub-legacy
