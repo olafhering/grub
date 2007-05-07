@@ -35,7 +35,7 @@ build/grub-pc build/grub-efi build/grub-of:: build/unifont.pff
 
 install/grub-pc install/grub-efi install/grub-of::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
-	for i in postinst docs dirs ; do \
+	for i in docs dirs ; do \
 		cp debian/$$i.in debian/$(subst install/,,$@).$$i ; \
 	done
 
