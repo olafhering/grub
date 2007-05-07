@@ -31,7 +31,9 @@ build/grub-pc build/grub-efi build/grub-of::
 
 install/grub-pc install/grub-efi install/grub-of::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
-	cp debian/postinst.in debian/$(subst install/,,$@).postinst
+	for i in postinst docs dirs ; do \
+		cp debian/$$i.in debian/$(subst install/,,$@).$$i ; \
+	done
 
 clean::
 	sed -e "s/@cpu@/$(grub_cpu)/g" < debian/README.Debian.in \

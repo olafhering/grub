@@ -2,8 +2,9 @@ grub2 (1.95+20070507-1) unstable; urgency=low
 
   * New CVS snapshot.
     - patches/build_neq_src.diff: Remove (merged).
+  * Fix debhelper files to ensure each package gets the right thing.
 
- -- Robert Millan <rmh@aybabtu.com>  Mon,  7 May 2007 11:28:44 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Mon,  7 May 2007 21:41:01 +0200
 
 grub2 (1.95+20070505.1-3) unstable; urgency=low
 

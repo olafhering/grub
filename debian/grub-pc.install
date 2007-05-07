@@ -1,3 +1,2 @@
-debian/grub-install	usr/sbin
 debian/presubj		usr/share/bug/grub
 debian/default		etc
