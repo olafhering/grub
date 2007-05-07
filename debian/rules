@@ -42,7 +42,7 @@ install/grub-pc install/grub-efi install/grub-of::
 clean::
 	sed -e "s/@cpu@/$(grub_cpu)/g" < debian/README.Debian.in \
 					> debian/README.Debian
-	-rm -f debian/grub-{pc,efi,of}.{postinst,docs,dirs}
+	-rm -f debian/grub-{pc,efi,of}.docs
 	-rm -rf build
 
 # Grab fixes from CVS using our version as reference.
