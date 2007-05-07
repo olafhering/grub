@@ -18,6 +18,10 @@ CONFIGURE = CC="cc" CXX="g++" CFLAGS="-g -Wall -O2" CXXFLAGS="-g -Wall -O2" CPPF
 	--mandir="\$${prefix}/share/man" --infodir="\$${prefix}/share/info" --sysconfdir=/etc --localstatedir=/var \
 	--libexecdir="\$${prefix}/lib/grub2" --disable-maintainer-mode --disable-dependency-tracking --srcdir=$(CURDIR)
 
+build/unifont.pff: util/unifont2pff.rb /usr/share/unifont/unifont.hex
+	mkdir -p build
+	ruby $^ > $@
+
 configure/grub-pc configure/grub-of::
 	mkdir -p $(subst configure/,build/,$@)
 	cd $(subst configure/,build/,$@) && $(CONFIGURE)
@@ -26,7 +30,7 @@ configure/grub-efi::
 	mkdir -p $(subst configure/,build/,$@)
 	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=efi
 
-build/grub-pc build/grub-efi build/grub-of::
+build/grub-pc build/grub-efi build/grub-of:: build/unifont.pff
 	$(MAKE) -C $@
 
 install/grub-pc install/grub-efi install/grub-of::
@@ -38,7 +42,7 @@ install/grub-pc install/grub-efi install/grub-of::
 clean::
 	sed -e "s/@cpu@/$(grub_cpu)/g" < debian/README.Debian.in \
 					> debian/README.Debian
-	-rm -f debian/grub-{pc,efi,of}.postinst
+	-rm -f debian/grub-{pc,efi,of}.{postinst,docs,dirs}
 	-rm -rf build
 
 # Grab fixes from CVS using our version as reference.
