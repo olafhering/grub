@@ -1,5 +1,6 @@
 grub2 (1.95+20070507-1) unstable; urgency=low
 
+  [ Robert Millan ]
   * New CVS snapshot.
     - patches/build_neq_src.diff: Remove (merged).
   * Fix debhelper files to ensure each package gets the right thing.
@@ -9,7 +10,11 @@ grub2 (1.95+20070507-1) unstable; urgency=low
   * On grub-pc, if menu.lst is found, regenerate it to include our
     core.img.
 
- -- Robert Millan <rmh@aybabtu.com>  Mon,  7 May 2007 22:50:24 +0200
+  [ Otavio Salvador ]
+  * Move debian/update-grub to debian/legacy/update-grub otherwise the
+    source gets messy.
+
+ -- Otavio Salvador <otavio@ossystems.com.br>  Mon, 07 May 2007 18:48:14 -0300
 
 grub2 (1.95+20070505.1-3) unstable; urgency=low
 
