@@ -1,0 +1,5 @@
+boot
+usr/bin
+usr/sbin
+usr/share/bug/grub
+usr/lib/grub-legacy

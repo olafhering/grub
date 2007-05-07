@@ -1,11 +1,19 @@
-#!/bin/sh -e
+#!/bin/bash -e
 
 case "$1" in
   configure)
     update-grub
+
     # If there's no core.img setup, create one (but do not risk writing to MBR).
     if ! test -e /boot/grub/core.img ; then
       grub-install --grub-setup=/bin/true "(hd0)"
+    fi
+
+    # If there's a menu.lst, update it to reflect that:
+    # - core.img is present now
+    # - core.img has to be the first option (unlike with the etch version of update-grub)
+    if test -e /boot/grub/menu.lst ; then
+      bash /usr/lib/grub-legacy/update-grub
     fi
   ;;
   abort-upgrade|abort-remove|abort-deconfigure)

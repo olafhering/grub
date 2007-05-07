@@ -6,8 +6,10 @@ grub2 (1.95+20070507-1) unstable; urgency=low
   * Enable gfxterm/unifont support.
   * On grub-pc, if there's no core.img setup, create one (but do not
     risk writing to MBR).
+  * On grub-pc, if menu.lst is found, regenerate it to include our
+    core.img.
 
- -- Robert Millan <rmh@aybabtu.com>  Mon,  7 May 2007 22:38:52 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Mon,  7 May 2007 22:50:24 +0200
 
 grub2 (1.95+20070505.1-3) unstable; urgency=low
 
