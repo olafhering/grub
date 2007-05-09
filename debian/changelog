@@ -2,7 +2,7 @@ grub2 (1.95+20070507-2) UNRELEASED; urgency=low
 
   [ Otavio Salvador ]
   * Add support to DEB_BUILD_OPTIONS=noopt. Thanks to Sam Morris
-    <sam@robots.org.uk> for the patch. Closes: #423005.
+    <sam@robots.org.uk> for the patch. (Closes: #423005)
   * Add Robert Millan as uploader.
 
   [ Robert Millan ]
@@ -378,4 +378,3 @@ pupa (0.6+20030915-1) unstable; urgency=low
   * Initial Release. (Closes: #211030)
 
  -- Robert Millan <rmh@debian.org>  Mon, 15 Sep 2003 14:58:42 +0000
-
