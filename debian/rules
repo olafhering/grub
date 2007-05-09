@@ -13,7 +13,17 @@ else
 grub_cpu = $(DEB_HOST_ARCH_CPU)
 endif
 
-CONFIGURE = CC="cc" CXX="g++" CFLAGS="-g -Wall -O2" CXXFLAGS="-g -Wall -O2" CPPFLAGS="" LDFLAGS="" \
+CFLAGS := -g -Wall
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2
+endif
+export CFLAGS
+export CXXFLAGS := $(CFLAGS)
+
+CONFIGURE = CC="cc" CXX="g++" CPPFLAGS="" LDFLAGS="" \
 	$(CURDIR)/configure --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --includedir="\$${prefix}/include" \
 	--mandir="\$${prefix}/share/man" --infodir="\$${prefix}/share/info" --sysconfdir=/etc --localstatedir=/var \
 	--libexecdir="\$${prefix}/lib/grub2" --disable-maintainer-mode --disable-dependency-tracking --srcdir=$(CURDIR)
