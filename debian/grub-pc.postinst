@@ -4,6 +4,9 @@ case "$1" in
   configure)
     update-grub
 
+    # grub legacy used to generate broken device.map (see #422851)
+    rm -f /boot/grub/device.map
+
     # If there's no core.img setup, create one (but do not risk writing to MBR).
     if ! test -e /boot/grub/core.img ; then
       grub-install --grub-setup=/bin/true "(hd0)"
