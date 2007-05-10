@@ -3,7 +3,7 @@
 case "$1" in
   configure)
     # grub legacy used to generate broken device.map (see #422851)
-    rm -f /boot/grub/device.map
+    grub-mkdevicemap
 
     # If there's no core.img setup, create one (but do not risk writing to MBR).
     if ! test -e /boot/grub/core.img ; then
