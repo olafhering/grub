@@ -7,7 +7,8 @@ case "$1" in
 
     # If there's no core.img setup, create one (but do not risk writing to MBR).
     if ! test -e /boot/grub/core.img ; then
-      grub-install --grub-setup=/bin/true "(hd0)"
+      echo "Generating core.img" >&2
+      grub-install --grub-setup=/bin/true "(hd0)" > /dev/null
     fi
 
     # Depends on /boot/grub/device.map, so always run it _after_ grub-install

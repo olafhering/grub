@@ -6,12 +6,14 @@ grub2 (1.95+20070507-2) UNRELEASED; urgency=low
   * Add Robert Millan as uploader.
 
   [ Robert Millan ]
-  * grub-pc.postinst: Remove /boot/grub/device.map before running
-    grub-install. (Closes: #422851)
-  * grub-pc.postinst: Always run update-grub after grub-install. (part of
-    #423217)
-  * grub-pc.postinst: Use grub-mkdevicemap instead of removing device.map,
-    since update-grub needs it but grub-install is not run unconditionaly.
+  * grub-pc.postinst:
+    - Remove /boot/grub/device.map before running grub-install.
+      (Closes: #422851)
+    - Always run update-grub after grub-install. (part of #423217)
+    - Use grub-mkdevicemap instead of removing device.map, since update-grub
+      needs it but grub-install is not run unconditionaly.
+    - Redirect grub-install invocation to /dev/null, since it can mislead
+      users into thinking that MBR was overwritten.
 
  -- Robert Millan <rmh@aybabtu.com>  Thu, 10 May 2007 19:18:10 +0200
 
