@@ -8,8 +8,10 @@ grub2 (1.95+20070507-2) UNRELEASED; urgency=low
   [ Robert Millan ]
   * grub-pc.postinst: Remove /boot/grub/device.map before running
     grub-install. (Closes: #422851)
+  * grub-pc.postinst: Always run update-grub after grub-install. (part of
+    #423217)
 
- -- Robert Millan <rmh@aybabtu.com>  Wed,  9 May 2007 15:31:13 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Thu, 10 May 2007 18:19:39 +0200
 
 grub2 (1.95+20070507-1) unstable; urgency=low
 

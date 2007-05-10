@@ -2,8 +2,6 @@
 
 case "$1" in
   configure)
-    update-grub
-
     # grub legacy used to generate broken device.map (see #422851)
     rm -f /boot/grub/device.map
 
@@ -12,9 +10,12 @@ case "$1" in
       grub-install --grub-setup=/bin/true "(hd0)"
     fi
 
+    # Depends on /boot/grub/device.map, so always run it _after_ grub-install
+    update-grub
+
     # If there's a menu.lst, update it to reflect that:
     # - core.img is present now
-    # - core.img has to be the first option (unlike with the etch version of update-grub)
+    # - core.img has to be the first option
     if test -e /boot/grub/menu.lst ; then
       bash /usr/lib/grub-legacy/update-grub
     fi
