@@ -1,7 +1,14 @@
 grub2 (1.95+20070514-1) UNRELEASED; urgency=low
 
   * New CVS snapshot.
-    - default/grub: Stop exporting the variables (update-grub does that now).
+    - Fix assumptions about /, /boot and /boot/grub being the same device.
+    (Closes: #423268, #422459)
+    - Proper sorting of Linux images.  (Closes: #422580)
+    - update-grub lets /etc/default/grub override its variables now.
+    (Closes: #423649)
+    - update-grub mentions /etc/default/grub in the grub.cfg header.
+    (Closes: #423651)
+    - update-grub sets 800x600x16 as the default gfxmode.  (Closes: #422794)
 
   [ Otavio Salvador ]
   * Add support to DEB_BUILD_OPTIONS=noopt. Thanks to Sam Morris
@@ -18,6 +25,7 @@ grub2 (1.95+20070514-1) UNRELEASED; urgency=low
       needs it but grub-install is not run unconditionaly.
     - Redirect grub-install invocation to /dev/null, since it can mislead
       users into thinking that MBR was overwritten.
+  * default/grub: Stop exporting the variables (update-grub does that now).
 
  -- Robert Millan <rmh@aybabtu.com>  Mon, 14 May 2007 10:57:08 +0200
 
