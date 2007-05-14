@@ -1,4 +1,7 @@
-grub2 (1.95+20070507-2) UNRELEASED; urgency=low
+grub2 (1.95+20070514-1) UNRELEASED; urgency=low
+
+  * New CVS snapshot.
+    - default/grub: Stop exporting the variables (update-grub does that now).
 
   [ Otavio Salvador ]
   * Add support to DEB_BUILD_OPTIONS=noopt. Thanks to Sam Morris
@@ -16,7 +19,7 @@ grub2 (1.95+20070507-2) UNRELEASED; urgency=low
     - Redirect grub-install invocation to /dev/null, since it can mislead
       users into thinking that MBR was overwritten.
 
- -- Otavio Salvador <otavio@ossystems.com.br>  Fri, 11 May 2007 09:24:01 -0300
+ -- Robert Millan <rmh@aybabtu.com>  Mon, 14 May 2007 10:57:08 +0200
 
 grub2 (1.95+20070507-1) unstable; urgency=low
 
