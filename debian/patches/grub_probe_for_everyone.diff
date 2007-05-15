@@ -1,35 +1,9 @@
-diff -ur grub2-1.95+20070505.1.old/conf/i386-efi.rmk grub2-1.95+20070505.1/conf/i386-efi.rmk
---- grub2-1.95+20070505.1.old/conf/i386-efi.rmk	2007-05-06 00:54:47.000000000 +0200
-+++ grub2-1.95+20070505.1/conf/i386-efi.rmk	2007-05-06 00:59:58.000000000 +0200
-@@ -6,7 +6,7 @@
- 
- # Utilities.
- bin_UTILITIES = grub-mkimage
--#sbin_UTILITIES = grub-setup grub-mkdevicemap grub-probe
-+sbin_UTILITIES = grub-probe
- #ifeq ($(enable_grub_emu), yes)
- #sbin_UTILITIES += grub-emu
- #endif
-@@ -27,12 +27,13 @@
- #grub_mkdevicemap_SOURCES = util/i386/pc/grub-mkdevicemap.c util/misc.c
- 
- # For grub-probe.
--#grub_probe_SOURCES = util/i386/pc/grub-probe.c	\
--#	util/i386/pc/biosdisk.c	util/misc.c util/i386/pc/getroot.c	\
--#	kern/device.c kern/disk.c kern/err.c kern/misc.c fs/fat.c	\
--#	fs/ext2.c kern/parser.c kern/partition.c partmap/pc.c fs/ufs.c 	\
--#	fs/minix.c fs/hfs.c fs/jfs.c kern/fs.c kern/env.c fs/fshelp.c 	\
--#	fs/xfs.c fs/affs.c fs/sfs.c fs/hfsplus.c
-+grub_probe_SOURCES = util/i386/pc/grub-probe.c	\
-+	util/i386/pc/biosdisk.c	util/misc.c util/i386/pc/getroot.c	\
-+	kern/device.c kern/disk.c kern/err.c kern/misc.c fs/fat.c	\
-+	fs/ext2.c kern/parser.c kern/partition.c partmap/pc.c		\
-+	partmap/gpt.c fs/ufs.c fs/minix.c fs/hfs.c fs/jfs.c kern/fs.c	\
-+	kern/env.c fs/fshelp.c fs/xfs.c fs/affs.c fs/sfs.c fs/hfsplus.c	\
-+	disk/lvm.c disk/raid.c
- 
- # For grub-emu.
- grub_emu_DEPENDENCIES = grub_script.tab.c grub_script.tab.h		\
+
+Despite the name, this patch is for powerpc-only.  The EFI part is in efi.diff.
+
+Similarly, I expect to add the missing powerpc bits here, so that changes are
+grouped by architecture and can be sent upstream altogether.
+
 diff -ur grub2-1.95+20070505.1.old/conf/powerpc-ieee1275.rmk grub2-1.95+20070505.1/conf/powerpc-ieee1275.rmk
 --- grub2-1.95+20070505.1.old/conf/powerpc-ieee1275.rmk	2007-05-06 00:54:47.000000000 +0200
 +++ grub2-1.95+20070505.1/conf/powerpc-ieee1275.rmk	2007-05-06 00:59:58.000000000 +0200
@@ -59,27 +33,3 @@ diff -ur grub2-1.95+20070505.1.old/conf/powerpc-ieee1275.rmk grub2-1.95+20070505
  # For grub-emu
  grub_emu_DEPENDENCIES = grub_script.tab.c grub_script.tab.h		\
  	grub_modules_init.h
-diff -ur grub2-1.95+20070505.1.old/util/i386/pc/biosdisk.c grub2-1.95+20070505.1/util/i386/pc/biosdisk.c
---- grub2-1.95+20070505.1.old/util/i386/pc/biosdisk.c	2007-05-05 01:00:56.000000000 +0200
-+++ grub2-1.95+20070505.1/util/i386/pc/biosdisk.c	2007-05-06 00:55:18.000000000 +0200
-@@ -18,7 +18,7 @@
-  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-  */
- 
--#include <grub/machine/biosdisk.h>
-+#include <grub/i386/pc/biosdisk.h>
- #include <grub/disk.h>
- #include <grub/partition.h>
- #include <grub/pc_partition.h>
-diff -ur grub2-1.95+20070505.1.old/util/i386/pc/grub-probe.c grub2-1.95+20070505.1/util/i386/pc/grub-probe.c
---- grub2-1.95+20070505.1.old/util/i386/pc/grub-probe.c	2007-05-06 00:54:47.000000000 +0200
-+++ grub2-1.95+20070505.1/util/i386/pc/grub-probe.c	2007-05-06 00:59:58.000000000 +0200
-@@ -26,7 +26,7 @@
- #include <grub/fs.h>
- #include <grub/partition.h>
- #include <grub/pc_partition.h>
--#include <grub/machine/util/biosdisk.h>
-+#include <grub/i386/pc/util/biosdisk.h>
- #include <grub/util/getroot.h>
- #include <grub/term.h>
- 
