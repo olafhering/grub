@@ -11,7 +11,7 @@ To install:
 If that fails, you can use the fine-grained commands explained in
 http://grub.enbug.org/GettingStarted to try diagnosing the problem.
 
-Additionaly, you can use core.img to grab a GRUB2 floppy:
+Additionally, you can use core.img to grab a GRUB2 floppy:
 
   $ dd if=/usr/lib/grub/@cpu@-pc/boot.img of=/dev/fd0 bs=512 count=1
   $ dd if=/boot/grub/core.img of=/dev/fd0 bs=512 seek=1

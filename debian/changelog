@@ -46,8 +46,12 @@ grub2 (1.95+20070515-1) unstable; urgency=low
     it for bugfiling.
     - grub2.dirs
     - grub2.install
+  * Fix some lintian warnings.
+    - control (grub2): Depend on debconf.
+    - README.Debian.in: Fix mispell.
+    - grub2.templates: Remove extra dot.
 
- -- Robert Millan <rmh@aybabtu.com>  Tue, 15 May 2007 21:01:34 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Tue, 15 May 2007 22:08:53 +0200
 
 grub2 (1.95+20070507-1) unstable; urgency=low
 
