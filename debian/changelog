@@ -1,4 +1,4 @@
-grub2 (1.95+20070514-1) UNRELEASED; urgency=low
+grub2 (1.95+20070515-1) unstable; urgency=low
 
   * New CVS snapshot.
     - Fix assumptions about /, /boot and /boot/grub being the same device.
@@ -37,6 +37,8 @@ grub2 (1.95+20070514-1) UNRELEASED; urgency=low
     to avoid duplicated work (this is specialy important for d-i).  (part of
     #423217).
   * See multiple references above.  (Closes: #423217)
+  * grub-{pc,efi,of}.{dirs,install}: Install presubj in the right directory
+    to make it work again (oops).
 
  -- Robert Millan <rmh@aybabtu.com>  Tue, 15 May 2007 19:56:44 +0200
 
