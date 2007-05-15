@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+for i in /proc/mounts /boot/grub/{device.map,grub.cfg} ; do
+  if test -e $i ; then
+    echo -e "\n*********************** BEGIN $i" >&3
+    cat $i >&3
+    echo "*********************** END $i" >&3
+  fi
+done
+
+exit 0

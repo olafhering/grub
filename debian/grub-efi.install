@@ -1,3 +1,4 @@
 debian/presubj		usr/share/bug/grub-efi
+debian/script		usr/share/bug/grub-efi
 debian/default		etc
 build/unifont.pff	boot/grub

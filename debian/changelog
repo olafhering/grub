@@ -39,8 +39,15 @@ grub2 (1.95+20070515-1) unstable; urgency=low
   * See multiple references above.  (Closes: #423217)
   * grub-{pc,efi,of}.{dirs,install}: Install presubj in the right directory
     to make it work again (oops).
+  * Add reportbug script to gather debugging information.  (Closes: #423218)
+    - script: New.
+    - grub-{pc,efi,of}.install: Install it.
+  * Install the reportbug scripts for grub2 too, since users might still use
+    it for bugfiling.
+    - grub2.dirs
+    - grub2.install
 
- -- Robert Millan <rmh@aybabtu.com>  Tue, 15 May 2007 19:56:44 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Tue, 15 May 2007 21:01:34 +0200
 
 grub2 (1.95+20070507-1) unstable; urgency=low
 
