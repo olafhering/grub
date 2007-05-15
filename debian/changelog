@@ -9,6 +9,8 @@ grub2 (1.95+20070514-1) UNRELEASED; urgency=low
     - update-grub mentions /etc/default/grub in the grub.cfg header.
     (Closes: #423651)
     - update-grub sets 800x600x16 as the default gfxmode.  (Closes: #422794)
+    - update-grub runs grub-mkdevicemap before attempting to use grub-probe
+    (part of #423217)
 
   [ Otavio Salvador ]
   * Add support to DEB_BUILD_OPTIONS=noopt. Thanks to Sam Morris
@@ -24,13 +26,17 @@ grub2 (1.95+20070514-1) UNRELEASED; urgency=low
     - Use grub-mkdevicemap instead of removing device.map, since update-grub
       needs it but grub-install is not run unconditionaly.
     - Redirect grub-install invocation to /dev/null, since it can mislead
-      users into thinking that MBR was overwritten.
+      users into thinking that MBR was overwritten.  (part of #423217)
   * default/grub: Stop exporting the variables (update-grub does that now).
   * Misc EFI fixes, including new grub-install.
     - patches/efi.diff: New.
     - patches/grub_probe_for_everyone.diff: Move some bits to efi.diff.
     - grub-efi.install: Stop installing dummy grub-install.
     - grub-install: Remove.
+  * grub-pc.postinst: Avoid generating core.img when menu.lst is not present,
+    to avoid duplicated work (this is specialy important for d-i).  (part of
+    #423217).
+  * See multiple references above.  (Closes: #423217)
 
  -- Robert Millan <rmh@aybabtu.com>  Tue, 15 May 2007 19:56:44 +0200
 

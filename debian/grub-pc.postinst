@@ -5,14 +5,17 @@ case "$1" in
     # grub legacy used to generate broken device.map (see #422851)
     grub-mkdevicemap
 
+    # Depends on /boot/grub/device.map, so always run it _after_
+    # grub-mkdevicemap
+    update-grub
+
     # If there's no core.img setup, create one (but do not risk writing to MBR).
-    if ! test -e /boot/grub/core.img ; then
+    # However, skip this if menu.lst doesn't exist, in order to avoid useless
+    # duplicated work (this is specialy important for d-i).
+    if test -e /boot/grub/menu.lst && ! test -e /boot/grub/core.img ; then
       echo "Generating core.img" >&2
       grub-install --grub-setup=/bin/true "(hd0)" > /dev/null
     fi
-
-    # Depends on /boot/grub/device.map, so always run it _after_ grub-install
-    update-grub
 
     # If there's a menu.lst, update it to reflect that:
     # - core.img is present now
