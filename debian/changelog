@@ -1,3 +1,13 @@
+grub2 (1.95+20070516-1) unstable; urgency=low
+
+  * New CVS snapshot.
+    - patches/efi.diff: Remove (merged).
+    - patches/grub_probe_for_everyone.diff: Use the new paths for
+      util/grub-probe.c, util/biosdisk.c, util/getroot.c.  Enable
+      grub-mkdevicemap.
+
+ -- Robert Millan <rmh@aybabtu.com>  Wed, 16 May 2007 17:23:02 +0200
+
 grub2 (1.95+20070515-1) unstable; urgency=low
 
   * New CVS snapshot.

@@ -1,17 +1,11 @@
-
-Despite the name, this patch is for powerpc-only.  The EFI part is in efi.diff.
-
-Similarly, I expect to add the missing powerpc bits here, so that changes are
-grouped by architecture and can be sent upstream altogether.
-
-diff -ur grub2-1.95+20070505.1.old/conf/powerpc-ieee1275.rmk grub2-1.95+20070505.1/conf/powerpc-ieee1275.rmk
---- grub2-1.95+20070505.1.old/conf/powerpc-ieee1275.rmk	2007-05-06 00:54:47.000000000 +0200
-+++ grub2-1.95+20070505.1/conf/powerpc-ieee1275.rmk	2007-05-06 00:59:58.000000000 +0200
-@@ -26,14 +26,24 @@
+diff -ur grub2-1.95+20070516.old/conf/powerpc-ieee1275.rmk grub2-1.95+20070516/conf/powerpc-ieee1275.rmk
+--- grub2-1.95+20070516.old/conf/powerpc-ieee1275.rmk	2007-02-22 00:22:20.000000000 +0100
++++ grub2-1.95+20070516/conf/powerpc-ieee1275.rmk	2007-05-16 17:26:03.000000000 +0200
+@@ -26,14 +26,27 @@
  
  # Utilities.
  bin_UTILITIES = grub-mkimage
-+sbin_UTILITIES = grub-probe
++sbin_UTILITIES = grub-mkdevicemap grub-probe
  ifeq ($(enable_grub_emu), yes)
 -sbin_UTILITIES = grub-emu
 +sbin_UTILITIES += grub-emu
@@ -21,9 +15,12 @@ diff -ur grub2-1.95+20070505.1.old/conf/powerpc-ieee1275.rmk grub2-1.95+20070505
  grub_mkimage_SOURCES = util/powerpc/ieee1275/grub-mkimage.c util/misc.c \
          util/resolve.c 
  
++# For grub-mkdevicemap.
++grub_mkdevicemap_SOURCES = util/grub-mkdevicemap.c util/misc.c
++
 +# For grub-probe.
-+grub_probe_SOURCES = util/i386/pc/grub-probe.c	\
-+	util/i386/pc/biosdisk.c	util/misc.c util/i386/pc/getroot.c	\
++grub_probe_SOURCES = util/grub-probe.c	\
++	util/biosdisk.c	util/misc.c util/getroot.c	\
 +	kern/device.c kern/disk.c kern/err.c kern/misc.c fs/fat.c	\
 +	fs/ext2.c kern/parser.c kern/partition.c partmap/pc.c		\
 +	partmap/gpt.c fs/ufs.c fs/minix.c fs/hfs.c fs/jfs.c kern/fs.c	\
