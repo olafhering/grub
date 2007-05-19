@@ -6,7 +6,7 @@ grub2 (1.95+20070519-1) unstable; urgency=low
     - patches/efi.diff: Remove (merged).
     - patches/grub_probe_for_everyone.diff: Use the new paths for
       util/grub-probe.c, util/biosdisk.c, util/getroot.c.  Enable
-      grub-mkdevicemap.
+      grub-mkdevicemap.  (Closes: #424985)
 
  -- Robert Millan <rmh@aybabtu.com>  Sat, 19 May 2007 11:07:19 +0200
 
