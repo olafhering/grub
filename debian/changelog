@@ -1,7 +1,8 @@
 grub2 (1.95+20070519-1) unstable; urgency=low
 
   * New CVS snapshot.
-    - LVM/swRAID fixes.  (Closes: #423648)
+    - LVM / RAID fixes.  (Closes: #423648, #381150)
+    - Fix memory management bug.  (Closes: #423409)
     - patches/efi.diff: Remove (merged).
     - patches/grub_probe_for_everyone.diff: Use the new paths for
       util/grub-probe.c, util/biosdisk.c, util/getroot.c.  Enable
