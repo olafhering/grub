@@ -7,8 +7,9 @@ grub2 (1.95+20070519-1) unstable; urgency=low
     - patches/grub_probe_for_everyone.diff: Use the new paths for
       util/grub-probe.c, util/biosdisk.c, util/getroot.c.  Enable
       grub-mkdevicemap.  (Closes: #424985)
+  * legacy/update-grub: Get rid of all grub-set-default calls.  (Closes: #425054)
 
- -- Robert Millan <rmh@aybabtu.com>  Sat, 19 May 2007 11:07:19 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Sat, 19 May 2007 13:10:54 +0200
 
 grub2 (1.95+20070515-1) unstable; urgency=low
 

@@ -396,9 +396,6 @@ EOF
 echo -n "Searching for default file ... " >&2
 if [ -f "$default_file" ] ; then
   echo "found: $default_file" >&2
-else
-  echo "Generating $default_file file and setting the default boot entry to 0" >&2
-  grub-set-default 0
 fi
 
 # Make sure we use the standard sorting order
@@ -1159,7 +1156,7 @@ fi
 # Function to update the default value
 set_default_value() {
     if [ "$use_grub_set_default" = "true" ] ; then
-	grub-set-default $1
+	:
     else
 	value="$1"
 	newmenu=$(tempfile)
