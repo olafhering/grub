@@ -1,4 +1,4 @@
-grub2 (1.95+20070519-1) unstable; urgency=low
+grub2 (1.95+20070520-1) unstable; urgency=low
 
   * New CVS snapshot.
     - LVM / RAID fixes.  (Closes: #423648, #381150)
