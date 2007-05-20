@@ -10,8 +10,10 @@ grub2 (1.95+20070519-1) unstable; urgency=low
   * legacy/update-grub: Get rid of all grub-set-default calls.  (Closes: #425054)
   * grub-{pc,efi,of}.postinst: Only run update-grub if grub.cfg already exists.
   * grub-pc.postinst: Only run GRUB Legacy compat stuff if menu.lst is found.
+  * patches/partmap_fallback.diff: New.  Implement fallback "pc gpt" for partmap
+    detection failures.  (Closes: #423022)
 
- -- Robert Millan <rmh@aybabtu.com>  Sun, 20 May 2007 09:49:00 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Sun, 20 May 2007 09:53:08 +0200
 
 grub2 (1.95+20070515-1) unstable; urgency=low
 

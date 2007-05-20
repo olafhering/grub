@@ -1,0 +1,24 @@
+diff -ur grub2-1.95+20070516.old/util/i386/efi/grub-install.in grub2-1.95+20070516/util/i386/efi/grub-install.in
+--- grub2-1.95+20070516.old/util/i386/efi/grub-install.in	2007-05-16 17:05:02.000000000 +0200
++++ grub2-1.95+20070516/util/i386/efi/grub-install.in	2007-05-20 09:51:51.000000000 +0200
+@@ -187,7 +187,7 @@
+ fi
+ 
+ # Then the partition map module.
+-partmap_module=`$grub_probe --target=partmap --device-map=${device_map} ${grubdir}`
++partmap_module=`$grub_probe --target=partmap --device-map=${device_map} ${grubdir} || echo pc gpt`
+ if test "x$partmap_module" = x -a "x$modules" = x; then
+     echo "Auto-detection of a partition map module failed." 1>&2
+     echo "Please specify the module with the option \`--modules' explicitly." 1>&2
+diff -ur grub2-1.95+20070516.old/util/i386/pc/grub-install.in grub2-1.95+20070516/util/i386/pc/grub-install.in
+--- grub2-1.95+20070516.old/util/i386/pc/grub-install.in	2007-05-07 21:54:46.000000000 +0200
++++ grub2-1.95+20070516/util/i386/pc/grub-install.in	2007-05-20 09:51:39.000000000 +0200
+@@ -217,7 +217,7 @@
+ fi
+ 
+ # Then the partition map module.
+-partmap_module=`$grub_probe --target=partmap --device-map=${device_map} ${grubdir}`
++partmap_module=`$grub_probe --target=partmap --device-map=${device_map} ${grubdir} || echo pc gpt`
+ if test "x$partmap_module" = x -a "x$modules" = x; then
+     echo "Auto-detection of a partition map module failed." 1>&2
+     echo "Please specify the module with the option \`--modules' explicitly." 1>&2
