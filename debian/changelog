@@ -8,8 +8,10 @@ grub2 (1.95+20070519-1) unstable; urgency=low
       util/grub-probe.c, util/biosdisk.c, util/getroot.c.  Enable
       grub-mkdevicemap.  (Closes: #424985)
   * legacy/update-grub: Get rid of all grub-set-default calls.  (Closes: #425054)
+  * grub-{pc,efi,of}.postinst: Only run update-grub if grub.cfg already exists.
+  * grub-pc.postinst: Only run GRUB Legacy compat stuff if menu.lst is found.
 
- -- Robert Millan <rmh@aybabtu.com>  Sat, 19 May 2007 13:10:54 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Sun, 20 May 2007 09:49:00 +0200
 
 grub2 (1.95+20070515-1) unstable; urgency=low
 

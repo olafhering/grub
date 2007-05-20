@@ -2,26 +2,29 @@
 
 case "$1" in
   configure)
-    # grub legacy used to generate broken device.map (see #422851)
-    grub-mkdevicemap
+    # Has GRUB Legacy been here?
+    if test -e /boot/grub/menu.lst
+      # GRUB Legacy used to generate broken device.map (see #422851)
+      # Always run this _before_ running update-grub2
+      grub-mkdevicemap
 
-    # Depends on /boot/grub/device.map, so always run it _after_
-    # grub-mkdevicemap
-    update-grub
+      # If there's no core.img setup, create one (but do not risk writing to MBR).
+      if ! test -e /boot/grub/core.img ; then
+        echo "Generating core.img" >&2
+        grub-install --grub-setup=/bin/true "(hd0)" > /dev/null
+      fi
 
-    # If there's no core.img setup, create one (but do not risk writing to MBR).
-    # However, skip this if menu.lst doesn't exist, in order to avoid useless
-    # duplicated work (this is specialy important for d-i).
-    if test -e /boot/grub/menu.lst && ! test -e /boot/grub/core.img ; then
-      echo "Generating core.img" >&2
-      grub-install --grub-setup=/bin/true "(hd0)" > /dev/null
+      # Update menu.lst to reflect that:
+      # - core.img is present now
+      # - core.img has to be the first option
+      if test -e /boot/grub/menu.lst ; then
+        echo "Running update-grub Legacy to hook our core.img in it" >&2
+        bash /usr/lib/grub-legacy/update-grub 2>&1 | sed -e "s/^/\t/g" >&2
+      fi
     fi
 
-    # If there's a menu.lst, update it to reflect that:
-    # - core.img is present now
-    # - core.img has to be the first option
-    if test -e /boot/grub/menu.lst ; then
-      bash /usr/lib/grub-legacy/update-grub
+    if test -e /boot/grub/grub.cfg ; then
+      update-grub
     fi
   ;;
   abort-upgrade|abort-remove|abort-deconfigure)

@@ -2,7 +2,9 @@
 
 case "$1" in
   configure)
-    update-grub
+    if test -e /boot/grub/grub.cfg ; then
+      update-grub
+    fi
   ;;
   abort-upgrade|abort-remove|abort-deconfigure)
   ;;
