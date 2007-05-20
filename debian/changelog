@@ -14,8 +14,9 @@ grub2 (1.95+20070519-1) unstable; urgency=low
     detection failures.  (Closes: #423022)
   * control: Update XS-Vcs-* fields.  Thanks Sam Morris <sam@robots.org.uk>.
     (Closes: #425146)
+  * grub-{pc,efi,of}.{dirs,postinst}: Move unifont.pff to /usr/share/grub.
 
- -- Robert Millan <rmh@aybabtu.com>  Sun, 20 May 2007 09:59:09 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Sun, 20 May 2007 11:13:03 +0200
 
 grub2 (1.95+20070515-1) unstable; urgency=low
 

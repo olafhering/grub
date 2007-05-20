@@ -1,5 +1,5 @@
-debian/presubj		usr/share/bug/grub-pc
-debian/script		usr/share/bug/grub-pc
-debian/default		etc
-build/unifont.pff	boot/grub
-debian/legacy/update-grub usr/lib/grub-legacy
+debian/presubj			usr/share/bug/grub-pc
+debian/script			usr/share/bug/grub-pc
+debian/default			etc
+build/unifont.pff		usr/share/grub
+debian/legacy/update-grub	usr/lib/grub-legacy
