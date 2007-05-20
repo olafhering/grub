@@ -3,7 +3,7 @@
 case "$1" in
   configure)
     # Has GRUB Legacy been here?
-    if test -e /boot/grub/menu.lst
+    if test -e /boot/grub/menu.lst ; then
       # GRUB Legacy used to generate broken device.map (see #422851)
       # Always run this _before_ running update-grub2
       grub-mkdevicemap
