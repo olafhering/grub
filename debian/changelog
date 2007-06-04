@@ -1,9 +1,11 @@
-grub2 (1.95+20070601-1) unstable; urgency=low
+grub2 (1.95+20070604-1) unstable; urgency=low
 
   * New CVS snapshot.
+    - patches/grub_probe_for_everyone.diff: Remove (merged).
     - update-grub exports user-defined GRUB_CMDLINE_LINUX.  (Closes: #425453)
+    - Fix those nasty powerpc bugs.  (Closes: #422729)
 
- -- Robert Millan <rmh@aybabtu.com>  Fri,  1 Jun 2007 17:24:48 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Mon,  4 Jun 2007 21:30:55 +0200
 
 grub2 (1.95+20070520-1) unstable; urgency=low
 
