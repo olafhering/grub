@@ -1,6 +1,8 @@
 grub2 (1.95+20070606-1) unstable; urgency=low
 
   * New CVS snapshot.
+    - update-grub is tollerant to unreadable / (as long as /boot is
+    accessible). (Closes: #427289)
   * grub-pc.postinst: Generate new grub.cfg when menu.lst exists.
 
  -- Robert Millan <rmh@aybabtu.com>  Wed,  6 Jun 2007 19:35:39 +0200
