@@ -23,7 +23,9 @@ case "$1" in
       fi
     fi
 
-    if test -e /boot/grub/grub.cfg ; then
+    # If grub.cfg has been generated, update it.  Otherwise, if we just hooked
+    # ourselves in menu.lst, then also generate grub.cfg.
+    if test -e /boot/grub/grub.cfg || test -e /boot/grub/menu.lst ; then
       update-grub
     fi
   ;;
