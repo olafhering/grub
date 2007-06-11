@@ -59,8 +59,8 @@ Description: GRUB bootable rescue images, version 2 (PC/BIOS version)
  This package contains two GRUB rescue images that have been built for use with
  traditional PC/BIOS architecture:
  .
-  - floppy image.
-  - El Torito CDROM image.
+  - grub-rescue-floppy.img: floppy image.
+  - grub-rescue-cdrom.iso: El Torito CDROM image.
 
 Package: grub-efi
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
