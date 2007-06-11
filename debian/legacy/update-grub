@@ -987,8 +987,8 @@ esac
 ## heres where we start writing out the kernel entries
 counter=0
 
-grub2name="/boot/grub/core.img"
-if test -f $grub2name ; then
+if test -f /boot/grub/core.img ; then
+	grub2name="$kernel_dir/grub/core.img"
 	echo "Found GRUB 2: $grub2name" >&2
 	cat >> $buffer << EOF
 title		Chainload into GRUB 2
