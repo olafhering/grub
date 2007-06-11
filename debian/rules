@@ -7,12 +7,6 @@ package		:= grub2
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/rules/simple-patchsys.mk
 
-ifeq ($(DEB_HOST_ARCH_CPU), amd64)
-grub_cpu = i386
-else
-grub_cpu = $(DEB_HOST_ARCH_CPU)
-endif
-
 CFLAGS := -g -Wall
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
@@ -43,6 +37,19 @@ configure/grub-efi::
 build/grub-pc build/grub-efi build/grub-of:: build/unifont.pff
 	$(MAKE) -C $@
 
+build/grub-rescue-pc:: build/grub-pc
+	mkdir -p $@
+	$(CURDIR)/build/grub-pc/grub-mkrescue \
+		--pkglibdir=$(CURDIR)/build/grub-pc \
+		--grub-mkimage=$(CURDIR)/build/grub-pc/grub-mkimage \
+		--image-type=floppy \
+		$(CURDIR)/$@/grub-rescue-floppy.img
+	$(CURDIR)/build/grub-pc/grub-mkrescue \
+		--pkglibdir=$(CURDIR)/build/grub-pc \
+		--grub-mkimage=$(CURDIR)/build/grub-pc/grub-mkimage \
+		--image-type=cdrom \
+		$(CURDIR)/$@/grub-rescue-cdrom.iso
+
 install/grub-pc install/grub-efi install/grub-of::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
 	for i in docs ; do \
@@ -51,8 +58,6 @@ install/grub-pc install/grub-efi install/grub-of::
 
 clean::
 	chmod +x debian/script
-	sed -e "s/@cpu@/$(grub_cpu)/g" < debian/README.Debian.in \
-					> debian/README.Debian
 	-rm -f debian/grub-{pc,efi,of}.docs
 	-rm -rf build
 

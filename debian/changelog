@@ -1,11 +1,17 @@
-grub2 (1.95+20070606-1) unstable; urgency=low
+grub2 (1.95+20070611-1) unstable; urgency=low
 
   * New CVS snapshot.
     - update-grub is tollerant to unreadable / (as long as /boot is
     accessible). (Closes: #427289)
   * grub-pc.postinst: Generate new grub.cfg when menu.lst exists.
+  * New package grub-rescue-pc.
+    - control: Add it.
+    - README.Debian.in: Remove obsolete documentation.
+    - rules: Build rescue images using grub-mkrescue.
+    - grub-rescue-pc.dirs: Prepare their directory.
+    - grub-rescue-pc.install: Install them.
 
- -- Robert Millan <rmh@aybabtu.com>  Wed,  6 Jun 2007 19:35:39 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Mon, 11 Jun 2007 21:26:21 +0200
 
 grub2 (1.95+20070604-1) unstable; urgency=low
 
