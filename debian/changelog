@@ -1,4 +1,4 @@
-grub2 (1.95+20070611-1) unstable; urgency=low
+grub2 (1.95+20070614-1) unstable; urgency=low
 
   * New CVS snapshot.
     - update-grub is tollerant to unreadable / (as long as /boot is
@@ -12,7 +12,7 @@ grub2 (1.95+20070611-1) unstable; urgency=low
     - grub-rescue-pc.install: Install them.
   * legacy/update-grub: Fix core.img detection on separate /boot.
 
- -- Robert Millan <rmh@aybabtu.com>  Mon, 11 Jun 2007 22:33:00 +0200
+ -- Robert Millan <rmh@debian.org>  Thu, 14 Jun 2007 08:17:21 +0200
 
 grub2 (1.95+20070604-1) unstable; urgency=low
 
