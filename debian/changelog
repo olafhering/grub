@@ -1,3 +1,10 @@
+grub2 (1.95+20070618-1) unstable; urgency=low
+
+  * New CVS snapshot.
+  * control (Build-Depends): Add genisoimage.
+
+ -- Robert Millan <rmh@debian.org>  Mon, 18 Jun 2007 15:37:58 +0200
+
 grub2 (1.95+20070614-1) unstable; urgency=low
 
   * New CVS snapshot.
