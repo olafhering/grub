@@ -1,7 +1,8 @@
-grub2 (1.95+20070621-1) unstable; urgency=low
+grub2 (1.95+20070626-1) unstable; urgency=low
 
   * New CVS snapshot.
     - More fixes to cope with unreadable /.  (Closes: #427289)
+    - update-grub supports multiple terminals.
   * control (Build-Depends): Add genisoimage.
   * patches/partmap_fallback.diff: Remove.  It didn't archieve anything as
     it also needs support for proper identification of raid / lvm (this is
