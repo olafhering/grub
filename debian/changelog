@@ -7,8 +7,10 @@ grub2 (1.95+20070621-1) unstable; urgency=low
     it also needs support for proper identification of raid / lvm (this is
     being worked on).
   * patches/disable_xfs.diff: Disable xfs in grub-probe.
+  * grub-rescue-pc.README.Debian: New.  Explain how to use the rescue
+    images.
 
- -- Robert Millan <rmh@debian.org>  Tue, 26 Jun 2007 08:21:28 +0200
+ -- Robert Millan <rmh@debian.org>  Tue, 26 Jun 2007 08:39:14 +0200
 
 grub2 (1.95+20070614-1) unstable; urgency=low
 

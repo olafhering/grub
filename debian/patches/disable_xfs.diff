@@ -39,3 +39,21 @@ diff -ur grub2-1.95+20070621.old/conf/powerpc-ieee1275.rmk grub2-1.95+20070621/c
  	disk/lvm.c disk/raid.c
  
  # For grub-emu
+--- grub2-1.95+20070621.old/util/grub-probe.c	2007-06-13 18:53:54.000000000 +0200
++++ grub2-1.95+20070621/util/grub-probe.c	2007-06-26 08:29:54.000000000 +0200
+@@ -256,7 +256,6 @@
+   grub_ufs_init ();
+   grub_minix_init ();
+   grub_jfs_init ();
+-  grub_xfs_init ();
+ 
+   /* Do it.  */
+   probe (path);
+@@ -267,7 +266,6 @@
+   grub_ufs_fini ();
+   grub_minix_fini ();
+   grub_jfs_fini ();
+-  grub_xfs_fini ();
+   
+   grub_lvm_fini ();
+   grub_raid_fini ();

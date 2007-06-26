@@ -1,5 +1,4 @@
 #!/usr/bin/make -f
-# This file is PUBLIC DOMAIN. 
 
 SHELL		:= bash
 package		:= grub2
