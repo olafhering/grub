@@ -99,7 +99,7 @@ Description: GRand Unified Bootloader, version 2 (EFI version)
 
 Package: grub-of
 Architecture: powerpc ppc64
-Depends: ${shlibs:Depends}, ${misc:Depends}, powerpc-ibm-utils
+Depends: ${shlibs:Depends}, ${misc:Depends}, powerpc-ibm-utils, bc
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub
