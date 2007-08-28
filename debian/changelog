@@ -1,3 +1,10 @@
+grub2 (1.95+20070828-2) unstable; urgency=low
+
+  * control (grub-of): Make depends on powerpc-ibm-utils versioned as
+    >= 1.0.6 (older versions don't have -a flag).
+
+ -- Robert Millan <rmh@debian.org>  Tue, 28 Aug 2007 23:32:32 +0200
+
 grub2 (1.95+20070828-1) unstable; urgency=low
 
   * New CVS snapshot.
