@@ -4,6 +4,7 @@ grub2 (1.95+20070828-1) unstable; urgency=low
     - Adds ntfs support.
     - Fixes a pair of issues indirectly breaking grub-probe on powerpc.
       (Closes: #431488)
+    - patches/disable_xfs.diff: Resync.
     - copyright: License upgraded to GPLv3.
   * control (grub-of Depends): Add powerpc-utils (for nvsetenv) and bc.
 

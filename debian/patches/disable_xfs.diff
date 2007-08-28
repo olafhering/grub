@@ -3,57 +3,39 @@ Disable xfs in grub-probe.  xfs support is still experimental and buggy, so we
 can't rely on grub-probe succesfuly identifiing an xfs filesystem just to get a
 boot failure later.
 
-diff -ur grub2-1.95+20070621.old/conf/i386-efi.rmk grub2-1.95+20070621/conf/i386-efi.rmk
---- grub2-1.95+20070621.old/conf/i386-efi.rmk	2007-06-04 21:48:53.000000000 +0200
-+++ grub2-1.95+20070621/conf/i386-efi.rmk	2007-06-26 08:17:15.000000000 +0200
-@@ -33,7 +33,7 @@
+diff -ur grub2-1.95+20070828.old/conf/i386-efi.rmk grub2-1.95+20070828/conf/i386-efi.rmk
+--- grub2-1.95+20070828.old/conf/i386-efi.rmk	2007-08-28 12:18:10.000000000 +0200
++++ grub2-1.95+20070828/conf/i386-efi.rmk	2007-08-28 21:31:19.000000000 +0200
+@@ -35,7 +35,7 @@
  	fs/ext2.c kern/parser.c kern/partition.c 			\
  	partmap/pc.c partmap/apple.c partmap/gpt.c 			\
- 	fs/ufs.c fs/minix.c fs/hfs.c fs/jfs.c kern/fs.c	\
+ 	fs/ufs.c fs/minix.c fs/hfs.c fs/jfs.c fs/ntfs.c kern/fs.c	\
 -	kern/env.c fs/fshelp.c fs/xfs.c fs/affs.c fs/sfs.c fs/hfsplus.c	\
 +	kern/env.c fs/fshelp.c fs/affs.c fs/sfs.c fs/hfsplus.c	\
- 	disk/lvm.c disk/raid.c
+ 	disk/lvm.c disk/raid.c grub_probe_init.c
  
  # For grub-emu.
-diff -ur grub2-1.95+20070621.old/conf/i386-pc.rmk grub2-1.95+20070621/conf/i386-pc.rmk
---- grub2-1.95+20070621.old/conf/i386-pc.rmk	2007-06-11 08:26:18.000000000 +0200
-+++ grub2-1.95+20070621/conf/i386-pc.rmk	2007-06-26 08:17:27.000000000 +0200
-@@ -80,7 +80,7 @@
+diff -ur grub2-1.95+20070828.old/conf/i386-pc.rmk grub2-1.95+20070828/conf/i386-pc.rmk
+--- grub2-1.95+20070828.old/conf/i386-pc.rmk	2007-08-28 12:18:10.000000000 +0200
++++ grub2-1.95+20070828/conf/i386-pc.rmk	2007-08-28 21:31:11.000000000 +0200
+@@ -83,7 +83,7 @@
  	fs/ext2.c kern/parser.c kern/partition.c 			\
  	partmap/pc.c partmap/apple.c partmap/gpt.c 			\
- 	fs/ufs.c fs/minix.c fs/hfs.c fs/jfs.c kern/fs.c	\
+ 	fs/ufs.c fs/minix.c fs/hfs.c fs/jfs.c fs/ntfs.c kern/fs.c	\
 -	kern/env.c fs/fshelp.c fs/xfs.c fs/affs.c fs/sfs.c fs/hfsplus.c	\
 +	kern/env.c fs/fshelp.c fs/affs.c fs/sfs.c fs/hfsplus.c	\
- 	disk/lvm.c disk/raid.c
+ 	disk/lvm.c disk/raid.c grub_probe_init.c
  
  # For grub-emu.
-diff -ur grub2-1.95+20070621.old/conf/powerpc-ieee1275.rmk grub2-1.95+20070621/conf/powerpc-ieee1275.rmk
---- grub2-1.95+20070621.old/conf/powerpc-ieee1275.rmk	2007-06-04 21:48:53.000000000 +0200
-+++ grub2-1.95+20070621/conf/powerpc-ieee1275.rmk	2007-06-26 08:17:38.000000000 +0200
-@@ -45,7 +45,7 @@
+diff -ur grub2-1.95+20070828.old/conf/powerpc-ieee1275.rmk grub2-1.95+20070828/conf/powerpc-ieee1275.rmk
+--- grub2-1.95+20070828.old/conf/powerpc-ieee1275.rmk	2007-08-28 12:18:10.000000000 +0200
++++ grub2-1.95+20070828/conf/powerpc-ieee1275.rmk	2007-08-28 21:31:27.000000000 +0200
+@@ -47,7 +47,7 @@
  	fs/ext2.c kern/parser.c kern/partition.c 			\
  	partmap/pc.c partmap/apple.c partmap/gpt.c 			\
- 	fs/ufs.c fs/minix.c fs/hfs.c fs/jfs.c kern/fs.c	\
+ 	fs/ufs.c fs/minix.c fs/hfs.c fs/jfs.c fs/ntfs.c kern/fs.c	\
 -	kern/env.c fs/fshelp.c fs/xfs.c fs/affs.c fs/sfs.c fs/hfsplus.c	\
 +	kern/env.c fs/fshelp.c fs/affs.c fs/sfs.c fs/hfsplus.c	\
- 	disk/lvm.c disk/raid.c
+ 	disk/lvm.c disk/raid.c grub_probe_init.c
  
  # For grub-emu
---- grub2-1.95+20070621.old/util/grub-probe.c	2007-06-13 18:53:54.000000000 +0200
-+++ grub2-1.95+20070621/util/grub-probe.c	2007-06-26 08:29:54.000000000 +0200
-@@ -256,7 +256,6 @@
-   grub_ufs_init ();
-   grub_minix_init ();
-   grub_jfs_init ();
--  grub_xfs_init ();
- 
-   /* Do it.  */
-   probe (path);
-@@ -267,7 +266,6 @@
-   grub_ufs_fini ();
-   grub_minix_fini ();
-   grub_jfs_fini ();
--  grub_xfs_fini ();
-   
-   grub_lvm_fini ();
-   grub_raid_fini ();
