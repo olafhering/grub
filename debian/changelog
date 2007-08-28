@@ -1,10 +1,13 @@
-grub2 (1.95+20070722-1) unstable; urgency=low
+grub2 (1.95+20070828-1) unstable; urgency=low
 
   * New CVS snapshot.
+    - Adds ntfs support.
+    - Fixes a pair of issues indirectly breaking grub-probe on powerpc.
+      (Closes: #431488)
     - copyright: License upgraded to GPLv3.
   * control (grub-of Depends): Add powerpc-utils (for nvsetenv) and bc.
 
- -- Robert Millan <rmh@debian.org>  Fri, 29 Jun 2007 19:41:45 +0200
+ -- Robert Millan <rmh@debian.org>  Tue, 28 Aug 2007 21:24:14 +0200
 
 grub2 (1.95+20070626-1) unstable; urgency=low
 
