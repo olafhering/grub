@@ -16,6 +16,8 @@ endif
 export CFLAGS
 export CXXFLAGS := $(CFLAGS)
 
+export MAKE += -j $(shell getconf _NPROCESSORS_ONLN 2>/dev/null || echo 1)
+
 CONFIGURE = CC="cc" CXX="g++" CPPFLAGS="" LDFLAGS="" \
 	$(CURDIR)/configure --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --includedir="\$${prefix}/include" \
 	--mandir="\$${prefix}/share/man" --infodir="\$${prefix}/share/info" --sysconfdir=/etc --localstatedir=/var \
