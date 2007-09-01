@@ -21,7 +21,7 @@ export MAKE += -j $(shell getconf _NPROCESSORS_ONLN 2>/dev/null || echo 1)
 CONFIGURE = CC="cc" CXX="g++" CPPFLAGS="" LDFLAGS="" \
 	$(CURDIR)/configure --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --includedir="\$${prefix}/include" \
 	--mandir="\$${prefix}/share/man" --infodir="\$${prefix}/share/info" --sysconfdir=/etc --localstatedir=/var \
-	--libexecdir="\$${prefix}/lib/grub2" --disable-maintainer-mode --disable-dependency-tracking --srcdir=$(CURDIR)
+	--libexecdir="\$${prefix}/lib/$(package)" --disable-maintainer-mode --disable-dependency-tracking --srcdir=$(CURDIR)
 
 build/unifont.pff: util/unifont2pff.rb /usr/share/unifont/unifont.hex
 	mkdir -p build
