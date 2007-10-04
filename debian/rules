@@ -27,13 +27,9 @@ build/unifont.pff: util/unifont2pff.rb /usr/share/unifont/unifont.hex
 	mkdir -p build
 	ruby $^ > $@
 
-configure/grub-pc configure/grub-of::
+configure/grub-pc configure/grub-ieee1275 configure/grub-efi::
 	mkdir -p $(subst configure/,build/,$@)
-	cd $(subst configure/,build/,$@) && $(CONFIGURE)
-
-configure/grub-efi::
-	mkdir -p $(subst configure/,build/,$@)
-	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=efi
+	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=$(subst configure/grub-,,$@)
 
 build/grub-pc build/grub-efi build/grub-of:: build/unifont.pff
 	$(MAKE) -C $@
