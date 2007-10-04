@@ -1,7 +1,13 @@
 grub2 (1.95+20071004-1) unstable; urgency=low
 
   * New CVS snapshot.
+  * Add grub-linuxbios package.
+    - patches/linuxbios.diff
+    - control
+    - rules
   * Rename grub-of to grub-ieee1275 to match with upstream conventions.
+    - control
+    - rules
 
  -- Robert Millan <rmh@aybabtu.com>  Thu,  4 Oct 2007 14:42:30 +0200
 

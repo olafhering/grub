@@ -64,6 +64,39 @@ Description: GRUB bootable rescue images, version 2 (PC/BIOS version)
   - grub-rescue-floppy.img: floppy image.
   - grub-rescue-cdrom.iso: El Torito CDROM image.
 
+Package: grub-linuxbios
+Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1)
+Provides: grub
+Replaces: pupa, grub, grub2 (<< ${Source-Version})
+Conflicts: pupa, grub
+Description: GRand Unified Bootloader, version 2 (LinuxBIOS version)
+ GRUB 2 (also known as PUPA) is the Preliminary Universal Programming
+ Architecture for GRUB. It is a research project for the next generation of
+ GNU GRUB. The most important goal is to make GNU GRUB cleaner, safer, more
+ robust, more powerful, and more portable.
+ .
+ GRUB 2 targets at the following goals:
+ .
+  - Scripting support, such as conditionals, loops, variables and functions.
+  - Graphical interface.
+  - Dynamic loading of modules in order to extend itself at the run time
+    rather than at the build time.
+  - Portability for various architectures.
+  - Internationalization. This includes support for non-ASCII character code,
+    message catalogs like gettext, fonts, graphics console, and so on.
+  - Real memory management, to make GNU GRUB more extensible.
+  - Modular, hierarchical, object-oriented framework for file systems, files,
+    devices, drives, terminals, commands, partition tables and OS loaders.
+  - Cross-platform installation which allows for installing GRUB from a
+    different architecture.
+  - Rescue mode saves unbootable cases. Stage 1.5 was eliminated.
+  - Fix design mistakes in GRUB Legacy, which could not be solved for
+    backward-compatibility, such as the way of numbering partitions. 
+ .
+ This package contains a version of GRUB that has been built for use with
+ platforms running the LinuxBIOS firmware.
+
 Package: grub-efi
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1)

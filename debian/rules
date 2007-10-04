@@ -16,8 +16,6 @@ endif
 export CFLAGS
 export CXXFLAGS := $(CFLAGS)
 
-export MAKE += -j $(shell getconf _NPROCESSORS_ONLN 2>/dev/null || echo 1)
-
 CONFIGURE = CC="cc" CXX="g++" CPPFLAGS="" LDFLAGS="" \
 	$(CURDIR)/configure --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --includedir="\$${prefix}/include" \
 	--mandir="\$${prefix}/share/man" --infodir="\$${prefix}/share/info" --sysconfdir=/etc --localstatedir=/var \
@@ -27,11 +25,15 @@ build/unifont.pff: util/unifont2pff.rb /usr/share/unifont/unifont.hex
 	mkdir -p build
 	ruby $^ > $@
 
-configure/grub-pc configure/grub-ieee1275 configure/grub-efi::
+configure/grub-pc configure/grub-ieee1275 configure/grub-efi configure/grub-linuxbios::
 	mkdir -p $(subst configure/,build/,$@)
+	for i in conf/*.rmk ; do \
+		ruby genmk.rb < $$i > `echo $$i | sed -e "s/\.rmk$$/.mk/g"` ; \
+	done
+	autoconf
 	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=$(subst configure/grub-,,$@)
 
-build/grub-pc build/grub-efi build/grub-of:: build/unifont.pff
+build/grub-pc build/grub-efi build/grub-ieee1275 build/grub-linuxbios:: build/unifont.pff
 	$(MAKE) -C $@
 
 build/grub-rescue-pc:: build/grub-pc
@@ -47,7 +49,7 @@ build/grub-rescue-pc:: build/grub-pc
 		--image-type=cdrom \
 		$(CURDIR)/$@/grub-rescue-cdrom.iso
 
-install/grub-pc install/grub-efi install/grub-of::
+install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-linuxbios::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
 	for i in docs ; do \
 		cp debian/$$i.in debian/$(subst install/,,$@).$$i ; \
@@ -55,7 +57,7 @@ install/grub-pc install/grub-efi install/grub-of::
 
 clean::
 	chmod +x debian/script
-	-rm -f debian/grub-{pc,efi,of}.docs
+	-rm -f debian/grub-{pc,efi,ieee1275,linuxbios}.docs
 	-rm -rf build
 
 # Grab fixes from CVS using our version as reference.
