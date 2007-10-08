@@ -1,6 +1,7 @@
 grub2 (1.95+20071004-2) unstable; urgency=low
 
   * Rename debian/grub-of.* to debian/grub-ieee1275.*.
+  * Add debian/grub-linuxbios.{postinst,dirs,install}.
 
  -- Robert Millan <rmh@aybabtu.com>  Mon,  8 Oct 2007 22:28:52 +0200
 
