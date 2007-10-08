@@ -1,4 +1,0 @@
-debian/presubj		usr/share/bug/grub-of
-debian/script		usr/share/bug/grub-of
-debian/default		etc
-build/unifont.pff	usr/share/grub
