@@ -55,6 +55,13 @@ install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-linuxbios::
 		cp debian/$$i.in debian/$(subst install/,,$@).$$i ; \
 	done
 
+	i=$(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/*/kernel.elf ; if test -e $$i ; then strip -s $$i ; fi
+
+	mkdir -p $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides
+	cd $(CURDIR)/debian/$(subst install/,,$@) && find ./usr/lib/grub -name \*.mod \
+		| sed -e "s%.*%$(subst install/,,$@): unstripped-binary-or-object &%g" \
+	> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@)
+
 clean::
 	chmod +x debian/script
 	-rm -f debian/grub-{pc,efi,ieee1275,linuxbios}.docs
