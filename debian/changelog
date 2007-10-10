@@ -3,8 +3,9 @@ grub2 (1.95+20071004-2) unstable; urgency=low
   * Rename debian/grub-of.* to debian/grub-ieee1275.*.
   * Add debian/grub-linuxbios.{postinst,dirs,install}.
   * rules: Fix/Overrride lintian warnings (unstripped-binary-or-object).
+  * Remove grub-linuxbios.postinst.
 
- -- Robert Millan <rmh@aybabtu.com>  Wed, 10 Oct 2007 23:56:19 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Wed, 10 Oct 2007 23:56:35 +0200
 
 grub2 (1.95+20071004-1) unstable; urgency=low
 
