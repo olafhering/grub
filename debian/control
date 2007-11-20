@@ -10,8 +10,9 @@ Build-Depends: cdbs (>= 0.4.23-1.1), debhelper (>= 5), patchutils (>= 0.2.25), a
  gcc-multilib [amd64 kfreebsd-amd64 ppc64] | gcc-4.1 (<< 4.1.2) [amd64 kfreebsd-amd64 ppc64]
 Build-Conflicts: autoconf2.13
 Standards-Version: 3.7.2
-XS-Vcs-Svn: svn://svn.debian.org/svn/pkg-grub/grub2/
-XS-Vcs-Browser: svn://svn.debian.org/pkg-grub/
+Homepage: http://www.gnu.org/software/grub/grub-2.en.html
+Vcs-Svn: svn://svn.debian.org/svn/pkg-grub/grub2/
+Vcs-Browser: svn://svn.debian.org/pkg-grub/
 
 
 Package: grub2

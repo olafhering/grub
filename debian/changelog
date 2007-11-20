@@ -1,3 +1,9 @@
+grub2 (1.95+20071101-2) unstable; urgency=low
+
+  * Support new dpkg fields (Homepage, Vcs-Svn, Vcs-Browser).
+
+ -- Robert Millan <rmh@aybabtu.com>  Tue, 20 Nov 2007 21:42:54 +0100
+
 grub2 (1.95+20071101-1) unstable; urgency=low
 
   * New CVS snapshot.
