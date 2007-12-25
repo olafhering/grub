@@ -21,19 +21,14 @@ CONFIGURE = CC="cc" CXX="g++" CPPFLAGS="" LDFLAGS="" \
 	--mandir="\$${prefix}/share/man" --infodir="\$${prefix}/share/info" --sysconfdir=/etc --localstatedir=/var \
 	--libexecdir="\$${prefix}/lib/$(package)" --disable-maintainer-mode --disable-dependency-tracking --srcdir=$(CURDIR)
 
-build/unifont.pff: util/unifont2pff.rb /usr/share/unifont/unifont.hex
-	mkdir -p build
-	ruby $^ > $@
+configure: autogen.sh
+	./autogen.sh
 
-configure/grub-pc configure/grub-ieee1275 configure/grub-efi configure/grub-linuxbios::
+configure/grub-pc configure/grub-ieee1275 configure/grub-efi configure/grub-linuxbios:: configure
 	mkdir -p $(subst configure/,build/,$@)
-	for i in conf/*.rmk ; do \
-		ruby genmk.rb < $$i > `echo $$i | sed -e "s/\.rmk$$/.mk/g"` ; \
-	done
-	autoconf
 	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=$(subst configure/grub-,,$@)
 
-build/grub-pc build/grub-efi build/grub-ieee1275 build/grub-linuxbios:: build/unifont.pff
+build/grub-pc build/grub-efi build/grub-ieee1275 build/grub-linuxbios::
 	$(MAKE) -C $@
 
 build/grub-rescue-pc:: build/grub-pc
