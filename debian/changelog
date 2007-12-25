@@ -6,6 +6,7 @@ grub2 (1.95+20071225-1) unstable; urgency=low
     - unifont.hex now processed by upstream.
       - rules: Disable build of unifont.pff.
       - *.install: Remove build/unifont.pff line.
+    - patches/menu_color.diff: Change menu color to our traditional blue theme.
   * Support new dpkg fields (Homepage, Vcs-Svn, Vcs-Browser).
 
  -- Robert Millan <rmh@aybabtu.com>  Tue, 25 Dec 2007 10:28:27 +0100
