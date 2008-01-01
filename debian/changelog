@@ -1,4 +1,4 @@
-grub2 (1.95+20071225-1) unstable; urgency=low
+grub2 (1.95+20080101-1) unstable; urgency=low
 
   * New CVS snapshot.
     - patches/disable_xfs.diff: Rewrite in a way that won't collide with
@@ -8,8 +8,9 @@ grub2 (1.95+20071225-1) unstable; urgency=low
       - *.install: Remove build/unifont.pff line.
     - patches/menu_color.diff: Change menu color to our traditional blue theme.
   * Support new dpkg fields (Homepage, Vcs-Svn, Vcs-Browser).
+  * patches/disable_ata.diff: Prevent ATA module from being built on i386-pc.
 
- -- Robert Millan <rmh@aybabtu.com>  Tue, 25 Dec 2007 10:28:27 +0100
+ -- Robert Millan <rmh@aybabtu.com>  Tue,  1 Jan 2008 19:45:30 +0100
 
 grub2 (1.95+20071101-1) unstable; urgency=low
 
