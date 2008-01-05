@@ -1,5 +1,10 @@
-grub2 (1.95+20080101-2) unstable; urgency=low
+grub2 (1.95+20080105-1) unstable; urgency=low
 
+  * New CVS snapshot.
+    - Fixes install on non-devfs systems with devfs-style paths (ouch).
+      (Closes: #450709).
+    - Fixes boot of "Linux" zImages (including memtest86+).  (Closes: #436113).
+    - Corrects usage message in grub-setup.  (Closes: #458600).
   * Reestructure grub-pc.postinst.  Notably:
     - Do not touch menu.lst unless user has confirmed it (via debconf).
       (Closes: #459247)
