@@ -2,3 +2,4 @@ debian/presubj			usr/share/bug/grub-pc
 debian/script			usr/share/bug/grub-pc
 debian/default			etc
 debian/legacy/update-grub	usr/lib/grub-legacy
+debian/grub.d			etc

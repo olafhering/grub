@@ -5,6 +5,9 @@ grub2 (1.95+20080105-1) unstable; urgency=low
       (Closes: #450709).
     - Fixes boot of "Linux" zImages (including memtest86+).  (Closes: #436113).
     - Corrects usage message in grub-setup.  (Closes: #458600).
+    - patches/menu_color.diff: Remove.  Made obsolete by `menu_color_normal'
+      and `menu_color_highlight' variables.  Add/install grub.d/05_debian_theme
+      to make use of them.
   * Reestructure grub-pc.postinst.  Notably:
     - Do not touch menu.lst unless user has confirmed it (via debconf).
       (Closes: #459247)

@@ -1,3 +1,4 @@
-debian/presubj		usr/share/bug/grub-linuxbios
-debian/script		usr/share/bug/grub-linuxbios
-debian/default		etc
+debian/presubj			usr/share/bug/grub-linuxbios
+debian/script			usr/share/bug/grub-linuxbios
+debian/default			etc
+debian/grub.d			etc
