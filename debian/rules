@@ -21,10 +21,12 @@ CONFIGURE = CC="cc" CXX="g++" CPPFLAGS="" LDFLAGS="" \
 	--mandir="\$${prefix}/share/man" --infodir="\$${prefix}/share/info" --sysconfdir=/etc --localstatedir=/var \
 	--libexecdir="\$${prefix}/lib/$(package)" --disable-maintainer-mode --disable-dependency-tracking --srcdir=$(CURDIR)
 
-configure: autogen.sh
+AUTOGEN_FILES = configure config.h.in conf/*.mk
+
+$(AUTOGEN_FILES): autogen.sh configure.ac conf/*.rmk
 	./autogen.sh
 
-configure/grub-pc configure/grub-ieee1275 configure/grub-efi configure/grub-linuxbios:: configure
+configure/grub-pc configure/grub-ieee1275 configure/grub-efi configure/grub-linuxbios:: $(AUTOGEN_FILES)
 	mkdir -p $(subst configure/,build/,$@)
 	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=$(subst configure/grub-,,$@)
 
