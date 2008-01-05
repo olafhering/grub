@@ -1,0 +1,19 @@
+Template: grub-pc/chainload_from_menu.lst
+Type: boolean
+Default: true
+Description: Chainload from menu.lst ?
+ GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub.
+ .
+ In order to replace the Legacy version of GRUB in your system, it is
+ recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2
+ from your existing GRUB Legacy setup.  This step may be automaticaly
+ performed now.
+ .
+ It's recommended that you accept chainloading GRUB 2 from menu.lst, and
+ verify that your new GRUB 2 setup is functional for you, before you install
+ it directly to your MBR (Master Boot Record).
+ .
+ In either case, when ever you want GRUB 2 to be loaded directly from MBR,
+ you can do so by issuing (as root) the following command:
+ .
+ grub-install "(hd0)" && update-grub

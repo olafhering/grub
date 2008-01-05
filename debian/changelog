@@ -1,3 +1,12 @@
+grub2 (1.95+20080101-2) unstable; urgency=low
+
+  * Reestructure grub-pc.postinst.  Notably:
+    - Do not touch menu.lst unless user has confirmed it (via debconf).
+      (Closes: #459247)
+    - When we do, keep a backup in /boot/grub/menu.lst_backup_by_grub2_postinst.
+
+ -- Robert Millan <rmh@aybabtu.com>  Sat,  5 Jan 2008 17:55:37 +0100
+
 grub2 (1.95+20080101-1) unstable; urgency=low
 
   * New CVS snapshot.

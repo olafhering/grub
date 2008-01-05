@@ -24,7 +24,7 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
 
 Package: grub-pc
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1)
+Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1), debconf
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub
