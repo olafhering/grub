@@ -12,7 +12,7 @@ case "$1" in
     fi
 
     db_get grub-pc/chainload_from_menu.lst
-    if $RET && ! test -e /boot/grub/core.img ; then
+    if $RET && test -e /boot/grub/menu.lst && ! test -e /boot/grub/core.img ; then
       # If there's no core.img setup, create one (but do not risk writing to MBR).
       if ! test -e /boot/grub/core.img ; then
         echo "Generating core.img" >&2
