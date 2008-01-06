@@ -1,6 +1,7 @@
 grub2 (1.95+20080105-2) unstable; urgency=low
 
   * grub-pc.postinst: Fix covered assumption that menu.lst exists.
+    (Closes: #459247)
 
  -- Robert Millan <rmh@aybabtu.com>  Sun,  6 Jan 2008 17:57:27 +0100
 
