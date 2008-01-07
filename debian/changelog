@@ -1,3 +1,11 @@
+grub2 (1.95+20080107-1) unstable; urgency=low
+
+  * New CVS snapshot.
+    - Supports ReiserFS.  (Closes: #430742)
+    - patches/disable_ata.diff: Resync.
+
+ -- Robert Millan <rmh@aybabtu.com>  Mon,  7 Jan 2008 12:46:39 +0100
+
 grub2 (1.95+20080105-2) unstable; urgency=low
 
   * grub-pc.postinst: Fix covered assumption that menu.lst exists.
