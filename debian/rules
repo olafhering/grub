@@ -60,7 +60,7 @@ install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-linuxbios::
 	> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@)
 
 clean::
-	chmod +x debian/script debian/grub.d/*
+	chmod +x debian/{script,grub.d/*,legacy/*}
 	-rm -f debian/grub-{pc,efi,ieee1275,linuxbios}.docs
 	-rm -rf build
 

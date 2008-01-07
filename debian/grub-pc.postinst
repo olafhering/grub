@@ -25,7 +25,7 @@ case "$1" in
       echo "Saving menu.lst backup in /boot/grub/menu.lst_backup_by_grub2_postinst" >&2
       cp /boot/grub/menu.lst{,_backup_by_grub2_postinst}
       echo "Running update-grub Legacy to hook our core.img in it" >&2
-      bash /usr/lib/grub-legacy/update-grub 2>&1 | sed -e "s/^/\t/g" >&2
+      LET_US_TRY_GRUB_2=true /usr/lib/grub-legacy/update-grub 2>&1 | sed -e "s/^/\t/g" >&2
 
       # We just hooked GRUB 2 in menu.lst; then also generate grub.cfg.
       update-grub

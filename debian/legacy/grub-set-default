@@ -1,0 +1,4 @@
+#!/bin/bash -e
+# This command can be invoked from /usr/lib/grub-legacy/update-grub
+echo "$0: This program does nothing.  It's only provided for compatibility."
+exit 0

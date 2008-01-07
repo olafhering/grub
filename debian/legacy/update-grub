@@ -20,7 +20,7 @@
 # Contributors:
 #	Jason Thomas <jason@debian.org>
 #	David B.Harris <dbarclay10@yahoo.ca>
-#	Marc Haber <mh@zugschlus.de>
+#	Marc Haber <mh+debian-packages@zugschlus.de>
 #	Crispin Flowerday <crispin@zeus.com>
 
 # Abort on errors
@@ -396,6 +396,9 @@ EOF
 echo -n "Searching for default file ... " >&2
 if [ -f "$default_file" ] ; then
   echo "found: $default_file" >&2
+else
+  echo "Generating $default_file file and setting the default boot entry to 0" >&2
+  grub-set-default 0
 fi
 
 # Make sure we use the standard sorting order
@@ -481,9 +484,9 @@ CompareVersions()
 	# rc   = -40
 	# test = -60
 	# others are given 99
-	v1=$(echo $v1 | sed -e 's! k7! 786 !g' -e 's! ac! 50 !g' -e 's! rc! -40 !g' -e 's! pre! -50 !g' -e 's! test! -60 !g' -e 's![^-0-9 ]\+!99!g')
+	v1=$(echo $v1 | sed -e 's! k7! 786 !g' -e 's! ac! 50 !g' -e 's! rc! -40 !g' -e 's! pre! -50 !g' -e 's! test! -60 !g' -e 's![^ ]*[^-0-9 ][^ ]*!99!g')
 
-	v2=$(echo $v2 | sed -e 's! k7! 786 !g' -e 's! ac! 50 !g' -e 's! rc! -40 !g' -e 's! pre! -50 !g' -e 's! test! -60 !g' -e 's![^-0-9 ]\+!99!g')
+	v2=$(echo $v2 | sed -e 's! k7! 786 !g' -e 's! ac! 50 !g' -e 's! rc! -40 !g' -e 's! pre! -50 !g' -e 's! test! -60 !g' -e 's![^ ]*[^-0-9 ][^ ]*!99!g')
 
 	result=0; v1finished=0; v2finished=0;
 	while [ $result -eq 0 ] && [ $v1finished -eq 0 ] && [ $v2finished -eq 0 ];
@@ -987,7 +990,8 @@ esac
 ## heres where we start writing out the kernel entries
 counter=0
 
-if test -f /boot/grub/core.img ; then
+if [ "$LET_US_TRY_GRUB_2" = "true" ] \
+  && test -f /boot/grub/core.img ; then
 	grub2name="$kernel_dir/grub/core.img"
 	echo "Found GRUB 2: $grub2name" >&2
 	cat >> $buffer << EOF
@@ -1156,7 +1160,7 @@ fi
 # Function to update the default value
 set_default_value() {
     if [ "$use_grub_set_default" = "true" ] ; then
-	:
+	grub-set-default $1
     else
 	value="$1"
 	newmenu=$(tempfile)
