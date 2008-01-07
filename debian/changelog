@@ -45,7 +45,7 @@ grub2 (1.95+20080101-1) unstable; urgency=low
 
   * New CVS snapshot.
     - patches/disable_xfs.diff: Rewrite in a way that won't collide with
-    upstream changes so often.
+      upstream changes so often.
     - unifont.hex now processed by upstream.
       - rules: Disable build of unifont.pff.
       - *.install: Remove build/unifont.pff line.
