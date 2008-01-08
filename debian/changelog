@@ -5,8 +5,11 @@ grub2 (1.95+20080107-2) unstable; urgency=low
   * Resync with latest version of GRUB Legacy's update-grub.  This time,
     using the $LET_US_TRY_GRUB_2 hack to reuse the same script both for
     addition of core.img and its removal.
+  * grub-pc.links: Add update-grub2 symlink.  Packages providing /etc/grub.d/
+    scripts should invoke update-grub2 in both postinst and postrm (whenever
+    it is found, of course).
 
- -- Robert Millan <rmh@aybabtu.com>  Mon,  7 Jan 2008 23:15:20 +0100
+ -- Robert Millan <rmh@aybabtu.com>  Tue,  8 Jan 2008 12:51:03 +0100
 
 grub2 (1.95+20080107-1) unstable; urgency=low
 
