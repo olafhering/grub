@@ -8,7 +8,7 @@ case "$1" in
       echo "Saving menu.lst backup in /boot/grub/menu.lst_backup_by_grub2_prerm" >&2
       cp /boot/grub/menu.lst{,_backup_by_grub2_prerm}
       echo "Running update-grub Legacy to remove our core.img in it" >&2
-      /usr/lib/grub-legacy/update-grub 2>&1 | sed -e "s/^/\t/g" >&2
+      /usr/lib/grub-legacy/update-grub 2>&1 | sed -e "s/^/    /g" >&2
     fi
   ;;
   failed-upgrade)
