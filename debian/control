@@ -17,10 +17,17 @@ Vcs-Browser: svn://svn.debian.org/pkg-grub/
 
 Package: grub2
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
-Depends: debconf, grub-pc [i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64] | grub-of [powerpc ppc64], base-files (>= 4.0.1)
+Depends: debconf, grub-pc [i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64] | grub-ieee1275 [powerpc ppc64]
 Description: GRand Unified Bootloader, version 2 (dummy package)
  This is a dummy transitional package to handle GRUB 2 upgrades.  It can be
  safely removed.
+
+Package: grub-of
+Architecture: powerpc ppc64
+Depends: grub-ieee1275 (= ${Source-Version})
+Description: GRand Unified Bootloader, version 2 [dummy]
+ This is a dummy transitional package that depends on grub-ieee1275.
+
 
 Package: grub-pc
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
@@ -29,28 +36,18 @@ Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub
 Description: GRand Unified Bootloader, version 2 (PC/BIOS version)
- GRUB 2 (also known as PUPA) is the Preliminary Universal Programming
- Architecture for GRUB. It is a research project for the next generation of
- GNU GRUB. The most important goal is to make GNU GRUB cleaner, safer, more
- robust, more powerful, and more portable.
+ GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
+ cleaner design than its predecessors, and provides the following new features:
  .
- GRUB 2 targets at the following goals:
- .
-  - Scripting support, such as conditionals, loops, variables and functions.
-  - Graphical interface.
-  - Dynamic loading of modules in order to extend itself at the run time
-    rather than at the build time.
-  - Portability for various architectures.
-  - Internationalization. This includes support for non-ASCII character code,
-    message catalogs like gettext, fonts, graphics console, and so on.
-  - Real memory management, to make GNU GRUB more extensible.
-  - Modular, hierarchical, object-oriented framework for file systems, files,
-    devices, drives, terminals, commands, partition tables and OS loaders.
-  - Cross-platform installation which allows for installing GRUB from a
-    different architecture.
-  - Rescue mode saves unbootable cases. Stage 1.5 was eliminated.
-  - Fix design mistakes in GRUB Legacy, which could not be solved for
-    backward-compatibility, such as the way of numbering partitions. 
+  - Scripting in grub.cfg using BASH-like syntax.
+  - Support for modern partition maps such as GPT.
+  - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
+    add-ons can plug in their own script rules and trigger updates by invoking
+    update-grub2.
+  - VESA-based graphical mode with background image support and complete 24-bit
+    color set.
+  - Support for extended charsets.  Users can write UTF-8 text to their menu
+    entries.
  .
  This package contains a version of GRUB that has been built for use with
  traditional PC/BIOS architecture.
@@ -72,28 +69,14 @@ Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub
 Description: GRand Unified Bootloader, version 2 (LinuxBIOS version)
- GRUB 2 (also known as PUPA) is the Preliminary Universal Programming
- Architecture for GRUB. It is a research project for the next generation of
- GNU GRUB. The most important goal is to make GNU GRUB cleaner, safer, more
- robust, more powerful, and more portable.
+ GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
+ cleaner design than its predecessors, and provides the following new features:
  .
- GRUB 2 targets at the following goals:
- .
-  - Scripting support, such as conditionals, loops, variables and functions.
-  - Graphical interface.
-  - Dynamic loading of modules in order to extend itself at the run time
-    rather than at the build time.
-  - Portability for various architectures.
-  - Internationalization. This includes support for non-ASCII character code,
-    message catalogs like gettext, fonts, graphics console, and so on.
-  - Real memory management, to make GNU GRUB more extensible.
-  - Modular, hierarchical, object-oriented framework for file systems, files,
-    devices, drives, terminals, commands, partition tables and OS loaders.
-  - Cross-platform installation which allows for installing GRUB from a
-    different architecture.
-  - Rescue mode saves unbootable cases. Stage 1.5 was eliminated.
-  - Fix design mistakes in GRUB Legacy, which could not be solved for
-    backward-compatibility, such as the way of numbering partitions. 
+  - Scripting in grub.cfg using BASH-like syntax.
+  - Support for modern partition maps such as GPT.
+  - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
+    add-ons can plug in their own script rules and trigger updates by invoking
+    update-grub2.
  .
  This package contains a version of GRUB that has been built for use with
  platforms running the LinuxBIOS firmware.
@@ -105,28 +88,14 @@ Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub
 Description: GRand Unified Bootloader, version 2 (EFI version)
- GRUB 2 (also known as PUPA) is the Preliminary Universal Programming
- Architecture for GRUB. It is a research project for the next generation of
- GNU GRUB. The most important goal is to make GNU GRUB cleaner, safer, more
- robust, more powerful, and more portable.
+ GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
+ cleaner design than its predecessors, and provides the following new features:
  .
- GRUB 2 targets at the following goals:
- .
-  - Scripting support, such as conditionals, loops, variables and functions.
-  - Graphical interface.
-  - Dynamic loading of modules in order to extend itself at the run time
-    rather than at the build time.
-  - Portability for various architectures.
-  - Internationalization. This includes support for non-ASCII character code,
-    message catalogs like gettext, fonts, graphics console, and so on.
-  - Real memory management, to make GNU GRUB more extensible.
-  - Modular, hierarchical, object-oriented framework for file systems, files,
-    devices, drives, terminals, commands, partition tables and OS loaders.
-  - Cross-platform installation which allows for installing GRUB from a
-    different architecture.
-  - Rescue mode saves unbootable cases. Stage 1.5 was eliminated.
-  - Fix design mistakes in GRUB Legacy, which could not be solved for
-    backward-compatibility, such as the way of numbering partitions. 
+  - Scripting in grub.cfg using BASH-like syntax.
+  - Support for modern partition maps such as GPT.
+  - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
+    add-ons can plug in their own script rules and trigger updates by invoking
+    update-grub2.
  .
  This package contains a version of GRUB that has been built for use with
  EFI architecture, such as the one provided by Intel Macs (that is, unless
@@ -138,32 +107,15 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, powerpc-ibm-utils (>= 1.0.6), power
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub
-Description: GRand Unified Bootloader, version 2
- GRUB 2 (also known as PUPA) is the Preliminary Universal Programming
- Architecture for GRUB. It is a research project for the next generation of
- GNU GRUB. The most important goal is to make GNU GRUB cleaner, safer, more
- robust, more powerful, and more portable.
+Description: GRand Unified Bootloader, version 2 (Open Firmware version)
+ GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
+ cleaner design than its predecessors, and provides the following new features:
  .
- GRUB 2 targets at the following goals:
+  - Scripting in grub.cfg using BASH-like syntax.
+  - Support for modern partition maps such as GPT.
+  - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
+    add-ons can plug in their own script rules and trigger updates by invoking
+    update-grub2.
  .
-  - Scripting support, such as conditionals, loops, variables and functions.
-  - Graphical interface.
-  - Dynamic loading of modules in order to extend itself at the run time
-    rather than at the build time.
-  - Portability for various architectures.
-  - Internationalization. This includes support for non-ASCII character code,
-    message catalogs like gettext, fonts, graphics console, and so on.
-  - Real memory management, to make GNU GRUB more extensible.
-  - Modular, hierarchical, object-oriented framework for file systems, files,
-    devices, drives, terminals, commands, partition tables and OS loaders.
-  - Cross-platform installation which allows for installing GRUB from a
-    different architecture.
-  - Rescue mode saves unbootable cases. Stage 1.5 was eliminated.
-  - Fix design mistakes in GRUB Legacy, which could not be solved for
-    backward-compatibility, such as the way of numbering partitions. 
-
-Package: grub-of
-Architecture: powerpc ppc64
-Depends: grub-ieee1275 (= ${Source-Version}), base-files (>= 4.0.1)
-Description: GRand Unified Bootloader, version 2 [dummy]
- This is a dummy transitional package that depends on grub-ieee1275.
+ This package contains a version of GRUB that has been built for use with
+ Open Firmware implementations.
