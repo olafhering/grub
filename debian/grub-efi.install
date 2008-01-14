@@ -2,3 +2,4 @@ debian/presubj			usr/share/bug/grub-efi
 debian/script			usr/share/bug/grub-efi
 debian/default			etc
 debian/grub.d			etc
+debian/update-grub2		usr/sbin

@@ -4,3 +4,4 @@ debian/default			etc
 debian/grub.d			etc
 debian/legacy/update-grub	usr/lib/grub-legacy
 debian/legacy/grub-set-default	usr/sbin
+debian/update-grub2		usr/sbin
