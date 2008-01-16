@@ -15,6 +15,7 @@ grub2 (1.95+20080116-1) unstable; urgency=low
     it is found, of course).
   * control: Reorganize a bit, including a complete rewrite of the
     package descriptions.
+  * control (grub-ieee1275): Enable for i386/amd64.
 
  -- Robert Millan <rmh@aybabtu.com>  Wed, 16 Jan 2008 15:00:54 +0100
 

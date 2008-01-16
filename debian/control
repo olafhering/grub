@@ -102,8 +102,9 @@ Description: GRand Unified Bootloader, version 2 (EFI version)
  they are in MBR emulation mode).
 
 Package: grub-ieee1275
-Architecture: powerpc ppc64
-Depends: ${shlibs:Depends}, ${misc:Depends}, powerpc-ibm-utils (>= 1.0.6), powerpc-utils, bc, base-files (>= 4.0.1)
+Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
+Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1),
+ powerpc-ibm-utils (>= 1.0.6) [powerpc ppc64], powerpc-utils [powerpc ppc64], bc [powerpc ppc64]
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub
