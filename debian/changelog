@@ -1,9 +1,10 @@
-grub2 (1.95+20080114-1) unstable; urgency=low
+grub2 (1.95+20080116-1) unstable; urgency=low
 
   * New CVS snapshot.
     - update-grub ignores stale *.dpkg-* files.  (Closes: #422708, #424223)
     - LVM/RAID now working properly (except when it affects /boot).
       (Closes: #425666)
+    - Fixes flickery in timeout message.  (Closes: #437275)
   * grub-pc.postinst: Use `--no-floppy' whenever possible.  Die, floppies,
     die!
   * Resync with latest version of GRUB Legacy's update-grub.  This time,
@@ -15,7 +16,7 @@ grub2 (1.95+20080114-1) unstable; urgency=low
   * control: Reorganize a bit, including a complete rewrite of the
     package descriptions.
 
- -- Robert Millan <rmh@aybabtu.com>  Mon, 14 Jan 2008 13:12:16 +0100
+ -- Robert Millan <rmh@aybabtu.com>  Wed, 16 Jan 2008 15:00:54 +0100
 
 grub2 (1.95+20080107-1) unstable; urgency=low
 
