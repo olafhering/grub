@@ -14,8 +14,6 @@ grub2 (1.95+20080114-1) unstable; urgency=low
     it is found, of course).
   * control: Reorganize a bit, including a complete rewrite of the
     package descriptions.
-  * grub.d/05_debian_theme: Start using the new background provided by
-    desktop-base.
 
  -- Robert Millan <rmh@aybabtu.com>  Mon, 14 Jan 2008 13:12:16 +0100
 
