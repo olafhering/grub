@@ -4,19 +4,19 @@
 source /usr/lib/grub/update-grub_lib
 
 # Disabled due to bug in desktop-base 4.0.5 - pending to reenable
-#if [ "$GRUB_TERMINAL" = "gfxterm" ] \
-#    && bg=`convert_system_path_to_grub_path /usr/share/images/desktop-base/debian-blueish-wallpaper-640x480.tga` ; then
-#  echo "Found Debian background: `basename ${bg}`" >&2
-#  cat << EOF
-#insmod tga
-#background_image ${bg}
-#set color_normal=black/black
-#set color_highlight=magenta/black
-#EOF
-#else
+if [ "$GRUB_TERMINAL" = "gfxterm" ] \
+    && bg=`convert_system_path_to_grub_path /usr/share/images/desktop-base/debian-blueish-wallpaper-640x480.tga` ; then
+  echo "Found Debian background: `basename ${bg}`" >&2
+  cat << EOF
+insmod tga
+background_image ${bg}
+set color_normal=black/black
+set color_highlight=magenta/black
+EOF
+else
   # set the traditional Debian blue theme
   cat << EOF
 set menu_color_normal=cyan/blue
 set menu_color_highlight=white/blue
 EOF
-#fi
+fi

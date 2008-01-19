@@ -1,8 +1,9 @@
 grub2 (1.95+20080116-2) unstable; urgency=low
 
+  * grub.d/05_debian_theme: Enable swirlish beauty.
   * rules: Obtain debian/legacy/update-grub dynamicaly from GRUB Legacy svn.
 
- -- Robert Millan <rmh@aybabtu.com>  Wed, 16 Jan 2008 16:42:00 +0100
+ -- Robert Millan <rmh@aybabtu.com>  Sat, 19 Jan 2008 13:16:18 +0100
 
 grub2 (1.95+20080116-1) unstable; urgency=low
 
