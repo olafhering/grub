@@ -1,15 +1,17 @@
-grub2 (1.95+20080124-1) unstable; urgency=low
+grub2 (1.95+20080127-1) unstable; urgency=low
 
   * New CVS snapshot.
+    - Fixes bogus CLAIM problems on Apple firmware.  (Closes: #449135, #422729)
+    - grub-probe performs sanity checks to make sure our filesystem drivers
+      are usable.  (Closes: #462449)
     - patches/disable_ata.diff: Remove.  ATA module isn't auto-loaded in
       rescue floppies now.
-    - patches/disable_xfs.diff: Remove.  grub-probe is smart enough to detect
-      buggy GRUB filesystems now.
+    - patches/disable_xfs.diff: Remove.  See above (about grub-probe).
   * Bring back grub-emu; it can help a lot with debugging feedback.
     - control
     - rules
 
- -- Robert Millan <rmh@aybabtu.com>  Sun, 27 Jan 2008 10:05:02 +0100
+ -- Robert Millan <rmh@aybabtu.com>  Sun, 27 Jan 2008 22:51:16 +0100
 
 grub2 (1.95+20080116-2) unstable; urgency=low
 
