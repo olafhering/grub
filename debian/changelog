@@ -5,6 +5,9 @@ grub2 (1.95+20080124-1) unstable; urgency=low
       rescue floppies now.
     - patches/disable_xfs.diff: Remove.  grub-probe is smart enough to detect
       buggy GRUB filesystems now.
+  * Bring back grub-emu; it can help a lot with debugging feedback.
+    - control
+    - rules
 
  -- Robert Millan <rmh@aybabtu.com>  Sun, 27 Jan 2008 10:05:02 +0100
 
