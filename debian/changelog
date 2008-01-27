@@ -1,4 +1,4 @@
-grub2 (1.95+20080127-1) unstable; urgency=low
+grub2 (1.95+20080128-1) unstable; urgency=low
 
   * New CVS snapshot.
     - Fixes bogus CLAIM problems on Apple firmware.  (Closes: #449135, #422729)
@@ -11,7 +11,7 @@ grub2 (1.95+20080127-1) unstable; urgency=low
     - control
     - rules
 
- -- Robert Millan <rmh@aybabtu.com>  Sun, 27 Jan 2008 22:51:16 +0100
+ -- Robert Millan <rmh@aybabtu.com>  Mon, 28 Jan 2008 00:01:11 +0100
 
 grub2 (1.95+20080116-2) unstable; urgency=low
 
