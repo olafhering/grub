@@ -1,5 +1,16 @@
 
-IMPORTANT NOTE FOR UPSTREAM BUGS
+MAKE SURE YOU ARE RUNNING THE LATEST VERSION
+
+On i386-pc, the grub package never updates the installed version of GRUB
+automatically (the first time, it may hook itself in GRUB Legacy's menu,
+but that's all).
+
+Because of this, you need to make sure you're running the LATEST VERSION of
+GRUB before you report a bug.  Use grub-install to update it, and then check
+if the bug still applies.  Debugging problems we already fixed makes us waste
+valuable time, so please try to avoid it.
+
+IMPORTANT NOTE WHEN SUBMITING PATCHES
 
 Like many other FSF projects, GRUB upstream has specific requisites for
 accepting patches with regard to copyright assignment.  If you're going to
