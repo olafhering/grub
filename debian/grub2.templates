@@ -1,6 +1,6 @@
 Template: grub2/numbering_scheme_transition
 Type: note
-Description: GRUB 1.95 numbering scheme transition
+_Description: GRUB 1.95 numbering scheme transition
  As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions are
  now counted starting from 1 rather than 0.  This is to make it consistent with
  device names of Linux and the other kernels used in Debian.  For example, when

@@ -1,1 +1,2 @@
-[type: gettext/rfc822deb] templates
+[type: gettext/rfc822deb] grub2.templates
+[type: gettext/rfc822deb] grub-pc.templates

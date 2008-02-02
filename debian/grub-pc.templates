@@ -1,7 +1,7 @@
 Template: grub-pc/chainload_from_menu.lst
 Type: boolean
 Default: true
-Description: Chainload from menu.lst ?
+_Description: Chainload from menu.lst ?
  GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub.
  .
  In order to replace the Legacy version of GRUB in your system, it is

@@ -1,3 +1,9 @@
+grub2 (1.95+20080201-2) unstable; urgency=low
+
+  * Fix po-debconf errors.  Thanks Thomas Huriaux.  (Closes: #402972)
+
+ -- Robert Millan <rmh@aybabtu.com>  Sat,  2 Feb 2008 18:10:15 +0100
+
 grub2 (1.95+20080201-1) unstable; urgency=low
 
   * New CVS snapshot.
