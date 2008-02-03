@@ -106,7 +106,7 @@ Description: GRand Unified Bootloader, version 2 (EFI version)
 Package: grub-ieee1275
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
 Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1),
- powerpc-ibm-utils (>= 1.0.6) [powerpc ppc64], powerpc-utils [powerpc ppc64], bc [powerpc ppc64]
+ powerpc-ibm-utils [powerpc ppc64], powerpc-utils [powerpc ppc64], bc [powerpc ppc64]
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub

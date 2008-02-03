@@ -9,6 +9,7 @@ grub2 (1.95+20080203-1) unstable; urgency=low
   * grub.d/05_debian_theme:
     - Add runtime error detection.
     - Detect/Enable PNG background when it is present.
+  * control (grub-ieee1275): Remove versioned dependency on powerpc-ibm-utils.
 
  -- Robert Millan <rmh@aybabtu.com>  Sun,  3 Feb 2008 19:31:23 +0100
 
