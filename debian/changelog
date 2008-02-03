@@ -1,11 +1,16 @@
-grub2 (1.95+20080201-2) unstable; urgency=low
+grub2 (1.95+20080203-1) unstable; urgency=low
 
+  * New CVS snapshot.
+    - patches/01_regparm.diff: Delete.
+    - Improved XFS support.
+    - util/grub.d/00_header.in: Add runtime error detection (for gfxterm).
+    - Fixes problem when chainloading to Vista.
   * Fix po-debconf errors.  Thanks Thomas Huriaux.  (Closes: #402972)
   * grub.d/05_debian_theme:
     - Add runtime error detection.
     - Detect/Enable PNG background when it is present.
 
- -- Robert Millan <rmh@aybabtu.com>  Sun,  3 Feb 2008 15:45:47 +0100
+ -- Robert Millan <rmh@aybabtu.com>  Sun,  3 Feb 2008 19:31:23 +0100
 
 grub2 (1.95+20080201-1) unstable; urgency=low
 
