@@ -1,6 +1,6 @@
-grub2 (1.95+20080203-1) unstable; urgency=low
+grub2 (1.96+20080203-1) unstable; urgency=low
 
-  * New CVS snapshot.
+  * New CVS snapshot (and release, but we skipped that ;-))
     - patches/01_regparm.diff: Delete.
     - Improved XFS support.
     - util/grub.d/00_header.in: Add runtime error detection (for gfxterm).
