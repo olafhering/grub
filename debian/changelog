@@ -1,7 +1,9 @@
 grub2 (1.95+20080201-2) unstable; urgency=low
 
   * Fix po-debconf errors.  Thanks Thomas Huriaux.  (Closes: #402972)
-  * grub.d/05_debian_theme: Add runtime error detection.
+  * grub.d/05_debian_theme:
+    - Add runtime error detection.
+    - Detect/Enable PNG background when it is present.
 
  -- Robert Millan <rmh@aybabtu.com>  Sun,  3 Feb 2008 15:45:47 +0100
 

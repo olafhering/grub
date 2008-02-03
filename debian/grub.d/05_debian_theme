@@ -11,18 +11,27 @@ set menu_color_highlight=white/blue
 EOF
 }
 
-# set the background if possible
-if [ "$GRUB_TERMINAL" = "gfxterm" ] \
-    && bg=`convert_system_path_to_grub_path /usr/share/images/desktop-base/debian-blueish-wallpaper-640x480.tga` ; then
-  echo "Found Debian background: `basename ${bg}`" >&2
-  use_bg=true
-else
-  use_bg=false
+# check for usable backgrounds
+use_bg=false
+if [ "$GRUB_TERMINAL" = "gfxterm" ] ; then
+  for i in /usr/share/images/desktop-base/debian-blueish-wallpaper-640x480.{png,tga} ; do
+    if bg=`convert_system_path_to_grub_path $i` ; then 
+      echo "Found Debian background: `basename ${bg}`" >&2
+      use_bg=true
+      break
+    fi
+  done
 fi
 
+# set the background if possible
 if ${use_bg} ; then
+  case ${bg} in
+    *.png)		reader=png ;;
+    *.tga)		reader=tga ;;
+    *.jpg|*.jpeg)	reader=jpeg ;;
+  esac
   cat << EOF
-insmod tga
+insmod ${reader}
 if background_image ${bg} ; then
   set color_normal=black/black
   set color_highlight=magenta/black
