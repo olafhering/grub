@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2007-03-04 09:52+0100\n"
+"POT-Creation-Date: 2008-02-04 15:23+0100\n"
 "PO-Revision-Date: 2007-03-04 10:43+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -15,31 +15,97 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. Type: error
+#. Type: note
 #. Description
-#: ../templates:1001
-msgid "GRUB 1.95 partition numbering scheme transition"
+#: ../grub2.templates:1001
+#, fuzzy
+msgid "GRUB 1.95 numbering scheme transition"
 msgstr "Övergång av partitionnumreringsschema för GRUB 1.95"
 
-#. Type: error
+#. Type: note
 #. Description
-#: ../templates:1001
-msgid "As of version 1.95, GRUB 2 has changed its partition numbering scheme. Partitions are now counted starting from 1 rather than 0. This is consistent with the device names of Linux and the other kernels used in the distribution. For example, when using Linux as the kernel, \"(hd0,1)\" refers to the same partition as the /dev/sda1 device node."
-msgstr "Från och med version 1.95 har GRUB 2 ändrat sitt partitionsnumreringsschema. Partitioner räknas nu fram med start från 1 istället för 0. Det här är gällande standard för enhetsnamnet i Linux och de andra kärnorna som används i distributionen. Till exempel när Linux används som kärna refererar \"(hd0,1)\" till samma partition som enhetsnoden /dev/sda1."
-
-#. Type: error
-#. Description
-#: ../templates:1001
-msgid "Because of this, there is a risk that the system becomes unbootable: if update-grub(8) is run before GRUB is updated, it will generate a grub.cfg file that the installed GRUB won't yet be able to parse correctly. To ensure that the system will be able to boot, you should:"
-msgstr "På grund av det här kan det finnas en risk att systemet inte kan startas upp: om update-grub(8) körs innan GRUB har uppdaterats kommer den att generera en grub.cfg-fil som den installerade GRUB ännu inte kan tolka korrekt. För att försäkra dig om att systemet kan startas upp bör du:"
-
-#. Type: error
-#. Description
-#: ../templates:1001
+#: ../grub2.templates:1001
+#, fuzzy
 msgid ""
-" - Reinstall GRUB (typically, by running grub-install).\n"
+"As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions are "
+"now counted starting from 1 rather than 0.  This is to make it consistent "
+"with device names of Linux and the other kernels used in Debian.  For "
+"example, when using Linux as the kernel, \"(hd0,1)\" refers to the same "
+"partition as the /dev/sda1 device node."
+msgstr ""
+"Från och med version 1.95 har GRUB 2 ändrat sitt partitionsnumreringsschema. "
+"Partitioner räknas nu fram med start från 1 istället för 0. Det här är "
+"gällande standard för enhetsnamnet i Linux och de andra kärnorna som används "
+"i distributionen. Till exempel när Linux används som kärna refererar "
+"\"(hd0,1)\" till samma partition som enhetsnoden /dev/sda1."
+
+#. Type: note
+#. Description
+#: ../grub2.templates:1001
+#, fuzzy
+msgid ""
+"Because of this, there's a chance your system becomes unbootable if update-"
+"grub(8) is run before GRUB is updated, generating a grub.cfg file that your "
+"installed GRUB won't yet be able to parse correctly.  To ensure your system "
+"will be able to boot, you have to:"
+msgstr ""
+"På grund av det här kan det finnas en risk att systemet inte kan startas "
+"upp: om update-grub(8) körs innan GRUB har uppdaterats kommer den att "
+"generera en grub.cfg-fil som den installerade GRUB ännu inte kan tolka "
+"korrekt. För att försäkra dig om att systemet kan startas upp bör du:"
+
+#. Type: note
+#. Description
+#: ../grub2.templates:1001
+#, fuzzy
+msgid ""
+" - Reinstall GRUB (typicaly, by running grub-install).\n"
 " - Rerun update-grub to generate a new grub.cfg."
 msgstr ""
 " - Installera om GRUB (vanligtvis genom att köra grub-install).\n"
 " - Kör update-grub igen för att generera en ny grub.cfg."
 
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "Chainload from menu.lst ?"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid ""
+"In order to replace the Legacy version of GRUB in your system, it is "
+"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
+"your existing GRUB Legacy setup.  This step may be automaticaly performed "
+"now."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid ""
+"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
+"verify that your new GRUB 2 setup is functional for you, before you install "
+"it directly to your MBR (Master Boot Record)."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid ""
+"In either case, when ever you want GRUB 2 to be loaded directly from MBR, "
+"you can do so by issuing (as root) the following command:"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "grub-install \"(hd0)\" && update-grub"
+msgstr ""

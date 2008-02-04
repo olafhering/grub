@@ -1,3 +1,9 @@
+grub2 (1.96+20080203-2) unstable; urgency=low
+
+  * Run debconf-updatepo.  (Closes: #463918)
+
+ -- Robert Millan <rmh@aybabtu.com>  Mon,  4 Feb 2008 15:24:39 +0100
+
 grub2 (1.96+20080203-1) unstable; urgency=low
 
   * New CVS snapshot (and release, but we skipped that ;-))
