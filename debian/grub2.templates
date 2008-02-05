@@ -12,5 +12,5 @@ _Description: GRUB 1.95 numbering scheme transition
  your installed GRUB won't yet be able to parse correctly.  To ensure your
  system will be able to boot, you have to:
  .
-  - Reinstall GRUB (typicaly, by running grub-install).
+  - Reinstall GRUB (typically, by running grub-install).
   - Rerun update-grub to generate a new grub.cfg.

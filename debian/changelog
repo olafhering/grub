@@ -1,5 +1,7 @@
 grub2 (1.96+20080203-2) unstable; urgency=low
 
+  * Fix a pair of spelling errors in debconf templates.  Thanks Christian
+    Perrier.  (Closes: #464133)
   * Run debconf-updatepo.  (Closes: #463918)
 
  -- Robert Millan <rmh@aybabtu.com>  Mon,  4 Feb 2008 15:24:39 +0100

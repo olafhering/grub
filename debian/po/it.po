@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2 italian debconf templates\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-02-04 15:23+0100\n"
+"POT-Creation-Date: 2008-02-05 23:21+0100\n"
 "PO-Revision-Date: 2007-03-04 18:14+0100\n"
 "Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -61,7 +61,7 @@ msgstr ""
 #: ../grub2.templates:1001
 #, fuzzy
 msgid ""
-" - Reinstall GRUB (typicaly, by running grub-install).\n"
+" - Reinstall GRUB (typically, by running grub-install).\n"
 " - Rerun update-grub to generate a new grub.cfg."
 msgstr ""
 " - Reinstallare GRUB (tipicamente eseguendo grub-install).\n"
@@ -102,8 +102,8 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates:1001
 msgid ""
-"In either case, when ever you want GRUB 2 to be loaded directly from MBR, "
-"you can do so by issuing (as root) the following command:"
+"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
+"can do so by issuing (as root) the following command:"
 msgstr ""
 
 #. Type: boolean
