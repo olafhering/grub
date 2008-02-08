@@ -3,8 +3,9 @@ grub2 (1.96+20080203-2) unstable; urgency=low
   * Fix a pair of spelling errors in debconf templates.  Thanks Christian
     Perrier.  (Closes: #464133)
   * Run debconf-updatepo.  (Closes: #463918)
+  * Lower base-files versioned dependency to >= 4.0.1~bpo40+1.
 
- -- Robert Millan <rmh@aybabtu.com>  Mon,  4 Feb 2008 15:24:39 +0100
+ -- Robert Millan <rmh@aybabtu.com>  Thu,  7 Feb 2008 23:41:30 +0100
 
 grub2 (1.96+20080203-1) unstable; urgency=low
 

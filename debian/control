@@ -32,7 +32,7 @@ Description: GRand Unified Bootloader, version 2 [dummy]
 
 Package: grub-pc
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1), debconf
+Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1~bpo40+1), debconf
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub, desktop-base (= 4.0.5)
@@ -56,7 +56,7 @@ Description: GRand Unified Bootloader, version 2 (PC/BIOS version)
 
 Package: grub-rescue-pc
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: base-files (>= 4.0.1)
+Depends: base-files (>= 4.0.1~bpo40+1)
 Description: GRUB bootable rescue images, version 2 (PC/BIOS version)
  This package contains two GRUB rescue images that have been built for use with
  traditional PC/BIOS architecture:
@@ -66,7 +66,7 @@ Description: GRUB bootable rescue images, version 2 (PC/BIOS version)
 
 Package: grub-linuxbios
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1)
+Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1~bpo40+1)
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub
@@ -85,7 +85,7 @@ Description: GRand Unified Bootloader, version 2 (LinuxBIOS version)
 
 Package: grub-efi
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1)
+Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1~bpo40+1)
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub
@@ -105,7 +105,7 @@ Description: GRand Unified Bootloader, version 2 (EFI version)
 
 Package: grub-ieee1275
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
-Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1),
+Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1~bpo40+1),
  powerpc-ibm-utils [powerpc ppc64], powerpc-utils [powerpc ppc64], bc [powerpc ppc64]
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
