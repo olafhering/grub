@@ -1,11 +1,18 @@
-grub2 (1.96+20080203-2) unstable; urgency=low
+grub2 (1.96+20080209-1) unstable; urgency=low
 
+  * New CVS snapshot.
+    - Fix a root device setting issue in grub-setup.  (Closes: #463391)
+    - Fix partmap detection under LVM/RAID.
+    - Add scripting commands that would allow user to implement hiddenmenu-like
+      functionality (http://grub.enbug.org/Hiddenmenu).
+    - Provide manpages for grub-setup, grub-emu, grub-mkimage and others.
+      (Closes: #333516, #372890)
   * Fix a pair of spelling errors in debconf templates.  Thanks Christian
     Perrier.  (Closes: #464133)
   * Run debconf-updatepo.  (Closes: #463918)
   * Lower base-files versioned dependency to >= 4.0.1~bpo40+1.
 
- -- Robert Millan <rmh@aybabtu.com>  Thu,  7 Feb 2008 23:41:30 +0100
+ -- Robert Millan <rmh@aybabtu.com>  Sat,  9 Feb 2008 13:43:49 +0100
 
 grub2 (1.96+20080203-1) unstable; urgency=low
 
