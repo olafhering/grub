@@ -5,8 +5,9 @@ grub2 (1.96+20080210-2) unstable; urgency=low
 
   [ Robert Millan ]
   * Remove bogus "update-grub" call in debconf suggestion.
+  * script: For /proc/mounts, only report lines that start with /dev/.
 
- -- Robert Millan <rmh@aybabtu.com>  Sun, 10 Feb 2008 23:58:56 +0100
+ -- Robert Millan <rmh@aybabtu.com>  Mon, 11 Feb 2008 00:04:07 +0100
 
 grub2 (1.96+20080210-1) unstable; urgency=high
 
