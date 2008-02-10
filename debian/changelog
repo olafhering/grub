@@ -1,3 +1,13 @@
+grub2 (1.96+20080209-2) unstable; urgency=high
+
+  * Fix license violation (incompatibility between GRUB and LZO2).
+    (Closes: #465056)
+    - Urgency set to high.
+    - control: Move liblzo2-dev from Build-Depends to Build-Conflicts
+      (leaving liblzo-dev as the only option).
+
+ -- Robert Millan <rmh@aybabtu.com>  Sun, 10 Feb 2008 17:09:15 +0100
+
 grub2 (1.96+20080209-1) unstable; urgency=low
 
   * New CVS snapshot.
