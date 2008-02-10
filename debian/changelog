@@ -1,5 +1,10 @@
-grub2 (1.96+20080209-2) unstable; urgency=high
+grub2 (1.96+20080210-1) unstable; urgency=high
 
+  * New CVS snapshot.
+    - Errors that cause GRUB to enter rescue mode are displayed now.
+      (Closes: #425149)
+    - Build LVM/RAID modules into a few commands that were missing them
+      (notably, grub-setup).  (Closes: #465033)
   * Fix license violation (incompatibility between GRUB and LZO2).
     (Closes: #465056)
     - Urgency set to high.
