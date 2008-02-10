@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-04 04:31+0100\n"
+"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2008-02-10 23:58+0100\n"
 "PO-Revision-Date: 2008-02-10 22:05+0000\n"
 "Last-Translator: Ricardo Silva <ardoric@gmail.com>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
@@ -32,11 +32,11 @@ msgid ""
 "example, when using Linux as the kernel, \"(hd0,1)\" refers to the same "
 "partition as the /dev/sda1 device node."
 msgstr ""
-"Na versão 1.95, o GRUB 2 mudou o seu esquema de numeração. As "
-"partições são agora contadas a partir de 1 em vez de 0. Isto é consistente "
-"com os nomes dos dispositivos em Linux e outros kernels utilizados na "
-"Debian. Por exemplo, quando utilizar Linux como kernel, \"(hd0,1)\" "
-"refere-se à mesma partição que o dispositivo /dev/sda1."
+"Na versão 1.95, o GRUB 2 mudou o seu esquema de numeração. As partições são "
+"agora contadas a partir de 1 em vez de 0. Isto é consistente com os nomes "
+"dos dispositivos em Linux e outros kernels utilizados na Debian. Por "
+"exemplo, quando utilizar Linux como kernel, \"(hd0,1)\" refere-se à mesma "
+"partição que o dispositivo /dev/sda1."
 
 #. Type: note
 #. Description
@@ -55,8 +55,9 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../grub2.templates:1001
+#, fuzzy
 msgid ""
-" - Reinstall GRUB (typicaly, by running grub-install).\n"
+" - Reinstall GRUB (typically, by running grub-install).\n"
 " - Rerun update-grub to generate a new grub.cfg."
 msgstr ""
 " - Reinstalar o GRUB (tipicamente, correndo grub-install).\n"
@@ -73,8 +74,8 @@ msgstr "Carregar a partir do menu.lst ?"
 #: ../grub-pc.templates:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
-"Os scripts de actualização do GRUB detectaram uma configuração do GRUB Legacy "
-"em /boot/grub."
+"Os scripts de actualização do GRUB detectaram uma configuração do GRUB "
+"Legacy em /boot/grub."
 
 #. Type: boolean
 #. Description
@@ -85,10 +86,10 @@ msgid ""
 "your existing GRUB Legacy setup.  This step may be automaticaly performed "
 "now."
 msgstr ""
-"Para substituir a versão Legacy do GRUB no seu sistema, é recomendado que o "
-"/boot/grub/menu.lst seja ajustado para carregar o GRUB 2 a partir da sua "
-"configuração do GRUB Legacy existente. Este passo pode ser executado "
-"agora automaticamente."
+"Para substituir a versão Legacy do GRUB no seu sistema, é recomendado que o /"
+"boot/grub/menu.lst seja ajustado para carregar o GRUB 2 a partir da sua "
+"configuração do GRUB Legacy existente. Este passo pode ser executado agora "
+"automaticamente."
 
 #. Type: boolean
 #. Description
@@ -105,15 +106,18 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
+#, fuzzy
 msgid ""
-"In either case, when ever you want GRUB 2 to be loaded directly from MBR, "
-"you can do so by issuing (as root) the following command:"
+"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
+"can do so by issuing (as root) the following command:"
 msgstr ""
-"Em qualquer dos casos, quando quiser que o GRUB 2 seja carregado directamente "
-"a partir do MBR, pode fazê-lo correndo o seguinte comando (como root):"
+"Em qualquer dos casos, quando quiser que o GRUB 2 seja carregado "
+"directamente a partir do MBR, pode fazê-lo correndo o seguinte comando (como "
+"root):"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
-msgid "grub-install \"(hd0)\" && update-grub"
+#, fuzzy
+msgid "grub-install \"(hd0)\""
 msgstr "grub-install \"(hd0)\" && update-grub"

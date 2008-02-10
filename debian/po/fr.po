@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-02-05 23:21+0100\n"
+"POT-Creation-Date: 2008-02-10 23:58+0100\n"
 "PO-Revision-Date: 2007-03-04 09:53+0100\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -110,5 +110,5 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
-msgid "grub-install \"(hd0)\" && update-grub"
+msgid "grub-install \"(hd0)\""
 msgstr ""

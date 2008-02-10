@@ -3,7 +3,10 @@ grub2 (1.96+20080210-2) unstable; urgency=low
   [ Updated translations ]
   * Portuguese (pt.po) by Ricardo Silva (Closes: #465137)
 
- -- Robert Millan <rmh@aybabtu.com>  Sun, 10 Feb 2008 23:54:01 +0100
+  [ Robert Millan ]
+  * Remove bogus "update-grub" call in debconf suggestion.
+
+ -- Robert Millan <rmh@aybabtu.com>  Sun, 10 Feb 2008 23:58:56 +0100
 
 grub2 (1.96+20080210-1) unstable; urgency=high
 

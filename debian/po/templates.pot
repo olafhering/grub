@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-02-05 23:21+0100\n"
+"POT-Creation-Date: 2008-02-10 23:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,5 +93,5 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
-msgid "grub-install \"(hd0)\" && update-grub"
+msgid "grub-install \"(hd0)\""
 msgstr ""
