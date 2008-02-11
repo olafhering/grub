@@ -16,4 +16,4 @@ _Description: Chainload from menu.lst ?
  In either case, whenever you want GRUB 2 to be loaded directly from MBR,
  you can do so by issuing (as root) the following command:
  .
- grub-install "(hd0)"
+ upgrade-from-grub-legacy

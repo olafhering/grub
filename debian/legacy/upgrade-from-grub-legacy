@@ -1,0 +1,19 @@
+#!/bin/bash -e
+
+echo "Installing GRUB to Master Boot Record of your first hard drive ..." >&2
+grub-install "(hd0)"
+
+# These never contain any valuable information, and they aren't useful for
+# boot anymore, since we just overwrote MBR/PBR.
+rm -f /boot/grub/{{xfs,reiserfs,e2fs,fat,jfs,minix}_stage1_5,stage{1,2}}
+
+cat << EOF
+
+GRUB Legacy has been removed, but its configuration files have been preserved,
+since this script cannot determine if they contain valuable information.  If
+you would like to remove the configuration files as well, use the following
+command:
+
+  rm -f /boot/grub/menu.lst*
+
+EOF

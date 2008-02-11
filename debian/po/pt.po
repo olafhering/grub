@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-02-10 23:58+0100\n"
+"POT-Creation-Date: 2008-02-11 01:05+0100\n"
 "PO-Revision-Date: 2008-02-10 22:05+0000\n"
 "Last-Translator: Ricardo Silva <ardoric@gmail.com>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
@@ -118,6 +118,9 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
+msgid "upgrade-from-grub-legacy"
+msgstr ""
+
 #, fuzzy
-msgid "grub-install \"(hd0)\""
-msgstr "grub-install \"(hd0)\" && update-grub"
+#~ msgid "grub-install \"(hd0)\""
+#~ msgstr "grub-install \"(hd0)\" && update-grub"
