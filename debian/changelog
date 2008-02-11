@@ -1,6 +1,5 @@
 grub2 (1.96+20080210-2) unstable; urgency=low
 
-  * Remove bogus "update-grub" call in debconf suggestion.
   * script: For /proc/mounts, only report lines that start with /dev/.
   * Add new upgrade-from-grub-legacy script for the user to complete the upgrade
     process from GRUB Legacy, and advertise it prominently in menu.lst.

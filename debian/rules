@@ -65,6 +65,9 @@ clean:: debian/legacy/update-grub
 	-rm -f debian/grub-{pc,efi,ieee1275,linuxbios}.docs
 	-rm -rf build
 
+	# make sure PO files are always up-to-date
+	debconf-updatepo
+
 debian/legacy/update-grub:
 	svn cat svn://svn.debian.org/pkg-grub/grub/trunk/debian/update-grub > $@
 	chmod +x $@
