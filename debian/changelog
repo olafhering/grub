@@ -9,6 +9,7 @@ grub2 (1.96+20080210-2) unstable; urgency=low
     - grub-pc.postinst
     - grub.d/05_debian_theme
   * Fix a pair of spelling mistakes in debconf.  (Closes: #465296)
+  * Migrate kopt from menu.lst.  (Closes: #461164, #464918)
 
   [ Updated translations ]
   * Portuguese (pt.po) by Ricardo Silva (Closes: #465137)
