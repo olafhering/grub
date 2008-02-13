@@ -8,6 +8,7 @@ grub2 (1.96+20080210-2) unstable; urgency=low
     isn't accessible.  (Closes: #464911, #463144)
     - grub-pc.postinst
     - grub.d/05_debian_theme
+  * Fix a pair of spelling mistakes in debconf.  (Closes: #465296)
 
   [ Updated translations ]
   * Portuguese (pt.po) by Ricardo Silva (Closes: #465137)
