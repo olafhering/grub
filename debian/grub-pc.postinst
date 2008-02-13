@@ -34,6 +34,14 @@ case "$1" in
         update-grub
       fi
     fi
+
+    # hack to support gfxterm / background_image on systems where /usr isn't
+    # accessible.
+    for i in /usr/share/grub/unicode.pff /usr/share/images/desktop-base/debian-blueish-wallpaper-640x480.png ; do
+      if test -e $i && ! grub-probe -t fs $i >/dev/null 2>&1 ; then
+        cp $i /boot/grub/
+      fi
+    done
   ;;
   abort-upgrade|abort-remove|abort-deconfigure)
   ;;

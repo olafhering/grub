@@ -4,11 +4,15 @@ grub2 (1.96+20080210-2) unstable; urgency=low
   * Add new upgrade-from-grub-legacy script for the user to complete the upgrade
     process from GRUB Legacy, and advertise it prominently in menu.lst.
     (Closes: #464912)
+  * Add a hack to support gfxterm / background_image on systems where /usr
+    isn't accessible.  (Closes: #464911, #463144)
+    - grub-pc.postinst
+    - grub.d/05_debian_theme
 
   [ Updated translations ]
   * Portuguese (pt.po) by Ricardo Silva (Closes: #465137)
 
- -- Robert Millan <rmh@aybabtu.com>  Mon, 11 Feb 2008 00:04:07 +0100
+ -- Robert Millan <rmh@aybabtu.com>  Wed, 13 Feb 2008 14:48:14 +0100
 
 grub2 (1.96+20080210-1) unstable; urgency=high
 

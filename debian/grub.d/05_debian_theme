@@ -14,7 +14,7 @@ EOF
 # check for usable backgrounds
 use_bg=false
 if [ "$GRUB_TERMINAL" = "gfxterm" ] ; then
-  for i in /usr/share/images/desktop-base/debian-blueish-wallpaper-640x480.{png,tga} ; do
+  for i in {/usr/share/images/desktop-base,/boot/grub}/debian-blueish-wallpaper-640x480.{png,tga} ; do
     if bg=`convert_system_path_to_grub_path $i` ; then 
       echo "Found Debian background: `basename ${bg}`" >&2
       use_bg=true
