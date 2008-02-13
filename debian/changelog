@@ -1,5 +1,8 @@
-grub2 (1.96+20080210-2) unstable; urgency=low
+grub2 (1.96+20080213-1) unstable; urgency=low
 
+  * New CVS snapshot.
+    - Failure to read one device in a RAID-1 array no longer causes boot
+      to fail (so long as there's a member that works).  (Closes: #426341)
   * script: For /proc/mounts, only report lines that start with /dev/.
   * Add new upgrade-from-grub-legacy script for the user to complete the upgrade
     process from GRUB Legacy, and advertise it prominently in menu.lst.
@@ -15,7 +18,7 @@ grub2 (1.96+20080210-2) unstable; urgency=low
   * Portuguese (pt.po) by Ricardo Silva (Closes: #465137)
   * German (de.po) by Helge Kreutzmann (Closes: #465295)
 
- -- Robert Millan <rmh@aybabtu.com>  Wed, 13 Feb 2008 14:48:14 +0100
+ -- Robert Millan <rmh@aybabtu.com>  Wed, 13 Feb 2008 16:37:13 +0100
 
 grub2 (1.96+20080210-1) unstable; urgency=high
 
