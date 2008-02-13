@@ -12,6 +12,7 @@ grub2 (1.96+20080210-2) unstable; urgency=low
 
   [ Updated translations ]
   * Portuguese (pt.po) by Ricardo Silva (Closes: #465137)
+  * German (de.po) by Helge Kreutzmann (Closes: #465295)
 
  -- Robert Millan <rmh@aybabtu.com>  Wed, 13 Feb 2008 14:48:14 +0100
 

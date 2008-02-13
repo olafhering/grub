@@ -106,7 +106,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
-#, fuzzy
 msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
@@ -119,8 +118,4 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates:1001
 msgid "upgrade-from-grub-legacy"
-msgstr ""
-
-#, fuzzy
-#~ msgid "grub-install \"(hd0)\""
-#~ msgstr "grub-install \"(hd0)\" && update-grub"
+msgstr "upgrade-from-grub-legacy"
