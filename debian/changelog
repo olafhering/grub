@@ -1,3 +1,9 @@
+grub2 (1.96+20080213-2) unstable; urgency=low
+
+  * Fix Vcs-Browser tag.  Thanks James.  (Closes: #465697)
+
+ -- Robert Millan <rmh@aybabtu.com>  Thu, 14 Feb 2008 17:51:22 +0100
+
 grub2 (1.96+20080213-1) unstable; urgency=low
 
   * New CVS snapshot.
