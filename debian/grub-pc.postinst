@@ -11,14 +11,16 @@ case "$1" in
       grub-mkdevicemap --no-floppy
     fi
 
-    db_get grub-pc/linux_cmdline
-    if [ "$RET" == "fillme" ] ; then
-      # wtf?!
-      echo "Internal error in grub-pc package.  Please file a bug report." >&2
-      exit 1
-    elif [ "$RET" != "" ] ; then
-      sed -i /etc/default/grub -e "s/^\(GRUB_CMDLINE_LINUX\)=.*/\1=\"$RET\"/g"
-      db_set grub-pc/linux_cmdline "" || true
+    if test -e /boot/grub/menu.lst ; then
+      db_get grub-pc/linux_cmdline
+      if [ "$RET" == "fillme" ] ; then
+        # wtf?!
+        echo "Internal error in grub-pc package.  Please file a bug report." >&2
+        exit 1
+      elif [ "$RET" != "" ] ; then
+        sed -i /etc/default/grub -e "s/^\(GRUB_CMDLINE_LINUX\)=.*/\1=\"$RET\"/g"
+        db_set grub-pc/linux_cmdline "" || true
+      fi
     fi
 
     db_get grub-pc/chainload_from_menu.lst

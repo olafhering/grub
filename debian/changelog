@@ -1,8 +1,10 @@
 grub2 (1.96+20080213-2) unstable; urgency=low
 
   * Fix Vcs-Browser tag.  Thanks James.  (Closes: #465697)
+  * Only process grub-pc/linux_cmdline if /boot/grub/menu.lst exists.
+    (Closes: #465708)
 
- -- Robert Millan <rmh@aybabtu.com>  Thu, 14 Feb 2008 17:51:22 +0100
+ -- Robert Millan <rmh@aybabtu.com>  Sat, 16 Feb 2008 17:28:13 +0100
 
 grub2 (1.96+20080213-1) unstable; urgency=low
 
