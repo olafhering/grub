@@ -7,6 +7,9 @@ grub2 (1.96+20080216-1) unstable; urgency=high
   * Only process grub-pc/linux_cmdline if /boot/grub/menu.lst exists.
     (Closes: #465708)
 
+  [ Updated translations ]
+  * French (fr.po) by Christian Perrier  (Closes: #465706)
+
  -- Robert Millan <rmh@aybabtu.com>  Sat, 16 Feb 2008 23:30:55 +0100
 
 grub2 (1.96+20080213-1) unstable; urgency=low
