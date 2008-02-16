@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Christian Perrier <bubulle@debian.org>, 2007.
+# Christian Perrier <bubulle@debian.org>, 2007, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2008-02-13 14:53+0100\n"
-"PO-Revision-Date: 2007-03-04 09:53+0100\n"
+"PO-Revision-Date: 2008-02-13 10:46+0100\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,9 +19,8 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../grub2.templates:1001
-#, fuzzy
 msgid "GRUB 1.95 numbering scheme transition"
-msgstr "Changement de numérotation des partitions dans GRUB 1.95"
+msgstr "Changement de numérotation dans GRUB 1.95"
 
 #. Type: note
 #. Description
@@ -34,16 +33,15 @@ msgid ""
 "example, when using Linux as the kernel, \"(hd0,1)\" refers to the same "
 "partition as the /dev/sda1 device node."
 msgstr ""
-"À partir de la version 1.95, GRUB 2 a modifié son système de numérotation "
-"des partitions. La numérotation des partitions commence désormais à 1 et non "
-"à 0. Cette méthode est en cohérence avec les noms de périphériques de Linux "
-"et des autres noyaux utilisés dans la distribution. Par exemple, avec un "
-"noyau Linux, « (hd0,1) » fait référence à la même partition que /dev/sda1."
+"À partir de la version 1.95, GRUB 2 a modifié son système de numérotation. "
+"La numérotation des partitions commence désormais à 1 et non à 0. Cette "
+"méthode est en cohérence avec les noms de périphériques de Linux et des "
+"autres noyaux utilisés dans la distribution. Par exemple, avec un noyau "
+"Linux, « (hd0,1) » fait référence à la même partition que /dev/sda1."
 
 #. Type: note
 #. Description
 #: ../grub2.templates:1001
-#, fuzzy
 msgid ""
 "Because of this, there's a chance your system becomes unbootable if update-"
 "grub(8) is run before GRUB is updated, generating a grub.cfg file that your "
@@ -71,14 +69,15 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
+#, fuzzy
 msgid "Chainload from menu.lst?"
-msgstr ""
+msgstr "Faut-il enchaîner le chargement de GRUB 2 depuis menu.lst ?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
-msgstr ""
+msgstr "Une installation standard de GRUB a été détectée dans /boot/grub."
 
 #. Type: boolean
 #. Description
@@ -89,6 +88,10 @@ msgid ""
 "your existing GRUB Legacy setup.  This step may be automaticaly performed "
 "now."
 msgstr ""
+"Afin de remplacer cette installation, il est recommandé de modifier /boot/"
+"grub/menu.lst pour enchaîner le chargement de GRUB 2 depuis l'installation "
+"standard de GRUB (« chainload »). Veuillez choisir si vous souhaitez "
+"effectuer cette modification."
 
 #. Type: boolean
 #. Description
@@ -98,17 +101,24 @@ msgid ""
 "verify that your new GRUB 2 setup is functional for you, before you install "
 "it directly to your MBR (Master Boot Record)."
 msgstr ""
+"Il est recommandé de choisir cette option pour pouvoir confirmer le bon "
+"fonctionnement de GRUB 2 avant de l'installer directement sur le secteur "
+"d'amorçage (MBR : « Master Boot Record »)."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
+#, fuzzy
 msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
 msgstr ""
+"Dans tous les cas, pour charger GRUB 2 directement depuis le secteur "
+"d'amorçage, vous devrez utiliser la commande suivante avec les privilèges du "
+"superutilisateur :"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
 msgid "upgrade-from-grub-legacy"
-msgstr ""
+msgstr "upgrade-from-grub-legacy"
