@@ -1,3 +1,10 @@
+grub2 (1.96+20080219-1) unstable; urgency=high
+
+  * New CVS snapshot.
+    - Improves GPT support, allowing it to work without blocklists.
+
+ -- Robert Millan <rmh@aybabtu.com>  Tue, 19 Feb 2008 15:05:10 +0100
+
 grub2 (1.96+20080216-1) unstable; urgency=high
 
   * New CVS snapshot.
