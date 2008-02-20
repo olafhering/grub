@@ -1,3 +1,9 @@
+grub2 (1.96+20080219-2) unstable; urgency=low
+
+  * grub-pc.postinst: Create /boot/grub if it doesn't exist.
+
+ -- Robert Millan <rmh@aybabtu.com>  Wed, 20 Feb 2008 07:15:14 +0100
+
 grub2 (1.96+20080219-1) unstable; urgency=high
 
   * New CVS snapshot.
