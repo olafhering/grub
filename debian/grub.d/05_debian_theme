@@ -16,20 +16,22 @@ use_bg=false
 if [ "$GRUB_TERMINAL" = "gfxterm" ] ; then
   for i in {/usr/share/images/desktop-base,/boot/grub}/debian-blueish-wallpaper-640x480.{png,tga} ; do
     if bg=`convert_system_path_to_grub_path $i` ; then 
-      echo "Found Debian background: `basename ${bg}`" >&2
-      use_bg=true
-      break
+      case ${bg} in
+        *.png)		reader=png ;;
+        *.tga)		reader=tga ;;
+        *.jpg|*.jpeg)	reader=jpeg ;;
+      esac
+      if test -e /boot/grub/${reader}.mod ; then
+        echo "Found Debian background: `basename ${bg}`" >&2
+        use_bg=true
+        break
+      fi
     fi
   done
 fi
 
 # set the background if possible
 if ${use_bg} ; then
-  case ${bg} in
-    *.png)		reader=png ;;
-    *.tga)		reader=tga ;;
-    *.jpg|*.jpeg)	reader=jpeg ;;
-  esac
   cat << EOF
 insmod ${reader}
 if background_image ${bg} ; then

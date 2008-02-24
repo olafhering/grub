@@ -2,6 +2,8 @@ grub2 (1.96+20080219-3) unstable; urgency=low
 
   * default/grub: Use lsb_release to support Debian derivatives.
     (Closes: #466561)
+  * grub.d/05_debian_theme: Only setup background image when a reader for it
+    is present in /boot/grub.  (Closes: #467111)
 
  -- Robert Millan <rmh@aybabtu.com>  Sun, 24 Feb 2008 15:39:50 +0100
 
