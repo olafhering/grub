@@ -5,6 +5,9 @@ grub2 (1.96+20080219-3) unstable; urgency=low
   * grub.d/05_debian_theme: Only setup background image when a reader for it
     is present in /boot/grub.  (Closes: #467111)
 
+  [ Updated translations ]
+  * Russian (ru.po) by Yuri Kozlov (Closes: #467181)
+
  -- Robert Millan <rmh@aybabtu.com>  Sun, 24 Feb 2008 15:39:50 +0100
 
 grub2 (1.96+20080219-2) unstable; urgency=high
