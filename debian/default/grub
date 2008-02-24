@@ -2,5 +2,5 @@
 # to its children in /etc/grub.d/
 GRUB_DEFAULT=0
 GRUB_TIMEOUT=5
-GRUB_DISTRIBUTOR=Debian
+GRUB_DISTRIBUTOR=`lsb_release -i -s`
 GRUB_CMDLINE_LINUX=
