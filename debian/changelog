@@ -7,6 +7,9 @@ grub2 (1.96+20080228-1) unstable; urgency=low
   * patches/01_grub_legacy_0_based_partitions.diff: New patch.  Add a hack that
     tells grub-probe you want 0-based partition count
     (GRUB_LEGACY_0_BASED_PARTITIONS variable)
+  * Stop depending on lsb-release (too heavy! we don't need python in base).
+    Instead of assuming it's there, try calling it and otherwise just echo
+    Debian.
 
  -- Robert Millan <rmh@aybabtu.com>  Thu, 28 Feb 2008 16:43:40 +0100
 
