@@ -3,8 +3,9 @@ grub2 (1.96+20080228-1) unstable; urgency=low
   * New CVS snapshot.
   * Split grub-probe into grub-common package.  Make all flavours depend on it.
     (Closes: #241972)
+  * Suggest multiboot-doc.
 
- -- Robert Millan <rmh@aybabtu.com>  Thu, 28 Feb 2008 13:31:49 +0100
+ -- Robert Millan <rmh@aybabtu.com>  Thu, 28 Feb 2008 16:43:40 +0100
 
 grub2 (1.96+20080219-3) unstable; urgency=low
 
