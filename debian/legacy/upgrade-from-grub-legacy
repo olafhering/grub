@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-echo "Installing GRUB to Master Boot Record of your first hard drive ..." >&2
+echo -e "\nInstalling GRUB to Master Boot Record of your first hard drive ...\n" >&2
 grub-install "(hd0)"
 
 # These never contain any valuable information, and they aren't useful for
