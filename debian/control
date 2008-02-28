@@ -32,9 +32,16 @@ Description: GRand Unified Bootloader, version 2 [dummy]
  This is a dummy transitional package that depends on grub-ieee1275.
 
 
+Package: grub-common
+Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
+Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1~)
+Replaces: grub-pc (<= 1.96+20080219-3), grub-ieee1275 (<= 1.96+20080219-3), grub-linuxbios (<= 1.96+20080219-3), grub-efi (<= 1.96+20080219-3)
+Description: GRand Unified Bootloader, version 2 (common files)
+ This package contains common files shared by the distinct flavours of GRUB 2.
+
 Package: grub-pc
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1~), debconf, lsb-release
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common, debconf, lsb-release
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub, desktop-base (= 4.0.5)
@@ -68,7 +75,7 @@ Description: GRUB bootable rescue images, version 2 (PC/BIOS version)
 
 Package: grub-linuxbios
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1~), lsb-release
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common, lsb-release
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub
@@ -87,7 +94,7 @@ Description: GRand Unified Bootloader, version 2 (LinuxBIOS version)
 
 Package: grub-efi
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1~), lsb-release
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common, lsb-release
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub
@@ -107,7 +114,7 @@ Description: GRand Unified Bootloader, version 2 (EFI version)
 
 Package: grub-ieee1275
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
-Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1~), lsb-release,
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common, lsb-release,
  powerpc-ibm-utils [powerpc ppc64], powerpc-utils [powerpc ppc64], bc [powerpc ppc64]
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})

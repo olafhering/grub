@@ -49,6 +49,13 @@ build/grub-rescue-pc:: build/grub-pc
 
 install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-linuxbios::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
+
+	# grub-probe is shipped with grub-common
+	mkdir -p $(CURDIR)/debian/grub-common/{usr/sbin,usr/share/man/man8}
+	for i in usr/sbin/grub-probe usr/share/man/man8/grub-probe.8 ; do \
+		mv $(CURDIR)/debian/$(subst install/,,$@)/$$i $(CURDIR)/debian/grub-common/$$i ; \
+	done
+
 	for i in docs ; do \
 		cp debian/$$i.in debian/$(subst install/,,$@).$$i ; \
 	done
