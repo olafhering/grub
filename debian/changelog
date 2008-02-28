@@ -4,6 +4,9 @@ grub2 (1.96+20080228-1) unstable; urgency=low
   * Split grub-probe into grub-common package.  Make all flavours depend on it.
     (Closes: #241972)
   * Suggest multiboot-doc.
+  * patches/01_grub_legacy_0_based_partitions.diff: New patch.  Add a hack that
+    tells grub-probe you want 0-based partition count
+    (GRUB_LEGACY_0_BASED_PARTITIONS variable)
 
  -- Robert Millan <rmh@aybabtu.com>  Thu, 28 Feb 2008 16:43:40 +0100
 
