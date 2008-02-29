@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: grub2\n"
+"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2008-02-13 14:53+0100\n"
+"PO-Revision-Date: 2008-02-29 21:19+0100\n"
+"Last-Translator: Esko Arajärvi <edu@iki.fi>\n"
+"Language-Team: Finnish <debian-l10n-finnish@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Finnish\n"
+"X-Poedit-Country: FINLAND\n"
+
+#. Type: note
+#. Description
+#: ../grub2.templates:1001
+msgid "GRUB 1.95 numbering scheme transition"
+msgstr "GRUB 1.95 numerointitavan muutos"
+
+#. Type: note
+#. Description
+#: ../grub2.templates:1001
+msgid "As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions are now counted starting from 1 rather than 0.  This is to make it consistent with device names of Linux and the other kernels used in Debian.  For example, when using Linux as the kernel, \"(hd0,1)\" refers to the same partition as the /dev/sda1 device node."
+msgstr "Versiosta 1.95 alkaen GRUB 2 on vaihtanut numerointitapaansa. Osioiden numerot alkavat nyt 1:stä 0:n sijaan. Tämä yhdenmukaistaa numeroinnin Linuxin laitenimien ja muiden Debianissa käytettyjen ydinten kanssa. Esimerkiksi käytettäessä Linux-ydintä ”(hd0,1)” viittaa samaan osioon kuin laitetiedosto /dev/sda1."
+
+#. Type: note
+#. Description
+#: ../grub2.templates:1001
+msgid "Because of this, there's a chance your system becomes unbootable if update-grub(8) is run before GRUB is updated, generating a grub.cfg file that your installed GRUB won't yet be able to parse correctly.  To ensure your system will be able to boot, you have to:"
+msgstr "Tämän muutoksen takia on mahdollista, että järjestelmästä tulee käynnistyskelvoton, jos update-grub(8) ajetaan ennen kuin GRUB on päivitetty. Tällöin luotaisiin grub.cfg-tiedosto, jota asennettuna oleva GRUB ei vielä osaisi jäsentää oikein. Varmistaaksesi, että järjestelmä voidaan käynnistää, sinun tulee:"
+
+#. Type: note
+#. Description
+#: ../grub2.templates:1001
+msgid ""
+" - Reinstall GRUB (typically, by running grub-install).\n"
+" - Rerun update-grub to generate a new grub.cfg."
+msgstr ""
+" - Asentaa GRUB uudelleen (tyypillisesti ajamalla grub-install).\n"
+" - Ajaa update-grub uudelleen uuden grub.cfg-tiedoston luomiseksi."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "Chainload from menu.lst?"
+msgstr "Ladataanko ketjutettuna tiedostosta menu.lst?"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
+msgstr "GRUBin päivityskomentosarjat ovat löytäneet vanhoja GRUB-asetuksia tiedostosta /boot/grub."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "In order to replace the Legacy version of GRUB in your system, it is recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from your existing GRUB Legacy setup.  This step may be automaticaly performed now."
+msgstr "Järjestelmässä olevan vanhan GRUB-version korvaamiseksi on suositeltavaa muokata tiedostoa /boot/grub/menu.lst siten, että GRUB 2 ladataan olemassa olevista vanhoista GRUB-asetuksista. Tämä voidaan tehdä automaattisesti nyt."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "It's recommended that you accept chainloading GRUB 2 from menu.lst, and verify that your new GRUB 2 setup is functional for you, before you install it directly to your MBR (Master Boot Record)."
+msgstr "On suositeltavaa, että hyväksyt GRUB 2:n ketjutetun lataamisen tiedostosta menu.lst ja varmistat, että uudet GRUB 2 -asetukset toimivat, ennen kuin asennat sen pääkäynnistyslohkoon (MBR)."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you can do so by issuing (as root) the following command:"
+msgstr "Joka tapauksessa, kun haluat asentaa GRUB 2:n latautumaan suoraan pääkäynnistyslohkosta, voit tehdä sen ajamalla pääkäyttäjänä seuraavan komennon:"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "upgrade-from-grub-legacy"
+msgstr "upgrade-from-grub-legacy"
+
