@@ -1,10 +1,12 @@
 #!/bin/bash -e
 
-if test -e /proc/mounts ; then
-  echo -e "\n*********************** BEGIN $i" >&3
-  grep ^/dev/ /proc/mounts >&3
-  echo "*********************** END $i" >&3
-fi
+for i in /proc/mounts ; do
+  if test -e $i ; then
+    echo -e "\n*********************** BEGIN $i" >&3
+    grep ^/dev/ $i >&3
+    echo "*********************** END $i" >&3
+  fi
+done
 
 for i in /boot/grub/{device.map,grub.cfg} ; do
   if test -e $i ; then
