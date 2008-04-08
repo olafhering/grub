@@ -3,11 +3,12 @@ grub2 (1.96+20080407-1) unstable; urgency=low
   * New CVS snapshot.
     - grub-probe skips non-existant devices when processing device.map.
     (Closes: #473209)
+  * control: Fix syntax error.
 
   [ Updated translations ]
   * Finnish (fi.po) by Esko Arajärvi (Closes: #468641)
 
- -- Robert Millan <rmh@aybabtu.com>  Mon,  7 Apr 2008 18:09:10 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Tue,  8 Apr 2008 15:45:25 +0200
 
 grub2 (1.96+20080228-1) unstable; urgency=low
 
