@@ -1,4 +1,4 @@
-grub2 (1.96+20080407-1) unstable; urgency=low
+grub2 (1.96+20080408-1) unstable; urgency=low
 
   * New CVS snapshot.
     - grub-probe skips non-existant devices when processing device.map.
