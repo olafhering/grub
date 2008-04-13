@@ -3,6 +3,8 @@ grub2 (1.96+20080413-1) unstable; urgency=high
   * New CVS snapshot.
     - Provides 30_os-prober update-grub add-on.  Thanks Fabian Greffrath.
       (Closes: #461442)
+    - Improves robustness when handling LVM.
+      (Closes: #474931, #474343)
   * patches/03_disable_floppy_support_in_util_biosdisk.diff: New.  Does
     what its name says.  (Closes: #475177)
 
