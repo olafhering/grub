@@ -1,9 +1,12 @@
-grub2 (1.96+20080408-2) unstable; urgency=high
+grub2 (1.96+20080413-1) unstable; urgency=high
 
+  * New CVS snapshot.
+    - Provides 30_os-prober update-grub add-on.  Thanks Fabian Greffrath.
+      (Closes: #461442)
   * patches/03_disable_floppy_support_in_util_biosdisk.diff: New.  Does
     what its name says.  (Closes: #475177)
 
- -- Robert Millan <rmh@aybabtu.com>  Thu, 10 Apr 2008 10:59:18 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Sun, 13 Apr 2008 13:53:28 +0200
 
 grub2 (1.96+20080408-1) unstable; urgency=low
 
