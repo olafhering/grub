@@ -5,6 +5,9 @@ grub2 (1.96+20080418-1) unstable; urgency=low
   * Move os-prober to Suggests, to avoid trouble with #476184.
     (Closes: #476684)
 
+  [ Updated translations ]
+  * Basque (eu.po) by Piarres Beobide  (Closes: #476708)
+
  -- Robert Millan <rmh@aybabtu.com>  Fri, 18 Apr 2008 15:38:25 +0200
 
 grub2 (1.96+20080413-1) unstable; urgency=high

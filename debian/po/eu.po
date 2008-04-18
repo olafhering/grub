@@ -1,0 +1,119 @@
+# translation of eu.po to Euskara
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Piarres Beobide <pi@beobide.net>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: eu\n"
+"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2008-02-13 14:53+0100\n"
+"PO-Revision-Date: 2008-04-18 17:34+0200\n"
+"Last-Translator: Piarres Beobide <pi@beobide.net>\n"
+"Language-Team: Euskara <debian-l10n-basque@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Type: note
+#. Description
+#: ../grub2.templates:1001
+msgid "GRUB 1.95 numbering scheme transition"
+msgstr "GRUB 1.95 zenbatze eskema aldaketa"
+
+#. Type: note
+#. Description
+#: ../grub2.templates:1001
+msgid ""
+"As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions are "
+"now counted starting from 1 rather than 0.  This is to make it consistent "
+"with device names of Linux and the other kernels used in Debian.  For "
+"example, when using Linux as the kernel, \"(hd0,1)\" refers to the same "
+"partition as the /dev/sda1 device node."
+msgstr ""
+"1.95 bertsiotik aurrera, GRUB 2-ak zenbatze eskema aldatu du.  Partizioak "
+"orain 1-etik hasiko dira zenbatzen 0-tik beharrean.  Hau Linux eta Debianen "
+"erabiltzen diren kernel ezberdinekin bateragarritasuna mantentzeko egiten da.  "
+"Adibidez, kernel bezala Linux erabiltzean, \"(hd0,)\" Eta /dev/sda1 gailu "
+"nodoa partizio berdina dira."
+
+#. Type: note
+#. Description
+#: ../grub2.templates:1001
+msgid ""
+"Because of this, there's a chance your system becomes unbootable if update-"
+"grub(8) is run before GRUB is updated, generating a grub.cfg file that your "
+"installed GRUB won't yet be able to parse correctly.  To ensure your system "
+"will be able to boot, you have to:"
+msgstr ""
+"Hau dela eta aukera bat dago zure sistema abioezina geratzeko update-grub(8) "
+"GRUB bertsio berritu ondoren exekutatzen bada instalaturiko GRUB-ek analizatu "
+"ezin duen grub.cfg fitxategi bat sortuaz.  Zure sistema abiatu ahal izango "
+"duzula ziurtatzeko:"
+
+#. Type: note
+#. Description
+#: ../grub2.templates:1001
+msgid ""
+" - Reinstall GRUB (typically, by running grub-install).\n"
+" - Rerun update-grub to generate a new grub.cfg."
+msgstr ""
+" - GRUB berrinstalatu (normalean grub-install exekutatuaz).\n"
+" - update-grub berriz exekutatu grub.cfg berri sortzeko."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "Chainload from menu.lst?"
+msgstr "Kargatu menu.lst bidez?"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
+msgstr ""
+"GRUB eguneraketa skriptak GRUB zahar konfigurazioa aurkitu dute "
+"/boot/grub-en."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid ""
+"In order to replace the Legacy version of GRUB in your system, it is "
+"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
+"your existing GRUB Legacy setup.  This step may be automaticaly performed "
+"now."
+msgstr ""
+"GRUB zaharraren bertsioa behar bezala ordezkatzeko, gomendagarria da "
+"/boot/grub/menu.lst doitzea GRUB 2 dagoeneko instalaturik duzun GRUB "
+"zaharraren bidez kargatzea.  Urrats hau automatikoki egin daiteke orain."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid ""
+"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
+"verify that your new GRUB 2 setup is functional for you, before you install "
+"it directly to your MBR (Master Boot Record)."
+msgstr ""
+"Gomendagarria da GRUB 2 menu.lst bidez kargatzea onartzea, GRUB 2 "
+"konfigurazioak zure beharrak betetzen dituela egiatzatzeko MBR-ran "
+"(Master Boot Record) zuzenean instalatu beharrean."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid ""
+"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
+"can do so by issuing (as root) the following command:"
+msgstr ""
+"Edozein kasutan, GRUB 2 zuzenean zure MBR-tik kargatzea nahi duzunean "
+"komando hau exekutatuaz (root gisa) lortu dezakezu:"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "upgrade-from-grub-legacy"
+msgstr "eguneratu-grub-zaharretik"
+
