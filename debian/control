@@ -43,11 +43,10 @@ Description: GRand Unified Bootloader, version 2 (common files)
 Package: grub-pc
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common, debconf
-Recommends: os-prober
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub, desktop-base (= 4.0.5)
-Suggests: desktop-base (>= 4.0.6)
+Suggests: desktop-base (>= 4.0.6), os-prober
 Description: GRand Unified Bootloader, version 2 (PC/BIOS version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
@@ -78,10 +77,10 @@ Description: GRUB bootable rescue images, version 2 (PC/BIOS version)
 Package: grub-linuxbios
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common
-Recommends: os-prober
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub
+Suggests: os-prober
 Description: GRand Unified Bootloader, version 2 (LinuxBIOS version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
@@ -98,10 +97,10 @@ Description: GRand Unified Bootloader, version 2 (LinuxBIOS version)
 Package: grub-efi
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common
-Recommends: os-prober
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub
+Suggests: os-prober
 Description: GRand Unified Bootloader, version 2 (EFI version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
@@ -120,10 +119,10 @@ Package: grub-ieee1275
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common,
  powerpc-ibm-utils [powerpc ppc64], powerpc-utils [powerpc ppc64], bc [powerpc ppc64]
-Recommends: os-prober
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version})
 Conflicts: pupa, grub
+Suggests: os-prober
 Description: GRand Unified Bootloader, version 2 (Open Firmware version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
