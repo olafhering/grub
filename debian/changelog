@@ -1,5 +1,7 @@
-grub2 (1.96+20080413-2) unstable; urgency=low
+grub2 (1.96+20080418-1) unstable; urgency=low
 
+  * New CVS snapshot.
+    - Fixes syntax error when setting GRUB_PRELOAD_MODULES.  (Closes: #476517)
   * Move os-prober to Suggests, to avoid trouble with #476184.
     (Closes: #476684)
 
