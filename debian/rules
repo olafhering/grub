@@ -31,6 +31,10 @@ configure/grub-pc configure/grub-ieee1275 configure/grub-efi configure/grub-linu
 	mkdir -p $(subst configure/,build/,$@)
 	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=$(subst configure/grub-,,$@)
 
+configure/grub-common::
+	mkdir -p build/grub-common
+	cd build/grub-common && $(CONFIGURE)
+
 build/grub-pc build/grub-efi build/grub-ieee1275 build/grub-linuxbios::
 	$(MAKE) -C $@
 
@@ -47,14 +51,17 @@ build/grub-rescue-pc:: build/grub-pc
 		--image-type=cdrom \
 		$(CURDIR)/$@/grub-rescue-cdrom.iso
 
+build/grub-common::
+	# Yes, grub-mkdevicemap shouldn't really be here.  We're assuming 'pc'
+	# for i386 and 'ieee1275' for powerpc.  Not a big deal though.  See
+	# also debian/patches/04_run_grub_mkdevicemap_when_grub_probe_fails.diff
+	$(MAKE) -C $@ grub-probe grub-mkdevicemap
+
 install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-linuxbios::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
 
-	# grub-probe is shipped with grub-common
-	mkdir -p $(CURDIR)/debian/grub-common/{usr/sbin,usr/share/man/man8}
-	for i in usr/sbin/grub-probe usr/share/man/man8/grub-probe.8 ; do \
-		mv $(CURDIR)/debian/$(subst install/,,$@)/$$i $(CURDIR)/debian/grub-common/$$i ; \
-	done
+	# shipped with grub-common
+	rm -f $(CURDIR)/debian/$(subst install/,,$@)/{usr/sbin/grub-{probe,mkdevicemap},usr/share/man/man8/grub-probe.8}
 
 	for i in docs ; do \
 		cp debian/$$i.in debian/$(subst install/,,$@).$$i ; \

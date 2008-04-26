@@ -1,0 +1,2 @@
+build/grub-common/grub-probe		usr/sbin
+build/grub-common/grub-mkdevicemap	usr/sbin

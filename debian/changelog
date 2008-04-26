@@ -4,11 +4,15 @@ grub2 (1.96+20080418-1) unstable; urgency=low
     - Fixes syntax error when setting GRUB_PRELOAD_MODULES.  (Closes: #476517)
   * Move os-prober to Suggests, to avoid trouble with #476184.
     (Closes: #476684)
+  * patches/04_run_grub_mkdevicemap_when_grub_probe_fails.diff: New patch,
+    does what its name says.  (Closes: #467127)
+    - Also move grub-mkdevicemap from grub-pc to grub-common, so that GRUB
+      Legacy can use it.
 
   [ Updated translations ]
   * Basque (eu.po) by Piarres Beobide  (Closes: #476708)
 
- -- Robert Millan <rmh@aybabtu.com>  Fri, 18 Apr 2008 15:38:25 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Sat, 26 Apr 2008 20:06:55 +0200
 
 grub2 (1.96+20080413-1) unstable; urgency=high
 

@@ -42,9 +42,9 @@ Description: GRand Unified Bootloader, version 2 (common files)
 
 Package: grub-pc
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common, debconf
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (>> 1.96+20080413-1), debconf
 Provides: grub
-Replaces: pupa, grub, grub2 (<< ${Source-Version})
+Replaces: pupa, grub, grub2 (<< ${Source-Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: pupa, grub, desktop-base (= 4.0.5)
 Suggests: desktop-base (>= 4.0.6), os-prober
 Description: GRand Unified Bootloader, version 2 (PC/BIOS version)
@@ -76,9 +76,9 @@ Description: GRUB bootable rescue images, version 2 (PC/BIOS version)
 
 Package: grub-linuxbios
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (>> 1.96+20080413-1)
 Provides: grub
-Replaces: pupa, grub, grub2 (<< ${Source-Version})
+Replaces: pupa, grub, grub2 (<< ${Source-Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: pupa, grub
 Suggests: os-prober
 Description: GRand Unified Bootloader, version 2 (LinuxBIOS version)
@@ -96,9 +96,9 @@ Description: GRand Unified Bootloader, version 2 (LinuxBIOS version)
 
 Package: grub-efi
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (>> 1.96+20080413-1)
 Provides: grub
-Replaces: pupa, grub, grub2 (<< ${Source-Version})
+Replaces: pupa, grub, grub2 (<< ${Source-Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: pupa, grub
 Suggests: os-prober
 Description: GRand Unified Bootloader, version 2 (EFI version)
@@ -117,10 +117,10 @@ Description: GRand Unified Bootloader, version 2 (EFI version)
 
 Package: grub-ieee1275
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common,
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (>> 1.96+20080413-1),
  powerpc-ibm-utils [powerpc ppc64], powerpc-utils [powerpc ppc64], bc [powerpc ppc64]
 Provides: grub
-Replaces: pupa, grub, grub2 (<< ${Source-Version})
+Replaces: pupa, grub, grub2 (<< ${Source-Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: pupa, grub
 Suggests: os-prober
 Description: GRand Unified Bootloader, version 2 (Open Firmware version)

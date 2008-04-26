@@ -1,0 +1,62 @@
+
+Author: rmh
+
+Upstream is discussing a long-term solution, like getting rid of device.map
+altogether.  In the meantime we needs something that works.
+
+Note: grub-common tweaked in debian/rules to provide grub-mkdevicemap; this
+will probably need to change when we get rid of this patch.
+
+--- ../grub2/util/biosdisk.c	2008-04-07 18:45:01.000000000 +0200
++++ ./util/biosdisk.c	2008-04-24 10:46:36.000000000 +0200
+@@ -480,6 +480,8 @@ static struct grub_disk_dev grub_util_bi
+     .next = 0
+   };
+ 
++static char *dev_map;
++
+ static void
+ read_device_map (const char *dev_map)
+ {
+@@ -566,8 +568,9 @@ read_device_map (const char *dev_map)
+ }
+ 
+ void
+-grub_util_biosdisk_init (const char *dev_map)
++grub_util_biosdisk_init (const char *path)
+ {
++  dev_map = strdup (path);
+   read_device_map (dev_map);
+   grub_disk_dev_register (&grub_util_biosdisk_dev);
+ }
+@@ -675,7 +678,7 @@ get_os_disk (const char *os_dev)
+ }
+ 
+ static int
+-find_drive (const char *os_dev)
++__find_drive (const char *os_dev)
+ {
+   int i;
+   char *os_disk;
+@@ -695,6 +698,21 @@ find_drive (const char *os_dev)
+   return -1;
+ }
+ 
++static int
++find_drive (const char *os_dev)
++{
++  int ret;
++  ret = __find_drive (os_dev);
++  if (ret < 0)
++    {
++      grub_util_info ("Cannot find a GRUB drive for `%s', will regenerate device.map and try again", os_dev);
++      system ("grub-mkdevicemap");
++      read_device_map (dev_map);
++      ret = __find_drive (os_dev);
++    }
++  return ret;
++}
++
+ char *
+ grub_util_biosdisk_get_grub_dev (const char *os_dev)
+ {
