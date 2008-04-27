@@ -1,6 +1,6 @@
-# translation of fr.po to French
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Translation of grub2 debconf templates to French
+# Copyright (C) 2008 Christian Perrier <bubulle@debian.org>
+# This file is distributed under the same license as the grub2 package.
 #
 # Christian Perrier <bubulle@debian.org>, 2007, 2008.
 msgid ""
@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2008-02-13 14:53+0100\n"
-"PO-Revision-Date: 2008-02-16 23:35+0100\n"
+"PO-Revision-Date: 2008-04-27 16:11+0100\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,6 @@ msgstr "Changement de numérotation dans GRUB 1.95"
 #. Type: note
 #. Description
 #: ../grub2.templates:1001
-#, fuzzy
 msgid ""
 "As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions are "
 "now counted starting from 1 rather than 0.  This is to make it consistent "
@@ -57,7 +56,6 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../grub2.templates:1001
-#, fuzzy
 msgid ""
 " - Reinstall GRUB (typically, by running grub-install).\n"
 " - Rerun update-grub to generate a new grub.cfg."
@@ -69,9 +67,8 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
-#, fuzzy
 msgid "Chainload from menu.lst?"
-msgstr "Faut-il enchaîner le chargement de GRUB 2 depuis menu.lst ?"
+msgstr "Faut-il enchaîner le chargement depuis menu.lst ?"
 
 #. Type: boolean
 #. Description
@@ -108,7 +105,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
-#, fuzzy
 msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
@@ -122,3 +118,4 @@ msgstr ""
 #: ../grub-pc.templates:1001
 msgid "upgrade-from-grub-legacy"
 msgstr "upgrade-from-grub-legacy"
+

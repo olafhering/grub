@@ -1,3 +1,10 @@
+grub2 (1.96+20080426-2) unstable; urgency=low
+
+  [ Updated translations ]
+  * French (fr.po) by Christian Perrier  (Closes: #471291)
+
+ -- Robert Millan <rmh@aybabtu.com>  Sun, 27 Apr 2008 16:11:14 +0200
+
 grub2 (1.96+20080426-1) unstable; urgency=high
 
   * New CVS snapshot.
