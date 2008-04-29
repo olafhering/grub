@@ -1,9 +1,12 @@
-grub2 (1.96+20080426-2) unstable; urgency=low
+grub2 (1.96+20080426-2) unstable; urgency=high
+
+  * grub-common: Upgrade Replaces to << 1.96+20080426-3.  (Closes: #478224,
+    #478353)
 
   [ Updated translations ]
   * French (fr.po) by Christian Perrier  (Closes: #471291)
 
- -- Robert Millan <rmh@aybabtu.com>  Sun, 27 Apr 2008 16:11:14 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Tue, 29 Apr 2008 13:27:52 +0200
 
 grub2 (1.96+20080426-1) unstable; urgency=high
 
