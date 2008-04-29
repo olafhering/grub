@@ -4,7 +4,7 @@ grub2 (1.96+20080429-1) unstable; urgency=high
     - Includes sample grub.cfg file; we use it for grub-rescue-pc.
       (Closes: #478324)
   * grub-common: Upgrade Replaces to << 1.96+20080426-3.  (Closes: #478224,
-    #478353)
+    #478353, #478144)
 
   [ Updated translations ]
   * French (fr.po) by Christian Perrier  (Closes: #471291)
