@@ -40,14 +40,18 @@ build/grub-pc build/grub-efi build/grub-ieee1275 build/grub-linuxbios::
 
 build/grub-rescue-pc:: build/grub-pc
 	mkdir -p $@
+	mkdir -p $@/rescue-disk/boot/grub
+	cp docs/grub.cfg $@/rescue-disk/boot/grub/
 	$(CURDIR)/build/grub-pc/grub-mkrescue \
 		--pkglibdir=$(CURDIR)/build/grub-pc \
 		--grub-mkimage=$(CURDIR)/build/grub-pc/grub-mkimage \
+		--overlay=$@/rescue-disk/ \
 		--image-type=floppy \
 		$(CURDIR)/$@/grub-rescue-floppy.img
 	$(CURDIR)/build/grub-pc/grub-mkrescue \
 		--pkglibdir=$(CURDIR)/build/grub-pc \
 		--grub-mkimage=$(CURDIR)/build/grub-pc/grub-mkimage \
+		--overlay=$@/rescue-disk/ \
 		--image-type=cdrom \
 		$(CURDIR)/$@/grub-rescue-cdrom.iso
 

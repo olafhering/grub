@@ -1,0 +1,13 @@
+--- ../grub2/docs/grub.cfg	2008-04-29 14:17:33.000000000 +0200
++++ docs/grub.cfg	2008-04-29 14:52:22.000000000 +0200
+@@ -2,6 +2,10 @@
+ # Sample GRUB configuration file
+ #
+ 
++insmod biosdisk
++insmod pc
++insmod gpt
++
+ # Boot automatically after 30 secs.
+ set timeout=30
+ 
