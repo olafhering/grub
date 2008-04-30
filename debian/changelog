@@ -1,5 +1,7 @@
-grub2 (1.96+20080429-2) unstable; urgency=low
+grub2 (1.96+20080430-1) unstable; urgency=low
 
+  * New CVS snapshot.
+    - Adds support for default-only Linux cmdline options.  (Closes: #460843)
   * Switch to liblzo2 now that it's GPLv3-compatible.  (Closes: #466375)
 
  -- Robert Millan <rmh@aybabtu.com>  Wed, 30 Apr 2008 20:01:39 +0200
