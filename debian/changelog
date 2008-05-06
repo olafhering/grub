@@ -3,8 +3,10 @@ grub2 (1.96+20080430-1) unstable; urgency=low
   * New CVS snapshot.
     - Adds support for default-only Linux cmdline options.  (Closes: #460843)
   * Switch to liblzo2 now that it's GPLv3-compatible.  (Closes: #466375)
+  * grub-pc.postinst: Escape \ and / in cmdline sed invokation.
+    (Closes: #479279)
 
- -- Robert Millan <rmh@aybabtu.com>  Wed, 30 Apr 2008 20:01:39 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Tue,  6 May 2008 13:21:51 +0200
 
 grub2 (1.96+20080429-1) unstable; urgency=high
 

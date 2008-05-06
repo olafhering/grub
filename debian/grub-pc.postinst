@@ -19,6 +19,8 @@ case "$1" in
         echo "Internal error in grub-pc package.  Please file a bug report." >&2
         exit 1
       elif [ "$RET" != "" ] ; then
+        # escape \ and /
+        RET=`echo "$RET" | sed -e 's,[\/],\\\&,g'`
         sed -i /etc/default/grub -e "s/^\(GRUB_CMDLINE_LINUX\)=.*/\1=\"$RET\"/g"
         db_set grub-pc/linux_cmdline "" || true
       fi
