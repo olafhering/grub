@@ -1,7 +1,13 @@
-grub2 (1.96+20080430-1) unstable; urgency=low
+grub2 (1.96+20080512-1) unstable; urgency=low
 
   * New CVS snapshot.
     - Adds support for default-only Linux cmdline options.  (Closes: #460843)
+    - Supports Xen virtual block devices.  (Closes: #456777)
+    - Supports Virtio block devices.  (Closes: #479056)
+    - Supports CCISS block devices.  (Closes: #479735)
+    - Fixes handling of more LVM abnormal conditions.  (Closes: #474343,
+      #474931, #477175)
+
   * Switch to liblzo2 now that it's GPLv3-compatible.  (Closes: #466375)
   * grub-pc.postinst: Escape \ and / in cmdline sed invokation.
     (Closes: #479279)
@@ -9,7 +15,7 @@ grub2 (1.96+20080430-1) unstable; urgency=low
   [ Updated translations ]
   * Italian (it.po) by Luca Monducci  (Closes: #480740)
 
- -- Robert Millan <rmh@aybabtu.com>  Tue,  6 May 2008 13:21:51 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Mon, 12 May 2008 17:46:38 +0200
 
 grub2 (1.96+20080429-1) unstable; urgency=high
 
