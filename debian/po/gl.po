@@ -1,13 +1,13 @@
 # Galician translation of grub2's debconf templates
 # This file is distributed under the same license as the grub2 package.
-# Jacobo Tarrio <jtarrio@debian.org>, 2007.
+# Jacobo Tarrio <jtarrio@debian.org>, 2007, 2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-02-13 14:53+0100\n"
-"PO-Revision-Date: 2007-03-04 10:15+0100\n"
+"POT-Creation-Date: 2006-12-23 13:11+0100\n"
+"PO-Revision-Date: 2008-05-28 17:15+0100\n"
 "Last-Translator: Jacobo Tarrio <jtarrio@debian.org>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
 "MIME-Version: 1.0\n"
@@ -17,14 +17,12 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../grub2.templates:1001
-#, fuzzy
 msgid "GRUB 1.95 numbering scheme transition"
-msgstr "Transición do esquema de numeración de particións de GRUB 1.95"
+msgstr "Transición do esquema de numeración de GRUB 1.95"
 
 #. Type: note
 #. Description
 #: ../grub2.templates:1001
-#, fuzzy
 msgid ""
 "As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions are "
 "now counted starting from 1 rather than 0.  This is to make it consistent "
@@ -32,31 +30,29 @@ msgid ""
 "example, when using Linux as the kernel, \"(hd0,1)\" refers to the same "
 "partition as the /dev/sda1 device node."
 msgstr ""
-"A partires da versión 1.95, GRUB 2 cambiou o esquema de numeración de "
-"particións. Agora as particións cóntanse a partires de 1 no canto de 0. Isto "
-"é consistente cos nomes de dispositivo de Linux e os outros núcleos da "
-"distribución. Por exemplo, ao empregar Linux coma núcleo, \"(hd0,1)\" "
-"refírese á mesma partición que o nodo de dispositivo /dev/sda1."
+"A partires da versión 1.95, GRUB 2 cambiou o esquema de numeración. Agora as "
+"particións cóntanse a partires de 1 no canto de 0. Isto é así para facelo "
+"consistente cos nomes de dispositivo de Linux e os outros núcleos empregados "
+"en Debian. Por exemplo, ao empregar Linux coma núcleo, \"(hd0,1)\" refírese "
+"á mesma partición que o nodo de dispositivo /dev/sda1."
 
 #. Type: note
 #. Description
 #: ../grub2.templates:1001
-#, fuzzy
 msgid ""
 "Because of this, there's a chance your system becomes unbootable if update-"
 "grub(8) is run before GRUB is updated, generating a grub.cfg file that your "
 "installed GRUB won't yet be able to parse correctly.  To ensure your system "
 "will be able to boot, you have to:"
 msgstr ""
-"Debido a isto, hai un risco de que non se poida iniciar o sistema: se se "
-"executa update-grub(8) antes de actualizar GRUB, ha xerar un ficheiro grub."
-"cfg que o GRUB instalado non ha poder analizar correctamente. Para se "
-"asegurar de que o sistema poida iniciarse, debería facer isto:"
+"Debido a isto, hai unha posibilidade de que non se poida iniciar o sistema "
+"se se executa update-grub(8) antes de actualizar GRUB, co que se había xerar "
+"un ficheiro grub.cfg que o GRUB instalado non podería analizar "
+"correctamente. Para se asegurar de que o sistema poida iniciarse, faga isto:"
 
 #. Type: note
 #. Description
 #: ../grub2.templates:1001
-#, fuzzy
 msgid ""
 " - Reinstall GRUB (typically, by running grub-install).\n"
 " - Rerun update-grub to generate a new grub.cfg."
@@ -68,13 +64,15 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates:1001
 msgid "Chainload from menu.lst?"
-msgstr ""
+msgstr "¿Cargar en cadea desde menu.lst?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
+"Os scripts de actualización de GRUB detectaron unha configuración do GRUB "
+"antigo en /boot/grub."
 
 #. Type: boolean
 #. Description
@@ -85,6 +83,9 @@ msgid ""
 "your existing GRUB Legacy setup.  This step may be automaticaly performed "
 "now."
 msgstr ""
+"Para substituír a versión antiga de GRUB do sistema, recoméndase axustar /"
+"boot/grub/menu.lst para cargar GRUB 2 en cadea desde a configuración "
+"existente do GRUB antigo. Pódese realizar este paso automaticamente agora."
 
 #. Type: boolean
 #. Description
@@ -94,6 +95,9 @@ msgid ""
 "verify that your new GRUB 2 setup is functional for you, before you install "
 "it directly to your MBR (Master Boot Record)."
 msgstr ""
+"Recoméndase que acepte cargar en cadea GRUB 2 desde menu.lst, e que "
+"verifique que a nova configuración de GRUB 2 funciona para vostede, antes de "
+"instalalo directamente no MBR (rexistro mestre de inicio)."
 
 #. Type: boolean
 #. Description
@@ -102,9 +106,11 @@ msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
 msgstr ""
+"En calquera caso, cando queira cargar GRUB 2 directamente desde o MBR, pode "
+"facelo executando (coma administrador) a seguinte orde:"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
 msgid "upgrade-from-grub-legacy"
-msgstr ""
+msgstr "upgrade-from-grub-legacy"
