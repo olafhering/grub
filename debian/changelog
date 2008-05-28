@@ -1,3 +1,10 @@
+grub2 (1.96+20080528-1) unstable; urgency=low
+
+  * New CVS snapshot.
+    - Work around BIOS bug affecting keyboard on macbooks.  (Closes: #482860)
+
+ -- Robert Millan <rmh@aybabtu.com>  Wed, 28 May 2008 16:41:54 +0200
+
 grub2 (1.96+20080512-1) unstable; urgency=low
 
   * New CVS snapshot.
