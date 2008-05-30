@@ -1,6 +1,5 @@
 #!/bin/bash -e
 
-# for convert_system_path_to_grub_path()
 source /usr/lib/grub/update-grub_lib
 
 set_blue_theme()
@@ -15,7 +14,8 @@ EOF
 use_bg=false
 if [ "$GRUB_TERMINAL" = "gfxterm" ] ; then
   for i in {/usr/share/images/desktop-base,/boot/grub}/debian-blueish-wallpaper-640x480.{png,tga} ; do
-    if bg=`convert_system_path_to_grub_path $i` ; then 
+    if is_path_readable_by_grub $i ; then 
+      bg=$i
       case ${bg} in
         *.png)		reader=png ;;
         *.tga)		reader=tga ;;
@@ -32,9 +32,10 @@ fi
 
 # set the background if possible
 if ${use_bg} ; then
+  prepare_grub_to_access_device `${grub_probe} --target=device ${bg}`
   cat << EOF
 insmod ${reader}
-if background_image ${bg} ; then
+if background_image `make_system_path_relative_to_its_root ${bg}` ; then
   set color_normal=black/black
   set color_highlight=magenta/black
 else
@@ -48,3 +49,6 @@ if ${use_bg} ; then
 else
   set_blue_theme
 fi
+
+# set the root variable back to what 10_linux expects
+prepare_grub_to_access_device ${GRUB_DEVICE_BOOT}
