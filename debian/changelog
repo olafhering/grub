@@ -4,6 +4,8 @@ grub2 (1.96+20080531-1) unstable; urgency=low
     - Work around BIOS bug affecting keyboard on macbooks.  (Closes: #482860)
     - Adjust grub.d/05_debian_theme to use the new UUID-compatible API.
     - default/grub: Add commented GRUB_DISABLE_LINUX_UUID variable.
+    - patches/06_backward_compat_in_uuid_support.diff: New.  Make update-grub
+      generate code that is compatible with older GRUB installs.
 
   [ Updated translations ]
   * Galician (gl.po) by Jacobo Tarrio  (Closes: #480977)
