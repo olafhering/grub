@@ -6,11 +6,13 @@ grub2 (1.96+20080531-1) unstable; urgency=low
     - default/grub: Add commented GRUB_DISABLE_LINUX_UUID variable.
     - patches/06_backward_compat_in_uuid_support.diff: New.  Make update-grub
       generate code that is compatible with older GRUB installs.
+    - util/biosdisk.c no longer complains about duplicated device.map entries.
+      (Closes: #481236)
 
   [ Updated translations ]
   * Galician (gl.po) by Jacobo Tarrio  (Closes: #480977)
 
- -- Robert Millan <rmh@aybabtu.com>  Fri, 30 May 2008 23:55:01 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Sat, 31 May 2008 00:02:54 +0200
 
 grub2 (1.96+20080512-1) unstable; urgency=low
 
