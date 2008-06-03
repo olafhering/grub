@@ -2,8 +2,11 @@ grub2 (1.96+20080601-2) unstable; urgency=low
 
   * 04_run_grub_mkdevicemap_when_grub_probe_fails.diff: Remove.  Argueably
     makes grub-probe unreliable and is quite annoying.
+  * 04_uuids_and_abstraction_dont_play_along_nicely.diff: New patch.  Disable
+    UUID parameter to Linux when LVM or dmRAID is in use.  (Closes: #484228)
+    This is a workaround for bug #484297 in udev.
 
- -- Robert Millan <rmh@aybabtu.com>  Tue,  3 Jun 2008 16:11:46 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Tue,  3 Jun 2008 16:29:53 +0200
 
 grub2 (1.96+20080601-1) unstable; urgency=low
 
