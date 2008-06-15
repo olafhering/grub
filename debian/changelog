@@ -1,9 +1,11 @@
-grub2 (1.96+20080604-1) unstable; urgency=high
+grub2 (1.96+20080615-1) unstable; urgency=low
 
   * New CVS snapshot.
     - Supports IDA block devices.  (Closes: #483858)
+    - Fixes some problems in ext2/ext3 (probably closes some bugs, but I
+      can't tell which ones).
 
- -- Robert Millan <rmh@aybabtu.com>  Wed,  4 Jun 2008 13:21:40 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Sun, 15 Jun 2008 16:50:47 +0200
 
 grub2 (1.96+20080601-2) unstable; urgency=low
 
