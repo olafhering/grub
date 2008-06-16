@@ -9,6 +9,8 @@ grub2 (1.96+20080615-1) unstable; urgency=low
     - Fixes incomplete I2O device support.  Thanks Sven Mueller.
       (Closes: #486505)
     - Fixes recent regressions in fs/ext2.c.  (Closes: #485279)
+    - Only use UUIDs when requested device is not the same as the one
+      providing /boot.  (Closes: #486119)
   * patches/06_olpc_prefix_hack.diff: Hardcode prefix to (sd,1) on OLPC.
   * Refurbish 03_disable_floppy_support_in_util_biosdisk.diff into
     03_disable_floppies.diff.
