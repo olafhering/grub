@@ -4,9 +4,11 @@ grub2 (1.96+20080615-1) unstable; urgency=low
     - Supports IDA block devices.  (Closes: #483858)
     - Fixes some problems in ext2/ext3 (probably closes some bugs, but I
       can't tell which ones).
+    - Uses EUID instead of UID in update-grub.  (Closes: #486043, #486039,
+      #486040, #486041).
   * patches/06_olpc_prefix_hack.diff: Hardcode prefix to (sd,1) on OLPC.
 
- -- Robert Millan <rmh@aybabtu.com>  Sun, 15 Jun 2008 16:52:48 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Mon, 16 Jun 2008 22:33:27 +0200
 
 grub2 (1.96+20080601-2) unstable; urgency=low
 
