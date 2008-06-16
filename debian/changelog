@@ -12,11 +12,12 @@ grub2 (1.96+20080617-1) unstable; urgency=low
       providing /boot.  (Closes: #486119)
     - patches/02_libgcc_powerpc_hack.diff: Remove.  Probably not needed
       anymore.
+    - patches/04_uuids_and_abstraction_dont_play_along_nicely.diff: Update.
   * patches/06_olpc_prefix_hack.diff: Hardcode prefix to (sd,1) on OLPC.
   * Refurbish 03_disable_floppy_support_in_util_biosdisk.diff into
     03_disable_floppies.diff.
 
- -- Robert Millan <rmh@aybabtu.com>  Tue, 17 Jun 2008 00:54:40 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Tue, 17 Jun 2008 01:07:52 +0200
 
 grub2 (1.96+20080601-2) unstable; urgency=low
 

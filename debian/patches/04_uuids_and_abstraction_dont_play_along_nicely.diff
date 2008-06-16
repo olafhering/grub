@@ -1,8 +1,9 @@
 
 Workaround untill #484297 is fixed.
 
---- util/grub.d/10_linux.in~	2008-05-30 23:53:17.000000000 +0200
-+++ util/grub.d/10_linux.in	2008-06-03 16:16:40.000000000 +0200
+diff -ur grub2.old/util/grub.d/10_linux.in grub2/util/grub.d/10_linux.in
+--- grub2.old/util/grub.d/10_linux.in	2008-06-17 01:00:28.000000000 +0200
++++ grub2/util/grub.d/10_linux.in	2008-06-17 01:06:53.000000000 +0200
 @@ -27,7 +27,8 @@
    OS="${GRUB_DISTRIBUTOR} GNU/Linux"
  fi
@@ -10,6 +11,6 @@ Workaround untill #484297 is fixed.
 -if [ "x${GRUB_DEVICE_UUID}" = "x" ] || [ "x${GRUB_DISABLE_LINUX_UUID}" = "xtrue" ] ; then
 +if [ "x${GRUB_DEVICE_UUID}" = "x" ] || [ "x${GRUB_DISABLE_LINUX_UUID}" = "xtrue" ] \
 +  || [ "`grub-probe -t abstraction --device ${GRUB_DEVICE}`" != "" ] ; then
-   LINUX_ROOT_DEVICE=${GRUB_DEVICE}
- else
-   LINUX_ROOT_DEVICE=UUID=${GRUB_DEVICE_UUID}
+   # loop-AES arranges things so that /dev/loop/X can be our root device, but
+   # the initrds that Linux uses don't like that.
+   case ${GRUB_DEVICE} in
