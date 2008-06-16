@@ -10,6 +10,8 @@ grub2 (1.96+20080617-1) unstable; urgency=low
     - Fixes recent regressions in fs/ext2.c.  (Closes: #485279)
     - Only use UUIDs when requested device is not the same as the one
       providing /boot.  (Closes: #486119)
+    - patches/02_libgcc_powerpc_hack.diff: Remove.  Probably not needed
+      anymore.
   * patches/06_olpc_prefix_hack.diff: Hardcode prefix to (sd,1) on OLPC.
   * Refurbish 03_disable_floppy_support_in_util_biosdisk.diff into
     03_disable_floppies.diff.
