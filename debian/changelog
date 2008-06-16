@@ -8,6 +8,7 @@ grub2 (1.96+20080615-1) unstable; urgency=low
       #486040, #486041).
     - Fixes incomplete I2O device support.  Thanks Sven Mueller.
       (Closes: #486505)
+    - Fixes recent regressions in fs/ext2.c.  (Closes: #485279)
   * patches/06_olpc_prefix_hack.diff: Hardcode prefix to (sd,1) on OLPC.
 
  -- Robert Millan <rmh@aybabtu.com>  Mon, 16 Jun 2008 22:45:51 +0200
