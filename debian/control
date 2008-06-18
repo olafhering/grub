@@ -112,8 +112,8 @@ Description: GRand Unified Bootloader, version 2 (EFI version)
     update-grub2.
  .
  This package contains a version of GRUB that has been built for use with
- EFI architecture, such as the one provided by Intel Macs (that is, unless
- they are in MBR emulation mode).
+ EFI architecture, such as the one provided by Intel Macs (that is, unless a
+ BIOS interface has been activated).
 
 Package: grub-ieee1275
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
