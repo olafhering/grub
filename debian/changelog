@@ -1,9 +1,12 @@
-grub2 (1.96+20080617-2) unstable; urgency=low
+grub2 (1.96+20080619-1) unstable; urgency=low
 
+  * New CVS snapshot.
+    - Fix module load hook in prepare_grub_to_access_device().
+      (Closes: #486804)
   * grub.d/05_debian_theme: Prefer /boot/grub over /usr for image
     loading, since chances are it's less LVMed.
 
- -- Robert Millan <rmh@aybabtu.com>  Thu, 19 Jun 2008 14:23:42 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Thu, 19 Jun 2008 14:32:20 +0200
 
 grub2 (1.96+20080617-1) unstable; urgency=low
 
