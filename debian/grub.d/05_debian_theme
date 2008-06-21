@@ -49,6 +49,3 @@ if ${use_bg} ; then
 else
   set_blue_theme
 fi
-
-# set the root variable back to what 10_linux expects
-prepare_grub_to_access_device ${GRUB_DEVICE_BOOT}
