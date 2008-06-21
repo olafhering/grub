@@ -1,5 +1,6 @@
-grub2 (1.96+20080621-1) unstable; urgency=low
+grub2 (1.96+20080621-1) unstable; urgency=high
 
+  * Urgency set to "high" because of #482688.
   * New CVS snapshot.
     - Fix module load hook in prepare_grub_to_access_device().
       (Closes: #486804)
