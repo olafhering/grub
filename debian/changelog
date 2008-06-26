@@ -1,3 +1,10 @@
+grub2 (1.96+20080626-1) unstable; urgency=high
+
+  * New CVS snapshot.
+    - Avoids passing UUID to Linux when not using initrd.  (Closes: #484228)
+
+ -- Robert Millan <rmh@aybabtu.com>  Thu, 26 Jun 2008 16:43:48 +0200
+
 grub2 (1.96+20080621-1) unstable; urgency=high
 
   * Urgency set to "high" because of #482688.
