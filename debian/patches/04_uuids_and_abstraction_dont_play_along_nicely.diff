@@ -1,16 +1,15 @@
 
 Workaround untill #484297 is fixed.
 
-diff -ur grub2.old/util/grub.d/10_linux.in grub2/util/grub.d/10_linux.in
---- grub2.old/util/grub.d/10_linux.in	2008-06-17 01:00:28.000000000 +0200
-+++ grub2/util/grub.d/10_linux.in	2008-06-17 01:06:53.000000000 +0200
-@@ -27,7 +27,8 @@
-   OS="${GRUB_DISTRIBUTOR} GNU/Linux"
- fi
+--- util/grub.d/10_linux.in~	2008-06-26 09:03:26.000000000 +0200
++++ util/grub.d/10_linux.in	2008-06-26 17:01:12.000000000 +0200
+@@ -36,7 +36,8 @@
+ esac
  
--if [ "x${GRUB_DEVICE_UUID}" = "x" ] || [ "x${GRUB_DISABLE_LINUX_UUID}" = "xtrue" ] ; then
-+if [ "x${GRUB_DEVICE_UUID}" = "x" ] || [ "x${GRUB_DISABLE_LINUX_UUID}" = "xtrue" ] \
-+  || [ "`grub-probe -t abstraction --device ${GRUB_DEVICE}`" != "" ] ; then
-   # loop-AES arranges things so that /dev/loop/X can be our root device, but
-   # the initrds that Linux uses don't like that.
-   case ${GRUB_DEVICE} in
+ if [ "x${GRUB_DEVICE_UUID}" = "x" ] || [ "x${GRUB_DISABLE_LINUX_UUID}" = "xtrue" ] \
+-    || ! test -e "/dev/disk/by-uuid/${GRUB_DEVICE_UUID}" ; then
++    || ! test -e "/dev/disk/by-uuid/${GRUB_DEVICE_UUID}" \
++    || [ "`grub-probe -t abstraction --device ${GRUB_DEVICE}`" != "" ] ; then
+   LINUX_ROOT_DEVICE=${GRUB_DEVICE}
+ else
+   LINUX_ROOT_DEVICE=UUID=${GRUB_DEVICE_UUID}

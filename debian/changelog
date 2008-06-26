@@ -2,6 +2,7 @@ grub2 (1.96+20080626-1) unstable; urgency=high
 
   * New CVS snapshot.
     - Avoids passing UUID to Linux when not using initrd.  (Closes: #484228)
+    - patches/04_uuids_and_abstraction_dont_play_along_nicely.diff: Resync.
 
  -- Robert Millan <rmh@aybabtu.com>  Thu, 26 Jun 2008 16:43:48 +0200
 
