@@ -1,3 +1,9 @@
+grub2 (1.96+20080626-2) unstable; urgency=low
+
+  * default/grub: Add commented example to disable graphical terminal.
+
+ -- Robert Millan <rmh@aybabtu.com>  Sun, 29 Jun 2008 19:07:08 +0200
+
 grub2 (1.96+20080626-1) unstable; urgency=high
 
   * New CVS snapshot.
