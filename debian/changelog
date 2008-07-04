@@ -5,8 +5,10 @@ grub2 (1.96+20080626-2) unstable; urgency=low
   * Bring 03_disable_floppies.diff to pre-r805 state.  (Closes: #488375)
   * patches/02_old_linux_version_comparison.diff: New patch.  Steal version
     comparison code from GRUB Legacy's update-grub.  (Closes: #464086, #489133)
+  * patches/00_speed_up_font_load.diff: New patch.  Generate font files with
+    only the needed characters.  (Closes: #476479, #477083)
 
- -- Robert Millan <rmh@aybabtu.com>  Fri,  4 Jul 2008 18:05:30 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Fri,  4 Jul 2008 21:39:07 +0200
 
 grub2 (1.96+20080626-1) unstable; urgency=high
 
