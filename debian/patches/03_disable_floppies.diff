@@ -1,24 +1,24 @@
-diff -ur grub2/disk/i386/pc/biosdisk.c floppy/disk/i386/pc/biosdisk.c
---- grub2/disk/i386/pc/biosdisk.c	2008-05-31 23:14:59.000000000 +0200
-+++ floppy/disk/i386/pc/biosdisk.c	2008-06-06 17:32:08.000000000 +0200
-@@ -87,7 +87,7 @@
-     }
+
+Author: Robert Millan
+
+An ugly kludge.  Should this be merged upstream?
+
+--- util/biosdisk.c	2008-04-07 18:45:01.000000000 +0200
++++ util/biosdisk.c	2008-04-10 10:52:32.000000000 +0200
+@@ -550,6 +550,16 @@ read_device_map (const char *dev_map)
+ 	  continue;
+ 	}
  
-   /* For floppy disks, we can get the number safely.  */
--  num_floppies = grub_biosdisk_get_num_floppies ();
-+  num_floppies = 0;
-   for (drive = 0; drive < num_floppies; drive++)
-     if (grub_biosdisk_call_hook (hook, drive))
-       return 1;
-diff -ur grub2/util/grub-mkdevicemap.c floppy/util/grub-mkdevicemap.c
---- grub2/util/grub-mkdevicemap.c	2008-06-04 13:25:16.000000000 +0200
-+++ floppy/util/grub-mkdevicemap.c	2008-06-06 17:31:46.000000000 +0200
-@@ -698,7 +698,7 @@
- main (int argc, char *argv[])
- {
-   char *dev_map = 0;
--  int floppy_disks = 1;
-+  int floppy_disks = 0;
-   
-   progname = "grub-mkdevicemap";
-   
++      if (! strncmp (p, "/dev/fd", sizeof ("/dev/fd") - 1))
++	{
++	  char *q = p + sizeof ("/dev/fd") - 1;
++	  if (*q >= '0' && *q <= '9')
++	    {
++	      grub_util_info ("`%s' looks like a floppy drive, skipping", p);
++	      continue;
++	    }
++	}
++
+ #ifdef __linux__
+       /* On Linux, the devfs uses symbolic links horribly, and that
+ 	 confuses the interface very much, so use realpath to expand
