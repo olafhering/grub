@@ -1,0 +1,107 @@
+
+#   Copyright 2001 Wichert Akkerman <wichert@linux.com>
+#   Copyright 2005 Kristian Edlund <edlund@groenstue.dk>
+#
+# This file is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+Index: util/grub.d/10_linux.in
+===================================================================
+--- util/grub.d/10_linux.in	(revision 1691)
++++ util/grub.d/10_linux.in	(working copy)
+@@ -65,20 +65,75 @@
+   fi
+ }
+ 
++### This function taken from GRUB Legacy's update-grub
++
++# Compares two version strings A and B
++# Returns -1 if A<B
++#          0 if A==B
++#          1 if A>B
++# This compares version numbers of the form
++# 2.4.14.2 > 2.4.14
++# 2.4.14random = 2.4.14-random > 2.4.14-ac10 > 2.4.14 > 2.4.14-pre2 > 
++# 2.4.14-pre1 > 2.4.13-ac99
++CompareVersions()
++{  
++    	#Changes the line something-x.y.z into somthing-x.y.z.q
++	#This is to ensure that kernels with a .q is treated as higher than the ones without               
++        #First a space is put after the version number
++        v1=$(echo $1 | sed -e 's!^\(.*-\([0-9]\+\.\)\{2,3\}[0-9]\+\)\(.*\)!\1 \3!g')
++	v2=$(echo $2 | sed -e 's!^\(.*-\([0-9]\+\.\)\{2,3\}[0-9]\+\)\(.*\)!\1 \3!g')
++	#If the version number only has 3 digits then put in another .0
++        v1=$(echo $v1 | sed -e 's!^\(.*-\([0-9]\+\.\)\{2\}[0-9]\+\)\( .*\|$\)!\1.0 \3!g')
++        v2=$(echo $v2 | sed -e 's!^\(.*-\([0-9]\+\.\)\{2\}[0-9]\+\)\( .*\|$\)!\1.0 \3!g')
++          
++	# Then split the version number and remove any '.' 's or dashes
++	v1=$(echo $v1 | sed -e 's![-\.]\+! !g' -e 's!\([0-9]\)\([[:alpha:]]\)!\1 \2!')
++	v2=$(echo $v2 | sed -e 's![-\.]\+! !g' -e 's!\([0-9]\)\([[:alpha:]]\)!\1 \2!')
++
++	# we weight different kernel suffixes here
++	# ac   = 50
++	# pre  = -50
++	# rc   = -40
++	# test = -60
++	# others are given 99
++	v1=$(echo $v1 | sed -e 's! k7! 786 !g' -e 's! ac! 50 !g' -e 's! rc! -40 !g' -e 's! pre! -50 !g' -e 's! test! -60 !g' -e 's![^ ]*[^-0-9 ][^ ]*!99!g')
++
++	v2=$(echo $v2 | sed -e 's! k7! 786 !g' -e 's! ac! 50 !g' -e 's! rc! -40 !g' -e 's! pre! -50 !g' -e 's! test! -60 !g' -e 's![^ ]*[^-0-9 ][^ ]*!99!g')
++
++	result=0; v1finished=0; v2finished=0;
++	while [ $result -eq 0 ] && [ $v1finished -eq 0 ] && [ $v2finished -eq 0 ];
++	do
++		if [ "$v1" = "" ]; then
++			v1comp=0; v1finished=1
++		else
++			set -- $v1; v1comp=$1; shift; v1=$*
++		fi
++
++		if [ "$v2" = "" ]; then
++			v2comp=0; v2finished=1
++		else
++			set -- $v2; v2comp=$1; shift; v2=$*
++		fi
++		
++		set +e
++		result=`expr $v1comp - $v2comp` 
++		result=`expr substr $result 1 2`
++		set -e
++
++		if   [ $result -gt 0 ]; then result=1
++		elif [ $result -lt 0 ]; then result=-1	
++		fi	
++	done
++
++	# finally return the result
++	echo $result
++}
++
+ test_gt ()
+ {
+   local a=`echo $1 | sed -e "s/vmlinu[zx]-//g"`
+   local b=`echo $2 | sed -e "s/vmlinu[zx]-//g"`
+-  local cmp=gt
+-  if [ "x$b" = "x" ] ; then
+-    return 0
+-  fi
+-  case $a:$b in
+-    *.old:*.old) ;;
+-    *.old:*) a=`echo -n $a | sed -e s/\.old$//g` ; cmp=gt ;;
+-    *:*.old) b=`echo -n $b | sed -e s/\.old$//g` ; cmp=ge ;;
+-  esac
+-  test_numeric $a $cmp $b
++  [ `CompareVersions "$a" "$b"` == 1 ]
+   return $?
+ }
+ 
