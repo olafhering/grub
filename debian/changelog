@@ -1,5 +1,6 @@
-grub2 (1.96+20080626-2) unstable; urgency=low
+grub2 (1.96+20080704-1) unstable; urgency=high
 
+  * New SVN snapshot.
   * default/grub: Add commented example to disable graphical terminal.
   * Use substvars to support linking with liblzo1.
   * Bring 03_disable_floppies.diff to pre-r805 state.  (Closes: #488375)
