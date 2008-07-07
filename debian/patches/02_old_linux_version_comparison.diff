@@ -19,6 +19,12 @@ Index: util/grub.d/10_linux.in
 ===================================================================
 --- util/grub.d/10_linux.in	(revision 1691)
 +++ util/grub.d/10_linux.in	(working copy)
+@@ -1,4 +1,4 @@
+-#! /bin/sh -e
++#! /bin/bash -e
+ 
+ # update-grub helper script.
+ # Copyright (C) 2006,2007,2008  Free Software Foundation, Inc.
 @@ -65,20 +65,75 @@
    fi
  }

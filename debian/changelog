@@ -1,3 +1,10 @@
+grub2 (1.96+20080704-2) unstable; urgency=high
+
+  * patches/02_old_linux_version_comparison.diff: Set interpreter to /bin/bash.
+    (Closes: #489426, #489446)
+
+ -- Robert Millan <rmh@aybabtu.com>  Mon,  7 Jul 2008 15:17:58 +0200
+
 grub2 (1.96+20080704-1) unstable; urgency=high
 
   * New SVN snapshot.
