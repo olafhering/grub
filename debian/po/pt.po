@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2\n"
+"Project-Id-Version: grub2 1.96+20080626-1\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2008-02-13 14:53+0100\n"
-"PO-Revision-Date: 2008-02-10 22:05+0000\n"
+"PO-Revision-Date: 2008-07-06 23:36+0100\n"
 "Last-Translator: Ricardo Silva <ardoric@gmail.com>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,6 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../grub2.templates:1001
-#, fuzzy
 msgid ""
 " - Reinstall GRUB (typically, by running grub-install).\n"
 " - Rerun update-grub to generate a new grub.cfg."
