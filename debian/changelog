@@ -1,7 +1,11 @@
-grub2 (1.96+20080712-1) unstable; urgency=low
+grub2 (1.96+20080717-1) experimental; urgency=low
 
   * New SVN snapshot.
+    - Provides LZMA support (not yet used in the package).
     - Fix grub-mkrescue manpage generation.  (Closes: #489440)
+
+  * Rename grub-linuxbios to grub-coreboot (and leave a dummy grub-linuxbios
+    package to handle upgrades).
 
   [ Updated translations ]
   * Spanish (es.po) by Maria Germana Oliveira Blazetic  (Closes: #489877)

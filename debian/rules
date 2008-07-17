@@ -27,7 +27,7 @@ AUTOGEN_FILES = configure config.h.in conf/*.mk
 $(AUTOGEN_FILES): autogen.sh configure.ac conf/*.rmk
 	./autogen.sh
 
-configure/grub-pc configure/grub-ieee1275 configure/grub-efi configure/grub-linuxbios:: $(AUTOGEN_FILES)
+configure/grub-pc configure/grub-ieee1275 configure/grub-efi configure/grub-coreboot:: $(AUTOGEN_FILES)
 	mkdir -p $(subst configure/,build/,$@)
 	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=$(subst configure/grub-,,$@)
 
@@ -35,7 +35,7 @@ configure/grub-common::
 	mkdir -p build/grub-common
 	cd build/grub-common && $(CONFIGURE)
 
-build/grub-pc build/grub-efi build/grub-ieee1275 build/grub-linuxbios::
+build/grub-pc build/grub-efi build/grub-ieee1275 build/grub-coreboot::
 	$(MAKE) -C $@
 
 build/grub-rescue-pc:: build/grub-pc
@@ -61,7 +61,7 @@ build/grub-common::
 	# also debian/patches/04_run_grub_mkdevicemap_when_grub_probe_fails.diff
 	$(MAKE) -C $@ grub-probe grub-mkdevicemap
 
-install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-linuxbios::
+install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-coreboot::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
 
 	# If liblzo2-dev >= 2.03 is installed, it means we're linking with it;  this makes sure
@@ -86,7 +86,7 @@ install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-linuxbios::
 
 clean:: debian/legacy/update-grub
 	chmod +x debian/{script,grub.d/*,legacy/*}
-	-rm -f debian/grub-{pc,efi,ieee1275,linuxbios}.docs debian/grub-pc.substvars
+	-rm -f debian/grub-{pc,efi,ieee1275,coreboot}.docs debian/grub-pc.substvars
 	-rm -rf build
 
 	# make sure PO files are always up-to-date
