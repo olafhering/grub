@@ -4,7 +4,7 @@ echo -e "\nInstalling GRUB to Master Boot Record of your first hard drive ...\n"
 grub-install "(hd0)"
 
 if test ! -f /boot/grub/grub.cfg ; then
-  echo -e "\nCalling update-grub to generate grub.cfg\n"
+  echo -e "\nCalling update-grub to generate grub.cfg\n" >&2
   update-grub
 fi
 
