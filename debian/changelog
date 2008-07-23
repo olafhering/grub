@@ -2,8 +2,11 @@ grub2 (1.96+20080717-2) experimental; urgency=low
 
   * upgrade-from-grub-legacy now calls update-grub if there's no
     grub.cfg
+  
+  [ Updated translations ]
+  * Swedish (sv.po) by Martin Ågren (Closes: #492056)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Wed, 23 Jul 2008 15:53:15 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Wed, 23 Jul 2008 17:49:08 +0200
 
 grub2 (1.96+20080717-1) experimental; urgency=low
 
