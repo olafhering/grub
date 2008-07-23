@@ -3,10 +3,13 @@ grub2 (1.96+20080717-2) experimental; urgency=low
   * upgrade-from-grub-legacy now calls update-grub if there's no
     grub.cfg
   
+  * Update Standards version to 3.8.0. No changes need.
+  * Added Build-Dep for po-debconf and a lintian overide, to make it happy.
+
   [ Updated translations ]
   * Swedish (sv.po) by Martin Ågren (Closes: #492056)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Wed, 23 Jul 2008 17:49:08 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Wed, 23 Jul 2008 23:12:02 +0200
 
 grub2 (1.96+20080717-1) experimental; urgency=low
 

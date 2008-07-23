@@ -83,6 +83,9 @@ install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-coreboot::
 	cd $(CURDIR)/debian/$(subst install/,,$@) && find ./usr/lib/grub -name \*.mod \
 		| sed -e "s%.*%$(subst install/,,$@): unstripped-binary-or-object &%g" \
 	> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@)
+	cd $(CURDIR)/debian/$(subst install/,,$@) && find ./usr/lib/grub -name kern.elf \
+		| sed -e "s%.*%$(subst install/,,$@): statically-linked-binary &%g" \
+	>> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@)
 
 clean:: debian/legacy/update-grub
 	chmod +x debian/{script,grub.d/*,legacy/*}
