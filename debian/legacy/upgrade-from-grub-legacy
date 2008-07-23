@@ -3,6 +3,11 @@
 echo -e "\nInstalling GRUB to Master Boot Record of your first hard drive ...\n" >&2
 grub-install "(hd0)"
 
+if test ! -f /boot/grub/grub.cfg ; then
+  echo "Calling update-grub to generate grub.cfg"
+  upadate-grub
+fi
+
 # These never contain any valuable information, and they aren't useful for
 # boot anymore, since we just overwrote MBR/PBR.
 rm -f /boot/grub/{{xfs,reiserfs,e2fs,fat,jfs,minix}_stage1_5,stage{1,2}}
