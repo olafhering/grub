@@ -1,4 +1,8 @@
-grub2 (1.96+20080717-1) unstable; urgency=low
+grub2 (1.96+20080724-1) unstable; urgency=high
+
+  * New SVN snapshot.
+    - Support for ext4dev extents.
+    - patches/00_speed_up_font_load.diff: Remove (merged).
 
   [ Felix Zielcke ]
   * upgrade-from-grub-legacy now calls update-grub if grub.cfg doestn't exist
