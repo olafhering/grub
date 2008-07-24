@@ -5,7 +5,14 @@ grub-install "(hd0)"
 
 if test ! -f /boot/grub/grub.cfg ; then
   echo -e "\nCalling update-grub to generate grub.cfg\n" >&2
-  update-grub
+  update-grub || cat << EOF
+Failed to generate /boot/grub/grub.cfg but GRUB2 has been already installed to
+your MBR.
+THIS MEANS YOU HAVE CURRENTLY AN UNBOOTABLE SYSTEM.
+Either fix the error from update-grub and run $0 again
+or install old grub again and run grub-install from it to have again
+grub-legacy in your MBR.
+EOF
 fi
 
 # These never contain any valuable information, and they aren't useful for
