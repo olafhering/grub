@@ -28,14 +28,8 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
 Package: grub-of
 Architecture: powerpc ppc64
 Depends: grub-ieee1275 (= ${Source-Version})
-Description: GRand Unified Bootloader, version 2 (dummy package)
+Description: GRand Unified Bootloader, version 2 [dummy]
  This is a dummy transitional package that depends on grub-ieee1275.
-
-Package: grub-linuxbios
-Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: grub-coreboot (= ${Source-Version})
-Description: GRand Unified Bootloader, version 2 (dummy package)
- This is a dummy transitional package that depends on grub-coreboot.
 
 
 Package: grub-common
@@ -80,14 +74,14 @@ Description: GRUB bootable rescue images, version 2 (PC/BIOS version)
   - grub-rescue-floppy.img: floppy image.
   - grub-rescue-cdrom.iso: El Torito CDROM image.
 
-Package: grub-coreboot
+Package: grub-linuxbios
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (>> 1.96+20080413-1)
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: pupa, grub
 Suggests: os-prober
-Description: GRand Unified Bootloader, version 2 (Coreboot version)
+Description: GRand Unified Bootloader, version 2 (LinuxBIOS version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
  .
@@ -98,7 +92,7 @@ Description: GRand Unified Bootloader, version 2 (Coreboot version)
     update-grub2.
  .
  This package contains a version of GRUB that has been built for use with
- platforms running the Coreboot firmware.
+ platforms running the LinuxBIOS firmware.
 
 Package: grub-efi
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64

@@ -1,15 +1,19 @@
-grub2 (1.96+20080717-2) experimental; urgency=low
+grub2 (1.96+20080717-1) unstable; urgency=low
 
+  [ Felix Zielcke ]
   * upgrade-from-grub-legacy now calls update-grub if grub.cfg doestn't exist
     and prints a big warning if it failed.
-  
   * Update Standards version to 3.8.0. No changes need.
   * Added Build-Dep for po-debconf and a lintian override, to make it happy.
 
   [ Updated translations ]
   * Swedish (sv.po) by Martin Ågren (Closes: #492056)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Wed, 23 Jul 2008 23:12:02 +0200
+  [ Robert Millan ]
+  * Revert r844.  grub-coreboot is stuck on NEW, and it was too early
+    for branching.
+
+ -- Robert Millan <rmh@aybabtu.com>  Thu, 24 Jul 2008 13:27:53 +0200
 
 grub2 (1.96+20080717-1) experimental; urgency=low
 
