@@ -1,12 +1,12 @@
 #!/bin/bash -e
 
+echo -e "\nInstalling GRUB to Master Boot Record of your first hard drive ...\n" >&2
+grub-install "(hd0)"
+
 if test ! -f /boot/grub/grub.cfg ; then
   echo -e "\nCalling update-grub to generate grub.cfg\n" >&2
   update-grub
 fi
-
-echo -e "\nInstalling GRUB to Master Boot Record of your first hard drive ...\n" >&2
-grub-install "(hd0)"
 
 # These never contain any valuable information, and they aren't useful for
 # boot anymore, since we just overwrote MBR/PBR.
