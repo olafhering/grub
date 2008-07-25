@@ -8,10 +8,9 @@
 	* util/i386/pc/grub-setup.c (setup): Do not special-case, or even
 	check, for cross-disk installs.
 
-Index: include/grub/i386/pc/kernel.h
-===================================================================
---- include/grub/i386/pc/kernel.h	(revision 1733)
-+++ include/grub/i386/pc/kernel.h	(working copy)
+diff -ur grub2/include/grub/i386/pc/kernel.h grub2.new/include/grub/i386/pc/kernel.h
+--- grub2/include/grub/i386/pc/kernel.h	2008-07-13 03:55:15.000000000 +0200
++++ grub2.new/include/grub/i386/pc/kernel.h	2008-07-26 01:15:13.000000000 +0200
 @@ -41,7 +41,7 @@
  #define GRUB_KERNEL_MACHINE_PREFIX		0x20
  
@@ -21,11 +20,10 @@ Index: include/grub/i386/pc/kernel.h
  
  /* The size of the first region which won't be compressed.  */
  #if defined(ENABLE_LZO)
-Index: util/i386/pc/grub-install.in
-===================================================================
---- util/i386/pc/grub-install.in	(revision 1733)
-+++ util/i386/pc/grub-install.in	(working copy)
-@@ -233,15 +233,34 @@
+diff -ur grub2/util/i386/pc/grub-install.in grub2.new/util/i386/pc/grub-install.in
+--- grub2/util/i386/pc/grub-install.in	2008-07-13 20:13:36.000000000 +0200
++++ grub2.new/util/i386/pc/grub-install.in	2008-07-26 01:16:20.000000000 +0200
+@@ -231,15 +231,34 @@
  # Device abstraction module, if any (lvm, raid).
  devabstraction_module=`$grub_probe --target=abstraction --device ${grub_device}`
  
@@ -61,25 +59,23 @@ Index: util/i386/pc/grub-install.in
 -# The order in this list is critical.  Be careful when modifying it.
 -modules="$modules $fs_module $partmap_module biosdisk $devabstraction_module"
 -
- grub_prefix="${prefix_drive}`make_system_path_relative_to_its_root ${grubdir}`" || exit 1
- 
- $grub_mkimage --output=${grubdir}/core.img --prefix=${grub_prefix}/ $modules || exit 1
-Index: util/i386/pc/grub-setup.c
-===================================================================
---- util/i386/pc/grub-setup.c	(revision 1733)
-+++ util/i386/pc/grub-setup.c	(working copy)
-@@ -339,18 +339,12 @@
+ $grub_mkimage --output=${grubdir}/core.img \
+     --prefix=${prefix_drive}`make_system_path_relative_to_its_root ${grubdir}`/ \
+     $modules || exit 1
+diff -ur grub2/util/i386/pc/grub-setup.c grub2.new/util/i386/pc/grub-setup.c
+--- grub2/util/i386/pc/grub-setup.c	2008-07-01 01:52:24.000000000 +0200
++++ grub2.new/util/i386/pc/grub-setup.c	2008-07-26 01:15:13.000000000 +0200
+@@ -339,17 +339,11 @@
  	  if (grub_disk_write (dest_dev->disk, embed_region.start, 0, core_size, core_img))
  	    grub_util_error ("%s", grub_errmsg);
  
 -	  /* The boot image and the core image are on the same drive,
 -	     so there is no need to specify the boot drive explicitly.  */
 -	  *boot_drive = 0xff;
+-	  *kernel_sector = grub_cpu_to_le64 (embed_region.start);
 +	  /* FIXME: can this be skipped?  */
 +	  *boot_drive = 0xFF;
 +	  *root_drive = 0xFF;
-+
- 	  *kernel_sector = grub_cpu_to_le64 (embed_region.start);
  
 -          /* If the root device is different from the destination device,
 -             it is necessary to embed the root drive explicitly.  */
@@ -87,10 +83,10 @@ Index: util/i386/pc/grub-setup.c
 -            *root_drive = (grub_uint8_t) root_dev->disk->id;
 -          else
 -            *root_drive = 0xFF;
--
++	  *kernel_sector = grub_cpu_to_le64 (embed_region.start);
+ 
  	  /* Write the boot image onto the disk.  */
  	  if (grub_disk_write (dest_dev->disk, 0, 0, GRUB_DISK_SECTOR_SIZE,
- 			       boot_img))
 @@ -480,15 +474,8 @@
    
    *kernel_sector = grub_cpu_to_le64 (first_sector);
