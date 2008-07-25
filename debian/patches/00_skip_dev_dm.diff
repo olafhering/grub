@@ -1,0 +1,28 @@
+2008-07-25  Robert Millan  <rmh@aybabtu.com>
+
+	* util/getroot.c (find_root_device): Skip devices that match
+	/dev/dm-[0-9].  This lets the real device be found for any type of
+	abstraction (LVM, EVMS, RAID..).
+
+Index: util/getroot.c
+===================================================================
+--- util/getroot.c	(revision 1732)
++++ util/getroot.c	(revision 1733)
+@@ -229,6 +229,17 @@
+ 
+       if (S_ISBLK (st.st_mode) && st.st_rdev == dev)
+ 	{
++#ifdef __linux__
++	  /* Skip useless device names like /dev/dm-0, which prevent us from
++	     finding /dev/mapper/*, /dev/evms/*, /dev/md*, etc.  */
++	  if (ent->d_name[0] == 'd' &&
++	      ent->d_name[1] == 'm' &&
++	      ent->d_name[2] == '-' &&
++	      ent->d_name[3] >= '0' &&
++	      ent->d_name[3] <= '9')
++	    continue;
++#endif
++
+ 	  /* Found!  */
+ 	  char *res;
+ 	  char *cwd;

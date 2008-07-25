@@ -1,8 +1,7 @@
-grub2 (1.96+20080725-1) unstable; urgency=high
+grub2 (1.96+20080724-2) unstable; urgency=high
 
-  * New SVN snapshot.
-    - Skips /dev/dm-[0-9] devices also (implicitly) for RAID.
-      (Closes: #491977)
+  * patches/00_skip_dev_dm.diff: Skip /dev/dm-[0-9] devices also (implicitly)
+    for RAID.  (Closes: #491977)
 
   [ Felix Zielcke ]
   * fixed lintian override for kernel.elf
