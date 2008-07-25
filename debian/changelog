@@ -1,13 +1,16 @@
 grub2 (1.96+20080724-2) unstable; urgency=high
 
-  * patches/00_skip_dev_dm.diff: Skip /dev/dm-[0-9] devices also (implicitly)
-    for RAID.  (Closes: #491977)
-
   [ Felix Zielcke ]
   * fixed lintian override for kernel.elf
   * debian/rules: changed cvs targets to use svn
 
- -- Robert Millan <rmh@aybabtu.com>  Fri, 25 Jul 2008 21:09:16 +0200
+  [ Robert Millan ]
+  * patches/00_skip_dev_dm.diff: Skip /dev/dm-[0-9] devices also (implicitly)
+    for RAID.  (Closes: #491977)
+  * patches/00_uuid_boot.diff: Fix cross-disk installs by using UUIDs.
+    (Closes: #492204)
+
+ -- Robert Millan <rmh@aybabtu.com>  Sat, 26 Jul 2008 01:06:07 +0200
 
 grub2 (1.96+20080724-1) unstable; urgency=high
 
