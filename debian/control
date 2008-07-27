@@ -20,7 +20,7 @@ Vcs-Browser: http://svn.debian.org/wsvn/pkg-grub/grub2/
 
 Package: grub2
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
-Depends: debconf, grub-pc [i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64] | grub-ieee1275 [powerpc ppc64]
+Depends: ${misc:Depends} , grub-pc [i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64] | grub-ieee1275 [powerpc ppc64]
 Description: GRand Unified Bootloader, version 2 (dummy package)
  This is a dummy transitional package to handle GRUB 2 upgrades.  It can be
  safely removed.
@@ -42,7 +42,7 @@ Description: GRand Unified Bootloader, version 2 (common files)
 
 Package: grub-pc
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (>> 1.96+20080413-1), debconf, ${grub-pc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (>> 1.96+20080413-1), ${grub-pc:Depends}
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: pupa, grub, desktop-base (= 4.0.5)

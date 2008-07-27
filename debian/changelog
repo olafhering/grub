@@ -1,3 +1,9 @@
+grub2 (1.96+20080724-3) unstable; urgency=low
+
+  * changed depency for debconf to also support debconf-2.0 (Closes: #492543)
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 27 Jul 2008 12:30:26 +0200
+
 grub2 (1.96+20080724-2) unstable; urgency=high
 
   [ Felix Zielcke ]
