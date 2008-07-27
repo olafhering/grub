@@ -1,24 +1,21 @@
-Felix Zielcke <fzielcke@z-51.de>
-
-
-        * commands/help.c: Include <grub/term.h>.
-	        (TERM_WIDTH): Removed.  Updated all users.
-
 Index: commands/help.c
 ===================================================================
---- commands/help.c	(Revision 1734)
+--- commands/help.c	(Revision 1738)
 +++ commands/help.c	(Arbeitskopie)
-@@ -22,10 +22,6 @@
+@@ -21,12 +21,8 @@
+ #include <grub/dl.h>
  #include <grub/arg.h>
  #include <grub/misc.h>
++#include <grub/term.h>
  
 -/* XXX: This has to be changed into a function so the screen can be
 -   optimally used.  */
 -#define TERM_WIDTH	80
 -
- static grub_err_t
+-static grub_err_t
  grub_cmd_help (struct grub_arg_list *state __attribute__ ((unused)), int argc,
  	       char **args)
+ 
 @@ -43,16 +39,16 @@
  	{
  	  if (cmd->flags & GRUB_COMMAND_FLAG_CMDLINE)
