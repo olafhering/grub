@@ -1,0 +1,78 @@
+
+2008-07-28  Robert Millan  <rmh@aybabtu.com>
+
+	* partmap/apple.c (GRUB_APPLE_HEADER_MAGIC): New macro.
+	(struct grub_apple_header): New struct.  Describes the layout of
+	the partmap header.
+	(apple_partition_map_iterate): Check the header magic as well as the
+	partition magic (which was already being checked).
+
+Index: partmap/apple.c
+===================================================================
+--- partmap/apple.c	(revision 1745)
++++ partmap/apple.c	(revision 1746)
+@@ -22,11 +22,19 @@
+ #include <grub/mm.h>
+ #include <grub/partition.h>
+ 
++#define GRUB_APPLE_HEADER_MAGIC	0x4552
+ #define GRUB_APPLE_PART_MAGIC	0x504D
+ 
++struct grub_apple_header
++{
++  /* The magic number to identify the partition map, it should have
++     the value `0x4552'.  */
++  grub_uint16_t magic;
++};
++
+ struct grub_apple_part
+ {
+-  /* The magic number to idenify this as a partition, it should have
++  /* The magic number to identify this as a partition, it should have
+      the value `0x504D'.  */
+   grub_uint16_t magic;
+ 
+@@ -98,6 +106,7 @@
+ 					  const grub_partition_t partition))
+ {
+   struct grub_partition part;
++  struct grub_apple_header aheader;
+   struct grub_apple_part apart;
+   struct grub_disk raw;
+   int partno = 0;
+@@ -109,6 +118,18 @@
+ 
+   part.partmap = &grub_apple_partition_map;
+ 
++  if (grub_disk_read (&raw, 0, 0, sizeof (aheader), (char *) &aheader))
++    return grub_errno;
++
++  if (grub_be_to_cpu16 (aheader.magic) != GRUB_APPLE_HEADER_MAGIC)
++    {
++      grub_dprintf ("partition",
++		    "bad magic (found 0x%x; wanted 0x%x\n",
++		    grub_be_to_cpu16 (aheader.magic),
++		    GRUB_APPLE_HEADER_MAGIC);
++      goto fail;
++    }
++
+   for (;;)
+     {
+       if (grub_disk_read (&raw, pos / GRUB_DISK_SECTOR_SIZE,
+@@ -147,11 +168,12 @@
+       partno++;
+     }
+ 
+-  if (pos == GRUB_DISK_SECTOR_SIZE)
+-    return grub_error (GRUB_ERR_BAD_PART_TABLE,
+-		       "Apple partition map not found.");
++  if (pos != GRUB_DISK_SECTOR_SIZE)
++    return 0;
+ 
+-  return 0;
++ fail:
++  return grub_error (GRUB_ERR_BAD_PART_TABLE,
++		     "Apple partition map not found.");
+ }
+ 
+ 
