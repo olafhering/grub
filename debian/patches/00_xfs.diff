@@ -1,3 +1,6 @@
+
+Fixes "out of partition" error with XFS.  See #436943.
+
 diff --git a/fs/xfs.c b/fs/xfs.c
 index 7da3e40..72d6a5f 100644
 --- a/fs/xfs.c
