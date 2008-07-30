@@ -1,3 +1,20 @@
+grub2 (1.96+20080730-1) experimental; urgency=low
+
+  * New SVN snapshot.
+    - patches/00_fix_overflow.diff: Remove (merged).
+    - patches/00_uuid_boot.diff: Remove (merged).
+    - patches/00_raid_duped_disks.diff: Remove (merged).
+    - patches/00_xfs.diff: Remove (merged).
+    - patches/00_strengthen_apple_partmap_check.diff: Remove (merged).
+    - patches/00_skip_dev_dm.diff: Remove (merged).
+
+  * patches/901_linux_coreboot.diff: Implements Linux load on Coreboot
+    (patch from Coresystems).
+
+  * grub-linuxbios -> grub-coreboot rename again.
+
+ -- Robert Millan <rmh@aybabtu.com>  Wed, 30 Jul 2008 22:12:07 +0200
+
 grub2 (1.96+20080724-4) unstable; urgency=high
 
   * patches/00_fix_overflow.diff: fix overflow with a big grub.cfg.
