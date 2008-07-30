@@ -7,7 +7,6 @@ grub2 (1.96+20080730-1) experimental; urgency=low
     - patches/00_xfs.diff: Remove (merged).
     - patches/00_strengthen_apple_partmap_check.diff: Remove (merged).
     - patches/00_skip_dev_dm.diff: Remove (merged).
-    - Fix empty lines in command help output (Closes: #487399)
 
   * patches/901_linux_coreboot.diff: Implements Linux load on Coreboot
     (patch from Coresystems).
