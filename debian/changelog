@@ -1,7 +1,7 @@
-grub2 (1.96+20080724-4) unstable; urgency=low
+grub2 (1.96+20080724-4) unstable; urgency=high
 
   * patches/00_fix_overflow.diff: fix overflow with a big grub.cfg.
-  (Closes: #473543)
+    (Closes: #473543)
 
  -- Felix Zielcke <fzielcke@z-51.de>  Tue, 29 Jul 2008 17:10:59 +0200
 
