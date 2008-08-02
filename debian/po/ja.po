@@ -1,0 +1,117 @@
+# Copyright (C) 2008 GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
+# This file is distributed under the same license as the grub2 package.
+# Hideki Yamane (Debian-JP) <henrich@debian.or.jp>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: grub2 1.96+20080724-4\n"
+"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2008-02-13 14:53+0100\n"
+"PO-Revision-Date: 2008-07-31 11:21+0200\n"
+"Last-Translator: Hideki Yamane (Debian-JP) <henrich@debian.or.jp>\n"
+"Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: note
+#. Description
+#: ../grub2.templates:1001
+msgid "GRUB 1.95 numbering scheme transition"
+msgstr "GRUB 1.95 でのナンバリング方法の移行"
+
+#. Type: note
+#. Description
+#: ../grub2.templates:1001
+msgid ""
+"As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions are "
+"now counted starting from 1 rather than 0.  This is to make it consistent "
+"with device names of Linux and the other kernels used in Debian.  For "
+"example, when using Linux as the kernel, \"(hd0,1)\" refers to the same "
+"partition as the /dev/sda1 device node."
+msgstr ""
+"バージョン 1.95 で、GRUB 2 はナンバリングの方法を変更しました。パーティション"
+"は 0 からではなく 1 から数えられ始めます。これによって、Linux や Debian で使"
+"われている他のカーネルでのデバイス名と一致するようになります。例えば、Linux "
+"をカーネルとして使っている場合、\"(hd0,1)\" は /dev/sda1 デバイスノードと同じ"
+"パーティションを指します。"
+
+#. Type: note
+#. Description
+#: ../grub2.templates:1001
+msgid ""
+"Because of this, there's a chance your system becomes unbootable if update-"
+"grub(8) is run before GRUB is updated, generating a grub.cfg file that your "
+"installed GRUB won't yet be able to parse correctly.  To ensure your system "
+"will be able to boot, you have to:"
+msgstr ""
+"これによって、GRUB がアップデートされる前に update-grub(8) を実行してインス"
+"トールしてある GRUB がまだ正しくパースできない grub.cfg ファイルを生成する"
+"と、システムが起動しないようになる可能性があります。確実にシステムが起動する"
+"ようにするには、以下を実行する必要があります:"
+
+#. Type: note
+#. Description
+#: ../grub2.templates:1001
+msgid ""
+" - Reinstall GRUB (typically, by running grub-install).\n"
+" - Rerun update-grub to generate a new grub.cfg."
+msgstr ""
+" - GRUB を再インストール (つまり、grub-install の実行)。\n"
+" - 新しい grub.cfg を生成するため update-grub を再実行。"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "Chainload from menu.lst?"
+msgstr "menu.lst から続けて起動 (チェーンロード)しますか?"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
+msgstr ""
+"GRUB のアップグレードプログラムは GRUB Legacy の設定が /boot/grub にあるのを"
+"検出しました。"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid ""
+"In order to replace the Legacy version of GRUB in your system, it is "
+"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
+"your existing GRUB Legacy setup.  This step may be automaticaly performed "
+"now."
+msgstr ""
+"システム中に存在している以前のバージョンの GRUB を置き換えるためには、/boot/"
+"grub/menu.lst にある GRUB Legacy の設定を使って GRUB2 をチェーンロードする"
+"ように調整するのがお勧めです。この作業は自動的に実行されます。"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid ""
+"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
+"verify that your new GRUB 2 setup is functional for you, before you install "
+"it directly to your MBR (Master Boot Record)."
+msgstr ""
+"MBR (マスタブートレコード) に直接インストールする前に、GRUB 2 が menu.lst か"
+"らチェーンロードするように設定し、新しい GRUB 2 の設定が動作するかどうかを確"
+"認する事をお勧めします。"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid ""
+"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
+"can do so by issuing (as root) the following command:"
+msgstr ""
+"いずれにせよ、GRUB 2 を MBR から直接起動したくなった時いつでもは (root にて) "
+"以下のコマンドを入力することで対応できます:"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "upgrade-from-grub-legacy"
+msgstr "upgrade-from-grub-legacy"
+
