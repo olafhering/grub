@@ -1,1 +1,2 @@
 debian/update-grub2			usr/sbin
+debian/grub.d				etc
