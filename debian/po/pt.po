@@ -16,52 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid "GRUB 1.95 numbering scheme transition"
-msgstr "Transição do esquema de numeração do GRUB 1.95"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-"As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions are "
-"now counted starting from 1 rather than 0.  This is to make it consistent "
-"with device names of Linux and the other kernels used in Debian.  For "
-"example, when using Linux as the kernel, \"(hd0,1)\" refers to the same "
-"partition as the /dev/sda1 device node."
-msgstr ""
-"Na versão 1.95, o GRUB 2 mudou o seu esquema de numeração. As partições são "
-"agora contadas a partir de 1 em vez de 0. Isto é consistente com os nomes "
-"dos dispositivos em Linux e outros kernels utilizados na Debian. Por "
-"exemplo, quando utilizar Linux como kernel, \"(hd0,1)\" refere-se à mesma "
-"partição que o dispositivo /dev/sda1."
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-"Because of this, there's a chance your system becomes unbootable if update-"
-"grub(8) is run before GRUB is updated, generating a grub.cfg file that your "
-"installed GRUB won't yet be able to parse correctly.  To ensure your system "
-"will be able to boot, you have to:"
-msgstr ""
-"Por causa disto, há a hipótese do seu sistema não conseguir arrancar se o "
-"update-grub(8) for corrido antes do GRUB ser actualizado, o que gerará um "
-"ficheiro grub.cfg que o GRUB que tem instalado não consegue processar "
-"correctamente. Para assegurar que o seu sistema será capaz de arrancar, deve:"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-" - Reinstall GRUB (typically, by running grub-install).\n"
-" - Rerun update-grub to generate a new grub.cfg."
-msgstr ""
-" - Reinstalar o GRUB (tipicamente, correndo grub-install).\n"
-" - Correr novamente o update-grub para gerar um novo grub.cfg."
-
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001

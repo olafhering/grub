@@ -14,52 +14,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid "GRUB 1.95 numbering scheme transition"
-msgstr "GRUB 1.95 でのナンバリング方法の移行"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-"As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions are "
-"now counted starting from 1 rather than 0.  This is to make it consistent "
-"with device names of Linux and the other kernels used in Debian.  For "
-"example, when using Linux as the kernel, \"(hd0,1)\" refers to the same "
-"partition as the /dev/sda1 device node."
-msgstr ""
-"バージョン 1.95 で、GRUB 2 はナンバリングの方法を変更しました。パーティション"
-"は 0 からではなく 1 から数えられ始めます。これによって、Linux や Debian で使"
-"われている他のカーネルでのデバイス名と一致するようになります。例えば、Linux "
-"をカーネルとして使っている場合、\"(hd0,1)\" は /dev/sda1 デバイスノードと同じ"
-"パーティションを指します。"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-"Because of this, there's a chance your system becomes unbootable if update-"
-"grub(8) is run before GRUB is updated, generating a grub.cfg file that your "
-"installed GRUB won't yet be able to parse correctly.  To ensure your system "
-"will be able to boot, you have to:"
-msgstr ""
-"これによって、GRUB がアップデートされる前に update-grub(8) を実行してインス"
-"トールしてある GRUB がまだ正しくパースできない grub.cfg ファイルを生成する"
-"と、システムが起動しないようになる可能性があります。確実にシステムが起動する"
-"ようにするには、以下を実行する必要があります:"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-" - Reinstall GRUB (typically, by running grub-install).\n"
-" - Rerun update-grub to generate a new grub.cfg."
-msgstr ""
-" - GRUB を再インストール (つまり、grub-install の実行)。\n"
-" - 新しい grub.cfg を生成するため update-grub を再実行。"
-
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001

@@ -15,53 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid "GRUB 1.95 numbering scheme transition"
-msgstr "Cambio dello schema di numerazione in GRUB 1.95"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-"As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions are "
-"now counted starting from 1 rather than 0.  This is to make it consistent "
-"with device names of Linux and the other kernels used in Debian.  For "
-"example, when using Linux as the kernel, \"(hd0,1)\" refers to the same "
-"partition as the /dev/sda1 device node."
-msgstr ""
-"Dalla versione 1.95, GRUB 2 ha cambiato il proprio schema di numerazione. "
-"Adesso le partizioni sono conteggiate a partire da 1 anziché da 0. Questo "
-"per coerenza con i nomi dei device di Linux e degli altri kernel usati in "
-"Debian. Per esempio, usando Linux come kernel, \"(hd0,1)\" fa riferimento "
-"alla stessa partizione del device /dev/sda1."
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-"Because of this, there's a chance your system becomes unbootable if update-"
-"grub(8) is run before GRUB is updated, generating a grub.cfg file that your "
-"installed GRUB won't yet be able to parse correctly.  To ensure your system "
-"will be able to boot, you have to:"
-msgstr ""
-"Per questo motivo c'è il rischio che il sistema diventi non avviabile; se "
-"update-grub(8) viene eseguito prima dell'aggiornamento di GRUB, verrà "
-"generato un file grub.cfg che non può essere correttamente interpretato "
-"dalla versione di GRUB attualmente installata. Per assicurarsi che il "
-"sistema rimanga avviabile si deve:"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-" - Reinstall GRUB (typically, by running grub-install).\n"
-" - Rerun update-grub to generate a new grub.cfg."
-msgstr ""
-" - Reinstallare GRUB (tipicamente eseguendo grub-install).\n"
-" - Rieseguire update-grub per generare un nuovo grub.cfg."
-
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001

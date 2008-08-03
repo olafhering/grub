@@ -19,52 +19,6 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid "GRUB 1.95 numbering scheme transition"
-msgstr "Övergång av partitionsnumreringsschema för GRUB 1.95"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-"As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions are "
-"now counted starting from 1 rather than 0.  This is to make it consistent "
-"with device names of Linux and the other kernels used in Debian.  For "
-"example, when using Linux as the kernel, \"(hd0,1)\" refers to the same "
-"partition as the /dev/sda1 device node."
-msgstr ""
-"Från och med version 1.95 har GRUB 2 ändrat sitt partitionsnumreringsschema. "
-"Partitioner räknas nu fram med start från 1 istället för 0. Det här är "
-"gällande standard för enhetsnamnet i Linux och de andra kärnorna som används "
-"i Debian. Till exempel när Linux används som kärna refererar "
-"\"(hd0,1)\" till samma partition som enhetsnoden /dev/sda1."
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-"Because of this, there's a chance your system becomes unbootable if update-"
-"grub(8) is run before GRUB is updated, generating a grub.cfg file that your "
-"installed GRUB won't yet be able to parse correctly.  To ensure your system "
-"will be able to boot, you have to:"
-msgstr ""
-"På grund av det här kan det finnas en risk att systemet inte kan startas "
-"upp om update-grub(8) körs innan GRUB har uppdaterats och då "
-"genererar en grub.cfg-fil som den installerade GRUB ännu inte kan tolka "
-"korrekt. Om du vill försäkra dig om att systemet kan startas upp behöver du:"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-" - Reinstall GRUB (typically, by running grub-install).\n"
-" - Rerun update-grub to generate a new grub.cfg."
-msgstr ""
-" - Installera om GRUB (vanligtvis genom att köra grub-install).\n"
-" - Köra update-grub igen för att generera en ny grub.cfg."
-
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001

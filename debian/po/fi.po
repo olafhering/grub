@@ -12,34 +12,6 @@ msgstr ""
 "X-Poedit-Language: Finnish\n"
 "X-Poedit-Country: FINLAND\n"
 
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid "GRUB 1.95 numbering scheme transition"
-msgstr "GRUB 1.95 numerointitavan muutos"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid "As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions are now counted starting from 1 rather than 0.  This is to make it consistent with device names of Linux and the other kernels used in Debian.  For example, when using Linux as the kernel, \"(hd0,1)\" refers to the same partition as the /dev/sda1 device node."
-msgstr "Versiosta 1.95 alkaen GRUB 2 on vaihtanut numerointitapaansa. Osioiden numerot alkavat nyt 1:stä 0:n sijaan. Tämä yhdenmukaistaa numeroinnin Linuxin laitenimien ja muiden Debianissa käytettyjen ydinten kanssa. Esimerkiksi käytettäessä Linux-ydintä ”(hd0,1)” viittaa samaan osioon kuin laitetiedosto /dev/sda1."
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid "Because of this, there's a chance your system becomes unbootable if update-grub(8) is run before GRUB is updated, generating a grub.cfg file that your installed GRUB won't yet be able to parse correctly.  To ensure your system will be able to boot, you have to:"
-msgstr "Tämän muutoksen takia on mahdollista, että järjestelmästä tulee käynnistyskelvoton, jos update-grub(8) ajetaan ennen kuin GRUB on päivitetty. Tällöin luotaisiin grub.cfg-tiedosto, jota asennettuna oleva GRUB ei vielä osaisi jäsentää oikein. Varmistaaksesi, että järjestelmä voidaan käynnistää, sinun tulee:"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-" - Reinstall GRUB (typically, by running grub-install).\n"
-" - Rerun update-grub to generate a new grub.cfg."
-msgstr ""
-" - Asentaa GRUB uudelleen (tyypillisesti ajamalla grub-install).\n"
-" - Ajaa update-grub uudelleen uuden grub.cfg-tiedoston luomiseksi."
-
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001

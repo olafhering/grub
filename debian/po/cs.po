@@ -15,55 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-#, fuzzy
-msgid "GRUB 1.95 numbering scheme transition"
-msgstr "Změna číslování oblastí v GRUBu 1.95"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-#, fuzzy
-msgid ""
-"As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions are "
-"now counted starting from 1 rather than 0.  This is to make it consistent "
-"with device names of Linux and the other kernels used in Debian.  For "
-"example, when using Linux as the kernel, \"(hd0,1)\" refers to the same "
-"partition as the /dev/sda1 device node."
-msgstr ""
-"Od verze 1.95 změnil GRUB 2 číslovací schéma oblastí. Oblasti již nejsou "
-"číslovány od nuly, ale od jedničky. To je konzistentní s názvy zařízení "
-"používaných v Linuxu a ostatních jádrech dodávaných v distribuci. Například "
-"při použití jádra Linux znamená \"(hd0,1)\" to stejné jako oblast /dev/sda1."
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-#, fuzzy
-msgid ""
-"Because of this, there's a chance your system becomes unbootable if update-"
-"grub(8) is run before GRUB is updated, generating a grub.cfg file that your "
-"installed GRUB won't yet be able to parse correctly.  To ensure your system "
-"will be able to boot, you have to:"
-msgstr ""
-"Z tohoto důvodu zde existuje riziko, že se systém nepodaří zavést: pokud "
-"bude update-grub(8) spuštěn dříve, než se aktualizuje GRUB, vytvoří soubor "
-"grub.cfg, který nebude kompatibilní s novým GRUBem. Abyste zajistili, že se "
-"podaří systém zavést, měli byste:"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-#, fuzzy
-msgid ""
-" - Reinstall GRUB (typically, by running grub-install).\n"
-" - Rerun update-grub to generate a new grub.cfg."
-msgstr ""
-" - Přeinstalovat GRUB (typicky spuštěním grub-install).\n"
-" - Spustit update-grub, aby se vytvořil nový grub.cfg."
-
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
