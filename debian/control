@@ -20,7 +20,7 @@ Vcs-Browser: http://svn.debian.org/wsvn/pkg-grub/grub2/
 
 Package: grub2
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
-Depends: ${misc:Depends} , grub-pc [i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64] | grub-ieee1275 [powerpc ppc64]
+Depends: grub-pc [i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64] | grub-ieee1275 [powerpc ppc64]
 Description: GRand Unified Bootloader, version 2 (dummy package)
  This is a dummy transitional package to handle GRUB 2 upgrades.  It can be
  safely removed.
@@ -40,7 +40,7 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
 
 Package: grub-common
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
-Depends: ${shlibs:Depends}, ${misc:Depends}, base-files (>= 4.0.1~)
+Depends: ${shlibs:Depends}, base-files (>= 4.0.1~)
 Replaces: grub-pc (<< 1.96+20080426-3), grub-ieee1275 (<< 1.96+20080426-3), grub-linuxbios (<< 1.96+20080426-3), grub-efi (<< 1.96+20080426-3)
 Suggests: multiboot-doc [i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64]
 Description: GRand Unified Bootloader, version 2 (common files)
@@ -82,7 +82,7 @@ Description: GRUB bootable rescue images, version 2 (PC/BIOS version)
 
 Package: grub-coreboot
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (>> 1.96+20080413-1)
+Depends: ${shlibs:Depends}, grub-common (>> 1.96+20080413-1)
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: pupa, grub
@@ -102,7 +102,7 @@ Description: GRand Unified Bootloader, version 2 (Coreboot version)
 
 Package: grub-efi
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (>> 1.96+20080413-1)
+Depends: ${shlibs:Depends}, grub-common (>> 1.96+20080413-1)
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: pupa, grub
@@ -123,7 +123,7 @@ Description: GRand Unified Bootloader, version 2 (EFI version)
 
 Package: grub-ieee1275
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (>> 1.96+20080413-1),
+Depends: ${shlibs:Depends}, grub-common (>> 1.96+20080413-1),
  powerpc-ibm-utils [powerpc ppc64], powerpc-utils [powerpc ppc64], bc [powerpc ppc64]
 Provides: grub
 Replaces: pupa, grub, grub2 (<< ${Source-Version}), grub-common (<= 1.96+20080413-1)
