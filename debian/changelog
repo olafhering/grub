@@ -12,7 +12,7 @@ grub2 (1.96+20080803-1) experimental; urgency=low
   * debian/control: 
       - Remove ${misc:Depend} depency on all packages except grub-pc which is
         the only one using debconf.
-      - Replace deprecated ${Source-Version} with ${binary:Version}
+      - Replace deprecated ${Source-Version} with ${source:Version}
  
   [ Updated translations ]
   * Japanese (ja.po) by Hideki Yamane (Closes: #493347)
