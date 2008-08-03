@@ -1,7 +1,10 @@
-grub2 (1.96+20080730-2) experimental; urgency=low
+grub2 (1.96+20080803-1) experimental; urgency=low
 
-  [ Felix Zielcke ]
-  * [ Updated translations ]
+  * New SVN snapshot.
+   - patches/00_fix_double_prefix.diff: Remove (merged). (Closes: #487565)
+   - patches/00_getline.diff: Remove (merged). (Closes: #493289)
+
+  [ Updated translations ]
   * Japanese (ja.po) by Hideki Yamane (Closes: #493347)
 
   [ Robert Millan ]
