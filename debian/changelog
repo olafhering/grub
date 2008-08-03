@@ -13,7 +13,7 @@ grub2 (1.96+20080803-1) experimental; urgency=low
       - Remove ${misc:Depend} depency on all packages except grub-pc which is
         the only one using debconf.
       - Replace deprecated ${Source-Version} with ${source:Version} for <<
-	depencys and with ${build:Version} for = ones.
+        depencys and with ${build:Version} for = ones.
       - Remove versioned depencys of Build-Depends patchutils,cdbs and dpkg-dev,
         because etch has newer version then the one used.
  
