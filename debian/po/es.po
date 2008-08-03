@@ -51,7 +51,7 @@ msgstr ""
 "GRUB 2 ha cambiado el esquema de numeración, como en la versión 1.95. Ahora "
 "las particiones comenzarán desde el 1 en vez de 0. Esto se hace para hacerlo consistente "
 "con los nombres de dispositivo de Linux y otros núcleos usados en Debian. Por ejemplo, "
-"cuando se usa Linux como kernel, \\"(hd0, 1)\\" se refiere a la misma partición que el dispositivo "
+"cuando se usa Linux como kernel, \"(hd0, 1)\" se refiere a la misma partición que el dispositivo "
 "/dev/sda1."
 
 #. Type: note

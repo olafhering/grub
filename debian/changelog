@@ -4,6 +4,10 @@ grub2 (1.96+20080803-1) experimental; urgency=low
    - patches/00_fix_double_prefix.diff: Remove (merged). (Closes: #487565)
    - patches/00_getline.diff: Remove (merged). (Closes: #493289)
 
+  [ Felix Zielcke]
+  * change debhelper compat level to 7 and build depend on it >= 7
+  * fixed 2 double slashes in the spanish translation (es.po)
+
   [ Updated translations ]
   * Japanese (ja.po) by Hideki Yamane (Closes: #493347)
 
