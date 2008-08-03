@@ -50,8 +50,8 @@ Package: grub-pc
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (>> 1.96+20080413-1), ${grub-pc:Depends}
 Provides: grub
-Replaces: pupa, grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
-Conflicts: pupa, grub, desktop-base (= 4.0.5)
+Replaces: grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
+Conflicts: grub, desktop-base (= 4.0.5)
 Suggests: desktop-base (>= 4.0.6), os-prober
 Description: GRand Unified Bootloader, version 2 (PC/BIOS version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
@@ -84,8 +84,8 @@ Package: grub-coreboot
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
 Depends: ${shlibs:Depends}, grub-common (>> 1.96+20080413-1)
 Provides: grub
-Replaces: pupa, grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
-Conflicts: pupa, grub
+Replaces: grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
+Conflicts: grub
 Suggests: os-prober
 Description: GRand Unified Bootloader, version 2 (Coreboot version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
@@ -104,8 +104,8 @@ Package: grub-efi
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
 Depends: ${shlibs:Depends}, grub-common (>> 1.96+20080413-1)
 Provides: grub
-Replaces: pupa, grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
-Conflicts: pupa, grub
+Replaces: grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
+Conflicts: grub
 Suggests: os-prober
 Description: GRand Unified Bootloader, version 2 (EFI version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
@@ -126,8 +126,8 @@ Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
 Depends: ${shlibs:Depends}, grub-common (>> 1.96+20080413-1),
  powerpc-ibm-utils [powerpc ppc64], powerpc-utils [powerpc ppc64], bc [powerpc ppc64]
 Provides: grub
-Replaces: pupa, grub, grub2 (<< ${binary:Version}), grub-common (<= 1.96+20080413-1)
-Conflicts: pupa, grub
+Replaces: grub, grub2 (<< ${binary:Version}), grub-common (<= 1.96+20080413-1)
+Conflicts: grub
 Suggests: os-prober
 Description: GRand Unified Bootloader, version 2 (Open Firmware version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a

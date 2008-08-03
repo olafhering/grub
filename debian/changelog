@@ -16,6 +16,7 @@ grub2 (1.96+20080803-1) experimental; urgency=low
         depencys and with ${build:Version} for = ones.
       - Remove versioned depencys of Build-Depends patchutils,cdbs and dpkg-dev,
         because etch has newer version then the one used.
+      - Remove Conflict/Replace pupa, it has been removed from Debian 2004.
  
   [ Updated translations ]
   * Japanese (ja.po) by Hideki Yamane (Closes: #493347)
