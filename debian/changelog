@@ -6,11 +6,13 @@ grub2 (1.96+20080803-1) experimental; urgency=low
 
   [ Felix Zielcke ]
   * Change debhelper compat level to 7 and build depend on it >= 7
-  * Fixed 2 double slashes in the spanish translation (es.po).
+  * Fix 2 double slashes in the spanish translation (es.po).
   * Remove the 1.95 partition numbering transition debconf warning
     from grub2 package and removed it from all languages (*.po).
-  * Remove ${misc:Depend} depency on all packages except grub-pc which is
-    the only one using debconf.
+  * debian/control: 
+      - Remove ${misc:Depend} depency on all packages except grub-pc which is
+        the only one using debconf.
+      - Replace deprecated ${Source-Version} with ${binary:Version}
  
   [ Updated translations ]
   * Japanese (ja.po) by Hideki Yamane (Closes: #493347)
