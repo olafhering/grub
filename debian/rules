@@ -66,7 +66,7 @@ install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-coreboot::
 
 	# shipped with grub-common
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/etc/grub.d
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{update-grub,grub-probe,grub-mkdevicemap}{,.8}
+	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{update-grub,grub-probe,grub-emu,grub-mkdevicemap}{,.8}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/grub-{editenv,pe2elf}{,.1}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/update-grub_lib
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/share/grub/*.pff
@@ -88,7 +88,7 @@ install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-coreboot::
 install/grub-common::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/{i386,powerpc}-*
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{grub-install,grub-emu,grub-setup}{,.8}
+	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{grub-install,grub-setup}{,.8}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/grub-{mkimage,mkrescue}{,.1}
 
 clean:: debian/legacy/update-grub

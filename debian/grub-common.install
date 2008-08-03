@@ -1,2 +1,1 @@
-build/grub-common/grub-probe		usr/sbin
-build/grub-common/grub-mkdevicemap	usr/sbin
+debian/update-grub2			usr/sbin
