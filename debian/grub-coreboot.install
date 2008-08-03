@@ -1,3 +1,2 @@
 debian/presubj			usr/share/bug/grub-coreboot
 debian/script			usr/share/bug/grub-coreboot
-debian/default			etc
