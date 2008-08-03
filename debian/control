@@ -4,7 +4,7 @@ Priority: extra
 Maintainer: GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
 Uploaders: Jason Thomas <jason@debian.org>, Otavio Salvador <otavio@debian.org>, Robert Millan <rmh@aybabtu.com>
 Build-Depends: cdbs,  debhelper (>= 7), patchutils, autoconf,
- ruby, bison, dpkg-dev , unifont-bin, po-debconf, help2man, libncurses5-dev,
+ ruby, bison, unifont-bin, po-debconf, help2man, libncurses5-dev,
  genisoimage [i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64],
  libc6-dev-i386 [amd64], libc0.1-dev-i386 [kfreebsd-amd64], libc6-dev-powerpc [ppc64],
  gcc-multilib [amd64 kfreebsd-amd64 ppc64] | gcc-4.1 (<< 4.1.2) [amd64 kfreebsd-amd64 ppc64],
