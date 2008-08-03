@@ -27,13 +27,13 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
 
 Package: grub-of
 Architecture: powerpc ppc64
-Depends: grub-ieee1275 (= ${source:Version})
+Depends: grub-ieee1275 (= ${binary:Version})
 Description: GRand Unified Bootloader, version 2 (dummy package)
  This is a dummy transitional package that depends on grub-ieee1275.
 
 Package: grub-linuxbios
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: grub-coreboot (= ${source:Version})
+Depends: grub-coreboot (= ${binary:Version})
 Description: GRand Unified Bootloader, version 2 (dummy package)
  This is a dummy transitional package that depends on grub-coreboot.
 
@@ -126,7 +126,7 @@ Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
 Depends: ${shlibs:Depends}, grub-common (>> 1.96+20080413-1),
  powerpc-ibm-utils [powerpc ppc64], powerpc-utils [powerpc ppc64], bc [powerpc ppc64]
 Provides: grub
-Replaces: pupa, grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
+Replaces: pupa, grub, grub2 (<< ${binary:Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: pupa, grub
 Suggests: os-prober
 Description: GRand Unified Bootloader, version 2 (Open Firmware version)
