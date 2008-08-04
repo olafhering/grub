@@ -10,7 +10,7 @@ grub2 (1.96+20080804-1) experimental; urgency=low
     (Closes: #493744)
   * Removed 2 ./configure options which it didn't understand.
   * debian/control: 
-      - Change debhelper compat level to 7 and build depend on it >= 7
+      - Change debhelper compat level to 7 and build depend on it >= 7.
       - Remove ${misc:Depend} depency on all packages except grub-pc which is
         the only one using debconf.
       - Replace deprecated ${Source-Version} with ${source:Version} for <<
@@ -19,8 +19,8 @@ grub2 (1.96+20080804-1) experimental; urgency=low
         because etch has newer versions then the one used.
       - Remove dpkg-dev completely from Build-Depends because it's
         build-essentail and a non versioned depency results in a lintian error.
-      - Remove Conflict/Replace pupa, it has been removed from Debian 2004.
-      - Change versions of the  Replaces: << grub-flavours from grub-common to
+      - Remove Conflict/Replaces pupa, it has been removed from Debian 2004.
+      - Change versions of the Replaces: << grub-flavours from grub-common to
         current one, because Robert has moved some files.
  
   [ Updated translations ]
