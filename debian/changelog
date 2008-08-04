@@ -5,7 +5,6 @@ grub2 (1.96+20080804-1) experimental; urgency=low
    - patches/00_getline.diff: Remove (merged). (Closes: #493289)
 
   [ Felix Zielcke ]
-  * Fix 2 double slashes in the spanish translation (es.po).
   * Remove the 1.95 partition numbering transition debconf warning
     from grub2 package and removed it from all languages (*.po).
     (Closes: #493744)
