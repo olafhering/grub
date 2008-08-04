@@ -8,6 +8,7 @@ grub2 (1.96+20080804-1) experimental; urgency=low
   * Fix 2 double slashes in the spanish translation (es.po).
   * Remove the 1.95 partition numbering transition debconf warning
     from grub2 package and removed it from all languages (*.po).
+    (Closes: #493744)
   * Removed 2 ./configure options which it didn't understand.
   * debian/control: 
       - Change debhelper compat level to 7 and build depend on it >= 7
