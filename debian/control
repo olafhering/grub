@@ -124,7 +124,7 @@ Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 powerpc ppc64
 Depends: ${shlibs:Depends}, grub-common (>> 1.96+20080413-1),
  powerpc-ibm-utils [powerpc ppc64], powerpc-utils [powerpc ppc64], bc [powerpc ppc64]
 Provides: grub
-Replaces: grub, grub2 (<< ${binary:Version}), grub-common (<= 1.96+20080413-1)
+Replaces: grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: grub
 Suggests: os-prober
 Description: GRand Unified Bootloader, version 2 (Open Firmware version)
