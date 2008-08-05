@@ -1,4 +1,4 @@
-grub2 (1.96+20080804-1) experimental; urgency=low
+grub2 (1.96+20080806-1) experimental; urgency=low
 
   * New SVN snapshot.
    - patches/00_fix_double_prefix.diff: Remove (merged). (Closes: #487565)
@@ -20,17 +20,11 @@ grub2 (1.96+20080804-1) experimental; urgency=low
       - Remove dpkg-dev completely from Build-Depends because it's
         build-essentail and a non versioned depency results in a lintian error.
       - Remove Conflict/Replaces pupa, it has been removed from Debian 2004.
-      - Change versions of the Replaces: << grub-flavours from grub-common to
-        current one, because Robert has moved some files.
  
   [ Updated translations ]
   * Japanese (ja.po) by Hideki Yamane (Closes: #493347)
 
-  [ Robert Millan ]
-  * Move a few files to grub-common and remove them from the arch-
-    specific packages.
-
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 03 Aug 2008 21:48:28 +0200
+ --  Robert Millan <rmh@aybabtu.com>  Sun, 03 Aug 2008 21:48:28 +0200
 
 grub2 (1.96+20080730-1) experimental; urgency=low
 
