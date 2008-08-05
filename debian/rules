@@ -35,7 +35,7 @@ configure/grub-common::
 	mkdir -p build/grub-common
 	cd build/grub-common && $(CONFIGURE)
 
-build/grub-common build/grub-pc build/grub-efi build/grub-ieee1275 build/grub-coreboot::
+build/grub-pc build/grub-efi build/grub-ieee1275 build/grub-coreboot::
 	$(MAKE) -C $@
 
 build/grub-rescue-pc:: build/grub-pc
@@ -55,6 +55,12 @@ build/grub-rescue-pc:: build/grub-pc
 		--image-type=cdrom \
 		$(CURDIR)/$@/grub-rescue-cdrom.iso
 
+build/grub-common::
+       # Yes, grub-mkdevicemap shouldn't really be here.  We're assuming 'pc'
+       # for i386 and 'ieee1275' for powerpc.  Not a big deal though.  See
+       # also debian/patches/04_run_grub_mkdevicemap_when_grub_probe_fails.diff
+       $(MAKE) -C $@ grub-probe grub-mkdevicemap
+
 install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-coreboot::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
 
@@ -65,11 +71,7 @@ install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-coreboot::
 	fi
 
 	# shipped with grub-common
-	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/etc/grub.d
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{update-grub,grub-probe,grub-emu,grub-mkdevicemap}{,.8}
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/grub-{editenv,pe2elf}{,.1}
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/update-grub_lib
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/share/grub/*.pff
+        rm -f $(CURDIR)/debian/$(subst install/,,$@)/{usr/sbin/grub-{probe,mkdevicemap},usr/share/man/man8/grub-probe.8}
 
 	for i in docs ; do \
 		cp debian/$$i.in debian/$(subst install/,,$@).$$i ; \
@@ -84,12 +86,6 @@ install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-coreboot::
 	cd $(CURDIR)/debian/$(subst install/,,$@) && find ./usr/lib/grub -name kernel.elf \
 		| sed -e "s%.*%$(subst install/,,$@): statically-linked-binary &%g" \
 	>> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@)
-
-install/grub-common::
-	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
-	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/{i386,powerpc}-*
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{grub-install,grub-setup}{,.8}
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/grub-{mkimage,mkrescue}{,.1}
 
 clean:: debian/legacy/update-grub
 	chmod +x debian/{script,grub.d/*,legacy/*}
