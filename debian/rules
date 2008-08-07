@@ -71,7 +71,7 @@ install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-coreboot::
 	fi
 
 	# shipped with grub-common
-        rm -f $(CURDIR)/debian/$(subst install/,,$@)/{usr/sbin/grub-{probe,mkdevicemap},usr/share/man/man8/grub-probe.8}
+	rm -f $(CURDIR)/debian/$(subst install/,,$@)/{usr/sbin/grub-{probe,mkdevicemap},usr/share/man/man8/grub-probe.8}
 
 	for i in docs ; do \
 		cp debian/$$i.in debian/$(subst install/,,$@).$$i ; \
