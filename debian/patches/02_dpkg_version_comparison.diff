@@ -14,7 +14,7 @@
 -    *:*.old) b=`echo -n $b | sed -e s/\.old$//g` ; cmp=ge ;;
 -  esac
 -  test_numeric $a $cmp $b
-+  dpkg --compare-versions "$1" gt "$2"
++  dpkg --compare-versions "$a" gt "$b"
    return $?
  }
  
