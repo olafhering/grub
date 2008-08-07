@@ -56,10 +56,10 @@ build/grub-rescue-pc:: build/grub-pc
 		$(CURDIR)/$@/grub-rescue-cdrom.iso
 
 build/grub-common::
-       # Yes, grub-mkdevicemap shouldn't really be here.  We're assuming 'pc'
-       # for i386 and 'ieee1275' for powerpc.  Not a big deal though.  See
-       # also debian/patches/04_run_grub_mkdevicemap_when_grub_probe_fails.diff
-       $(MAKE) -C $@ grub-probe grub-mkdevicemap
+	# Yes, grub-mkdevicemap shouldn't really be here.  We're assuming 'pc'
+	# for i386 and 'ieee1275' for powerpc.  Not a big deal though.  See
+	# also debian/patches/04_run_grub_mkdevicemap_when_grub_probe_fails.diff
+	$(MAKE) -C $@ grub-probe grub-mkdevicemap
 
 install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-coreboot::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
