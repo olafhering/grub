@@ -13,7 +13,6 @@ grub2 (1.96+20080806-1) experimental; urgency=low
     (Closes: #493744)
   * debian/rules:
       - Removed 2 ./configure options which it didn't understand.
-      - Remove etc/grub.d/10_windows, it's just for cygwin.
   * debian/control: 
       - Change debhelper compat level to 7 and build depend on it >= 7.
       - Remove ${misc:Depend} depency on all packages except grub-pc which is
