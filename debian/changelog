@@ -10,13 +10,13 @@ grub2 (1.96+20080806-1) experimental; urgency=low
   [ Felix Zielcke ]
   * patches/02_old_linux_version_comparison.diff: Replace with ...
   * patches/02_dpkg_version_comparison.diff: ... this.
-    Use dpkg --compare-versions in update-grub. (Closes: #494158) 
+    Use dpkg --compare-versions in update-grub. (Closes: #494158)
   * Remove the 1.95 partition numbering transition debconf warning
     from grub2 package and removed it from all languages (*.po).
     (Closes: #493744)
   * debian/rules:
       - Removed 2 ./configure options which it didn't understand.
-  * debian/control: 
+  * debian/control:
       - Change debhelper compat level to 7 and build depend on it >= 7.
       - Remove ${misc:Depend} depency on all packages except grub-pc which is
         the only one using debconf.
@@ -27,11 +27,15 @@ grub2 (1.96+20080806-1) experimental; urgency=low
       - Remove dpkg-dev completely from Build-Depends because it's
         build-essentail and a non versioned depency results in a lintian error.
       - Remove Conflict/Replaces pupa, it has been removed from Debian 2004.
- 
+
   [ Updated translations ]
   * Japanese (ja.po) by Hideki Yamane (Closes: #493347)
 
- --  Robert Millan <rmh@aybabtu.com>  Sun, 03 Aug 2008 21:48:28 +0200
+  [ Robert Millan ]
+  * Make build-dependency on unifont-bin versioned (<< 1:5.1.20080706-1) to
+    avoid being hit by #494473.
+
+ -- Robert Millan <rmh@aybabtu.com>  Sat,  9 Aug 2008 21:23:51 +0200
 
 grub2 (1.96+20080730-1) experimental; urgency=low
 
