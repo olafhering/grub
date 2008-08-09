@@ -64,12 +64,6 @@ build/grub-common::
 install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-coreboot::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
 
-	# If liblzo2-dev >= 2.03 is installed, it means we're linking with it;  this makes sure
-	# the binary dependency is versioned (for license compatibility).
-	if dpkg --compare-versions `dpkg -s liblzo2-dev | sed -ne s/^Version:\ //p` ge 2.03 ; then \
-		echo "grub-pc:Depends=liblzo2-2 (>= 2.03)" > debian/grub-pc.substvars ; \
-	fi
-
 	# shipped with grub-common
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/{usr/sbin/grub-{probe,mkdevicemap},usr/share/man/man8/grub-probe.8}
 
@@ -89,7 +83,7 @@ install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-coreboot::
 
 clean:: debian/legacy/update-grub
 	chmod +x debian/{script,grub.d/*,legacy/*}
-	-rm -f debian/grub-{pc,efi,ieee1275,coreboot}.docs debian/grub-pc.substvars
+	-rm -f debian/grub-{pc,efi,ieee1275,coreboot}.docs
 	-rm -rf build
 
 	# make sure PO files are always up-to-date

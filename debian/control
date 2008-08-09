@@ -45,7 +45,7 @@ Description: GRand Unified Bootloader, version 2 (common files)
 
 Package: grub-pc
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (>> 1.96+20080413-1), ${grub-pc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (>> 1.96+20080413-1)
 Provides: grub
 Replaces: grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: grub, desktop-base (= 4.0.5)
