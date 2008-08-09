@@ -73,9 +73,6 @@ install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-coreboot::
 	# shipped with grub-common
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/{usr/sbin/grub-{probe,mkdevicemap},usr/share/man/man8/grub-probe.8}
 
-	# 10_windows is just for cygwin, Debian users shouldn't have a use for it.
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/etc/grub.d/10_windows
-
 	for i in docs ; do \
 		cp debian/$$i.in debian/$(subst install/,,$@).$$i ; \
 	done
