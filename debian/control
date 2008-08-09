@@ -8,8 +8,7 @@ Build-Depends: cdbs,  debhelper (>= 7), patchutils, autoconf,
  genisoimage [i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64],
  libc6-dev-i386 [amd64], libc0.1-dev-i386 [kfreebsd-amd64], libc6-dev-powerpc [ppc64],
  gcc-multilib [amd64 kfreebsd-amd64 ppc64] | gcc-4.1 (<< 4.1.2) [amd64 kfreebsd-amd64 ppc64],
- liblzo2-dev (>= 2.03) [i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64] | liblzo-dev [i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64],
-Build-Conflicts: autoconf2.13, liblzo2-dev (<< 2.02)
+Build-Conflicts: autoconf2.13 
 Standards-Version: 3.8.0
 Homepage: http://www.gnu.org/software/grub/grub-2.en.html
 Vcs-Svn: svn://svn.debian.org/svn/pkg-grub/grub2/
