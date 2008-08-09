@@ -4,7 +4,8 @@ grub2 (1.96+20080806-1) experimental; urgency=low
    - patches/00_fix_double_prefix.diff: Remove (merged). (Closes: #487565)
    - patches/00_getline.diff: Remove (merged). (Closes: #493289)
 
-  * We are already using LZMA, because upstream includes it's own lzma encoder.
+  * We are already using LZMA, because upstream includes it's own lzma encoder,
+    so drop completely the liblzo handling in control and rules files.
 
   [ Felix Zielcke ]
   * patches/02_old_linux_version_comparison.diff: Replace with ...
@@ -26,7 +27,6 @@ grub2 (1.96+20080806-1) experimental; urgency=low
       - Remove dpkg-dev completely from Build-Depends because it's
         build-essentail and a non versioned depency results in a lintian error.
       - Remove Conflict/Replaces pupa, it has been removed from Debian 2004.
-      - Remove build depency and conflict for liblzo.
  
   [ Updated translations ]
   * Japanese (ja.po) by Hideki Yamane (Closes: #493347)
