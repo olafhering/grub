@@ -1,8 +1,10 @@
-grub2 (1.96+20080806-1) experimental; urgency=low
+grub2 (1.96+20080816-1) experimental; urgency=low
 
   * New SVN snapshot.
    - patches/00_fix_double_prefix.diff: Remove (merged). (Closes: #487565)
    - patches/00_getline.diff: Remove (merged). (Closes: #493289)
+   - Handle errors in RAID/LVM scan routine (rather than letting the upper
+     layer cope with them).  (Closes: #494501, #495049)
 
   * We are already using LZMA, because upstream includes it's own lzma encoder,
     so drop completely the liblzo handling in control and rules files.
