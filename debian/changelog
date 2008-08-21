@@ -1,10 +1,11 @@
-grub2 (1.96+20080816-1) experimental; urgency=low
+grub2 (1.96+20080821-1) experimental; urgency=low
 
   * New SVN snapshot.
    - patches/00_fix_double_prefix.diff: Remove (merged). (Closes: #487565)
    - patches/00_getline.diff: Remove (merged). (Closes: #493289)
    - Handle errors in RAID/LVM scan routine (rather than letting the upper
      layer cope with them).  (Closes: #494501, #495049)
+   - patches/901_linux_coreboot.diff: Remove (replaced).
 
   * We are already using LZMA, because upstream includes it's own lzma encoder,
     so drop completely the liblzo handling in control and rules files.
@@ -42,7 +43,7 @@ grub2 (1.96+20080816-1) experimental; urgency=low
   * Move a few files to grub-common and remove them from the arch-
     specific packages.
 
- -- Robert Millan <rmh@aybabtu.com>  Sun, 10 Aug 2008 01:08:18 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Thu, 21 Aug 2008 15:25:07 +0200
 
 grub2 (1.96+20080730-1) experimental; urgency=low
 
