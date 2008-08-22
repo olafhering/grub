@@ -6,6 +6,7 @@ grub2 (1.96+20080821-1) experimental; urgency=low
    - Handle errors in RAID/LVM scan routine (rather than letting the upper
      layer cope with them).  (Closes: #494501, #495049)
    - patches/901_linux_coreboot.diff: Remove (replaced).
+   - Add support for GFXMODE variable (Closes: #493106)
 
   * We are already using LZMA, because upstream includes it's own lzma encoder,
     so drop completely the liblzo handling in control and rules files.
@@ -17,6 +18,7 @@ grub2 (1.96+20080821-1) experimental; urgency=low
   * Remove the 1.95 partition numbering transition debconf warning
     from grub2 package and removed it from all languages (*.po).
     (Closes: #493744)
+  * Add a comment for the new GFXMODE in default/grub.
   * debian/rules:
       - Remove 2 ./configure options which it didn't understand.
       - New grub-mkelfimage belongs to grub-common.
