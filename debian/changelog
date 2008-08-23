@@ -1,4 +1,4 @@
-grub2 (1.96+20080821-1) experimental; urgency=low
+grub2 (1.96+20080823-1) experimental; urgency=low
 
   * New SVN snapshot.
    - patches/00_fix_double_prefix.diff: Remove (merged). (Closes: #487565)
@@ -7,6 +7,7 @@ grub2 (1.96+20080821-1) experimental; urgency=low
      layer cope with them).  (Closes: #494501, #495049)
    - patches/901_linux_coreboot.diff: Remove (replaced).
    - Add support for GFXMODE variable (Closes: #493106)
+   - Skips /dev/.* in grub-probe.  (Closes: #486624)
 
   * We are already using LZMA, because upstream includes it's own lzma encoder,
     so drop completely the liblzo handling in control and rules files.
@@ -44,7 +45,7 @@ grub2 (1.96+20080821-1) experimental; urgency=low
   * Move a few files to grub-common and remove them from the arch-
     specific packages.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 22 Aug 2008 22:10:45 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Sat, 23 Aug 2008 14:55:11 +0200
 
 grub2 (1.96+20080730-1) experimental; urgency=low
 
