@@ -13,9 +13,6 @@ grub2 (1.96+20080823-1) experimental; urgency=low
     so drop completely the liblzo handling in control and rules files.
 
   [ Felix Zielcke ]
-  * patches/02_old_linux_version_comparison.diff: Replace with ...
-  * patches/02_dpkg_version_comparison.diff: ... this.
-    Use dpkg --compare-versions in update-grub. (Closes: #494158)
   * Remove the 1.95 partition numbering transition debconf warning
     from grub2 package and removed it from all languages (*.po).
     (Closes: #493744)
@@ -44,6 +41,9 @@ grub2 (1.96+20080823-1) experimental; urgency=low
   [ Robert Millan ]
   * Move a few files to grub-common and remove them from the arch-
     specific packages.
+  * patches/02_old_linux_version_comparison.diff: Replace with ...
+  * patches/901_dpkg_version_comparison.diff: ... this.
+    Use dpkg --compare-versions in update-grub. (Closes: #494158)
 
  -- Robert Millan <rmh@aybabtu.com>  Sat, 23 Aug 2008 14:55:11 +0200
 

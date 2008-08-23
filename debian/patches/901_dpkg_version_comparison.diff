@@ -1,0 +1,25 @@
+diff -ur grub2/util/grub.d/10_linux.in grub2.new/util/grub.d/10_linux.in
+--- grub2/util/grub.d/10_linux.in	2008-06-26 09:03:26.000000000 +0200
++++ grub2.new/util/grub.d/10_linux.in	2008-08-10 20:01:49.000000000 +0200
+@@ -67,18 +67,12 @@
+ 
+ test_gt ()
+ {
+-  local a=`echo $1 | sed -e "s/vmlinu[zx]-//g"`
+-  local b=`echo $2 | sed -e "s/vmlinu[zx]-//g"`
+-  local cmp=gt
++  local a=`echo $1 | sed -e "s,.*/vmlinu[zx]-,,g;s/[._-]\(pre\|rc\|test\|git\|old\)/~\1/g"`
++  local b=`echo $2 | sed -e "s,.*/vmlinu[zx]-,,g;s/[._-]\(pre\|rc\|test\|git\|old\)/~\1/g"`
+   if [ "x$b" = "x" ] ; then
+     return 0
+   fi
+-  case $a:$b in
+-    *.old:*.old) ;;
+-    *.old:*) a=`echo -n $a | sed -e s/\.old$//g` ; cmp=gt ;;
+-    *:*.old) b=`echo -n $b | sed -e s/\.old$//g` ; cmp=ge ;;
+-  esac
+-  test_numeric $a $cmp $b
++  dpkg --compare-versions "$a" gt "$b"
+   return $?
+ }
+ 
