@@ -34,7 +34,7 @@ grub2 (1.96+20080823-1) experimental; urgency=low
       - Change build-depency of unifont-bin to unifont (>= 1:5.1.20080820-1),
         it's the new package containing unifont.hex and that version to avoid
         licensing problems (Closes: #496061)
-      - Remove Otavio Salvador from Uploaders with his permission.
+      - Remove Jason Thomas from Uploaders with his permission.
 
   [ Updated translations ]
   * Japanese (ja.po) by Hideki Yamane (Closes: #493347)
