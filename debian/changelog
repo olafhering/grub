@@ -34,8 +34,7 @@ grub2 (1.96+20080823-1) experimental; urgency=low
       - Change build-depency of unifont-bin to unifont (>= 1:5.1.20080820-1),
         it's the new package containing unifont.hex and that version to avoid
         licensing problems (Closes: #496061)
-      - Remove Jason Thomas and Otavio Salvador from Uploaders with their
-        permissions.
+      - Remove Jason Thomas from Uploaders with his permission.
 
   [ Updated translations ]
   * Japanese (ja.po) by Hideki Yamane (Closes: #493347)
@@ -47,7 +46,7 @@ grub2 (1.96+20080823-1) experimental; urgency=low
   * patches/901_dpkg_version_comparison.diff: ... this.
     Use dpkg --compare-versions in update-grub. (Closes: #494158)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Mon, 25 Aug 2008 15:52:54 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 25 Aug 2008 08:36:39 +0200
 
 grub2 (1.96+20080730-1) experimental; urgency=low
 
