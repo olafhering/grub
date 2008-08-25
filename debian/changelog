@@ -8,6 +8,7 @@ grub2 (1.96+20080823-1) experimental; urgency=low
    - patches/901_linux_coreboot.diff: Remove (replaced).
    - Add support for GFXMODE variable (Closes: #493106)
    - Skips /dev/.* in grub-probe.  (Closes: #486624)
+   - RAID code has various fixes (Closes: #496573)
 
   * We are already using LZMA, because upstream includes it's own lzma encoder,
     so drop completely the liblzo handling in control and rules files.
@@ -46,7 +47,7 @@ grub2 (1.96+20080823-1) experimental; urgency=low
   * patches/901_dpkg_version_comparison.diff: ... this.
     Use dpkg --compare-versions in update-grub. (Closes: #494158)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Mon, 25 Aug 2008 08:36:39 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 25 Aug 2008 21:15:29 +0200
 
 grub2 (1.96+20080730-1) experimental; urgency=low
 
