@@ -36,6 +36,7 @@ grub2 (1.96+20080823-1) experimental; urgency=low
         it's the new package containing unifont.hex and that version to avoid
         licensing problems (Closes: #496061)
       - Remove Jason Thomas from Uploaders with his permission.
+  * Preserve arguments in update-grub2 stub. (Closes: #496610)
 
   [ Updated translations ]
   * Japanese (ja.po) by Hideki Yamane (Closes: #493347)
@@ -47,7 +48,7 @@ grub2 (1.96+20080823-1) experimental; urgency=low
   * patches/901_dpkg_version_comparison.diff: ... this.
     Use dpkg --compare-versions in update-grub. (Closes: #494158)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Mon, 25 Aug 2008 21:15:29 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 26 Aug 2008 09:29:18 +0200
 
 grub2 (1.96+20080730-1) experimental; urgency=low
 
