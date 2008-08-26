@@ -1,4 +1,4 @@
-grub2 (1.96+20080823-1) experimental; urgency=low
+grub2 (1.96+20080826-1) experimental; urgency=low
 
   * New SVN snapshot.
    - patches/00_fix_double_prefix.diff: Remove (merged). (Closes: #487565)
@@ -8,7 +8,9 @@ grub2 (1.96+20080823-1) experimental; urgency=low
    - patches/901_linux_coreboot.diff: Remove (replaced).
    - Add support for GFXMODE variable (Closes: #493106)
    - Skips /dev/.* in grub-probe.  (Closes: #486624)
-   - RAID code has various fixes (Closes: #496573)
+   - RAID code has various fixes. (Closes: #496573)
+   - Buffered file read is now used to read the background image faster.
+     (Closes: #490584)
 
   * We are already using LZMA, because upstream includes it's own lzma encoder,
     so drop completely the liblzo handling in control and rules files.
@@ -48,7 +50,7 @@ grub2 (1.96+20080823-1) experimental; urgency=low
   * patches/901_dpkg_version_comparison.diff: ... this.
     Use dpkg --compare-versions in update-grub. (Closes: #494158)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 26 Aug 2008 09:29:18 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 26 Aug 2008 22:08:21 +0200
 
 grub2 (1.96+20080730-1) experimental; urgency=low
 
