@@ -34,7 +34,7 @@ grub2 (1.96+20080826-1) experimental; urgency=low
       - Remove dpkg-dev completely from Build-Depends because it's
         build-essentail and a non versioned dependency results in a lintian error.
       - Remove Conflict/Replaces pupa, it has been removed from Debian 2004.
-      - Change build-dependency of unifont-bin to unifont (>= 1:5.1.20080820-1),
+      - Change build-dependency of unifont-bin to unifont (>= 1:5.1.20080820),
         it's the new package containing unifont.hex and that version to avoid
         licensing problems (Closes: #496061)
       - Remove Jason Thomas from Uploaders with his permission.
