@@ -3,9 +3,11 @@ Author: Robert Millan
 
 An ugly kludge.  Should this be merged upstream?
 
---- util/biosdisk.c	2008-04-07 18:45:01.000000000 +0200
-+++ util/biosdisk.c	2008-04-10 10:52:32.000000000 +0200
-@@ -550,6 +550,16 @@ read_device_map (const char *dev_map)
+Index: util/biosdisk.c
+===================================================================
+--- util/biosdisk.c	(revision 1832)
++++ util/biosdisk.c	(working copy)
+@@ -544,6 +544,18 @@
  	  continue;
  	}
  
@@ -14,6 +16,8 @@ An ugly kludge.  Should this be merged upstream?
 +	  char *q = p + sizeof ("/dev/fd") - 1;
 +	  if (*q >= '0' && *q <= '9')
 +	    {
++	      free (map[drive].drive);
++	      map[drive].drive = NULL;
 +	      grub_util_info ("`%s' looks like a floppy drive, skipping", p);
 +	      continue;
 +	    }

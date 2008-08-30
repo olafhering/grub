@@ -49,8 +49,10 @@ grub2 (1.96+20080826-1) experimental; urgency=low
   * patches/02_old_linux_version_comparison.diff: Replace with ...
   * patches/901_dpkg_version_comparison.diff: ... this.
     Use dpkg --compare-versions in update-grub. (Closes: #494158)
+  * patches/03_disable_floppies.diff: Free .drive struct member when skipping
+    floppy drives.  (Closes: #496040)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 26 Aug 2008 22:08:21 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Sat, 30 Aug 2008 19:12:00 +0200
 
 grub2 (1.96+20080730-1) experimental; urgency=low
 
