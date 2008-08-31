@@ -51,8 +51,10 @@ grub2 (1.96+20080826-1) experimental; urgency=low
     Use dpkg --compare-versions in update-grub. (Closes: #494158)
   * patches/03_disable_floppies.diff: Free .drive struct member when skipping
     floppy drives.  (Closes: #496040)
+  * patches/902_boot_blocklist_hack.diff: Support separate /boot when using
+    blocklists.  (Closes: #496820, #489287, #494589)
 
- -- Robert Millan <rmh@aybabtu.com>  Sat, 30 Aug 2008 19:12:00 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Sun, 31 Aug 2008 18:40:09 +0200
 
 grub2 (1.96+20080730-1) experimental; urgency=low
 
