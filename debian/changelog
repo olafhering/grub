@@ -1,4 +1,4 @@
-grub2 (1.96+20080826-1) experimental; urgency=low
+grub2 (1.96+20080831-1) experimental; urgency=low
 
   * New SVN snapshot.
    - patches/00_fix_double_prefix.diff: Remove (merged). (Closes: #487565)
