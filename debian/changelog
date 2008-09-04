@@ -1,3 +1,11 @@
+grub2 (1.96+20080904-1) experimental; urgency=low
+
+  * New SVN snapshot.  
+    - Add support for /dev/md/N style mdraid devices. (Closes: #475585)
+    - Handle LVM dash escaping. (Closes: #494383, #464215)
+ 
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 04 Sep 2008 21:59:03 +0200
+
 grub2 (1.96+20080831-1) experimental; urgency=low
 
   * New SVN snapshot.
