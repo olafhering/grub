@@ -3,10 +3,10 @@ Author: Robert Millan
 
 An ugly kludge.  Should this be merged upstream?
 
-Index: util/biosdisk.c
+Index: util/hostdisk.c
 ===================================================================
---- util/biosdisk.c	(revision 1832)
-+++ util/biosdisk.c	(working copy)
+--- util/hostdisk.c	(revision 1832)
++++ util/hostdisk.c	(working copy)
 @@ -544,6 +544,18 @@
  	  continue;
  	}
