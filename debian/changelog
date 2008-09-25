@@ -1,17 +1,20 @@
-grub2 (1.96+20080909-1) experimental; urgency=low
+grub2 (1.96+20080925-1) experimental; urgency=low
 
-  * New SVN snapshot.  
+  * New SVN snapshot.
     - Add support for /dev/md/N style mdraid devices. (Closes: #475585)
     - Handle LVM dash escaping. (Closes: #464215)
-    - Use case insensitive match in NTFS (Closes: #497889)
+    - Use case insensitive match in NTFS. (Closes: #497889)
+    - Use hd%d drive names in grub-mkdevicemap for all architectures.
+      (Closes: #465365)
 
+  [ Felix Zielcke ]
   * patches/01_grub_legacy_0_based_partitions.diff: Rename to
   * patches/903_grub_legacy_0_based_partitions.diff: this and adapt for
-  s/biosdisk.c/hostdisk.c/ rename upstream.
+    s/biosdisk.c/hostdisk.c/ rename upstream.
   * patches/03_disable_floppies.diff
     patches/904_disable_floppies.diff: Likewise.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 09 Sep 2008 17:38:40 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Thu, 25 Sep 2008 16:21:36 +0200
 
 grub2 (1.96+20080831-1) experimental; urgency=low
 
