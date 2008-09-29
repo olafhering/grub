@@ -7,6 +7,9 @@ grub2 (1.96+20080925-1) experimental; urgency=low
     - Use hd%d drive names in grub-mkdevicemap for all architectures.
       (Closes: #465365)
 
+  [ Updated translations ]
+  * Dutch (nl.po) by Paul Gevers. (Closes: #500514)
+
   [ Felix Zielcke ]
   * patches/01_grub_legacy_0_based_partitions.diff: Rename to
   * patches/903_grub_legacy_0_based_partitions.diff: this and adapt for
@@ -17,7 +20,7 @@ grub2 (1.96+20080925-1) experimental; urgency=low
   [ Robert Millan ]
   * control: Make grub-common dependency (= ${binary:Version}).
 
- -- Robert Millan <rmh@aybabtu.com>  Thu, 25 Sep 2008 16:23:10 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 29 Sep 2008 10:57:40 +0200
 
 grub2 (1.96+20080831-1) experimental; urgency=low
 
