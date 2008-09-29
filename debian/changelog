@@ -16,11 +16,13 @@ grub2 (1.96+20080925-1) experimental; urgency=low
     s/biosdisk.c/hostdisk.c/ rename upstream.
   * patches/03_disable_floppies.diff
     patches/904_disable_floppies.diff: Likewise.
+  * update-grub has been renamed to grub-mkconfig, so provide a stub for
+    compatibility.
 
   [ Robert Millan ]
   * control: Make grub-common dependency (= ${binary:Version}).
 
- -- Felix Zielcke <fzielcke@z-51.de>  Mon, 29 Sep 2008 10:57:40 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 29 Sep 2008 17:30:54 +0200
 
 grub2 (1.96+20080831-1) experimental; urgency=low
 

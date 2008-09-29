@@ -60,9 +60,9 @@ install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-coreboot::
 
 	# shipped with grub-common
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/etc/grub.d
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{grub-probe,grub-emu,grub-mkdevicemap}{,.8}
+	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{grub-probe,grub-emu,grub-mkconfig,grub-mkdevicemap}{,.8}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/{grub-mkelfimage,grub-editenv}{,.1}
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/update-grub_lib
+	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/{grub-mkconfig_lib,update-grub_lib}
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/share/grub/
 
 	for i in docs ; do \
