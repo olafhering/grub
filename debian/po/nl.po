@@ -17,43 +17,6 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid "GRUB 1.95 numbering scheme transition"
-msgstr "GRUB 1.95 transitie van benummeringsschema"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-"As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions are "
-"now counted starting from 1 rather than 0.  This is to make it consistent "
-"with device names of Linux and the other kernels used in Debian.  For "
-"example, when using Linux as the kernel, \"(hd0,1)\" refers to the same "
-"partition as the /dev/sda1 device node."
-msgstr "Vanaf versie 1.95 heeft GRUB2 zijn benummeringsschema gewijzigd. Partities worden nu genummerd beginnend met 1 in plaats van 0. Dit is gedaan om het consistent te maken met de apparaatnamen van Linux en andere Debian kernels. Bijvoorbeeld, indien gebruik gemaakt wordt van de Linux kernel, dan verwijst \"(hd0,1)\" naar dezelfde partitie als de /dev/sda1 apparaatsnode."
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-"Because of this, there's a chance your system becomes unbootable if update-"
-"grub(8) is run before GRUB is updated, generating a grub.cfg file that your "
-"installed GRUB won't yet be able to parse correctly.  To ensure your system "
-"will be able to boot, you have to:"
-msgstr "Als gevolg hiervan is er een kans dat uw systeem niet meer wil opstarten als 'update-grub(8)' gedraaid wordt voordat GRUB is vernieuwd. Er is dan een grub.cfg bestand gemaakt dat niet correct door de geïnstalleerde GRUB ontleed kan worden. Om er zeker van te zijn dat uw systeem op kan starten dient u:"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-" - Reinstall GRUB (typically, by running grub-install).\n"
-" - Rerun update-grub to generate a new grub.cfg."
-msgstr ""
-" - GRUB te herinstalleren (normaal gesproken door 'grub-install' te draaien).\n"
-" - 'update-grub' opnieuw te draaien om een nieuwe grub.cfg te genereren."
-
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
