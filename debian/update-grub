@@ -1,2 +1,2 @@
 #!/bin/sh -e
-exec grub-mkconf -o /boot/grub/grub.cfg "$@"
+exec grub-mkconfig -o /boot/grub/grub.cfg "$@"
