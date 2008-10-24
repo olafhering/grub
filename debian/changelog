@@ -6,7 +6,7 @@ grub2 (1.96+20080925-1) experimental; urgency=low
     - Use case insensitive match in NTFS. (Closes: #497889)
     - Use hd%d drive names in grub-mkdevicemap for all architectures.
       (Closes: #465365)
-    - Handle LVM circular metadata. (Closes: #462835)
+    - Handle LVM circular metadata. (Closes: #462835, #502953)
 
   [ Updated translations ]
   * Dutch (nl.po) by Paul Gevers. (Closes: #500514)
@@ -23,7 +23,7 @@ grub2 (1.96+20080925-1) experimental; urgency=low
   [ Robert Millan ]
   * control: Make grub-common dependency (= ${binary:Version}).
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 05 Oct 2008 20:56:08 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 24 Oct 2008 17:05:03 +0200
 
 grub2 (1.96+20080831-1) experimental; urgency=low
 
