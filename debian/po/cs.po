@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-02-13 14:53+0100\n"
+"POT-Creation-Date: 2008-10-26 15:44+0100\n"
 "PO-Revision-Date: 2007-03-04 12:11+0100\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -58,4 +58,19 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates:1001
 msgid "upgrade-from-grub-legacy"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../grub-pc.templates:2001
+msgid "Linux command line:"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../grub-pc.templates:2001
+msgid ""
+"The following Linux command line was extracted from the `kopt' parameter in "
+"GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
+"necessary."
 msgstr ""

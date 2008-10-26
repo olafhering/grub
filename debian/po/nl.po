@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2_1.96+20080724-10_nl\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-02-13 14:53+0100\n"
+"POT-Creation-Date: 2008-10-26 15:44+0100\n"
 "PO-Revision-Date: 2008-09-26 22:07-0500\n"
 "Last-Translator: Paul Gevers <paul@climbing.nl>\n"
 "Language-Team: Dutch <debian-l10n-dutch@lists.debian.org>\n"
@@ -27,7 +27,9 @@ msgstr "Doorschakel vanuit menu.lst?"
 #. Description
 #: ../grub-pc.templates:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
-msgstr "GRUB's opwaardeerscripts hebben een overgeërfde GRUB opstelling in /boot/grub gedetecteerd."
+msgstr ""
+"GRUB's opwaardeerscripts hebben een overgeërfde GRUB opstelling in /boot/"
+"grub gedetecteerd."
 
 #. Type: boolean
 #. Description
@@ -37,7 +39,11 @@ msgid ""
 "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
 "your existing GRUB Legacy setup.  This step may be automaticaly performed "
 "now."
-msgstr "Om de overgeërfde versie van GRUB op uw systeem te vervangen wordt het aangeraden om het /boot/grub/menu.lst bestand zo te laten aanpassen dat GRUB2 wordt doorgeschakeld (chainloading) vanuit uw bestaande overgeërfde GRUB opstelling. Deze stap kan nu automatisch worden uitgevoerd."
+msgstr ""
+"Om de overgeërfde versie van GRUB op uw systeem te vervangen wordt het "
+"aangeraden om het /boot/grub/menu.lst bestand zo te laten aanpassen dat "
+"GRUB2 wordt doorgeschakeld (chainloading) vanuit uw bestaande overgeërfde "
+"GRUB opstelling. Deze stap kan nu automatisch worden uitgevoerd."
 
 #. Type: boolean
 #. Description
@@ -46,7 +52,10 @@ msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that your new GRUB 2 setup is functional for you, before you install "
 "it directly to your MBR (Master Boot Record)."
-msgstr "U wordt aangeraden om het doorschakelen van GRUB2 vanuit menu.lst te accepteren en daarna te verifiëren dat uw nieuwe GRUB2 opstelling werkt voordat u het in de MBR (Master Boot Record) installeert."
+msgstr ""
+"U wordt aangeraden om het doorschakelen van GRUB2 vanuit menu.lst te "
+"accepteren en daarna te verifiëren dat uw nieuwe GRUB2 opstelling werkt "
+"voordat u het in de MBR (Master Boot Record) installeert."
 
 #. Type: boolean
 #. Description
@@ -54,7 +63,9 @@ msgstr "U wordt aangeraden om het doorschakelen van GRUB2 vanuit menu.lst te acc
 msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
-msgstr "Waar u ook voor kiest, als u GRUB2 direct in de MBR wilt laden kunt u dat doen door het volgende commando uit te voeren (met beheerdersrechten (root)):"
+msgstr ""
+"Waar u ook voor kiest, als u GRUB2 direct in de MBR wilt laden kunt u dat "
+"doen door het volgende commando uit te voeren (met beheerdersrechten (root)):"
 
 #. Type: boolean
 #. Description
@@ -62,3 +73,17 @@ msgstr "Waar u ook voor kiest, als u GRUB2 direct in de MBR wilt laden kunt u da
 msgid "upgrade-from-grub-legacy"
 msgstr "upgrade-from-grub-legacy"
 
+#. Type: string
+#. Description
+#: ../grub-pc.templates:2001
+msgid "Linux command line:"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../grub-pc.templates:2001
+msgid ""
+"The following Linux command line was extracted from the `kopt' parameter in "
+"GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
+"necessary."
+msgstr ""

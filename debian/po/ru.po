@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2 1.96+20080219-2\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-02-13 14:53+0100\n"
+"POT-Creation-Date: 2008-10-26 15:44+0100\n"
 "PO-Revision-Date: 2008-02-24 16:13+0100\n"
 "Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -15,7 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. Type: boolean
 #. Description
@@ -28,8 +29,8 @@ msgstr "Загружать по цепочке из menu.lst?"
 #: ../grub-pc.templates:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
-"Сценарии обновления GRUB обнаружили установку предыдущего поколения "
-"GRUB в /boot/grub."
+"Сценарии обновления GRUB обнаружили установку предыдущего поколения GRUB в /"
+"boot/grub."
 
 #. Type: boolean
 #. Description
@@ -40,10 +41,10 @@ msgid ""
 "your existing GRUB Legacy setup.  This step may be automaticaly performed "
 "now."
 msgstr ""
-"Чтобы заменить версию предыдущего поколения GRUB в системе, "
-"рекомендуется исправить /boot/grub/menu.lst так, чтобы он загружал "
-"по цепочке GRUB 2 из существующей установки GRUB предыдущего поколения. "
-"Это может быть сделано автоматически прямо сейчас."
+"Чтобы заменить версию предыдущего поколения GRUB в системе, рекомендуется "
+"исправить /boot/grub/menu.lst так, чтобы он загружал по цепочке GRUB 2 из "
+"существующей установки GRUB предыдущего поколения. Это может быть сделано "
+"автоматически прямо сейчас."
 
 #. Type: boolean
 #. Description
@@ -53,9 +54,9 @@ msgid ""
 "verify that your new GRUB 2 setup is functional for you, before you install "
 "it directly to your MBR (Master Boot Record)."
 msgstr ""
-"Рекомендуется ответить утвердительно и проверить, что "
-"новая настройка GRUB 2 работает так как нужно, перед тем как "
-"устанавливать её непосредственно в MBR (главную загрузочную запись)."
+"Рекомендуется ответить утвердительно и проверить, что новая настройка GRUB 2 "
+"работает так как нужно, перед тем как устанавливать её непосредственно в MBR "
+"(главную загрузочную запись)."
 
 #. Type: boolean
 #. Description
@@ -63,7 +64,10 @@ msgstr ""
 msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
-msgstr "В любом случае, всякий раз, когда вы хотите, чтобы GRUB 2 загружался непосредственно из MBR, выполните следующую команду (имея права суперпользователя):"
+msgstr ""
+"В любом случае, всякий раз, когда вы хотите, чтобы GRUB 2 загружался "
+"непосредственно из MBR, выполните следующую команду (имея права "
+"суперпользователя):"
 
 #. Type: boolean
 #. Description
@@ -71,3 +75,17 @@ msgstr "В любом случае, всякий раз, когда вы хот�
 msgid "upgrade-from-grub-legacy"
 msgstr "upgrade-from-grub-legacy"
 
+#. Type: string
+#. Description
+#: ../grub-pc.templates:2001
+msgid "Linux command line:"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../grub-pc.templates:2001
+msgid ""
+"The following Linux command line was extracted from the `kopt' parameter in "
+"GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
+"necessary."
+msgstr ""

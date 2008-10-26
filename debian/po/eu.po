@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-02-13 14:53+0100\n"
+"POT-Creation-Date: 2008-10-26 15:44+0100\n"
 "PO-Revision-Date: 2008-04-18 17:34+0200\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: Euskara <debian-l10n-basque@lists.debian.org>\n"
@@ -27,8 +27,8 @@ msgstr "Kargatu menu.lst bidez?"
 #: ../grub-pc.templates:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
-"GRUB eguneraketa skriptak GRUB zahar konfigurazioa aurkitu dute "
-"/boot/grub-en."
+"GRUB eguneraketa skriptak GRUB zahar konfigurazioa aurkitu dute /boot/grub-"
+"en."
 
 #. Type: boolean
 #. Description
@@ -39,9 +39,9 @@ msgid ""
 "your existing GRUB Legacy setup.  This step may be automaticaly performed "
 "now."
 msgstr ""
-"GRUB zaharraren bertsioa behar bezala ordezkatzeko, gomendagarria da "
-"/boot/grub/menu.lst doitzea GRUB 2 dagoeneko instalaturik duzun GRUB "
-"zaharraren bidez kargatzea.  Urrats hau automatikoki egin daiteke orain."
+"GRUB zaharraren bertsioa behar bezala ordezkatzeko, gomendagarria da /boot/"
+"grub/menu.lst doitzea GRUB 2 dagoeneko instalaturik duzun GRUB zaharraren "
+"bidez kargatzea.  Urrats hau automatikoki egin daiteke orain."
 
 #. Type: boolean
 #. Description
@@ -52,8 +52,8 @@ msgid ""
 "it directly to your MBR (Master Boot Record)."
 msgstr ""
 "Gomendagarria da GRUB 2 menu.lst bidez kargatzea onartzea, GRUB 2 "
-"konfigurazioak zure beharrak betetzen dituela egiatzatzeko MBR-ran "
-"(Master Boot Record) zuzenean instalatu beharrean."
+"konfigurazioak zure beharrak betetzen dituela egiatzatzeko MBR-ran (Master "
+"Boot Record) zuzenean instalatu beharrean."
 
 #. Type: boolean
 #. Description
@@ -71,3 +71,17 @@ msgstr ""
 msgid "upgrade-from-grub-legacy"
 msgstr "eguneratu-grub-zaharretik"
 
+#. Type: string
+#. Description
+#: ../grub-pc.templates:2001
+msgid "Linux command line:"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../grub-pc.templates:2001
+msgid ""
+"The following Linux command line was extracted from the `kopt' parameter in "
+"GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
+"necessary."
+msgstr ""

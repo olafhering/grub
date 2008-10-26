@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2 italian debconf templates\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-02-13 14:53+0100\n"
+"POT-Creation-Date: 2008-10-26 15:44+0100\n"
 "PO-Revision-Date: 2008-05-10 10:34+0200\n"
 "Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
@@ -51,10 +51,10 @@ msgid ""
 "verify that your new GRUB 2 setup is functional for you, before you install "
 "it directly to your MBR (Master Boot Record)."
 msgstr ""
-"Si raccomanda di accettare il caricamento in cascata di GRUB 2 da menu.lst "
-"e di verificare che la nuova configurazione di GRUB 2 sia adatta alle "
-"proprie necessità prima di procedere con l'installazione diretta sul MBR "
-"(Master Boot Record)."
+"Si raccomanda di accettare il caricamento in cascata di GRUB 2 da menu.lst e "
+"di verificare che la nuova configurazione di GRUB 2 sia adatta alle proprie "
+"necessità prima di procedere con l'installazione diretta sul MBR (Master "
+"Boot Record)."
 
 #. Type: boolean
 #. Description
@@ -71,3 +71,18 @@ msgstr ""
 #: ../grub-pc.templates:1001
 msgid "upgrade-from-grub-legacy"
 msgstr "upgrade-from-grub-legacy"
+
+#. Type: string
+#. Description
+#: ../grub-pc.templates:2001
+msgid "Linux command line:"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../grub-pc.templates:2001
+msgid ""
+"The following Linux command line was extracted from the `kopt' parameter in "
+"GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
+"necessary."
+msgstr ""
