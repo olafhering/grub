@@ -1,3 +1,4 @@
+# translation of fr.po to French
 # Translation of grub2 debconf templates to French
 # Copyright (C) 2008 Christian Perrier <bubulle@debian.org>
 # This file is distributed under the same license as the grub2 package.
@@ -5,10 +6,10 @@
 # Christian Perrier <bubulle@debian.org>, 2007, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2008-10-26 15:44+0100\n"
-"PO-Revision-Date: 2008-04-27 16:11+0100\n"
+"PO-Revision-Date: 2008-10-27 19:19+0100\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +76,7 @@ msgstr "upgrade-from-grub-legacy"
 #. Description
 #: ../grub-pc.templates:2001
 msgid "Linux command line:"
-msgstr ""
+msgstr "Ligne de commande de Linux :"
 
 #. Type: string
 #. Description
@@ -85,3 +86,6 @@ msgid ""
 "GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
 "necessary."
 msgstr ""
+"La ligne de commande de Linux suivante a été récupérée via le paramètre "
+"« kopt » du fichier menu.lst normal de GRUB. Veuillez contrôler qu'elle est "
+"correcte et la modifier si nécessaire."
