@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: grub2 1.96+20080203-1\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2008-10-26 15:44+0100\n"
-"PO-Revision-Date: 2008-02-13 15:02+0100\n"
+"PO-Revision-Date: 2008-10-28 18:01+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,7 @@ msgid ""
 "can do so by issuing (as root) the following command:"
 msgstr ""
 "Auf jeden Fall können Sie den folgenden Befehl (als root) eingeben, wenn Sie "
-"möchten, das GRUB 2 direkt vom MBR geladen wird:"
+"möchten, dass GRUB 2 direkt vom MBR geladen wird:"
 
 #. Type: boolean
 #. Description
@@ -74,7 +74,7 @@ msgstr "upgrade-from-grub-legacy"
 #. Description
 #: ../grub-pc.templates:2001
 msgid "Linux command line:"
-msgstr ""
+msgstr "Linux Kommandozeile:"
 
 #. Type: string
 #. Description
@@ -84,3 +84,6 @@ msgid ""
 "GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
 "necessary."
 msgstr ""
+"Die folgende Linux-Kommandozeile ist aus dem Paramter »kopt« in GRUB Legacys "
+"menu.lst extrahiert. Bitte überprüfen Sie, ob dieser korrekt ist und passen "
+"Sie ihn falls notwendig an."
