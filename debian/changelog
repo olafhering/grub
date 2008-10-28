@@ -10,6 +10,9 @@ grub2 (1.96+20081005-1) experimental; urgency=low
 
   [ Updated translations ]
   * Dutch (nl.po) by Paul Gevers. (Closes: #500514)
+  * French (fr.po) by Christian Perrier. (Closes: #503708)
+  * Georgian (ka.po) by Aiet Kolkhi. (Closes: #503715)
+  * Czech (cs.po) by Miroslav Kure. (Closes: #503809)
 
   [ Felix Zielcke ]
   * patches/01_grub_legacy_0_based_partitions.diff: Rename to
@@ -20,13 +23,13 @@ grub2 (1.96+20081005-1) experimental; urgency=low
   * update-grub has been renamed to grub-mkconfig, so provide a stub for
     compatibility.
   * Make grub-pc/linux_cmdline debconf template translatable. (Closes #503478)
-  * Remove cs.po, ro.po and ta.po. They don't contain a single translated
+  * Remove ro.po and ta.po. They don't contain a single translated
   message.
 
   [ Robert Millan ]
   * control: Make grub-common dependency (= ${binary:Version}).
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 26 Oct 2008 15:59:36 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 28 Oct 2008 10:12:21 +0100
 
 grub2 (1.96+20080831-1) experimental; urgency=low
 
