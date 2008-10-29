@@ -14,7 +14,7 @@ grub2 (1.96+20081005-1) experimental; urgency=low
   * Georgian (ka.po) by Aiet Kolkhi. (Closes: #503715)
   * Czech (cs.po) by Miroslav Kure. (Closes: #503809)
   * German (de.po) by Helge Kreutzmann. (Closes: #503841)
-  * Japanese (ja.po) by Hideki Jamane. (Closes: #503869)
+  * Japanese (ja.po) by Hideki Yamane. (Closes: #503869)
 
   [ Felix Zielcke ]
   * patches/01_grub_legacy_0_based_partitions.diff: Rename to
