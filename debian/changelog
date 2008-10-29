@@ -13,7 +13,8 @@ grub2 (1.96+20081005-1) experimental; urgency=low
   * French (fr.po) by Christian Perrier. (Closes: #503708)
   * Georgian (ka.po) by Aiet Kolkhi. (Closes: #503715)
   * Czech (cs.po) by Miroslav Kure. (Closes: #503809)
-  * German (de.po) by Helge Kreutzmann (Closes: #503841)
+  * German (de.po) by Helge Kreutzmann. (Closes: #503841)
+  * Japanese (ja.po) by Hideki Jamane. (Closes: #503869)
 
   [ Felix Zielcke ]
   * patches/01_grub_legacy_0_based_partitions.diff: Rename to
@@ -30,7 +31,7 @@ grub2 (1.96+20081005-1) experimental; urgency=low
   [ Robert Millan ]
   * control: Make grub-common dependency (= ${binary:Version}).
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 28 Oct 2008 18:10:31 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Wed, 29 Oct 2008 10:20:32 +0100
 
 grub2 (1.96+20080831-1) experimental; urgency=low
 

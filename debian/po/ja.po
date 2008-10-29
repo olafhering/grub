@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: grub2 1.96+20080724-4\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2008-10-26 15:44+0100\n"
-"PO-Revision-Date: 2008-07-31 11:21+0200\n"
+"PO-Revision-Date: 2008-10-28 11:07+0900\n"
 "Last-Translator: Hideki Yamane (Debian-JP) <henrich@debian.or.jp>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -73,7 +73,7 @@ msgstr "upgrade-from-grub-legacy"
 #. Description
 #: ../grub-pc.templates:2001
 msgid "Linux command line:"
-msgstr ""
+msgstr "Linux コマンド:"
 
 #. Type: string
 #. Description
@@ -83,3 +83,6 @@ msgid ""
 "GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
 "necessary."
 msgstr ""
+"以下の Linux のコマンドは GRUB Legacy の menu.lst 上の「kopt」パラメータから"
+"取得されています。これが正しいものであるかを確認して、必要であれば修正してください。"
+
