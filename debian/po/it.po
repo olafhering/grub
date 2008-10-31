@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 italian debconf templates\n"
+"Project-Id-Version: grub2 1.96+20081005 italian debconf templates\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2008-10-26 15:44+0100\n"
-"PO-Revision-Date: 2008-05-10 10:34+0200\n"
+"PO-Revision-Date: 2008-10-29 15:48+0100\n"
 "Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,8 +26,8 @@ msgstr "Effettuare il caricamento in cascata da menu.lst?"
 #: ../grub-pc.templates:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
-"Gli script di aggiornamento di GRUB hanno rilevato una precedente "
-"configurazione in /boot/grub."
+"Gli script di aggiornamento hanno rilevato una configurazione del vecchio "
+"GRUB in /boot/grub."
 
 #. Type: boolean
 #. Description
@@ -38,10 +38,10 @@ msgid ""
 "your existing GRUB Legacy setup.  This step may be automaticaly performed "
 "now."
 msgstr ""
-"Al fine di sostituire la vecchia installazione di GRUB sul proprio sistema, "
-"si raccomanda di correggere /boot/grub/menu.lst per caricare in cascata GRUB "
-"2 dalla configurazione esistente di GRUB. Questa configurazione può essere "
-"effettuata automaticamente adesso."
+"Per sostituire la vecchia versione di GRUB sul proprio sistema, si "
+"raccomanda di correggere il file /boot/grub/menu.lst in modo da caricare "
+"GRUB 2 in cascata dalla versione di GRUB esistente. Questa modifica può "
+"essere effettuata automaticamente adesso."
 
 #. Type: boolean
 #. Description
@@ -63,8 +63,8 @@ msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
 msgstr ""
-"In ogni caso, per caricare GRUB 2 direttamente dal MBR, si devono eseguire "
-"(da root) il seguente comando:"
+"In ogni caso, per caricare GRUB 2 direttamente dal MBR, è necessario "
+"eseguire (da root) il seguente comando:"
 
 #. Type: boolean
 #. Description
@@ -76,7 +76,7 @@ msgstr "upgrade-from-grub-legacy"
 #. Description
 #: ../grub-pc.templates:2001
 msgid "Linux command line:"
-msgstr ""
+msgstr "Riga di comando Linux:"
 
 #. Type: string
 #. Description
@@ -86,3 +86,6 @@ msgid ""
 "GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
 "necessary."
 msgstr ""
+"La seguente riga di comando Linux è stata estratta dal parametro \"kopt\" "
+"presente nel file menu.lst del vecchio GRUB. Controllare che sia corretta e "
+"modificarla se necessario."
