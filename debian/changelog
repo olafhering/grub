@@ -1,4 +1,4 @@
-grub2 (1.96+20081005-1) experimental; urgency=low
+grub2 (1.96+20081029-1) experimental; urgency=low
 
   * New SVN snapshot.
     - Add support for /dev/md/N style mdraid devices. (Closes: #475585)
@@ -7,6 +7,9 @@ grub2 (1.96+20081005-1) experimental; urgency=low
     - Use hd%d drive names in grub-mkdevicemap for all architectures.
       (Closes: #465365)
     - Handle LVM circular metadata. (Closes: #462835, #502953)
+    - Fix NULL dereference and failure paths in LVM.  Thanks Guillem Jover.
+      (Closes: #500482)
+
 
   [ Updated translations ]
   * Dutch (nl.po) by Paul Gevers. (Closes: #500514)
@@ -32,7 +35,7 @@ grub2 (1.96+20081005-1) experimental; urgency=low
   [ Robert Millan ]
   * control: Make grub-common dependency (= ${binary:Version}).
 
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 31 Oct 2008 09:42:27 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 31 Oct 2008 09:46:15 +0100
 
 grub2 (1.96+20080831-1) experimental; urgency=low
 
