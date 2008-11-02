@@ -1,0 +1,89 @@
+# translation of grub.ar.po to Arabic
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Ossama M. Khayat <okhayat@yahoo.com>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: grub.ar\n"
+"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2008-10-26 15:44+0100\n"
+"PO-Revision-Date: 2008-11-02 09:24+0300\n"
+"Last-Translator: Ossama M. Khayat <okhayat@yahoo.com>\n"
+"Language-Team: Arabic <support@arabeyes.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "Chainload from menu.lst?"
+msgstr "تفعيل التحميل التسلسلي من menu.lst؟"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
+msgstr "عثرت بريمجيات ترقية GRUB على إعداد سابق في /boot/grub."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid ""
+"In order to replace the Legacy version of GRUB in your system, it is "
+"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
+"your existing GRUB Legacy setup.  This step may be automaticaly performed "
+"now."
+msgstr ""
+"لتستبدل النسخة السابقة من GRUB في نظامك، يُستحسن "
+"تعديل الملف /boot/grub/menu.lst لتحميل GRUB 2 تسلسلياً من "
+"إعداد GRUB السابق. ويمكن تنفيذ هذه الخطوة تلقائياً الآن."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid ""
+"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
+"verify that your new GRUB 2 setup is functional for you, before you install "
+"it directly to your MBR (Master Boot Record)."
+msgstr ""
+"يُستحسن أن تقبل التحميل التسلسلي لمدير الإقلاع GRUB من خلال الملف menu.lst، "
+"وتحقق من أن إعداد GRUB 2 صالح لاستخدامك، قبل أن تُبّته "
+"مباشرة على سجل الإقلاع الرئيسي MBR الخاص بك."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid ""
+"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
+"can do so by issuing (as root) the following command:"
+msgstr ""
+"في أي من الحالتين، متى ما أردت تحميل GRUB 2 مباشرة من سجل الإقلاع الرئيسي MBR، "
+"يمكنك ذلك بإصدار الأمر التالي كمُستخدم root:"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates:1001
+msgid "upgrade-from-grub-legacy"
+msgstr "upgrade-from-grub-legacy"
+
+#. Type: string
+#. Description
+#: ../grub-pc.templates:2001
+msgid "Linux command line:"
+msgstr "سطر أوامر لينكس:"
+
+#. Type: string
+#. Description
+#: ../grub-pc.templates:2001
+msgid ""
+"The following Linux command line was extracted from the `kopt' parameter in "
+"GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
+"necessary."
+msgstr ""
+"سطر أوامر لينكس التالي تم استخراجه من مُعطى `kopt' في"
+"ملف menu.lst الخاص بحزمة GRUB القديمة. رجاءً تحقق من صحته وقم بتعديله "
+"إن كانت هناك ضرورة."
+
