@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.96+20080626-1\n"
+"Project-Id-Version: grub2 1.96+20081005-1\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2008-10-26 15:44+0100\n"
-"PO-Revision-Date: 2008-07-06 23:36+0100\n"
+"PO-Revision-Date: 2008-11-02 11:07+0000\n"
 "Last-Translator: Ricardo Silva <ardoric@gmail.com>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
 "MIME-Version: 1.0\n"
@@ -77,7 +77,7 @@ msgstr "upgrade-from-grub-legacy"
 #. Description
 #: ../grub-pc.templates:2001
 msgid "Linux command line:"
-msgstr ""
+msgstr "Linha de comandos do Linux:"
 
 #. Type: string
 #. Description
@@ -87,3 +87,6 @@ msgid ""
 "GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
 "necessary."
 msgstr ""
+"A linha de comandos do Linux que se segue foi obtida a partir do parâmetro "
+"`kopt' no ficheiro menu.lst do GRUB Legacy. Por favor verifique que ela "
+"está correcta, e modifique-a se necessário."
