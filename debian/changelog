@@ -22,6 +22,8 @@ grub2 (1.96+20081029-1) experimental; urgency=low
   * Swedish (sv.po) by Martin Ågren. (Closes: #504207)
   * Arabic (ar.po) by Ossama Khayat. (Closes: #504254)
   * Portuguese (pt.po) by Miguel Figueiredo. (Closes: #504280)
+  * Russian (ru.po) by Yuri Kozlov. (Closes: #504324)
+  * Finnish (fi.po) by Esko Arajärvi. (Closes: #504310)
 
   [ Felix Zielcke ]
   * patches/01_grub_legacy_0_based_partitions.diff: Rename to
@@ -38,7 +40,7 @@ grub2 (1.96+20081029-1) experimental; urgency=low
   [ Robert Millan ]
   * control: Make grub-common dependency (= ${binary:Version}).
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 02 Nov 2008 13:31:41 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 03 Nov 2008 08:49:10 +0100
 
 grub2 (1.96+20080831-1) experimental; urgency=low
 
