@@ -10,7 +10,6 @@ grub2 (1.96+20081029-1) experimental; urgency=low
     - Fix NULL dereference and failure paths in LVM.  Thanks Guillem Jover.
       (Closes: #500482)
 
-
   [ Updated translations ]
   * Dutch (nl.po) by Paul Gevers. (Closes: #500514)
   * French (fr.po) by Christian Perrier. (Closes: #503708)
@@ -36,12 +35,14 @@ grub2 (1.96+20081029-1) experimental; urgency=low
     compatibility.
   * Make grub-pc/linux_cmdline debconf template translatable. (Closes #503478)
   * Remove ro.po and ta.po. They don't contain a single translated
-  message.
+    message.
 
   [ Robert Millan ]
-  * control: Make grub-common dependency (= ${binary:Version}).
+  * control: Make grub-common dependency = ${binary:Version}.
+  * default/grub: Set GRUB_CMDLINE_LINUX=quiet to syncronize with
+    default D-I settings.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 04 Nov 2008 09:54:31 +0100
+ -- Robert Millan <rmh@aybabtu.com>  Tue,  4 Nov 2008 18:37:41 +0100
 
 grub2 (1.96+20080831-1) experimental; urgency=low
 
