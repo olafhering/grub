@@ -24,6 +24,7 @@ grub2 (1.96+20081029-1) experimental; urgency=low
   * Russian (ru.po) by Yuri Kozlov. (Closes: #504324)
   * Finnish (fi.po) by Esko Arajärvi. (Closes: #504310)
   * Basque (eu.po) by Piarres Beobide. (Closes: #504466)
+  * Dutch (nl.po) by Paul Gevers. (Closes: #504683) 
 
   [ Felix Zielcke ]
   * patches/01_grub_legacy_0_based_partitions.diff: Rename to
@@ -42,7 +43,7 @@ grub2 (1.96+20081029-1) experimental; urgency=low
   * default/grub: Set GRUB_CMDLINE_LINUX=quiet to syncronize with
     default D-I settings.
 
- -- Robert Millan <rmh@aybabtu.com>  Tue,  4 Nov 2008 18:37:41 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 06 Nov 2008 11:01:35 +0100
 
 grub2 (1.96+20080831-1) experimental; urgency=low
 
