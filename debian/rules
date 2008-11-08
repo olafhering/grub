@@ -64,6 +64,7 @@ install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-coreboot::
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/{grub-mkelfimage,grub-editenv}{,.1}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/{grub-mkconfig_lib,update-grub_lib}
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/share/grub/
+	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/include
 
 	for i in docs ; do \
 		cp debian/$$i.in debian/$(subst install/,,$@).$$i ; \
