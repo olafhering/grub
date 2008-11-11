@@ -13,7 +13,7 @@ EOF
 # check for usable backgrounds
 use_bg=false
 if [ "$GRUB_TERMINAL" = "gfxterm" ] ; then
-  for i in {/boot/grub,/usr/share/images/desktop-base}/debian-blueish-wallpaper-640x480.{png,tga} ; do
+  for i in {/boot/grub,/usr/share/images/desktop-base}/moreblue-orbit-grub.{png,tga} ; do
     if is_path_readable_by_grub $i ; then 
       bg=$i
       case ${bg} in

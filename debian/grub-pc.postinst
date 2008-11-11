@@ -51,7 +51,7 @@ case "$1" in
     fi
 
     # /boot/grub/ has more chances of being accessible by GRUB
-    for i in /usr/share/grub/ascii.pff /usr/share/images/desktop-base/debian-blueish-wallpaper-640x480.png ; do
+    for i in /usr/share/grub/ascii.pff /usr/share/images/desktop-base/moreblue-orbit-grub.png ; do
       if test -e $i ; then
         cp $i /boot/grub/
       fi
