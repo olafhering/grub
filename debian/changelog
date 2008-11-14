@@ -3,10 +3,13 @@ grub2 (1.96+20081108-2) experimental; urgency=low
   * Update to new debian theme.
     - grub-pc.postinst: Switch to moreblue-orbit-grub.png.
     - grub.d/05_debian_theme: Likewise.
-  * Update 05_debian_theme to use new grub-mkconfig_lib instead of the
-    deprecated update-grub_lib.
+  * grub.d/05_debian_theme:
+      - Update to use new grub-mkconfig_lib instead of the deprecated
+        update-grub_lib.
+      - Update to check if `GRUB_TERMINAL_OUTPUT' is `gfxterm' instead of
+        `GRUB_TERMINAL'.
  
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 14 Nov 2008 15:04:46 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 14 Nov 2008 15:57:02 +0100
 
 grub2 (1.96+20081108-1) experimental; urgency=low
 
