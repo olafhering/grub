@@ -8,8 +8,11 @@ grub2 (1.96+20081108-2) experimental; urgency=low
         update-grub_lib.
       - Update to check if `GRUB_TERMINAL_OUTPUT' is `gfxterm' instead of
         `GRUB_TERMINAL'.
+
+   [ Updated translations ]
+  * Romanien (ro.po) by Eddy Petrișor. (Closes: #506039)
  
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 14 Nov 2008 15:57:02 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 18 Nov 2008 11:00:25 +0100
 
 grub2 (1.96+20081108-1) experimental; urgency=low
 
