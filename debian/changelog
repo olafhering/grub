@@ -1,3 +1,9 @@
+grub2 (1.96+20081129-1) experimental; urgency=low
+
+  * New SVN snapshot.
+
+ -- Robert Millan <rmh@aybabtu.com>  Sat, 29 Nov 2008 18:49:02 +0100
+
 grub2 (1.96+20081120-1) experimental; urgency=low
 
   * New SVN snapshot.
