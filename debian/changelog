@@ -1,3 +1,10 @@
+grub2 (1.96+20081201-2) experimental; urgency=low
+
+  * New SVN snapshot.
+    - Add support for /dev/md/dNNpNN mdraid devices. (Closes: #509960)
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 28 Dec 2008 18:27:04 +0100
+
 grub2 (1.96+20081201-1) experimental; urgency=low
 
   * New SVN snapshot.
