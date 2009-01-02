@@ -1,9 +1,13 @@
-grub2 (1.96+20081201-2) experimental; urgency=low
+grub2 (1.96+20090102-1) experimental; urgency=low
 
   * New SVN snapshot.
     - Add support for /dev/md/dNNpNN mdraid devices. (Closes: #509960)
+    - Add new PF2 fontengine. (Closes: #510344)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 28 Dec 2008 18:27:04 +0100
+  * Remove build-dependency on unifont package and add one for bf-utf-source
+    package and openjdk-6-jdk.
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 02 Jan 2009 17:12:06 +0100
 
 grub2 (1.96+20081201-1) experimental; urgency=low
 

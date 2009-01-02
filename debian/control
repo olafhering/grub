@@ -9,13 +9,14 @@ Build-Depends: cdbs,
  autoconf,
  ruby,
  bison,
- unifont (>= 1:5.1.20080820),
  po-debconf,
  help2man,
  libncurses5-dev,
  genisoimage [i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64],
  libc6-dev-i386 [amd64], libc0.1-dev-i386 [kfreebsd-amd64], libc6-dev-powerpc [ppc64],
  gcc-multilib [amd64 kfreebsd-amd64 ppc64] | gcc-4.1 (<< 4.1.2) [amd64 kfreebsd-amd64 ppc64],
+ bf-utf-source,
+ openjdk-6-jdk
 Build-Conflicts: autoconf2.13 
 Standards-Version: 3.8.0
 Homepage: http://www.gnu.org/software/grub/grub-2.en.html
