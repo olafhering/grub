@@ -8,7 +8,10 @@ grub2 (1.96+20090102-1) experimental; urgency=low
     package and openjdk-6-jdk.
   * grub-pc.postinst: Copy new ascii.pf2 instead of old ascii.pff to /boot/grub.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 02 Jan 2009 17:49:08 +0100
+  [ Updated translations ]
+  * Asturian (ast.po) by Marcos Alvarez Costales. (Closes: #511144)
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 09 Jan 2009 14:35:09 +0100
 
 grub2 (1.96+20081201-1) experimental; urgency=low
 
