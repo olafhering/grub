@@ -5,13 +5,14 @@ grub2 (1.96+20090102-1) experimental; urgency=low
     - Add new PF2 fontengine. (Closes: #510344)
 
   * Remove build-dependency on unifont package and add one for bf-utf-source
-    package and openjdk-6-jdk.
+    package and libfreetype6-dev
   * grub-pc.postinst: Copy new ascii.pf2 instead of old ascii.pff to /boot/grub.
+  * Add `--enable-grub-mkfont' to configure flags.
 
   [ Updated translations ]
   * Asturian (ast.po) by Marcos Alvarez Costales. (Closes: #511144)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 09 Jan 2009 14:35:09 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Sat, 17 Jan 2009 10:40:11 +0100
 
 grub2 (1.96+20081201-1) experimental; urgency=low
 

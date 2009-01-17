@@ -20,7 +20,7 @@ CONFIGURE = CC="cc" CXX="g++" CPPFLAGS="" LDFLAGS="" \
 	$(CURDIR)/configure --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --includedir="\$${prefix}/include" \
 	--mandir="\$${prefix}/share/man" --infodir="\$${prefix}/share/info" --sysconfdir=/etc --localstatedir=/var \
 	--libexecdir="\$${prefix}/lib/$(package)" --srcdir=$(CURDIR) \
-	--enable-grub-emu
+	--enable-grub-emu --enable-grub-mkfont
 
 AUTOGEN_FILES = configure config.h.in conf/*.mk
 
