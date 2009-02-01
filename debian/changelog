@@ -9,11 +9,13 @@ grub2 (1.96+20090102-1) experimental; urgency=low
   * grub-pc.postinst: Copy new ascii.pf2 instead of old ascii.pff to /boot/grub.
   * Add `--enable-grub-mkfont' to configure flags.
   * Put new grub-mkfont in grub-common package.
+  * Add a dependency for ${misc:Depends} to all packages to make lintian a bit
+  more happy.
 
   [ Updated translations ]
   * Asturian (ast.po) by Marcos Alvarez Costales. (Closes: #511144)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sat, 17 Jan 2009 21:09:46 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 01 Feb 2009 20:50:26 +0100
 
 grub2 (1.96+20081201-1) experimental; urgency=low
 
