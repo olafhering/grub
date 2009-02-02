@@ -10,12 +10,13 @@ grub2 (1.96+20090102-1) experimental; urgency=low
   * Add `--enable-grub-mkfont' to configure flags.
   * Put new grub-mkfont in grub-common package.
   * Add a dependency for ${misc:Depends} to all packages to make lintian a bit
-  more happy.
+    more happy.
 
   [ Updated translations ]
   * Asturian (ast.po) by Marcos Alvarez Costales. (Closes: #511144)
+  * Traditional Chinese (zh_TW.po) by Tetralet. (Closes: #513918) 
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 01 Feb 2009 20:50:26 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 02 Feb 2009 14:16:50 +0100
 
 grub2 (1.96+20081201-1) experimental; urgency=low
 
