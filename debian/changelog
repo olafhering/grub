@@ -11,12 +11,16 @@ grub2 (1.96+20090102-1) experimental; urgency=low
   * Put new grub-mkfont in grub-common package.
   * Add a dependency for ${misc:Depends} to all packages to make lintian a bit
     more happy.
+  * Detect when grub-setup leaves core.img in filesystem, and include that
+    info in bug report templates.
+    - debian/patches/07_core_in_fs.diff
+    - debian/script
 
   [ Updated translations ]
   * Asturian (ast.po) by Marcos Alvarez Costales. (Closes: #511144)
   * Traditional Chinese (zh_TW.po) by Tetralet. (Closes: #513918) 
 
- -- Felix Zielcke <fzielcke@z-51.de>  Mon, 02 Feb 2009 14:16:50 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 05 Feb 2009 18:53:14 +0100
 
 grub2 (1.96+20081201-1) experimental; urgency=low
 
