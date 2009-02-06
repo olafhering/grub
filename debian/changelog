@@ -83,7 +83,7 @@ grub2 (1.96+20081108-1) experimental; urgency=low
     patches/904_disable_floppies.diff: Likewise.
   * update-grub has been renamed to grub-mkconfig, so provide a stub for
     compatibility.
-  * Make grub-pc/linux_cmdline debconf template translatable. (Closes #503478)
+  * Make grub-pc/linux_cmdline debconf template translatable. (Closes: #503478)
   * Remove ro.po and ta.po. They don't contain a single translated
     message.
 
