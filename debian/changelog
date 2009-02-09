@@ -1,10 +1,11 @@
-grub2 (1.96+20090208-1) experimental; urgency=low
+grub2 (1.96+20090209-1) experimental; urgency=low
 
   * New SVN snapshot.
     - Add support for /dev/md/dNNpNN mdraid devices. (Closes: #509960)
     - Add new PF2 fontengine. (Closes: #510344)
     - Avoid mounting ext2 partitions with backward-incompatible features.
       (Closes: #502333)
+    - Try to avoid false positives with FAT. (Closes: #514263)
 
   [ Felix Zielcke ]
   * Remove build-dependency on unifont package and add one for bf-utf-source
@@ -23,7 +24,7 @@ grub2 (1.96+20090208-1) experimental; urgency=low
   * Asturian (ast.po) by Marcos Alvarez Costales. (Closes: #511144)
   * Traditional Chinese (zh_TW.po) by Tetralet. (Closes: #513918)
 
- -- Robert Millan <rmh@aybabtu.com>  Sun,  8 Feb 2009 00:16:23 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 09 Feb 2009 15:19:32 +0100
 
 grub2 (1.96+20081201-1) experimental; urgency=low
 
