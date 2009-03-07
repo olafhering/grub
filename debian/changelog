@@ -1,4 +1,4 @@
-grub2 (1.96+20090209-1) experimental; urgency=low
+grub2 (1.96+20090307-1) unstable; urgency=low
 
   * New SVN snapshot.
     - Add support for /dev/md/dNNpNN mdraid devices. (Closes: #509960)
@@ -26,7 +26,7 @@ grub2 (1.96+20090209-1) experimental; urgency=low
   * Traditional Chinese (zh_TW.po) by Tetralet. (Closes: #513918)
   * Belarusian (be.po) by Pavel Piatruk. (Closes: #516243)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Wed, 04 Mar 2009 13:11:16 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Sat, 07 Mar 2009 11:54:43 +0100
 
 grub2 (1.96+20081201-1) experimental; urgency=low
 
