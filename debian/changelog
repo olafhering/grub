@@ -1,3 +1,9 @@
+grub2 (1.96+20090309-1) unstable; urgency=low
+
+  * New SVN snapshot.
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 09 Mar 2009 10:03:13 +0100
+
 grub2 (1.96+20090307-1) unstable; urgency=low
 
   * New SVN snapshot.
