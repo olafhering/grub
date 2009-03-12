@@ -2,8 +2,9 @@ grub2 (1.96+20090312-1) unstable; urgency=low
 
   * New SVN snapshot.
     - Fix loading of files with underscore in HFS. (Closes: #516458)
+  * Update Standards version to 3.8.0. No changes need.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 12 Mar 2009 09:17:54 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 12 Mar 2009 10:45:35 +0100
 
 grub2 (1.96+20090309-1) unstable; urgency=low
 
