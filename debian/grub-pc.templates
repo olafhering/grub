@@ -25,3 +25,18 @@ _Description: Linux command line:
  The following Linux command line was extracted from the `kopt' parameter
  in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify
  it if necessary.
+
+Template: grub-pc/install_devices
+Type: multiselect
+Choices: ${CHOICES}
+# Intentionally not marked for translations yet; will do after a review period
+Description: GRUB install devices:
+ The grub-pc package is being upgraded.  This menu allows you to select which
+ devices you'd like grub-install to be automatically run for, if any.
+ .
+ It is recommended that you do this in most situations, to prevent the installed
+ GRUB from getting out of sync with other components such as grub.cfg or with
+ newer Linux images it will have to load.
+ .
+ If you're unsure which drive is designated as boot drive by your BIOS, it is
+ often a good idea to install GRUB to all of them.

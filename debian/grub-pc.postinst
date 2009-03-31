@@ -12,6 +12,17 @@ case "$1" in
       grub-mkdevicemap --no-floppy
     fi
 
+    if [ ! -z "$2" ] && test -e /boot/grub/core.img ; then
+      # If we're upgrading _and_ chainload-install is likely to have happened
+      db_subst grub-pc/install_devices CHOICES `sed -e "s,.*\t,,g" /boot/grub/device.map | tr '\n' ',' | sed -e 's/,$//g;s/,/, /g'`
+      db_input high grub-pc/install_devices || true
+      db_go
+      db_get grub-pc/install_devices
+      for i in `echo $RET | sed -e 's/,/ /g'` ; do
+        grub-install --no-floppy $i || true
+      done
+    fi
+
     if test -e /boot/grub/menu.lst ; then
       db_get grub-pc/linux_cmdline
       if [ "$RET" == "fillme" ] ; then

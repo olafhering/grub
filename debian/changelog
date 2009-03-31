@@ -1,4 +1,4 @@
-grub2 (1.96+20090331-1) unstable; urgency=low
+grub2 (1.96+20090401-1) experimental; urgency=low
 
   [ Felix Zielcke ]
   * New SVN snapshot.
@@ -8,8 +8,10 @@ grub2 (1.96+20090331-1) unstable; urgency=low
   [ Robert Millan ]
   * Remove grub-of transitional package (Lenny had grub-ieee1275 already).
   * Fix kopt parsing in grub-pc.config. Thanks Marcus Obst. (Closes: #514837)
+  * Add debconf template to automatically run grub-install during upgrades
+    (prior user confirmation).  (Closes: #514705)
 
- -- Robert Millan <rmh@aybabtu.com>  Tue, 31 Mar 2009 23:37:22 +0200
+ -- Robert Millan <rmh@aybabtu.com>  Wed, 01 Apr 2009 01:19:45 +0200
 
 grub2 (1.96+20090317-1) unstable; urgency=low
 
