@@ -32,12 +32,6 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
  This is a dummy transitional package to handle GRUB 2 upgrades.  It can be
  safely removed.
 
-Package: grub-of
-Architecture: powerpc ppc64
-Depends: grub-ieee1275 (= ${binary:Version}), ${misc:Depends}
-Description: GRand Unified Bootloader, version 2 (dummy package)
- This is a dummy transitional package that depends on grub-ieee1275.
-
 Package: grub-linuxbios
 Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64
 Depends: grub-coreboot (= ${binary:Version}), ${misc:Depends}
