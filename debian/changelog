@@ -1,9 +1,11 @@
-grub2 (1.96+20090401-2) experimental; urgency=low
+grub2 (1.96+20090402-1) experimental; urgency=low
 
   * New SVN snapshot.
     - Fix regression in disk/raid.c.  (Closes: #521897, #514338)
+    - Fix handling of filename string lengths in HFS.
+      (Really closes: #516458).
 
- -- Robert Millan <rmh@aybabtu.com>  Wed, 01 Apr 2009 03:31:44 +0200
+ -- Jordi Mallach <jordi@debian.org>  Thu, 02 Apr 2009 21:11:53 +0200
 
 grub2 (1.96+20090401-1) experimental; urgency=low
 
