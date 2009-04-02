@@ -4,8 +4,9 @@ grub2 (1.96+20090402-1) experimental; urgency=low
     - Fix regression in disk/raid.c.  (Closes: #521897, #514338)
     - Fix handling of filename string lengths in HFS.
       (Really closes: #516458).
+  * Add myself to Uploaders.
 
- -- Jordi Mallach <jordi@debian.org>  Thu, 02 Apr 2009 21:11:53 +0200
+ -- Jordi Mallach <jordi@debian.org>  Thu, 02 Apr 2009 21:57:11 +0200
 
 grub2 (1.96+20090401-1) experimental; urgency=low
 

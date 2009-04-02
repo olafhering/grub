@@ -2,7 +2,7 @@ Source: grub2
 Section: admin
 Priority: extra
 Maintainer: GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
-Uploaders: Otavio Salvador <otavio@debian.org>, Robert Millan <rmh@aybabtu.com>, Felix Zielcke <fzielcke@z-51.de>
+Uploaders: Otavio Salvador <otavio@debian.org>, Robert Millan <rmh@aybabtu.com>, Felix Zielcke <fzielcke@z-51.de>, Jordi Mallach <jordi@debian.org>
 DM-Upload-Allowed: yes
 Build-Depends: cdbs,
  debhelper (>= 7),
