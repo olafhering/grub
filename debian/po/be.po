@@ -7,60 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: be\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-10-26 18:22+0100\n"
+"POT-Creation-Date: 2008-10-26 15:44+0100\n"
 "PO-Revision-Date: 2009-02-19 09:19+0200\n"
 "Last-Translator: Hleb Rubanau <g.rubanau@gmail.com>\n"
 "Language-Team: Belarusian (Official spelling) <be@d-i.tanatos.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid "GRUB 1.95 numbering scheme transition"
-msgstr "Змена схемы нумарацыі GRUB 1.95"
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-"As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions are "
-"now counted starting from 1 rather than 0.  This is to make it consistent "
-"with device names of Linux and the other kernels used in Debian.  For "
-"example, when using Linux as the kernel, \"(hd0,1)\" refers to the same "
-"partition as the /dev/sda1 device node."
-msgstr ""
-"Схема нумарацыі ў GRUB 2 змянілася ў параўнанні з версіяй 1.95 . Зараз "
-"падзелы дыску адлічваюцца пачынаючы з 1 замест 0. Гэта зроблена, каб "
-"адпавядаць назвам прыладаў у Linux і іншых ядрах, якія выкарыстоўваюцца "
-"ў Debian. Напрыклад, калі ў якасці ядра выкарыстоўваецца Linux, "
-"радок \"(hd0,1)\" датычыцца таго самага падзелу дыску, як і файл прылады "
-"/dev/sda1."
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-"Because of this, there's a chance your system becomes unbootable if update-"
-"grub(8) is run before GRUB is updated, generating a grub.cfg file that your "
-"installed GRUB won't yet be able to parse correctly.  To ensure your system "
-"will be able to boot, you have to:"
-msgstr ""
-"З гэтай прычыны Ваша сістэма можа стаць няздольнай да загрузкі, калі "
-"праграма update-grub(8), запушчаная да абнаўлення GRUB, стварыла файл "
-"grub.cfg, які немагчыма карэктна апрацаваць усталяваным GRUB. Каб "
-"пераканацца, што Ваша сістэма здольная да загрузкі, варта: "
-
-#. Type: note
-#. Description
-#: ../grub2.templates:1001
-msgid ""
-" - Reinstall GRUB (typically, by running grub-install).\n"
-" - Rerun update-grub to generate a new grub.cfg."
-msgstr ""
-" - Пераўсталяваць GRUB (звычайна, праз запуск grub-install).\n"
-" - Перазапусціць update-grub, каб стварыць новы grub.cfg."
 
 #. Type: boolean
 #. Description
@@ -72,7 +25,9 @@ msgstr "Ланцуговая загрузка з menu.lst?"
 #. Description
 #: ../grub-pc.templates:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
-msgstr "Скрыпты абнаўлення GRUB выявілі папярэднюю версію GRUB, усталяваную ў /boot/grub."
+msgstr ""
+"Скрыпты абнаўлення GRUB выявілі папярэднюю версію GRUB, усталяваную ў /boot/"
+"grub."
 
 #. Type: boolean
 #. Description
@@ -83,8 +38,8 @@ msgid ""
 "your existing GRUB Legacy setup.  This step may be automaticaly performed "
 "now."
 msgstr ""
-"Каб замяніць папярэднюю версію GRUB у Вашай сістэме, раім выправіць файл "
-"/boot/grub/menu.lst такім чынам, каб GRUB 2 загружаўся праз механізм "
+"Каб замяніць папярэднюю версію GRUB у Вашай сістэме, раім выправіць файл /"
+"boot/grub/menu.lst такім чынам, каб GRUB 2 загружаўся праз механізм "
 "ланцуговай загрузкі (chainload) з існуючай папярэдняй версіі GRUB. Зараз "
 "можна зрабіць гэтую наладку аўтаматычна. "
 
@@ -107,8 +62,8 @@ msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
 msgstr ""
-"Калі ж Вы хочаце, каб GRUB 2 запускаўся непасрэдна з MBR, дастаткова запусціць "
-"з правамі карыстальніка root наступную каманду:"
+"Калі ж Вы хочаце, каб GRUB 2 запускаўся непасрэдна з MBR, дастаткова "
+"запусціць з правамі карыстальніка root наступную каманду:"
 
 #. Type: boolean
 #. Description
@@ -134,3 +89,37 @@ msgstr ""
 "(menu.lst) папярэдняй версіі GRUB. Калі ласка, пераканайцеся, што яна "
 "запісаная правільна, альбо, калі трэба, выпраўце яе. "
 
+#~ msgid "GRUB 1.95 numbering scheme transition"
+#~ msgstr "Змена схемы нумарацыі GRUB 1.95"
+
+#~ msgid ""
+#~ "As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions "
+#~ "are now counted starting from 1 rather than 0.  This is to make it "
+#~ "consistent with device names of Linux and the other kernels used in "
+#~ "Debian.  For example, when using Linux as the kernel, \"(hd0,1)\" refers "
+#~ "to the same partition as the /dev/sda1 device node."
+#~ msgstr ""
+#~ "Схема нумарацыі ў GRUB 2 змянілася ў параўнанні з версіяй 1.95 . Зараз "
+#~ "падзелы дыску адлічваюцца пачынаючы з 1 замест 0. Гэта зроблена, каб "
+#~ "адпавядаць назвам прыладаў у Linux і іншых ядрах, якія выкарыстоўваюцца ў "
+#~ "Debian. Напрыклад, калі ў якасці ядра выкарыстоўваецца Linux, радок "
+#~ "\"(hd0,1)\" датычыцца таго самага падзелу дыску, як і файл прылады /dev/"
+#~ "sda1."
+
+#~ msgid ""
+#~ "Because of this, there's a chance your system becomes unbootable if "
+#~ "update-grub(8) is run before GRUB is updated, generating a grub.cfg file "
+#~ "that your installed GRUB won't yet be able to parse correctly.  To ensure "
+#~ "your system will be able to boot, you have to:"
+#~ msgstr ""
+#~ "З гэтай прычыны Ваша сістэма можа стаць няздольнай да загрузкі, калі "
+#~ "праграма update-grub(8), запушчаная да абнаўлення GRUB, стварыла файл "
+#~ "grub.cfg, які немагчыма карэктна апрацаваць усталяваным GRUB. Каб "
+#~ "пераканацца, што Ваша сістэма здольная да загрузкі, варта: "
+
+#~ msgid ""
+#~ " - Reinstall GRUB (typically, by running grub-install).\n"
+#~ " - Rerun update-grub to generate a new grub.cfg."
+#~ msgstr ""
+#~ " - Пераўсталяваць GRUB (звычайна, праз запуск grub-install).\n"
+#~ " - Перазапусціць update-grub, каб стварыць новы grub.cfg."

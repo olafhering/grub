@@ -5,8 +5,11 @@ grub2 (1.96+20090402-1) experimental; urgency=low
     - Fix handling of filename string lengths in HFS.
       (Really closes: #516458).
   * Add myself to Uploaders.
+  * Add patch 08_powerpc-ieee1275_build_fix.patch to fix powerpc-ieee1275
+    builds which were lacking header files for kernel_elf_HEADERS. Thanks
+    Vladimir Serbinenko.
 
- -- Jordi Mallach <jordi@debian.org>  Thu, 02 Apr 2009 21:57:11 +0200
+ -- Jordi Mallach <jordi@debian.org>  Fri, 03 Apr 2009 20:58:37 +0200
 
 grub2 (1.96+20090401-1) experimental; urgency=low
 
