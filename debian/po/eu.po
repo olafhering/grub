@@ -3,32 +3,33 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Piarres Beobide <pi@beobide.net>, 2008.
-# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2008.
+# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2008-10-26 15:44+0100\n"
-"PO-Revision-Date: 2008-10-29 19:36+0100\n"
+"PO-Revision-Date: 2009-04-04 14:29+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
 msgid "Chainload from menu.lst?"
-msgstr "Kargatu menu.lst bidez?"
+msgstr "Kargatu menu.lst fitxategitik?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
-"GRUB eguneraketa skriptak GRUB zahar konfigurazioa aurkitu dute /boot/grub-"
+"GRUB eguneratzeko skriptek GRUB zahar baten konfigurazioa aurkitu dute /boot/grub-"
 "en."
 
 #. Type: boolean
@@ -42,7 +43,7 @@ msgid ""
 msgstr ""
 "GRUB zaharraren bertsioa behar bezala ordezkatzeko, gomendagarria da /boot/"
 "grub/menu.lst doitzea GRUB 2 dagoeneko instalaturik duzun GRUB zaharraren "
-"bidez kargatzea.  Urrats hau automatikoki egin daiteke orain."
+"bidez kargatzeko.  Urrats hau automatikoki egin daiteke orain."
 
 #. Type: boolean
 #. Description
@@ -54,7 +55,7 @@ msgid ""
 msgstr ""
 "Gomendagarria da GRUB 2 menu.lst bidez kargatzea onartzea, GRUB 2 "
 "konfigurazioak zure beharrak betetzen dituela egiatzatzeko MBR-ran (Master "
-"Boot Record) zuzenean instalatu beharrean."
+"Boot Record) zuzenean instalatu aurretik."
 
 #. Type: boolean
 #. Description
@@ -63,8 +64,8 @@ msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
 msgstr ""
-"Edozein kasutan, GRUB 2 zuzenean zure MBR-tik kargatzea nahi duzunean "
-"komando hau exekutatuaz (root gisa) lortu dezakezu:"
+"Edozein kasutan, GRUB 2 zuzenean MBR-tik kargatzea nahi duzunean "
+"exekutatu honako komandoa (root gisa):"
 
 #. Type: boolean
 #. Description
@@ -86,7 +87,7 @@ msgid ""
 "GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
 "necessary."
 msgstr ""
-"Linux-eko komando-lerro hau GRUB Legacy-ren menu.lst fitxategiko `kopt' "
+"Linux-eko komando-lerro hau GRUB zaharraren menu.lst fitxategiko 'kopt' "
 "parametrotik atera da. Egiaztatu zuzena dela, eta eraldatu behar izanez "
 "gero."
 
