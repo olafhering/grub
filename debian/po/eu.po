@@ -70,7 +70,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates:1001
 msgid "upgrade-from-grub-legacy"
-msgstr "eguneratu-grub-zaharretik"
+msgstr "upgrade-from-grub-legacy"
 
 #. Type: string
 #. Description
@@ -86,6 +86,7 @@ msgid ""
 "GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
 "necessary."
 msgstr ""
-"Linux-eko komando-lerro hau GRUB Legacy-ren menu.lst fitxategiko 'kopt' parametrotik atera da. "
-"Egiaztatu zuzena dela, eta eraldatu behar izanez gero."
+"Linux-eko komando-lerro hau GRUB Legacy-ren menu.lst fitxategiko `kopt' "
+"parametrotik atera da. Egiaztatu zuzena dela, eta eraldatu behar izanez "
+"gero."
 

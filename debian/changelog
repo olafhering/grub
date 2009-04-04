@@ -1,3 +1,10 @@
+grub2 (1.96+20090402-2) experimental; urgency=low
+
+  [ Updated translations ]
+  * Basque (eu.po) by Piarres Beobide (Closes: #522457)
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Sat, 04 Apr 2009 09:45:36 +0200
+
 grub2 (1.96+20090402-1) experimental; urgency=low
 
   * New SVN snapshot.
