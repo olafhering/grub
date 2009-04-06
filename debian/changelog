@@ -7,7 +7,10 @@ grub2 (1.96+20090406-1) experimental; urgency=low
   [ Updated translations ]
   * Basque (eu.po) by Piarres Beobide (Closes: #522457)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Mon, 06 Apr 2009 12:01:46 +0200
+  [ Robert Millan ]
+  * Update my email address.
+
+ -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 06 Apr 2009 17:52:58 +0200
 
 grub2 (1.96+20090402-1) experimental; urgency=low
 
