@@ -1,13 +1,13 @@
 # Translation of grub2 debconf templates to German
-# Copyright (C) Helge Kreutzmann <debian@helgefjell.de>, 2007, 2008.
+# Copyright (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2009.
 # This file is distributed under the same license as the grub2 package.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.96+20080203-1\n"
+"Project-Id-Version: grub2 1.96+20090317-1\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2008-10-26 15:44+0100\n"
-"PO-Revision-Date: 2008-10-28 18:01+0100\n"
+"PO-Revision-Date: 2009-04-06 19:48+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -84,6 +84,6 @@ msgid ""
 "GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
 "necessary."
 msgstr ""
-"Die folgende Linux-Kommandozeile ist aus dem Paramter »kopt« in GRUB Legacys "
+"Die folgende Linux-Kommandozeile ist aus dem Parameter »kopt« in GRUB Legacys "
 "menu.lst extrahiert. Bitte überprüfen Sie, ob dieser korrekt ist und passen "
 "Sie ihn falls notwendig an."

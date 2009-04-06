@@ -1,16 +1,17 @@
 grub2 (1.96+20090406-1) experimental; urgency=low
 
   * New SVN snapshot.
-    - Add support for parttool command, which you can use to hide partitions.
+    - Add support for parttool command, which can be used to hide partitions.
       (Closes: #505905)
 
   [ Updated translations ]
-  * Basque (eu.po) by Piarres Beobide (Closes: #522457)
+  * Basque (eu.po) by Piarres Beobide. (Closes: #522457)
+  * German (de.po) by Helge Kreutzmann. (Closes: #522815)
 
   [ Robert Millan ]
   * Update my email address.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 06 Apr 2009 17:52:58 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 06 Apr 2009 19:54:43 +0200
 
 grub2 (1.96+20090402-1) experimental; urgency=low
 
