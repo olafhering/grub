@@ -3,6 +3,7 @@ grub2 (1.96+20090406-1) experimental; urgency=low
   * New SVN snapshot.
     - Add support for parttool command, which can be used to hide partitions.
       (Closes: #505905)
+    - Fix a segfault with LVM on RAID. (Closes: #520637)
 
   [ Updated translations ]
   * Basque (eu.po) by Piarres Beobide. (Closes: #522457)
@@ -11,7 +12,7 @@ grub2 (1.96+20090406-1) experimental; urgency=low
   [ Robert Millan ]
   * Update my email address.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Mon, 06 Apr 2009 19:54:43 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Wed, 08 Apr 2009 17:05:47 +0200
 
 grub2 (1.96+20090402-1) experimental; urgency=low
 
