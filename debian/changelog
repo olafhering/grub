@@ -1,4 +1,4 @@
-grub2 (1.96+20090406-1) experimental; urgency=low
+grub2 (1.96+20090411-1) experimental; urgency=low
 
   * New SVN snapshot.
     - Add support for parttool command, which can be used to hide partitions.
@@ -13,7 +13,7 @@ grub2 (1.96+20090406-1) experimental; urgency=low
   [ Robert Millan ]
   * Update my email address.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sat, 11 Apr 2009 21:06:27 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sat, 11 Apr 2009 22:12:44 +0200
 
 grub2 (1.96+20090402-1) experimental; urgency=low
 
