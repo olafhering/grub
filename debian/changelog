@@ -16,7 +16,10 @@ grub2 (1.96+20090411-1) experimental; urgency=low
   * Remove 04_uuids_and_abstraction_dont_play_along_nicely.diff now that
     bugs #435983 and #455746 in mdadm and dmsetup have been fixed.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Sun, 12 Apr 2009 15:20:02 +0200
+  [ Felix Zielcke ]
+  * Place new grub-dumpbios in grub-common.
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 12 Apr 2009 16:03:28 +0200
 
 grub2 (1.96+20090402-1) experimental; urgency=low
 
