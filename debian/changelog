@@ -19,8 +19,10 @@ grub2 (1.96+20090413-1) experimental; urgency=low
   [ Felix Zielcke ]
   * Place new grub-dumpbios in grub-common.
   * Add lpia to the archictectures to reduce the ubuntu delta.
+  * Add a manpage for the update-grub and update-grub2 stubs, written by
+    me. (Closes: #523876)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 14 Apr 2009 09:39:35 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 19 Apr 2009 16:11:39 +0200
 
 grub2 (1.96+20090402-1) experimental; urgency=low
 
