@@ -55,7 +55,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
 Provides: grub
 Replaces: grub, grub2 (<< ${source:Version}), grub-common (= ${binary:Version})
 Conflicts: grub, desktop-base (= 4.0.5)
-Suggests: desktop-base (>= 4.0.6), os-prober
+Suggests: desktop-base (>= 4.0.6), os-prober, genisoimage
 Description: GRand Unified Bootloader, version 2 (PC/BIOS version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
@@ -131,7 +131,7 @@ Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}),
 Provides: grub
 Replaces: grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: grub
-Suggests: os-prober
+Suggests: os-prober, genisoimage
 Description: GRand Unified Bootloader, version 2 (Open Firmware version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
