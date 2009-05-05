@@ -13,6 +13,10 @@ ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 else
 	CFLAGS += -O2
 endif
+
+# optimize loader/i386/linux.c for the linux shipped in debian
+CFLAGS += -DGRUB_ASSUME_LINUX_HAS_FB_SUPPORT=1
+
 export CFLAGS
 export CXXFLAGS := $(CFLAGS)
 
