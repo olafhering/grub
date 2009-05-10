@@ -1,0 +1,24 @@
+
+Upstream wanted grub-setup to require --force when blocklists are to be
+used.  However, this is not suitable for debian because we have to maintain
+backward-compatibility.
+
+To make things worse, since the Lenny release D-I creates a broken setup
+on GPT, where blocklists become the _only_ option.  When this is fixed, we
+could contemplate removing this patch and instead just pass --force whenever
+calling grub-install from postinst.
+
+Index: util/i386/pc/grub-install.in
+===================================================================
+--- util/i386/pc/grub-install.in	(revision 2202)
++++ util/i386/pc/grub-install.in	(working copy)
+@@ -124,6 +124,9 @@
+     esac
+ done
+ 
++# added by debian patch
++setup_force="--force"
++
+ # for make_system_path_relative_to_its_root()
+ . ${libdir}/grub/grub-mkconfig_lib
+ 
