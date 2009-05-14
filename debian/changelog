@@ -1,12 +1,14 @@
-grub2 (1.96+20090505-1) experimental; urgency=low
+grub2 (1.96+20090514-1) experimental; urgency=low
 
   * New SVN snapshot.
+    - Add drivemap command, similiar to grub-legacy's map command.
+      (Closes: 503630)
 
   [ Robert Millan ]
   * rules: Set GRUB_ASSUME_LINUX_HAS_FB_SUPPORT=1 in CFLAGS.
   * patches/905_setup_force.diff: Relax blocklist warnings.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Sun, 10 May 2009 17:55:02 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 14 May 2009 15:08:10 +0200
 
 grub2 (1.96+20090504-1) experimental; urgency=low
 
