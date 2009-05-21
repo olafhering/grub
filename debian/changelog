@@ -11,8 +11,11 @@ grub2 (1.96+20090516-1) experimental; urgency=low
 
   [ Felix Zielcke ]
   * patches/07_core_in_fs.diff: Updated.
+  * Remove /etc/grub.d/10_hurd on non-Hurd systems in the grub-common
+    preinst. Likewise for 10_freebsd for non kFreebsd and 10_linux on
+    kFreebsd and Hurd. (Closes: #523777)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sat, 16 May 2009 20:09:57 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 21 May 2009 17:18:43 +0200
 
 grub2 (1.96+20090504-1) experimental; urgency=low
 
