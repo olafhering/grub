@@ -15,8 +15,10 @@ grub2 (1.96+20090523-1) sid; urgency=low
   * Remove /etc/grub.d/10_hurd on non-Hurd systems in the grub-common
     preinst. Likewise for 10_freebsd for non kFreebsd and 10_linux on
     kFreebsd and Hurd. (Closes: #523777)
+  * patches/907_rename_linux_to_linux32.diff: New patch to rename
+    linux and initrd to linux32 and initrd32.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Sat, 23 May 2009 17:57:24 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sat, 23 May 2009 18:43:51 +0200
 
 grub2 (1.96+20090504-1) experimental; urgency=low
 
