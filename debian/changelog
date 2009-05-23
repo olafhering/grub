@@ -1,4 +1,4 @@
-grub2 (1.96+20090523-1) sid; urgency=low
+grub2 (1.96+20090523-1) unstable; urgency=low
 
   * New SVN snapshot.
     - Add drivemap command, similar to grub-legacy's map command.
@@ -16,7 +16,7 @@ grub2 (1.96+20090523-1) sid; urgency=low
     preinst. Likewise for 10_freebsd for non kFreebsd and 10_linux on
     kFreebsd and Hurd. (Closes: #523777)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sat, 23 May 2009 18:43:51 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sat, 23 May 2009 20:05:10 +0200
 
 grub2 (1.96+20090504-1) experimental; urgency=low
 
