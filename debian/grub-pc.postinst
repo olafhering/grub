@@ -14,7 +14,7 @@ case "$1" in
 
     if [ ! -z "$2" ] && test -e /boot/grub/core.img ; then
       # If we're upgrading _and_ chainload-install is likely to have happened
-      db_subst grub-pc/install_devices CHOICES `sed -e "s,.*\t,,g" /boot/grub/device.map | tr '\n' ',' | sed -e 's/,$//g;s/,/, /g'`
+      db_subst grub-pc/install_devices CHOICES `sed -e "/(fd[0-9]\+)/d;s,.*\t,,g" /boot/grub/device.map | tr '\n' ',' | sed -e 's/,$//g;s/,/, /g'`
       db_input high grub-pc/install_devices || true
       db_go
       db_get grub-pc/install_devices
