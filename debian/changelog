@@ -2,10 +2,14 @@ grub2 (1.96+20090528-1) unstable; urgency=low
 
   * New SVN snapshot.
 
+  [ Felix Zielcke ]
   * Skip floopies in the grub-install debconf prompt in grub-pc postinst.
     Patch by Fabian Greffrath. (Closes: #530848)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 28 May 2009 12:19:52 +0200
+  [ Robert Millan ]
+  * Change Vcs-Browser field to viewsvn.
+
+ -- Robert Millan <rmh.debian@aybabtu.com>  Thu, 28 May 2009 15:05:50 +0200
 
 grub2 (1.96+20090523-1) unstable; urgency=low
 
