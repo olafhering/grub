@@ -9,7 +9,10 @@ grub2 (1.96+20090528-1) unstable; urgency=low
   [ Robert Millan ]
   * Change Vcs-Browser field to viewsvn.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Thu, 28 May 2009 15:05:50 +0200
+  [ Felix Zielcke ]
+  * Change Vcs-Svn field to point to the trunk. (Closes: #531391)
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 01 Jun 2009 12:51:30 +0200
 
 grub2 (1.96+20090523-1) unstable; urgency=low
 
