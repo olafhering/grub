@@ -11,8 +11,11 @@ grub2 (1.96+20090528-1) unstable; urgency=low
 
   [ Felix Zielcke ]
   * Change Vcs-Svn field to point to the trunk. (Closes: #531391)
+  * patches/01_uuids_and_lvm_dont_play_along_nicely: New patch.
+    On Debian root=UUID= with lvm still doestn't work so disable it.
+    (Closes: #530357)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Mon, 01 Jun 2009 12:51:30 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 02 Jun 2009 16:27:39 +0200
 
 grub2 (1.96+20090523-1) unstable; urgency=low
 
