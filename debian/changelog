@@ -1,3 +1,10 @@
+grub2 (1.96+20090602-2) unstable; urgency=low
+
+  * Abort the install of grub-pc if /etc/kernel-img.conf still contains
+    /sbin/update-grub (Closes: #500631).
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Wed, 03 Jun 2009 14:44:06 +0200
+
 grub2 (1.96+20090602-1) unstable; urgency=low
 
   * New SVN snapshot.
@@ -15,8 +22,9 @@ grub2 (1.96+20090602-1) unstable; urgency=low
     On Debian root=UUID= with lvm still doestn't work so disable it.
     (Closes: #530357)
   * Remove Otavio Salvador from Uploaders with his permission.
+  * add grub-pc.preinst
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 02 Jun 2009 18:01:05 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Wed, 03 Jun 2009 14:42:11 +0200
 
 grub2 (1.96+20090523-1) unstable; urgency=low
 
