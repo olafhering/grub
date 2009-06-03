@@ -1,9 +1,11 @@
-grub2 (1.96+20090602-2) unstable; urgency=low
+grub2 (1.96+20090603-1) unstable; urgency=low
+
+  * New SVN snapshot.
 
   * Abort the install of grub-pc if /etc/kernel-img.conf still contains
     /sbin/update-grub (Closes: #500631).
 
- -- Felix Zielcke <fzielcke@z-51.de>  Wed, 03 Jun 2009 14:44:06 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Wed, 03 Jun 2009 20:01:11 +0200
 
 grub2 (1.96+20090602-1) unstable; urgency=low
 

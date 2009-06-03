@@ -3,7 +3,7 @@
 case "$1" in
   install|upgrade)
 
-  if grep -q "/sbin/update-grub" /etc/kernel-img.conf ; then
+  if grep -q "[= ]/sbin/update-grub" /etc/kernel-img.conf ; then
     echo -e "\n/etc/kernel-img.conf still contains /sbin/update-grub in the hooks." >&2
     echo "You need to change them to just update-grub without any path prefixed." >&2
     echo -e "After you fixed it, run apt-get or aptitude again.\n" >&2
