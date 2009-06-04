@@ -110,7 +110,7 @@ Description: GRand Unified Bootloader, version 2 (Coreboot version)
  platforms running the Coreboot firmware.
 
 Package: grub-efi-ia32
-Architecture: i386 kfreebsd-i386 hurd-i386 lpia
+Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 lpia
 Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}
 Provides: grub
 Replaces: grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1), grub-efi
@@ -131,7 +131,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-IA32 version)
  a BIOS interface has been activated).
 
 Package: grub-efi-amd64
-Architecture: amd64 kfreebsd-amd64
+Architecture: i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 lpia
 Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}
 Provides: grub
 Replaces: grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
