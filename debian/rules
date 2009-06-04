@@ -38,10 +38,10 @@ configure/grub-pc configure/grub-ieee1275 configure/grub-coreboot:: $(AUTOGEN_FI
 # This name scheme leaves room for things like ia64 or amd32 someday
 configure/grub-efi-ia32:: $(AUTOGEN_FILES)
 	mkdir -p $(subst configure/,build/,$@)
-	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=efi --target=i386-pe
+	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=efi --target=i386-pe --program-prefix=""
 configure/grub-efi-amd64:: $(AUTOGEN_FILES)
 	mkdir -p $(subst configure/,build/,$@)
-	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=efi --target=amd64-pe
+	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=efi --target=amd64-pe --program-prefix=""
 
 configure/grub-common:: $(AUTOGEN_FILES)
 	mkdir -p $(subst configure/,build/,$@)

@@ -9,9 +9,4 @@ grub2 (1.96+20090604-1) experimental; urgency=low
   If you've experienced problems trying to load grub.efi, please try
   again using the package that doesn't match your CPU's architecture.
 
-  The downside of this is that all binaries are now prefixed with
-  i386-pe or amd64-pe. For example, grub-install is now called
-  i386-pe-grub-install in grub-efi-ia32, and amd64-pe-grub-install in
-  grub-efi-amd64.
-
  -- Felix Zielcke <fzielcke@z-51.de>  Thu, 04 Jun 2009 20:23:33 +0200
