@@ -1,9 +1,13 @@
-grub2 (1.96+20090603-2) unstable; urgency=low
+grub2 (1.96+20090604-1) unstable; urgency=low
 
+  * New SVN snapshot.
+    - fix variable parsing inside strings. (Closes: ##486180)
+
+  [ Robert Millan ]
   * Split grub-efi in grub-efi-ia32 and grub-efi-amd64, both available
     on i386 and amd64.  (Closes: #524756)
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Thu, 04 Jun 2009 13:50:21 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 04 Jun 2009 18:23:05 +0200
 
 grub2 (1.96+20090603-1) unstable; urgency=low
 
