@@ -1,0 +1,16 @@
+grub2 (1.96+20090604-1) unstable; urgency=low
+
+Before this version grub-efi was 32bit on i386 and 64bit on amd64.
+But EFI can be 32bit even if you have a 64bit CPU like in the first MacBook
+models with Core 2 Duo released end of 2006.
+So grub-efi has been now split into grub-efi-amd64 and grub-efi-ia32 which are
+on both amd64 and i386 avaible.
+
+If it didn't work before because it failed to load the grub.efi you can try out
+now the other package as your used CPU archictecture.
+
+The downside of this is that now all binaries are prefixed with i386-pe or
+amd64-pe. For example grub-install is now called i386-pe-grub-install in
+grub-efi-ia32 and amd64-pe-grub-install in grub-efi-amd64.
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 04 Jun 2009 20:23:33 +0200
