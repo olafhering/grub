@@ -7,7 +7,10 @@ grub2 (1.96+20090604-1) unstable; urgency=low
   * Split grub-efi in grub-efi-ia32 and grub-efi-amd64, both available
     on i386 and amd64.  (Closes: #524756)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 04 Jun 2009 18:23:05 +0200
+  [ Felix Zielcke ]
+  * Add a build dependency on gcc-multilib for lpia
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 04 Jun 2009 18:28:27 +0200
 
 grub2 (1.96+20090603-1) unstable; urgency=low
 
