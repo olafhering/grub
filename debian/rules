@@ -31,15 +31,23 @@ AUTOGEN_FILES = configure config.h.in conf/*.mk
 $(AUTOGEN_FILES): autogen.sh configure.ac conf/*.rmk
 	./autogen.sh
 
-configure/grub-pc configure/grub-ieee1275 configure/grub-efi configure/grub-coreboot:: $(AUTOGEN_FILES)
+configure/grub-pc configure/grub-ieee1275 configure/grub-coreboot:: $(AUTOGEN_FILES)
 	mkdir -p $(subst configure/,build/,$@)
 	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=$(subst configure/grub-,,$@)
 
+# This name scheme leaves room for things like ia64 or amd32 someday
+configure/grub-efi-ia32:: $(AUTOGEN_FILES)
+	mkdir -p $(subst configure/,build/,$@)
+	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=efi --target=i386-pe
+configure/grub-efi-amd64:: $(AUTOGEN_FILES)
+	mkdir -p $(subst configure/,build/,$@)
+	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=efi --target=amd64-pe
+
 configure/grub-common:: $(AUTOGEN_FILES)
-	mkdir -p build/grub-common
+	mkdir -p $(subst configure/,build/,$@)
 	cd build/grub-common && $(CONFIGURE)
 
-build/grub-common build/grub-pc build/grub-efi build/grub-ieee1275 build/grub-coreboot::
+build/grub-common build/grub-pc build/grub-efi-ia32 build/grub-efi-amd64 build/grub-ieee1275 build/grub-coreboot::
 	$(MAKE) -C $@
 
 build/grub-rescue-pc:: build/grub-pc
@@ -59,7 +67,7 @@ build/grub-rescue-pc:: build/grub-pc
 		--image-type=cdrom \
 		$(CURDIR)/$@/grub-rescue-cdrom.iso
 
-install/grub-pc install/grub-efi install/grub-ieee1275 install/grub-coreboot::
+install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee1275 install/grub-coreboot::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
 
 	# shipped with grub-common
