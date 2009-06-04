@@ -10,7 +10,10 @@ grub2 (1.96+20090604-1) unstable; urgency=low
   [ Felix Zielcke ]
   * Add a build dependency on gcc-multilib for lpia
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 04 Jun 2009 18:28:27 +0200
+  [ New translations ]
+  * Catalan (ca.po) by Jordi Mallach.
+
+ -- Jordi Mallach <jordi@debian.org>  Thu, 04 Jun 2009 19:56:33 +0200
 
 grub2 (1.96+20090603-1) unstable; urgency=low
 
