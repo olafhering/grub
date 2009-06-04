@@ -7,15 +7,13 @@ grub2 (1.96+20090604-1) unstable; urgency=low
   * Split grub-efi in grub-efi-ia32 and grub-efi-amd64, both available
     on i386 and amd64.  (Closes: #524756)
 
-  [ Felix Zielcke ]
-  * Drop the build dependency on gcc-multilib for all *i386.
-
   [ New translations ]
   * Catalan (ca.po) by Jordi Mallach.
 
   [ Felix Zielcke ]
   * Add a NEWS entry that now all binaries are renamed in the grub-efi
     packages.
+  * Drop the build dependency on gcc-multilib for all *i386.
 
  -- Felix Zielcke <fzielcke@z-51.de>  Thu, 04 Jun 2009 20:41:17 +0200
 
