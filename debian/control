@@ -15,7 +15,7 @@ Build-Depends: cdbs,
  libncurses5-dev,
  genisoimage [i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 lpia],
  libc6-dev-i386 [amd64], libc0.1-dev-i386 [kfreebsd-amd64], libc6-dev-powerpc [ppc64],
- gcc-multilib [i386 kfreebsd-i386 hurd-i386 amd64 kfreebsd-amd64 ppc64 lpia],
+ gcc-multilib [amd64 kfreebsd-amd64 ppc64],
  bf-utf-source,
  libfreetype6-dev
 Build-Conflicts: autoconf2.13 
