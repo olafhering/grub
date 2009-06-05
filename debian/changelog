@@ -1,4 +1,4 @@
-grub2 (1.96+20090604-1) unstable; urgency=low
+grub2 (1.96+20090605-1) experimental; urgency=low
 
   * New SVN snapshot.
     - fix variable parsing inside strings. (Closes: ##486180)
@@ -14,8 +14,10 @@ grub2 (1.96+20090604-1) unstable; urgency=low
   * Add a NEWS entry that now all binaries are renamed in the grub-efi
     packages.
   * Drop the build dependency on gcc-multilib for all *i386.
+  * Change upgrade-from-grub-legacy to use `dpkg-reconfigure grub-pc' to
+    install grub2 into MBR.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 04 Jun 2009 20:41:17 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 05 Jun 2009 21:19:03 +0200
 
 grub2 (1.96+20090603-1) unstable; urgency=low
 

@@ -1,7 +1,11 @@
 #!/bin/bash -e
 
-echo -e "\nInstalling GRUB to Master Boot Record of your first hard drive ...\n" >&2
-grub-install "(hd0)"
+if test ! -f /boot/grub/core.img ; then
+  echo -e "\ncore.img doestn't exist, trying to create it.\n" >&2
+  grub-install --no-floppy --grub-setup=/bin/true "(hd0)" > /dev/null
+fi
+
+dpkg-reconfigure grub-pc
 
 if test ! -f /boot/grub/grub.cfg ; then
   echo -e "\nCalling update-grub to generate grub.cfg\n" >&2
