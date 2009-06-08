@@ -7,6 +7,7 @@ grub2 (1.96+20090608-1) experimental; urgency=low
   [ Robert Millan ]
   * Split grub-efi in grub-efi-ia32 and grub-efi-amd64, both available
     on i386 and amd64.  (Closes: #524756)
+  * Add kopensolaris-i386 to arch list.
 
   [ New translations ]
   * Catalan (ca.po) by Jordi Mallach.
@@ -17,7 +18,7 @@ grub2 (1.96+20090608-1) experimental; urgency=low
   * Change upgrade-from-grub-legacy to use `dpkg-reconfigure grub-pc' to
     install grub2 into MBR.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Mon, 08 Jun 2009 09:33:01 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 08 Jun 2009 12:44:05 +0200
 
 grub2 (1.96+20090603-1) unstable; urgency=low
 
