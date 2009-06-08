@@ -1,7 +1,8 @@
-grub2 (1.96+20090606-1) experimental; urgency=low
+grub2 (1.96+20090608-1) experimental; urgency=low
 
   * New SVN snapshot.
-    - fix variable parsing inside strings. (Closes: ##486180)
+    - Fix variable parsing inside strings. (Closes: #486180)
+    - Add `true' command. (Closes: #530736)
 
   [ Robert Millan ]
   * Split grub-efi in grub-efi-ia32 and grub-efi-amd64, both available
@@ -16,7 +17,7 @@ grub2 (1.96+20090606-1) experimental; urgency=low
   * Change upgrade-from-grub-legacy to use `dpkg-reconfigure grub-pc' to
     install grub2 into MBR.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sat, 06 Jun 2009 21:54:15 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 08 Jun 2009 09:33:01 +0200
 
 grub2 (1.96+20090603-1) unstable; urgency=low
 
