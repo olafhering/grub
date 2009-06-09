@@ -1,4 +1,4 @@
-grub2 (1.96+20090608-1) experimental; urgency=low
+grub2 (1.96+20090609-1) experimental; urgency=low
 
   * New SVN snapshot.
     - Fix variable parsing inside strings. (Closes: #486180)
@@ -9,19 +9,19 @@ grub2 (1.96+20090608-1) experimental; urgency=low
     on i386 and amd64.  (Closes: #524756)
   * Add kopensolaris-i386 to arch list.
 
-  [ New translations ]
-  * Catalan (ca.po) by Jordi Mallach.
-
   [ Felix Zielcke ]
   * Add a NEWS entry about the grub-efi split. 
   * Drop the build dependency on gcc-multilib for all *i386.
   * Change upgrade-from-grub-legacy to use `dpkg-reconfigure grub-pc' to
     install grub2 into MBR.
 
+  [ New translations ]
+  * Catalan (ca.po) by Jordi Mallach.
+
   [ Updated translations ]
   * Spanish (es.po) by Francisco Javier Cuadrado. (Closes: #532407)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 09 Jun 2009 10:23:03 +0200
+ -- Jordi Mallach <jordi@iti.upv.es>  Tue, 09 Jun 2009 19:21:15 +0200
 
 grub2 (1.96+20090603-1) unstable; urgency=low
 
