@@ -21,7 +21,7 @@ grub2 (1.96+20090609-1) experimental; urgency=low
   [ Updated translations ]
   * Spanish (es.po) by Francisco Javier Cuadrado. (Closes: #532407)
 
- -- Jordi Mallach <jordi@iti.upv.es>  Tue, 09 Jun 2009 19:21:15 +0200
+ -- Jordi Mallach <jordi@debian.org>  Tue, 09 Jun 2009 19:21:15 +0200
 
 grub2 (1.96+20090603-1) unstable; urgency=low
 
