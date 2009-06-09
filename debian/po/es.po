@@ -1,33 +1,41 @@
-# grub2 translation to spanish.
-# Copyright (C) 2007 THE GRUB2'S COPYRIGHT HOLDER
+# grub2 po-debconf translation to Spanish
+# Copyright (C) 2007, 2009 Software in the Public Interest
 # This file is distributed under the same license as the grub2 package.
+#
 # Changes:
-# - Initial translation
-# Maria Germana Oliveira Blazetic<germanaoliveirab@gmail.com>, 2007.
-# Traductores, si no conoce el formato PO, merece la pena leer la
+#   - Initial translation
+#       Maria Germana Oliveira Blazetic<germanaoliveirab@gmail.com>, 2007
+#
+#   - Updates
+#       Gary Ariel Sandi Vigabriel <gary.gsv@gmail.com>, 2009
+#       Francisco Javier Cuadrado <fcocuadrado@gmail.com>, 2009
+#
+# Traductores, si no conocen el formato PO, merece la pena leer la
 # documentación de gettext, especialmente las secciones dedicadas a este
 # formato, por ejemplo ejecutando:
-# info -n '(gettext)PO Files'
-# info -n '(gettext)Header Entry'
+#       info -n '(gettext)PO Files'
+#       info -n '(gettext)Header Entry'
+#
 # Equipo de traducción al español, por favor lean antes de traducir
 # los siguientes documentos:
-# - El proyecto de traducción de Debian al español
-# http://www.debian.org/intl/spanish/coordinacion
-# especialmente las notas de traducción en
-# http://www.debian.org/intl/spanish/notas
-# - La guía de traducción de po's de debconf:
-# /usr/share/doc/po-debconf/README-trans
-# o http://www.debian.org/intl/l10n/po-debconf/README-trans
 #
+#   - El proyecto de traducción de Debian al español
+#     http://www.debian.org/intl/spanish/
+#     especialmente las notas y normas de traducción en
+#     http://www.debian.org/intl/spanish/notas
+#
+#   - La guía de traducción de po's de debconf:
+#     /usr/share/doc/po-debconf/README-trans
+#     o http://www.debian.org/intl/l10n/po-debconf/README-trans
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.96\n"
+"Project-Id-Version: grub2 1.96+20090603-1\n"
 "Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
 "POT-Creation-Date: 2008-10-26 15:44+0100\n"
-"PO-Revision-Date: 2008-06-26 09:34-0430\n"
-"Last-Translator: Maria Germana Oliveira Blazetic <germanaoliveirab@gmail.com>\n"
-"Language-Team: Spanish\n"
+"PO-Revision-Date: 2009-06-05 11:58+0100\n"
+"Last-Translator: Francisco Javier Cuadrado <fcocuadrado@gmail.com>\n"
+"Language-Team: Debian l10n Spanish <debian-l10n-spanish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,51 +44,31 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates:1001
 msgid "Chainload from menu.lst?"
-msgstr "¿Desea realizar la carga en cadena desde menu.lst?"
+msgstr "¿Desea realizar la carga en cadena desde el archivo «menu.lst»?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
-msgstr ""
-"Los scripts de actualización han detectado en /boot/grub una configuración "
-"heredada de una versión anterior de GRUB."
+msgstr "Los scripts de actualización han detectado en «/boot/grub» una configuración heredada de una versión anterior de GRUB."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
-msgid ""
-"In order to replace the Legacy version of GRUB in your system, it is "
-"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
-"your existing GRUB Legacy setup.  This step may be automaticaly performed "
-"now."
-msgstr ""
-"Para reemplazar la versión anterior de GRUB en su sistema, se recomienda que "
-"se ajuste /boot/grub/menu.lst para que cargue en cadena a partir de su "
-"configuración preexistente de GRUB. Este paso debería hacerse ahora de forma "
-"automática."
+msgid "In order to replace the Legacy version of GRUB in your system, it is recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from your existing GRUB Legacy setup.  This step may be automaticaly performed now."
+msgstr "Para reemplazar la versión anterior de GRUB en el sistema, se recomienda que se configure «/boot/grub/menu.lst» para que cargue en cadena GRUB 2 a partir de la configuración heredada de GRUB. Este paso se debería hacer de forma automática."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
-msgid ""
-"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
-"verify that your new GRUB 2 setup is functional for you, before you install "
-"it directly to your MBR (Master Boot Record)."
-msgstr ""
-"Antes de instalar GRUB 2 directamente en el MBR («Master Boot Record») se "
-"recomienda que acepte cargarlo en cadena desde el menu.lst y que verifique "
-"que puede utilizar la nueva configuración de GRUB 2."
+msgid "It's recommended that you accept chainloading GRUB 2 from menu.lst, and verify that your new GRUB 2 setup is functional for you, before you install it directly to your MBR (Master Boot Record)."
+msgstr "Antes de instalar GRUB 2 directamente en el MBR («Master Boot Record») se recomienda que acepte cargarlo en cadena desde el archivo «menu.lst» y que verifique que puede utilizar la nueva configuración de GRUB 2."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
-msgid ""
-"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
-"can do so by issuing (as root) the following command:"
-msgstr ""
-"En cualquier caso, cuando quiera que GRUB 2 se inicie directamente desde el "
-"MBR, puede hacerlo usando (como root) la siguiente orden:"
+msgid "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you can do so by issuing (as root) the following command:"
+msgstr "En cualquier caso, cuando quiera que GRUB 2 se cargue directamente desde el MBR, puede hacerlo ejecutando (como usuario «root») la siguiente orden:"
 
 #. Type: boolean
 #. Description
@@ -92,13 +80,43 @@ msgstr "upgrade-from-grub-legacy"
 #. Description
 #: ../grub-pc.templates:2001
 msgid "Linux command line:"
-msgstr ""
+msgstr "Linea de órdenes de Linux:"
 
 #. Type: string
 #. Description
 #: ../grub-pc.templates:2001
-msgid ""
-"The following Linux command line was extracted from the `kopt' parameter in "
-"GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
-"necessary."
-msgstr ""
+msgid "The following Linux command line was extracted from the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if necessary."
+msgstr "La linea de órdenes de Linux se extrajo del parámetro «kopt» en el archivo «menu.lst» de la versión anterior de GRUB. Por favor, verifique que esto es correcto o modifíquelo si es necesario."
+
+#~ msgid "GRUB 1.95 numbering scheme transition"
+#~ msgstr "Esquema de transición numérica de GRUB 1.95"
+#~ msgid ""
+#~ "As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions "
+#~ "are now counted starting from 1 rather than 0.  This is to make it "
+#~ "consistent with device names of Linux and the other kernels used in "
+#~ "Debian.  For example, when using Linux as the kernel, \"(hd0,1)\" refers "
+#~ "to the same partition as the /dev/sda1 device node."
+#~ msgstr ""
+#~ "GRUB 2 ha cambiado el esquema de numeración, como en la versión 1.95. "
+#~ "Ahora las particiones comienzan en el número 1 en vez de en el número 0. "
+#~ "Esto sirve para hacerlo consistente con los nombres de dispositivos de "
+#~ "Linux y otros núcleos que se usan en Debian. Por ejemplo, cuando se usa "
+#~ "Linux como núcleo, «(hd0, 1)» se refiere a la misma partición que el "
+#~ "dispositivo «/dev/sda1»."
+#~ msgid ""
+#~ "Because of this, there's a chance your system becomes unbootable if "
+#~ "update-grub(8) is run before GRUB is updated, generating a grub.cfg file "
+#~ "that your installed GRUB won't yet be able to parse correctly.  To ensure "
+#~ "your system will be able to boot, you have to:"
+#~ msgstr ""
+#~ "Por este motivo, existe la posibilidad de que su sistema no sea capaz de "
+#~ "arrancar si se ejecuta update-grub(8) antes de actualizar GRUB, ya que se "
+#~ "generaría un archivo «grub.cfg» que la versión instalada de GRUB no podría "
+#~ "leer correctamente. Para asegurarse de que el sistema arrancará, debe:"
+#~ msgid ""
+#~ " - Reinstall GRUB (typically, by running grub-install).\n"
+#~ " - Rerun update-grub to generate a new grub.cfg."
+#~ msgstr ""
+#~ " - Reinstalar GRUB (normalmente, ejecutando grub-install).\n"
+#~ "- Volver a ejecutar update-grub para generar un nuevo archivo «grub.cfg»."
+

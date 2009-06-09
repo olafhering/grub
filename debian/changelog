@@ -18,7 +18,10 @@ grub2 (1.96+20090608-1) experimental; urgency=low
   * Change upgrade-from-grub-legacy to use `dpkg-reconfigure grub-pc' to
     install grub2 into MBR.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 08 Jun 2009 12:44:05 +0200
+  [ Updated translations ]
+  * Spanish (es.po) by Francisco Javier Cuadrado. (Closes: #532407)
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 09 Jun 2009 10:23:03 +0200
 
 grub2 (1.96+20090603-1) unstable; urgency=low
 
