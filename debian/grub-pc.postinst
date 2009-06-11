@@ -3,6 +3,12 @@
 case "$1" in
   configure)
     . /usr/share/debconf/confmodule
+
+    if grep -q "[= ]/sbin/update-grub" /etc/kernel-img.conf ; then
+      echo -e "\n/etc/kernel-img.conf still contains /sbin/update-grub in the hooks." >&2
+      echo -e "Running sed over it to remove the /sbin/ prefix.\n" >&2
+      sed -i /etc/kernel-img.conf -e "s,\(.*\)  */sbin/update-grub$,\1 update-grub,g"
+    fi
     mkdir -p /boot/grub
 
     if test -e /boot/grub/device.map && ! test -e /boot/grub/core.img ; then
