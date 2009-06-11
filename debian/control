@@ -56,7 +56,7 @@ Description: GRand Unified Bootloader, version 2 (common files)
 
 Package: grub-pc
 Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}), ucf
 Provides: grub
 Replaces: grub, grub2 (<< ${source:Version}), grub-common (= ${binary:Version})
 Conflicts: grub, desktop-base (= 4.0.5)
@@ -90,7 +90,7 @@ Description: GRUB bootable rescue images, version 2 (PC/BIOS version)
 
 Package: grub-coreboot
 Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64
-Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}
+Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}, ucf
 Provides: grub
 Replaces: grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: grub
@@ -110,7 +110,7 @@ Description: GRand Unified Bootloader, version 2 (Coreboot version)
 
 Package: grub-efi-ia32
 Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia
-Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}
+Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}, ucf
 Provides: grub
 Replaces: grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1), grub-efi
 Conflicts: grub
@@ -131,7 +131,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-IA32 version)
 
 Package: grub-efi-amd64
 Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia
-Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}
+Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}, ucf
 Provides: grub
 Replaces: grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: grub
@@ -153,7 +153,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-AMD64 version)
 Package: grub-ieee1275
 Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia powerpc ppc64
 Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}),
- powerpc-ibm-utils [powerpc ppc64], powerpc-utils [powerpc ppc64], bc [powerpc ppc64], ${misc:Depends}
+ powerpc-ibm-utils [powerpc ppc64], powerpc-utils [powerpc ppc64], bc [powerpc ppc64], ${misc:Depends}, ucf
 Provides: grub
 Replaces: grub, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: grub

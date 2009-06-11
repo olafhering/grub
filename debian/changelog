@@ -6,8 +6,10 @@ grub2 (1.96+20090609-2) experimental; urgency=low
   * Instead of arborting in the preinst if /etc/kernel-img.conf still
     contains /sbin/update-grub, change the file with sed. Policy allows
     this because it's not a conffile.
+  * Change /etc/default/grub to an ucf managed file instead of dpkg
+    conffile.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 11 Jun 2009 18:49:03 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 11 Jun 2009 20:49:40 +0200
 
 grub2 (1.96+20090609-1) experimental; urgency=low
 

@@ -1,6 +1,6 @@
 debian/presubj			usr/share/bug/grub-ieee1275
 debian/script			usr/share/bug/grub-ieee1275
-debian/default			etc
+debian/default			usr/share/grub
 debian/grub.d			etc
 debian/update-grub2		usr/sbin
 debian/update-grub		usr/sbin

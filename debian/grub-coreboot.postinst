@@ -3,7 +3,7 @@
 case "$1" in
   configure)
     ucf --three-way --debconf-ok /usr/share/grub/default/grub /etc/default/grub
-    ucfr grub-iee1275 /etc/default/grub
+    ucfr grub-coreboot /etc/default/grub
 
     if test -e /boot/grub/grub.cfg ; then
       update-grub
