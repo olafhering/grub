@@ -24,7 +24,7 @@ Index: loader/i386/linux.c
 --- loader/i386/linux.c	(revision 2233)
 +++ loader/i386/linux.c	(working copy)
 @@ -927,9 +927,9 @@ static grub_command_t cmd_linux, cmd_ini
- 
+
  GRUB_MOD_INIT(linux)
  {
 -  cmd_linux = grub_register_command ("linux", grub_cmd_linux,

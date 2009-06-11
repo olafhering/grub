@@ -3,11 +3,11 @@
 @@ -2,6 +2,10 @@
  # Sample GRUB configuration file
  #
- 
+
 +insmod biosdisk
 +insmod pc
 +insmod gpt
 +
  # Boot automatically after 30 secs.
  set timeout=30
- 
+

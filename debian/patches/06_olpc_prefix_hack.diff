@@ -7,7 +7,7 @@ diff -ur grub2-1.96+20080601.old/kern/ieee1275/init.c grub2-1.96+20080601/kern/i
 @@ -84,6 +84,9 @@
      /* We already set prefix in grub_machine_init().  */
      return;
- 
+
 +#ifdef __i386__
 +  grub_env_set ("prefix", "(sd,1)/");
 +#else
@@ -15,10 +15,10 @@ diff -ur grub2-1.96+20080601.old/kern/ieee1275/init.c grub2-1.96+20080601/kern/i
  				  sizeof (bootpath), 0))
      {
 @@ -121,6 +124,7 @@
- 
+
    grub_free (filename);
    grub_free (prefix);
 +#endif
  }
- 
+
  /* Claim some available memory in the first /memory node. */

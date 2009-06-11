@@ -2,7 +2,7 @@ diff -ur grub2/util/grub.d/10_linux.in grub2.new/util/grub.d/10_linux.in
 --- grub2/util/grub.d/10_linux.in	2008-06-26 09:03:26.000000000 +0200
 +++ grub2.new/util/grub.d/10_linux.in	2008-08-10 20:01:49.000000000 +0200
 @@ -67,18 +67,12 @@
- 
+
  test_gt ()
  {
 -  local a=`echo $1 | sed -e "s/vmlinu[zx]-//g"`
@@ -22,4 +22,4 @@ diff -ur grub2/util/grub.d/10_linux.in grub2.new/util/grub.d/10_linux.in
 +  dpkg --compare-versions "$a" gt "$b"
    return $?
  }
- 
+

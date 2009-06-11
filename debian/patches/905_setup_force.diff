@@ -15,10 +15,10 @@ Index: util/i386/pc/grub-install.in
 @@ -124,6 +124,9 @@
      esac
  done
- 
+
 +# added by debian patch
 +setup_force="--force"
 +
  # for make_system_path_relative_to_its_root()
  . ${libdir}/grub/grub-mkconfig_lib
- 
+

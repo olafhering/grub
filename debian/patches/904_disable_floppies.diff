@@ -10,7 +10,7 @@ Index: util/hostdisk.c
 @@ -544,6 +544,18 @@
  	  continue;
  	}
- 
+
 +      if (! strncmp (p, "/dev/fd", sizeof ("/dev/fd") - 1))
 +	{
 +	  char *q = p + sizeof ("/dev/fd") - 1;
