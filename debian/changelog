@@ -1,5 +1,7 @@
 grub2 (1.96+20090611-1) experimental; urgency=low
 
+  * New SVN snapshot.
+
   * Append .diff to patches/01_uuids_and_lvm_dont_play_along_nicely so
     it gets really applied.
   * Drop completely the build dependency on gcc-multilib.
@@ -9,7 +11,7 @@ grub2 (1.96+20090611-1) experimental; urgency=low
   * Change /etc/default/grub to an ucf managed file instead of dpkg
     conffile.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 11 Jun 2009 22:47:56 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 12 Jun 2009 11:46:24 +0200
 
 grub2 (1.96+20090609-1) experimental; urgency=low
 
