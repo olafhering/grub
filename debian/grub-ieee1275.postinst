@@ -3,7 +3,11 @@
 case "$1" in
   configure)
     ucf --three-way --debconf-ok /usr/share/grub/default/grub /etc/default/grub
-    ucfr grub-iee1275 /etc/default/grub
+    if [ "$2" = "1.96+20090611-1" ] ; then
+       ucfr --force grub-ieee1275 /etc/default/grub
+    else
+       ucfr grub-ieee1275 /etc/default/grub
+    fi
 
     if test -e /boot/grub/grub.cfg ; then
       update-grub

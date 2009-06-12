@@ -1,3 +1,11 @@
+grub2 (1.96+20090611-2) experimental; urgency=low
+
+  * Use ucfr --force in grub-ieee1275.postinst in case we're upgrading
+    from previous version. It registered /etc/default/grub wrongly with
+    package iee1275.
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 12 Jun 2009 12:05:19 +0200
+
 grub2 (1.96+20090611-1) experimental; urgency=low
 
   * New SVN snapshot.
