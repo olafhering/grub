@@ -4,8 +4,9 @@ grub2 (1.96+20090611-2) experimental; urgency=low
     from previous version. It registered /etc/default/grub wrongly with
     package iee1275.
   * Drop the build dependency on libc6-dev-i386.
+  * Remove ppc64 from the Architectures. It's totally dead.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 12 Jun 2009 15:19:38 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 12 Jun 2009 15:21:51 +0200
 
 grub2 (1.96+20090611-1) experimental; urgency=low
 

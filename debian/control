@@ -24,8 +24,8 @@ Vcs-Browser: http://svn.debian.org/viewsvn/pkg-grub/grub2/
 
 
 Package: grub2
-Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia powerpc ppc64
-Depends: grub-pc [i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia] | grub-ieee1275 [powerpc ppc64], ${misc:Depends}
+Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia powerpc 
+Depends: grub-pc [i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia] | grub-ieee1275 [powerpc], ${misc:Depends}
 Description: GRand Unified Bootloader, version 2 (dummy package)
  This is a dummy transitional package to handle GRUB 2 upgrades.  It can be
  safely removed.
@@ -44,7 +44,7 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
  grub-efi-amd64, depending on the architecture.
 
 Package: grub-common
-Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia powerpc ppc64
+Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia powerpc
 Depends: ${shlibs:Depends}, base-files (>= 4.0.1~), ${misc:Depends}
 Replaces: grub-pc (<< 1.96+20080804-1), grub-ieee1275 (<< 1.96+20080804-1), grub-efi (<< 1.96+20080804-1), grub-coreboot (<< 1.96+20080804-1), grub-linuxbios (<< 1.96+20080426-3)
 Suggests: multiboot-doc [i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia]
@@ -150,7 +150,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-AMD64 version)
  a BIOS interface has been activated).
 
 Package: grub-ieee1275
-Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia powerpc ppc64
+Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia powerpc
 Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}),
  powerpc-ibm-utils [powerpc ppc64], powerpc-utils [powerpc ppc64], bc [powerpc ppc64], ${misc:Depends}, ucf
 Provides: grub
