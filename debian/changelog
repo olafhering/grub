@@ -1,4 +1,7 @@
-grub2 (1.96+20090611-2) experimental; urgency=low
+grub2 (1.96+20090613-1) experimental; urgency=low
+
+  * New SVN snapshot.
+    - Fix parsing of --output in grub-mkconfig. (Closes: #532956)
 
   * Use ucfr --force in grub-ieee1275.postinst in case we're upgrading
     from previous version. It registered /etc/default/grub wrongly with
@@ -6,7 +9,7 @@ grub2 (1.96+20090611-2) experimental; urgency=low
   * Drop the build dependency on libc6-dev-i386.
   * Remove ppc64 from the Architectures. It's totally dead.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 12 Jun 2009 15:21:51 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sat, 13 Jun 2009 11:24:56 +0200
 
 grub2 (1.96+20090611-1) experimental; urgency=low
 
