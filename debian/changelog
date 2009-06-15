@@ -10,8 +10,9 @@ grub2 (1.96+20090613-1) experimental; urgency=low
   * Remove ppc64 from the Architectures. It's totally dead.
   * Add a note to /etc/default/grub that update-grub needs to be run to
     update grub.cfg. (Closes: #533026)
+  * Fix the svn-snapshot rule.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 14 Jun 2009 15:50:30 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 15 Jun 2009 23:25:19 +0200
 
 grub2 (1.96+20090611-1) experimental; urgency=low
 
