@@ -23,7 +23,7 @@ grub2 (1.96+20090611-1) experimental; urgency=low
   * Drop completely the build dependency on gcc-multilib.
   * Instead of arborting in the preinst if /etc/kernel-img.conf still
     contains /sbin/update-grub, change the file with sed. Policy allows
-    this because it's not a conffile.
+    thisi, because it's not a conffile, according to Colin Watson.
   * Change /etc/default/grub to an ucf managed file instead of dpkg
     conffile.
 
