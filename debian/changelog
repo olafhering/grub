@@ -23,8 +23,10 @@ grub2 (1.96+20090613-1) experimental; urgency=low
     - rules: Add grub-firmware-qemu targets.
     - debian/grub-firmware-qemu.dirs
     - debian/grub-firmware-qemu.install
+  * patches/906_revert_to_linux16.diff: Remove, now that gfxpayload is
+    supported.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Sat, 27 Jun 2009 00:43:16 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Sat, 27 Jun 2009 00:46:23 +0200
 
 grub2 (1.96+20090611-1) experimental; urgency=low
 
