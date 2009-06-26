@@ -3,6 +3,7 @@ grub2 (1.96+20090613-1) experimental; urgency=low
   * New SVN snapshot.
     - Fix parsing of --output in grub-mkconfig. (Closes: #532956)
 
+  [ Felix Zielcke ]
   * Use ucfr --force in grub-ieee1275.postinst in case we're upgrading
     from previous version. It registered /etc/default/grub wrongly with
     package iee1275.
@@ -13,7 +14,11 @@ grub2 (1.96+20090613-1) experimental; urgency=low
   * Fix the svn-snapshot rule.
   * Update Standards version to 3.8.1. No changes needed.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Wed, 17 Jun 2009 14:58:07 +0200
+  [ Robert Millan ]
+  * legacy/upgrade-from-grub-legacy: Invoke grub-pc.postinst directly rather
+    than dpkg-reconfigure.  Since we pretend we're upgrading, it will DTRT.
+
+ -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 26 Jun 2009 14:06:27 +0200
 
 grub2 (1.96+20090611-1) experimental; urgency=low
 
