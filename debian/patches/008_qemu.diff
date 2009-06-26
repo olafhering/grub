@@ -1,0 +1,682 @@
+2009-06-23  Robert Millan  <rmh.grub@aybabtu.com>
+
+	* conf/i386-qemu.rmk: New file.
+	* kern/i386/qemu/startup.S: Likewise.
+	* kern/i386/qemu/mmap.c: Likewise.
+	* boot/i386/qemu/boot.S: Likewise.
+	* include/grub/i386/qemu/time.h: Likewise.
+	* include/grub/i386/qemu/serial.h: Likewise.
+	* include/grub/i386/qemu/kernel.h: Likewise.
+	* include/grub/i386/qemu/console.h: Likewise.
+	* include/grub/i386/qemu/boot.h: Likewise.
+	* include/grub/i386/qemu/init.h: Likewise.
+	* include/grub/i386/qemu/machine.h: Likewise.
+	* include/grub/i386/qemu/loader.h: Likewise.
+	* include/grub/i386/qemu/memory.h: Likewise.
+
+	* conf/i386-coreboot.rmk (GRUB_BOOT_MACHINE_LINK_ADDR)
+	(GRUB_KERNEL_MACHINE_LINK_ADDR): New variables.
+	[qemu] (pkglib_IMAGES): Add `boot.img'.
+	[qemu] (boot_img_SOURCES, boot_img_ASFLAGS, boot_img_LDFLAGS)
+	[qemu] (boot_img_FORMAT): New variables.
+	[qemu] (bin_UTILITIES): Add `grub-mkimage'.
+	[qemu] (grub_mkimage_SOURCES, grub_mkimage_CFLAGS): New variables.
+	[qemu] (kernel_img_SOURCES, kernel_img_HEADERS, kernel_img_CFLAGS)
+	[qemu] (kernel_img_ASFLAGS, kernel_img_LDFLAGS)
+	[qemu] (kernel_img_FORMAT): New variables.
+
+	* configure.ac: Recognise `i386-qemu'.
+
+	* util/i386/pc/grub-mkimage.c (compress_kernel): Add dummy variant
+	(for no compression).
+	[GRUB_MACHINE_QEMU] (generate_image): Misc adjustments to produce
+	a valid i386 ROM image.  Make `GRUB_KERNEL_MACHINE_COMPRESSED_SIZE',
+	`GRUB_KERNEL_MACHINE_INSTALL_DOS_PART' and
+	`GRUB_KERNEL_MACHINE_INSTALL_BSD_PART' optional features (with
+	ifdefs).
+
+Index: conf/i386-qemu.rmk
+===================================================================
+--- conf/i386-qemu.rmk	(revision 0)
++++ conf/i386-qemu.rmk	(revision 0)
+@@ -0,0 +1,2 @@
++# -*- makefile -*-
++include $(srcdir)/conf/i386-coreboot.mk
+Index: conf/i386-coreboot.rmk
+===================================================================
+--- conf/i386-coreboot.rmk	(revision 2364)
++++ conf/i386-coreboot.rmk	(working copy)
+@@ -1,5 +1,8 @@
+ # -*- makefile -*-
+ 
++GRUB_BOOT_MACHINE_LINK_ADDR	= 0xffe00
++GRUB_KERNEL_MACHINE_LINK_ADDR	= 0x8200
++
+ COMMON_ASFLAGS	= -nostdinc -fno-builtin -m32
+ COMMON_CFLAGS = -fno-builtin -mrtd -mregparm=3 -m32
+ COMMON_LDFLAGS	= -m32 -nostdlib
+@@ -8,9 +11,9 @@
+ script/sh/lexer.c_DEPENDENCIES = grub_script.tab.h
+ 
+ # Images.
+-pkglib_PROGRAMS = kernel.img
++ifeq ($(platform), coreboot)
+ 
+-# For kernel.img.
++pkglib_PROGRAMS += kernel.img
+ kernel_img_SOURCES = kern/i386/coreboot/startup.S \
+ 	kern/i386/misc.S \
+ 	kern/i386/coreboot/init.c \
+@@ -34,8 +37,51 @@
+ 	machine/memory.h machine/loader.h list.h handler.h command.h
+ kernel_img_CFLAGS = $(COMMON_CFLAGS)
+ kernel_img_ASFLAGS = $(COMMON_ASFLAGS)
+-kernel_img_LDFLAGS = $(COMMON_LDFLAGS) -Wl,-N,-S,-Ttext,0x8200,-Bstatic
++kernel_img_LDFLAGS = $(COMMON_LDFLAGS) -Wl,-N,-S,-Ttext,$(GRUB_KERNEL_MACHINE_LINK_ADDR),-Bstatic
+ 
++endif
++
++ifeq ($(platform), qemu)
++
++pkglib_IMAGES += boot.img
++boot_img_SOURCES = boot/i386/qemu/boot.S
++boot_img_ASFLAGS = $(COMMON_ASFLAGS) -DGRUB_BOOT_MACHINE_LINK_ADDR=$(GRUB_BOOT_MACHINE_LINK_ADDR)
++boot_img_LDFLAGS = $(COMMON_LDFLAGS) $(TARGET_IMG_LDFLAGS)$(GRUB_BOOT_MACHINE_LINK_ADDR)
++boot_img_FORMAT = binary
++
++bin_UTILITIES += grub-mkimage
++grub_mkimage_SOURCES = util/i386/pc/grub-mkimage.c util/misc.c \
++	util/resolve.c
++grub_mkimage_CFLAGS = -DGRUB_KERNEL_MACHINE_LINK_ADDR=$(GRUB_KERNEL_MACHINE_LINK_ADDR)
++
++pkglib_IMAGES += kernel.img
++kernel_img_SOURCES = kern/i386/qemu/startup.S \
++	kern/i386/misc.S \
++	kern/i386/coreboot/init.c \
++	kern/i386/qemu/mmap.c \
++	kern/main.c kern/device.c \
++	kern/disk.c kern/dl.c kern/file.c kern/fs.c kern/err.c \
++	kern/misc.c kern/mm.c kern/reader.c kern/term.c \
++	kern/rescue_parser.c kern/rescue_reader.c \
++	kern/time.c kern/list.c kern/handler.c kern/command.c kern/corecmd.c \
++	kern/i386/dl.c kern/parser.c kern/partition.c \
++	kern/i386/tsc.c kern/i386/pit.c \
++	kern/generic/rtc_get_time_ms.c \
++	kern/generic/millisleep.c \
++	kern/env.c \
++	term/i386/pc/vga_text.c term/i386/vga_common.c \
++	symlist.c
++kernel_img_HEADERS = boot.h cache.h device.h disk.h dl.h elf.h elfload.h \
++	env.h err.h file.h fs.h kernel.h loader.h misc.h mm.h net.h parser.h \
++	partition.h pc_partition.h reader.h symbol.h term.h time.h types.h \
++	machine/boot.h machine/console.h machine/init.h \
++	machine/memory.h machine/loader.h list.h handler.h command.h
++kernel_img_CFLAGS = $(COMMON_CFLAGS) -DGRUB_BOOT_MACHINE_LINK_ADDR=$(GRUB_BOOT_MACHINE_LINK_ADDR)
++kernel_img_ASFLAGS = $(COMMON_ASFLAGS) -DGRUB_KERNEL_MACHINE_LINK_ADDR=$(GRUB_KERNEL_MACHINE_LINK_ADDR)
++kernel_img_LDFLAGS = $(COMMON_LDFLAGS) $(TARGET_IMG_LDFLAGS)$(GRUB_KERNEL_MACHINE_LINK_ADDR)
++kernel_img_FORMAT = binary
++endif
++
+ MOSTLYCLEANFILES += symlist.c kernel_syms.lst
+ DEFSYMFILES += kernel_syms.lst
+ 
+Index: kern/i386/qemu/startup.S
+===================================================================
+--- kern/i386/qemu/startup.S	(revision 0)
++++ kern/i386/qemu/startup.S	(revision 0)
+@@ -0,0 +1,108 @@
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 1999,2000,2001,2002,2003,2005,2006,2007,2008,2009 Free Software Foundation, Inc.
++ *
++ *  GRUB is free software: you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation, either version 3 of the License, or
++ *  (at your option) any later version.
++ *
++ *  GRUB is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <config.h>
++#include <grub/symbol.h>
++#include <grub/machine/memory.h>
++#include <grub/machine/kernel.h>
++
++	.text
++	.code32
++	.globl _start
++_start:
++	jmp	codestart
++
++	. = _start + GRUB_KERNEL_MACHINE_TOTAL_MODULE_SIZE
++VARIABLE(grub_total_module_size)
++	.long	0
++VARIABLE(grub_kernel_image_size)
++	.long	0
++VARIABLE(grub_prefix)
++	/* to be filled by grub-mkimage */
++
++	/*
++	 *  Leave some breathing room for the prefix.
++	 */
++
++	. = _start + GRUB_KERNEL_MACHINE_DATA_END
++
++codestart:
++	/* Relocate to low memory.  First we figure out our location.
++	   We will derive the rom start address and size from it.  */
++	call	1f
++1:	popl	%esi
++
++	/* We know rom size is a multiple of 64 kiB.  */
++	xorw	%si, %si
++
++	/* And it spans untill top of memory.  */
++	movl	%esi, %ecx
++	negl	%ecx
++
++	movl	$GRUB_KERNEL_MACHINE_LINK_ADDR, %edi
++	cld
++	rep
++	movsb
++	ljmp	$GRUB_MEMORY_MACHINE_PROT_MODE_CSEG, $1f
++1:
++
++	/* copy modules before cleaning out the bss */
++	movl	EXT_C(grub_total_module_size), %ecx
++	movl	EXT_C(grub_kernel_image_size), %esi
++	addl	%ecx, %esi
++	addl	$_start, %esi
++	decl	%esi
++	movl	$END_SYMBOL, %edi
++	addl	%ecx, %edi
++	decl	%edi
++	std
++	rep
++	movsb
++
++#ifdef APPLE_CC
++	/* clean out the bss */
++	bss_start_abs = ABS (bss_start)
++	bss_end_abs = ABS (bss_end)
++
++	movl    bss_start_abs, %edi
++
++	/* compute the bss length */
++	movl	bss_end_abs, %ecx
++	subl	%edi, %ecx
++#else
++	/* clean out the bss */
++	movl	$BSS_START_SYMBOL, %edi
++
++	/* compute the bss length */
++	movl	$END_SYMBOL, %ecx
++	subl	%edi, %ecx
++#endif
++			
++	/* clean out */
++	xorl	%eax, %eax
++	cld
++	rep
++	stosb
++
++	/*
++	 *  Call the start of main body of C code.
++	 */
++	call	EXT_C(grub_main)
++
++	/* This should never happen.  */
++	jmp	EXT_C(grub_stop)
+Index: kern/i386/qemu/mmap.c
+===================================================================
+--- kern/i386/qemu/mmap.c	(revision 0)
++++ kern/i386/qemu/mmap.c	(revision 0)
+@@ -0,0 +1,71 @@
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2009  Free Software Foundation, Inc.
++ *
++ *  GRUB is free software: you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation, either version 3 of the License, or
++ *  (at your option) any later version.
++ *
++ *  GRUB is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <grub/machine/init.h>
++#include <grub/machine/memory.h>
++#include <grub/machine/boot.h>
++#include <grub/types.h>
++#include <grub/err.h>
++#include <grub/misc.h>
++#include <grub/i386/cmos.h>
++
++#define QEMU_CMOS_MEMSIZE_HIGH		0x35
++#define QEMU_CMOS_MEMSIZE_LOW		0x34
++
++#define min(a,b)	((a) > (b) ? (b) : (a))
++
++grub_size_t grub_lower_mem, grub_upper_mem;
++
++grub_uint64_t mem_size;
++
++void
++grub_machine_mmap_init ()
++{
++  mem_size = grub_cmos_read (QEMU_CMOS_MEMSIZE_HIGH) << 24 | grub_cmos_read (QEMU_CMOS_MEMSIZE_LOW) << 16;
++
++  /* Don't ask... */
++  mem_size += (16 * 1024 * 1024);
++}
++
++grub_err_t
++grub_machine_mmap_iterate (int NESTED_FUNC_ATTR (*hook) (grub_uint64_t, grub_uint64_t, grub_uint32_t))
++{
++  /* This trashes the video bios, but for now we don't use it.  */
++  if (hook (0, GRUB_BOOT_MACHINE_LINK_ADDR, GRUB_MACHINE_MEMORY_AVAILABLE))
++    return 1;
++
++  /* Protect boot.img, which contains the gdt.  It is mapped below 0x100000 ... */
++  if (hook (GRUB_BOOT_MACHINE_LINK_ADDR,
++	    GRUB_BOOT_MACHINE_SIZE,
++	    GRUB_MACHINE_MEMORY_RESERVED))
++    return 1;
++
++  /* ... and at the top of memory.  */
++  if (hook ((grub_uint32_t) -GRUB_BOOT_MACHINE_SIZE,
++	    GRUB_BOOT_MACHINE_SIZE,
++	    GRUB_MACHINE_MEMORY_RESERVED))
++    return 1;
++
++  /* Everything else is free.  */
++  if (hook (0x100000,
++	    min (mem_size, (grub_uint32_t) -GRUB_BOOT_MACHINE_SIZE) - 0x100000,
++	    GRUB_MACHINE_MEMORY_AVAILABLE))
++    return 1;
++
++  return 0;
++}
+Index: boot/i386/qemu/boot.S
+===================================================================
+--- boot/i386/qemu/boot.S	(revision 0)
++++ boot/i386/qemu/boot.S	(revision 0)
+@@ -0,0 +1,67 @@
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 1999,2000,2001,2002,2003,2005,2006,2007,2008,2009 Free Software Foundation, Inc.
++ *
++ *  GRUB is free software: you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation, either version 3 of the License, or
++ *  (at your option) any later version.
++ *
++ *  GRUB is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <config.h>
++#include <grub/symbol.h>
++#include <grub/machine/memory.h>
++#include <grub/machine/boot.h>
++#include <grub/machine/kernel.h>
++
++	.text
++	.code16
++	.globl _start
++_start:
++	/* Disable interrupts.  */
++	cli
++
++	jmp	1f
++
++	. = _start + GRUB_BOOT_MACHINE_CORE_ENTRY_ADDR
++VARIABLE(grub_core_entry_addr)
++	.long	0
++1:
++
++	/* Process VGA rom.  */
++	call	$0xc000, $0x3
++
++	/* Set up %ds, %ss, and %es.  */
++	xorw	%ax, %ax
++	movw	%ax, %ds
++	movw	%ax, %ss
++	movw	%ax, %es
++
++	/* Set up the real mode stack.  */
++	movl	$GRUB_MEMORY_MACHINE_REAL_STACK, %esp
++
++	/* Transition to protected mode.  We use pushl to force generation
++	   of a flat return address.  */
++	pushl	$1f
++	DATA32	jmp real_to_prot
++	.code32
++1:
++	movl	grub_core_entry_addr, %edx
++	jmp	*%edx
++
++#include "../../../kern/i386/realmode.S"
++
++	/* Intel, in its infinite wisdom, decided to put the i8086 entry point
++	   *right here* and this is why we need this kludge.  */
++
++	. = GRUB_BOOT_MACHINE_SIZE - 16
++	jmp	_start
++	. = GRUB_BOOT_MACHINE_SIZE
+Index: configure.ac
+===================================================================
+--- configure.ac	(revision 2364)
++++ configure.ac	(working copy)
+@@ -85,6 +85,7 @@
+   i386-coreboot) ;;
+   i386-linuxbios) platform=coreboot ;;
+   i386-ieee1275) ;;
++  i386-qemu) ;;
+   powerpc-ieee1275) ;;
+   sparc64-ieee1275) ;;
+   *) AC_MSG_ERROR([platform "$platform" is not supported for target CPU "$target_cpu"]) ;;
+Index: include/grub/i386/qemu/time.h
+===================================================================
+--- include/grub/i386/qemu/time.h	(revision 0)
++++ include/grub/i386/qemu/time.h	(revision 0)
+@@ -0,0 +1 @@
++#include <grub/i386/coreboot/time.h>
+Index: include/grub/i386/qemu/serial.h
+===================================================================
+--- include/grub/i386/qemu/serial.h	(revision 0)
++++ include/grub/i386/qemu/serial.h	(revision 0)
+@@ -0,0 +1 @@
++#include <grub/i386/coreboot/serial.h>
+Index: include/grub/i386/qemu/kernel.h
+===================================================================
+--- include/grub/i386/qemu/kernel.h	(revision 0)
++++ include/grub/i386/qemu/kernel.h	(revision 0)
+@@ -0,0 +1,51 @@
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2005,2006,2007,2008,2009  Free Software Foundation, Inc.
++ *
++ *  GRUB is free software: you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation, either version 3 of the License, or
++ *  (at your option) any later version.
++ *
++ *  GRUB is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef GRUB_KERNEL_MACHINE_HEADER
++#define GRUB_KERNEL_MACHINE_HEADER	1
++
++/* The offset of GRUB_TOTAL_MODULE_SIZE.  */
++#define GRUB_KERNEL_MACHINE_TOTAL_MODULE_SIZE	0x8
++
++/* The offset of GRUB_KERNEL_IMAGE_SIZE.  */
++#define GRUB_KERNEL_MACHINE_KERNEL_IMAGE_SIZE	0xc
++
++/* The offset of GRUB_PREFIX.  */
++#define GRUB_KERNEL_MACHINE_PREFIX		0x10
++
++/* End of the data section. */
++#define GRUB_KERNEL_MACHINE_DATA_END		0x50
++
++#ifndef ASM_FILE
++
++#include <grub/symbol.h>
++#include <grub/types.h>
++
++/* The size of kernel image.  */
++extern grub_int32_t grub_kernel_image_size;
++
++/* The total size of module images following the kernel.  */
++extern grub_int32_t grub_total_module_size;
++
++/* The prefix which points to the directory where GRUB modules and its
++   configuration file are located.  */
++extern char grub_prefix[];
++
++#endif /* ! ASM_FILE */
++
++#endif /* ! GRUB_KERNEL_MACHINE_HEADER */
+Index: include/grub/i386/qemu/console.h
+===================================================================
+--- include/grub/i386/qemu/console.h	(revision 0)
++++ include/grub/i386/qemu/console.h	(revision 0)
+@@ -0,0 +1 @@
++#include <grub/i386/coreboot/console.h>
+Index: include/grub/i386/qemu/boot.h
+===================================================================
+--- include/grub/i386/qemu/boot.h	(revision 0)
++++ include/grub/i386/qemu/boot.h	(revision 0)
+@@ -0,0 +1,28 @@
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2009  Free Software Foundation, Inc.
++ *
++ *  GRUB is free software: you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation, either version 3 of the License, or
++ *  (at your option) any later version.
++ *
++ *  GRUB is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef GRUB_BOOT_MACHINE_HEADER
++#define GRUB_BOOT_MACHINE_HEADER	1
++
++/* The size of boot.img.  */
++#define GRUB_BOOT_MACHINE_SIZE			(0x100000 - GRUB_BOOT_MACHINE_LINK_ADDR)
++
++/* The offset of GRUB_CORE_ENTRY_ADDR.  */
++#define GRUB_BOOT_MACHINE_CORE_ENTRY_ADDR	0x4
++
++#endif
+Index: include/grub/i386/qemu/init.h
+===================================================================
+--- include/grub/i386/qemu/init.h	(revision 0)
++++ include/grub/i386/qemu/init.h	(revision 0)
+@@ -0,0 +1 @@
++#include <grub/i386/coreboot/init.h>
+Index: include/grub/i386/qemu/machine.h
+===================================================================
+--- include/grub/i386/qemu/machine.h	(revision 0)
++++ include/grub/i386/qemu/machine.h	(revision 0)
+@@ -0,0 +1,24 @@
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2009  Free Software Foundation, Inc.
++ *
++ *  GRUB is free software: you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation, either version 3 of the License, or
++ *  (at your option) any later version.
++ *
++ *  GRUB is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef GRUB_MACHINE_MACHINE_HEADER
++#define GRUB_MACHINE_MACHINE_HEADER	1
++
++#define GRUB_MACHINE_QEMU	1
++
++#endif /* ! GRUB_MACHINE_MACHINE_HEADER */
+Index: include/grub/i386/qemu/loader.h
+===================================================================
+--- include/grub/i386/qemu/loader.h	(revision 0)
++++ include/grub/i386/qemu/loader.h	(revision 0)
+@@ -0,0 +1 @@
++#include <grub/cpu/loader.h>
+Index: include/grub/i386/qemu/memory.h
+===================================================================
+--- include/grub/i386/qemu/memory.h	(revision 0)
++++ include/grub/i386/qemu/memory.h	(revision 0)
+@@ -0,0 +1,45 @@
++/* memory.h - describe the memory map */
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2002,2007  Free Software Foundation, Inc.
++ *
++ *  GRUB is free software: you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation, either version 3 of the License, or
++ *  (at your option) any later version.
++ *
++ *  GRUB is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef _GRUB_MEMORY_MACHINE_HEADER
++#define _GRUB_MEMORY_MACHINE_HEADER      1
++
++#include <grub/symbol.h>
++#include <grub/i386/pc/memory.h>
++
++#ifndef ASM_FILE
++#include <grub/err.h>
++#include <grub/types.h>
++#endif
++
++#define GRUB_MEMORY_MACHINE_LOWER_USABLE		0x9fc00		/* 640 kiB - 1 kiB */
++
++#define GRUB_MEMORY_MACHINE_UPPER_START			0x100000	/* 1 MiB */
++#define GRUB_MEMORY_MACHINE_LOWER_SIZE			GRUB_MEMORY_MACHINE_UPPER_START
++
++#ifndef ASM_FILE
++
++void grub_machine_mmap_init (void);
++
++grub_err_t EXPORT_FUNC(grub_machine_mmap_iterate)
++     (int NESTED_FUNC_ATTR (*hook) (grub_uint64_t, grub_uint64_t, grub_uint32_t));
++
++#endif
++
++#endif /* ! _GRUB_MEMORY_MACHINE_HEADER */
+Index: util/i386/pc/grub-mkimage.c
+===================================================================
+--- util/i386/pc/grub-mkimage.c	(revision 2364)
++++ util/i386/pc/grub-mkimage.c	(working copy)
+@@ -124,6 +124,17 @@
+   *core_size += GRUB_KERNEL_MACHINE_RAW_SIZE;
+ }
+ 
++#else
++
++static void
++compress_kernel (char *kernel_img, size_t kernel_size,
++               char **core_img, size_t *core_size)
++{
++  *core_img = xmalloc (kernel_size);
++  memcpy (*core_img, kernel_img, kernel_size);
++  *core_size = kernel_size;
++}
++
+ #endif
+ 
+ static void
+@@ -237,6 +248,8 @@
+   if (num > 0xffff)
+     grub_util_error ("the core image is too big");
+ 
++#if defined(GRUB_MACHINE_PCBIOS)
++
+   boot_path = grub_util_get_path (dir, "diskboot.img");
+   boot_size = grub_util_get_image_size (boot_path);
+   if (boot_size != GRUB_DISK_SECTOR_SIZE)
+@@ -253,13 +266,49 @@
+   free (boot_img);
+   free (boot_path);
+ 
++#elif defined(GRUB_MACHINE_QEMU)
++
++  {
++    char *rom_img;
++    size_t rom_size;
++
++    boot_path = grub_util_get_path (dir, "boot.img");
++    boot_size = grub_util_get_image_size (boot_path);
++    boot_img = grub_util_read_image (boot_path);
++
++    /* Rom sizes must be 64k-aligned.  */
++    rom_size = ALIGN_UP (core_size + boot_size, 64 * 1024);
++
++    rom_img = xmalloc (rom_size);
++    memset (rom_img, 0, rom_size);
++
++    memcpy (rom_img, core_img, core_size);
++
++    *((grub_int32_t *) (boot_img + GRUB_BOOT_MACHINE_CORE_ENTRY_ADDR))
++      = grub_cpu_to_le32 ((grub_uint32_t) -rom_size);
++
++    memcpy (rom_img + rom_size - boot_size, boot_img, boot_size);
++
++    free (core_img);
++    core_img = rom_img;
++    core_size = rom_size;
++
++    free (boot_img);
++    free (boot_path);
++  }
++
++#endif
++
+   *((grub_uint32_t *) (core_img + GRUB_KERNEL_MACHINE_TOTAL_MODULE_SIZE))
+     = grub_cpu_to_le32 (total_module_size);
+   *((grub_uint32_t *) (core_img + GRUB_KERNEL_MACHINE_KERNEL_IMAGE_SIZE))
+     = grub_cpu_to_le32 (kernel_size);
++#ifdef GRUB_KERNEL_MACHINE_COMPRESSED_SIZE
+   *((grub_uint32_t *) (core_img + GRUB_KERNEL_MACHINE_COMPRESSED_SIZE))
+     = grub_cpu_to_le32 (core_size - GRUB_KERNEL_MACHINE_RAW_SIZE);
++#endif
+ 
++#if defined(GRUB_KERNEL_MACHINE_INSTALL_DOS_PART) && defined(GRUB_KERNEL_MACHINE_INSTALL_BSD_PART)
+   /* If we included a drive in our prefix, let GRUB know it doesn't have to
+      prepend the drive told by BIOS.  */
+   if (prefix[0] == '(')
+@@ -269,6 +318,7 @@
+       *((grub_int32_t *) (core_img + GRUB_KERNEL_MACHINE_INSTALL_BSD_PART))
+ 	= grub_cpu_to_le32 (-2);
+     }
++#endif
+ 
+   if (GRUB_KERNEL_MACHINE_LINK_ADDR + core_size > GRUB_MEMORY_MACHINE_UPPER)
+     grub_util_error ("Core image is too big (%p > %p)\n",

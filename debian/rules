@@ -43,6 +43,10 @@ configure/grub-efi-amd64:: $(AUTOGEN_FILES)
 	mkdir -p $(subst configure/,build/,$@)
 	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=efi --target=amd64-pe --program-prefix=""
 
+configure/grub-firmware-qemu:: $(AUTOGEN_FILES)
+	mkdir -p $(subst configure/,build/,$@)
+	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=qemu
+
 configure/grub-common:: $(AUTOGEN_FILES)
 	mkdir -p $(subst configure/,build/,$@)
 	cd build/grub-common && $(CONFIGURE)
@@ -66,6 +70,17 @@ build/grub-rescue-pc:: build/grub-pc
 		--overlay=$@/rescue-disk/ \
 		--image-type=cdrom \
 		$(CURDIR)/$@/grub-rescue-cdrom.iso
+
+build/grub-firmware-qemu::
+	$(MAKE) -C $@
+	$(CURDIR)/$@/grub-mkimage -d $(CURDIR)/$@ \
+		at_keyboard \
+		ata serial \
+		pc gpt \
+		ext2 iso9660 reiserfs xfs fat tar \
+		normal ls cat help minicmd halt reboot configfile search \
+		multiboot linux \
+		-o $(CURDIR)/$@/grub.bin
 
 install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee1275 install/grub-coreboot::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/

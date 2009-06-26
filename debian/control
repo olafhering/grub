@@ -43,6 +43,7 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
  This is a dummy transitional package that depends on either grub-efi-ia32 or
  grub-efi-amd64, depending on the architecture.
 
+
 Package: grub-common
 Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia powerpc
 Depends: ${shlibs:Depends}, base-files (>= 4.0.1~), ${misc:Depends}
@@ -169,3 +170,16 @@ Description: GRand Unified Bootloader, version 2 (Open Firmware version)
  .
  This package contains a version of GRUB that has been built for use with
  Open Firmware implementations.
+
+Package: grub-firmware-qemu
+Architecture: all
+Depends: base-files (>= 4.0.1~), ${misc:Depends}
+Recommends: qemu
+Enhances: qemu
+Description: GRUB firmware image for QEMU
+ This package contains a binary of GRUB that has been built for use as
+ firmware for QEMU.  It can be used as a replacement for the standard
+ PC BIOS provided by the bochsbios package (bios.bin).
+ .
+ In order to make QEMU use this firmware, simply add `-bios grub.bin' when
+ invoking it.

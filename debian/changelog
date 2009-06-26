@@ -17,8 +17,14 @@ grub2 (1.96+20090613-1) experimental; urgency=low
   [ Robert Millan ]
   * legacy/upgrade-from-grub-legacy: Invoke grub-pc.postinst directly rather
     than dpkg-reconfigure.  Since we pretend we're upgrading, it will DTRT.
+  * Add grub-firmware-qemu package.
+    - patches/008_qemu.diff: QEMU port (patch from upstream).
+    - control (grub-firmware-qemu): New package.
+    - rules: Add grub-firmware-qemu targets.
+    - debian/grub-firmware-qemu.dirs
+    - debian/grub-firmware-qemu.install
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 26 Jun 2009 14:06:27 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Sat, 27 Jun 2009 00:43:16 +0200
 
 grub2 (1.96+20090611-1) experimental; urgency=low
 
