@@ -184,7 +184,7 @@ Description: GRUB firmware image for QEMU
  In order to make QEMU use this firmware, simply add `-bios grub.bin' when
  invoking it.
  .
- Note: this firmware is only suitable for QEMU.  If you want to install GRUB
- as firmware on real hardware, you can do so in combination with coreboot
- (http://www.coreboot.org/).  To support that, a grub-coreboot package is
- also provided.
+ This package behaves in the same way as GRUB for coreboot, but doesn't
+ contain any code from coreboot itself, and is only suitable for QEMU. If
+ you want to install GRUB as firmware on real hardware, you need to use the
+ grub-coreboot package, and manually combine that with coreboot.

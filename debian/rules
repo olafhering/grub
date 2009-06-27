@@ -72,13 +72,21 @@ build/grub-rescue-pc:: build/grub-pc
 
 build/grub-firmware-qemu::
 	$(MAKE) -C $@
+	grub_dir=`mktemp -d` ; \
+	grub_memdisk=`mktemp` ; \
+	mkdir -p $${grub_dir}/boot/grub ; \
+	cp debian/grub-firmware-qemu_grub.cfg $${grub_dir}/boot/grub/grub.cfg ; \
+	tar -cf - -C $${grub_dir} boot > $${grub_memdisk} ; \
 	$(CURDIR)/$@/grub-mkimage -d $(CURDIR)/$@ \
 		at_keyboard \
 		ata serial \
 		pc gpt \
 		ext2 iso9660 reiserfs xfs fat tar \
-		normal ls cat help minicmd halt reboot configfile search \
+		normal sh ls cat help minicmd halt reboot configfile sleep search echo \
 		multiboot linux \
+		halt reboot \
+		memdisk \
+		-m $${grub_memdisk} \
 		-o $(CURDIR)/$@/grub.bin
 
 install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee1275 install/grub-coreboot::
