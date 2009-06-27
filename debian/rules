@@ -15,10 +15,9 @@ else
 endif
 
 # optimize loader/i386/linux.c for the linux shipped in debian
-CFLAGS += -DGRUB_ASSUME_LINUX_HAS_FB_SUPPORT=1
+TARGET_CFLAGS += -DGRUB_ASSUME_LINUX_HAS_FB_SUPPORT=1
 
-export CFLAGS
-export CXXFLAGS := $(CFLAGS)
+export TARGET_CFLAGS
 
 CONFIGURE = CC="cc" CXX="g++" CPPFLAGS="" LDFLAGS="" \
 	$(CURDIR)/configure --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --includedir="\$${prefix}/include" \
