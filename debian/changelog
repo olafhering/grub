@@ -1,4 +1,4 @@
-grub2 (1.96+20090613-1) experimental; urgency=low
+grub2 (1.96+20090627-1) experimental; urgency=low
 
   * New SVN snapshot.
     - Fix parsing of --output in grub-mkconfig. (Closes: #532956)
