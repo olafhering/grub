@@ -77,15 +77,9 @@ build/grub-firmware-qemu::
 	mkdir -p $${grub_dir}/boot/grub ; \
 	cp debian/grub-firmware-qemu_grub.cfg $${grub_dir}/boot/grub/grub.cfg ; \
 	tar -cf - -C $${grub_dir} boot > $${grub_memdisk} ; \
-	$(CURDIR)/$@/grub-mkimage -d $(CURDIR)/$@ \
-		at_keyboard \
-		ata serial \
-		pc gpt \
-		ext2 iso9660 reiserfs xfs fat tar \
-		normal sh ls cat help minicmd halt reboot configfile sleep search echo \
-		multiboot linux \
-		halt reboot \
-		memdisk \
+	$(CURDIR)/$@/grub-mkimage \
+		-d $(CURDIR)/$@ \
+		$(CURDIR)/$@/*.mod \
 		-m $${grub_memdisk} \
 		-o $(CURDIR)/$@/grub.bin
 
