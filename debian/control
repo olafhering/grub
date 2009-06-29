@@ -172,7 +172,7 @@ Description: GRand Unified Bootloader, version 2 (Open Firmware version)
  Open Firmware implementations.
 
 Package: grub-firmware-qemu
-Architecture: all
+Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia
 Depends: base-files (>= 4.0.1~), ${misc:Depends}
 Recommends: qemu
 Enhances: qemu
