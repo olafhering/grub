@@ -1,8 +1,10 @@
 grub2 (1.96+20090629-2) unstable; urgency=low
 
   * rules: Remove duplicated files in sparc64-ieee1275 port.
+  * patches/003_fix_sparc_grub_emu.diff: New.  Fix grub-emu build declarations
+    on sparc, using powerpc ones as a base.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 29 Jun 2009 23:15:46 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Tue, 30 Jun 2009 00:49:15 +0200
 
 grub2 (1.96+20090629-1) unstable; urgency=low
 
