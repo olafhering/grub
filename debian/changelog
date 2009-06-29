@@ -1,10 +1,13 @@
-grub2 (1.96+20090628-2) unstable; urgency=low
+grub2 (1.96+20090629-1) unstable; urgency=low
+
+  * New SVN snapshot.
+    - Misc fixes in Linux loader.
 
   * control (grub-firmware-qemu): Make it buildable only on i386/amd64.
   * control: Add sparc (grub-ieee1275), remove remnants of ppc64.
   * rules: Include all modules in grub-firmware-qemu build.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 29 Jun 2009 16:23:43 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 29 Jun 2009 19:22:37 +0200
 
 grub2 (1.96+20090628-1) unstable; urgency=low
 
