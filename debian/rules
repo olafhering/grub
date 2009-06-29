@@ -116,7 +116,7 @@ install/grub-common::
 
 clean:: debian/legacy/update-grub
 	chmod +x debian/{script,grub.d/*,legacy/*}
-	-rm -f debian/grub-{pc,efi,ieee1275,coreboot}.docs
+	-rm -f debian/grub-{pc,efi-*,ieee1275,coreboot}.{docs,manpages}
 	-rm -rf build
 
 	# make sure PO files are always up-to-date
