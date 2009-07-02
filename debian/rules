@@ -15,7 +15,7 @@ else
 endif
 
 # optimize loader/i386/linux.c for the linux shipped in debian
-TARGET_CFLAGS += -DGRUB_ASSUME_LINUX_HAS_FB_SUPPORT=1
+#TARGET_CFLAGS += -DGRUB_ASSUME_LINUX_HAS_FB_SUPPORT=1
 
 export TARGET_CFLAGS
 

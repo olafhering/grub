@@ -1,6 +1,8 @@
 grub2 (1.96+20090629-2) unstable; urgency=low
 
   * rules: Remove duplicated files in sparc64-ieee1275 port.
+  * rules: Comment out -DGRUB_ASSUME_LINUX_HAS_FB_SUPPORT=1 setting.  We'll
+    re-evaluate using it when it's more mature.  (Closes: #535026).
 
  -- Robert Millan <rmh.debian@aybabtu.com>  Tue, 30 Jun 2009 00:49:15 +0200
 
