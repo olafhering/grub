@@ -1,4 +1,6 @@
-grub2 (1.96+20090702-2) unstable; urgency=low
+grub2 (1.96+20090709-1) unstable; urgency=low
+
+  * New SVN snapshot.
 
   * control (Build-Depends): Add gcc-multilib [sparc].
   * copyright: Rewrite using DEP-5 format.
@@ -8,7 +10,7 @@ grub2 (1.96+20090702-2) unstable; urgency=low
     - rules
     - copyright
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Wed, 08 Jul 2009 22:32:49 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Thu, 09 Jul 2009 00:26:49 +0200
 
 grub2 (1.96+20090702-1) unstable; urgency=low
 
