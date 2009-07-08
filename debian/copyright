@@ -1,23 +1,19 @@
-This package was debianized by Robert Millan <rmh@debian.org> on
-Mon, 15 Sep 2003 14:58:42 +0000.
+Name: GNU GRUB
+Source: http://www.gnu.org/software/grub/grub-2.en.html
 
-It was downloaded from http://www.gnu.org/software/grub/
+Files: *
+Copyright: 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, Free Software Foundation, Inc
+License: GPL-3+
 
-Copyright: Free Software Foundation
+Files: debian/*
+Copyright: 2003, 2004, 2005, 2006, 2007, 2008, 2009, Robert Millan
+	   2005, 2006, 2007, Otavio Salvador
+	   2008, 2009, Felix Zielcke
+	   2009, Jordi Mallach
+License: GPL-3+
 
-License:
 
-  GRUB is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  GRUB is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  You should have received a copy of the GNU General Public License
-  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
-
-On Debian systems, the complete text of the GNU General
-Public License can be found in `/usr/share/common-licenses/GPL'.
+License: GPL-3+
+ On Debian systems the full text of the GNU General Public
+ License can be found in the `/usr/share/common-licenses/GPL'
+ file.
