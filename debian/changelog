@@ -2,6 +2,11 @@ grub2 (1.96+20090702-2) unstable; urgency=low
 
   * control (Build-Depends): Add gcc-multilib [sparc].
   * copyright: Rewrite using DEP-5 format.
+  * Merge grub-extras into the package, and integrate it with GRUB's
+    build system.
+    - patches/906_grub_extras.diff
+    - rules
+    - copyright
 
  -- Robert Millan <rmh.debian@aybabtu.com>  Wed, 08 Jul 2009 22:32:49 +0200
 

@@ -114,7 +114,7 @@ install/grub-common::
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{update-grub,grub-install,grub-setup}{,.8}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/grub-{mkimage,mkrescue}{,.1}
 
-clean:: debian/legacy/update-grub
+clean:: debian/legacy/update-grub debian/grub-extras
 	chmod +x debian/{script,grub.d/*,legacy/*}
 	-rm -f debian/grub-{pc,efi-*,ieee1275,coreboot}.{docs,manpages}
 	-rm -rf build
@@ -123,8 +123,12 @@ clean:: debian/legacy/update-grub
 	debconf-updatepo
 
 debian/legacy/update-grub:
-	svn cat svn://svn.debian.org/pkg-grub/grub/trunk/debian/update-grub > $@
-	chmod +x $@
+	@echo "Missing $@.  Try: \"svn cat svn://svn.debian.org/pkg-grub/grub/trunk/debian/update-grub > $@\""
+	exit 1
+
+debian/grub-extras:
+	@echo "Missing $@.  Try: \"svn export svn://svn.sv.nongnu.org/grub-extras/trunk $@\""
+	exit 1
 
 # Grab fixes from SVN using our version as reference.
 svn-sync:

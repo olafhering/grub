@@ -2,7 +2,7 @@ Name: GNU GRUB
 Source: http://www.gnu.org/software/grub/grub-2.en.html
 
 Files: *
-Copyright: 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, Free Software Foundation, Inc
+Copyright: 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009  Free Software Foundation, Inc
 License: GPL-3+
 
 Files: debian/*
@@ -12,6 +12,11 @@ Copyright: 2003, 2004, 2005, 2006, 2007, 2008, 2009, Robert Millan
 	   2009, Jordi Mallach
 License: GPL-3+
 
+Files: debian/grub-extras/*
+Copyright: Nathan Coulson
+           2003, 2007  Free Software Foundation, Inc
+           2003  NIIBE Yutaka
+License: GPL-3+
 
 License: GPL-3+
  On Debian systems the full text of the GNU General Public
