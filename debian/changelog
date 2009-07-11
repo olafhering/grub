@@ -1,3 +1,12 @@
+grub2 (1.96+20090711-1) unstable; urgency=low
+
+  * New SVN snapshot.
+
+  * Change License of my update-grub(8) and update-grub2(8) manpages to
+    GPL3+ to match new copyright file.
+
+ -- Felix Zielcke <fz@(none)>  Sat, 11 Jul 2009 16:02:45 +0200
+
 grub2 (1.96+20090709-1) unstable; urgency=low
 
   * New SVN snapshot.
