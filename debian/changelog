@@ -4,8 +4,9 @@ grub2 (1.96+20090711-1) unstable; urgency=low
 
   * Change License of my update-grub(8) and update-grub2(8) manpages to
     GPL3+ to match new copyright file.
+  * Merge from Ubuntu: Don't build grub-efi-amd64 on lpia.
 
- -- Felix Zielcke <fz@(none)>  Sat, 11 Jul 2009 16:02:45 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Wed, 15 Jul 2009 16:05:35 +0200
 
 grub2 (1.96+20090709-1) unstable; urgency=low
 
