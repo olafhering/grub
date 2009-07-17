@@ -8,8 +8,10 @@ grub2 (1.96+20090711-1) unstable; urgency=low
   * Don't pass `--enable-efiemu' to configure. On kfreebsd-i386 it won't
     compile and it should be now auto detected if it's compilable.
     (Closes: #536783)
+  * Don't build grub-efi-amd64 on kfreebsd-i386. It lacks 64bit compiler
+    support.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 17 Jul 2009 12:42:27 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 17 Jul 2009 12:44:05 +0200
 
 grub2 (1.96+20090709-1) unstable; urgency=low
 
