@@ -11,8 +11,9 @@ grub2 (1.96+20090711-1) unstable; urgency=low
   * Don't build grub-efi-amd64 on kfreebsd-i386. It lacks 64bit compiler
     support.
   * Rename the lintian override for kernel.elf to kernel.img.
+  * Strip kernel.img not kernel.elf.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 19 Jul 2009 11:02:57 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 19 Jul 2009 11:10:52 +0200
 
 grub2 (1.96+20090709-1) unstable; urgency=low
 

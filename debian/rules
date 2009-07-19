@@ -98,7 +98,7 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 		cp debian/$$i.in debian/$(subst install/,,$@).$$i ; \
 	done
 
-	i=$(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/*/kernel.elf ; if test -e $$i ; then strip -s $$i ; fi
+	i=$(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/*/kernel.img ; if test -e $$i ; then strip -s $$i ; fi
 
 	mkdir -p $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides
 	cd $(CURDIR)/debian/$(subst install/,,$@) && find ./usr/lib/grub -name \*.mod \
