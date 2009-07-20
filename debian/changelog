@@ -10,10 +10,11 @@ grub2 (1.96+20090711-1) unstable; urgency=low
     (Closes: #536783)
   * Don't build grub-efi-amd64 on kfreebsd-i386. It lacks 64bit compiler
     support.
-  * Rename the lintian override for kernel.elf to kernel.img.
+  * Rename the lintian override for kernel.elf to kernel.img, but don't
+    add it for grub-pc.
   * Strip kernel.img not kernel.elf, but not in the case of grub-pc.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 19 Jul 2009 13:17:14 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 20 Jul 2009 20:20:33 +0200
 
 grub2 (1.96+20090709-1) unstable; urgency=low
 
@@ -77,7 +78,7 @@ grub2 (1.96+20090627-1) experimental; urgency=low
   * Add a note to /etc/default/grub that update-grub needs to be run to
     update grub.cfg. (Closes: #533026)
   * Fix the svn-snapshot rule.
-  * Update Standards version to 3.8.1. No changes needed.
+  * Update Standards version to 3.8.2. No changes needed.
 
   [ Robert Millan ]
   * legacy/upgrade-from-grub-legacy: Invoke grub-pc.postinst directly rather
