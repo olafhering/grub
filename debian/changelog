@@ -3,8 +3,9 @@ grub2 (1.96+20090721-3) unstable; urgency=low
   * New SVN snapshot.
     - Don't add drivemap call with Windows Vista/7. It breaks Win 7.
       (LP: #402154)
+  * Don't strip kernel.img on sparc.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 21 Jul 2009 15:42:51 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 21 Jul 2009 16:13:08 +0200
 
 grub2 (1.96+20090721-2) unstable; urgency=low
 
