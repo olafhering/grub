@@ -13,8 +13,9 @@ grub2 (1.96+20090711-1) unstable; urgency=low
   * Rename the lintian override for kernel.elf to kernel.img, but don't
     add it for grub-pc.
   * Strip kernel.img not kernel.elf, but not in the case of grub-pc.
+  * Rename the Conflicts/Replaces grub to grub-legacy. (Closes: #537824)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Mon, 20 Jul 2009 20:20:33 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 21 Jul 2009 10:28:20 +0200
 
 grub2 (1.96+20090709-1) unstable; urgency=low
 
