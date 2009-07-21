@@ -1,3 +1,9 @@
+grub2 (1.96+20090721-2) unstable; urgency=low
+
+  * Add back Conflicts/Replaces grub.
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 21 Jul 2009 11:24:45 +0200
+
 grub2 (1.96+20090721-1) unstable; urgency=low
 
   * New SVN snapshot.
