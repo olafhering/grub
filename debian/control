@@ -115,7 +115,7 @@ Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}, 
 Provides: grub
 Replaces: grub, grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1), grub-efi
 Conflicts: grub, grub-legacy
-Suggests: os-prober
+Suggests: os-prober, efibootmgr
 Description: GRand Unified Bootloader, version 2 (EFI-IA32 version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
@@ -136,7 +136,7 @@ Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}, 
 Provides: grub
 Replaces: grub, grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
 Conflicts: grub, grub-legacy
-Suggests: os-prober
+Suggests: os-prober, efibootmgr
 Description: GRand Unified Bootloader, version 2 (EFI-AMD64 version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
