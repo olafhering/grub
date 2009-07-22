@@ -1,3 +1,9 @@
+grub2 (1.96+20090721-4) unstable; urgency=low
+
+  * Place grub-ofpathname only in grub-common. (Closes: #537999)
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Wed, 22 Jul 2009 13:38:24 +0200
+
 grub2 (1.96+20090721-3) unstable; urgency=low
 
   * Don't strip kernel.img on sparc.
