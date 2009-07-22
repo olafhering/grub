@@ -131,7 +131,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-IA32 version)
  a BIOS interface has been activated).
 
 Package: grub-efi-amd64
-Architecture: i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64
+Architecture: i386 kopensolaris-i386 amd64 kfreebsd-amd64
 Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}, ucf
 Provides: grub
 Replaces: grub, grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1)
