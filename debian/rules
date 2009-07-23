@@ -105,7 +105,7 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 	fi
 
 	mkdir -p $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides
-	echo "unstripped-binary-or-object *.mod" \
+	echo "$(subst install/,,$@): unstripped-binary-or-object *.mod" \
 		>> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@)
 	if [ "$@" != "install/grub-pc" ] && [ "$(DEB_HOST_ARCH)" != "sparc" ] ; then \
 		cd $(CURDIR)/debian/$(subst install/,,$@) && find ./usr/lib/grub -name kernel.img \
@@ -113,11 +113,11 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 		>> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@) ; \
 	fi
 	if [ "$@" = "install/grub-efi-amd64" ] && [ "$(DEB_HOST_ARCH)" = "i386" ] ; then \
-		echo "binary-from-other-architecture *.mod" \
+		echo "$(subst install/,,$@): binary-from-other-architecture *.mod" \
 			>> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@) ; \
 	fi
 	if [ "$@" = "install/grub-pc" ] && [ "$(DEB_HOST_ARCH)" = "i386" ] ; then \
-		echo "binary-from-other-architecture *efiemu64.o" ; \
+		echo "$(subst install/,,$@): binary-from-other-architecture *efiemu64.o" ; \
 	fi
 
 install/grub-common::
