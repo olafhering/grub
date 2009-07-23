@@ -3,8 +3,10 @@ grub2 (1.96+20090721-5) unstable; urgency=low
   * Don't build grub-efi-amd64 on hurd-i386.
   * Change DEB_BUILD_ARCH to DEB_HOST_ARCH in the check for sparc.
   * Don't add the lintian override for kernel.img for sparc and grub-pc.
+  * Add a lintian override for binary-from-other-architecture for grub-
+    efi-amd64 on i386.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 23 Jul 2009 12:08:49 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 23 Jul 2009 12:22:06 +0200
 
 grub2 (1.96+20090721-4) unstable; urgency=low
 
