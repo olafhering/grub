@@ -118,6 +118,11 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 			| sed -e "s%.*%$(subst install/,,$@): binary-from-other-architecture &%g" \
 		>> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@) ; \
 	fi
+	if [ "$@" = "install/grub-pc" ] && [ "$(DEB_HOST_ARCH)" = "i386" ] ; then \
+		cd $(CURDIR)/debian/$(subst install/,,$@) && find ./usr/lib/grub -name efiemu64.o \
+			| sed -e "s%.*%$(subst install/,,$@): binary-from-other-architecture &%g" \
+		>> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@) ; \
+	fi
 
 install/grub-common::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
