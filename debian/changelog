@@ -1,4 +1,8 @@
-grub2 (1.96+20090721-5) unstable; urgency=low
+grub2 (1.96+20090725-1) unstable; urgency=low
+
+  * New SVN snapshot.
+    - Don't add drivemap call with Windows Vista/7. It breaks Win 7.
+      (LP: #402154)
 
   * Don't build grub-efi-amd64 on hurd-i386.
   * Change DEB_BUILD_ARCH to DEB_HOST_ARCH in the check for sparc.
