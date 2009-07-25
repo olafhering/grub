@@ -1,4 +1,4 @@
-grub2 (1.96+20090725-1) unstable; urgency=low
+grub2 (1.96+20090725-1) unstable; urgency=high
 
   * New SVN snapshot.
     - Don't add drivemap call with Windows Vista/7. It breaks Win 7.
@@ -18,6 +18,8 @@ grub2 (1.96+20090725-1) unstable; urgency=low
   * 008_dac_palette_width.diff: New patch.  Fix blank screen when booting
     Linux with vga= paramter set to a packed color mode (<= 8-bit).
     (Closes: #535026)
+  * Set urgency=high because #535026 affects 1.96+20090709-1 which is in
+    testing now.
 
  -- Robert Millan <rmh.debian@aybabtu.com>  Sat, 25 Jul 2009 03:10:08 +0200
 
