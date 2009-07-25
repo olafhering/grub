@@ -3,7 +3,6 @@ grub2 (1.96+20090725-1) unstable; urgency=high
   * New SVN snapshot.
     - Don't add drivemap call with Windows Vista/7. It breaks Win 7.
       (LP: #402154)
-    - Fix an error check. (Closes: #503344)
 
   [ Felix Zielcke ]
   * Don't build grub-efi-amd64 on hurd-i386.
