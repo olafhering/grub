@@ -17,12 +17,12 @@ grub2 (1.96+20090725-1) unstable; urgency=high
 
   [ Robert Millan ]
   * 008_dac_palette_width.diff: New patch.  Fix blank screen when booting
-    Linux with vga= paramter set to a packed color mode (<= 8-bit).
+    Linux with vga= parameter set to a packed color mode (<= 8-bit).
     (Closes: #535026)
   * Set urgency=high because #535026 affects 1.96+20090709-1 which is in
     testing now.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sat, 25 Jul 2009 11:32:26 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Sat, 25 Jul 2009 13:54:35 +0200
 
 grub2 (1.96+20090721-4) unstable; urgency=low
 
