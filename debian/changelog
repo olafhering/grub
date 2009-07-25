@@ -21,8 +21,10 @@ grub2 (1.96+20090725-1) unstable; urgency=high
     (Closes: #535026)
   * Set urgency=high because #535026 affects 1.96+20090709-1 which is in
     testing now.
+  * patches/907_terminal_output_workaround.diff: Work around recent regression
+    with terminal_output command (not critical, just breaks gfxterm).
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Sat, 25 Jul 2009 13:54:35 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Sat, 25 Jul 2009 19:00:53 +0200
 
 grub2 (1.96+20090721-4) unstable; urgency=low
 
