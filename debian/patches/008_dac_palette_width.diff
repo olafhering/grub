@@ -1,0 +1,111 @@
+Index: kern/i386/pc/startup.S
+===================================================================
+--- kern/i386/pc/startup.S	(revision 2439)
++++ kern/i386/pc/startup.S	(working copy)
+@@ -1733,6 +1733,52 @@
+ 	ret
+ 
+ /*
++ * grub_vbe_status_t grub_vbe_bios_getset_dac_palette_width (int set, int *dac_mask_size)
++ *
++ * Register allocations for parameters:
++ * %eax		set
++ * %edx		*dac_mask_size
++ */
++FUNCTION(grub_vbe_bios_getset_dac_palette_width)
++	pushl	%ebp
++	pushl	%ebx
++
++	xorl	%ebx, %ebx
++
++	/* If we only want to fetch the value, set %bl to 1.  */
++	testl	%eax, %eax
++	jne	1f
++	incb	%bl
++1:
++
++	/* Put desired width in %bh.  */
++	movl	(%edx), %eax
++	movb	%al, %bh
++
++	call    prot_to_real
++	.code16
++
++	movw	$0x4f08, %ax
++	int	$0x10
++
++	movw	%ax, %dx	/* real_to_prot destroys %eax.  */
++
++	DATA32 call	real_to_prot
++	.code32
++
++	/* Move result back to *dac_mask_size.  */
++	movb	%bh, %al
++	movl	%eax, (%edx)
++
++	/* Return value in %eax.  */
++	xorl	%eax, %eax
++	movw	%dx, %ax
++
++	popl	%ebx
++	popl	%ebp
++	ret
++
++/*
+  * grub_vbe_status_t grub_vbe_bios_set_memory_window (grub_uint32_t window,
+  *						      grub_uint32_t position);
+  *
+Index: video/i386/pc/vbe.c
+===================================================================
+--- video/i386/pc/vbe.c	(revision 2439)
++++ video/i386/pc/vbe.c	(working copy)
+@@ -300,6 +300,24 @@
+ 
+       /* Make copy of mode info block.  */
+       grub_memcpy (mode_info, mi_tmp, sizeof (*mode_info));
++
++      /* Packed mode.  Query DAC Palette width for color sizes.  */
++      if (mode_info->bits_per_pixel <= 8)
++	{
++	  int width = 8;
++	  status = 0;
++
++	  if (controller_info.capabilities & GRUB_VBE_CAPABILITY_DACWIDTH)
++	    status = grub_vbe_bios_set_dac_palette_width (& width);
++
++	  if (status != 0x004F)
++	    /* 6 is default after mode reset.  */
++	    width = 6;
++
++	  mode_info->red_mask_size = mode_info->green_mask_size
++	    = mode_info->blue_mask_size = mode_info->rsvd_mask_size
++	    = width;
++	}
+     }
+   else
+     /* Just clear mode info block if it isn't a VESA mode.  */
+Index: include/grub/i386/pc/vbe.h
+===================================================================
+--- include/grub/i386/pc/vbe.h	(revision 2439)
++++ include/grub/i386/pc/vbe.h	(working copy)
+@@ -30,6 +30,8 @@
+ /* VBE status codes.  */
+ #define GRUB_VBE_STATUS_OK		0x004f
+ 
++#define GRUB_VBE_CAPABILITY_DACWIDTH	(1 << 0)
++
+ /* Bits from the GRUB_VBE "mode_attributes" field in the mode info struct.  */
+ #define GRUB_VBE_MODEATTR_SUPPORTED                 (1 << 0)
+ #define GRUB_VBE_MODEATTR_RESERVED_1                (1 << 1)
+@@ -181,6 +183,11 @@
+ grub_vbe_status_t EXPORT_FUNC(grub_vbe_bios_get_mode_info) (grub_uint32_t mode,
+                                                             struct grub_vbe_mode_info_block *mode_info);
+ 
++grub_vbe_status_t EXPORT_FUNC(grub_vbe_bios_getset_dac_palette_width) (int set, int *width);
++
++#define grub_vbe_bios_get_dac_palette_width(width)	grub_vbe_bios_getset_dac_palette_width(0, (width))
++#define grub_vbe_bios_set_dac_palette_width(width)	grub_vbe_bios_getset_dac_palette_width(1, (width))
++
+ /* Call VESA BIOS 0x4f02 to set video mode, return status.  */
+ grub_vbe_status_t EXPORT_FUNC(grub_vbe_bios_set_mode) (grub_uint32_t mode,
+                                                        struct grub_vbe_crtc_info_block *crtc_info);

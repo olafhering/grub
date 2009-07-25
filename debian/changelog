@@ -4,6 +4,7 @@ grub2 (1.96+20090725-1) unstable; urgency=low
     - Don't add drivemap call with Windows Vista/7. It breaks Win 7.
       (LP: #402154)
 
+  [ Felix Zielcke ]
   * Don't build grub-efi-amd64 on hurd-i386.
   * Change DEB_BUILD_ARCH to DEB_HOST_ARCH in the check for sparc.
   * Don't add the lintian override for kernel.img for sparc and grub-pc.
@@ -13,7 +14,12 @@ grub2 (1.96+20090725-1) unstable; urgency=low
   * Add a Conflicts/Replaces for all packages except grub-common.
     (Closes: #538177)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 23 Jul 2009 22:16:15 +0200
+  [ Robert Millan ]
+  * 008_dac_palette_width.diff: New patch.  Fix blank screen when booting
+    Linux with vga= paramter set to a packed color mode (<= 8-bit).
+    (Closes: #535026)
+
+ -- Robert Millan <rmh.debian@aybabtu.com>  Sat, 25 Jul 2009 03:10:08 +0200
 
 grub2 (1.96+20090721-4) unstable; urgency=low
 
