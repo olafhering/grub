@@ -117,7 +117,8 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 			>> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@) ; \
 	fi
 	if [ "$@" = "install/grub-pc" ] && [ "$(DEB_HOST_ARCH)" = "i386" ] ; then \
-		echo "$(subst install/,,$@): binary-from-other-architecture *efiemu64.o" ; \
+		echo "$(subst install/,,$@): binary-from-other-architecture *efiemu64.o" \
+			>> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@) ; \
 	fi
 
 install/grub-common::
