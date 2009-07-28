@@ -3,7 +3,7 @@
 SHELL		:= bash
 package		:= grub2
 
-DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH 2>/dev/null)
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH 2>/dev/null)
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/rules/simple-patchsys.mk
