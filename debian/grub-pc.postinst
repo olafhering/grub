@@ -21,8 +21,32 @@ case "$1" in
       grub-mkdevicemap --no-floppy
     fi
 
-    if [ ! -z "$2" ] && test -e /boot/grub/core.img ; then
-      # If we're upgrading _and_ chainload-install is likely to have happened
+    db_get grub-pc/linux_cmdline
+    if [ "$RET" != "fillme" ] && [ "$RET" != "" ] ; then
+      # escape \ and /
+      RET=`echo "$RET" | sed -e 's,[\/],\\\&,g'`
+      sed -i /etc/default/grub -e "s/^\(GRUB_CMDLINE_LINUX\)=.*/\1=\"$RET\"/g"
+      db_set grub-pc/linux_cmdline "" || true
+    fi
+
+    if test -e /boot/grub/stage2 && test -e /boot/grub/menu.lst && ! test -e /boot/grub/core.img ; then
+      db_get grub-pc/chainload_from_menu.lst
+      if $RET ; then
+        # Create core.img (but do not risk writing to MBR).
+        echo "Generating core.img" >&2
+        grub-install --no-floppy --grub-setup=/bin/true "(hd0)" > /dev/null
+
+        # Update menu.lst to reflect that:
+        # - core.img is present now
+        # - core.img has to be the first option
+        echo "Saving menu.lst backup in /boot/grub/menu.lst_backup_by_grub2_postinst" >&2
+        cp /boot/grub/menu.lst{,_backup_by_grub2_postinst}
+        echo "Running update-grub Legacy to hook our core.img in it" >&2
+        LET_US_TRY_GRUB_2=true /usr/lib/grub-legacy/update-grub 2>&1 | sed -e "s/^/    /g" >&2
+        # We just hooked GRUB 2 in menu.lst; then also generate grub.cfg.
+        touch /boot/grub/grub.cfg
+      fi
+    else
       db_subst grub-pc/install_devices CHOICES `sed -e "/^(fd[0-9]\+)/d;s,.*\t,,g" /boot/grub/device.map | tr '\n' ',' | sed -e 's/,$//g;s/,/, /g'`
       db_input high grub-pc/install_devices || true
       db_go
@@ -30,44 +54,7 @@ case "$1" in
       for i in `echo $RET | sed -e 's/,/ /g'` ; do
         grub-install --no-floppy $i || true
       done
-    fi
-
-    if test -e /boot/grub/menu.lst ; then
-      db_get grub-pc/linux_cmdline
-      if [ "$RET" == "fillme" ] ; then
-        # wtf?!
-        echo "Internal error in grub-pc package.  Please file a bug report." >&2
-        exit 1
-      elif [ "$RET" != "" ] ; then
-        # escape \ and /
-        RET=`echo "$RET" | sed -e 's,[\/],\\\&,g'`
-        sed -i /etc/default/grub -e "s/^\(GRUB_CMDLINE_LINUX\)=.*/\1=\"$RET\"/g"
-        db_set grub-pc/linux_cmdline "" || true
-      fi
-    fi
-
-    db_get grub-pc/chainload_from_menu.lst
-    if $RET && test -e /boot/grub/menu.lst && ! test -e /boot/grub/core.img ; then
-      # If there's no core.img setup, create one (but do not risk writing to MBR).
-      if ! test -e /boot/grub/core.img ; then
-        echo "Generating core.img" >&2
-        grub-install --no-floppy --grub-setup=/bin/true "(hd0)" > /dev/null
-      fi
-
-      # Update menu.lst to reflect that:
-      # - core.img is present now
-      # - core.img has to be the first option
-      echo "Saving menu.lst backup in /boot/grub/menu.lst_backup_by_grub2_postinst" >&2
-      cp /boot/grub/menu.lst{,_backup_by_grub2_postinst}
-      echo "Running update-grub Legacy to hook our core.img in it" >&2
-      LET_US_TRY_GRUB_2=true /usr/lib/grub-legacy/update-grub 2>&1 | sed -e "s/^/    /g" >&2
-      # We just hooked GRUB 2 in menu.lst; then also generate grub.cfg.
-      update-grub
-    else # this `else' is mostly intended to avoid running update-grub twice
-      # If grub.cfg has been generated, update it.
-      if test -e /boot/grub/grub.cfg ; then
-        update-grub
-      fi
+      touch /boot/grub/grub.cfg
     fi
 
     # /boot/grub/ has more chances of being accessible by GRUB
@@ -76,6 +63,11 @@ case "$1" in
         cp $i /boot/grub/
       fi
     done
+
+    # If grub.cfg has been generated, update it.
+    if test -e /boot/grub/grub.cfg ; then
+      update-grub
+    fi
   ;;
   abort-upgrade|abort-remove|abort-deconfigure)
   ;;
