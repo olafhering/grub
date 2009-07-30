@@ -12,7 +12,10 @@ grub2 (1.96+20090725-2) unstable; urgency=low
     no trace of GRUB Legacy, the grub-pc/install_devices template will be
     shown even if this is the first install.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 30 Jul 2009 21:29:57 +0200
+  [ Felix Zielcke ]
+  * Add docs/grub.cfg to examples.
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 30 Jul 2009 22:44:40 +0200
 
 grub2 (1.96+20090725-1) unstable; urgency=high
 

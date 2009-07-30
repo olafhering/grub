@@ -96,7 +96,7 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/share/grub/
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/include
 
-	for i in docs manpages ; do \
+	for i in docs examples manpages ; do \
 		cp debian/$$i.in debian/$(subst install/,,$@).$$i ; \
 	done
 
