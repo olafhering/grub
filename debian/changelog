@@ -4,13 +4,15 @@ grub2 (1.96+20090725-2) unstable; urgency=low
   * Fix the generation of the lintian override for efiemu64.o.
   * Remove the Conflicts dmsetup.
   * Use ?= for setting DEB_HOST_ARCH.
+  * Document GRUB_DISABLE_LINUX_RECOVERY in /etc/default/grub.
+    (Closes: #476536 LP: #190207)
 
   [ Robert Millan ]
   * Reorganize grub-pc.{config,postinst} logic.  The idea being that if there's
     no trace of GRUB Legacy, the grub-pc/install_devices template will be
     shown even if this is the first install.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Wed, 29 Jul 2009 16:39:51 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 30 Jul 2009 21:29:57 +0200
 
 grub2 (1.96+20090725-1) unstable; urgency=high
 
