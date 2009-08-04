@@ -46,3 +46,11 @@ Description: GRUB install devices:
  you have GRUB installed to:
  .
  grub-install /dev/sda1
+
+Template: grub-pc/postrm_purge_boot_grub
+Type: boolean
+Default: false
+Description: Remove GRUB 2 from /boot/grub?
+ Do you want to have all GRUB 2 files removed from /boot/grub?
+ .
+ Your system would be then unbootable if you don't install another bootloader.
