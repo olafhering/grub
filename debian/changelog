@@ -1,7 +1,8 @@
-grub2 (1.96+20090725-2) unstable; urgency=low
+grub2 (1.96+20090805-1) unstable; urgency=low
 
   * New SVN snapshot.
     - Fix XFS with inode size different then 256. (Closes: #528761)
+    - Add support for multiple LVM metadata areas. (LP: #408580)
 
   [ Felix Zielcke ]
   * Fix the generation of the lintian override for efiemu64.o.
@@ -22,7 +23,7 @@ grub2 (1.96+20090725-2) unstable; urgency=low
     no trace of GRUB Legacy, the grub-pc/install_devices template will be
     shown even if this is the first install.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 04 Aug 2009 21:24:23 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Wed, 05 Aug 2009 08:31:57 +0200
 
 grub2 (1.96+20090725-1) unstable; urgency=high
 
