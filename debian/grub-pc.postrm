@@ -3,7 +3,7 @@
 case "$1" in
   purge)
     #debconf could be purged
-    if [ -f /usr/share/debconf/confmodule ] ; then
+    if [ -e /usr/share/debconf/confmodule ] ; then
 	. /usr/share/debconf/confmodule
     fi
 
