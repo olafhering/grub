@@ -50,6 +50,7 @@ Description: GRUB install devices:
 Template: grub-pc/postrm_purge_boot_grub
 Type: boolean
 Default: false
+# This should get reviewed before it can be translated
 Description: Remove GRUB 2 from /boot/grub?
  Do you want to have all GRUB 2 files removed from /boot/grub?
  .
