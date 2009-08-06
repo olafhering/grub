@@ -18,13 +18,14 @@ grub2 (1.96+20090805-1) unstable; urgency=low
     also disable UUIDs on LVM over RAID.
   * Add a debconf prompt to remove all grub2 files from /boot/grub on
     purge. (Closes: #527068, #470400)
+  * Move the Suggests: os-prober from grub-pc to grub-common. (Closes: #491872)
 
   [ Robert Millan ]
   * Reorganize grub-pc.{config,postinst} logic.  The idea being that if there's
     no trace of GRUB Legacy, the grub-pc/install_devices template will be
     shown even if this is the first install.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Wed, 05 Aug 2009 08:42:19 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 06 Aug 2009 15:15:12 +0200
 
 grub2 (1.96+20090725-1) unstable; urgency=high
 

@@ -49,7 +49,7 @@ Package: grub-common
 Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia powerpc sparc
 Depends: ${shlibs:Depends}, base-files (>= 4.0.1~), ${misc:Depends}
 Replaces: grub-pc (<< 1.96+20080804-1), grub-ieee1275 (<< 1.96+20080804-1), grub-efi (<< 1.96+20080804-1), grub-coreboot (<< 1.96+20080804-1), grub-linuxbios (<< 1.96+20080426-3)
-Suggests: multiboot-doc [i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia]
+Suggests: multiboot-doc [i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia], os-prober
 # See bugs #435983 and #455746
 Conflicts: mdadm (<< 2.6.7-2)
 Description: GRand Unified Bootloader, version 2 (common files)
@@ -61,7 +61,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}), 
 Provides: grub
 Replaces: grub, grub-legacy, grub2 (<< ${source:Version}), grub-common (= ${binary:Version}), grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-ieee1275
 Conflicts: grub, grub-legacy, desktop-base (= 4.0.5), grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-ieee1275
-Suggests: desktop-base (>= 4.0.6), os-prober, genisoimage
+Suggests: desktop-base (>= 4.0.6), genisoimage
 Description: GRand Unified Bootloader, version 2 (PC/BIOS version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
