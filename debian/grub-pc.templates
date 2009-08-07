@@ -41,11 +41,9 @@ Description: GRUB install devices:
  If you're unsure which drive is designated as boot drive by your BIOS, it is
  often a good idea to install GRUB to all of them.
  .
- If you don't have GRUB installed to MBR, but instead to a bootsector, then issue
- the following command (as root) to update it.  Replace sda1 with the partition
- you have GRUB installed to:
- .
- grub-install /dev/sda1
+ Note: It is possible to install GRUB to partition boot records as well.
+ However, this forces GRUB to use the blocklist mechanism, which makes it
+ less reliable, and therefore is not recommended.
 
 Template: grub-pc/postrm_purge_boot_grub
 Type: boolean
