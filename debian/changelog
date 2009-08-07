@@ -25,9 +25,9 @@ grub2 (1.96+20090805-1) unstable; urgency=low
     no trace of GRUB Legacy, the grub-pc/install_devices template will be
     shown even if this is the first install.
   * When setting grub-pc/install_devices, obtain input dynamically from
-    grub-mkdevicemap (rather than devices.map).
+    grub-mkdevicemap (rather than devices.map). (Closes: #535525)
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 07 Aug 2009 11:59:33 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 07 Aug 2009 12:04:52 +0200
 
 grub2 (1.96+20090725-1) unstable; urgency=high
 
