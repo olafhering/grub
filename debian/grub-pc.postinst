@@ -47,7 +47,7 @@ case "$1" in
         touch /boot/grub/grub.cfg
       fi
     else
-      db_subst grub-pc/install_devices CHOICES `sed -e "/^(fd[0-9]\+)/d;s,.*\t,,g" /boot/grub/device.map | tr '\n' ',' | sed -e 's/,$//g;s/,/, /g'`
+      db_subst grub-pc/install_devices CHOICES `grub-mkdevicemap -m - | sed -e "/^(fd[0-9]\+)/d;s,.*\t,,g" | tr '\n' ',' | sed -e 's/,$//g;s/,/, /g'`
       db_input high grub-pc/install_devices || true
       db_go
       db_get grub-pc/install_devices
