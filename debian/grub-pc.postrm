@@ -21,7 +21,7 @@ case "$1" in
     db_get grub-pc/purge_boot_grub || true
     if [ "$RET" = "true" ] ; then
 	rm -f /boot/grub/{grub.cfg,ascii.pf2,unicode.pf2,moreblue-orbit-grub.png,*.mod,*.lst,*.img} || true
-	rmdir /boot/grub || true
+	rmdir /boot/grub 2>/dev/null || true
     fi
   ;;
   remove|upgrade|failed-upgrade|abort-upgrade|abort-install)
