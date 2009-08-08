@@ -17,6 +17,7 @@ grub2 (1.96+20090805-1) unstable; urgency=low
   * Add a debconf prompt to remove all grub2 files from /boot/grub on
     purge. (Closes: #527068, #470400)
   * Move the Suggests: os-prober from grub-pc to grub-common. 
+  * patches/901_dpkg_version_comparison.diff: Updated.
 
   [ Robert Millan ]
   * Reorganize grub-pc.{config,postinst} logic.  The idea being that if there's
@@ -27,7 +28,7 @@ grub2 (1.96+20090805-1) unstable; urgency=low
   * Add a note to grub-pc/install_devices template that it's also possible
     to install GRUB to a partition boot record.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 07 Aug 2009 12:04:52 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sat, 08 Aug 2009 08:10:06 +0200
 
 grub2 (1.96+20090725-1) unstable; urgency=high
 
