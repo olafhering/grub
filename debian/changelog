@@ -1,9 +1,10 @@
-grub2 (1.96+20090805-1) unstable; urgency=low
+grub2 (1.96+20090808-1) unstable; urgency=low
 
   * New SVN snapshot.
     - Fix XFS with inode size different then 256. (Closes: #528761)
     - Add support for multiple LVM metadata areas. (LP: #408580)
     - patches/008_dac_palette_width.diff: Remove. (merged)
+    - Prefer unicode over ascii font. (LP: #352034)
 
   [ Felix Zielcke ]
   * Fix the generation of the lintian override for efiemu64.o.
@@ -28,7 +29,7 @@ grub2 (1.96+20090805-1) unstable; urgency=low
   * Add a note to grub-pc/install_devices template that it's also possible
     to install GRUB to a partition boot record.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sat, 08 Aug 2009 08:10:06 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sat, 08 Aug 2009 08:43:19 +0200
 
 grub2 (1.96+20090725-1) unstable; urgency=high
 
