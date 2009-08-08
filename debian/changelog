@@ -19,6 +19,8 @@ grub2 (1.96+20090808-1) unstable; urgency=low
     purge. (Closes: #527068, #470400)
   * Move the Suggests: os-prober from grub-pc to grub-common. 
   * patches/901_dpkg_version_comparison.diff: Updated.
+  * Update the Replaces on grub-common for the other packages to (<<
+    1.96+20080831-1). (Closes: #540492)
 
   [ Robert Millan ]
   * Reorganize grub-pc.{config,postinst} logic.  The idea being that if there's
@@ -29,7 +31,7 @@ grub2 (1.96+20090808-1) unstable; urgency=low
   * Add a note to grub-pc/install_devices template that it's also possible
     to install GRUB to a partition boot record.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sat, 08 Aug 2009 08:43:19 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sat, 08 Aug 2009 14:42:01 +0200
 
 grub2 (1.96+20090725-1) unstable; urgency=high
 
