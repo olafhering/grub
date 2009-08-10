@@ -30,8 +30,10 @@ grub2 (1.96+20090808-1) unstable; urgency=low
     grub-mkdevicemap (rather than devices.map). (Closes: #535525)
   * Add a note to grub-pc/install_devices template that it's also possible
     to install GRUB to a partition boot record.
+  * patches/002_grub.d_freebsd.in.diff: New patch.  Reimplement
+    10_freebsd.in to handle multiple kernel versions & acpi.ko.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sat, 08 Aug 2009 14:42:01 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 10 Aug 2009 18:49:52 +0200
 
 grub2 (1.96+20090725-1) unstable; urgency=high
 
