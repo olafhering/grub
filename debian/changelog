@@ -2,8 +2,9 @@ grub2 (1.96+20090808-2) unstable; urgency=low
 
   * Copy unicode.pf2 instead of ascii.pf2 to /boot/grub in grub-pc
     postinst.
+  * Update Standards version to 3.8.3. No changes needed.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 13 Aug 2009 13:02:01 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 16 Aug 2009 09:53:28 +0200
 
 grub2 (1.96+20090808-1) unstable; urgency=low
 

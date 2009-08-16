@@ -18,7 +18,7 @@ Build-Depends: cdbs,
  bf-utf-source,
  libfreetype6-dev
 Build-Conflicts: autoconf2.13 
-Standards-Version: 3.8.2
+Standards-Version: 3.8.3
 Homepage: http://www.gnu.org/software/grub/grub-2.en.html
 Vcs-Svn: svn://svn.debian.org/svn/pkg-grub/grub2/trunk/
 Vcs-Browser: http://svn.debian.org/viewsvn/pkg-grub/grub2/
