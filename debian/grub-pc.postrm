@@ -16,7 +16,7 @@ case "$1" in
 	ucfr --purge grub-pc /etc/default/grub
     fi
 
-    db_input high grub-pc/purge_boot_grub || true
+    db_input high grub-pc/postrm_purge_boot_grub || true
     db_go || true
     db_get grub-pc/purge_boot_grub || true
     if [ "$RET" = "true" ] ; then

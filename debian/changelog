@@ -4,8 +4,10 @@ grub2 (1.96+20090808-2) unstable; urgency=low
     postinst.
   * Update Standards version to 3.8.3.
   * Use DEB_HOST_ARCH_CPU for the generation of the lintian overrides.
+  * Fix calling the grub-pc/postrm_purge_boot_grub template in
+    grub-pc.postinst.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 16 Aug 2009 10:22:39 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 16 Aug 2009 10:39:42 +0200
 
 grub2 (1.96+20090808-1) unstable; urgency=low
 
