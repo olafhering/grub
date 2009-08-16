@@ -3,7 +3,7 @@
 SHELL		:= bash
 package		:= grub2
 
-DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH 2>/dev/null)
+DEB_HOST_ARCH_CPU ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU 2>/dev/null)
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/rules/simple-patchsys.mk
@@ -100,23 +100,23 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 		cp debian/$$i.in debian/$(subst install/,,$@).$$i ; \
 	done
 
-	if [ "$@" != "install/grub-pc" ] && [ "$(DEB_HOST_ARCH)" != "sparc" ] ; then \
+	if [ "$@" != "install/grub-pc" ] && [ "$(DEB_HOST_ARCH_CPU)" != "sparc" ] ; then \
 		i=$(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/*/kernel.img ; if test -e $$i ; then strip -s $$i ; fi \
 	fi
 
 	mkdir -p $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides
 	echo "$(subst install/,,$@): unstripped-binary-or-object *.mod" \
 		>> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@)
-	if [ "$@" != "install/grub-pc" ] && [ "$(DEB_HOST_ARCH)" != "sparc" ] ; then \
+	if [ "$@" != "install/grub-pc" ] && [ "$(DEB_HOST_ARCH_CPU)" != "sparc" ] ; then \
 		cd $(CURDIR)/debian/$(subst install/,,$@) && find ./usr/lib/grub -name kernel.img \
 			| sed -e "s%.*%$(subst install/,,$@): statically-linked-binary &%g" \
 		>> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@) ; \
 	fi
-	if [ "$@" = "install/grub-efi-amd64" ] && [ "$(DEB_HOST_ARCH)" = "i386" ] ; then \
+	if [ "$@" = "install/grub-efi-amd64" ] && [ "$(DEB_HOST_ARCH_CPU)" = "i386" ] ; then \
 		echo "$(subst install/,,$@): binary-from-other-architecture *.mod" \
 			>> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@) ; \
 	fi
-	if [ "$@" = "install/grub-pc" ] && [ "$(DEB_HOST_ARCH)" = "i386" ] ; then \
+	if [ "$@" = "install/grub-pc" ] && [ "$(DEB_HOST_ARCH_CPU)" = "i386" ] ; then \
 		echo "$(subst install/,,$@): binary-from-other-architecture *efiemu64.o" \
 			>> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@) ; \
 	fi
