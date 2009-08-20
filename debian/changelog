@@ -10,7 +10,7 @@ grub2 (1.96+20090808-2) unstable; urgency=low
 
   [ Robert Millan ]
   * patches/907_terminal_output_workaround.diff: Remove.  It seems that
-    it wasn't really unnecessary.
+    it wasn't really necessary.
 
  -- Robert Millan <rmh.debian@aybabtu.com>  Thu, 20 Aug 2009 21:35:04 +0200
 
