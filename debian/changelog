@@ -14,8 +14,10 @@ grub2 (1.96+20090808-2) unstable; urgency=low
   * grub-pc.postinst: Avoid printing an error if /etc/kernel-img.conf
     doesn't exist, because it is misleading.  We simply refrain from
     fixing it and move along.
+  * grub-pc.postinst: Don't schedule generation of grub.cfg via "grub-install"
+    code path unless we actually run grub-install.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 21 Aug 2009 21:32:39 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 21 Aug 2009 22:05:57 +0200
 
 grub2 (1.96+20090808-1) unstable; urgency=low
 
