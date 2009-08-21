@@ -11,8 +11,11 @@ grub2 (1.96+20090808-2) unstable; urgency=low
   [ Robert Millan ]
   * patches/907_terminal_output_workaround.diff: Remove.  It seems that
     it wasn't really necessary.
+  * grub-pc.postinst: Avoid printing an error if /etc/kernel-img.conf
+    doesn't exist, because it is misleading.  We simply refrain from
+    fixing it and move along.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Thu, 20 Aug 2009 21:35:04 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 21 Aug 2009 21:32:39 +0200
 
 grub2 (1.96+20090808-1) unstable; urgency=low
 

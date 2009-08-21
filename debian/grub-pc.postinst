@@ -7,7 +7,7 @@ case "$1" in
     ucf --three-way --debconf-ok /usr/share/grub/default/grub /etc/default/grub
     ucfr grub-pc /etc/default/grub
 
-    if grep -q "[= ]/sbin/update-grub" /etc/kernel-img.conf ; then
+    if grep -q "[= ]/sbin/update-grub" /etc/kernel-img.conf 2> /dev/null ; then
       echo -e "\n/etc/kernel-img.conf still contains /sbin/update-grub in the hooks." >&2
       echo -e "Running sed over it to remove the /sbin/ prefix.\n" >&2
       sed -i /etc/kernel-img.conf -e "s,\(.*\)  */sbin/update-grub$,\1 update-grub,g"
