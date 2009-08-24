@@ -5,6 +5,8 @@ if test ! -f /boot/grub/core.img ; then
   grub-install --no-floppy --grub-setup=/bin/true "(hd0)" > /dev/null
 fi
 
+echo RESET grub-pc/install_devices | debconf-communicate
+
 # Pretend we're upgrading grub-pc.  This will make our postinst DTRT.
 /var/lib/dpkg/info/grub-pc.postinst configure dummy-version
 

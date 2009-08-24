@@ -18,8 +18,10 @@ grub2 (1.96+20090808-2) unstable; urgency=low
     code path unless we actually run grub-install.
   * grub-pc.postinst: Only copy unicode.pf2 and moreblue-orbit-grub.png when
     /boot/grub/grub.cfg is scheduled to be generated.
+  * legacy/upgrade-from-grub-legacy: Reset grub-pc/install_devices.
+    Thanks Colin Watson.  (Closes: #541230)
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 21 Aug 2009 22:08:27 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 24 Aug 2009 15:48:35 +0200
 
 grub2 (1.96+20090808-1) unstable; urgency=low
 
