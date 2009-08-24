@@ -6,10 +6,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
-"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-10-26 15:44+0100\n"
+"Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
+"POT-Creation-Date: 2009-08-24 20:26+0200\n"
 "PO-Revision-Date: 2009-01-08 12:21+0100\n"
-"Last-Translator: Marcos Alvarez Costales <marcos.alvarez.costales@gmail.com>\n"
+"Last-Translator: Marcos Alvarez Costales <marcos.alvarez.costales@gmail."
+"com>\n"
 "Language-Team: Asturian <softast-xeneral@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -25,25 +26,45 @@ msgstr "¿Cadena de carga dende menu.lst?"
 #. Description
 #: ../grub-pc.templates:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
-msgstr "El scripts d'actualización GRUB detectó una configuración GRUB Legacy en /boot/grub."
+msgstr ""
+"El scripts d'actualización GRUB detectó una configuración GRUB Legacy en /"
+"boot/grub."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
-msgid "In order to replace the Legacy version of GRUB in your system, it is recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from your existing GRUB Legacy setup.  This step may be automaticaly performed now."
-msgstr "Col fin de camudar la versión Legacy de GRUB nel to sistema, ye recomendable que /boot/grub/menu.lst seya axustáu a la cadena de carga GRUB 2 dende la to configuración Legacy GRUB existente. Esti pasu puede ser fechu automáticamente agora."
+msgid ""
+"In order to replace the Legacy version of GRUB in your system, it is "
+"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
+"your existing GRUB Legacy setup.  This step may be automaticaly performed "
+"now."
+msgstr ""
+"Col fin de camudar la versión Legacy de GRUB nel to sistema, ye recomendable "
+"que /boot/grub/menu.lst seya axustáu a la cadena de carga GRUB 2 dende la to "
+"configuración Legacy GRUB existente. Esti pasu puede ser fechu "
+"automáticamente agora."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
-msgid "It's recommended that you accept chainloading GRUB 2 from menu.lst, and verify that your new GRUB 2 setup is functional for you, before you install it directly to your MBR (Master Boot Record)."
-msgstr "Ye recomendable que aceptes la cadena de carga GRUB 2 dende'l menu.lst, y compruebes que la to nueva configuración de GRUB 2 ye funcional pa ti, anantes de que lo instales directamente nel to MBR (Master Boot Record)."
+msgid ""
+"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
+"verify that your new GRUB 2 setup is functional for you, before you install "
+"it directly to your MBR (Master Boot Record)."
+msgstr ""
+"Ye recomendable que aceptes la cadena de carga GRUB 2 dende'l menu.lst, y "
+"compruebes que la to nueva configuración de GRUB 2 ye funcional pa ti, "
+"anantes de que lo instales directamente nel to MBR (Master Boot Record)."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates:1001
-msgid "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you can do so by issuing (as root) the following command:"
-msgstr "En cualisquier casu, cuando quieras que GRUB 2 seya cargáu directamente dende'l MBR, puedes facelo col siguiente comandu (como root):"
+msgid ""
+"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
+"can do so by issuing (as root) the following command:"
+msgstr ""
+"En cualisquier casu, cuando quieras que GRUB 2 seya cargáu directamente "
+"dende'l MBR, puedes facelo col siguiente comandu (como root):"
 
 #. Type: boolean
 #. Description
@@ -53,13 +74,23 @@ msgstr "upgrade-from-grub-legacy"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:2001
+#: ../grub-pc.templates:3001
 msgid "Linux command line:"
 msgstr "Linia comandos Linux:"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:2001
-msgid "The following Linux command line was extracted from the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if necessary."
-msgstr "La siguiente llinia de comandu Linux fue estrayía del parámetru `kopt' nel menú Legacy GRUB. Por favor, comprueba que ye correuto, y modificalo si ye necesario."
-
+#: ../grub-pc.templates:3001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from the `kopt' parameter "
+#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
+#| "it if necessary."
+msgid ""
+"The following Linux command line was extracted from /etc/default/grub or the "
+"`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"La siguiente llinia de comandu Linux fue estrayía del parámetru `kopt' nel "
+"menú Legacy GRUB. Por favor, comprueba que ye correuto, y modificalo si ye "
+"necesario."

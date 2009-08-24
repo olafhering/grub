@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
-"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-10-26 15:44+0100\n"
+"Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
+"POT-Creation-Date: 2009-08-24 20:26+0200\n"
 "PO-Revision-Date: 2009-06-04 19:52+0200\n"
 "Last-Translator: Jordi Mallach <jordi@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -26,8 +26,8 @@ msgstr "Voleu carregar en cadena des del menu.lst?"
 #: ../grub-pc.templates:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
-"Els scripts d'actualització del GRUB han detectat una configuració del "
-"GRUB Legacy en /boot/grub."
+"Els scripts d'actualització del GRUB han detectat una configuració del GRUB "
+"Legacy en /boot/grub."
 
 #. Type: boolean
 #. Description
@@ -39,9 +39,9 @@ msgid ""
 "now."
 msgstr ""
 "A l'hora de reemplaçar la versió Legacy del GRUB que hi ha al sistema, és "
-"recomanable que es modifique /boot/grub/menu.lst per a carregar el GRUB 2 "
-"en cadena des de la vostra configuració del GRUB Legacy existent. Aquest pas "
-"es pot dur a terme ara."
+"recomanable que es modifique /boot/grub/menu.lst per a carregar el GRUB 2 en "
+"cadena des de la vostra configuració del GRUB Legacy existent. Aquest pas es "
+"pot dur a terme ara."
 
 #. Type: boolean
 #. Description
@@ -51,10 +51,10 @@ msgid ""
 "verify that your new GRUB 2 setup is functional for you, before you install "
 "it directly to your MBR (Master Boot Record)."
 msgstr ""
-"És recomanable que accepteu la càrrega en cadena del GRUB 2 des del menu.lst, "
-"per a verificar que la nova configuració del GRUB 2 funciona correctament, "
-"abans de que l'instal·leu directament al vostre registre mestre d'arrencada "
-"(MBR)."
+"És recomanable que accepteu la càrrega en cadena del GRUB 2 des del menu."
+"lst, per a verificar que la nova configuració del GRUB 2 funciona "
+"correctament, abans de que l'instal·leu directament al vostre registre "
+"mestre d'arrencada (MBR)."
 
 #. Type: boolean
 #. Description
@@ -74,17 +74,22 @@ msgstr "upgrade-from-grub-legacy"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:2001
+#: ../grub-pc.templates:3001
 msgid "Linux command line:"
 msgstr "Línia d'ordres de Linux:"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:2001
+#: ../grub-pc.templates:3001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from the `kopt' parameter "
+#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
+#| "it if necessary."
 msgid ""
-"The following Linux command line was extracted from the `kopt' parameter in "
-"GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
-"necessary."
+"The following Linux command line was extracted from /etc/default/grub or the "
+"`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
 msgstr ""
 "S'ha extret la següent línia d'ordres de Linux del paràmetre «kopt» del "
 "fitxer menu.lst del GRUB Legacy. Verifique que és correcta, i modifiqueu-la "
