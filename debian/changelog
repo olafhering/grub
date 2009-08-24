@@ -11,6 +11,7 @@ grub2 (1.96+20090808-2) unstable; urgency=low
     debconf. Thanks to Martin F. Krafft and Colin Watson for idea and
     hints.
   * Use ucfr --force when /etc/default/grub is registered to a grub-* package.
+  * Use #!/bin/sh in *.config and fix a small bashism in grub-pc.config.
 
   [ Robert Millan ]
   * patches/907_terminal_output_workaround.diff: Remove.  It seems that
@@ -28,7 +29,7 @@ grub2 (1.96+20090808-2) unstable; urgency=low
   [ Felix Zielcke ]
   * Add a lintian override for no-debconf-config for grub-common.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Mon, 24 Aug 2009 19:52:17 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 24 Aug 2009 20:05:59 +0200
 
 grub2 (1.96+20090808-1) unstable; urgency=low
 
