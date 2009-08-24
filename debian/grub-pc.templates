@@ -18,13 +18,24 @@ _Description: Chainload from menu.lst?
  .
  upgrade-from-grub-legacy
 
-Template: grub-pc/linux_cmdline
+Template: grub-pc/kopt_extracted
+Type: boolean
+Default: false
+Description: for internal use
+
+Template: grub2/linux_cmdline
 Type: string
-Default: fillme
 _Description: Linux command line:
- The following Linux command line was extracted from the `kopt' parameter
- in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify
- it if necessary.
+ The following Linux command line was extracted from /etc/default/grub or the
+ `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is correct,
+ and modify it if necessary.
+
+Template: grub2/linux_cmdline_default
+Type: string
+Default: quiet
+Description: Linux default command line:
+ The following string will be used as Linux kernel parameters for the default
+ menu entry but not for the recovery mode.
 
 Template: grub-pc/install_devices
 Type: multiselect

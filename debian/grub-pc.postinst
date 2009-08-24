@@ -4,9 +4,6 @@ case "$1" in
   configure)
     . /usr/share/debconf/confmodule
 
-    ucf --three-way --debconf-ok /usr/share/grub/default/grub /etc/default/grub
-    ucfr grub-pc /etc/default/grub
-
     if grep -q "[= ]/sbin/update-grub" /etc/kernel-img.conf 2> /dev/null ; then
       echo -e "\n/etc/kernel-img.conf still contains /sbin/update-grub in the hooks." >&2
       echo -e "Running sed over it to remove the /sbin/ prefix.\n" >&2
@@ -21,12 +18,34 @@ case "$1" in
       grub-mkdevicemap --no-floppy
     fi
 
-    db_get grub-pc/linux_cmdline
-    if [ "$RET" != "fillme" ] && [ "$RET" != "" ] ; then
-      # escape \ and /
-      RET=`echo "$RET" | sed -e 's,[\/],\\\&,g'`
-      sed -i /etc/default/grub -e "s/^\(GRUB_CMDLINE_LINUX\)=.*/\1=\"$RET\"/g"
-      db_set grub-pc/linux_cmdline "" || true
+    tmp_default_grub=$(mktemp "/tmp/grub.XXXXXXXXXX") 
+    trap "rm -f ${tmp_default_grub}" EXIT
+    cp /usr/share/grub/default/grub ${tmp_default_grub}
+
+    db_get grub2/linux_cmdline
+    if grep -q GRUB_CMDLINE_LINUX= ${tmp_default_grub} ; then
+      RET="$RET" perl -i -pe 'BEGIN { $ENV{RET} =~ s/[\$`"\\]/\\$&/g } s/^(GRUB_CMDLINE_LINUX)=.*/$1="$ENV{RET}"/g' ${tmp_default_grub}
+    else
+      RET=$(echo "$RET" | sed -e 's,[$`"\],\\&,g')
+      echo >> ${tmp_default_grub}
+      echo GRUB_CMDLINE_LINUX=\"${RET}\" >> ${tmp_default_grub}
+    fi
+
+    db_get grub2/linux_cmdline_default
+    if grep -q GRUB_CMDLINE_LINUX_DEFAULT= ${tmp_default_grub} ; then
+      RET="$RET" perl -i -pe 'BEGIN { $ENV{RET} =~ s/[\$`"\\]/\\$&/g } s/^(GRUB_CMDLINE_LINUX_DEFAULT)=.*/$1="$ENV{RET}"/g' ${tmp_default_grub}
+    else
+      RET=$(echo "$RET" | sed -e 's,[$`"\],\\&,g')
+      echo >> ${tmp_default_grub}
+      echo GRUB_CMDLINE_LINUX_DEFAULT=\"${RET}\" >> ${tmp_default_grub}
+    fi
+
+    ucf --three-way --debconf-ok --sum-file=/usr/share/grub/default/grub.md5sum ${tmp_default_grub} /etc/default/grub
+    package=$(ucfq --with-colons /etc/default/grub | cut -d : -f 2)
+    if echo $package | grep -q "^grub-" ; then
+      ucfr --force grub-pc /etc/default/grub
+    else
+      ucfr grub-pc /etc/default/grub
     fi
 
     if test -e /boot/grub/stage2 && test -e /boot/grub/menu.lst && ! test -e /boot/grub/core.img ; then

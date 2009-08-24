@@ -7,6 +7,10 @@ grub2 (1.96+20090808-2) unstable; urgency=low
   * Use DEB_HOST_ARCH_CPU for the generation of the lintian overrides.
   * Fix calling the grub-pc/postrm_purge_boot_grub template in
     grub-pc.postinst.
+  * Handle GRUB_CMDLINE_LINUX and GRUB_CMDLINE_LINUX_DEFAULT via
+    debconf. Thanks to Martin F. Krafft and Colin Watson for idea and
+    hints.
+  * Use ucfr --force when /etc/default/grub is registered to a grub-* package.
 
   [ Robert Millan ]
   * patches/907_terminal_output_workaround.diff: Remove.  It seems that
@@ -21,7 +25,10 @@ grub2 (1.96+20090808-2) unstable; urgency=low
   * legacy/upgrade-from-grub-legacy: Reset grub-pc/install_devices.
     Thanks Colin Watson.  (Closes: #541230)
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 24 Aug 2009 15:48:35 +0200
+  [ Felix Zielcke ]
+  * Add a lintian override for no-debconf-config for grub-common.
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 24 Aug 2009 19:52:17 +0200
 
 grub2 (1.96+20090808-1) unstable; urgency=low
 

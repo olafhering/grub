@@ -126,6 +126,9 @@ install/grub-common::
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/{i386,powerpc,sparc64}-*
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{update-grub,grub-install,grub-setup}{,.8}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/grub-{mkimage,mkrescue}{,.1}
+	mkdir -p $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides
+	echo "$(subst install/,,$@): no-debconf-config" \
+		>> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@)
 
 clean:: debian/legacy/update-grub debian/grub-extras
 	chmod +x debian/{script,grub.d/*,legacy/*}
