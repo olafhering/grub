@@ -1,4 +1,8 @@
-grub2 (1.96+20090808-2) unstable; urgency=low
+grub2 (1.96+20090825-1) unstable; urgency=low
+
+  * New SVN snapshot.
+    - Enable gfxterm only if there's a suitable video backend and don't
+      print an error if not. (Closes: #520846)
 
   [ Felix Zielcke ]
   * Copy unicode.pf2 instead of ascii.pf2 to /boot/grub in grub-pc
@@ -26,7 +30,7 @@ grub2 (1.96+20090808-2) unstable; urgency=low
   * legacy/upgrade-from-grub-legacy: Reset grub-pc/install_devices.
     Thanks Colin Watson.  (Closes: #541230)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Mon, 24 Aug 2009 20:17:42 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 25 Aug 2009 21:45:24 +0200
 
 grub2 (1.96+20090808-1) unstable; urgency=low
 
