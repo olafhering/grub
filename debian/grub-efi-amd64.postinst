@@ -4,7 +4,7 @@ case "$1" in
   configure)
     . /usr/share/debconf/confmodule
 
-    tmp_default_grub=$(mktemp "/tmp/grub.XXXXXXXXXX") 
+    tmp_default_grub="$(mktemp "/tmp/grub.XXXXXXXXXX")"
     trap "rm -f ${tmp_default_grub}" EXIT
     cp /usr/share/grub/default/grub ${tmp_default_grub}
 
@@ -12,7 +12,7 @@ case "$1" in
     if grep -q GRUB_CMDLINE_LINUX= ${tmp_default_grub} ; then
       RET="$RET" perl -i -pe 'BEGIN { $ENV{RET} =~ s/[\$`"\\]/\\$&/g } s/^(GRUB_CMDLINE_LINUX)=.*/$1="$ENV{RET}"/g' ${tmp_default_grub}
     else
-      RET=$(echo "$RET" | sed -e 's,[$`"\],\\&,g')
+      RET="$(echo "$RET" | sed -e 's,[$`"\],\\&,g')"
       echo >> ${tmp_default_grub}
       echo GRUB_CMDLINE_LINUX=\"${RET}\" >> ${tmp_default_grub}
     fi
@@ -21,7 +21,7 @@ case "$1" in
     if grep -q GRUB_CMDLINE_LINUX_DEFAULT= ${tmp_default_grub} ; then
       RET="$RET" perl -i -pe 'BEGIN { $ENV{RET} =~ s/[\$`"\\]/\\$&/g } s/^(GRUB_CMDLINE_LINUX_DEFAULT)=.*/$1="$ENV{RET}"/g' ${tmp_default_grub}
     else
-      RET=$(echo "$RET" | sed -e 's,[$`"\],\\&,g')
+      RET="$(echo "$RET" | sed -e 's,[$`"\],\\&,g')"
       echo >> ${tmp_default_grub}
       echo GRUB_CMDLINE_LINUX_DEFAULT=\"${RET}\" >> ${tmp_default_grub}
     fi
