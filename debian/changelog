@@ -1,8 +1,10 @@
-grub2 (1.96+20090825-2) unstable; urgency=low
+grub2 (1.96+20090826-1) unstable; urgency=low
+
+  * New SVN snapshot.
 
   * Use the right templates in grub-pc.config. (Closes: #543615)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Wed, 26 Aug 2009 10:43:08 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Wed, 26 Aug 2009 11:00:36 +0200
 
 grub2 (1.96+20090825-1) unstable; urgency=low
 
