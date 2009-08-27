@@ -20,7 +20,7 @@ case "$1" in
 
     tmp_default_grub="$(mktemp "/tmp/grub.XXXXXXXXXX")" 
     trap "rm -f ${tmp_default_grub}" EXIT
-    cp /usr/share/grub/default/grub ${tmp_default_grub}
+    cp -p /usr/share/grub/default/grub ${tmp_default_grub}
 
     db_get grub2/linux_cmdline
     if grep -q GRUB_CMDLINE_LINUX= ${tmp_default_grub} ; then
