@@ -9,7 +9,7 @@ merge_debconf_into_conf()
   db_get "$template"
   local value; value="$(echo "$RET" | sed -e 's,[$`"\@],\\&,g')"
   if grep -q "^${setting}=" "$tmpfile"; then
-    sed -i -re "s@^(${setting}=).*@\1=\"${value}\"@" "$tmpfile"
+    sed -i -re "s@^(${setting}=).*@\1\"${value}\"@" "$tmpfile"
   else
     echo >> "$tmpfile"
     echo "${setting}=\"${value}\"" >> "$tmpfile"
