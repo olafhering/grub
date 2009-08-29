@@ -17,14 +17,12 @@ grub2 (1.96+20090829-1) unstable; urgency=low
   * Add empty GRUB_CMDLINE_LINUX to /usr/share/grub/default/grub.
   * Factorise the editing of the temporary file. Thanks to Martin F
     Krafft.
+  * Read in /etc/default/grub in *.config files.
 
   [ Updated translations ]
   * French (fr.po) by Christian Perrier. (Closes: #544023)
   * Russian (ru.po) by Yuri Kozlov. (Closes: #544077)
   * Italian (it.po) by Luca Monducci. (Closes: #544200)
-
-  [ Felix Zielcke ]
-  * Read in /etc/default/grub in *.config files.
 
  -- Felix Zielcke <fzielcke@z-51.de>  Sat, 29 Aug 2009 17:01:17 +0200
 
