@@ -4,29 +4,7 @@ case "$1" in
   configure)
     . /usr/share/debconf/confmodule
 
-    tmp_default_grub="$(mktemp "/tmp/grub.XXXXXXXXXX")"
-    trap "rm -f ${tmp_default_grub}" EXIT
-    cp /usr/share/grub/default/grub ${tmp_default_grub}
-
-    db_get grub2/linux_cmdline
-    if grep -q "^GRUB_CMDLINE_LINUX=" ${tmp_default_grub} ; then
-      RET="$RET" perl -i -pe 'BEGIN { $ENV{RET} =~ s/[\$`"\\]/\\$&/g } s/^(GRUB_CMDLINE_LINUX)=.*/$1="$ENV{RET}"/g' ${tmp_default_grub}
-    else
-      RET="$(echo "$RET" | sed -e 's,[$`"\],\\&,g')"
-      echo >> ${tmp_default_grub}
-      echo GRUB_CMDLINE_LINUX=\"${RET}\" >> ${tmp_default_grub}
-    fi
-
-    db_get grub2/linux_cmdline_default
-    if grep -q "^GRUB_CMDLINE_LINUX_DEFAULT=" ${tmp_default_grub} ; then
-      RET="$RET" perl -i -pe 'BEGIN { $ENV{RET} =~ s/[\$`"\\]/\\$&/g } s/^(GRUB_CMDLINE_LINUX_DEFAULT)=.*/$1="$ENV{RET}"/g' ${tmp_default_grub}
-    else
-      RET="$(echo "$RET" | sed -e 's,[$`"\],\\&,g')"
-      echo >> ${tmp_default_grub}
-      echo GRUB_CMDLINE_LINUX_DEFAULT=\"${RET}\" >> ${tmp_default_grub}
-    fi
-
-    ucf --three-way --debconf-ok --sum-file=/usr/share/grub/default/grub.md5sum ${tmp_default_grub} /etc/default/grub
+    ucf --three-way --debconf-ok /usr/share/grub/default/grub /etc/default/grub
     package=$(ucfq --with-colons /etc/default/grub | cut -d : -f 2)
     if echo $package | grep -q "^grub-" ; then
       ucfr --force grub-ieee1275 /etc/default/grub
