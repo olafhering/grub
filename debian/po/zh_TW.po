@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
-"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-10-26 15:44+0100\n"
+"Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
+"POT-Creation-Date: 2009-08-24 20:26+0200\n"
 "PO-Revision-Date: 2009-02-02 12:05+0800\n"
 "Last-Translator: Tetralet <tetralet@gmail.com>\n"
 "Language-Team: Debian-user in Chinese [Big5] <debian-chinese-big5@lists."
@@ -65,16 +65,21 @@ msgstr "upgrade-from-grub-legacy"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:2001
+#: ../grub-pc.templates:3001
 msgid "Linux command line:"
 msgstr "Linux ???:"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:2001
+#: ../grub-pc.templates:3001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from the `kopt' parameter "
+#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
+#| "it if necessary."
 msgid ""
-"The following Linux command line was extracted from the `kopt' parameter in "
-"GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
-"necessary."
+"The following Linux command line was extracted from /etc/default/grub or the "
+"`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
 msgstr ""
 "??? Linux ????? `kopt' ??? GRUB Legacy ? menu.lst ???????????????,??????????"

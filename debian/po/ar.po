@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: grub.ar\n"
-"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-10-26 15:44+0100\n"
+"Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
+"POT-Creation-Date: 2009-08-24 20:26+0200\n"
 "PO-Revision-Date: 2008-11-02 09:24+0300\n"
 "Last-Translator: Ossama M. Khayat <okhayat@yahoo.com>\n"
 "Language-Team: Arabic <support@arabeyes.org>\n"
@@ -37,9 +37,9 @@ msgid ""
 "your existing GRUB Legacy setup.  This step may be automaticaly performed "
 "now."
 msgstr ""
-"لتستبدل النسخة السابقة من GRUB في نظامك، يُستحسن "
-"تعديل الملف /boot/grub/menu.lst لتحميل GRUB 2 تسلسلياً من "
-"إعداد GRUB السابق. ويمكن تنفيذ هذه الخطوة تلقائياً الآن."
+"لتستبدل النسخة السابقة من GRUB في نظامك، يُستحسن تعديل الملف /boot/grub/menu."
+"lst لتحميل GRUB 2 تسلسلياً من إعداد GRUB السابق. ويمكن تنفيذ هذه الخطوة "
+"تلقائياً الآن."
 
 #. Type: boolean
 #. Description
@@ -50,8 +50,8 @@ msgid ""
 "it directly to your MBR (Master Boot Record)."
 msgstr ""
 "يُستحسن أن تقبل التحميل التسلسلي لمدير الإقلاع GRUB من خلال الملف menu.lst، "
-"وتحقق من أن إعداد GRUB 2 صالح لاستخدامك، قبل أن تُبّته "
-"مباشرة على سجل الإقلاع الرئيسي MBR الخاص بك."
+"وتحقق من أن إعداد GRUB 2 صالح لاستخدامك، قبل أن تُبّته مباشرة على سجل الإقلاع "
+"الرئيسي MBR الخاص بك."
 
 #. Type: boolean
 #. Description
@@ -60,8 +60,8 @@ msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
 msgstr ""
-"في أي من الحالتين، متى ما أردت تحميل GRUB 2 مباشرة من سجل الإقلاع الرئيسي MBR، "
-"يمكنك ذلك بإصدار الأمر التالي كمُستخدم root:"
+"في أي من الحالتين، متى ما أردت تحميل GRUB 2 مباشرة من سجل الإقلاع الرئيسي "
+"MBR، يمكنك ذلك بإصدار الأمر التالي كمُستخدم root:"
 
 #. Type: boolean
 #. Description
@@ -71,19 +71,22 @@ msgstr "upgrade-from-grub-legacy"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:2001
+#: ../grub-pc.templates:3001
 msgid "Linux command line:"
 msgstr "سطر أوامر لينكس:"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:2001
+#: ../grub-pc.templates:3001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from the `kopt' parameter "
+#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
+#| "it if necessary."
 msgid ""
-"The following Linux command line was extracted from the `kopt' parameter in "
-"GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
-"necessary."
+"The following Linux command line was extracted from /etc/default/grub or the "
+"`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
 msgstr ""
-"سطر أوامر لينكس التالي تم استخراجه من مُعطى `kopt' في"
-"ملف menu.lst الخاص بحزمة GRUB القديمة. رجاءً تحقق من صحته وقم بتعديله "
-"إن كانت هناك ضرورة."
-
+"سطر أوامر لينكس التالي تم استخراجه من مُعطى `kopt' فيملف menu.lst الخاص بحزمة "
+"GRUB القديمة. رجاءً تحقق من صحته وقم بتعديله إن كانت هناك ضرورة."

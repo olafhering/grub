@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
-"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-10-26 15:44+0100\n"
+"Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
+"POT-Creation-Date: 2009-08-24 20:26+0200\n"
 "PO-Revision-Date: 2009-04-04 14:29+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
@@ -29,8 +29,8 @@ msgstr "Kargatu menu.lst fitxategitik?"
 #: ../grub-pc.templates:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
-"GRUB eguneratzeko skriptek GRUB zahar baten konfigurazioa aurkitu dute /boot/grub-"
-"en."
+"GRUB eguneratzeko skriptek GRUB zahar baten konfigurazioa aurkitu dute /boot/"
+"grub-en."
 
 #. Type: boolean
 #. Description
@@ -64,8 +64,8 @@ msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
 msgstr ""
-"Edozein kasutan, GRUB 2 zuzenean MBR-tik kargatzea nahi duzunean "
-"exekutatu honako komandoa (root gisa):"
+"Edozein kasutan, GRUB 2 zuzenean MBR-tik kargatzea nahi duzunean exekutatu "
+"honako komandoa (root gisa):"
 
 #. Type: boolean
 #. Description
@@ -75,19 +75,22 @@ msgstr "upgrade-from-grub-legacy"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:2001
+#: ../grub-pc.templates:3001
 msgid "Linux command line:"
 msgstr "Linux-eko komando-lerroa:"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:2001
+#: ../grub-pc.templates:3001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from the `kopt' parameter "
+#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
+#| "it if necessary."
 msgid ""
-"The following Linux command line was extracted from the `kopt' parameter in "
-"GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
-"necessary."
+"The following Linux command line was extracted from /etc/default/grub or the "
+"`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
 msgstr ""
 "Linux-eko komando-lerro hau GRUB zaharraren menu.lst fitxategiko 'kopt' "
-"parametrotik atera da. Egiaztatu zuzena dela, eta eraldatu behar izanez "
-"gero."
-
+"parametrotik atera da. Egiaztatu zuzena dela, eta eraldatu behar izanez gero."

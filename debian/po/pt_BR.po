@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2 1.96\n"
-"Report-Msgid-Bugs-To: pkg-grub-devel@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2008-10-26 15:44+0100\n"
+"Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
+"POT-Creation-Date: 2009-08-24 20:26+0200\n"
 "PO-Revision-Date: 2009-03-06 22:14-0300\n"
 "Last-Translator: Flamarion Jorge <jorge.flamarion@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <debian-l10n-portuguese@lists.debian."
@@ -76,17 +76,22 @@ msgstr "upgrade-from-grub-legacy"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:2001
+#: ../grub-pc.templates:3001
 msgid "Linux command line:"
 msgstr "Linha de comando Linux:"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:2001
+#: ../grub-pc.templates:3001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from the `kopt' parameter "
+#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
+#| "it if necessary."
 msgid ""
-"The following Linux command line was extracted from the `kopt' parameter in "
-"GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if "
-"necessary."
+"The following Linux command line was extracted from /etc/default/grub or the "
+"`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
 msgstr ""
 "A linha de comando Linux a seguir foi extraída do parâmetro `kopt' do menu."
 "lst do Grub Legado. Por favor, verifique se ela está correta, e modifique-a "
