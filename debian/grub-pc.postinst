@@ -23,7 +23,7 @@ case "$1" in
     cp -p /usr/share/grub/default/grub ${tmp_default_grub}
 
     db_get grub2/linux_cmdline
-    if grep -q GRUB_CMDLINE_LINUX= ${tmp_default_grub} ; then
+    if grep -q "^GRUB_CMDLINE_LINUX=" ${tmp_default_grub} ; then
       RET="$RET" perl -i -pe 'BEGIN { $ENV{RET} =~ s/[\$`"\\]/\\$&/g } s/^(GRUB_CMDLINE_LINUX)=.*/$1="$ENV{RET}"/g' ${tmp_default_grub}
     else
       RET="$(echo "$RET" | sed -e 's,[$`"\],\\&,g')"
@@ -32,7 +32,7 @@ case "$1" in
     fi
 
     db_get grub2/linux_cmdline_default
-    if grep -q GRUB_CMDLINE_LINUX_DEFAULT= ${tmp_default_grub} ; then
+    if grep -q "^GRUB_CMDLINE_LINUX_DEFAULT=" ${tmp_default_grub} ; then
       RET="$RET" perl -i -pe 'BEGIN { $ENV{RET} =~ s/[\$`"\\]/\\$&/g } s/^(GRUB_CMDLINE_LINUX_DEFAULT)=.*/$1="$ENV{RET}"/g' ${tmp_default_grub}
     else
       RET="$(echo "$RET" | sed -e 's,[$`"\],\\&,g')"
