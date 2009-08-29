@@ -53,6 +53,3 @@ Description: Remove GRUB 2 from /boot/grub?
  Do you want to have all GRUB 2 files removed from /boot/grub?
  .
  Your system would be then unbootable if you don't install another bootloader.
-
-
-
