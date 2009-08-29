@@ -19,8 +19,9 @@ grub2 (1.96+20090829-1) unstable; urgency=low
   * Check that GRUB_CMDLINE_LINUX and GRUB_CMDLINUX_LINUX_DEFAULT is at
     the start of line in *.postinst.
   * Don't check that {,DEFAULT} are non zero in grub-pc.config.
+  * Add empty GRUB_CMDLINE_LINUX to /usr/share/grub/default/grub.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sat, 29 Aug 2009 14:33:35 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sat, 29 Aug 2009 14:58:18 +0200
 
 grub2 (1.96+20090826-3) unstable; urgency=low
 
