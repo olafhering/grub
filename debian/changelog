@@ -19,8 +19,13 @@ grub2 (1.96+20090829-1) unstable; urgency=low
   [ Updated translations ]
   * French (fr.po) by Christian Perrier. (Closes: #544023)
   * Russian (ru.po) by Yuri Kozlov. (Closes: #544077)
+  * Italian (it.po) by Luca Monducci. (Closes: #544200)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sat, 29 Aug 2009 15:11:51 +0200
+  [ Felix Zielcke ]
+  * Factorise the editing of the temporary file. Thanks to Martin F
+    Krafft.
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Sat, 29 Aug 2009 16:56:34 +0200
 
 grub2 (1.96+20090826-3) unstable; urgency=low
 

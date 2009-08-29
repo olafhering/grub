@@ -1,5 +1,21 @@
 #!/bin/bash -e
 
+merge_debconf_into_conf()
+{
+  local tmpfile; tmpfile="$1"
+  local setting; setting="$2"
+  local template; template="$3"
+
+  db_get "$template"
+  local value; value="$(echo "$RET" | sed -e 's,[$`"\@],\\&,g')"
+  if grep -q "^${setting}=" "$tmpfile"; then
+    sed -i -re "s@^(${setting}=).*@\1=\"${value}\"@" "$tmpfile"
+  else
+    echo >> "$tmpfile"
+    echo "${setting}=\"${value}\"" >> "$tmpfile"
+  fi
+}
+
 case "$1" in
   configure)
     . /usr/share/debconf/confmodule
@@ -18,27 +34,12 @@ case "$1" in
       grub-mkdevicemap --no-floppy
     fi
 
-    tmp_default_grub="$(mktemp "/tmp/grub.XXXXXXXXXX")" 
+    tmp_default_grub="$(mktemp "/tmp/grub.XXXXXXXXXX")"
     trap "rm -f ${tmp_default_grub}" EXIT
     cp -p /usr/share/grub/default/grub ${tmp_default_grub}
 
-    db_get grub2/linux_cmdline
-    if grep -q "^GRUB_CMDLINE_LINUX=" ${tmp_default_grub} ; then
-      RET="$RET" perl -i -pe 'BEGIN { $ENV{RET} =~ s/[\$`"\\]/\\$&/g } s/^(GRUB_CMDLINE_LINUX)=.*/$1="$ENV{RET}"/g' ${tmp_default_grub}
-    else
-      RET="$(echo "$RET" | sed -e 's,[$`"\],\\&,g')"
-      echo >> ${tmp_default_grub}
-      echo GRUB_CMDLINE_LINUX=\"${RET}\" >> ${tmp_default_grub}
-    fi
-
-    db_get grub2/linux_cmdline_default
-    if grep -q "^GRUB_CMDLINE_LINUX_DEFAULT=" ${tmp_default_grub} ; then
-      RET="$RET" perl -i -pe 'BEGIN { $ENV{RET} =~ s/[\$`"\\]/\\$&/g } s/^(GRUB_CMDLINE_LINUX_DEFAULT)=.*/$1="$ENV{RET}"/g' ${tmp_default_grub}
-    else
-      RET="$(echo "$RET" | sed -e 's,[$`"\],\\&,g')"
-      echo >> ${tmp_default_grub}
-      echo GRUB_CMDLINE_LINUX_DEFAULT=\"${RET}\" >> ${tmp_default_grub}
-    fi
+    merge_debconf_into_conf "$tmp_default_grub" GRUB_CMDLINE_LINUX grub2/linux_cmdline
+    merge_debconf_into_conf "$tmp_default_grub" GRUB_CMDLINE_LINUX_DEFAULT grub2/linux_cmdline_default
 
     ucf --three-way --debconf-ok --sum-file=/usr/share/grub/default/grub.md5sum ${tmp_default_grub} /etc/default/grub
     package="$(ucfq --with-colons /etc/default/grub | cut -d : -f 2)"
