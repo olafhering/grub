@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-30 17:54+0200\n"
-"PO-Revision-Date: 2009-08-28 08:08+0200\n"
+"PO-Revision-Date: 2009-08-30 15:58+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -95,10 +95,8 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "Ligne de commande de Linux :"
+msgstr "Ligne de commande par défaut de Linux :"
 
 #. Type: string
 #. Description
@@ -107,40 +105,33 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"Les paramètres indiqués seront utilisés pour le noyau Linux de l'entrée de "
+"menu par défaut mais pas pour le mode de secours."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "Ligne de commande de Linux :"
+msgstr "Ligne de commande de kFreeBSD :"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"La ligne de commande de Linux suivante a été récupérée via le fichier /etc/"
-"default/grub ou le paramètre « kopt » du fichier menu.lst utilisé par la "
+"La ligne de commande de kFreeBSD suivante a été récupérée via le fichier /"
+"etc/default/grub ou le paramètre « kopt » du fichier menu.lst utilisé par la "
 "version originelle de GRUB. Veuillez contrôler qu'elle est correcte et la "
 "modifier si nécessaire."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "Ligne de commande de Linux :"
+msgstr "Ligne de commande par défaut de kFreeBSD :"
 
 #. Type: string
 #. Description
@@ -149,3 +140,5 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"Les paramètres indiqués seront utilisés pour le noyau kFreeBSD de l'entrée "
+"de menu par défaut mais pas pour le mode de secours."
