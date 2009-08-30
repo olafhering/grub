@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2 1.96+20090826-3\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2009-08-24 20:26+0200\n"
+"POT-Creation-Date: 2009-08-30 14:58+0200\n"
 "PO-Revision-Date: 2009-08-28 20:07+0400\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -16,25 +16,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid "Chainload from menu.lst?"
 msgstr "Включить загрузку по цепочке (chainload) в menu.lst?"
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
-"Сценарии обновления обнаружили установку GRUB предыдущего поколения в /"
-"boot/grub."
+"Сценарии обновления обнаружили установку GRUB предыдущего поколения в /boot/"
+"grub."
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
 "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
@@ -48,7 +49,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that your new GRUB 2 setup is functional for you, before you install "
@@ -60,40 +61,91 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
 msgstr ""
-"В любом случае, если вы хотите, чтобы GRUB 2 загружался "
-"непосредственно из MBR, выполните следующую команду (имея права "
-"суперпользователя):"
+"В любом случае, если вы хотите, чтобы GRUB 2 загружался непосредственно из "
+"MBR, выполните следующую команду (имея права суперпользователя):"
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid "upgrade-from-grub-legacy"
 msgstr "upgrade-from-grub-legacy"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:3001
+#: ../templates.in:1001
 msgid "Linux command line:"
 msgstr "Командная строка Linux:"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:3001
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
+#: ../templates.in:1001
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"Представленная ниже строка была извлечена из /etc/default/grub или "
-"параметра `kopt' старого файла GRUB menu.lst. Проверьте, что всё "
-"правильно, или измените её, если требуется."
+"Представленная ниже строка была извлечена из /etc/default/grub или параметра "
+"`kopt' старого файла GRUB menu.lst. Проверьте, что всё правильно, или "
+"измените её, если требуется."
 
+#. Type: string
+#. Description
+#: ../templates.in:2001
+#, fuzzy
+#| msgid "Linux command line:"
+msgid "Linux default command line:"
+msgstr "Командная строка Linux:"
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid ""
+"The following string will be used as Linux parameters for the default menu "
+"entry but not for the recovery mode."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+#, fuzzy
+#| msgid "Linux command line:"
+msgid "kFreeBSD command line:"
+msgstr "Командная строка Linux:"
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from /etc/default/grub or "
+#| "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+#| "correct, and modify it if necessary."
+msgid ""
+"The following kFreeBSD command line was extracted from /etc/default/grub or "
+"the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"Представленная ниже строка была извлечена из /etc/default/grub или параметра "
+"`kopt' старого файла GRUB menu.lst. Проверьте, что всё правильно, или "
+"измените её, если требуется."
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+#, fuzzy
+#| msgid "Linux command line:"
+msgid "kFreeBSD default command line:"
+msgstr "Командная строка Linux:"
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid ""
+"The following string will be used as kFreeBSD parameters for the default "
+"menu entry but not for the recovery mode."
+msgstr ""

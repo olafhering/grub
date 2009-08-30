@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2_1.96+20081005-1_nl\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2009-08-24 20:26+0200\n"
+"POT-Creation-Date: 2009-08-30 14:58+0200\n"
 "PO-Revision-Date: 2008-10-27 19:32-0600\n"
 "Last-Translator: Paul Gevers <paul@climbing.nl>\n"
 "Language-Team: Dutch <debian-l10n-dutch@lists.debian.org>\n"
@@ -18,13 +18,13 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid "Chainload from menu.lst?"
 msgstr "Doorschakel vanuit menu.lst?"
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
 "GRUB's opwaardeerscripts hebben een overgeërfde GRUB opstelling in /boot/"
@@ -32,7 +32,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
 "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
@@ -46,7 +46,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that your new GRUB 2 setup is functional for you, before you install "
@@ -58,7 +58,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
@@ -68,19 +68,19 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid "upgrade-from-grub-legacy"
 msgstr "upgrade-from-grub-legacy"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:3001
+#: ../templates.in:1001
 msgid "Linux command line:"
 msgstr "Linux-commandoregel:"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:3001
+#: ../templates.in:1001
 #, fuzzy
 #| msgid ""
 #| "The following Linux command line was extracted from the `kopt' parameter "
@@ -94,3 +94,60 @@ msgstr ""
 "De volgende Linux-commandoregel is gebaseerd op de 'kopt'-parameter gevonden "
 "in het menu.lst bestand van de overgeërfde GRUB. Wilt u deze op correctheid "
 "controleren en indien nodig aanpassen?"
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+#, fuzzy
+#| msgid "Linux command line:"
+msgid "Linux default command line:"
+msgstr "Linux-commandoregel:"
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid ""
+"The following string will be used as Linux parameters for the default menu "
+"entry but not for the recovery mode."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+#, fuzzy
+#| msgid "Linux command line:"
+msgid "kFreeBSD command line:"
+msgstr "Linux-commandoregel:"
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from the `kopt' parameter "
+#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
+#| "it if necessary."
+msgid ""
+"The following kFreeBSD command line was extracted from /etc/default/grub or "
+"the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"De volgende Linux-commandoregel is gebaseerd op de 'kopt'-parameter gevonden "
+"in het menu.lst bestand van de overgeërfde GRUB. Wilt u deze op correctheid "
+"controleren en indien nodig aanpassen?"
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+#, fuzzy
+#| msgid "Linux command line:"
+msgid "kFreeBSD default command line:"
+msgstr "Linux-commandoregel:"
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid ""
+"The following string will be used as kFreeBSD parameters for the default "
+"menu entry but not for the recovery mode."
+msgstr ""

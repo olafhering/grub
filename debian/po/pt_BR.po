@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2 1.96\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2009-08-24 20:26+0200\n"
+"POT-Creation-Date: 2009-08-30 14:58+0200\n"
 "PO-Revision-Date: 2009-03-06 22:14-0300\n"
 "Last-Translator: Flamarion Jorge <jorge.flamarion@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <debian-l10n-portuguese@lists.debian."
@@ -19,13 +19,13 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid "Chainload from menu.lst?"
 msgstr "Carregar em cadeia a partir do menu.lst?"
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
 "Os scripts de atualização do GRUB detectaram uma configuração do GRUB Legado "
@@ -33,7 +33,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
 "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
@@ -47,7 +47,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that your new GRUB 2 setup is functional for you, before you install "
@@ -60,7 +60,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
@@ -70,19 +70,19 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates:1001
+#: ../grub-pc.templates.in:1001
 msgid "upgrade-from-grub-legacy"
 msgstr "upgrade-from-grub-legacy"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:3001
+#: ../templates.in:1001
 msgid "Linux command line:"
 msgstr "Linha de comando Linux:"
 
 #. Type: string
 #. Description
-#: ../grub-pc.templates:3001
+#: ../templates.in:1001
 #, fuzzy
 #| msgid ""
 #| "The following Linux command line was extracted from the `kopt' parameter "
@@ -96,6 +96,63 @@ msgstr ""
 "A linha de comando Linux a seguir foi extraída do parâmetro `kopt' do menu."
 "lst do Grub Legado. Por favor, verifique se ela está correta, e modifique-a "
 "se necessário."
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+#, fuzzy
+#| msgid "Linux command line:"
+msgid "Linux default command line:"
+msgstr "Linha de comando Linux:"
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid ""
+"The following string will be used as Linux parameters for the default menu "
+"entry but not for the recovery mode."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+#, fuzzy
+#| msgid "Linux command line:"
+msgid "kFreeBSD command line:"
+msgstr "Linha de comando Linux:"
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from the `kopt' parameter "
+#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
+#| "it if necessary."
+msgid ""
+"The following kFreeBSD command line was extracted from /etc/default/grub or "
+"the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"A linha de comando Linux a seguir foi extraída do parâmetro `kopt' do menu."
+"lst do Grub Legado. Por favor, verifique se ela está correta, e modifique-a "
+"se necessário."
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+#, fuzzy
+#| msgid "Linux command line:"
+msgid "kFreeBSD default command line:"
+msgstr "Linha de comando Linux:"
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid ""
+"The following string will be used as kFreeBSD parameters for the default "
+"menu entry but not for the recovery mode."
+msgstr ""
 
 #~ msgid "GRUB 1.95 numbering scheme transition"
 #~ msgstr "Transição do esquema de numeração do GRUB 1.95"

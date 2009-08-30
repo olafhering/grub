@@ -110,9 +110,6 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 		done ; \
 	fi
 
-	# make sure PO files are always up-to-date
-	debconf-updatepo
-
 	if [ "$@" != "install/grub-pc" ] && [ "$(DEB_HOST_ARCH_CPU)" != "sparc" ] ; then \
 		i=$(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/*/kernel.img ; if test -e $$i ; then strip -s $$i ; fi \
 	fi
@@ -146,6 +143,9 @@ clean:: debian/legacy/update-grub debian/grub-extras
 		rm -f debian/grub-{pc,efi-*,ieee1275,coreboot}.$$i ; \
 	done
 	-rm -rf build
+
+	# make sure PO files are always up-to-date
+	debconf-updatepo
 
 debian/legacy/update-grub:
 	@echo "Missing $@.  Try: \"svn cat svn://svn.debian.org/pkg-grub/grub/trunk/debian/update-grub > $@\""
