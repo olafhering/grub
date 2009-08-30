@@ -1,14 +1,14 @@
 # Czech translation of grub2 debconf messages.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the grub2 package.
-# Miroslav Kure <kurem@debian.cz>, 2008
+# Miroslav Kure <kurem@debian.cz>, 2008, 2009
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-30 17:54+0200\n"
-"PO-Revision-Date: 2008-10-28 09:44+0100\n"
+"PO-Revision-Date: 2009-08-30 18:47+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Abyste na svém systému nahradili zastaralou verzi GRUBu, je doporučeno "
 "upravit /boot/grub/menu.lst tak, aby zavedl GRUB 2 pomocí stávajícího GRUB "
-"Legacy. Tento krok je nyní možno provést automaticky."
+"Legacy. Tento krok je nyní možné provést automaticky."
 
 #. Type: boolean
 #. Description
@@ -79,27 +79,21 @@ msgstr "Parametry pro Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"Následující řádka s linuxovými parametry byla získána ze starého souboru "
-"menu.lst z parametru „kopt“. Zkontrolujte prosím, zda jsou parametry v "
-"pořádku a případně je upravte do požadované podoby."
+"Následující řádka s parametry pro Linux byla získána ze starého souboru menu."
+"lst z parametru „kopt“ nebo ze souboru /etc/default/grub. Zkontrolujte "
+"prosím, zda jsou parametry v pořádku a případně je upravte do požadované "
+"podoby."
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "Parametry pro Linux:"
+msgstr "Výchozí parametry pro Linux:"
 
 #. Type: string
 #. Description
@@ -108,39 +102,33 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"Následující parametry pro Linux se použijí pro výchozí položku menu, ale ne "
+"pro záchranný režim."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "Parametry pro Linux:"
+msgstr "Parametry pro kFreeBSD:"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"Následující řádka s linuxovými parametry byla získána ze starého souboru "
-"menu.lst z parametru „kopt“. Zkontrolujte prosím, zda jsou parametry v "
-"pořádku a případně je upravte do požadované podoby."
+"Následující řádka s parametry pro kFreeBSD byla získána ze starého souboru "
+"menu.lst z parametru „kopt“ nebo ze souboru /etc/default/grub. Zkontrolujte "
+"prosím, zda jsou parametry v pořádku a případně je upravte do požadované "
+"podoby."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "Parametry pro Linux:"
+msgstr "Výchozí parametry pro kFreeBSD:"
 
 #. Type: string
 #. Description
@@ -149,3 +137,5 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"Následující parametry pro kFreeBSD se použijí pro výchozí položku menu, ale "
+"ne pro záchranný režim."
