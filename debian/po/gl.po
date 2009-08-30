@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2009-08-30 14:58+0200\n"
+"POT-Creation-Date: 2009-08-30 17:54+0200\n"
 "PO-Revision-Date: 2008-05-28 17:15+0100\n"
 "Last-Translator: Jacobo Tarrio <jtarrio@debian.org>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
@@ -16,13 +16,13 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:1001
+#: ../grub-pc.templates.in:2001
 msgid "Chainload from menu.lst?"
 msgstr "¿Cargar en cadea desde menu.lst?"
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:1001
+#: ../grub-pc.templates.in:2001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
 "Os scripts de actualización de GRUB detectaron unha configuración do GRUB "
@@ -30,7 +30,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:1001
+#: ../grub-pc.templates.in:2001
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
 "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
@@ -43,7 +43,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:1001
+#: ../grub-pc.templates.in:2001
 msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that your new GRUB 2 setup is functional for you, before you install "
@@ -55,7 +55,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:1001
+#: ../grub-pc.templates.in:2001
 msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
@@ -65,7 +65,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:1001
+#: ../grub-pc.templates.in:2001
 msgid "upgrade-from-grub-legacy"
 msgstr "upgrade-from-grub-legacy"
 
