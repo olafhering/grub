@@ -1,4 +1,4 @@
-grub2 (1.97~beta1) unstable; urgency=low
+grub2 (1.97~beta1-1) unstable; urgency=low
 
   * New upstream beta release.
 
@@ -14,7 +14,7 @@ grub2 (1.97~beta1) unstable; urgency=low
     in grub2/linux_cmdline_default.  Add grub2/kfreebsd_* strings (still
     unused).
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 30 Aug 2009 17:57:00 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 30 Aug 2009 18:01:40 +0200
 
 grub2 (1.96+20090829-1) unstable; urgency=low
 
