@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-30 14:58+0200\n"
-"PO-Revision-Date: 2008-10-27 22:41+0400\n"
+"PO-Revision-Date: 2009-08-30 18:05+0400\n"
 "Last-Translator: Aiet Kolkhi <aietkolkhi@gmail.com>\n"
 "Language-Team: Georgian <aiet@gakartuleba.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,45 +28,25 @@ msgstr "გსურთ Chainload ჩატვირთვა menu.lst-დან
 #. Description
 #: ../grub-pc.templates.in:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
-msgstr ""
-"GRUB-ის განახლების სკრიფტები GRUB-ის ძველ ინსტალაციას გადააწყდა /boot/grub "
-"მდებარეობაში."
+msgstr "GRUB-ის განახლების სკრიფტები GRUB-ის ძველ ინსტალაციას გადააწყდა /boot/grub მდებარეობაში."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:1001
-msgid ""
-"In order to replace the Legacy version of GRUB in your system, it is "
-"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
-"your existing GRUB Legacy setup.  This step may be automaticaly performed "
-"now."
-msgstr ""
-"იმისათვის, რომ თქვენს სისტემაზე ჩანაცვლდეს ძველი GRUB-ის ინსტალაცია, "
-"სასურველია /boot/grub/menu.lst ჩასწორდეს, რომ შეასრულოს GRUB 2-ის chainload "
-"ჩატვირთვა თქვენი არსებული GRUB-ის ძველი ინსტალაციიდან.  ეს საფეხური "
-"შესაძლებელია ახლა შესრულდეს ავტომატურად."
+msgid "In order to replace the Legacy version of GRUB in your system, it is recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from your existing GRUB Legacy setup.  This step may be automaticaly performed now."
+msgstr "იმისათვის, რომ თქვენს სისტემაზე ჩანაცვლდეს ძველი GRUB-ის ინსტალაცია, სასურველია /boot/grub/menu.lst ჩასწორდეს, რომ შეასრულოს GRUB 2-ის chainload ჩატვირთვა თქვენი არსებული GRUB-ის ძველი ინსტალაციიდან.  ეს საფეხური შესაძლებელია ახლა შესრულდეს ავტომატურად."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:1001
-msgid ""
-"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
-"verify that your new GRUB 2 setup is functional for you, before you install "
-"it directly to your MBR (Master Boot Record)."
-msgstr ""
-"სასურველია მიიღოთ menu.lst-დან GRUB 2-ის chainload მეთოდით ჩატვირთვა, ასევე "
-"გადაამოწმოთ, რომ თქვენი ახალი GRUB 2-ის ინსტალაცია ფუნქციონირებდეს, სანამ "
-"მას პირდაპირ Master Boot Record (MBR)-ში ჩაწერდეთ."
+msgid "It's recommended that you accept chainloading GRUB 2 from menu.lst, and verify that your new GRUB 2 setup is functional for you, before you install it directly to your MBR (Master Boot Record)."
+msgstr "სასურველია მიიღოთ menu.lst-დან GRUB 2-ის chainload მეთოდით ჩატვირთვა, ასევე გადაამოწმოთ, რომ თქვენი ახალი GRUB 2-ის ინსტალაცია ფუნქციონირებდეს, სანამ მას პირდაპირ Master Boot Record (MBR)-ში ჩაწერდეთ."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:1001
-msgid ""
-"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
-"can do so by issuing (as root) the following command:"
-msgstr ""
-"ნებისმიერ შემთხვევაში, როდესაც მოისურვებთ GRUB 2 პირდაპირ MBR-დან "
-"ჩაიტვირთოს, ამისათვის გაუშვით შემდეგი ბრძანება (root პრივილეგიებით):"
+msgid "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you can do so by issuing (as root) the following command:"
+msgstr "ნებისმიერ შემთხვევაში, როდესაც მოისურვებთ GRUB 2 პირდაპირ MBR-დან ჩაიტვირთოს, ამისათვის გაუშვით შემდეგი ბრძანება (root პრივილეგიებით):"
 
 #. Type: boolean
 #. Description
@@ -83,71 +63,53 @@ msgstr "ლინუქსის ბრძანების სტრიქო�
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
 #| msgid ""
 #| "The following Linux command line was extracted from the `kopt' parameter "
 #| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
 #| "it if necessary."
-msgid ""
-"The following Linux command line was extracted from /etc/default/grub or the "
-"`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
-"correct, and modify it if necessary."
-msgstr ""
-"ლინუქსის შემდეგი ბრძანება მოძიებულ იქნა `kopt' პარამეტრიდან ძველი GRUB-ის "
-"menu.lst-ში.  გადაამოწმეთ, რომ იგი სწორია, ან შეცვალეთ შესაბამისად."
+msgid "The following Linux command line was extracted from /etc/default/grub or the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if necessary."
+msgstr "ლინუქსის შემდეგი ბრძანება მოძიებულ იქნა /etc/default/grub-დან ან `kopt' პარამეტრიდან ძველი GRUB-ის menu.lst-ში.  გადაამოწმეთ, რომ იგი სწორია, ან შეცვალეთ შესაბამისად."
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
 #| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "ლინუქსის ბრძანების სტრიქონი:"
+msgstr "ლინუქსის სტანდარტული ბრძანების სტრიქონი:"
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
-msgid ""
-"The following string will be used as Linux parameters for the default menu "
-"entry but not for the recovery mode."
-msgstr ""
+msgid "The following string will be used as Linux parameters for the default menu entry but not for the recovery mode."
+msgstr "შემდეგი სტრიქონი გამოყენებულ იქნება როგორც ლინუქსის პარამეტრები მენიუს სტანდარტული შენატანისათვის, მაგრამ არა აღდგენის რეჟიმისათვის."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
 #| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "ლინუქსის ბრძანების სტრიქონი:"
+msgstr "kFreeBSD ბრძანების სტრიქონი:"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
 #| msgid ""
 #| "The following Linux command line was extracted from the `kopt' parameter "
 #| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
 #| "it if necessary."
-msgid ""
-"The following kFreeBSD command line was extracted from /etc/default/grub or "
-"the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
-"correct, and modify it if necessary."
-msgstr ""
-"ლინუქსის შემდეგი ბრძანება მოძიებულ იქნა `kopt' პარამეტრიდან ძველი GRUB-ის "
-"menu.lst-ში.  გადაამოწმეთ, რომ იგი სწორია, ან შეცვალეთ შესაბამისად."
+msgid "The following kFreeBSD command line was extracted from /etc/default/grub or the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify it if necessary."
+msgstr "შემდეგი kFreeBSD-ის ბრძანების სტრიქონი ამოღებულ იქნა /etc/default/grub-დან ან `kopt'  პარამეტრიდან ძველი GRUB-ის menu.lst-ში.  გადაამოწმეთ, რომ იგი სწორია, ან შეცვალეთ შესაბამისად."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
 #| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "ლინუქსის ბრძანების სტრიქონი:"
+msgstr "kFreeBSD-ის სტანდარტული ბრძანების სტრიქონი:"
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-msgid ""
-"The following string will be used as kFreeBSD parameters for the default "
-"menu entry but not for the recovery mode."
-msgstr ""
+msgid "The following string will be used as kFreeBSD parameters for the default menu entry but not for the recovery mode."
+msgstr "შემდეგი სტრიქონი გამოყენებულ იქნება როგორც kFreeBSD-ს პარამეტრები მენიუს სტანდარტული შენატანისათვის, მაგრამ არა აღდგენის რეჟიმისათვის."
+
