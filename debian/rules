@@ -108,7 +108,7 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 		for i in templates install dirs ; do \
 			cat debian/grub-pc.$$i.in >> debian/grub-pc.$$i ; \
 		done ; \
-	done
+	fi
 
 	# make sure PO files are always up-to-date
 	debconf-updatepo
