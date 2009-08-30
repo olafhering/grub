@@ -139,7 +139,7 @@ install/grub-common::
 
 clean:: debian/legacy/update-grub debian/grub-extras
 	chmod +x debian/{script,grub.d/*,legacy/*}
-	for i in $(AUTOGEN_DEB_FILES) ; do
+	for i in $(AUTOGEN_DEB_FILES) ; do \
 		-rm -f debian/grub-{pc,efi-*,ieee1275,coreboot}.$$i ; \
 	done
 	-rm -rf build
