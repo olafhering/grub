@@ -1,3 +1,6 @@
+
+# This file is concatenated.  Do not delete the newline above.
+
 Template: grub-pc/chainload_from_menu.lst
 Type: boolean
 Default: true
