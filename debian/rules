@@ -103,6 +103,13 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 			> debian/$(subst install/,,$@).$$i ; \
 	done
 
+	# grub-pc is a bit special.  It includes a few overlays for autogen files.
+	if [ "$@" = "install/grub-pc" ] ; then \
+		for i in templates install dirs ; do \
+			cat debian/grub-pc.$$i.in >> debian/grub-pc.$$i ; \
+		done ; \
+	done
+
 	if [ "$@" != "install/grub-pc" ] && [ "$(DEB_HOST_ARCH_CPU)" != "sparc" ] ; then \
 		i=$(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/*/kernel.img ; if test -e $$i ; then strip -s $$i ; fi \
 	fi
