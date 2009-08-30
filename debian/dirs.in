@@ -1,4 +1,4 @@
 usr/bin
 usr/sbin
 usr/share/grub
-usr/share/bug/grub-coreboot
+usr/share/bug/@PACKAGE@

@@ -9,7 +9,7 @@ case "$1" in
 	ucf --purge /etc/default/grub
     fi
     if which ucfr >/dev/null; then
-	ucfr --purge grub-efi-amd64 /etc/default/grub
+	ucfr --purge @PACKAGE@ /etc/default/grub
     fi
 
   ;;

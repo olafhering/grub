@@ -28,6 +28,7 @@ CONFIGURE = CC="cc" CXX="g++" CPPFLAGS="" LDFLAGS="" \
 	--enable-grub-emu --enable-grub-mkfont --disable-grub-fstest 
 
 AUTOGEN_FILES = configure config.h.in conf/*.mk
+AUTOGEN_DEB_FILES = docs examples manpages config templates postinst postrm dirs install
 
 $(AUTOGEN_FILES): autogen.sh configure.ac conf/*.rmk
 	./autogen.sh
@@ -96,8 +97,10 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/share/grub/
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/include
 
-	for i in docs examples manpages ; do \
-		cp debian/$$i.in debian/$(subst install/,,$@).$$i ; \
+	for i in $(AUTOGEN_DEB_FILES) ; do \
+		sed debian/$$i.in \
+			-e "s/@PACKAGE@/$(subst install/,,$@)/g" \
+			> debian/$(subst install/,,$@).$$i ; \
 	done
 
 	if [ "$@" != "install/grub-pc" ] && [ "$(DEB_HOST_ARCH_CPU)" != "sparc" ] ; then \
@@ -129,7 +132,9 @@ install/grub-common::
 
 clean:: debian/legacy/update-grub debian/grub-extras
 	chmod +x debian/{script,grub.d/*,legacy/*}
-	-rm -f debian/grub-{pc,efi-*,ieee1275,coreboot}.{docs,manpages}
+	for i in $(AUTOGEN_DEB_FILES) ; do
+		-rm -f debian/grub-{pc,efi-*,ieee1275,coreboot}.$$i ; \
+	done
 	-rm -rf build
 
 	# make sure PO files are always up-to-date

@@ -1,6 +1,0 @@
-debian/presubj			usr/share/bug/grub-efi
-debian/script			usr/share/bug/grub-efi
-debian/default			usr/share/grub
-debian/grub.d			etc
-debian/update-grub2		usr/sbin
-debian/update-grub		usr/sbin

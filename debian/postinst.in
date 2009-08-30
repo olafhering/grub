@@ -30,9 +30,9 @@ case "$1" in
     ucf --three-way --debconf-ok --sum-file=/usr/share/grub/default/grub.md5sum ${tmp_default_grub} /etc/default/grub
     package=$(ucfq --with-colons /etc/default/grub | cut -d : -f 2)
     if echo $package | grep -q "^grub-" ; then
-      ucfr --force grub-ieee1275 /etc/default/grub
+      ucfr --force @PACKAGE@ /etc/default/grub
     else
-      ucfr grub-ieee1275 /etc/default/grub
+      ucfr @PACKAGE@ /etc/default/grub
     fi
 
     if test -e /boot/grub/grub.cfg ; then
