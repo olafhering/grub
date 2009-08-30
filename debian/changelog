@@ -6,8 +6,11 @@ grub2 (1.96+20090829-2) unstable; urgency=low
   [ Robert Millan ]
   * Merge config, templates, postinst, postrm, dirs and install files
     into a single source.
+  * Disable Linux-specific strings on GNU/kFreeBSD.  Enable translations
+    in grub2/linux_cmdline_default.  Add grub2/kfreebsd_* strings (still
+    unused).
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Sun, 30 Aug 2009 14:23:07 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Sun, 30 Aug 2009 14:32:10 +0200
 
 grub2 (1.96+20090829-1) unstable; urgency=low
 

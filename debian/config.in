@@ -1,5 +1,12 @@
 #!/bin/sh -e
 
+case `dpkg --print-architecture` in
+  kfreebsd-*)
+    # No migration from GRUB Legacy, no Linux cmdline
+    exit 0
+  ;;
+esac
+
 . /usr/share/debconf/confmodule
 
 priority=high
