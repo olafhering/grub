@@ -39,7 +39,7 @@ grub2 (1.96+20090829-1) unstable; urgency=low
 
   * Use `cp -p' to copy /usr/share/grub/default/grub to the temporary
     file to preverse permissions.
-  * Remove also efiemu files from /boot/grun on purge if requested.
+  * Remove also efiemu files from /boot/grub on purge if requested.
   * Check that GRUB_CMDLINE_LINUX and GRUB_CMDLINUX_LINUX_DEFAULT is at
     the start of line in *.postinst.
   * Don't check that $GRUB_CMDLINE_LINUX{,DEFAULT} are non empty strings
