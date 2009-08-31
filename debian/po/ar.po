@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Ossama M. Khayat <okhayat@yahoo.com>, 2008.
+# Ossama M. Khayat <okhayat@yahoo.com>, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: grub.ar\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2009-08-30 17:54+0200\n"
-"PO-Revision-Date: 2008-11-02 09:24+0300\n"
+"POT-Creation-Date: 2009-08-30 14:58+0200\n"
+"PO-Revision-Date: 2009-08-31 13:11+0300\n"
 "Last-Translator: Ossama M. Khayat <okhayat@yahoo.com>\n"
 "Language-Team: Arabic <support@arabeyes.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,19 +18,19 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid "Chainload from menu.lst?"
 msgstr "تفعيل التحميل التسلسلي من menu.lst؟"
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr "عثرت بريمجيات ترقية GRUB على إعداد سابق في /boot/grub."
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
 "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
@@ -43,7 +43,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that your new GRUB 2 setup is functional for you, before you install "
@@ -55,7 +55,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
@@ -65,7 +65,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid "upgrade-from-grub-legacy"
 msgstr "upgrade-from-grub-legacy"
 
@@ -78,7 +78,6 @@ msgstr "سطر أوامر لينكس:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
 #| msgid ""
 #| "The following Linux command line was extracted from the `kopt' parameter "
 #| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
@@ -88,16 +87,16 @@ msgid ""
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"سطر أوامر لينكس التالي تم استخراجه من مُعطى `kopt' فيملف menu.lst الخاص بحزمة "
-"GRUB القديمة. رجاءً تحقق من صحته وقم بتعديله إن كانت هناك ضرورة."
+"سطر أوامر لينكس التالي تم استخراجه من /etc/default/grub أو\n"
+"مُعطى `kopt' في ملف menu.lst الخاص بحزمة GRUB القديمة. رجاءً تحقق من\n"
+"صحته وقم بتعديله إن كانت هناك ضرورة."
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
 #| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "سطر أوامر لينكس:"
+msgstr "سطر أوامر لينكس الافتراضي:"
 
 #. Type: string
 #. Description
@@ -106,19 +105,19 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"سيتم استخدام سلسلة الحروف التالية كمُعطيات لتشغيل النظام لمُدخل القائمة\n"
+"الافتراضي ولكن ليس لوضع الإنقاذ."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
 #| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "سطر أوامر لينكس:"
+msgstr "سطر أوامر KFreeBSD:"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
 #| msgid ""
 #| "The following Linux command line was extracted from the `kopt' parameter "
 #| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
@@ -128,16 +127,16 @@ msgid ""
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"سطر أوامر لينكس التالي تم استخراجه من مُعطى `kopt' فيملف menu.lst الخاص بحزمة "
-"GRUB القديمة. رجاءً تحقق من صحته وقم بتعديله إن كانت هناك ضرورة."
+"سطر أوامر KFreeBSD التالي تم استخراجه من /etc/default/grub أو\n"
+"مُعطى `kopt' في ملف menu.lst الخاص بحزمة GRUB القديمة. رجاءً تحقق من صحته وقم "
+"بتعديله إن كانت هناك ضرورة."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
 #| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "سطر أوامر لينكس:"
+msgstr "سطر أوامر KFreeBSD الافتراضي:"
 
 #. Type: string
 #. Description
@@ -146,3 +145,5 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"سيتم استخدام النص التالي كمُعطى KFreeBSD لمُدخل القائمة\n"
+"الافتراضي ولكن ليس لوضع الإنقاذ."
