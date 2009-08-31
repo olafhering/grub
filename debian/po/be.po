@@ -8,9 +8,10 @@ msgstr ""
 "Project-Id-Version: be\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-30 17:54+0200\n"
-"PO-Revision-Date: 2009-02-19 09:19+0200\n"
+"PO-Revision-Date: 2009-08-31 10:50+0200\n"
 "Last-Translator: Hleb Rubanau <g.rubanau@gmail.com>\n"
-"Language-Team: Belarusian (Official spelling) <be@d-i.tanatos.org>\n"
+"Language-Team: Debian Belarusian (Official spelling) <debian-l10n-"
+"belarusian@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -75,32 +76,26 @@ msgstr "update-from-grub-legacy"
 #. Description
 #: ../templates.in:1001
 msgid "Linux command line:"
-msgstr "Камандны радок Linux:"
+msgstr "Радок камандаў для ядра Linux:"
 
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"Наступная каманда Linux была атрымана з параметру `kopt' у файле наладак "
-"(menu.lst) папярэдняй версіі GRUB. Калі ласка, пераканайцеся, што яна "
-"запісаная правільна, альбо, калі трэба, выпраўце яе. "
+"Гэты радок камандаў для ядра Linux узяты з файлу /etc/default/grub або з "
+"параметру `kopt' у файле наладак (menu.lst) папярэдняй версіі GRUB. Калі "
+"ласка, пераканайцеся, што каманды запісаныя правільна, або папраўце іх, калі "
+"трэба."
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "Камандны радок Linux:"
+msgstr "Прадвызначаны радок камандаў для ядра Linux:"
 
 #. Type: string
 #. Description
@@ -109,39 +104,33 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"Наступны радок будзе выкарыстаны ў якасці параметраў ядра Linux для "
+"прадвызначанага пункту меню (але не для рэжыму аднаўлення)."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "Камандны радок Linux:"
+msgstr "Радок камандаў для ядра kFreeBSD:"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"Наступная каманда Linux была атрымана з параметру `kopt' у файле наладак "
-"(menu.lst) папярэдняй версіі GRUB. Калі ласка, пераканайцеся, што яна "
-"запісаная правільна, альбо, калі трэба, выпраўце яе. "
+"Гэты радок камандаў для kFreeBSD узяты з файлу /etc/default/grub або з "
+"параметру `kopt' у файле наладак (menu.lst) папярэдняй версіі GRUB. Калі "
+"ласка, пераканайцеся, што каманды запісаныя правільна, або папраўце іх, калі "
+"трэба."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "Камандны радок Linux:"
+msgstr "Прадвызначаны радок камандаў для ядра kFreeBSD:"
 
 #. Type: string
 #. Description
@@ -150,6 +139,8 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"Наступны радок будзе выкарыстаны ў якасці параметраў ядра kFreeBSD для "
+"прадвызначанага пункту меню (але не для рэжыму аднаўлення)."
 
 #~ msgid "GRUB 1.95 numbering scheme transition"
 #~ msgstr "Змена схемы нумарацыі GRUB 1.95"

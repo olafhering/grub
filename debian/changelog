@@ -6,8 +6,9 @@ grub2 (1.97~beta1-2) unstable; urgency=low
   [ Updated translations ]
   * French (fr.po) by Christian Perrier. (Closes: #544320)
   * Czech (cs.po) by Miroslav Kure. (Closes: #544327)
+  * Belarusian (be.po) by Hleb Rubanau.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 30 Aug 2009 21:30:05 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 31 Aug 2009 10:32:22 +0200
 
 grub2 (1.97~beta1-1) unstable; urgency=low
 
