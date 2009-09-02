@@ -1,16 +1,16 @@
 # translation of grub2_sv.po to Swedish
 # Swedish translation for grub2.
-# Copyright (C) 2007, 2008 Free Software Foundation, Inc.
+# Copyright (C) 2007, 2008, 2009 Free Software Foundation, Inc.
 # This file is distributed under the same license as the grub2 package.
 #
 # Daniel Nylander <po@danielnylander.se>, 2007.
-# Martin Ågren <martin.agren@gmail.com>, 2008.
+# Martin Ågren <martin.agren@gmail.com>, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2_sv\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2009-08-30 17:54+0200\n"
-"PO-Revision-Date: 2008-11-01 18:22+0100\n"
+"POT-Creation-Date: 2009-08-30 14:58+0200\n"
+"PO-Revision-Date: 2009-09-02 20:53+0200\n"
 "Last-Translator: Martin Ågren <martin.agren@gmail.com>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,13 +21,13 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid "Chainload from menu.lst?"
 msgstr "Kedjeladda från menu.lst?"
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
 "GRUB:s uppgraderingsskript har upptäckt en gammal GRUB-inställning i /boot/"
@@ -35,7 +35,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
 "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
@@ -48,7 +48,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that your new GRUB 2 setup is functional for you, before you install "
@@ -60,7 +60,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
@@ -70,7 +70,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid "upgrade-from-grub-legacy"
 msgstr "upgrade-from-grub-legacy"
 
@@ -78,12 +78,11 @@ msgstr "upgrade-from-grub-legacy"
 #. Description
 #: ../templates.in:1001
 msgid "Linux command line:"
-msgstr "Linux-kommandorad:"
+msgstr "Kommandorad för Linux:"
 
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
 #| msgid ""
 #| "The following Linux command line was extracted from the `kopt' parameter "
 #| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
@@ -93,16 +92,16 @@ msgid ""
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"Följande Linux-kommandorad hämtades från 'kopt'-parametern i gamla GRUB:s "
-"menu.lst. Verifiera att den är korrekt och modifiera den om nödvändigt."
+"Följande Linux-kommandorad hämtades från /etc/default/grub eller "
+"'kopt'-parametern i gamla GRUB:s menu.lst. Verifiera att den är "
+"korrekt och modifiera den om nödvändigt."
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
 #| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "Linux-kommandorad:"
+msgstr "Standardkommandorad för Linux:"
 
 #. Type: string
 #. Description
@@ -111,19 +110,19 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"Följande sträng kommer användas som Linux-parametrar för standardmenyvalet "
+"men inte för återhämtningsläge (eng. recovery)."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
 #| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "Linux-kommandorad:"
+msgstr "Kommandorad för kFreeBSD:"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
 #| msgid ""
 #| "The following Linux command line was extracted from the `kopt' parameter "
 #| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
@@ -133,16 +132,16 @@ msgid ""
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"Följande Linux-kommandorad hämtades från 'kopt'-parametern i gamla GRUB:s "
-"menu.lst. Verifiera att den är korrekt och modifiera den om nödvändigt."
+"Följande kFreeBSD-kommandorad hämtades från /etc/default/grub eller "
+"'kopt'-parametern i gamla GRUB:s menu.lst. Verifiera att den är "
+"korrekt och modifiera den om nödvändigt."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
 #| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "Linux-kommandorad:"
+msgstr "Standardkommandorad för kFreeBSD:"
 
 #. Type: string
 #. Description
@@ -151,3 +150,6 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"Följande sträng kommer användas som Linux-parametrar för standardmenyvalet "
+"men inte för återhämtningsläge (eng. recovery)."
+
