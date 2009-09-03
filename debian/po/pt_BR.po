@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: grub2 1.96\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-30 17:54+0200\n"
-"PO-Revision-Date: 2009-03-06 22:14-0300\n"
+"PO-Revision-Date: 2009-08-30 20:45-0300\n"
 "Last-Translator: Flamarion Jorge <jorge.flamarion@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <debian-l10n-portuguese@lists.debian."
 "org>\n"
@@ -83,27 +83,20 @@ msgstr "Linha de comando Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"A linha de comando Linux a seguir foi extraída do parâmetro `kopt' do menu."
-"lst do Grub Legado. Por favor, verifique se ela está correta, e modifique-a "
-"se necessário."
+"A linha de comando Linux a seguir foi extraída de /etc/default/grup ou do "
+"parâmetro `kopt' do menu.lst do Grub Legado. Por favor, verifique se ela "
+"está correta, e modifique-a se necessário."
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "Linha de comando Linux:"
+msgstr "Linha de comando padrão Linux:"
 
 #. Type: string
 #. Description
@@ -112,39 +105,32 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"A seguinte string será usada como um parâmetro Linux para a entrada no menu "
+"padrão, mas não para o modo de recuperação."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "Linha de comando Linux:"
+msgstr "Linha de comando kFreeBSD:"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"A linha de comando Linux a seguir foi extraída do parâmetro `kopt' do menu."
-"lst do Grub Legado. Por favor, verifique se ela está correta, e modifique-a "
-"se necessário."
+"A linha de comando kFreeBSD a seguir foi extraída de /etc/default/grub ou do "
+"parâmetro `kopt' do menu.lst do Grub Legado. Por favor, verifique se ela "
+"está correta, e modifique-a se necessário."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "Linha de comando Linux:"
+msgstr "Linha de comando padrão kFreeBSD:"
 
 #. Type: string
 #. Description
@@ -153,6 +139,8 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"A seguinte string será usada como um parâmetro kFreeBSD para a entrada no "
+"menu padrão, mas não para o modo de recuperação."
 
 #~ msgid "GRUB 1.95 numbering scheme transition"
 #~ msgstr "Transição do esquema de numeração do GRUB 1.95"
