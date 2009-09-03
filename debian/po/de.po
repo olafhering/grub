@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.96+20090826-3\n"
+"Project-Id-Version: grub2 1.96+20090829-2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-30 17:54+0200\n"
-"PO-Revision-Date: 2009-08-30 08:54+0200\n"
+"PO-Revision-Date: 2009-08-30 21:42+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgid ""
 msgstr ""
 "Um die Legacy-Version von GRUB auf Ihrem System zu ersetzen, wird empfohlen, "
 "dass /boot/grub/menu.lst angepasst wird, so dass GRUB 2 aus Ihrer "
-"existierenden GRUB-Legacy-Einrichtung heraus geladen wird. Dieser Schritt "
+"existierenden »GRUB Legacy«-Einrichtung heraus geladen wird. Dieser Schritt "
 "kann jetzt automatisch vollzogen werden."
 
 #. Type: boolean
@@ -51,8 +51,9 @@ msgid ""
 "it directly to your MBR (Master Boot Record)."
 msgstr ""
 "Es wird empfohlen, dass Sie dem Chainloading von GRUB 2 aus der menu.lst "
-"zustimmen und überprüfen, dass die GRUB 2-Installation für Sie funktioniert, "
-"bevor Sie diese direkt in Ihren MBR (Master Boot Record) installieren."
+"zustimmen und überprüfen, dass die »GRUB 2«-Installation für Sie "
+"funktioniert, bevor Sie diese direkt in Ihren MBR (Master Boot Record) "
+"installieren."
 
 #. Type: boolean
 #. Description
@@ -91,10 +92,8 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "Linux-Kommandozeile:"
+msgstr "Linux Standard-Kommandozeile:"
 
 #. Type: string
 #. Description
@@ -103,39 +102,32 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"Die folgende Zeichenkette wird als Linux-Parameter für den "
+"Standardmenüeintrag, nicht aber für den Rettungsmodus verwandt."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "Linux-Kommandozeile:"
+msgstr "kFreeBSD-Kommandozeile:"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"Die folgende Linux-Kommandozeile wurde aus /etc/default/grub oder dem "
+"Die folgende kFreeBSD-Kommandozeile wurde aus /etc/default/grub oder dem "
 "Parameter »kopt« in GRUB Legacys menu.lst extrahiert. Bitte überprüfen Sie, "
 "ob diese korrekt ist und passen Sie sie falls notwendig an."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "Linux-Kommandozeile:"
+msgstr "kFreeBSD Standard-Kommandozeile:"
 
 #. Type: string
 #. Description
@@ -144,3 +136,5 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"Die folgende Zeichenkette wird als kFreeBSD-Parameter für den "
+"Standardmenüeintrag, nicht aber für den Rettungsmodus verwandt."

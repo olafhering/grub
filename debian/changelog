@@ -12,8 +12,9 @@ grub2 (1.97~beta1-2) unstable; urgency=low
   * Russian (ru.po) by Yuri Kozlov. (Closes: #544730)
   * Swedish (sv.po) by Martin Ågren. (Closes: #544759)
   * Brazilian Portuguese (pt_BR.po) by Flamarion Jorge. (Closes: #544810)
+  * German (de.po) by Helge Kreutzmann. (Closes: #544912)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 03 Sep 2009 10:13:34 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 03 Sep 2009 20:52:57 +0200
 
 grub2 (1.97~beta1-1) unstable; urgency=low
 
