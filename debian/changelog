@@ -9,8 +9,10 @@ grub2 (1.97~beta2-2) unstable; urgency=low
 
   [ Robert Millan ]
   * Do not conflict with `grub' dummy package (this prevented upgrades).
+  * patches/003_grub_probe_segfault.diff: Disable file test codepath, which
+    wasn't normally used before.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 04 Sep 2009 21:48:39 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 04 Sep 2009 22:14:04 +0200
 
 grub2 (1.97~beta2-1) unstable; urgency=low
 
