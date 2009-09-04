@@ -16,12 +16,9 @@ else
 	CFLAGS += -O2
 endif
 
-# optimize loader/i386/linux.c for the linux shipped in debian
-#TARGET_CFLAGS += -DGRUB_ASSUME_LINUX_HAS_FB_SUPPORT=1
+CC := gcc-4.4
 
-export TARGET_CFLAGS
-
-CONFIGURE = CC="cc" CXX="g++" CPPFLAGS="" LDFLAGS="" \
+CONFIGURE = CC=$(CC) \
 	$(CURDIR)/configure --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --includedir="\$${prefix}/include" \
 	--mandir="\$${prefix}/share/man" --infodir="\$${prefix}/share/info" --sysconfdir=/etc --localstatedir=/var \
 	--libexecdir="\$${prefix}/lib/$(package)" --srcdir=$(CURDIR) \

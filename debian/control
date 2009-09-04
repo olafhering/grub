@@ -16,7 +16,8 @@ Build-Depends: cdbs,
  libncurses5-dev,
  genisoimage [i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia],
  bf-utf-source,
- libfreetype6-dev
+ libfreetype6-dev,
+ gcc-4.4,
 Build-Conflicts: autoconf2.13 
 Standards-Version: 3.8.3
 Homepage: http://www.gnu.org/software/grub/grub-2.en.html
