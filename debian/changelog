@@ -1,12 +1,16 @@
 grub2 (1.97~beta2-2) unstable; urgency=low
 
-  * Move GRUB Legacy's grub-set-default to /usr/lib/grub-legacy in
-    preparation for GRUB 2's grub-set-default.
-
   [ Updated translations ]
   * Dutch (nl.po) by Paul Gevers. (Closes: #545050)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 04 Sep 2009 16:43:27 +0200
+  [ Felix Zielcke ]
+  * Move GRUB Legacy's grub-set-default to /usr/lib/grub-legacy in
+    preparation for GRUB 2's grub-set-default.
+
+  [ Robert Millan ]
+  * Do not conflict with `grub' dummy package (this prevented upgrades).
+
+ -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 04 Sep 2009 21:48:39 +0200
 
 grub2 (1.97~beta2-1) unstable; urgency=low
 
