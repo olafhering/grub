@@ -1,14 +1,14 @@
-# translation of grub2_1.96+20081005-1_nl.po to Dutch
-# Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDER
+# translation of grub2.pot to Dutch
+# Copyright (C) 2008-2009 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the grub2 package.
 #
-# Paul Gevers <paul@climbing.nl>, 2008.
+# Paul Gevers <paul@climbing.nl>, 2008-2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2_1.96+20081005-1_nl\n"
+"Project-Id-Version: grub2_1.96+20099829_nl\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-30 17:54+0200\n"
-"PO-Revision-Date: 2008-10-27 19:32-0600\n"
+"PO-Revision-Date: 2009-09-01 22:46+0100\n"
 "Last-Translator: Paul Gevers <paul@climbing.nl>\n"
 "Language-Team: Dutch <debian-l10n-dutch@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,15 +20,15 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:2001
 msgid "Chainload from menu.lst?"
-msgstr "Doorschakel vanuit menu.lst?"
+msgstr "Doorschakelen vanuit menu.lst?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
-"GRUB's opwaardeerscripts hebben een overgeërfde GRUB opstelling in /boot/"
-"grub gedetecteerd."
+"GRUB's opwaardeerscripts hebben een oude-stijl GRUB opstelling in /boot/grub "
+"gedetecteerd."
 
 #. Type: boolean
 #. Description
@@ -39,9 +39,9 @@ msgid ""
 "your existing GRUB Legacy setup.  This step may be automaticaly performed "
 "now."
 msgstr ""
-"Om de overgeërfde versie van GRUB op uw systeem te vervangen wordt het "
-"aangeraden om het /boot/grub/menu.lst bestand zo te laten aanpassen dat "
-"GRUB2 wordt doorgeschakeld (chainloading) vanuit uw bestaande overgeërfde "
+"Om de oude-stijl versie van GRUB op uw systeem te vervangen wordt het "
+"aangeraden om het /boot/grub/menu.lst bestand zo te laten aanpassen dat naar "
+"GRUB2 wordt doorgeschakeld (chainloading) vanuit uw bestaande oude-stijl "
 "GRUB opstelling. Deze stap kan nu automatisch worden uitgevoerd."
 
 #. Type: boolean
@@ -53,7 +53,7 @@ msgid ""
 "it directly to your MBR (Master Boot Record)."
 msgstr ""
 "U wordt aangeraden om het doorschakelen van GRUB2 vanuit menu.lst te "
-"accepteren en daarna te verifiëren dat uw nieuwe GRUB2 opstelling werkt "
+"accepteren, en daarna te verifiëren dat uw nieuwe GRUB2 opstelling werkt "
 "voordat u het in de MBR (Master Boot Record) installeert."
 
 #. Type: boolean
@@ -81,27 +81,20 @@ msgstr "Linux-commandoregel:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"De volgende Linux-commandoregel is gebaseerd op de 'kopt'-parameter gevonden "
-"in het menu.lst bestand van de overgeërfde GRUB. Wilt u deze op correctheid "
-"controleren en indien nodig aanpassen?"
+"De volgende Linux-commandoregel is gebaseerd op /etc/default/grub of op de "
+"'kopt'-parameter gevonden in het menu.lst bestand van de oude-stijl GRUB. "
+"Wilt u deze op correctheid controleren en indien nodig aanpassen?"
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "Linux-commandoregel:"
+msgstr "Standaard Linux-commandoregel:"
 
 #. Type: string
 #. Description
@@ -110,39 +103,32 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"De volgende regel zal, behalve in de herstelmodus, gebruikt worden voor de "
+"Linux parameters in de standaard menuoptie."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "Linux-commandoregel:"
+msgstr "kFreeBSD-commandoregel:"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"De volgende Linux-commandoregel is gebaseerd op de 'kopt'-parameter gevonden "
-"in het menu.lst bestand van de overgeërfde GRUB. Wilt u deze op correctheid "
-"controleren en indien nodig aanpassen?"
+"De volgende kFreeBSD-commandoregel is gebaseerd /etc/default/grub of op de "
+"'kopt'-parameter gevonden in het menu.lst bestand van de oude-stijl GRUB. "
+"Wilt u deze op correctheid controleren en indien nodig aanpassen?"
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "Linux-commandoregel:"
+msgstr "Standaard kFreeBSD-commandoregel:"
 
 #. Type: string
 #. Description
@@ -151,3 +137,5 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"De volgende regel zal, behalve in de herstelmodus, gebruikt worden voor de "
+"kFreeBSD parameters in de standaard menuoptie."
