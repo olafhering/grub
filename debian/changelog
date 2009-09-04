@@ -1,9 +1,3 @@
-grub2 (1.97~beta2-3) unstable; urgency=low
-
-  * Remove password lines in bug script.
-
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 04 Sep 2009 23:46:04 +0200
-
 grub2 (1.97~beta2-2) unstable; urgency=low
 
   [ Updated translations ]
@@ -12,13 +6,14 @@ grub2 (1.97~beta2-2) unstable; urgency=low
   [ Felix Zielcke ]
   * Move GRUB Legacy's grub-set-default to /usr/lib/grub-legacy in
     preparation for GRUB 2's grub-set-default.
+  * Remove password lines in bug script.
 
   [ Robert Millan ]
   * Do not conflict with `grub' dummy package (this prevented upgrades).
   * patches/003_grub_probe_segfault.diff: Disable file test codepath, which
     wasn't normally used before.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 04 Sep 2009 22:14:04 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sat, 05 Sep 2009 00:27:22 +0200
 
 grub2 (1.97~beta2-1) unstable; urgency=low
 
