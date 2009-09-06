@@ -1,13 +1,13 @@
-# Copyright (C) 2008 GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
+# Copyright (C) 2008-2009 GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
 # This file is distributed under the same license as the grub2 package.
-# Hideki Yamane (Debian-JP) <henrich@debian.or.jp>, 2008.
+# Hideki Yamane (Debian-JP) <henrich@debian.or.jp>, 2008-2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2 1.96+20080724-4\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-30 17:54+0200\n"
-"PO-Revision-Date: 2008-10-28 11:07+0900\n"
+"PO-Revision-Date: 2009-09-01 11:07+0900\n"
 "Last-Translator: Hideki Yamane (Debian-JP) <henrich@debian.or.jp>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -78,27 +78,20 @@ msgstr "Linux コマンド:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"以下の Linux のコマンドは GRUB Legacy の menu.lst 上の「kopt」パラメータから"
-"取得されています。これが正しいものであるかを確認して、必要であれば修正してく"
-"ださい。"
+"以下の Linux のコマンドラインは /etc/default/grub か GRUB Legacy の menu.lst "
+"上の「kopt」パラメータから取得されています。これが正しいものであるかを確認し"
+"て、必要であれば修正してください。"
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "Linux コマンド:"
+msgstr "Linux デフォルトコマンドライン:"
 
 #. Type: string
 #. Description
@@ -107,39 +100,32 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"以下の文字列はリカバリーモードではない通常のメニューエントリでの Linux パラ"
+"メータとして使われます。"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "Linux コマンド:"
+msgstr "kFreeBSD コマンドライン:"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"以下の Linux のコマンドは GRUB Legacy の menu.lst 上の「kopt」パラメータから"
-"取得されています。これが正しいものであるかを確認して、必要であれば修正してく"
-"ださい。"
+"以下の kFreeBSD のコマンドラインは /etc/default/grub か GRUB Legacy の menu."
+"lst 上の「kopt」パラメータから取得されています。これが正しいものであるかを確"
+"認して、必要であれば修正してください。"
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "Linux コマンド:"
+msgstr "kFreeBSD デフォルトコマンドライン:"
 
 #. Type: string
 #. Description
@@ -148,3 +134,5 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"以下の文字列はリカバリーモードではない通常のメニューエントリでの kFreeBSD パ"
+"ラメータとして使われます。"
