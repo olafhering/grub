@@ -88,7 +88,7 @@ msgid ""
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"A linha de comando Linux a seguir foi extraída de /etc/default/grup ou do "
+"A linha de comando Linux a seguir foi extraída de /etc/default/grub ou do "
 "parâmetro `kopt' do menu.lst do Grub Legado. Por favor, verifique se ela "
 "está correta, e modifique-a se necessário."
 
