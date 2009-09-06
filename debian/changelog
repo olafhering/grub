@@ -1,12 +1,13 @@
 grub2 (1.97~beta2-3) unstable; urgency=low
 
   * Change the watch file so upstream beta releases are recognized.
+  * Include /etc/default/grub in bug reports.
 
   [ Updated translations ]
   * Brazilian Portuguese (pt_BR.po) by Flamarion Jorge.
   * Japanese (ja.po) by Hideki Yamane. (Closes: #545331)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 06 Sep 2009 16:33:41 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 06 Sep 2009 21:46:52 +0200
 
 grub2 (1.97~beta2-2) unstable; urgency=low
 
