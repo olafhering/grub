@@ -8,7 +8,11 @@ grub2 (1.97~beta2-3) unstable; urgency=low
   * Brazilian Portuguese (pt_BR.po) by Flamarion Jorge.
   * Japanese (ja.po) by Hideki Yamane. (Closes: #545331)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Mon, 07 Sep 2009 15:42:47 +0200
+  [ Felix Zielcke ]
+  * Change the gcc-multilib [sparc] build dependency to gcc-4.4-multilib
+    [sparc].
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 07 Sep 2009 22:15:05 +0200
 
 grub2 (1.97~beta2-2) unstable; urgency=low
 
