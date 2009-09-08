@@ -2,7 +2,7 @@ grub2 (1.97~beta2-3) unstable; urgency=low
 
   * Change the watch file so upstream beta releases are recognized.
   * Include /etc/default/grub in bug reports.
-  * Recommend os-prober (>= 1.31). (Closes: #491872)
+  * Recommend os-prober (>= 1.32). (Closes: #491872)
   * Change the gcc-multilib [sparc] build dependency to gcc-4.4-multilib
     [sparc].
 
