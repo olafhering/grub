@@ -10,13 +10,15 @@ grub2 (1.97~beta3-1) unstable; urgency=low
     [sparc].
   * patches/907_grub.cfg_400.diff: New patch to make grub.cfg again mode
     444 if it does not contain a password line.
+  * Check that the files are actually readable in our bug reporting
+    script.
 
   [ Updated translations ]
   * Brazilian Portuguese (pt_BR.po) by Flamarion Jorge.
   * Japanese (ja.po) by Hideki Yamane. (Closes: #545331)
   * Spanish (es.po) by Francisco Javier Cuadrado. (Closes: #545566)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 10 Sep 2009 21:07:44 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 10 Sep 2009 21:17:22 +0200
 
 grub2 (1.97~beta2-2) unstable; urgency=low
 
