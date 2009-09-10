@@ -1,17 +1,22 @@
-grub2 (1.97~beta2-3) unstable; urgency=low
+grub2 (1.97~beta3-1) unstable; urgency=low
+
+  * New upstream beta release.
+    - Make it more clear how to use /etc/grub.d/40_custom. (Closes: #545153)
 
   * Change the watch file so upstream beta releases are recognized.
   * Include /etc/default/grub in bug reports.
   * Recommend os-prober (>= 1.32). (Closes: #491872)
   * Change the gcc-multilib [sparc] build dependency to gcc-4.4-multilib
     [sparc].
+  * patches/907_grub.cfg_400.diff: New patch to make grub.cfg again mode
+    444 if it does not contain a password line.
 
   [ Updated translations ]
   * Brazilian Portuguese (pt_BR.po) by Flamarion Jorge.
   * Japanese (ja.po) by Hideki Yamane. (Closes: #545331)
   * Spanish (es.po) by Francisco Javier Cuadrado. (Closes: #545566)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 08 Sep 2009 10:55:16 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 10 Sep 2009 21:07:44 +0200
 
 grub2 (1.97~beta2-2) unstable; urgency=low
 
