@@ -17,8 +17,9 @@ grub2 (1.97~beta3-1) unstable; urgency=low
   * Brazilian Portuguese (pt_BR.po) by Flamarion Jorge.
   * Japanese (ja.po) by Hideki Yamane. (Closes: #545331)
   * Spanish (es.po) by Francisco Javier Cuadrado. (Closes: #545566)
+  * Italian (it.po) by Luca Monducci. (Closes: #546035)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 10 Sep 2009 21:44:34 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 10 Sep 2009 22:24:14 +0200
 
 grub2 (1.97~beta2-2) unstable; urgency=low
 

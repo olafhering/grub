@@ -1,14 +1,13 @@
 # Italian (it) translation of debconf templates for grub2
-# Copyright (C) 2007 Software in the Public Interest
 # This file is distributed under the same license as the grub2 package.
-# Luca Monducci <luca.mo@tiscali.it>, 2007, 2008.
+# Luca Monducci <luca.mo@tiscali.it>, 2007-2009.
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.96+20090826 italian debconf templates\n"
+"Project-Id-Version: grub2 1.96+20090829-2 italian debconf templates\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-30 17:54+0200\n"
-"PO-Revision-Date: 2009-08-29 15:48+0200\n"
+"PO-Revision-Date: 2009-09-04 10:37+0200\n"
 "Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -93,10 +92,8 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "Riga di comando Linux:"
+msgstr "Riga di comando Linux predefinita:"
 
 #. Type: string
 #. Description
@@ -105,39 +102,32 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"Questa stringa verrà usata come parametri per Linux nella voce di menu "
+"predefinita ma non nella modalità di ripristino."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "Riga di comando Linux:"
+msgstr "Riga di comando kFreeBSD:"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"La seguente riga di comando Linux è stata estratta da /etc/default/grub "
+"La seguente riga di comando kFreeBSD è stata estratta da /etc/default/grub "
 "oppure dal parametro \"kopt\" presente nel file menu.lst del vecchio GRUB. "
 "Controllare che sia corretta e modificarla se necessario."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "Riga di comando Linux:"
+msgstr "Riga di comando kFreeBSD predefinita:"
 
 #. Type: string
 #. Description
@@ -146,3 +136,5 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"Questa stringa verrà usata come parametri per kFreeBSD nella voce di menu "
+"predefinita ma non nella modalità di ripristino."
