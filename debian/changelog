@@ -19,7 +19,10 @@ grub2 (1.97~beta3-1) unstable; urgency=low
   * Spanish (es.po) by Francisco Javier Cuadrado. (Closes: #545566)
   * Italian (it.po) by Luca Monducci. (Closes: #546035)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 10 Sep 2009 22:24:14 +0200
+  [ Felix Zielcke ]
+  * Readd grub-pc/kopt-extracted template.
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 11 Sep 2009 16:21:30 +0200
 
 grub2 (1.97~beta2-2) unstable; urgency=low
 
