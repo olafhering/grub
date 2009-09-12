@@ -4,6 +4,7 @@ grub2 (1.97~beta3-1) unstable; urgency=high
     - Make it more clear how to use /etc/grub.d/40_custom. (Closes: #545153)
     - fix a serious memory corruption in the graphical subsystem.
       (Closes: #545364, #544155, #544639, #544822, LP: #424503)
+    - patches/003_grub_probe_segfault.diff: Remove (merged).
 
   * Change the watch file so upstream beta releases are recognized.
   * Include /etc/default/grub in bug reports.
@@ -22,7 +23,7 @@ grub2 (1.97~beta3-1) unstable; urgency=high
   * Spanish (es.po) by Francisco Javier Cuadrado. (Closes: #545566)
   * Italian (it.po) by Luca Monducci. (Closes: #546035)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sat, 12 Sep 2009 15:24:03 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sat, 12 Sep 2009 15:28:20 +0200
 
 grub2 (1.97~beta2-2) unstable; urgency=low
 
