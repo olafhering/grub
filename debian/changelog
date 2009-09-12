@@ -2,6 +2,8 @@ grub2 (1.97~beta3-1) unstable; urgency=low
 
   * New upstream beta release.
     - Make it more clear how to use /etc/grub.d/40_custom. (Closes: #545153)
+    - fix a serious memory corruption in the graphical subsystem.
+      (Closes: #545364, #544155, #544639, #544822, LP: #424503)
 
   * Change the watch file so upstream beta releases are recognized.
   * Include /etc/default/grub in bug reports.
@@ -12,6 +14,7 @@ grub2 (1.97~beta3-1) unstable; urgency=low
     444 if it does not contain a password line.
   * Use `su' in the bug reporting script to read grub.cfg in case the user
     is not allowed to read it.
+  * Readd grub-pc/kopt-extracted template.
 
   [ Updated translations ]
   * Brazilian Portuguese (pt_BR.po) by Flamarion Jorge.
@@ -19,10 +22,7 @@ grub2 (1.97~beta3-1) unstable; urgency=low
   * Spanish (es.po) by Francisco Javier Cuadrado. (Closes: #545566)
   * Italian (it.po) by Luca Monducci. (Closes: #546035)
 
-  [ Felix Zielcke ]
-  * Readd grub-pc/kopt-extracted template.
-
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 11 Sep 2009 16:21:30 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sat, 12 Sep 2009 15:16:05 +0200
 
 grub2 (1.97~beta2-2) unstable; urgency=low
 
