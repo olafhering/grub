@@ -1,3 +1,9 @@
+grub2 (1.97~beta3-2) unstable; urgency=low
+
+  * Change the Recommends: os-prober to (>= 1.33).
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Wed, 16 Sep 2009 10:21:46 +0200
+
 grub2 (1.97~beta3-1) unstable; urgency=high
 
   * New upstream beta release.
