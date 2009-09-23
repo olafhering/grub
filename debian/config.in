@@ -20,7 +20,7 @@ case @PACKAGE@ in
       db_get grub-pc/kopt_extracted || true
       # this check ensures we only do this once
       if [ "$RET" = "false" ] ; then
-        kopt=`sed -ne "s/^# kopt=//p" /boot/grub/menu.lst | tr -s " " "\n" | grep -vx "\(ro\|root=[^ ]*\)"` || true
+        kopt=`sed -ne "s/^# kopt=//p" /boot/grub/menu.lst | tr -s " " "\n" | grep -vx "\(ro\|root=[^ ]*\)" | paste -s -d ' '` || true
         db_set grub2/linux_cmdline "${kopt}" || true
         db_set grub-pc/kopt_extracted true || true
         if [ "${kopt}" = "" ] ; then

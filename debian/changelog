@@ -3,8 +3,11 @@ grub2 (1.97~beta3-2) unstable; urgency=low
   * Change the Recommends: os-prober to (>= 1.33).
   * patches/907_grub.cfg_400.diff: Really add it. Somehow it was a 0 byte file.
     (Closes: #547409)
+  * Convert newlines back to spaces when parsing kopt from
+    GRUB Legacy's menu.lst, before giving the value to Debconf.
+    Thanks to Colin Watson. (Closes: #547649)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sat, 19 Sep 2009 16:48:00 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Wed, 23 Sep 2009 21:44:20 +0200
 
 grub2 (1.97~beta3-1) unstable; urgency=high
 
