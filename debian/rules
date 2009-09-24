@@ -91,7 +91,7 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{grub-dumpbios,grub-probe,grub-emu,grub-mkconfig,grub-mkdevicemap,grub-ofpathname}{,.8}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/{grub-mkelfimage,grub-mkfont,grub-editenv}{,.1}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/{grub-mkconfig_lib,update-grub_lib}
-	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/share/grub/
+	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/share/{grub,info}/
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/include
 
 	for i in $(AUTOGEN_DEB_FILES) ; do \
@@ -133,6 +133,7 @@ install/grub-common::
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/{i386,powerpc,sparc64}-*
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{update-grub,grub-install,grub-setup}{,.8}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/grub-{mkimage,mkrescue}{,.1}
+	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/share/info/dir.gz
 
 clean:: debian/legacy/update-grub debian/grub-extras
 	chmod +x debian/{script,grub.d/*,legacy/*}
