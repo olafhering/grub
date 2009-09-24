@@ -7,9 +7,9 @@ grub2 (1.97~beta3-2) unstable; urgency=low
     GRUB Legacy's menu.lst, before giving the value to Debconf.
     Thanks to Colin Watson. (Closes: #547649)
   * Ship the info docs in grub-common.
-  * Remove the generated dir.gz file.
+  * Remove generated /usr/share/info/dir* files.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 24 Sep 2009 16:27:58 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 24 Sep 2009 17:11:04 +0200
 
 grub2 (1.97~beta3-1) unstable; urgency=high
 
