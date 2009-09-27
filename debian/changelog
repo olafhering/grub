@@ -8,8 +8,9 @@ grub2 (1.97~beta3-2) unstable; urgency=low
     Thanks to Colin Watson. (Closes: #547649)
   * Ship the info docs in grub-common. (Closes: #484074)
   * Remove generated /usr/share/info/dir* files.
+  * Update the presubj bug file and also install it for grub-common.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 25 Sep 2009 12:34:40 +0200
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 27 Sep 2009 17:07:52 +0200
 
 grub2 (1.97~beta3-1) unstable; urgency=high
 

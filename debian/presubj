@@ -1,9 +1,9 @@
 
 MAKE SURE YOU ARE RUNNING THE LATEST VERSION
 
-On i386-pc, the grub package never updates the installed version of GRUB
-automatically (the first time, it may hook itself in GRUB Legacy's menu,
-but that's all).
+The grub packages never updates the installed version of GRUB
+automatically, except if you choose a device in the debconf prompt,
+`GRUB install devices' which is currently only implemented for grub-pc.
 
 Because of this, you need to make sure you're running the LATEST VERSION of
 GRUB before you report a bug.  Use grub-install to update it, and then check
