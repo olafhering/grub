@@ -5,7 +5,20 @@ Index: kern/ieee1275/init.c
 ===================================================================
 --- kern/ieee1275/init.c	(revision 2615)
 +++ kern/ieee1275/init.c	(working copy)
-@@ -71,9 +71,11 @@
+@@ -53,6 +53,7 @@
+   grub_ieee1275_exit ();
+ }
+ 
++#ifndef __i386__
+ /* Translate an OF filesystem path (separated by backslashes), into a GRUB
+    path (separated by forward slashes).  */
+ static void
+@@ -67,13 +68,16 @@
+       backslash = grub_strchr (filepath, '\\');
+     }
+ }
++#endif
+ 
  void
  grub_machine_set_prefix (void)
  {
@@ -17,7 +30,7 @@ Index: kern/ieee1275/init.c
  
    if (grub_env_get ("prefix"))
      /* We already set prefix in grub_machine_init().  */
-@@ -86,6 +88,9 @@
+@@ -86,6 +90,9 @@
        return;
      }
  
@@ -27,7 +40,7 @@ Index: kern/ieee1275/init.c
    if (grub_ieee1275_get_property (grub_ieee1275_chosen, "bootpath", &bootpath,
  				  sizeof (bootpath), 0))
      {
-@@ -123,6 +128,7 @@
+@@ -123,6 +130,7 @@
  
    grub_free (filename);
    grub_free (prefix);
