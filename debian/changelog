@@ -14,8 +14,10 @@ grub2 (1.97~beta3-2) unstable; urgency=low
   [ Robert Millan ]
   * Enable ZFS and 915resolution in grub-extras (now requires explicit
     switch).
+  * grub-common conflicts with grub-doc (<< 0.97-32) and grub-legacy-doc
+    (<< 0.97-59).
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 02 Oct 2009 14:15:06 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 02 Oct 2009 22:39:42 +0200
 
 grub2 (1.97~beta3-1) unstable; urgency=high
 
