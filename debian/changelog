@@ -1,4 +1,6 @@
-grub2 (1.97~beta3-2) unstable; urgency=low
+grub2 (1.97~beta4-1) unstable; urgency=low
+
+  * New upstream beta release.
 
   [ Felix Zielcke ]
   * Change the Recommends: os-prober to (>= 1.33).
@@ -21,7 +23,7 @@ grub2 (1.97~beta3-2) unstable; urgency=low
   [ Updated translations ]
   * Japanese (ja.po) by Hideki Yamane. (Closes: #549599)
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 05 Oct 2009 19:42:41 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 05 Oct 2009 20:03:04 +0200
 
 grub2 (1.97~beta3-1) unstable; urgency=high
 
