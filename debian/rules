@@ -50,12 +50,15 @@ configure/grub-firmware-qemu:: $(AUTOGEN_FILES)
 	mkdir -p $(subst configure/,build/,$@)
 	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=qemu
 
-configure/grub-common:: $(AUTOGEN_FILES)
+configure/grub-common configure/grub-emu:: $(AUTOGEN_FILES)
 	mkdir -p $(subst configure/,build/,$@)
-	cd build/grub-common && $(CONFIGURE)
+	cd $(subst configure/,build/,$@) && $(CONFIGURE)
 
 build/grub-common build/grub-pc build/grub-efi-ia32 build/grub-efi-amd64 build/grub-ieee1275 build/grub-coreboot::
 	$(MAKE) -C $@
+
+build/grub-emu::
+	$(MAKE) -C $@ grub-emu
 
 build/grub-rescue-pc:: build/grub-pc
 	mkdir -p $@
@@ -86,6 +89,10 @@ build/grub-firmware-qemu::
 		$(CURDIR)/$@/*.mod \
 		-m $${grub_memdisk} \
 		-o $(CURDIR)/$@/grub.bin
+
+install/grub-emu::
+	mkdir -p $(CURDIR)/debian/$(subst install/,,$@)/usr/sbin
+	install -m755 build/grub-emu/grub-emu $(CURDIR)/debian/$(subst install/,,$@)/usr/sbin/grub-emu
 
 install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee1275 install/grub-coreboot::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
@@ -135,7 +142,7 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 install/grub-common::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/{i386,powerpc,sparc64}-*
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{update-grub,grub-install,grub-setup}{,.8}
+	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{update-grub,grub-install,grub-setup,grub-emu}{,.8}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/grub-{mkimage,mkrescue}{,.1}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/share/info/dir*
 
