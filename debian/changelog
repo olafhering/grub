@@ -1,9 +1,13 @@
 grub2 (1.97~beta4-2) unstable; urgency=low
 
+  [ Robert Millan ]
   * patches/905_setup_force.diff: Remove, no longer needed as of
     grub-installer >= 1.47.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 16 Oct 2009 22:28:56 +0200
+  [ Felix Zielcke ]
+  * Add a build dependency on texinfo.
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 16 Oct 2009 22:58:54 +0200
 
 grub2 (1.97~beta4-1) unstable; urgency=low
 
