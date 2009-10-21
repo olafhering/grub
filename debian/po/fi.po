@@ -1,9 +1,10 @@
+# Esko Arajärvi <edu@iki.fi>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2009-08-30 17:54+0200\n"
-"PO-Revision-Date: 2008-11-02 20:36+0200\n"
+"POT-Creation-Date: 2009-08-30 14:58+0200\n"
+"PO-Revision-Date: 2009-10-21 21:25+0300\n"
 "Last-Translator: Esko Arajärvi <edu@iki.fi>\n"
 "Language-Team: Finnish <debian-l10n-finnish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -11,16 +12,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Finnish\n"
 "X-Poedit-Country: FINLAND\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid "Chainload from menu.lst?"
 msgstr "Ladataanko ketjutettuna tiedostosta menu.lst?"
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
 "GRUBin päivityskomentosarjat ovat löytäneet vanhoja GRUB-asetuksia "
@@ -28,7 +31,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
 "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
@@ -41,19 +44,19 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that your new GRUB 2 setup is functional for you, before you install "
 "it directly to your MBR (Master Boot Record)."
 msgstr ""
 "On suositeltavaa, että hyväksyt GRUB 2:n ketjutetun lataamisen tiedostosta "
-"menu.lst ja varmistat, että uudet GRUB 2 -asetukset toimivat, ennen kuin "
+"menu.lst, ja varmistat uusien GRUB 2 -asetusten toimivuuden ennen kuin "
 "asennat ne pääkäynnistyslohkoon (MBR)."
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
@@ -63,7 +66,7 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../grub-pc.templates.in:2001
+#: ../grub-pc.templates.in:1001
 msgid "upgrade-from-grub-legacy"
 msgstr "upgrade-from-grub-legacy"
 
@@ -76,26 +79,20 @@ msgstr "Linuxin komentorivi:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"GRUB Legacyn tiedoston menu.lst parametrista ”kopt” löydettiin seuraava "
-"Linuxin komentorivi. Varmista, että se on oikea ja muuta sitä tarvittaessa."
+"GRUB Legacyn tiedoston menu.lst parametrista ”kopt” tai tiedostosta "
+"/etc/default/grub löydettiin seuraava Linuxin komentorivi. Varmista, että se "
+"on kunnossa ja muuta sitä tarvittaessa."
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "Linuxin komentorivi:"
+msgstr "Linuxin oletuskomentorivi:"
 
 #. Type: string
 #. Description
@@ -104,38 +101,32 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"Seuraavaa merkkijonoa käytetään Linuxin käynnistysvalikon oletusvalinnan "
+"parametreina, mutta ei toipumistilassa."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "Linuxin komentorivi:"
+msgstr "kFreeBSD:n komentorivi:"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"GRUB Legacyn tiedoston menu.lst parametrista ”kopt” löydettiin seuraava "
-"Linuxin komentorivi. Varmista, että se on oikea ja muuta sitä tarvittaessa."
+"GRUB Legacyn tiedoston menu.lst parametrista ”kopt” tai tiedostosta "
+"/etc/default/grub löydettiin seuraava kFreeBSD:n komentorivi. Varmista, että "
+"se on kunnossa ja muuta sitä tarvittaessa."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "Linuxin komentorivi:"
+msgstr "kFreeBSD:n oletuskomentorivi:"
 
 #. Type: string
 #. Description
@@ -144,3 +135,6 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"Seuraavaa merkkijonoa käytetään kFreeBSD:n käynnistysvalikon oletusvalinnan "
+"parametreina, mutta ei toipumistilassa."
+

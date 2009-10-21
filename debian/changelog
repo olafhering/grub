@@ -7,7 +7,10 @@ grub2 (1.97~beta4-2) unstable; urgency=low
   [ Felix Zielcke ]
   * Add a build dependency on texinfo.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 16 Oct 2009 22:58:54 +0200
+  [ Updated translations ]
+  * Finnish (fi.po) by Esko Arajärvi. (Closes: #551912)
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Wed, 21 Oct 2009 21:03:21 +0200
 
 grub2 (1.97~beta4-1) unstable; urgency=low
 
