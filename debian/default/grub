@@ -18,5 +18,5 @@ GRUB_CMDLINE_LINUX=""
 # Uncomment if you don't want GRUB to pass "root=UUID=xxx" parameter to Linux
 #GRUB_DISABLE_LINUX_UUID=true
 
-# Uncomment to disable generation of recovery mode menu entrys
+# Uncomment to disable generation of recovery mode menu entries
 #GRUB_DISABLE_LINUX_RECOVERY="true"
