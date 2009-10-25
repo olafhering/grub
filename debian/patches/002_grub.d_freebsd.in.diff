@@ -56,26 +56,26 @@ Index: util/grub.d/10_freebsd.in
  EOF
    prepare_grub_to_access_device ${GRUB_DEVICE_BOOT} | sed -e "s/^/\t/"
    cat << EOF
--	freebsd			${kfreebsd_rel_dirname}/${kfreebsd_basename}
-+	freebsd			${rel_dirname}/${basename}
+-	kfreebsd			${kfreebsd_rel_dirname}/${kfreebsd_basename}
++	kfreebsd			${rel_dirname}/${basename}
  EOF
  
 -  if [ x"$devices" != "x" ] ; then
 +  if test -n "${devices}" ; then
      cat << EOF
- 	freebsd_loadenv		${devices_rel_dirname}/${devices_basename}
+ 	kfreebsd_loadenv		${devices_rel_dirname}/${devices_basename}
  EOF
    fi
 +
 +  if test -n "${acpi_ko}" ; then
 +    cat << EOF
-+	freebsd_module_elf	${acpi_ko_rel_dirname}/${acpi_ko_basename}
++	kfreebsd_module_elf	${acpi_ko_rel_dirname}/${acpi_ko_basename}
 +EOF
 +  fi
 +
    cat << EOF
- 	set FreeBSD.vfs.root.mountfrom=${kfreebsd_fs}:${GRUB_DEVICE}
- 	set FreeBSD.vfs.root.mountfrom.options=rw
+ 	set kFreeBSD.vfs.root.mountfrom=${kfreebsd_fs}:${GRUB_DEVICE}
+ 	set kFreeBSD.vfs.root.mountfrom.options=rw
  }
  EOF
 -fi
