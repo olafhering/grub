@@ -3,7 +3,7 @@
 source /usr/lib/grub/grub-mkconfig_lib
 
 # this allows desktop-base to override our settings
-f=/usr/share/images/desktop-base/grub_background.sh
+f=/usr/share/desktop-base/grub_background.sh
 if test -e ${f} ; then
   source ${f}
 else
