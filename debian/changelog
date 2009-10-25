@@ -1,4 +1,4 @@
-grub2 (1.97~beta4-2) unstable; urgency=low
+grub2 (1.97) unstable; urgency=low
 
   [ Robert Millan ]
   * patches/905_setup_force.diff: Remove, no longer needed as of
@@ -14,7 +14,7 @@ grub2 (1.97~beta4-2) unstable; urgency=low
   [ Updated translations ]
   * Finnish (fi.po) by Esko Arajärvi. (Closes: #551912)
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Sun, 25 Oct 2009 14:03:19 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 25 Oct 2009 19:47:04 +0100
 
 grub2 (1.97~beta4-1) unstable; urgency=low
 
