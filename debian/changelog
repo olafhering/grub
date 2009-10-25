@@ -3,6 +3,9 @@ grub2 (1.97~beta4-2) unstable; urgency=low
   [ Robert Millan ]
   * patches/905_setup_force.diff: Remove, no longer needed as of
     grub-installer >= 1.47.
+  * grub.d/05_debian_theme: Attempt to source grub_background.sh from
+    desktop-base (Needed for #495282, #495616, #500134, see also
+    #550984).
 
   [ Felix Zielcke ]
   * Add a build dependency on texinfo.
@@ -11,7 +14,7 @@ grub2 (1.97~beta4-2) unstable; urgency=low
   [ Updated translations ]
   * Finnish (fi.po) by Esko Arajärvi. (Closes: #551912)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 22 Oct 2009 10:19:59 +0200
+ -- Robert Millan <rmh.debian@aybabtu.com>  Sun, 25 Oct 2009 14:03:19 +0100
 
 grub2 (1.97~beta4-1) unstable; urgency=low
 

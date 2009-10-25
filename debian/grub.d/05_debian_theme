@@ -2,6 +2,16 @@
 
 source /usr/lib/grub/grub-mkconfig_lib
 
+# this allows desktop-base to override our settings
+f=/usr/share/images/desktop-base/grub_background.sh
+if test -e ${f} ; then
+  source ${f}
+else
+  WALLPAPER="/usr/share/images/desktop-base/moreblue-orbit-grub.png"
+  COLOR_NORMAL="black/black"
+  COLOR_HIGHLIGHT="magenta/black"
+fi
+
 set_blue_theme()
 {
   cat << EOF
@@ -13,7 +23,7 @@ EOF
 # check for usable backgrounds
 use_bg=false
 if [ "$GRUB_TERMINAL_OUTPUT" = "gfxterm" ] ; then
-  for i in {/boot/grub,/usr/share/images/desktop-base}/moreblue-orbit-grub.{png,tga} ; do
+  for i in /boot/grub/`basename ${WALLPAPER}` ${WALLPAPER} ; do
     if is_path_readable_by_grub $i ; then 
       bg=$i
       case ${bg} in
@@ -36,8 +46,8 @@ if ${use_bg} ; then
   cat << EOF
 insmod ${reader}
 if background_image `make_system_path_relative_to_its_root ${bg}` ; then
-  set color_normal=black/black
-  set color_highlight=magenta/black
+  set color_normal=${COLOR_NORMAL}
+  set color_highlight=${COLOR_HIGHLIGHT}
 else
 EOF
 fi
