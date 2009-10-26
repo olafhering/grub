@@ -18,9 +18,8 @@ endif
 
 CC := gcc-4.4
 
-# grub-extras components
-export enable_zfs := yes
-export enable_915resolution := yes
+# Enable external modules from grub-extras.
+export GRUB_CONTRIB := debian/grub-extras
 
 CONFIGURE = CC=$(CC) \
 	$(CURDIR)/configure --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --includedir="\$${prefix}/include" \
