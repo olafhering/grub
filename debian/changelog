@@ -4,9 +4,9 @@ grub2 (1.97-2) unstable; urgency=low
   * patches/906_grub_extras.diff: Remove. Superceded by GRUB_CONTRIB variable
     in recent upstream trunk.
   * rules: Export GRUB_CONTRIB to enable grub-extras add-ons.
-  * Pass --force to grub-install in the postinst. (Closes: #553415)
+  * Pass --force to grub-install in the postinst. 
 
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 06 Nov 2009 18:53:37 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 06 Nov 2009 19:11:55 +0100
 
 grub2 (1.97-1) unstable; urgency=low
 
