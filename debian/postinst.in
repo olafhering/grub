@@ -80,7 +80,7 @@ case "$1" in
           db_go
           db_get grub-pc/install_devices
           for i in `echo $RET | sed -e 's/,/ /g'` ; do
-            if grub-install --no-floppy $i ; then
+            if grub-install --force --no-floppy $i ; then
               # We just installed GRUB 2; then also generate grub.cfg.
               touch /boot/grub/grub.cfg
             fi
