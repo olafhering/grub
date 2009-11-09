@@ -1,4 +1,7 @@
-grub2 (1.97-2) unstable; urgency=low
+grub2 (1.97+20091109-1) unstable; urgency=low
+
+  * New upstream snapshot.
+    - Fix security problem with password checking.  (Closes: #555195)
 
   [ Felix Zielcke ]
   * patches/002_grub.d_freebsd.in.diff: Remove (merged upstream).
