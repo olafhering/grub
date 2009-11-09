@@ -30,18 +30,6 @@ Files: util/mkisofs/rock.c
 Copyright: 2009  Free Software Foundation, Inc.
 License: GPL-3+
 
-Files: util/mkisofs/getopt1.c
-Copyright: 1987, 88, 89, 90, 91, 92, 1993  Free Software Foundation, Inc.
-License: LGPL-2+
-
-Files: util/mkisofs/getopt.c
-Copyright: 1987, 88, 89, 90, 91, 92, 93, 94, 95, 2009  Free Software Foundation, Inc.
-License: GPL-3+
-
-Files: util/mkisofs/fnmatch.c
-Copyright: 1991, 1992, 1993 Free Software Foundation, Inc.
-License: GPL-2+
-
 Files: util/mkisofs/joliet.c
 Copyright: 1997 Eric Youngdale
 License: GPL-2+
