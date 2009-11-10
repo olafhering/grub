@@ -8,7 +8,7 @@ grub2 (1.97+20091109-1) unstable; urgency=low
   [ Felix Zielcke ]
   * Ship grub-mkisofs in grub-common.
   * patches/002_grub.d_freebsd.in.diff: Remove (merged upstream).
-  * patches/906_grub_extras.diff: Remove. Superceded by GRUB_CONTRIB variable
+  * patches/906_grub_extras.diff: Remove. Superseded by GRUB_CONTRIB variable
     in recent upstream trunk.
   * rules: Export GRUB_CONTRIB to enable grub-extras add-ons.
   * Pass --force to grub-install in the postinst. (Closes: #553415) 
