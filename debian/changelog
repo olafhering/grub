@@ -2,6 +2,8 @@ grub2 (1.97+20091109-1) unstable; urgency=low
 
   * New upstream snapshot.
     - Fix security problem with password checking.  (Closes: #555195)
+    - Fix the generated GNU/Hurd menu entries and also add support for
+      it in 30_os-prober. (Closes: #555188)
 
   [ Felix Zielcke ]
   * Ship grub-mkisofs in grub-common.
@@ -15,7 +17,7 @@ grub2 (1.97+20091109-1) unstable; urgency=low
   * copyright: Document mkisofs.
   * control: Update Vcs- fields (moved to Bazaar).
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 09 Nov 2009 18:03:01 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 10 Nov 2009 15:55:34 +0100
 
 grub2 (1.97-1) unstable; urgency=low
 
