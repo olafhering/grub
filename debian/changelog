@@ -12,12 +12,14 @@ grub2 (1.97+20091109-1) unstable; urgency=low
     in recent upstream trunk.
   * rules: Export GRUB_CONTRIB to enable grub-extras add-ons.
   * Pass --force to grub-install in the postinst. (Closes: #553415) 
+  * Don't strip debug symbols from grub-emu. It's meant for debugging
+    and with them it's much more useful.
 
   [ Robert Millan ]
   * copyright: Document mkisofs.
   * control: Update Vcs- fields (moved to Bazaar).
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 10 Nov 2009 15:55:34 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 13 Nov 2009 19:13:48 +0100
 
 grub2 (1.97-1) unstable; urgency=low
 
