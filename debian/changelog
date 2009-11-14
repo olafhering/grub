@@ -1,9 +1,11 @@
-grub2 (1.97+20091109-1) unstable; urgency=low
+grub2 (1.97+20091114-1) unstable; urgency=low
 
   * New upstream snapshot.
     - Fix security problem with password checking.  (Closes: #555195)
     - Fix the generated GNU/Hurd menu entries and also add support for
       it in 30_os-prober. (Closes: #555188)
+    - Same grub-mkrescue for grub-pc and grub-coreboot, used by
+      grub-rescue-pc during postinst now.
 
   [ Felix Zielcke ]
   * Ship grub-mkisofs in grub-common.
