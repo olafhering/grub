@@ -18,8 +18,9 @@ grub2 (1.97+20091109-1) unstable; urgency=low
   [ Robert Millan ]
   * copyright: Document mkisofs.
   * control: Update Vcs- fields (moved to Bazaar).
+  * rules: Update debian/legacy/update-grub rule to Bazaar.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 13 Nov 2009 19:13:48 +0100
+ -- Robert Millan <rmh.debian@aybabtu.com>  Sat, 14 Nov 2009 21:47:27 +0100
 
 grub2 (1.97-1) unstable; urgency=low
 

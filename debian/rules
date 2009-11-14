@@ -158,26 +158,9 @@ clean:: debian/legacy/update-grub debian/grub-extras
 	debconf-updatepo
 
 debian/legacy/update-grub:
-	@echo "Missing $@.  Try: \"svn cat svn://svn.debian.org/pkg-grub/grub/trunk/debian/update-grub > $@\""
+	@echo "Missing $@.  Try: \"bzr cat http://bzr.debian.org/bzr/pkg-grub/trunk/grub-legacy/debian/update-grub > $@\""
 	exit 1
 
 debian/grub-extras:
 	@echo "Missing $@.  Try: \"svn export svn://svn.sv.nongnu.org/grub-extras/trunk $@\""
 	exit 1
-
-# Grab fixes from SVN using our version as reference.
-svn-sync:
-	svn co svn://svn.sv.gnu.org/grub/trunk/grub2 grub2-svn; \
-	UVERSION=$$(dpkg-parsechangelog | grep Version \
-	                                | sed 's,Version: ,,g;s,-[0-9]*$$,,g;s,\.,_,g'); \
-	cd grub2-svn && \
-	svn diff -uN -r release_$$UVERSION -r HEAD > ../debian/patches/00_svn-sync.patch; \
-	cd .. && rm -rf grub2-svn
-
-svn-snapshot:
-	UVERSION=$$(dpkg-parsechangelog | grep Version \
-	                                | sed 's,Version: ,,g;s,-[0-9]*$$,,g'); \
-	svn co svn://svn.sv.gnu.org/grub/trunk/grub2 grub2-$$UVERSION; \
-	tar -czf grub2_$$UVERSION.orig.tar.gz grub2-$$UVERSION; \
-	rm -rf grub2-$$UVERSION; \
-	mv grub2_$$UVERSION.orig.tar.gz ../tarballs/
