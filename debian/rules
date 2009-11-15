@@ -21,7 +21,7 @@ endif
 CC := gcc-4.4
 
 # Enable external modules from grub-extras.
-export GRUB_CONTRIB := debian/grub-extras
+export GRUB_CONTRIB := $(CURDIR)/debian/grub-extras
 
 CONFIGURE = CC=$(CC) \
 	$(CURDIR)/configure --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --includedir="\$${prefix}/include" \
