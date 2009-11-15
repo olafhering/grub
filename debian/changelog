@@ -22,7 +22,10 @@ grub2 (1.97+20091114-1) unstable; urgency=low
   * control: Update Vcs- fields (moved to Bazaar).
   * rules: Update debian/legacy/update-grub rule to Bazaar.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Sat, 14 Nov 2009 21:47:27 +0100
+  [ Felix Zielcke ]
+  * Ship grub-mkfloppy in grub-pc.
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 15 Nov 2009 16:34:43 +0100
 
 grub2 (1.97-1) unstable; urgency=low
 
