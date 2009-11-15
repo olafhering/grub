@@ -69,7 +69,7 @@ Description: GRand Unified Bootloader, version 2 (emulated version)
 Package: grub-pc
 Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}), ucf
-Replaces: grub, grub-legacy, grub2 (<< ${source:Version}), grub-common (= ${binary:Version}), grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-ieee1275
+Replaces: grub, grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1), grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-ieee1275
 Conflicts: grub-legacy, desktop-base (= 4.0.5), grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-ieee1275
 Suggests: desktop-base (>= 4.0.6), genisoimage
 Description: GRand Unified Bootloader, version 2 (PC/BIOS version)

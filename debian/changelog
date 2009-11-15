@@ -16,16 +16,16 @@ grub2 (1.97+20091114-1) unstable; urgency=low
   * Pass --force to grub-install in the postinst. (Closes: #553415) 
   * Don't strip debug symbols from grub-emu. It's meant for debugging
     and with them it's much more useful.
+  * Ship grub-mkfloppy in grub-pc.
+  * Revert the Replaces: grub-common to (<= 1.96+20080413-1) on the
+    grub-pc package. It was wrongly modified long ago.
 
   [ Robert Millan ]
   * copyright: Document mkisofs.
   * control: Update Vcs- fields (moved to Bazaar).
   * rules: Update debian/legacy/update-grub rule to Bazaar.
 
-  [ Felix Zielcke ]
-  * Ship grub-mkfloppy in grub-pc.
-
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 15 Nov 2009 16:34:43 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 15 Nov 2009 18:06:22 +0100
 
 grub2 (1.97-1) unstable; urgency=low
 
