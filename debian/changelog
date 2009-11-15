@@ -1,4 +1,4 @@
-grub2 (1.97+20091114-1) unstable; urgency=low
+grub2 (1.97+20091115-1) unstable; urgency=low
 
   * New upstream snapshot.
     - Fix security problem with password checking.  (Closes: #555195)
@@ -25,7 +25,7 @@ grub2 (1.97+20091114-1) unstable; urgency=low
   * control: Update Vcs- fields (moved to Bazaar).
   * rules: Update debian/legacy/update-grub rule to Bazaar.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 15 Nov 2009 18:06:22 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 15 Nov 2009 19:13:31 +0100
 
 grub2 (1.97-1) unstable; urgency=low
 
