@@ -1,0 +1,140 @@
+# Copyright (C) 2009 Tetralet
+# This file is distributed under the same license as the grub2 package.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: grub2\n"
+"Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
+"POT-Creation-Date: 2009-08-30 17:54+0200\n"
+"PO-Revision-Date: 2009-02-02 12:05+0800\n"
+"Last-Translator: Tetralet <tetralet@gmail.com>\n"
+"Language-Team: Debian-user in Chinese [Big5] <debian-chinese-big5@lists."
+"debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "Chainload from menu.lst?"
+msgstr "?????? menu.list ? chainload ???"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
+msgstr "GRUB ?????? /boot/grub ???? GRUB ? Legacy ???"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"In order to replace the Legacy version of GRUB in your system, it is "
+"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
+"your existing GRUB Legacy setup.  This step may be automaticaly performed "
+"now."
+msgstr ""
+"?????????? Legacy ?? GRUB,????? /boot/grub/menu.lst ?????? GRUB Legacy ???? "
+"chainload ????? GRUB 2??????????????"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
+"verify that your new GRUB 2 setup is functional for you, before you install "
+"it directly to your MBR (Master Boot Record)."
+msgstr ""
+"???? GRUB 2 ??? MBR(??????)??,??????? menu.lst ??? chainload ????? GRUB "
+"2,?????? GRUB 2 ?????????"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
+"can do so by issuing (as root) the following command:"
+msgstr "??????????,???? GRUB 2 ??? MBR ??????,???(? root ??)???????:"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "upgrade-from-grub-legacy"
+msgstr "upgrade-from-grub-legacy"
+
+#. Type: string
+#. Description
+#: ../templates.in:1001
+msgid "Linux command line:"
+msgstr "Linux ???:"
+
+#. Type: string
+#. Description
+#: ../templates.in:1001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from the `kopt' parameter "
+#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
+#| "it if necessary."
+msgid ""
+"The following Linux command line was extracted from /etc/default/grub or the "
+"`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"??? Linux ????? `kopt' ??? GRUB Legacy ? menu.lst ???????????????,??????????"
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+#, fuzzy
+#| msgid "Linux command line:"
+msgid "Linux default command line:"
+msgstr "Linux ???:"
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid ""
+"The following string will be used as Linux parameters for the default menu "
+"entry but not for the recovery mode."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+#, fuzzy
+#| msgid "Linux command line:"
+msgid "kFreeBSD command line:"
+msgstr "Linux ???:"
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from the `kopt' parameter "
+#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
+#| "it if necessary."
+msgid ""
+"The following kFreeBSD command line was extracted from /etc/default/grub or "
+"the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"??? Linux ????? `kopt' ??? GRUB Legacy ? menu.lst ???????????????,??????????"
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+#, fuzzy
+#| msgid "Linux command line:"
+msgid "kFreeBSD default command line:"
+msgstr "Linux ???:"
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid ""
+"The following string will be used as kFreeBSD parameters for the default "
+"menu entry but not for the recovery mode."
+msgstr ""

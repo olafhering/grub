@@ -1,0 +1,55 @@
+
+# This file is concatenated.  Do not delete the newline above.
+
+Template: grub-pc/chainload_from_menu.lst
+Type: boolean
+Default: true
+_Description: Chainload from menu.lst?
+ GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub.
+ .
+ In order to replace the Legacy version of GRUB in your system, it is
+ recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2
+ from your existing GRUB Legacy setup.  This step may be automaticaly
+ performed now.
+ .
+ It's recommended that you accept chainloading GRUB 2 from menu.lst, and
+ verify that your new GRUB 2 setup is functional for you, before you install
+ it directly to your MBR (Master Boot Record).
+ .
+ In either case, whenever you want GRUB 2 to be loaded directly from MBR,
+ you can do so by issuing (as root) the following command:
+ .
+ upgrade-from-grub-legacy
+
+Template: grub-pc/install_devices
+Type: multiselect
+Choices: ${CHOICES}
+# Intentionally not marked for translations yet; will do after a review period
+Description: GRUB install devices:
+ The grub-pc package is being upgraded.  This menu allows you to select which
+ devices you'd like grub-install to be automatically run for, if any.
+ .
+ It is recommended that you do this in most situations, to prevent the installed
+ GRUB from getting out of sync with other components such as grub.cfg or with
+ newer Linux images it will have to load.
+ .
+ If you're unsure which drive is designated as boot drive by your BIOS, it is
+ often a good idea to install GRUB to all of them.
+ .
+ Note: It is possible to install GRUB to partition boot records as well.
+ However, this forces GRUB to use the blocklist mechanism, which makes it
+ less reliable, and therefore is not recommended.
+
+Template: grub-pc/postrm_purge_boot_grub
+Type: boolean
+Default: false
+# This should get reviewed before it can be translated
+Description: Remove GRUB 2 from /boot/grub?
+ Do you want to have all GRUB 2 files removed from /boot/grub?
+ .
+ Your system would be then unbootable if you don't install another bootloader.
+
+Template: grub-pc/kopt_extracted
+Type: boolean
+Default: false
+Description: for internal use
