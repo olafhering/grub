@@ -16,7 +16,7 @@ Build-Depends: cdbs,
  gcc-4.4-multilib [sparc],
  libncurses5-dev,
  genisoimage [i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia],
- bf-utf-source,
+ xfonts-unifont,
  libfreetype6-dev,
  gcc-4.4,
 Build-Conflicts: autoconf2.13 
