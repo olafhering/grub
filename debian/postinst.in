@@ -61,8 +61,10 @@ case "$1" in
           db_get grub-pc/chainload_from_menu.lst
           if $RET ; then
             # Create core.img (but do not risk writing to MBR).
+            # Using grub-probe instead of "(hd0)" avoids (UUID=) hack slowness
+            # in case /boot/grub is not on (hd0) in device.map.
             echo "Generating core.img" >&2
-            grub-install --no-floppy --grub-setup=/bin/true "(hd0)" > /dev/null
+            grub-install --no-floppy --grub-setup=/bin/true "$(grub-probe -t drive /boot/grub)" > /dev/null
 
             # Update menu.lst to reflect that:
             # - core.img is present now
