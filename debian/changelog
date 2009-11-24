@@ -16,8 +16,14 @@ grub2 (1.97+20091124-1) unstable; urgency=low
     /boot/grub is on a different disk then (hd0) in device.map.
   * patches/903_grub_legacy_0_based_partitions.diff: Update.
   * Add a build dependency on automake and python.
+  * Set TARGET_CC= to really use gcc-4.4 everywhere. Also pass it and CC
+    as arguments to ./configure instead of env vars so they get
+    preserved.
+  * Set TARGET_CC=$(CC) to really use gcc-4.4 everywhere. Also pass it
+    and CC as arguments to ./configure instead of env vars so they get
+    preserved.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 24 Nov 2009 09:35:56 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 24 Nov 2009 13:55:16 +0100
 
 grub2 (1.97+20091115-1) unstable; urgency=low
 
