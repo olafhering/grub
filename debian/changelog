@@ -20,8 +20,9 @@ grub2 (1.97+20091124-1) unstable; urgency=low
   * Set TARGET_CC=$(CC) to really use gcc-4.4 everywhere. Also pass it
     and CC as arguments to ./configure instead of env vars so they get
     preserved.
+  * Ship grub-mkrelpath in grub-common.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 24 Nov 2009 15:07:47 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 24 Nov 2009 15:09:01 +0100
 
 grub2 (1.97+20091115-1) unstable; urgency=low
 
