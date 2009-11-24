@@ -8,17 +8,19 @@ Build-Depends: cdbs,
  debhelper (>= 7),
  patchutils,
  autoconf,
+ automake,
+ python
  ruby,
  bison,
  po-debconf,
  help2man,
  texinfo,
  gcc-4.4-multilib [sparc],
+ gcc-4.4,
  libncurses5-dev,
  genisoimage [i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia],
  xfonts-unifont,
  libfreetype6-dev,
- gcc-4.4,
 Build-Conflicts: autoconf2.13 
 Standards-Version: 3.8.3
 Homepage: http://www.gnu.org/software/grub/grub-2.en.html
