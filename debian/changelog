@@ -5,6 +5,7 @@ grub2 (1.97+20091124-1) unstable; urgency=low
     - Create fake GRUB devices for devices not listed in device.map.
       This also makes dmraid and multipath work as long as
       search --fs-uuid works. (Closes: #442382, #540549, LP: #392136)
+    - rules: grub-emu is now built as a port.
 
   [ Felix Zielcke ]
   * Change the bt-utf-source build dependency to xfonts-unifont. It's
@@ -20,7 +21,7 @@ grub2 (1.97+20091124-1) unstable; urgency=low
     and CC as arguments to ./configure instead of env vars so they get
     preserved.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 24 Nov 2009 13:55:46 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 24 Nov 2009 15:07:47 +0100
 
 grub2 (1.97+20091115-1) unstable; urgency=low
 

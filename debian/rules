@@ -27,7 +27,7 @@ CONFIGURE = $(CURDIR)/configure CC=$(CC) TARGET_CC=$(CC) \
 	--build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --includedir="\$${prefix}/include" \
 	--mandir="\$${prefix}/share/man" --infodir="\$${prefix}/share/info" --sysconfdir=/etc --localstatedir=/var \
 	--libexecdir="\$${prefix}/lib/$(package)" --srcdir=$(CURDIR) \
-	--enable-grub-emu --enable-grub-mkfont --disable-grub-fstest 
+	--enable-grub-mkfont --disable-grub-fstest 
 
 AUTOGEN_FILES = configure config.h.in conf/*.mk
 AUTOGEN_DEB_FILES = docs examples manpages config templates postinst postrm dirs install
@@ -35,7 +35,7 @@ AUTOGEN_DEB_FILES = docs examples manpages config templates postinst postrm dirs
 $(AUTOGEN_FILES): autogen.sh configure.ac conf/*.rmk
 	./autogen.sh
 
-configure/grub-pc configure/grub-ieee1275 configure/grub-coreboot:: $(AUTOGEN_FILES)
+configure/grub-pc configure/grub-ieee1275 configure/grub-coreboot configure/grub-emu:: $(AUTOGEN_FILES)
 	mkdir -p $(subst configure/,build/,$@)
 	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=$(subst configure/grub-,,$@)
 
@@ -51,15 +51,12 @@ configure/grub-firmware-qemu:: $(AUTOGEN_FILES)
 	mkdir -p $(subst configure/,build/,$@)
 	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=qemu
 
-configure/grub-common configure/grub-emu:: $(AUTOGEN_FILES)
+configure/grub-common:: $(AUTOGEN_FILES)
 	mkdir -p $(subst configure/,build/,$@)
 	cd $(subst configure/,build/,$@) && $(CONFIGURE)
 
-build/grub-common build/grub-pc build/grub-efi-ia32 build/grub-efi-amd64 build/grub-ieee1275 build/grub-coreboot::
+build/grub-common build/grub-pc build/grub-efi-ia32 build/grub-efi-amd64 build/grub-ieee1275 build/grub-coreboot build/grub-emu::
 	$(MAKE) -C $@
-
-build/grub-emu::
-	$(MAKE) -C $@ grub-emu
 
 build/grub-firmware-qemu::
 	$(MAKE) -C $@
@@ -74,26 +71,24 @@ build/grub-firmware-qemu::
 		-m $${grub_memdisk} \
 		-o $(CURDIR)/$@/grub.bin
 
-install/grub-emu::
-	mkdir -p $(CURDIR)/debian/$(subst install/,,$@)/usr/sbin
-	install -m755 build/grub-emu/grub-emu $(CURDIR)/debian/$(subst install/,,$@)/usr/sbin/grub-emu
-
-install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee1275 install/grub-coreboot::
+install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee1275 install/grub-coreboot install/grub-emu::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
 
 	# shipped with grub-common
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/etc/grub.d
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{grub-dumpbios,grub-probe,grub-emu,grub-mkconfig,grub-mkdevicemap,grub-ofpathname}{,.8}
+	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{grub-dumpbios,grub-probe,grub-mkconfig,grub-mkdevicemap,grub-ofpathname}{,.8}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/{grub-mkelfimage,grub-mkfont,grub-editenv,grub-mkisofs,grub-mkrescue}{,.1}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/{grub-mkconfig_lib,update-grub_lib}
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/share/{grub,info}/
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/include
 
-	for i in $(AUTOGEN_DEB_FILES) ; do \
-		sed debian/$$i.in \
-			-e "s/@PACKAGE@/$(subst install/,,$@)/g" \
-			> debian/$(subst install/,,$@).$$i ; \
-	done
+	if [ "$@" != "install/grub-emu" ] ; then \
+		for i in $(AUTOGEN_DEB_FILES) ; do \
+			sed debian/$$i.in \
+				-e "s/@PACKAGE@/$(subst install/,,$@)/g" \
+				> debian/$(subst install/,,$@).$$i ; \
+		done ; \
+	fi
 
 	# grub-pc is a bit special.  It includes a few overlays for autogen files.
 	if [ "$@" = "install/grub-pc" ] ; then \
@@ -126,7 +121,7 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 install/grub-common::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/{i386,powerpc,sparc64}-*
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{update-grub,grub-install,grub-setup,grub-emu}{,.8}
+	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{update-grub,grub-install,grub-setup}{,.8}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/{grub-mkimage,grub-mkfloppy}{,.1}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/share/info/dir*
 
