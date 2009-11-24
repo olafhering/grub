@@ -6,7 +6,7 @@
  
    if (dos_part >= 0)
 -    asprintf (&dos_part_str, ",%d", dos_part + 1);
-+    asprintf (&dos_part_str, ",%d", dos_part + (getenv ("GRUB_LEGACY_0_BASED_PARTITIONS") ? 0 : 1);
++    asprintf (&dos_part_str, ",%d", dos_part + (getenv ("GRUB_LEGACY_0_BASED_PARTITIONS") ? 0 : 1));
  
    if (bsd_part >= 0)
      asprintf (&bsd_part_str, ",%c", dos_part + 'a');
