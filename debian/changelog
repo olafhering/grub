@@ -1,4 +1,4 @@
-grub2 (1.97+20091121-1) unstable; urgency=low
+grub2 (1.97+20091124-1) unstable; urgency=low
 
   * New upstream snapshot.
     - Fix grub-mkisofs related FTBFS on powerpc. (Closes: #557704)

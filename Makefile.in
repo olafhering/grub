@@ -111,7 +111,6 @@ YACC = @YACC@
 FONT_SOURCE = @FONT_SOURCE@
 
 # Options.
-enable_grub_emu = @enable_grub_emu@
 enable_grub_emu_usb = @enable_grub_emu_usb@
 enable_grub_fstest = @enable_grub_fstest@
 enable_grub_pe2elf = @enable_grub_pe2elf@
@@ -153,7 +152,11 @@ $(addprefix $(srcdir)/,$(MKFILES)): %.mk: %.rmk genmk.rb
 	  $(RUBY) $(srcdir)/genmk.rb < $< > $@; \
 	fi
 
+ifeq ($(platform), emu)
+include $(srcdir)/conf/any-emu.mk
+else
 include $(srcdir)/conf/$(target_cpu)-$(platform).mk
+endif
 
 # For external modules.
 -include $(wildcard $(GRUB_CONTRIB)/*/conf/common.mk)
@@ -309,7 +312,7 @@ install-local: all
 	  $(INSTALL_DATA) $$dir$$file $(DESTDIR)$(libdir)/grub/$$dest; \
 	done
 	$(foreach lang, $(LINGUAS), \
-	$(SHELL) $(mkinstalldirs) $(DESTDIR)/$(datadir)/locale/$(lang)/LC_MESSAGES \
+	$(shell $(mkinstalldirs) $(DESTDIR)/$(datadir)/locale/$(lang)/LC_MESSAGES) \
 	@list='po/$(lang).mo'; \
 	for file in $$list; do \
 	  if test -f "$$file"; then dir=; else dir="$(srcdir)/"; fi; \
@@ -472,12 +475,12 @@ gensymlist.sh: gensymlist.sh.in config.status
 genkernsyms.sh: genkernsyms.sh.in config.status
 	$(SHELL) ./config.status
 
-po/$(PACKAGE).pot: po/POTFILES po/POTFILES-shell
-	$(XGETTEXT) --from-code=utf-8 -o $@ -f $< --keyword=_
-	$(XGETTEXT) --from-code=utf-8 -o $@ -f po/POTFILES-shell -j --language=Shell
+$(srcdir)/po/$(PACKAGE).pot: po/POTFILES po/POTFILES-shell
+	cd $(srcdir) && $(XGETTEXT) --from-code=utf-8 -o $@ -f $< --keyword=_ --keyword=N_
+	cd $(srcdir) && $(XGETTEXT) --from-code=utf-8 -o $@ -f po/POTFILES-shell -j --language=Shell
 
-$(foreach lang, $(LINGUAS), po/$(lang).po): po/$(PACKAGE).pot
-	$(MSGMERGE) -U $@ po/$(PACKAGE).pot
+$(foreach lang, $(LINGUAS), $(srcdir)/po/$(lang).po): po/$(PACKAGE).pot
+	$(MSGMERGE) -U $@ $^
 
 po/%.mo: po/%.po
 	$(MKDIR_P) $$(dirname $@)
