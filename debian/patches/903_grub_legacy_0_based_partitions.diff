@@ -1,11 +1,13 @@
---- util/hostdisk.c	2008-02-11 16:47:35.000000000 +0100
-+++ util/hostdisk.c	2008-02-28 17:00:20.000000000 +0100
-@@ -584,7 +584,7 @@
-   sprintf (p, (drive & 0x80) ? "hd%d" : "fd%d", drive & ~0x80);
-
+=== modified file 'util/hostdisk.c'
+--- util/hostdisk.c	2009-11-23 20:30:56 +0000
++++ util/hostdisk.c	2009-11-24 08:00:03 +0000
+@@ -679,7 +679,7 @@ make_device_name (int drive, int dos_par
+   char *bsd_part_str = NULL;
+ 
    if (dos_part >= 0)
--    sprintf (p + strlen (p), ",%d", dos_part + 1);
-+    sprintf (p + strlen (p), ",%d", dos_part + (getenv ("GRUB_LEGACY_0_BASED_PARTITIONS") ? 0 : 1));
-
+-    asprintf (&dos_part_str, ",%d", dos_part + 1);
++    asprintf (&dos_part_str, ",%d", dos_part + (getenv ("GRUB_LEGACY_0_BASED_PARTITIONS") ? 0 : 1);
+ 
    if (bsd_part >= 0)
-     sprintf (p + strlen (p), ",%c", bsd_part + 'a');
+     asprintf (&bsd_part_str, ",%c", dos_part + 'a');
+

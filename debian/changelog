@@ -14,8 +14,9 @@ grub2 (1.97+20091124-1) unstable; urgency=low
     passing (hd0) to grub-install when creating the core.img with
     chainloading. This avoids the (UUID=) hack slowness in case
     /boot/grub is on a different disk then (hd0) in device.map.
+  * patches/903_grub_legacy_0_based_partitions.diff: Update.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 24 Nov 2009 08:36:02 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 24 Nov 2009 09:01:10 +0100
 
 grub2 (1.97+20091115-1) unstable; urgency=low
 
