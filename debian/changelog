@@ -2,6 +2,9 @@ grub2 (1.97+20091124-1) unstable; urgency=low
 
   * New upstream snapshot.
     - Fix grub-mkisofs related FTBFS on powerpc. (Closes: #557704)
+    - Create fake devices for devices not listed in device.map.
+      This also makes dmraid and multipath work as long as
+      search --fs-uuid works. (Closes: #442382, #540549, LP: #392136)
 
   [ Felix Zielcke ]
   * Change the bt-utf-source build dependency to xfonts-unifont. It's
@@ -12,7 +15,7 @@ grub2 (1.97+20091124-1) unstable; urgency=low
     chainloading. This avoids the (UUID=) hack slowness in case
     /boot/grub is on a different disk then (hd0) in device.map.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Mon, 23 Nov 2009 20:59:34 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 24 Nov 2009 08:22:16 +0100
 
 grub2 (1.97+20091115-1) unstable; urgency=low
 
