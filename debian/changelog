@@ -1,3 +1,10 @@
+grub2 (1.97+20091124-2) unstable; urgency=low
+
+  * Add gettext to Build-Depends and gettext-base to grub-common's
+    Depends.
+
+ -- Robert Millan <rmh.debian@aybabtu.com>  Wed, 25 Nov 2009 02:51:03 +0100
+
 grub2 (1.97+20091124-1) unstable; urgency=low
 
   * New upstream snapshot.

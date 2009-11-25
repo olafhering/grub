@@ -21,6 +21,7 @@ Build-Depends: cdbs,
  genisoimage [i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia],
  xfonts-unifont,
  libfreetype6-dev,
+ gettext,
 Build-Conflicts: autoconf2.13 
 Standards-Version: 3.8.3
 Homepage: http://www.gnu.org/software/grub/grub-2.en.html
@@ -51,7 +52,7 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
 
 Package: grub-common
 Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia powerpc sparc
-Depends: base-files (>= 4.0.1~), dpkg (>= 1.15.4) | install-info, ${shlibs:Depends}, ${misc:Depends}
+Depends: base-files (>= 4.0.1~), dpkg (>= 1.15.4) | install-info, ${shlibs:Depends}, ${misc:Depends}, gettext-base
 Replaces: grub-pc (<< 1.97+20091114-1), grub-ieee1275 (<< 1.96+20080831-1), grub-efi (<< 1.96+20080831-1), grub-coreboot (<< 1.97+20091114-1), grub-linuxbios (<< 1.96+20080831-1)
 Recommends: os-prober (>= 1.33)
 Suggests: multiboot-doc [i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 lpia], grub-emu
