@@ -1,4 +1,7 @@
-grub2 (1.97+20091124-2) unstable; urgency=low
+grub2 (1.97+20091125-1) unstable; urgency=low
+
+  * New upstream snapshot.
+    - Fixes script parser load error.
 
   * Add gettext to Build-Depends and gettext-base to grub-common's
     Depends.
