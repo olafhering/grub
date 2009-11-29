@@ -27,10 +27,6 @@
  *
  */
 
-#define ASM_FILE
-//#include <shared.h>
-#define ASM_FILE
-
 #ifndef STAGE1_5
 //#include <stage2_size.h>
 #else
