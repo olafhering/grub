@@ -7,11 +7,12 @@ all: g2ldr.mbr g2hdr.bin
 DISTCLEANFILES += g2ldr.mbr g2hdr.bin
 
 g2hdr: $(GRUB_CONTRIB)/ntldr-img/g2hdr.S
-	gcc $(COMMON_ASFLAGS) $(COMMON_LDFLAGS) -nostdlib -Wl,-N -Wl,-Ttext -Wl,0x7C00 -o $@ $<
+	$(TARGET_CC) $(COMMON_ASFLAGS) $(COMMON_LDFLAGS) $(TARGET_CPPFLAGS) -DASM_FILE=1 $(TARGET_ASFLAGS) -nostdlib -Wl,-N -Wl,-Ttext -Wl,0x7C00 -o $@ $<
+
 DISTCLEANFILES += g2hdr
 
 grldr: $(GRUB_CONTRIB)/ntldr-img/grldrstart.S
-	gcc $(COMMON_ASFLAGS) $(COMMON_LDFLAGS) -DGRLDR_MBR -nostdlib -Wl,-N -Wl,-Ttext -Wl,0x7C00 -o $@ $<
+	$(TARGET_CC) $(COMMON_ASFLAGS) $(COMMON_LDFLAGS) $(TARGET_CPPFLAGS) -DASM_FILE=1 $(TARGET_ASFLAGS) -DGRLDR_MBR -nostdlib -Wl,-N -Wl,-Ttext -Wl,0x7C00 -o $@ $<
 DISTCLEANFILES += g2ldr
 
 g2hdr.bin: g2hdr
@@ -23,7 +24,7 @@ grldr.mbr: grldr
 DISTCLEANFILES += grldr.mbr
 
 bin2h: $(GRUB_CONTRIB)/ntldr-img/bin2h.c
-	gcc $^ -o $@
+	$(CC) $^ -o $@
 DISTCLEANFILES += bin2h
 
 grub_mbr.h: grldr.mbr bin2h
@@ -31,7 +32,7 @@ grub_mbr.h: grldr.mbr bin2h
 DISTCLEANFILES += grub_mbr.h
 
 grubinst: $(GRUB_CONTRIB)/ntldr-img/grubinst.c $(GRUB_CONTRIB)/ntldr-img/utils.c grub_mbr.h
-	gcc -DLINUX -o $@ $^
+	$(CC) -DLINUX -o $@ $^
 DISTCLEANFILES += grubinst
 
 g2ldr.mbr: grubinst
