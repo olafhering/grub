@@ -6,8 +6,9 @@ grub2 (1.97+20091125-2) unstable; urgency=low
   [ Robert Millan ]
   * control: Remove genisoimage from Build-Depends/Suggests (no longer
     used).
+  * grub.d/05_debian_theme: Make output string distro-agnostic.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 27 Nov 2009 17:26:00 +0100
+ -- Robert Millan <rmh.debian@aybabtu.com>  Sun, 29 Nov 2009 04:13:25 +0100
 
 grub2 (1.97+20091125-1) unstable; urgency=low
 

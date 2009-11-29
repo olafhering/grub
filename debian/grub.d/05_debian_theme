@@ -32,7 +32,7 @@ if [ "$GRUB_TERMINAL_OUTPUT" = "gfxterm" ] ; then
         *.jpg|*.jpeg)	reader=jpeg ;;
       esac
       if test -e /boot/grub/${reader}.mod ; then
-        echo "Found Debian background: `basename ${bg}`" >&2
+        echo "Found background image: `basename ${bg}`" >&2
         use_bg=true
         break
       fi
