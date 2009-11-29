@@ -1,4 +1,6 @@
-grub2 (1.97+20091125-2) unstable; urgency=low
+grub2 (1.97+20091129-1) unstable; urgency=low
+
+  * New Bazaar snapshot.
 
   [ Updated translations ]
   * Bulgarian (bg.po) by Damyan Ivanovi (Closes: #558039)
