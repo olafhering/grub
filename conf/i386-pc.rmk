@@ -30,7 +30,7 @@ grub_mbr.h: grldr.mbr bin2h
 DISTCLEANFILES += grub_mbr.h
 
 grubinst: $(GRUB_CONTRIB)/ntldr-img/grubinst.c $(GRUB_CONTRIB)/ntldr-img/utils.c grub_mbr.h
-	$(CC) -I$(GRUB_CONTRIB)/ntldr-img -DLINUX -o $@ $(GRUB_CONTRIB)/ntldr-img/grubinst.c $(GRUB_CONTRIB)/ntldr-img/utils.c
+	$(CC) -I. -I$(GRUB_CONTRIB)/ntldr-img -DLINUX -o $@ $(GRUB_CONTRIB)/ntldr-img/grubinst.c $(GRUB_CONTRIB)/ntldr-img/utils.c
 DISTCLEANFILES += grubinst
 
 g2ldr.mbr: grubinst
