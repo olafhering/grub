@@ -11,17 +11,15 @@ g2hdr: $(GRUB_CONTRIB)/ntldr-img/g2hdr.S
 
 DISTCLEANFILES += g2hdr
 
-grldr: $(GRUB_CONTRIB)/ntldr-img/grldrstart.S
-	$(TARGET_CC) $(COMMON_ASFLAGS) $(COMMON_LDFLAGS) $(TARGET_CPPFLAGS) -DASM_FILE=1 $(TARGET_ASFLAGS) -DGRLDR_MBR -nostdlib -Wl,-N -Wl,-Ttext -Wl,0x7C00 -o $@ $<
-DISTCLEANFILES += g2ldr
-
 g2hdr.bin: g2hdr
 	objcopy -O binary $< $@
 DISTCLEANFILES += g2hdr.bin
 
-grldr.mbr: grldr
-	objcopy -O binary $< $@
-DISTCLEANFILES += grldr.mbr
+grldr.mbr: $(GRUB_CONTRIB)/ntldr-img/grldrstart.S $(GRUB_CONTRIB)/ntldr-img/ntfsbs.S
+	$(TARGET_CC) $(COMMON_ASFLAGS) $(COMMON_LDFLAGS) $(TARGET_CPPFLAGS) -DASM_FILE=1 $(TARGET_ASFLAGS) -DGRLDR_MBR -nostdlib -Wl,-N -Wl,-Ttext -Wl,0x7C00 -o grldr.exec $<
+	objcopy -O binary grldr.exec grldr.img
+	head -c 8192 grldr.img > $@
+DISTCLEANFILES += grldr grldr.tmp grldr.mbr
 
 bin2h: $(GRUB_CONTRIB)/ntldr-img/bin2h.c
 	$(CC) $^ -o $@
