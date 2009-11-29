@@ -17,6 +17,8 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <grub/machine/kernel.h>
+
 	.file	"g2hdr.S"
 
 	.text
@@ -55,9 +57,9 @@ jump_start:
 	movw	%ax, %es
 	xorl	%eax, %eax
 	movb	%dh, %al
-	movl	%eax, 0x14		// GRUB_KERNEL_MACHINE_INSTALL_DOS_PART
-	movl	0x10, %eax		// GRUB_KERNEL_MACHINE_COMPRESSED_SIZE
-	addl	$0x64c, %eax		// GRUB_KERNEL_MACHINE_RAW_SIZE
+	movl	%eax, GRUB_KERNEL_MACHINE_INSTALL_DOS_PART
+	movl	GRUB_KERNEL_MACHINE_COMPRESSED_SIZE, %eax
+	addl	$GRUB_KERNEL_MACHINE_RAW_SIZE, %eax
 	xorl	%ecx, %ecx
 
 1:
@@ -89,9 +91,6 @@ jump_start:
 
 	subl	%ecx, %eax
 	jnz	1b
-
-	/* Root drive will default to boot drive */
-	movb    $0xFF, %dh
 
 	ljmp	$0, $(0x8000 + 0x200)
 
