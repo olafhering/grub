@@ -7,7 +7,7 @@ all: g2ldr.mbr g2hdr.bin
 DISTCLEANFILES += g2ldr.mbr g2hdr.bin
 
 g2hdr: $(GRUB_CONTRIB)/ntldr-img/g2hdr.S
-	$(TARGET_CC) $(COMMON_ASFLAGS) $(COMMON_LDFLAGS) $(TARGET_CPPFLAGS) -DASM_FILE=1 $(TARGET_ASFLAGS) -nostdlib -Wl,-N -Wl,-Ttext -Wl,0x7C00 -o $@ $<
+	$(TARGET_CC) -I$(GRUB_CONTRIB)/ntldr-img $(COMMON_ASFLAGS) $(COMMON_LDFLAGS) $(TARGET_CPPFLAGS) -DASM_FILE=1 $(TARGET_ASFLAGS) -nostdlib -Wl,-N -Wl,-Ttext -Wl,0x7C00 -o $@ $<
 
 DISTCLEANFILES += g2hdr
 
@@ -16,7 +16,7 @@ g2hdr.bin: g2hdr
 DISTCLEANFILES += g2hdr.bin
 
 grldr.mbr: $(GRUB_CONTRIB)/ntldr-img/grldrstart.S $(GRUB_CONTRIB)/ntldr-img/ntfsbs.S
-	$(TARGET_CC) $(COMMON_ASFLAGS) $(COMMON_LDFLAGS) $(TARGET_CPPFLAGS) -DASM_FILE=1 $(TARGET_ASFLAGS) -DGRLDR_MBR -nostdlib -Wl,-N -Wl,-Ttext -Wl,0x7C00 -o grldr.exec $<
+	$(TARGET_CC) -I$(GRUB_CONTRIB)/ntldr-img $(COMMON_ASFLAGS) $(COMMON_LDFLAGS) $(TARGET_CPPFLAGS) -DASM_FILE=1 $(TARGET_ASFLAGS) -DGRLDR_MBR -nostdlib -Wl,-N -Wl,-Ttext -Wl,0x7C00 -o grldr.exec $<
 	objcopy -O binary grldr.exec grldr.img
 	head -c 8192 grldr.img > $@
 DISTCLEANFILES += grldr grldr.tmp grldr.mbr
@@ -30,7 +30,7 @@ grub_mbr.h: grldr.mbr bin2h
 DISTCLEANFILES += grub_mbr.h
 
 grubinst: $(GRUB_CONTRIB)/ntldr-img/grubinst.c $(GRUB_CONTRIB)/ntldr-img/utils.c grub_mbr.h
-	$(CC) -DLINUX -o $@ $^
+	$(CC) -I$(GRUB_CONTRIB)/ntldr-img -DLINUX -o $@ $(GRUB_CONTRIB)/ntldr-img/grubinst.c $(GRUB_CONTRIB)/ntldr-img/utils.c
 DISTCLEANFILES += grubinst
 
 g2ldr.mbr: grubinst
