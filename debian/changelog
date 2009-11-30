@@ -1,9 +1,9 @@
-grub2 (1.97+20091129-1) unstable; urgency=low
+grub2 (1.97+20091130-1) unstable; urgency=low
 
   * New Bazaar snapshot.
   * Enable ntldr-img from grub-extras.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Sun, 29 Nov 2009 23:35:22 +0100
+ -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 30 Nov 2009 02:33:03 +0100
 
 grub2 (1.97+20091125-2) unstable; urgency=low
 
