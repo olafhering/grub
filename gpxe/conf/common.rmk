@@ -1,0 +1,85 @@
+# -*- makefile -*-
+
+GPXE_CFLAGS=$(COMMON_CFLAGS) '-DFILE_LICENCE(x)=' -I$(GRUB_CONTRIB)/gpxe/src/include -I$(GRUB_CONTRIB)/gpxe/include_wrap -Wno-pointer-arith -Wno-error
+
+# For gpxe.mod
+pkglib_MODULES += gpxe.mod
+gpxe_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/wrap/wrap.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/80211/net80211.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/80211/rc80211.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/arp.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/dhcpopts.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/dhcppkt.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/ethernet.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/fakedhcp.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/icmp.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/iobpad.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/ipv4.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/netdevice.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/netdev_settings.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/nullnet.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/rarp.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/retry.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/tcp/http.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/tcp.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/tcpip.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/udp/dhcp.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/udp/dns.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/udp/slam.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/udp/tftp.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/udp.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/base64.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/uri.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/uuid.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/random.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/open.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/cwuri.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/linebuf.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/xfer.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/settings.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/iobuf.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/refcnt.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/bitmap.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/process.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/job.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/resolv.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/interface.c \
+	$(GRUB_CONTRIB)/gpxe/src/hci/strerror.c
+gpxe_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += https.mod
+#https_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/tcp/https.c 
+#https_mod_CFLAGS = $(GPXE_CFLAGS)
+#https_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += tls.mod
+#tls_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/tls.c 
+#tls_mod_CFLAGS = $(GPXE_CFLAGS)
+#tls_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += aoe.mod
+#aoe_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/aoe.c
+#aoe_mod_CFLAGS = $(GPXE_CFLAGS)
+#aoe_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += iscsi.mod
+#aoe_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/tcp/iscsi.c
+#aoe_mod_CFLAGS = $(GPXE_CFLAGS)
+#aoe_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += infiniband.mod
+infiniband_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_cm.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_cmrc.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_mcast.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_mi.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_packet.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_pathrec.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_sma.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_smc.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_srp.c \
+	$(GRUB_CONTRIB)/gpxe/src/net/infiniband.c \
+	$(GRUB_CONTRIB)/gpxe/src/drivers/net/ipoib.c \
+	$(GRUB_CONTRIB)/gpxe/src/drivers/block/scsi.c
+infiniband_mod_CFLAGS = $(GPXE_CFLAGS)
+infiniband_mod_LDFLAGS = $(COMMON_LDFLAGS)
