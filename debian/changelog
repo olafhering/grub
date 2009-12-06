@@ -2,6 +2,7 @@ grub2 (1.97+20091206-1) unstable; urgency=low
 
   * New Bazaar snapshot.
   * Fix dpkg dependency for lenny compatibility.
+  * grub-extras moved to Bazaar.
 
  -- Robert Millan <rmh.debian@aybabtu.com>  Sun, 06 Dec 2009 03:47:40 +0100
 
