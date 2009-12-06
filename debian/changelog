@@ -1,9 +1,9 @@
-grub2 (1.97+20091205-1) unstable; urgency=low
+grub2 (1.97+20091206-1) unstable; urgency=low
 
   * New Bazaar snapshot.
   * Fix dpkg dependency for lenny compatibility.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Sat, 05 Dec 2009 17:35:35 +0100
+ -- Robert Millan <rmh.debian@aybabtu.com>  Sun, 06 Dec 2009 03:47:40 +0100
 
 grub2 (1.97+20091130-1) unstable; urgency=low
 
