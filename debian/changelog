@@ -1,9 +1,10 @@
 grub2 (1.97+20091206-1) unstable; urgency=low
 
   * New Bazaar snapshot.
+    - patches/02_fix_mountpoints_in_mkrelpath.diff: Remove (merged). 
   * Fix dpkg dependency for lenny compatibility.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Sun, 06 Dec 2009 03:47:40 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 06 Dec 2009 10:24:47 +0100
 
 grub2 (1.97+20091130-1) unstable; urgency=low
 
