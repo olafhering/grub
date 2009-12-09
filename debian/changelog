@@ -1,10 +1,15 @@
-grub2 (1.97+20091206-1) unstable; urgency=low
+grub2 (1.97+20091210-1) unstable; urgency=low
 
   * New Bazaar snapshot.
     - patches/02_fix_mountpoints_in_mkrelpath.diff: Remove (merged). 
+    - Fixes FTBFS on powerpc (again) and sparc.
+    - patches/903_grub_legacy_0_based_partitions.diff: Resync (merged into
+      debian branch).
+
+  [ Felix Zielcke ]
   * Fix dpkg dependency for lenny compatibility.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 06 Dec 2009 10:24:47 +0100
+ -- Robert Millan <rmh.debian@aybabtu.com>  Thu, 10 Dec 2009 00:35:20 +0100
 
 grub2 (1.97+20091130-1) unstable; urgency=low
 
