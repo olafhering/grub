@@ -30,7 +30,7 @@ case "$1" in
 	if [[ `dpkg --print-architecture` != hurd-* ]] ; then
 	  rm_conffile "/etc/grub.d/10_hurd"
 	fi
-	if [[ `dpkg --print-architecture` == hurd-* ]] || [[ `dpkg --print-architecture` == kfreebsd-* ]]  ; then
+	if [[ `dpkg --print-architecture` = hurd-* ]] || [[ `dpkg --print-architecture` = kfreebsd-* ]]  ; then
 	  rm_conffile "/etc/grub.d/10_linux"
 	fi
     fi
