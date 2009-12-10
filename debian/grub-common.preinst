@@ -1,17 +1,37 @@
 #!/bin/bash -e
 
+# Taken from http://wiki.debian.org/DpkgConffileHandling
+# Remove a no-longer used conffile
+rm_conffile() {
+    local PKGNAME="grub-common"
+    local CONFFILE="$1"
+
+    [ -e "$CONFFILE" ] || return 0
+
+    local md5sum="$(md5sum $CONFFILE | sed -e 's/ .*//')"
+    local old_md5sum="$(dpkg-query -W -f='${Conffiles}' $PKGNAME | \
+            sed -n -e "\' $CONFFILE ' { s/ obsolete$//; s/.* //; p }")"
+    if [ "$md5sum" != "$old_md5sum" ]; then
+	echo "Obsolete conffile $CONFFILE has been modified by you."
+	echo "Saving as $CONFFILE.dpkg-bak ..."
+	mv -f "$CONFFILE" "$CONFFILE".dpkg-bak
+    else
+	echo "Removing obsolete conffile $CONFFILE ..."
+	rm -f "$CONFFILE"
+    fi
+}
+
 case "$1" in
   install|upgrade)
-
-    if [ -n "$2" ] && dpkg --compare-versions $2 lt 1.96+20090521-1 ; then
-	if [ -f /etc/grub.d/10_hurd ] && [[ `dpkg --print-architecture` != hurd-* ]] ; then
-	  rm /etc/grub.d/10_hurd
+    if dpkg --compare-versions "$2" le "1.97+20091210-1" ; then
+	rm_conffile "/etc/grub.d/10_freebsd"
+    fi
+    if dpkg --compare-versions "$2" lt "1.96+20090521-1" ; then
+	if [[ `dpkg --print-architecture` != hurd-* ]] ; then
+	  rm_conffile "/etc/grub.d/10_hurd"
 	fi
-	if [ -f /etc/grub.d/10_freebsd ] && [[ `dpkg --print-architecture` != kfreebsd-* ]] ; then
-	   rm /etc/grub.d/10_freebsd
-	fi
-	if [ -f /etc/grub.d/10_linux ] && ( [[ `dpkg --print-architecture` = hurd-* ]] || [[ `dpkg --print-architecture` = kfreebsd-* ]] ) ; then
-	   rm /etc/grub.d/10_linux
+	if [[ `dpkg --print-architecture` == hurd-* ]] || [[ `dpkg --print-architecture` == kfreebsd-* ]]  ; then
+	  rm_conffile "/etc/grub.d/10_linux"
 	fi
     fi
   ;;

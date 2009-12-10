@@ -1,3 +1,10 @@
+grub2 (1.97+20091210-2) unstable; urgency=low
+
+  * Delete obsolete /etc/grub.d/10_freebsd if it has not been modified,
+    else disable it. (Closes: 560346)
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 10 Dec 2009 18:42:31 +0100
+
 grub2 (1.97+20091210-1) unstable; urgency=low
 
   * New Bazaar snapshot.
