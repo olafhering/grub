@@ -13,7 +13,6 @@ grub2 (1.97+20091210-1) unstable; urgency=low
     - patches/903_grub_legacy_0_based_partitions.diff: Resync (merged into
       debian branch).
 
-  [ Felix Zielcke ]
   * Fix dpkg dependency for lenny compatibility.
 
  -- Robert Millan <rmh.debian@aybabtu.com>  Thu, 10 Dec 2009 00:35:20 +0100
