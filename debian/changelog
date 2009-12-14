@@ -1,12 +1,8 @@
-grub2 (1.97+20091210-2) unstable; urgency=low
+grub2 (1.98~20091210-1) unstable; urgency=low
 
-  * New Bazaar snapshot.
-    - Fix search command failing on some broken BIOSes. (Closes: #530357) 
+  * Version bump.
 
-  * Delete obsolete /etc/grub.d/10_freebsd if it has not been modified,
-    else disable it. (Closes: 560346)
-
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 13 Dec 2009 21:48:12 +0100
+ -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 14 Dec 2009 14:52:59 +0100
 
 grub2 (1.97+20091210-1) unstable; urgency=low
 
@@ -16,6 +12,7 @@ grub2 (1.97+20091210-1) unstable; urgency=low
     - patches/903_grub_legacy_0_based_partitions.diff: Resync (merged into
       debian branch).
 
+  [ Felix Zielcke ]
   * Fix dpkg dependency for lenny compatibility.
 
  -- Robert Millan <rmh.debian@aybabtu.com>  Thu, 10 Dec 2009 00:35:20 +0100
