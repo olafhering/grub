@@ -21,14 +21,19 @@ function enum_device (device, fs, uuid)
   local title
   local source
   local kernels = {}
+  local kernelnames = {}
   local kernel_num = 0
 
   local function enum_file (name)
     local version
 
     version = string.match (name, "vmlinuz%-(.*)")
+    if (version == nil) then
+      version = string.match (name, "linux%-(.*)")
+    end
     if (version ~= nil) then
       table.insert (kernels, version)
+      table.insert (kernelnames, name)
       kernel_num = kernel_num + 1
     end
   end
@@ -71,9 +76,9 @@ function enum_device (device, fs, uuid)
 	local initrd
 
 	title = "Linux " .. kernels[i]
-	source = "root (" .. device ..
-	  ")\nlinux /boot/vmlinuz-" .. kernels[i] ..
-	  " root=UUID=" .. uuid .. " ro"
+	source = "set root = " .. device ..
+	  "\nlinux /boot/" .. kernelnames[i] ..
+	  " root=UUID=" ..  " ro"
 
 	if grub.file_exist (root .. "boot/initrd-" ..
 			    kernels[i] .. ".img") then
