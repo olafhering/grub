@@ -45,6 +45,28 @@ function enum_device (device, fs, uuid)
     b1, b2, b3, b4 = string.match (second, "(%d+)%.?(%d*).?(%d*)%-?(%d*)")
     return (a1 > b1) or (a2 > b2) or (a3 > b3) or (a4 < b4);
   end
+  local function freebsd_variants (title, header, footer)
+    normal = "\nset FreeBSD.acpi_load=YES" ..
+    "\nset FreeBSD.hint.acpi.0.disabled=0"
+    noacpi = "\nunset FreeBSD.acpi_load" ..
+    "\nset FreeBSD.hint.acpi.0.disabled=1" ..
+    "\nset FreeBSD.loader.acpi_disabled_by_user=1"
+    safe = "\nset FreeBSD.hint.apic.0.disabled=1" ..
+	"\nset FreeBSD.hw.ata.ata_dma=0" ..
+        "\nset FreeBSD.hw.ata.atapi_dma=0" ..
+        "\nset FreeBSD.hw.ata.wc=0" ..
+        "\nset FreeBSD.hw.eisa_slots=0" ..
+        "\nset FreeBSD.hint.kbdmux.0.disabled=1"
+    grub.add_menu (header .. normal .. footer, title)
+    grub.add_menu (header .. " --single" .. normal .. footer,
+		   title .. " (single)")
+    grub.add_menu (header .. " --verbose" .. normal .. footer,
+		   title .. " (verbose)")
+    grub.add_menu (header .. " --verbose" .. noacpi .. footer,
+		   title .. " (without ACPI)")
+    grub.add_menu (header .. " --verbose" .. noacpi .. safe .. footer,
+		   title .. " (safe mode)")
+  end
 
   root = "(" .. device .. ")/"
   source = "root (" .. device .. ")\nchainloader +1"
@@ -63,11 +85,26 @@ function enum_device (device, fs, uuid)
     title = "MS-DOS"
   elseif (grub.file_exist (root .. "kernel.sys")) then
     title = "FreeDOS"
-  elseif (grub.file_exist (root .. "boot/loader") and
+  elseif ((fs == "ufs1" or fs == "ufs2") and grub.file_exist (root .. "boot/kernel/kernel") and
 	  grub.file_exist (root .. "boot/device.hints")) then
-    source = "root (" .. device .. ")\nfreebsd /boot/loader" ..
-      "\nfreebsd_loadenv /boot/device.hints"
-    title = "FreeBSD"
+     header = "set root=" .. device .. "\nfreebsd /boot/kernel/kernel"
+     footer = "\nset FreeBSD.vfs.root.mountfrom=ufs:ufsid/" .. uuid ..
+	"\nfreebsd_loadenv /boot/device.hints"
+     title = "FreeBSD (on " .. fs .. " ".. device .. ")"
+     freebsd_variants (title, header, footer)
+     return 0
+  elseif (fs == "zfs" and grub.file_exist (root .. "/@/boot/kernel/kernel") and
+      grub.file_exist (root .. "/@/boot/device.hints")) then
+     header = "set root=" .. device .. "\nfreebsd /@/boot/kernel/kernel"
+     footer =  "\nfreebsd_module_elf /@/boot/kernel/opensolaris.ko" ..
+      "\nfreebsd_module_elf /@/boot/kernel/zfs.ko" ..
+      "\nfreebsd_module /@/boot/zfs/zpool.cache type=/boot/zfs/zpool.cache" ..
+      "\nprobe -l -s name $root" ..
+      "\nset FreeBSD.vfs.root.mountfrom=zfs:$name" ..
+      "\nfreebsd_loadenv /@/boot/device.hints"
+     title = "FreeBSD (on " .. fs .. " ".. device .. ")"
+     freebsd_variants (title, header, footer)
+     return 0
   else
     grub.enum_file (enum_file, root .. "boot")
     if kernel_num ~= 0 then
