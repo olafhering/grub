@@ -5,8 +5,8 @@
  #
 
 +insmod biosdisk
-+insmod pc
-+insmod gpt
++insmod part_msdos
++insmod part_gpt
 +
  # Boot automatically after 30 secs.
  set timeout=30
