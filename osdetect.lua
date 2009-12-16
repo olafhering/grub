@@ -69,7 +69,7 @@ function enum_device (device, fs, uuid)
   end
 
   root = "(" .. device .. ")/"
-  source = "root (" .. device .. ")\nchainloader +1"
+  source = "set root=" .. device .. "\nchainloader +1"
   title = nil
   if (grub.file_exist (root .. "bootmgr") and
       grub.file_exist (root .. "boot/bcd")) then
