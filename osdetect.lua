@@ -105,6 +105,49 @@ function enum_device (device, fs, uuid)
      title = "FreeBSD (on " .. fs .. " ".. device .. ")"
      freebsd_variants (title, header, footer)
      return 0
+  elseif (fs == "hfsplus" and grub.file_exist (root .. "mach_kernel")) then
+    source = "set root=" .. device ..
+        "\ninsmod vbe" ..
+        "\ndo_resume=0" ..
+        "\nif [ /var/vm/sleepimage -nt10 / ]; then" ..
+        "\n  if xnu_resume /var/vm/sleepimage; then" ..
+        "\n     do_resume=1" ..
+        "\n  fi" ..
+        "\nfi" ..
+        "\nif [ $do_resume == 0 ]; then" ..
+        "\n   xnu_uuid "  .. uuid .. " uuid" ..
+        "\n   if [ -f /Extra/DSDT.aml ]; then" ..
+        "\n      acpi -e /Extra/DSDT.aml" ..
+        "\n   fi" ..
+        "\n   xnu_kernel /mach_kernel boot-uuid=${uuid} rd=*uuid" ..
+        "\n   if [ /System/Library/Extensions.mkext -nt /System/Library/Extensions ]; then" ..
+        "\n      xnu_mkext /System/Library/Extensions.mkext" ..
+        "\n   else" ..
+        "\n      xnu_kextdir /System/Library/Extensions" ..
+        "\n   fi" ..
+        "\n   if [ -f /Extra/Extensions.mkext ]; then" ..
+        "\n      xnu_mkext /Extra/Extensions.mkext" ..
+        "\n   fi" ..
+        "\n   if [ -d /Extra/Extensions ]; then" ..
+        "\n      xnu_kextdir /Extra/Extensions" ..
+        "\n   fi" ..
+        "\n   if [ -f /Extra/devtree.txt ]; then" ..
+        "\n      xnu_devtree /Extra/devtree.txt" ..
+        "\n   fi" ..
+        "\n   if [ -f /Extra/splash.jpg ]; then" ..
+        "\n      insmod jpeg" ..
+        "\n      xnu_splash /Extra/splash.jpg" ..
+        "\n   fi" ..
+        "\n   if [ -f /Extra/splash.png ]; then" ..
+        "\n      insmod png" ..
+        "\n      xnu_splash /Extra/splash.png" ..
+        "\n   fi" ..
+        "\n   if [ -f /Extra/splash.tga ]; then" ..
+        "\n      insmod tga" ..
+        "\n      xnu_splash /Extra/splash.tga" ..
+        "\n   fi" ..
+        "\nfi"
+    title = "Mac OS X/Darwin"
   else
     grub.enum_file (enum_file, root .. "boot")
     if kernel_num ~= 0 then
