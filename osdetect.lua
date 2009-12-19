@@ -165,7 +165,7 @@ function enum_device (device, fs, uuid)
 	title = "Linux " .. kernels[i]
 	source = "set root=" .. device ..
 	  "\nlinux /boot/" .. kernelnames[i] ..
-	  " root=UUID=" ..  " ro"
+	  " root=UUID=" .. uuid ..  " ro"
 
 	if grub.file_exist (root .. "boot/initrd-" ..
 			    kernels[i] .. ".img") then
