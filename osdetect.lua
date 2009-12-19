@@ -70,10 +70,17 @@ function enum_device (device, fs, uuid)
 
   root = "(" .. device .. ")/"
   source = "set root=" .. device .. "\nchainloader +1"
+
+  local drive_num = string.match (device, "hd(%d+)")
+  if (drive_num ~= nil) and (drive_num ~= "0") then
+    source = source .. "\ndrivemap -s hd0 hd" .. drive_num
+  end
+
   title = nil
   if (grub.file_exist (root .. "bootmgr") and
       grub.file_exist (root .. "boot/bcd")) then
     title = "Windows Vista bootmgr"
+    source = "set root=" .. device .. "\nchainloader +1"
   elseif (grub.file_exist (root .. "ntldr") and
 	  grub.file_exist (root .. "ntdetect.com") and
 	  grub.file_exist (root .. "boot.ini")) then
