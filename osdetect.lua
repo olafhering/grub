@@ -163,7 +163,7 @@ function enum_device (device, fs, uuid)
 	local initrd
 
 	title = "Linux " .. kernels[i]
-	source = "set root = " .. device ..
+	source = "set root=" .. device ..
 	  "\nlinux /boot/" .. kernelnames[i] ..
 	  " root=UUID=" ..  " ro"
 
