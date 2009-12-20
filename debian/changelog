@@ -2,9 +2,9 @@ grub2 (1.98~20091210-2) unstable; urgency=low
 
   * patches/05_insmod_in_rescue_disks.diff: Update to use part_msdos and
     part_gpt.
-  * Add a Replaces: grub-linuxbios to grub-coreboot. (Closes: #561811)
+  * Add Replaces:/Conflicts: grub-linuxbios to grub-coreboot. (Closes: #561811)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Sun, 20 Dec 2009 17:23:56 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Sun, 20 Dec 2009 17:37:49 +0100
 
 grub2 (1.98~20091210-1) unstable; urgency=low
 
