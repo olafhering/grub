@@ -992,6 +992,7 @@ int dhcp_create_request ( struct dhcp_packet *dhcppkt,
 		return rc;
 	}
 
+#if 0
 	/* Add client UUID, if we have one.  Required for PXE. */
 	client_uuid.type = DHCP_CLIENT_UUID_TYPE;
 	if ( ( len = fetch_uuid_setting ( NULL, &uuid_setting,
@@ -1004,6 +1005,7 @@ int dhcp_create_request ( struct dhcp_packet *dhcppkt,
 			return rc;
 		}
 	}
+#endif
 
 	/* Add user class, if we have one. */
 	if ( ( len = fetch_setting_len ( NULL, &user_class_setting ) ) >= 0 ) {

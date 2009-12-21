@@ -338,10 +338,12 @@ char * resolve_path ( const char *base_path,
 	}
 
 	/* Create and return new path */
-	if ( asprintf ( &resolved, "%s%s%s", base_tmp,
-			( ( base_tmp[ strlen ( base_tmp ) - 1 ] == '/' ) ?
-			  "" : "/" ), relative_path ) < 0 )
-		return NULL;
+	resolved = malloc (strlen (base_tmp) + 1 + strlen (relative_path) + 1);
+	if (!resolved)
+	  return NULL;
+	sprintf ( resolved, "%s%s%s", base_tmp,
+		  ( ( base_tmp[ strlen ( base_tmp ) - 1 ] == '/' ) ?
+		    "" : "/" ), relative_path );
 
 	return resolved;
 }

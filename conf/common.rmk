@@ -44,6 +44,8 @@ gpxe_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/wrap/wrap.c \
 	$(GRUB_CONTRIB)/gpxe/src/core/job.c \
 	$(GRUB_CONTRIB)/gpxe/src/core/resolv.c \
 	$(GRUB_CONTRIB)/gpxe/src/core/interface.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/basename.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/misc.c \
 	$(GRUB_CONTRIB)/gpxe/src/hci/strerror.c
 gpxe_mod_CFLAGS = $(GPXE_CFLAGS)
 gpxe_mod_LDFLAGS = $(COMMON_LDFLAGS)
@@ -64,12 +66,12 @@ gpxe_mod_LDFLAGS = $(COMMON_LDFLAGS)
 #aoe_mod_LDFLAGS = $(COMMON_LDFLAGS)
 
 #pkglib_MODULES += iscsi.mod
-#aoe_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/tcp/iscsi.c
-#aoe_mod_CFLAGS = $(GPXE_CFLAGS)
-#aoe_mod_LDFLAGS = $(COMMON_LDFLAGS)
+#iscsi_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/tcp/iscsi.c
+#iscsi_mod_CFLAGS = $(GPXE_CFLAGS)
+#iscsi_mod_LDFLAGS = $(COMMON_LDFLAGS)
 
-pkglib_MODULES += infiniband.mod
-infiniband_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_cm.c \
+pkglib_MODULES += gpxe_infiniband.mod
+gpxe_infiniband_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_cm.c \
 	$(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_cmrc.c \
 	$(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_mcast.c \
 	$(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_mi.c \
@@ -81,5 +83,203 @@ infiniband_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_cm.c \
 	$(GRUB_CONTRIB)/gpxe/src/net/infiniband.c \
 	$(GRUB_CONTRIB)/gpxe/src/drivers/net/ipoib.c \
 	$(GRUB_CONTRIB)/gpxe/src/drivers/block/scsi.c
-infiniband_mod_CFLAGS = $(GPXE_CFLAGS)
-infiniband_mod_LDFLAGS = $(COMMON_LDFLAGS)
+gpxe_infiniband_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_infiniband_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+gpxe_3c509_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/3c509.c
+gpxe_3c509_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_3c509_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_3c515.mod
+gpxe_3c515_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/3c515.c
+gpxe_3c515_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_3c515_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_3c529.mod
+gpxe_3c529_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/3c529.c
+gpxe_3c529_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_3c529_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_3c595.mod
+gpxe_3c595_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/3c595.c
+gpxe_3c595_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_3c595_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_3c5x9.mod
+gpxe_3c5x9_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/3c5x9.c
+gpxe_3c5x9_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_3c5x9_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_3c90x.mod
+gpxe_3c90x_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/3c90x.c
+gpxe_3c90x_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_3c90x_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_davicom.mod
+gpxe_davicom_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/davicom.c
+gpxe_davicom_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_davicom_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_depca.mod
+gpxe_depca_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/depca.c
+gpxe_depca_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_depca_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_dmfe.mod
+gpxe_dmfe_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/dmfe.c
+gpxe_dmfe_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_dmfe_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_eepro100.mod
+gpxe_eepro100_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/eepro100.c
+gpxe_eepro100_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_eepro100_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_eepro.mod
+gpxe_eepro_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/eepro.c
+gpxe_eepro_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_eepro_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_epic100.mod
+gpxe_epic100_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/epic100.c
+gpxe_epic100_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_epic100_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_ipoib.mod
+gpxe_ipoib_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/ipoib.c
+gpxe_ipoib_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_ipoib_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_legacy.mod
+gpxe_legacy_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/legacy.c
+gpxe_legacy_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_legacy_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_natsemi.mod
+gpxe_natsemi_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/natsemi.c
+gpxe_natsemi_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_natsemi_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_ne2k_isa.mod
+gpxe_ne2k_isa_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/ne2k_isa.c
+gpxe_ne2k_isa_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_ne2k_isa_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_ns83820.mod
+gpxe_ns83820_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/ns83820.c
+gpxe_ns83820_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_ns83820_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_ns8390.mod
+gpxe_ns8390_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/ns8390.c
+gpxe_ns8390_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_ns8390_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_pnic.mod
+gpxe_pnic_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/pnic.c
+gpxe_pnic_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_pnic_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_rtl8139.mod
+gpxe_rtl8139_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/rtl8139.c
+gpxe_rtl8139_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_rtl8139_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_sis900.mod
+gpxe_sis900_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/sis900.c
+gpxe_sis900_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_sis900_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_smc9000.mod
+gpxe_smc9000_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/smc9000.c
+gpxe_smc9000_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_smc9000_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_tulip.mod
+gpxe_tulip_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/tulip.c
+gpxe_tulip_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_tulip_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_w89c840.mod
+gpxe_w89c840_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/w89c840.c
+gpxe_w89c840_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_w89c840_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#Following ones require MII support which is GPLv2.
+
+#pkglib_MODULES += gpxe_amd8111e.mod
+#gpxe_amd8111e_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/amd8111e.c
+#gpxe_amd8111e_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_amd8111e_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += gpxe_atl1e.mod
+#gpxe_atl1e_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/atl1e.c
+#gpxe_atl1e_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_atl1e_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += gpxe_b44.mod
+#gpxe_b44_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/b44.c
+#gpxe_b44_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_b44_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += gpxe_bnx2.mod
+#gpxe_bnx2_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/bnx2.c
+#gpxe_bnx2_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_bnx2_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += gpxe_etherfabric.mod
+#gpxe_etherfabric_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/etherfabric.c
+#gpxe_etherfabric_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_etherfabric_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += gpxe_forcedeth.mod
+#gpxe_forcedeth_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/forcedeth.c
+#gpxe_forcedeth_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_forcedeth_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += gpxe_pcnet32.mod
+#gpxe_pcnet32_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/pcnet32.c
+#gpxe_pcnet32_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_pcnet32_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += gpxe_mtd80x.mod
+#gpxe_mtd80x_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/mtd80x.c
+#gpxe_mtd80x_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_mtd80x_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += gpxe_r8169.mod
+#gpxe_r8169_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/r8169.c
+#gpxe_r8169_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_r8169_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += gpxe_sundance.mod
+#gpxe_sundance_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/sundance.c
+#gpxe_sundance_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_sundance_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += gpxe_tlan.mod
+#gpxe_tlan_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/tlan.c
+#gpxe_tlan_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_tlan_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#Following is wireless (disabled for now)
+
+#pkglib_MODULES += gpxe_prism2.mod
+#gpxe_prism2_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/prism2.c
+#gpxe_prism2_mod_CFLAGS = $(GPXE_CFLAGS)
+#	gpxe_prism2_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += gpxe_prism2_pci.mod
+#gpxe_prism2_pci_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/prism2_pci.c
+#gpxe_prism2_pci_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_prism2_pci_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += gpxe_prism2_plx.mod
+#gpxe_prism2_plx_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/prism2_plx.c
+#gpxe_prism2_plx_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_prism2_plx_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += gpxe_ath5k.mod
+#gpxe_ath5k_mod_SOURCES += $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_attach.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_caps.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_desc.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_dma.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_eeprom.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_gpio.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_initvals.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_pcu.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_phy.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_qcu.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_reset.c
+#gpxe_ath5k_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_ath5k_mod_LDFLAGS = $(COMMON_LDFLAGS)

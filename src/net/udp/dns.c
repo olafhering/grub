@@ -202,7 +202,9 @@ static char * dns_qualify_name ( const char *string ) {
 		return strdup ( string );
 
 	/* Append local domain to name */
-	asprintf ( &fqdn, "%s.%s", string, localdomain );
+	fqdn = malloc (strlen (string) + strlen (localdomain) + 2);
+	if (fqdn)
+	  sprintf ( fqdn, "%s.%s", string, localdomain );
 	return fqdn;
 }
 

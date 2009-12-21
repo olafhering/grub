@@ -52,11 +52,24 @@ free_memblock (void *ptr, size_t size __attribute__ ((unused)))
   grub_free (ptr);
 }
 
-const void *
-memchr (const void *s, grub_uint8_t c, grub_size_t size)
+void *
+memchr (void *s, grub_uint8_t c, grub_size_t size)
 {
   for (;size && *(grub_uint8_t *)s != c; size--, s = (grub_uint8_t *)s + 1);
   if (size)
     return s;
   return NULL;
+}
+
+grub_size_t
+strnlen (char *str, grub_size_t n)
+{
+  grub_size_t r = 0;
+  while (*str && n)
+    {
+      str++;
+      n--;
+      r++;
+    }
+  return r;
 }

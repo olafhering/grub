@@ -40,8 +40,8 @@ FILE_LICENCE ( BSD2 );
 #include <grub/mm.h>
 #include <gpxe/list.h>
 
-const void *
-memchr (const void *s, grub_uint8_t c, grub_size_t size);
+void *
+memchr (void *s, grub_uint8_t c, grub_size_t size);
 
 #define be64_to_cpu grub_be_to_cpu64
 #define cpu_to_be64 grub_cpu_to_be64
@@ -50,11 +50,12 @@ memchr (const void *s, grub_uint8_t c, grub_size_t size);
 
 /* In gPXE codebase following has to be a macro.
    So grub_cpu_to_be isn't usable.  */
+#define bswap_16(x) ((((x) & 0xff) << 8) | (((x) & 0xff00) >> 8))
 #ifdef GRUB_CPU_WORDS_BIGENDIAN
 #define htons(x) (x)
 #define htonl(x) (x)
 #else
-#define htons(x) ((((x) & 0xff) << 8) | (((x) & 0xff00) >> 8))
+#define htons(x) (bswap_16(x))
 #define htonl(x) ((((x) & 0xff) << 24) | (((x) & 0xff00) << 8) | (((x) & 0xff0000) >> 8) | (((x) & 0xff000000) >> 24))
 #endif
 
@@ -64,9 +65,11 @@ memchr (const void *s, grub_uint8_t c, grub_size_t size);
 typedef grub_uint64_t u64;
 typedef grub_uint64_t uint64_t;
 typedef grub_uint32_t u32;
+typedef grub_int32_t s32;
 typedef grub_uint32_t uint32_t;
 typedef grub_int32_t int32_t;
 typedef grub_uint16_t u16;
+typedef grub_int16_t s16;
 typedef grub_uint16_t uint16_t;
 typedef grub_int16_t int16_t;
 typedef grub_uint8_t u8;
@@ -75,10 +78,8 @@ typedef grub_int8_t int8_t;
 typedef grub_size_t size_t;
 
 #define __malloc
+#define __shared
 #define __unused __attribute__ ((unused))
-#define DBGC(ptr, fmt, args...) grub_dprintf ("net", fmt, ##args)
-#define DBGC2 DBGC
-#define DBG2(fmt, args...) grub_dprintf ("net", fmt, ##args)
 
 #define off_t grub_off_t
 
@@ -97,13 +98,13 @@ static inline void memcpy_user ( userptr_t dest, off_t dest_off,
 #define memcpy grub_memcpy
 
 #define zalloc grub_zalloc
-#define strtoul grub_strtoul
 #define strlen grub_strlen
 #define strdup grub_strdup
 #define strcmp grub_strcmp
 #define strncmp grub_strncmp
 #define strchr grub_strchr
 #define strcasecmp grub_strcasecmp
+#define printf grub_printf
 #define sprintf grub_sprintf
 #define malloc grub_malloc
 #define realloc grub_realloc
@@ -112,6 +113,11 @@ static inline void memcpy_user ( userptr_t dest, off_t dest_off,
 #define be32_to_cpu grub_be_to_cpu32
 #define isdigit grub_isdigit
 #define isalpha grub_isalpha
+#define intptr_t grub_addr_t
+
+unsigned long strtoul ( const char *p, char **endp, int base );
+
+#define isspace grub_isspace
 
 static inline int
 islower (int c)
@@ -155,6 +161,7 @@ assert_real (const char *file, int line, int cond)
 #define alloc_memblock(size,align) grub_memalign(align,size)
 
 #define DBG(fmt,args...) grub_dprintf("net", fmt, ## args)
+#define DBG2(fmt,args...) grub_dprintf("net", fmt, ## args)
 #define DBG_HD(data,len) 
 #define DBGP(fmt,args...) grub_dprintf("net", fmt, ## args)
 #define DBGP_HD(data,len) 
@@ -167,8 +174,35 @@ assert_real (const char *file, int line, int cond)
 #define DBGC2_HDA(ptr,s,data,len)
 #define DBGCP_HDA(ptr,s,data,len)
 
+#define strrchr grub_strrchr
+
+static inline void
+memswap (void *b1, void *b2, grub_size_t size)
+{
+  register grub_uint8_t t;
+  while (size--)
+    {
+      t = *(grub_uint8_t *) b1;
+      *(grub_uint8_t *) b1 = *(grub_uint8_t *) b2;
+      *(grub_uint8_t *) b2 = t;
+      b1 = (grub_uint8_t *) b1 + 1;
+      b2 = (grub_uint8_t *) b2 + 1;
+    }
+}
+
+static inline int
+flsl (long n)
+{
+  int i;
+  for (i = sizeof (n) - 1; i >= 0; i--)
+    if (n & (1 << i))
+      return i + 1;
+  return 0;
+}
+
 /* XXX */
-#define snprintf(fmt, n, args...) grub_sprintf(fmt, ## args)
-#define strnlen(s,n) grub_strlen(s)
+#define snprintf(s, n, fmt, args...) grub_sprintf(s, fmt, ## args)
+#define ssnprintf(s, n, fmt, args...) grub_sprintf(s, fmt, ## args)
+#define vsnprintf(s, n, fmt, args) grub_vsprintf(s, fmt, args)
 
 #endif
