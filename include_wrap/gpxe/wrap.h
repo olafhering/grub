@@ -39,6 +39,7 @@ FILE_LICENCE ( BSD2 );
 #include <errno.h>
 #include <grub/mm.h>
 #include <gpxe/list.h>
+#include <gpxe/timer.h>
 
 void *
 memchr (void *s, grub_uint8_t c, grub_size_t size);
@@ -47,10 +48,17 @@ memchr (void *s, grub_uint8_t c, grub_size_t size);
 #define cpu_to_be64 grub_cpu_to_be64
 #define cpu_to_be32 grub_cpu_to_be32
 #define cpu_to_be16 grub_cpu_to_be16
+#define le16_to_cpu grub_le_to_cpu16
+#define be16_to_cpu grub_be_to_cpu16
+#define be32_to_cpu grub_be_to_cpu32
+#define cpu_to_le16 grub_cpu_to_le16
+#define cpu_to_le32 grub_cpu_to_le32
+#define le32_to_cpu grub_le_to_cpu32
 
 /* In gPXE codebase following has to be a macro.
    So grub_cpu_to_be isn't usable.  */
 #define bswap_16(x) ((((x) & 0xff) << 8) | (((x) & 0xff00) >> 8))
+#define swap16 bswap_16
 #ifdef GRUB_CPU_WORDS_BIGENDIAN
 #define htons(x) (x)
 #define htonl(x) (x)
@@ -108,9 +116,6 @@ static inline void memcpy_user ( userptr_t dest, off_t dest_off,
 #define sprintf grub_sprintf
 #define malloc grub_malloc
 #define realloc grub_realloc
-#define le16_to_cpu grub_le_to_cpu16
-#define be16_to_cpu grub_be_to_cpu16
-#define be32_to_cpu grub_be_to_cpu32
 #define isdigit grub_isdigit
 #define isalpha grub_isalpha
 #define intptr_t grub_addr_t
@@ -199,6 +204,10 @@ flsl (long n)
       return i + 1;
   return 0;
 }
+
+#define INT_MAX 2147483647L
+
+#define putchar(x) grub_putchar(x)
 
 /* XXX */
 #define snprintf(s, n, fmt, args...) grub_sprintf(s, fmt, ## args)

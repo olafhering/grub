@@ -5,6 +5,7 @@ GPXE_CFLAGS=$(COMMON_CFLAGS) '-DFILE_LICENCE(x)=' -I$(GRUB_CONTRIB)/gpxe/src/inc
 # For gpxe.mod
 pkglib_MODULES += gpxe.mod
 gpxe_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/wrap/wrap.c \
+	$(GRUB_CONTRIB)/gpxe/wrap/pci.c \
 	$(GRUB_CONTRIB)/gpxe/src/net/80211/net80211.c \
 	$(GRUB_CONTRIB)/gpxe/src/net/80211/rc80211.c \
 	$(GRUB_CONTRIB)/gpxe/src/net/arp.c \
@@ -29,6 +30,7 @@ gpxe_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/wrap/wrap.c \
 	$(GRUB_CONTRIB)/gpxe/src/net/udp/tftp.c \
 	$(GRUB_CONTRIB)/gpxe/src/net/udp.c \
 	$(GRUB_CONTRIB)/gpxe/src/core/base64.c \
+	$(GRUB_CONTRIB)/gpxe/src/core/nvo.c \
 	$(GRUB_CONTRIB)/gpxe/src/core/uri.c \
 	$(GRUB_CONTRIB)/gpxe/src/core/uuid.c \
 	$(GRUB_CONTRIB)/gpxe/src/core/random.c \
@@ -50,26 +52,6 @@ gpxe_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/wrap/wrap.c \
 gpxe_mod_CFLAGS = $(GPXE_CFLAGS)
 gpxe_mod_LDFLAGS = $(COMMON_LDFLAGS)
 
-#pkglib_MODULES += https.mod
-#https_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/tcp/https.c 
-#https_mod_CFLAGS = $(GPXE_CFLAGS)
-#https_mod_LDFLAGS = $(COMMON_LDFLAGS)
-
-#pkglib_MODULES += tls.mod
-#tls_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/tls.c 
-#tls_mod_CFLAGS = $(GPXE_CFLAGS)
-#tls_mod_LDFLAGS = $(COMMON_LDFLAGS)
-
-#pkglib_MODULES += aoe.mod
-#aoe_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/aoe.c
-#aoe_mod_CFLAGS = $(GPXE_CFLAGS)
-#aoe_mod_LDFLAGS = $(COMMON_LDFLAGS)
-
-#pkglib_MODULES += iscsi.mod
-#iscsi_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/tcp/iscsi.c
-#iscsi_mod_CFLAGS = $(GPXE_CFLAGS)
-#iscsi_mod_LDFLAGS = $(COMMON_LDFLAGS)
-
 pkglib_MODULES += gpxe_infiniband.mod
 gpxe_infiniband_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_cm.c \
 	$(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_cmrc.c \
@@ -85,15 +67,6 @@ gpxe_infiniband_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/infiniband/ib_cm.c \
 	$(GRUB_CONTRIB)/gpxe/src/drivers/block/scsi.c
 gpxe_infiniband_mod_CFLAGS = $(GPXE_CFLAGS)
 gpxe_infiniband_mod_LDFLAGS = $(COMMON_LDFLAGS)
-
-gpxe_3c509_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/3c509.c
-gpxe_3c509_mod_CFLAGS = $(GPXE_CFLAGS)
-gpxe_3c509_mod_LDFLAGS = $(COMMON_LDFLAGS)
-
-pkglib_MODULES += gpxe_3c515.mod
-gpxe_3c515_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/3c515.c
-gpxe_3c515_mod_CFLAGS = $(GPXE_CFLAGS)
-gpxe_3c515_mod_LDFLAGS = $(COMMON_LDFLAGS)
 
 pkglib_MODULES += gpxe_3c529.mod
 gpxe_3c529_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/3c529.c
@@ -205,6 +178,36 @@ gpxe_w89c840_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/w89c840.c
 gpxe_w89c840_mod_CFLAGS = $(GPXE_CFLAGS)
 gpxe_w89c840_mod_LDFLAGS = $(COMMON_LDFLAGS)
 
+pkglib_MODULES += gpxe_nvs.mod
+gpxe_nvs_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/nvs/nvs.c
+gpxe_nvs_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_nvs_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_spi.mod
+gpxe_spi_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/nvs/spi.c
+gpxe_spi_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_spi_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_threewire.mod
+gpxe_threewire_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/nvs/threewire.c
+gpxe_threewire_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_threewire_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_bitbash.mod
+gpxe_bitbash_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/bitbash/bitbash.c
+gpxe_bitbash_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_bitbash_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_i2c_bit.mod
+gpxe_i2c_bit_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/bitbash/i2c_bit.c
+gpxe_i2c_bit_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_i2c_bit_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+pkglib_MODULES += gpxe_spi_bit.mod
+gpxe_spi_bit_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/bitbash/spi_bit.c
+gpxe_spi_bit_mod_CFLAGS = $(GPXE_CFLAGS)
+gpxe_spi_bit_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
 #Following ones require MII support which is GPLv2.
 
 #pkglib_MODULES += gpxe_amd8111e.mod
@@ -283,3 +286,37 @@ gpxe_w89c840_mod_LDFLAGS = $(COMMON_LDFLAGS)
 #gpxe_ath5k_mod_SOURCES += $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_attach.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_caps.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_desc.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_dma.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_eeprom.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_gpio.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_initvals.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_pcu.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_phy.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_qcu.c $(GRUB_CONTRIB)/gpxe/src/drivers/net/ath5k/ath5k_reset.c
 #gpxe_ath5k_mod_CFLAGS = $(GPXE_CFLAGS)
 #gpxe_ath5k_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#Following requires ISA/ISAPNP. Disable for now
+
+#pkglib_MODULES += gpxe_3c509.mod
+#gpxe_3c509_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/3c509.c
+#gpxe_3c509_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_3c509_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += gpxe_3c515.mod
+#gpxe_3c515_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/drivers/net/3c515.c
+#gpxe_3c515_mod_CFLAGS = $(GPXE_CFLAGS)
+#gpxe_3c515_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#Following uses crypto. Disable for now.
+
+#pkglib_MODULES += https.mod
+#https_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/tcp/https.c 
+#https_mod_CFLAGS = $(GPXE_CFLAGS)
+#https_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += tls.mod
+#tls_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/tls.c 
+#tls_mod_CFLAGS = $(GPXE_CFLAGS)
+#tls_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += aoe.mod
+#aoe_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/aoe.c
+#aoe_mod_CFLAGS = $(GPXE_CFLAGS)
+#aoe_mod_LDFLAGS = $(COMMON_LDFLAGS)
+
+#pkglib_MODULES += iscsi.mod
+#iscsi_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/src/net/tcp/iscsi.c
+#iscsi_mod_CFLAGS = $(GPXE_CFLAGS)
+#iscsi_mod_LDFLAGS = $(COMMON_LDFLAGS)

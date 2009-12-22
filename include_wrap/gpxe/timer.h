@@ -41,6 +41,19 @@ udelay ( unsigned long usecs )
   grub_millisleep ((usecs + 999) / 1000);
 }
 
+static inline void
+mdelay (unsigned delay)
+{
+  grub_millisleep (delay);
+}
+
+static inline void
+sleep (unsigned delay)
+{
+  grub_millisleep (1000 * delay);
+}
+
+
 static inline unsigned long
 currticks ( void )
 {

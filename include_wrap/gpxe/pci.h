@@ -34,7 +34,8 @@ FILE_LICENCE ( BSD2 );
 #define _GPXE_PCI_H
 
 #include <grub/pci.h>
-#include <grub/time.h>
+#include <gpxe/wrap.h>
+#include <gpxe/timer.h>
 
 static inline grub_uint8_t
 inb (grub_uint16_t port)
@@ -61,6 +62,34 @@ inw (grub_uint16_t port)
 }
 
 static inline void
+insw (grub_uint16_t port, grub_uint16_t *data, int count)
+{
+  while (count--)
+    *data++ = grub_inw (GRUB_MACHINE_PCI_IO_BASE + port);
+}
+
+static inline void
+outsw (grub_uint16_t port, grub_uint16_t *data, int count)
+{
+  while (count--)
+    grub_outw (*data++, GRUB_MACHINE_PCI_IO_BASE + port);
+}
+
+static inline void
+outsb (grub_uint16_t port, grub_uint8_t *data, int count)
+{
+  while (count--)
+    grub_outb (*data++, GRUB_MACHINE_PCI_IO_BASE + port);
+}
+
+static inline void
+insb (grub_uint16_t port, grub_uint8_t *data, int count)
+{
+  while (count--)
+    *data++ = grub_inb (GRUB_MACHINE_PCI_IO_BASE + port);
+}
+
+static inline void
 outl (grub_uint32_t data, grub_uint16_t port)
 {
   return grub_outw (data, GRUB_MACHINE_PCI_IO_BASE + port);
@@ -72,15 +101,23 @@ inl (grub_uint32_t port)
   return grub_inw (GRUB_MACHINE_PCI_IO_BASE + port);
 }
 
-static inline void
-mdelay (unsigned delay)
+struct device_description
 {
-  grub_millisleep (delay);
-}
+  int bus_type;
+  int bus;
+  int location;
+  grub_uint16_t vendor;
+  grub_uint16_t device;
+};
 
 struct device
 {
-  grub_pci_device_t pci_dev;
+  struct device_description desc;
+  char *name;
+  union
+  {
+    grub_pci_device_t pci_dev;
+  };
 };
 
 struct pci_device
@@ -94,11 +131,15 @@ struct pci_device
   int irq;
 
   void *priv;
+
+  void *drvdata;
 };
+
 struct pci_device_id
 {
   grub_pci_id_t devid;
 };
+
 #define PCI_ROM(vendor, model, short_name, long_name, num) {.devid = ((vendor) | ((model) << 16))}
 #define __pci_driver
 
@@ -111,12 +152,137 @@ struct pci_driver
   void (*irq) (struct nic *nic, int action);
 };
 
+static inline void
+pci_read_config_byte (struct pci_device *dev, grub_uint32_t reg,
+		      grub_uint8_t *val)
+{
+  grub_pci_address_t addr;
+  addr = grub_pci_make_address (dev->dev.pci_dev, reg >> 2);
+  *val = grub_pci_read_byte (addr + (reg & 3));
+}
+
+static inline void
+pci_read_config_word (struct pci_device *dev, grub_uint32_t reg,
+		      grub_uint16_t *val)
+{
+  grub_pci_address_t addr;
+  addr = grub_pci_make_address (dev->dev.pci_dev, reg >> 2);
+  *val = grub_pci_read_word (addr + (reg & 2));
+}
+
+static inline void
+pci_read_config_dword (struct pci_device *dev, grub_uint32_t reg,
+		       grub_uint32_t *val)
+{
+  grub_pci_address_t addr;
+  addr = grub_pci_make_address (dev->dev.pci_dev, reg >> 2);
+  *val = grub_pci_read (addr);
+}
+
+static inline void
+pci_write_config_byte (struct pci_device *dev, grub_uint32_t reg,
+		       grub_uint8_t val)
+{
+  grub_pci_address_t addr;
+  addr = grub_pci_make_address (dev->dev.pci_dev, reg >> 2);
+  grub_pci_write_byte (addr + (reg & 3), val);
+}
+
+static inline void
+pci_write_config_word (struct pci_device *dev, grub_uint32_t reg,
+		       grub_uint16_t val)
+{
+  grub_pci_address_t addr;
+  addr = grub_pci_make_address (dev->dev.pci_dev, reg >> 2);
+  grub_pci_write_word (addr + (reg & 2), val);
+}
+
+static inline void
+pci_write_config_dword (struct pci_device *dev, grub_uint32_t reg,
+			grub_uint32_t val)
+{
+  grub_pci_address_t addr;
+  addr = grub_pci_make_address (dev->dev.pci_dev, reg >> 2);
+  grub_pci_write (addr, val);
+}
+
+static inline void *
+pci_get_drvdata (struct pci_device *dev)
+{
+  return dev->drvdata;
+}
+
+static inline void
+pci_set_drvdata (struct pci_device *dev, void *data)
+{
+  dev->drvdata = data;
+}
+
+static inline grub_uint32_t
+readl (volatile void *ptr)
+{
+  return *(volatile grub_uint32_t *) ptr;
+}
+
+static inline void
+writel (grub_uint32_t data, volatile void *ptr)
+{
+  *(volatile grub_uint32_t *) ptr = data;
+}
+
+static inline grub_addr_t
+pci_bar_start (struct pci_device *dev, grub_uint32_t reg)
+{
+  grub_pci_address_t addr;
+  grub_uint64_t space;
+
+  addr = grub_pci_make_address (dev->dev.pci_dev, reg >> 2);
+  space = grub_pci_read (addr);
+
+  if ((space & GRUB_PCI_ADDR_SPACE_MASK) == GRUB_PCI_ADDR_SPACE_IO)
+    return space & GRUB_PCI_ADDR_IO_MASK;
+
+  if ((space & GRUB_PCI_ADDR_MEM_TYPE_MASK) == GRUB_PCI_ADDR_MEM_TYPE_64)
+    {
+      addr = grub_pci_make_address (dev->dev.pci_dev, (reg >> 2) + 1);
+      space |= ((grub_uint64_t) grub_pci_read (addr)) << 32;
+    }
+
+  return space & GRUB_PCI_ADDR_MEM_MASK;
+}
+
+/* XXX: make it use grub_pci_device_map_range.  */
+static inline void *
+bus_to_virt (grub_uint32_t bus)
+{
+  return bus;
+}
+
+static inline void *
+ioremap (grub_uint32_t bus, grub_size_t size __attribute__ ((unused)))
+{
+  return bus;
+}
+
+static inline grub_uint32_t
+virt_to_bus (void *virt)
+{
+  return virt;
+}
+
+void adjust_pci_device ( struct pci_device *pci );
+
 #define PCI_VENDOR_ID_DAVICOM 0x0291
 #define PCI_VENDOR_ID_WINBOND2 0x1050
 #define PCI_VENDOR_ID_COMPEX 0x11f6
+#define PCI_COMMAND 0x04
 #define PCI_REVISION_ID 0x8
 #define PCI_REVISION PCI_REVISION_ID 
+#define PCI_LATENCY_TIMER 0xd
 #define PCI_BASE_ADDRESS_0 0x10
 #define PCI_BASE_ADDRESS_1 0x14
+#define PCI_COMMAND_IO 0x1
+#define PCI_COMMAND_MEM 0x2
+#define PCI_COMMAND_MASTER 0x4
 
 #endif
