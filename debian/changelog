@@ -1,3 +1,9 @@
+grub2 (1.98~20091222-2) unstable; urgency=low
+
+  * grub-rescue-pc.postinst: Build USB rescue image.
+
+ -- Robert Millan <rmh.debian@aybabtu.com>  Thu, 24 Dec 2009 14:56:04 +0100
+
 grub2 (1.98~20091222-1) unstable; urgency=low
 
   * New Baazar snapshot.
