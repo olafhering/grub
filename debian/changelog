@@ -1,10 +1,15 @@
 grub2 (1.98~20091222-2) unstable; urgency=low
 
+  * New Bazaar snapshot.
+    - Fix slowness when $prefix uses the (UUID=) hack.
+      (Closes: #541145, LP: #420933)
+
+  [ Robert Millan ]
   * grub-rescue-pc.postinst: Build USB rescue image.
   * rules: Invoke configure with relative path.  This makes binaries smaller,
     since dprintf strings are constructed using this path.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Thu, 24 Dec 2009 14:56:04 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Fri, 25 Dec 2009 23:19:06 +0100
 
 grub2 (1.98~20091222-1) unstable; urgency=low
 
