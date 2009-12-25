@@ -23,7 +23,7 @@ CC := gcc-4.4
 # Enable external modules from grub-extras.
 export GRUB_CONTRIB := $(CURDIR)/debian/grub-extras
 
-CONFIGURE = $(CURDIR)/configure CC=$(CC) TARGET_CC=$(CC) \
+CONFIGURE = ../../configure CC=$(CC) TARGET_CC=$(CC) \
 	--build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --includedir="\$${prefix}/include" \
 	--mandir="\$${prefix}/share/man" --infodir="\$${prefix}/share/info" --sysconfdir=/etc --localstatedir=/var \
 	--libexecdir="\$${prefix}/lib/$(package)" --srcdir=$(CURDIR) \
