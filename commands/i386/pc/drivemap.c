@@ -308,7 +308,7 @@ install_int13_handler (int noret __attribute__ ((unused)))
 						GRUB_MACHINE_MEMORY_RESERVED,
 						GRUB_MMAP_MALLOC_LOW);
   if (! handler_base)
-    return grub_error (GRUB_ERR_OUT_OF_MEMORY, "Could not reserve "
+    return grub_error (GRUB_ERR_OUT_OF_MEMORY, "couldn't reserve "
 		       "memory for the int13h handler");
 
   /* Copy int13h handler bundle to reserved area.  */
@@ -370,7 +370,7 @@ grub_get_root_biosnumber_drivemap (void)
     return grub_strtoul (biosnum, 0, 0);
 
   dev = grub_device_open (0);
-  if (dev && dev->disk && dev->disk->dev 
+  if (dev && dev->disk && dev->disk->dev
       && dev->disk->dev->id == GRUB_DISK_DEVICE_BIOSDISK_ID)
     {
       drivemap_node_t *curnode = map_head;

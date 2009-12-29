@@ -31,7 +31,7 @@
 #include <grub/env.h>
 #include <grub/extcmd.h>
 
-static const struct grub_arg_option options[] = 
+static const struct grub_arg_option options[] =
   {
     {"set",             's', GRUB_ARG_OPTION_OPTIONAL,
      "Set a variable to return value.", "VAR", ARG_TYPE_STRING},
@@ -150,7 +150,7 @@ static grub_extcmd_t cmd;
 GRUB_MOD_INIT (probe)
 {
   cmd = grub_register_extcmd ("probe", grub_cmd_probe, GRUB_COMMAND_FLAG_BOTH,
-			      "probe [DEVICE]",
+			      "[DEVICE]",
 			      "Retrieve device info.", options);
 }
 

@@ -16,31 +16,11 @@
  *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <grub/env.h>
-#include <grub/misc.h>
-#include <grub/disk.h>
+#ifndef GRUB_SEARCH_HEADER
+#define GRUB_SEARCH_HEADER 1
 
-static int
-grub_get_root_biosnumber_default (void)
-{
-  char *biosnum;
-  int ret = -1;
-  grub_device_t dev;
+void grub_search_fs_file (const char *key, const char *var, int no_floppy);
+void grub_search_fs_uuid (const char *key, const char *var, int no_floppy);
+void grub_search_label (const char *key, const char *var, int no_floppy);
 
-  biosnum = grub_env_get ("biosnum");
-
-  if (biosnum)
-    return grub_strtoul (biosnum, 0, 0);
-
-  dev = grub_device_open (0);
-  if (dev && dev->disk && dev->disk->dev
-      && dev->disk->dev->id == GRUB_DISK_DEVICE_BIOSDISK_ID)
-    ret = (int) dev->disk->id;
-
-  if (dev)
-    grub_device_close (dev);
-
-  return ret;
-}
-
-int (*grub_get_root_biosnumber) (void) = grub_get_root_biosnumber_default;
+#endif
