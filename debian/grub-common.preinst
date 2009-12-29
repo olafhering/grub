@@ -23,7 +23,7 @@ rm_conffile() {
 
 case "$1" in
   install|upgrade)
-    if dpkg --compare-versions "$2" le "1.97+20091210-1" ; then
+    if dpkg --compare-versions "$2" lt "1.98~20091229-1" ; then
 	rm_conffile "/etc/grub.d/10_freebsd"
     fi
     if dpkg --compare-versions "$2" lt "1.96+20090521-1" ; then
