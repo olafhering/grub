@@ -9,7 +9,7 @@ grub2 (1.98~20091222-2) unstable; urgency=low
   * rules: Invoke configure with relative path.  This makes binaries smaller,
     since dprintf strings are constructed using this path.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 25 Dec 2009 23:42:18 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 29 Dec 2009 11:16:38 +0100
 
 grub2 (1.98~20091222-1) unstable; urgency=low
 
@@ -21,9 +21,12 @@ grub2 (1.98~20091222-1) unstable; urgency=low
 grub2 (1.98~20091221-1) unstable; urgency=low
 
   * New Bazaar snapshot.
+    - Fix search command failing on some broken BIOSes. (Closes: #530357)
 
   [ Felix Zielcke ]
   * Add Replaces:/Conflicts: grub-linuxbios to grub-coreboot. (Closes: #561811)
+  * Delete obsolete /etc/grub.d/10_freebsd if it has not been modified,
+    else disable it. (Closes: #560346)
 
  -- Robert Millan <rmh.debian@aybabtu.com>  Mon, 21 Dec 2009 22:04:17 +0100
 
@@ -41,7 +44,6 @@ grub2 (1.97+20091210-1) unstable; urgency=low
     - patches/903_grub_legacy_0_based_partitions.diff: Resync (merged into
       debian branch).
 
-  [ Felix Zielcke ]
   * Fix dpkg dependency for lenny compatibility.
 
  -- Robert Millan <rmh.debian@aybabtu.com>  Thu, 10 Dec 2009 00:35:20 +0100
