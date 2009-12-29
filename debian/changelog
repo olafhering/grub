@@ -1,8 +1,9 @@
-grub2 (1.98~20091222-2) unstable; urgency=low
+grub2 (1.98~20091229-1) unstable; urgency=high
 
   * New Bazaar snapshot.
     - Fix slowness when $prefix uses an UUID.
       (Closes: #541145, LP: #420933)
+    - Correctly set TARGET_CFLAGS (Closes: #562953)
 
   [ Robert Millan ]
   * grub-rescue-pc.postinst: Build USB rescue image.
@@ -10,10 +11,11 @@ grub2 (1.98~20091222-2) unstable; urgency=low
     since dprintf strings are constructed using this path.
 
   [ Felix Zielcke ]
+  * Urgency=high due to RC bug fix.
   * Fix version comparison in grub-common.preinst for handling obsolete
     /etc/grub.d/10_freebsd. (Closes: #562921)
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 29 Dec 2009 11:33:08 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 29 Dec 2009 15:29:47 +0100
 
 grub2 (1.98~20091222-1) unstable; urgency=low
 
