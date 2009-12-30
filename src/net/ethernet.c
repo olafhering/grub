@@ -116,7 +116,7 @@ const char * eth_ntoa ( const void *ll_addr ) {
 	static char buf[18]; /* "00:00:00:00:00:00" */
 	const uint8_t *eth_addr = ll_addr;
 
-	sprintf ( buf, "%02x:%02x:%02x:%02x:%02x:%02x",
+	snprintf ( buf, sizeof (buf), "%02x:%02x:%02x:%02x:%02x:%02x",
 		  eth_addr[0], eth_addr[1], eth_addr[2],
 		  eth_addr[3], eth_addr[4], eth_addr[5] );
 	return buf;

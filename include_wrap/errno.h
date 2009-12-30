@@ -79,11 +79,9 @@ FILE_LICENCE ( GPL2_OR_LATER );
  * because some files include errno.h but don't ever actually use any
  * error codes.)
  */
-#if ! ERRFILE
 extern char missing_errfile_declaration[] __attribute__ (( deprecated ));
 #undef ERRFILE
 #define ERRFILE ( 0 * ( ( int ) missing_errfile_declaration ) )
-#endif
 
 /** Derive PXENV_STATUS code from gPXE error number */
 #define PXENV_STATUS( rc ) ( (-(rc)) & 0x00ff )

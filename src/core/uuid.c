@@ -38,7 +38,8 @@ FILE_LICENCE ( GPL2_OR_LATER );
 char * uuid_ntoa ( union uuid *uuid ) {
 	static char buf[37]; /* "00000000-0000-0000-0000-000000000000" */
 
-	sprintf ( buf, "%08x-%04x-%04x-%04x-%02x%02x%02x%02x%02x%02x",
+	snprintf ( buf, sizeof (buf),
+		  "%08x-%04x-%04x-%04x-%02x%02x%02x%02x%02x%02x",
 		  be32_to_cpu ( uuid->canonical.a ),
 		  be16_to_cpu ( uuid->canonical.b ),
 		  be16_to_cpu ( uuid->canonical.c ),

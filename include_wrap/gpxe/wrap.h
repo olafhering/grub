@@ -106,23 +106,68 @@ static inline void memcpy_user ( userptr_t dest, off_t dest_off,
 #define memcpy grub_memcpy
 
 #define zalloc grub_zalloc
-#define strlen grub_strlen
 #define strdup grub_strdup
-#define strcmp grub_strcmp
 #define strncmp grub_strncmp
 #define strchr grub_strchr
 #define strcasecmp grub_strcasecmp
 #define printf grub_printf
-#define sprintf grub_sprintf
-#define malloc grub_malloc
-#define realloc grub_realloc
-#define isdigit grub_isdigit
-#define isalpha grub_isalpha
 #define intptr_t grub_addr_t
+
+static inline void *
+malloc (grub_size_t size)
+{
+  return grub_malloc (size);
+}
+
+static inline void *
+realloc (void *ptr, grub_size_t size)
+{
+  return grub_realloc (ptr, size);
+}
+
+static inline grub_size_t
+strlen (const char *s)
+{
+  return grub_strlen (s);
+}
+
+static inline int 
+strcmp (const char *s1, const char *s2)
+{
+  return grub_strcmp (s1, s2);
+}
+
+static inline int
+toupper (int c)
+{
+  return grub_toupper (c);
+}
+
+static inline int
+tolower (int c)
+{
+  return grub_tolower (c);
+}
 
 unsigned long strtoul ( const char *p, char **endp, int base );
 
-#define isspace grub_isspace
+static inline int 
+isspace (int c)
+{
+  return grub_isspace (c);
+}
+
+static inline int 
+isdigit (int c)
+{
+  return grub_isdigit (c);
+}
+
+static inline int 
+isalpha (int c)
+{
+  return grub_isalpha (c);
+}
 
 static inline int
 islower (int c)
@@ -135,7 +180,6 @@ isupper (int c)
 {
   return (c >= 'A' && c <= 'Z');
 }
-
 
 typedef grub_ssize_t ssize_t;
 
@@ -209,9 +253,9 @@ flsl (long n)
 
 #define putchar(x) grub_putchar(x)
 
-/* XXX */
-#define snprintf(s, n, fmt, args...) grub_sprintf(s, fmt, ## args)
-#define ssnprintf(s, n, fmt, args...) grub_sprintf(s, fmt, ## args)
-#define vsnprintf(s, n, fmt, args) grub_vsprintf(s, fmt, args)
+#define asprintf grub_asprintf
+#define snprintf grub_snprintf
+#define ssnprintf grub_snprintf
+#define vsnprintf grub_vsnprintf
 
 #endif

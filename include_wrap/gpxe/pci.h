@@ -157,8 +157,8 @@ pci_read_config_byte (struct pci_device *dev, grub_uint32_t reg,
 		      grub_uint8_t *val)
 {
   grub_pci_address_t addr;
-  addr = grub_pci_make_address (dev->dev.pci_dev, reg >> 2);
-  *val = grub_pci_read_byte (addr + (reg & 3));
+  addr = grub_pci_make_address (dev->dev.pci_dev, reg);
+  *val = grub_pci_read_byte (addr);
 }
 
 static inline void
@@ -166,8 +166,8 @@ pci_read_config_word (struct pci_device *dev, grub_uint32_t reg,
 		      grub_uint16_t *val)
 {
   grub_pci_address_t addr;
-  addr = grub_pci_make_address (dev->dev.pci_dev, reg >> 2);
-  *val = grub_pci_read_word (addr + (reg & 2));
+  addr = grub_pci_make_address (dev->dev.pci_dev, reg);
+  *val = grub_pci_read_word (addr);
 }
 
 static inline void
@@ -175,7 +175,7 @@ pci_read_config_dword (struct pci_device *dev, grub_uint32_t reg,
 		       grub_uint32_t *val)
 {
   grub_pci_address_t addr;
-  addr = grub_pci_make_address (dev->dev.pci_dev, reg >> 2);
+  addr = grub_pci_make_address (dev->dev.pci_dev, reg);
   *val = grub_pci_read (addr);
 }
 
@@ -184,8 +184,8 @@ pci_write_config_byte (struct pci_device *dev, grub_uint32_t reg,
 		       grub_uint8_t val)
 {
   grub_pci_address_t addr;
-  addr = grub_pci_make_address (dev->dev.pci_dev, reg >> 2);
-  grub_pci_write_byte (addr + (reg & 3), val);
+  addr = grub_pci_make_address (dev->dev.pci_dev, reg);
+  grub_pci_write_byte (addr, val);
 }
 
 static inline void
@@ -193,8 +193,8 @@ pci_write_config_word (struct pci_device *dev, grub_uint32_t reg,
 		       grub_uint16_t val)
 {
   grub_pci_address_t addr;
-  addr = grub_pci_make_address (dev->dev.pci_dev, reg >> 2);
-  grub_pci_write_word (addr + (reg & 2), val);
+  addr = grub_pci_make_address (dev->dev.pci_dev, reg);
+  grub_pci_write_word (addr, val);
 }
 
 static inline void
@@ -202,7 +202,7 @@ pci_write_config_dword (struct pci_device *dev, grub_uint32_t reg,
 			grub_uint32_t val)
 {
   grub_pci_address_t addr;
-  addr = grub_pci_make_address (dev->dev.pci_dev, reg >> 2);
+  addr = grub_pci_make_address (dev->dev.pci_dev, reg);
   grub_pci_write (addr, val);
 }
 

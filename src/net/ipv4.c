@@ -506,7 +506,8 @@ char * inet_ntoa ( struct in_addr in ) {
 	static char buf[16]; /* "xxx.xxx.xxx.xxx" */
 	uint8_t *bytes = ( uint8_t * ) &in;
 	
-	sprintf ( buf, "%d.%d.%d.%d", bytes[0], bytes[1], bytes[2], bytes[3] );
+	snprintf ( buf, sizeof (buf), "%d.%d.%d.%d",
+		   bytes[0], bytes[1], bytes[2], bytes[3] );
 	return buf;
 }
 
