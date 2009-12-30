@@ -6,6 +6,7 @@ GPXE_CFLAGS=$(COMMON_CFLAGS) '-DFILE_LICENCE(x)=' -I$(GRUB_CONTRIB)/gpxe/src/inc
 pkglib_MODULES += gpxe.mod
 gpxe_mod_SOURCES = $(GRUB_CONTRIB)/gpxe/wrap/wrap.c \
 	$(GRUB_CONTRIB)/gpxe/wrap/pci.c \
+	$(GRUB_CONTRIB)/gpxe/wrap/nic.c \
 	$(GRUB_CONTRIB)/gpxe/src/net/80211/net80211.c \
 	$(GRUB_CONTRIB)/gpxe/src/net/80211/rc80211.c \
 	$(GRUB_CONTRIB)/gpxe/src/net/arp.c \

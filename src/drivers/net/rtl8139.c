@@ -592,3 +592,13 @@ struct pci_driver rtl8139_driver __pci_driver = {
 	.probe = rtl_probe,
 	.remove = rtl_remove,
 };
+
+GRUB_MOD_INIT(gpxe_rtl8139)
+{
+  grub_gpxe_register_pci_nic (&rtl8139_driver);
+}
+
+GRUB_MOD_FINI(gpxe_rtl8139)
+{
+  grub_gpxe_unregister_pci_nic (&rtl8139_driver);
+}

@@ -103,7 +103,7 @@ inl (grub_uint32_t port)
 
 struct device_description
 {
-  int bus_type;
+  enum {BUS_TYPE_PCI, BUS_TYPE_ISA} bus_type;
   int bus;
   int location;
   grub_uint16_t vendor;
@@ -142,6 +142,8 @@ struct pci_device_id
 
 #define PCI_ROM(vendor, model, short_name, long_name, num) {.devid = ((vendor) | ((model) << 16))}
 #define __pci_driver
+
+struct nic;
 
 struct pci_driver
 {
@@ -255,32 +257,38 @@ pci_bar_start (struct pci_device *dev, grub_uint32_t reg)
 static inline void *
 bus_to_virt (grub_uint32_t bus)
 {
-  return bus;
+  return (void *) bus;
 }
 
 static inline void *
 ioremap (grub_uint32_t bus, grub_size_t size __attribute__ ((unused)))
 {
-  return bus;
+  return (void *) bus;
 }
 
 static inline grub_uint32_t
 virt_to_bus (void *virt)
 {
-  return virt;
+  return (grub_addr_t) virt;
 }
+
+void
+grub_gpxe_register_pci_nic (struct pci_driver *nic);
+
+void
+grub_gpxe_unregister_pci_nic (struct pci_driver *nic);
 
 void adjust_pci_device ( struct pci_device *pci );
 
 #define PCI_VENDOR_ID_DAVICOM 0x0291
 #define PCI_VENDOR_ID_WINBOND2 0x1050
 #define PCI_VENDOR_ID_COMPEX 0x11f6
-#define PCI_COMMAND 0x04
-#define PCI_REVISION_ID 0x8
+#define PCI_COMMAND GRUB_PCI_REG_COMMAND
+#define PCI_REVISION_ID GRUB_PCI_REG_REVISION
 #define PCI_REVISION PCI_REVISION_ID 
-#define PCI_LATENCY_TIMER 0xd
-#define PCI_BASE_ADDRESS_0 0x10
-#define PCI_BASE_ADDRESS_1 0x14
+#define PCI_LATENCY_TIMER GRUB_PCI_REG_LAT_TIMER
+#define PCI_BASE_ADDRESS_0 GRUB_PCI_REG_ADDRESS_REG0
+#define PCI_BASE_ADDRESS_1 GRUB_PCI_REG_ADDRESS_REG1
 #define PCI_COMMAND_IO 0x1
 #define PCI_COMMAND_MEM 0x2
 #define PCI_COMMAND_MASTER 0x4

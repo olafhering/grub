@@ -36,6 +36,7 @@ FILE_LICENCE ( BSD2 );
 #include <config.h>
 
 #include <grub/misc.h>
+#include <grub/dl.h>
 #include <errno.h>
 #include <grub/mm.h>
 #include <gpxe/list.h>

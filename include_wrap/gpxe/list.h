@@ -55,13 +55,15 @@ struct list_head
   container_of ((it)->lst_el.next, typeof (*hold), lst_el)
 
 #define list_for_each_entry(it, lst, lst_el) \
-  for ((it) = container_of((lst)->next, typeof (*(it)), lst_el);	\
-       &(it)->lst_el != (void *) lst; (it) = list_get_next(it, lst_el, it))
+  for ((it) = container_of((lst)->next, typeof (*(it)), lst_el); 	\
+       (lst)->next && &(it)->lst_el != (void *) lst; \
+       (it) = list_get_next(it, lst_el, it))
 
 #define list_for_each_entry_safe(it, next_h, lst, lst_el) \
-  for ((it) = container_of((lst)->next, typeof (*(it)), lst_el);	\
-       &(it)->lst_el != (void *) lst;					\
-       ((it) = container_of ((next_h), typeof (*(next_h)), lst_el)), (next_h) = list_get_next(it, lst_el, next_h))
+    for ((it) = container_of((lst)->next, typeof (*(it)), lst_el);	\
+	 (lst)->next && &(it)->lst_el != (void *) lst;			\
+	 ((it) = container_of ((next_h), typeof (*(next_h)), lst_el)),	\
+	   (next_h) = list_get_next(it, lst_el, next_h))
 
 
 static inline void
