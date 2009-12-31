@@ -6,7 +6,11 @@ grub2 (1.98~20091231-1) unstable; urgency=high
   [ Robert Millan ]
   * rules: Auto-update version from debian/changelog.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Thu, 31 Dec 2009 22:40:08 +0100
+  [ Felix Zielcke ]
+  * Add -O0 to CFLAGS on powerpc to avoid the `_restgpr_31_x in boot is
+    not defined' FTBFS.
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Thu, 31 Dec 2009 22:55:47 +0100
 
 grub2 (1.98~20091229-1) unstable; urgency=high
 

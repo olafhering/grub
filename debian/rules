@@ -18,7 +18,12 @@ CFLAGS := -g -Wall
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0
 else
+# Avoid `_restgpr_31_x in boot is not defined' FTBFS.
+  ifeq (powerpc,$(DEB_HOST_ARCH_CPU))
+	CFLAGS += -O0
+  else
 	CFLAGS += -O2
+  endif
 endif
 
 CC := gcc-4.4
