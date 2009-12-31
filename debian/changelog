@@ -5,7 +5,6 @@ grub2 (1.98~20091231-1) unstable; urgency=high
 
   [ Robert Millan ]
   * rules: Auto-update version from debian/changelog.
-  * rules: Remove --srcdir=$(CURDIR) configure flag.
 
   [ Felix Zielcke ]
   * Add -O0 to CFLAGS on powerpc to avoid the `_restgpr_31_x in boot is
