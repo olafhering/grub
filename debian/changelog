@@ -1,7 +1,10 @@
 grub2 (1.98~20091231-1) unstable; urgency=high
 
   * New Bazaar snapshot.
-    - Fix FTBS on sparc. 
+    - Fix FTBS on sparc.
+
+  [ Robert Millan ]
+  * rules: Auto-update version from debian/changelog.
 
  -- Felix Zielcke <fzielcke@z-51.de>  Thu, 31 Dec 2009 22:40:08 +0100
 
