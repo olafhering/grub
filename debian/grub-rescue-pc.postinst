@@ -11,9 +11,7 @@ case "$1" in
     # Truth would be uselessly confusing for users.  Let's give 'em what they
     # wanted instead.
     cp -l /usr/lib/grub-rescue/grub-rescue-{cdrom.iso,usb.img}
-
-    # grub-mkfloppy doesn't support overlays
-    grub-mkfloppy --output=/usr/lib/grub-rescue/grub-rescue-floppy.img
+    cp -l /usr/lib/grub-rescue/grub-rescue-{cdrom.iso,floppy.img}
   ;;
   abort-upgrade|abort-remove|abort-deconfigure)
   ;;
