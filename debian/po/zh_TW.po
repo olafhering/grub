@@ -1,6 +1,6 @@
 # Copyright (C) 2009 Tetralet
 # This file is distributed under the same license as the grub2 package.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
@@ -18,13 +18,13 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:2001
 msgid "Chainload from menu.lst?"
-msgstr "?????? menu.list ? chainload ???"
+msgstr "是否使用來自 menu.list 的 chainload 項目？"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
-msgstr "GRUB ?????? /boot/grub ???? GRUB ? Legacy ???"
+msgstr "GRUB 昇級程式已在 /boot/grub 裡找到了 GRUB 的 Legacy 設定。"
 
 #. Type: boolean
 #. Description
@@ -35,8 +35,9 @@ msgid ""
 "your existing GRUB Legacy setup.  This step may be automaticaly performed "
 "now."
 msgstr ""
-"?????????? Legacy ?? GRUB,????? /boot/grub/menu.lst ?????? GRUB Legacy ???? "
-"chainload ????? GRUB 2??????????????"
+"為了要能取代您系統上 Legacy 版的 GRUB，建議能修改 /boot/grub/menu.lst 來讓您"
+"原本的 GRUB Legacy 設定能以 chainload 的方式啟動 GRUB 2。現在將要自動進行這個"
+"步驟。"
 
 #. Type: boolean
 #. Description
@@ -46,8 +47,8 @@ msgid ""
 "verify that your new GRUB 2 setup is functional for you, before you install "
 "it directly to your MBR (Master Boot Record)."
 msgstr ""
-"???? GRUB 2 ??? MBR(??????)??,??????? menu.lst ??? chainload ????? GRUB "
-"2,?????? GRUB 2 ?????????"
+"在直接將 GRUB 2 安裝到 MBR（主要開機記錄）之前，建議您能同意在 menu.lst 裡先"
+"以 chainload 的方式啟動 GRUB 2，來確認您新的 GRUB 2 設定的能正常運作。"
 
 #. Type: boolean
 #. Description
@@ -55,7 +56,9 @@ msgstr ""
 msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
-msgstr "??????????,???? GRUB 2 ??? MBR ??????,???(? root ??)???????:"
+msgstr ""
+"不管您要採取何種方式，當您想讓 GRUB 2 可以由 MBR 直接啟動的話，您可以（以 "
+"root 身份）執行以下的指令："
 
 #. Type: boolean
 #. Description
@@ -67,30 +70,24 @@ msgstr "upgrade-from-grub-legacy"
 #. Description
 #: ../templates.in:1001
 msgid "Linux command line:"
-msgstr "Linux ???:"
+msgstr "Linux 命令列："
 
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"??? Linux ????? `kopt' ??? GRUB Legacy ? menu.lst ???????????????,??????????"
+"以下的 Linux 命令列是由 /etc/default/grub，或是由 GRUB Legacy 的 menu.lst 中的 `kopt' 參數所擷取出來的。"
+"請確認它是否正確，若有必要請加以修改。"
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "Linux ???:"
+msgstr "Linux 預設命令列："
 
 #. Type: string
 #. Description
@@ -98,38 +95,30 @@ msgstr "Linux ???:"
 msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
-msgstr ""
+msgstr "以下的字串將會用在預設的選單項目中做為 Linux 參數，但不會用於回復模式。"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "Linux ???:"
+msgstr "kFreeBSD 命令列："
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"??? Linux ????? `kopt' ??? GRUB Legacy ? menu.lst ???????????????,??????????"
+"以下的 kFreeBSD 命令列是由 /etc/default/grub，或是由 GRUB Legacy 的 menu.lst 中的 `kopt' 參數所擷取出來的。"
+"請確認它是否正確，若有必要請加以修改。"
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "Linux ???:"
+msgstr "kFreeBSD 預設命令列："
 
 #. Type: string
 #. Description
@@ -138,3 +127,4 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"以下的字串將會用在預設的選單項目中做為 kFreeBSD 參數，但不會用於回復模式。"
