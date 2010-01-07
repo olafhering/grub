@@ -1,8 +1,11 @@
-grub2 (1.98~20100101-2) unstable; urgency=low
+grub2 (1.98~20100107-1) unstable; urgency=low
 
+  * New Bazaar snapshot.
+
+  [ Robert Millan ]
   * grub-rescue-pc.postinst: Use grub-mkrescue for floppy as well.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Tue, 05 Jan 2010 01:33:17 +0100
+ -- Robert Millan <rmh.debian@aybabtu.com>  Thu, 07 Jan 2010 02:26:28 +0100
 
 grub2 (1.98~20100101-1) unstable; urgency=high
 
