@@ -10,8 +10,10 @@ case "$1" in
 
     # Truth would be uselessly confusing for users.  Let's give 'em what they
     # wanted instead.
-    cp -l /usr/lib/grub-rescue/grub-rescue-{cdrom.iso,usb.img}
-    cp -l /usr/lib/grub-rescue/grub-rescue-{cdrom.iso,floppy.img}
+    for flavor in usb floppy ; do
+      rm -f /usr/lib/grub-rescue/grub-rescue-${flavor}.img
+      cp -l /usr/lib/grub-rescue/grub-rescue-{cdrom.iso,${flavor}.img}
+    done
   ;;
   abort-upgrade|abort-remove|abort-deconfigure)
   ;;
