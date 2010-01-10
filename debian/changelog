@@ -6,7 +6,7 @@ grub2 (1.98~20100110-1) unstable; urgency=low
   * grub-rescue-pc.postinst: Fix image generation during upgrades.
     (Closes: #564261)
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Sun, 10 Jan 2010 01:49:04 +0100
+ -- Robert Millan <rmh.debian@aybabtu.com>  Sun, 10 Jan 2010 02:17:12 +0100
 
 grub2 (1.98~20100107-1) unstable; urgency=low
 
