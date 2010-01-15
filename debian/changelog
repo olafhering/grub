@@ -2,8 +2,9 @@ grub2 (1.98~20100115-1) unstable; urgency=low
 
   * New Bazaar snapshot.
     - Includes savedefault / grub-reboot branch.
+    - Includes Multiboot video support (from latest 1.x draft).
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 15 Jan 2010 17:27:43 +0100
+ -- Robert Millan <rmh.debian@aybabtu.com>  Fri, 15 Jan 2010 18:15:26 +0100
 
 grub2 (1.98~20100110-1) unstable; urgency=low
 
