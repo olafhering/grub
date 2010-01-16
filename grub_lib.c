@@ -28,32 +28,54 @@
 #include <grub/file.h>
 #include <grub/device.h>
 
+/* Updates the globals grub_errno and grub_msg, leaving their values on the 
+   top of the stack, and clears grub_errno. When grub_errno is zero, grub_msg
+   is not left on the stack. The value returned is the number of values left on
+   the stack. */
+static int
+push_result (lua_State *state)
+{
+  int saved_errno;
+  int num_results;
+
+  saved_errno = grub_errno;
+  grub_errno = 0;
+
+  /* Push once for setfield, and again to leave on the stack */
+  lua_pushinteger (state, saved_errno);
+  lua_pushinteger (state, saved_errno);
+  lua_setfield (state, LUA_GLOBALSINDEX, "grub_errno");
+
+  if (saved_errno)
+  {
+    /* Push once for setfield, and again to leave on the stack */
+    lua_pushstring (state, grub_errmsg);
+    lua_pushstring (state, grub_errmsg);
+    num_results = 2;
+  }
+  else
+  {
+    lua_pushnil (state);
+    num_results = 1;
+  }
+
+  lua_setfield (state, LUA_GLOBALSINDEX, "grub_errmsg");
+
+  return num_results;
+}
+
+/* Updates the globals grub_errno and grub_msg ( without leaving them on the
+   stack ), clears grub_errno,  and returns the value of grub_errno before it
+   was cleared. */
 static int
 save_errno (lua_State *state)
 {
   int saved_errno;
 
   saved_errno = grub_errno;
-  grub_errno = 0;
-
-  lua_pushinteger (state, saved_errno);
-  lua_setfield (state, LUA_GLOBALSINDEX, "grub_errno");
-
-  if (saved_errno)
-    lua_pushstring (state, grub_errmsg);
-  else
-    lua_pushnil (state);
-
-  lua_setfield (state, LUA_GLOBALSINDEX, "grub_errmsg");
+  lua_pop(state, push_result(state));
 
   return saved_errno;
-}
-
-static int
-push_result (lua_State *state)
-{
-  lua_pushinteger (state, save_errno (state));
-  return 1;
 }
 
 static int
