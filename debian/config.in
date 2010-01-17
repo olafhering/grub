@@ -43,5 +43,5 @@ if test -e /etc/default/grub ; then
 fi
 
 db_input ${priority} grub2/linux_cmdline || true
-db_input ${priority} grub2/linux_cmdline_default || true
+db_input medium grub2/linux_cmdline_default || true
 db_go
