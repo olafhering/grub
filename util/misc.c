@@ -60,11 +60,12 @@ grub_util_warn (const char *fmt, ...)
 {
   va_list ap;
 
-  fprintf (stderr, "%s: warn: ", program_name);
+  fprintf (stderr, _("%s: warn:"), program_name);
+  fprintf (stderr, " ");
   va_start (ap, fmt);
   vfprintf (stderr, fmt, ap);
   va_end (ap);
-  fputc ('\n', stderr);
+  fprintf (stderr, ".\n");
   fflush (stderr);
 }
 
@@ -75,11 +76,12 @@ grub_util_info (const char *fmt, ...)
     {
       va_list ap;
 
-      fprintf (stderr, "%s: info: ", program_name);
+      fprintf (stderr, _("%s: info:"), program_name);
+      fprintf (stderr, " ");
       va_start (ap, fmt);
       vfprintf (stderr, fmt, ap);
       va_end (ap);
-      fputc ('\n', stderr);
+      fprintf (stderr, ".\n");
       fflush (stderr);
     }
 }
@@ -89,11 +91,12 @@ grub_util_error (const char *fmt, ...)
 {
   va_list ap;
 
-  fprintf (stderr, "%s: error: ", program_name);
+  fprintf (stderr, _("%s: error:"), program_name);
+  fprintf (stderr, " ");
   va_start (ap, fmt);
   vfprintf (stderr, fmt, ap);
   va_end (ap);
-  fputc ('\n', stderr);
+  fprintf (stderr, ".\n");
   exit (1);
 }
 
@@ -573,6 +576,13 @@ make_system_path_relative_to_its_root (const char *path)
       buf3[len - 1] = '\0';
       len--;
     }
+
+  /* This works around special-casing of "/" in Un*x.  This function never
+     prints trailing slashes (so that its output can be appended a slash
+     unconditionally).  Each slash in is considered a preceding slash, and
+     therefore the root directory is an empty string.  */
+  if (!strcmp (buf3, "/"))
+    buf3[0] = '\0';
 
   return buf3;
 }

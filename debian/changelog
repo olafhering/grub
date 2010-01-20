@@ -1,8 +1,11 @@
-grub2 (1.98~20100115-2) unstable; urgency=low
+grub2 (1.98~20100120-1) unstable; urgency=low
 
+  * New Bazaar snapshot.
+
+  [ Robert Millan ]
   * config.in: Lower priority of grub2/linux_cmdline_default.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Sun, 17 Jan 2010 14:38:03 +0100
+ -- Robert Millan <rmh.debian@aybabtu.com>  Wed, 20 Jan 2010 16:05:29 +0100
 
 grub2 (1.98~20100115-1) unstable; urgency=low
 
