@@ -1,6 +1,7 @@
 grub2 (1.98~20100120-1) unstable; urgency=low
 
   * New Bazaar snapshot.
+    - Includes mipsel-yeeloong port.
 
   [ Robert Millan ]
   * config.in: Lower priority of grub2/linux_cmdline_default.
