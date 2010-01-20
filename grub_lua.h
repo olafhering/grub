@@ -40,7 +40,7 @@
 #define strlen		grub_strlen
 #define strtoul		grub_strtoul
 #define strtod(s,e)	grub_strtoul(s,e,0)
-#define sprintf		grub_sprintf
+#define snprintf	grub_snprintf
 #define strncpy		grub_strncpy
 #define strcat		grub_strcat
 #define strncat		grub_strncat
