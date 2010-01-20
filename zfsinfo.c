@@ -368,24 +368,18 @@ grub_cmd_zfs_bootfs (grub_command_t cmd __attribute__ ((unused)), int argc,
 
   if (bootpath && devid)
     {
-      bootfs = grub_malloc
-	(sizeof ("zfs-bootfs=/XXXXXXXXXXXXXXXXXXXXXXXX bootpath= diskdevid=")
-	 + grub_strlen (bootpath) + grub_strlen (devid)
-	 + grub_strlen (poolname));
+      bootfs = grub_xasprintf ("zfs-bootfs=%s/%llu bootpath=%s diskdevid=%s",
+			       poolname, (unsigned long long) mdnobj,
+			       bootpath, devid);
       if (!bootfs)
 	return grub_errno;
-      grub_sprintf (bootfs, "zfs-bootfs=%s/%llu bootpath=%s diskdevid=%s",
-		    poolname, (unsigned long long) mdnobj, bootpath, devid);
     }
   else
     {
-      bootfs = grub_malloc
-	(sizeof ("zfs-bootfs=/XXXXXXXXXXXXXXXXXXXXXXXX")
-	 + grub_strlen (poolname));
+      bootfs = grub_xasprintf ("zfs-bootfs=%s/%llu",
+			       poolname, (unsigned long long) mdnobj);
       if (!bootfs)
 	return grub_errno;
-      grub_sprintf (bootfs, "zfs-bootfs=%s/%llu",
-		    poolname, (unsigned long long) mdnobj);
     }
   if (argc >= 2)
     grub_env_set (args[1], bootfs);

@@ -2123,11 +2123,10 @@ zfs_uuid (grub_device_t device, char **uuid)
   if (! found)
     return grub_errno;
   grub_free (nvlist);
-  *uuid = grub_malloc (16 + sizeof ('\0'));
+  *uuid = grub_xasprintf ("%016llx", (long long unsigned) guid);
+  zfs_unmount (data);
   if (! *uuid)
     return grub_errno;
-  grub_sprintf (*uuid, "%016llx", (long long unsigned) guid);
-  zfs_unmount (data);
   return GRUB_ERR_NONE;
 }
 
