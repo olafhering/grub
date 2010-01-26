@@ -8,8 +8,9 @@ grub2 (1.98~20100126-1) unstable; urgency=low
 
   [ Felix Zielcke ]
   * Drop `CFLAGS=-O0' workaround on powerpc. Should be fixed correctly now.
+  * Ship grub-bin2h and grub-script-check in grub-common.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Fri, 22 Jan 2010 21:23:28 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 26 Jan 2010 18:31:06 +0100
 
 grub2 (1.98~20100115-1) unstable; urgency=low
 
