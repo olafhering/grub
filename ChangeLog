@@ -1,3 +1,45 @@
+2010-01-26  Robert Millan  <rmh.grub@aybabtu.com>
+
+	* include/grub/i386/pc/boot.h (GRUB_BOOT_MACHINE_PXE_DL): New macro.
+
+	* boot/i386/pc/pxeboot.S: Include `<grub/machine/boot.h>'.
+	(_start): Macroify `0x7F'.
+
+	* kern/i386/pc/init.c: Include `<grub/machine/boot.h>'.
+	(make_install_device): Use "(pxe)" as fallback prefix when booting
+	via PXE.
+
+2010-01-26  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Reset LIBS after check for libgcc symbols.
+
+2010-01-25  Colin Watson  <cjwatson@ubuntu.com>
+
+	* util/hostdisk.c (open_device): Add trailing newline to debug
+	message.
+
+2010-01-25  Grégoire Sutre  <gregoire.sutre@gmail.com>
+
+	* configure.ac: Check for `limits.h'.
+	* util/misc.c: Include `<limits.h>' (for PATH_MAX).
+
+2010-01-24  Robert Millan  <rmh.grub@aybabtu.com>
+
+	* loader/mips/linux.c (grub_cmd_linux, grub_cmd_initrd): Don't
+	capitalize error strings.
+
+2010-01-24  Samuel Thibault  <samuel.thibault@ens-lyon.org>
+
+	* util/grub.d/10_hurd.in: Add a recovery mode.
+
+2010-01-23  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Check for libgcc symbols with -nostdlib.
+
+2010-01-23  BVK Chaitanya  <bvk.groups@gmail.com>
+
+	* acinclude.m4: Quote underquoted AC_DEFUN parameters.
+
 2010-01-22  Vladimir Serbinenko  <phcoder@gmail.com>
 
 	* term/ieee1275/ofconsole.c (grub_ofconsole_setcolorstate): Allocate on
@@ -23816,7 +23858,7 @@
 
 	* genmk.rb (PModule#rule): Make sure to get only symbol names
 	from the output of nm.
-	Reported by Robert Millan <zeratul2@wanadoo.es>.
+	Reported by Robert Millan <rmh.grub@aybabtu.com>.
 
 2003-09-25  Yoshinori K. Okuji  <okuji@enbug.org>
 

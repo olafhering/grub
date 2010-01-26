@@ -1,4 +1,4 @@
-grub2 (1.98~20100120-1) unstable; urgency=low
+grub2 (1.98~20100126-1) unstable; urgency=low
 
   * New Bazaar snapshot.
     - Includes mipsel-yeeloong port.
