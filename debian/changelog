@@ -12,7 +12,7 @@ grub2 (1.98~20100126-1) unstable; urgency=low
   * Terminate NEWS.Debian with a blank line like lintian would suggest
     if that check would be working correctly.
 
- -- Felix Zielcke <fzielcke@z-51.de>  Tue, 26 Jan 2010 18:31:06 +0100
+ -- Felix Zielcke <fzielcke@z-51.de>  Tue, 26 Jan 2010 19:26:25 +0100
 
 grub2 (1.98~20100115-1) unstable; urgency=low
 
