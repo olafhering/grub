@@ -101,10 +101,6 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 		done ; \
 	fi
 
-	if [ "$@" != "install/grub-pc" ] && [ "$(DEB_HOST_ARCH_CPU)" != "sparc" ] && [ "$(DEB_HOST_ARCH_CPU)" != "mipsel" ] ; then \
-		i=$(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/*/kernel.img ; if test -e $$i ; then strip -s $$i ; fi \
-	fi
-
 	mkdir -p $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides
 	echo "$(subst install/,,$@): unstripped-binary-or-object *.mod" \
 		>> $(CURDIR)/debian/$(subst install/,,$@)/usr/share/lintian/overrides/$(subst install/,,$@)
