@@ -22,7 +22,7 @@ Build-Depends: cdbs,
  libfreetype6-dev,
  gettext,
 Build-Conflicts: autoconf2.13 
-Standards-Version: 3.8.3
+Standards-Version: 3.8.4
 Homepage: http://www.gnu.org/software/grub/grub-2.en.html
 Vcs-Bzr: https://alioth.debian.org/anonscm/bzr/pkg-grub/trunk/grub/
 Vcs-Browser: http://bzr.debian.org/loggerhead/pkg-grub/
