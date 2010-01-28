@@ -21,6 +21,12 @@ else
 	CFLAGS += -O2
 endif
 
+ifneq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
+with_check := yes
+else
+with_check := no
+endif
+
 CC := gcc-4.4
 
 # Enable external modules from grub-extras.
@@ -64,7 +70,9 @@ build/grub-common build/grub-efi-ia32 build/grub-efi-amd64 build/grub-ieee1275 b
 
 build/grub-pc::
 	$(MAKE) -C $@
+ifeq ($(with_check), yes)
 	$(MAKE) -C $@ check
+endif
 
 build/grub-firmware-qemu::
 	$(MAKE) -C $@
