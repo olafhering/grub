@@ -8,7 +8,10 @@ grub2 (1.98~20100128-1) unstable; urgency=low
     can be done. (Closes: #561933)
   * Bump Standards-Version to 3.8.4.
 
- -- Robert Millan <rmh.debian@aybabtu.com>  Thu, 28 Jan 2010 15:28:14 +0100
+  [ Robert Millan ]
+  * rules: Run the testsuite (make check) when building grub-pc.
+
+ -- Robert Millan <rmh.debian@aybabtu.com>  Thu, 28 Jan 2010 16:28:45 +0100
 
 grub2 (1.98~20100126-1) unstable; urgency=low
 

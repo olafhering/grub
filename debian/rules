@@ -59,8 +59,12 @@ configure/grub-common:: $(AUTOGEN_FILES)
 	mkdir -p $(subst configure/,build/,$@)
 	cd $(subst configure/,build/,$@) && $(CONFIGURE)
 
-build/grub-common build/grub-pc build/grub-efi-ia32 build/grub-efi-amd64 build/grub-ieee1275 build/grub-coreboot build/grub-emu build/grub-yeeloong::
+build/grub-common build/grub-efi-ia32 build/grub-efi-amd64 build/grub-ieee1275 build/grub-coreboot build/grub-emu build/grub-yeeloong::
 	$(MAKE) -C $@
+
+build/grub-pc::
+	$(MAKE) -C $@
+	$(MAKE) -C $@ check
 
 build/grub-firmware-qemu::
 	$(MAKE) -C $@
