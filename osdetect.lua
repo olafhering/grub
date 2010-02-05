@@ -159,6 +159,7 @@ function enum_device (device, fs, uuid)
     grub.enum_file (enum_file, root .. "boot")
     if kernel_num ~= 0 then
       table.sort (kernels, sort_kernel)
+      table.sort (kernelnames, sort_kernel)
       for i = 1, kernel_num do
 	local initrd
 
