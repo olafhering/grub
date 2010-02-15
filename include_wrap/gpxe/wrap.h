@@ -254,7 +254,6 @@ flsl (long n)
 
 #define putchar(x) grub_putchar(x)
 
-#define asprintf grub_asprintf
 #define snprintf grub_snprintf
 #define ssnprintf grub_snprintf
 #define vsnprintf grub_vsnprintf

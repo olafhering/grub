@@ -303,7 +303,6 @@ char * resolve_path ( const char *base_path,
 	size_t base_len = ( strlen ( base_path ) + 1 );
 	char base_path_copy[base_len];
 	char *base_tmp = base_path_copy;
-	char *resolved;
 
 	/* If relative path is absolute, just re-use it */
 	if ( relative_path[0] == '/' )
@@ -338,12 +337,9 @@ char * resolve_path ( const char *base_path,
 	}
 
 	/* Create and return new path */
-	if ( asprintf ( &resolved, "%s%s%s", base_tmp,
-			( ( base_tmp[ strlen ( base_tmp ) - 1 ] == '/' ) ?
-			  "" : "/" ), relative_path ) < 0 )
-		return NULL;
-
-	return resolved;
+	return grub_xasprintf ( "%s%s%s", base_tmp,
+			       ( ( base_tmp[ strlen ( base_tmp ) - 1 ] == '/' ) ?
+				 "" : "/" ), relative_path );
 }
 
 /**
