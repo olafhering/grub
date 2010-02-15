@@ -51,17 +51,17 @@ struct list_head
 #define offsetof(type, elem) ((grub_uint8_t *) (&((type *) NULL)->elem) - (grub_uint8_t *) NULL)
 #define container_of(var, type, elem) ((type *) ((grub_uint8_t *)(var) - offsetof (type, elem)))
 
-#define list_get_next(it, lst_el, hold) \
+#define list_get_next(it, lst_el, hold)				\
   container_of ((it)->lst_el.next, typeof (*hold), lst_el)
 
-#define list_for_each_entry(it, lst, lst_el) \
+#define list_for_each_entry(it, lst, lst_el)				\
   for ((it) = container_of((lst)->next, typeof (*(it)), lst_el); 	\
-       (lst)->next && &(it)->lst_el != (void *) lst; \
+       &(it)->lst_el != NULL && &(it)->lst_el != (void *) lst;		\
        (it) = list_get_next(it, lst_el, it))
 
-#define list_for_each_entry_safe(it, next_h, lst, lst_el) \
+#define list_for_each_entry_safe(it, next_h, lst, lst_el)		\
     for ((it) = container_of((lst)->next, typeof (*(it)), lst_el);	\
-	 (lst)->next && &(it)->lst_el != (void *) lst;			\
+	 &(it)->lst_el != NULL && &(it)->lst_el != (void *) lst;	\
 	 ((it) = container_of ((next_h), typeof (*(next_h)), lst_el)),	\
 	   (next_h) = list_get_next(it, lst_el, next_h))
 
@@ -69,12 +69,15 @@ struct list_head
 static inline void
 list_del (struct list_head *head)
 {
-  head->prev->next = head->next;
-  head->next->prev = head->prev;
   if (head->next == head->prev)
     {
       head->next->prev = NULL;
       head->prev->next = NULL;
+    }
+  else
+    {
+      head->prev->next = head->next;
+      head->next->prev = head->prev;
     }
 }
 
