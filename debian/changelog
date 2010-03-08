@@ -9,6 +9,9 @@ grub2 (1.98-1) UNRELEASED; urgency=low
       #566538, LP: #464743).
     - Support GRUB_GFXPAYLOAD_LINUX (closes: #536453, LP: #416772).
 
+  [ Samuel Thibault ]
+  * Add GRUB_INIT_TUNE example to /etc/default/grub (closes: #570340).
+
  -- Colin Watson <cjwatson@debian.org>  Mon, 08 Mar 2010 21:22:03 +0000
 
 grub2 (1.98~20100128-1) unstable; urgency=low
