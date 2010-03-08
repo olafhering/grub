@@ -1,3 +1,16 @@
+grub2 (1.98-1) UNRELEASED; urgency=low
+
+  * New upstream release (closes: #572898).
+    - Fix grub-script-check to handle empty lines (closes: #572302).
+    - Fix offset computation when reading last sectors.  Partition reads and
+      writes within and outside a partition (closes: #567469).
+    - Fix script execution error handling bug that meant that an error in a
+      menuentry's last statement caused the whole menuentry to fail (closes:
+      #566538, LP: #464743).
+    - Support GRUB_GFXPAYLOAD_LINUX (closes: #536453, LP: #416772).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 08 Mar 2010 21:22:03 +0000
+
 grub2 (1.98~20100128-1) unstable; urgency=low
 
   * New Bazaar snapshot.

@@ -31,7 +31,7 @@ dnl (such as TARGET_CC, TARGET_CFLAGS, etc.) are used for the target
 dnl type.
 
 
-AC_INIT([GRUB],[0],[bug-grub@gnu.org]) dnl version is filled by debian/rules
+AC_INIT([GRUB],[1.98],[bug-grub@gnu.org])
 AM_INIT_AUTOMAKE()
 AC_PREREQ(2.60)
 AC_CONFIG_SRCDIR([include/grub/dl.h])
@@ -51,6 +51,7 @@ fi
 
 case "$target_cpu" in
   i[[3456]]86)	target_cpu=i386 ;;
+  amd64)	target_cpu=x86_64 ;;
   sparc)	target_cpu=sparc64 ;;
   mipsel|mips64el)
                 target_cpu=mips;    
@@ -516,6 +517,19 @@ enable_efiemu=no
 fi
 AC_SUBST([enable_efiemu])
 
+AC_CACHE_CHECK([whether -nostdinc -isystem works], [grub_cv_cc_isystem], [
+  SAVED_CPPFLAGS="$CPPFLAGS"
+  CPPFLAGS="$TARGET_CPPFLAGS -nostdinc -isystem `$TARGET_CC -print-file-name=include`"
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdarg.h>
+int va_arg_func (int fixed, va_list args);]], [[]])],
+      [grub_cv_cc_isystem=yes],
+      [grub_cv_cc_isystem=no])
+  CPPFLAGS="$SAVED_CPPFLAGS"
+])
+
+if test x"$grub_cv_cc_isystem" = xyes ; then
+  TARGET_CPPFLAGS="$TARGET_CPPFLAGS -nostdinc -isystem `$TARGET_CC -print-file-name=include`"
+fi
 
 # Restore the flags.
 CC="$tmp_CC"
@@ -538,6 +552,10 @@ AC_ARG_ENABLE([mm-debug],
 AC_ARG_ENABLE([grub-emu-usb],
 	      [AS_HELP_STRING([--enable-grub-emu-usb],
                              [build and install the `grub-emu' debugging utility with USB support (default=guessed)])])
+
+AC_ARG_ENABLE([grub-emu-sdl],
+	      [AS_HELP_STRING([--enable-grub-emu-sdl],
+                             [build and install the `grub-emu' debugging utility with SDL support (default=guessed)])])
 
 AC_ARG_ENABLE([grub-emu-pci],
 	      [AS_HELP_STRING([--enable-grub-emu-pci],
@@ -589,6 +607,31 @@ else
 enable_grub_emu_usb=no
 fi
 
+if test x"$enable_grub_emu_sdl" = xno ; then
+  grub_emu_sdl_excuse="explicitely disabled"
+fi
+[if [ x"$grub_emu_sdl_excuse" = x ]; then
+    # Check for libSDL libraries.]
+AC_CHECK_LIB([SDL], [SDL_Init], [LIBSDL="-lSDL"],
+    [grub_emu_sdl_excuse=["libSDL libraries are required to build \`grub-emu' with SDL support"]])
+    AC_SUBST([LIBSDL])
+[fi]
+
+[if [ x"$grub_emu_sdl_excuse" = x ]; then
+    # Check for headers.]
+    AC_CHECK_HEADERS([SDL/SDL.h], [],
+      [grub_emu_sdl_excuse=["libSDL header file is required to build \`grub-emu' with SDL support"]])
+[fi]
+
+if test x"enable_grub_emu_sdl" = xyes && test x"$grub_emu_sdl_excuse" != x ; then
+  AC_MSG_ERROR([SDL support for grub-emu was explicitely requested but can't be compiled])
+fi
+if test x"$grub_emu_sdl_excuse" = x ; then
+enable_grub_emu_sdl=yes
+else
+enable_grub_emu_sdl=no
+fi
+
 if test x"$enable_grub_emu_pci" != xyes ; then
    grub_emu_pci_excuse="not enabled"
 fi
@@ -612,9 +655,11 @@ fi
 if test x"$grub_emu_pci_excuse" = x ; then
 enable_grub_emu_pci=yes
 else
+
 enable_grub_emu_pci=no
 fi
 
+AC_SUBST([enable_grub_emu_sdl])
 AC_SUBST([enable_grub_emu_usb])
 AC_SUBST([enable_grub_emu_pci])
 fi
@@ -648,6 +693,16 @@ if test x"$grub_mkfont_excuse" = x ; then
   freetype_cflags=`freetype-config --cflags`
   freetype_libs=`freetype-config --libs`
 fi
+
+if test x"$grub_mkfont_excuse" = x ; then
+  # Check for freetype libraries.
+  SAVED_CPPFLAGS="$CPPFLAGS"
+  CPPFLAGS="$CPPFLAGS $freetype_cflags"
+  AC_CHECK_HEADERS([ft2build.h], [],
+  	[grub_mkfont_excuse=["need freetype2 headers"]])
+  CPPFLAGS="$SAVED_CPPFLAGS"
+fi
+
 if test x"$enable_grub_mkfont" = xyes && test x"$grub_mkfont_excuse" != x ; then
   AC_MSG_ERROR([grub-mkfont was explicitly requested but can't be compiled])
 fi
@@ -690,6 +745,11 @@ if [ x"$grub_emu_usb_excuse" = x ]; then
 echo USB support for grub-emu: Yes
 else
 echo USB support for grub-emu: No "($grub_emu_usb_excuse)"
+fi
+if [ x"$grub_emu_sdl_excuse" = x ]; then
+echo SDL support for grub-emu: Yes
+else
+echo SDL support for grub-emu: No "($grub_emu_sdl_excuse)"
 fi
 if [ x"$grub_emu_pci_excuse" = x ]; then
 echo PCI support for grub-emu: Yes
