@@ -15,6 +15,8 @@ grub2 (1.98-1) UNRELEASED; urgency=low
   [ Colin Watson ]
   * Build-depend on libusb-dev so that grub-emu is reliably built with USB
     support (closes: #572854).
+  * Update directions in debian/rules on exporting grub-extras to account
+    for it being maintained in Bazaar nowadays.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 08 Mar 2010 21:22:03 +0000
 

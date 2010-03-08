@@ -155,5 +155,5 @@ debian/legacy/update-grub:
 	exit 1
 
 debian/grub-extras:
-	@echo "Missing $@.  Try: \"svn export svn://svn.sv.nongnu.org/grub-extras/trunk $@\""
+	@echo "Missing $@.  Try: \"mkdir -p $@; for extra in 915resolution ntldr-img zfs; do bzr export $@/\$$extra http://bzr.savannah.nongnu.org/r/grub-extras/\$$extra; done\""
 	exit 1
