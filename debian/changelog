@@ -3,7 +3,7 @@ grub2 (1.98-1) UNRELEASED; urgency=low
   * New upstream release (closes: #572898).
     - Fix grub-script-check to handle empty lines (closes: #572302).
     - Fix offset computation when reading last sectors.  Partition reads and
-      writes within and outside a partition (closes: #567469).
+      writes within and outside a partition (closes: #567469, #567884).
     - Fix script execution error handling bug that meant that an error in a
       menuentry's last statement caused the whole menuentry to fail (closes:
       #566538, LP: #464743).
