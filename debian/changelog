@@ -1,3 +1,10 @@
+grub2 (1.98~20100128-1.2) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Stop setting gfxpayload=keep (closes: #567245).
+
+ -- Julien Cristau <jcristau@debian.org>  Sun, 14 Feb 2010 20:37:51 +0100
+
 grub2 (1.98~20100128-1.1) unstable; urgency=low
 
   * Non-maintainer upload.
