@@ -1,0 +1,54 @@
+# Bazaar merge directive format 2 (Bazaar 0.90)
+# revision_id: torsten@debian.org-20100131184735-536m2a9ap8icb5bw
+# target_branch: http://bzr.savannah.gnu.org/r/grub/trunk/grub/
+# testament_sha1: 05c3ff8db849800bd3482140e9b1c541b9ac6021
+# timestamp: 2010-01-31 19:51:02 +0100
+# base_revision_id: phcoder@gmail.com-20100131101103-163e2fu56o1s9q5e
+# 
+# Begin patch
+=== modified file 'kern/disk.c'
+--- kern/disk.c	2010-01-27 16:30:03 +0000
++++ kern/disk.c	2010-01-31 18:47:35 +0000
+@@ -441,7 +441,7 @@
+ 
+ 	      grub_errno = GRUB_ERR_NONE;
+ 
+-	      num = ((size + real_offset + pos + GRUB_DISK_SECTOR_SIZE - 1)
++	      num = ((size + real_offset + GRUB_DISK_SECTOR_SIZE - 1)
+ 		     >> GRUB_DISK_SECTOR_BITS);
+ 
+ 	      p = grub_realloc (tmp_buf, num << GRUB_DISK_SECTOR_BITS);
+@@ -458,7 +458,7 @@
+ 		  goto finish;
+ 		}
+ 
+-	      grub_memcpy (buf, tmp_buf + pos + real_offset, size);
++	      grub_memcpy (buf, tmp_buf + real_offset, size);
+ 
+ 	      /* Call the read hook, if any.  */
+ 	      if (disk->read_hook)
+
+# Begin bundle
+IyBCYXphYXIgcmV2aXNpb24gYnVuZGxlIHY0CiMKQlpoOTFBWSZTWWFfn9QAAdjfgBAwUG///1/s
+nhC/7//wUATGW5Gnb1yu4T2zqBoiaNMingJhJkzUYEAD1NGj1GygJJJoNDFMmpkwTIGhMIAABoBK
+BNJMJoGoTyamnqPU00DTQAMQAJFJlJ4moH6UMhk0ADQNNDRoaABKJqARtImNDUyB6noI000aNAAa
+aJCRCGkdj9SPirAUh4TLraVZkPMwIeLl7LOd5KkRfrIZgVA0Kku5L4bcvCAzMp+IC3GaT6nZlJNw
+zSht9ti6G8kSSjUIgWjxr7XeVUnvntszS1nfZMDdU5raq88tXqvi/rEuTPEvJQ0mp5I0a8MI0rJW
+hqpi2C5saS0fGblNDFQtW4cNuvNqrok0BBgrQN+d6qBRSyRUuayiEr4E4KYFBPqaDlsfdRRf2ZQ3
+L9BqvA8pYePLTmj1bK0uVmEY+S72IoUicGgabntwTKFUqFG5hGSiQX2sVhzMLBnHSIpWy13tXyzp
+rmqVNQFK5KRU/py19jcrUkESU+5Zec7qZ+CyHlvhyC6KXF+HXLTxO9RQrKyA09uZaqkctG5Znh2C
+bbaoagenXuQQmwsFVhVoE1a0YSvhrK1HRaOLQwc6Ti5Dh8xNZyhWXm268filGrIQlkBRiC2vEtrS
+kEYLSRwVzuyQIyAIfDk2RBRvVT0KE5M05llU44q0VCZWLmzxZY5mFnoM8I3qwyWFmEYEnCatrKIT
+wlvFlBWmTGCwRrLNE40AzxUc6vuqhPkZla/WtMWKMlAaVoVCtFhfN2G83c1q8p0rx6OqETgA6GGD
+HLwGOKsN0YXxcCcb8GC698Mxc2YJtisoQBu2DVuiMauCzRylgmbg1WxLnXcBrT3htQoWI2zF5oWg
+Ad/XuwFLzAuC4XUIRGoIaIq5N6QVW/NT69qxEID76QBNczq+dfpb2i4i+Kz2XVHw9zuAvfN5kP6G
+eulnbwiF9smUuQnc1rDN2ME9hCVGqerbcolidSs5GfHzFnZ+wOcd0ZTW1rwTUNk6BRShfsggNphR
+vOivSU1hV6lWXaGZ9bqw19YTJMFwHa7Oob6mo6SfB3CLTo09tNLYflxjYS/09bomOkoihth7tnJD
+BWzgvhvIC27fqYS1Mq9OfoG3+cjTGNUKap8VSdNsurPeHuDfdmTKppkCtHNahEwAOQzhvt+6U1ir
+xoPbKCiEBucD2yjQK1EYMYaKQNQlbXtGtFkrKQxIxOlYPv2ofmWeRDtXJTNNKgoZ5CNyEqOSAzP/
+lZNOLAyX0a+a1pCsKgjCVwQnLDuUV9kVOtILMMptXiFROsNic6UktMaeDQcl0TfJCPLWFqsqjijq
+QApCItXtkGgZVQ2K1EmWRQ0xriwSiqb1gWjU2prUvAyo3bYDiBdFIoVapI1IphMGwB6aUhhK1RLB
+UUJ8NkVE+Q4PpEuanOqoqMWuG3CgblIaUvK3J2J6UySLlwYQwcOC8M6qRWqDxi2LsVAzbdDor1tN
+cvKIlLW4KF+y2h1VTmpart8Vfw5oasyi2O0OlxjuqwRidEKnqSi81kjYBeGSvlgzbmuM8U1RRttG
+/I2GVhGDgaChjzJYUIBo1zLXyJuprIjAyeXgx7DiNb3VKeaygtZYx63a1ToN4Z32JnQjVe/HGFGl
+X3JknjxlSznBJX0hosaUIP3J466AWf8XckU4UJBhX5/U

@@ -1,3 +1,11 @@
+grub2 (1.98~20100128-1.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Apply trivial patch (already merged upstream) fixing the offset
+    computation for non-cached reads (closes: #567637).
+
+ -- Torsten Landschoff <torsten@debian.org>  Mon, 08 Feb 2010 22:15:01 +0100
+
 grub2 (1.98~20100128-1) unstable; urgency=low
 
   * New Bazaar snapshot.
