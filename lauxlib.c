@@ -13,6 +13,8 @@
 #include <string.h>
 #endif
 
+#include <grub/file.h>
+
 /* This file uses only the official API of Lua.
 ** Any function declared here could be written as an application function.
 */
@@ -519,37 +521,63 @@ LUALIB_API void luaL_unref (lua_State *L, int t, int ref) {
 ** =======================================================
 */
 
-#if 0
+#define GRUB_EOF	-1
+
+static int
+grub_getc (grub_file_t file)
+{
+  grub_uint8_t c = 0;
+
+  return (grub_file_read (file, &c, 1) != 1) ? GRUB_EOF : c;
+    return GRUB_EOF;
+}
+
+#define grub_eof(file)	(file->offset >= file->size)
 
 typedef struct LoadF {
   int extraline;
-  FILE *f;
+  grub_file_t f;
+  int ungetc;
   char buff[LUAL_BUFFERSIZE];
 } LoadF;
 
 
 static const char *getF (lua_State *L, void *ud, size_t *size) {
   LoadF *lf = (LoadF *)ud;
+  char *p;
+  int s;
   (void)L;
   if (lf->extraline) {
     lf->extraline = 0;
     *size = 1;
     return "\n";
   }
-  if (feof(lf->f)) return NULL;
-  *size = fread(lf->buff, 1, sizeof(lf->buff), lf->f);
+  s = sizeof (lf->buff);
+  p = lf->buff;
+  if (lf->ungetc >= 0)
+    {
+      lf->buff[0] = lf->ungetc;
+      lf->ungetc = -1;
+      s--;
+      p++;
+    }
+
+  if (grub_eof(lf->f)) return NULL;
+  s = grub_file_read(lf->f, p, s);
+  if (s <= 0)
+    return NULL;
+
+  *size = s + (p - lf->buff);
   return (*size > 0) ? lf->buff : NULL;
 }
 
-
 static int errfile (lua_State *L, const char *what, int fnameindex) {
-  const char *serr = strerror(errno);
+  const char *serr = grub_errmsg;
   const char *filename = lua_tostring(L, fnameindex) + 1;
   lua_pushfstring(L, "cannot %s %s: %s", what, filename, serr);
   lua_remove(L, fnameindex);
   return LUA_ERRFILE;
 }
-
 
 LUALIB_API int luaL_loadfile (lua_State *L, const char *filename) {
   LoadF lf;
@@ -559,30 +587,29 @@ LUALIB_API int luaL_loadfile (lua_State *L, const char *filename) {
   lf.extraline = 0;
   if (filename == NULL) {
     lua_pushliteral(L, "=stdin");
-    lf.f = stdin;
+    return errfile(L, "open", fnameindex);
   }
   else {
     lua_pushfstring(L, "@%s", filename);
-    lf.f = fopen(filename, "r");
+    lf.f = grub_file_open(filename);
     if (lf.f == NULL) return errfile(L, "open", fnameindex);
   }
-  c = getc(lf.f);
+
+  c = grub_getc(lf.f);
   if (c == '#') {  /* Unix exec. file? */
     lf.extraline = 1;
-    while ((c = getc(lf.f)) != EOF && c != '\n') ;  /* skip first line */
-    if (c == '\n') c = getc(lf.f);
+    while ((c = grub_getc(lf.f)) != GRUB_EOF && c != '\n') ;  /* skip first line */
+    if (c == '\n') c = grub_getc(lf.f);
   }
   if (c == LUA_SIGNATURE[0] && filename) {  /* binary file? */
-    lf.f = freopen(filename, "rb", lf.f);  /* reopen in binary mode */
-    if (lf.f == NULL) return errfile(L, "reopen", fnameindex);
     /* skip eventual `#!...' */
-   while ((c = getc(lf.f)) != EOF && c != LUA_SIGNATURE[0]) ;
+   while ((c = grub_getc(lf.f)) != GRUB_EOF && c != LUA_SIGNATURE[0]) ;
     lf.extraline = 0;
   }
-  ungetc(c, lf.f);
+  lf.ungetc = c;
   status = lua_load(L, getF, &lf, lua_tostring(L, -1));
-  readstatus = ferror(lf.f);
-  if (filename) fclose(lf.f);  /* close file (even in case of errors) */
+  readstatus = grub_errno;
+  grub_file_close(lf.f);  /* close file (even in case of errors) */
   if (readstatus) {
     lua_settop(L, fnameindex);  /* ignore results from `lua_load' */
     return errfile(L, "read", fnameindex);
@@ -590,16 +617,6 @@ LUALIB_API int luaL_loadfile (lua_State *L, const char *filename) {
   lua_remove(L, fnameindex);
   return status;
 }
-
-#else
-LUALIB_API int luaL_loadfile (lua_State *L, const char *filename) {
-  (void) L;
-  (void) filename;
-
-  return LUA_ERRFILE;
-}
-
-#endif
 
 typedef struct LoadS {
   const char *s;
