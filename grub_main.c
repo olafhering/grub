@@ -22,7 +22,9 @@
 #include "grub_lib.h"
 
 #include <grub/dl.h>
-#include <grub/parser.h>
+#include <grub/command.h>
+#include <grub/i18n.h>
+#include <grub/misc.h>
 
 static const char *
 scan_str (const char *s1, const char *s2)
@@ -96,95 +98,126 @@ handle_lua_error (const char *error_type)
   lua_pop (state, 1);
 }
 
-static grub_err_t
-grub_lua_parse_line (char *line, grub_reader_getline_t getline)
+/* Taken from lua.c */
+int
+incomplete (lua_State * L, int status)
 {
-  int r;
-  char *old_line = 0;
-
-  lua_settop(state, 0);
-  while (1)
+  if (status == LUA_ERRSYNTAX)
     {
-      r = luaL_loadbuffer (state, line, grub_strlen (line), "=grub");
-      if (! r)
+      size_t lmsg;
+      const char *msg = lua_tolstring (L, -1, &lmsg);
+      const char *tp = msg + lmsg - (sizeof (LUA_QL ("<eof>")) - 1);
+      if (strstr (msg, LUA_QL ("<eof>")) == tp)
 	{
-	  /* No error: Execute the statement.  */
+	  lua_pop (L, 1);
+	  return 1;
+	}
+    }
+  return 0;			/* else... */
+}
+
+grub_err_t
+interactive (void)
+{
+  char *ps1 = "lua> ";
+  char *ps2 = "lua>> ";
+  char *prompt = ps1;
+  char *line;
+  char *chunk = NULL;
+  size_t len;
+  size_t oldlen = 0;
+  int r;
+
+  grub_printf ("%s", N_ ("Welcome to lua, press the escape key to exit."));
+
+  while (line = grub_cmdline_get (prompt))
+    {
+      /* len = lenght of chunk + line + newline character */
+      len = oldlen + grub_strlen (line) + 1;
+      chunk = grub_realloc (chunk, len + 1);
+      grub_strcpy (chunk + oldlen , line);
+      chunk[len - 1] = '\n';
+      chunk[len] = '\0';
+      grub_free (line);
+
+      r = luaL_loadbuffer (state, chunk, len, "stdin");
+      if (!r)
+	{
+	  /* No error: Execute this chunk and prepare to read another */
 	  r = lua_pcall (state, 0, 0, 0);
 	  if (r)
 	    {
 	      handle_lua_error ("Lua");
-	      break;
+	      grub_print_error ();
 	    }
-	  else
-	    {
-	      grub_free (old_line);
-	      return grub_errno;
-	    }
+
+	  grub_free (chunk);
+	  chunk = NULL;
+	  len = 0;
+	  prompt = ps1;
 	}
-
-      if (r == LUA_ERRSYNTAX)
+      else if (incomplete (state, r))
 	{
-	  /* Check whether the syntax error is a result of an incomplete
-	     statement.  If it is, then try to complete the statement by
-	     reading more lines.  */
-	  size_t lmsg;
-	  const char *msg = lua_tolstring (state, -1, &lmsg);
-	  const char *tp = msg + lmsg - (sizeof (LUA_QL ("<eof>")) - 1);
-	  if (grub_strstr (msg, LUA_QL ("<eof>")) == tp)
-	    {
-	      char *n, *t;
-	      int len;
+	  /* Chunk is incomplete, try reading another line */
+	  prompt = ps2;
+	}
+      else if (r == LUA_ERRSYNTAX)
+	{
+	  handle_lua_error ("Lua");
+	  grub_print_error ();
 
-	      /* Discard the error message.  */
-	      lua_pop (state, 1);
-	      /* Try to read another line to complete the statement.  */
-	      if ((getline (&n, 1)) || (! n))
-		{
-		  grub_error (GRUB_ERR_BAD_ARGUMENT, "incomplete command");
-		  break;
-		}
-
-	      /* More input was available: Add it to the current statement
-		 contents.  */
-	      len = grub_strlen (line);
-	      t = grub_malloc (len + grub_strlen (n) + 2);
-	      if (! t)
-		break;
-
-	      grub_strcpy (t, line);
-	      t[len] = '\n';
-	      grub_strcpy (t + len + 1, n);
-	      grub_free (old_line);
-	      line = old_line = t;
-	      /* Try again to execute the statement now that more input has
-		 been appended.  */
-	      continue;
-	    }
-	  /* The syntax error was not the result of an incomplete line.  */
-	  handle_lua_error ("Lua syntax error");
+	  /* This chunk is garbage, try starting another one */
+	  grub_free (chunk);
+	  chunk = NULL;
+	  len = 0;
+	  prompt = ps1;
 	}
       else
 	{
-	  /* Handle errors other than syntax errors (out of memory, etc.).  */
+	  /* Handle errors other than syntax errors (out of memory, etc.) */
+	  grub_free (chunk);
 	  handle_lua_error ("Lua parser failed");
+	  return grub_errno;
 	}
 
-      break;
+      oldlen = len;
     }
 
-  grub_free (old_line);
+  grub_free (chunk);
   lua_gc (state, LUA_GCCOLLECT, 0);
 
   return grub_errno;
 }
 
-static struct grub_parser grub_lua_parser =
-  {
-    .name = "lua",
-    .parse_line = grub_lua_parse_line
-  };
+static grub_err_t
+grub_cmd_lua (grub_command_t cmd, int argc, char **args)
+{
+  if (argc == 1)
+    {
+      if (luaL_loadfile (state, args[0]))
+	{
+	  handle_lua_error ("Lua");
+	}
+      else if (lua_pcall (state, 0, 0, 0))
+	{
+	  handle_lua_error ("Lua");
+	}
+    }
+  else if (argc == 0)
+    {
+      return interactive ();
+    }
+  else
+    {
+      return grub_error (GRUB_ERR_BAD_ARGUMENT, "1 or 0 arguments expected");
+    }
 
-GRUB_MOD_INIT(lua)
+  return grub_errno;
+}
+
+static grub_command_t cmd;
+
+GRUB_MOD_INIT (lua)
 {
   (void) mod;
 
@@ -195,15 +228,16 @@ GRUB_MOD_INIT(lua)
       luaL_openlibs (state);
       luaL_register (state, "grub", grub_lua_lib);
       lua_gc (state, LUA_GCRESTART, 0);
-      grub_parser_register ("lua", &grub_lua_parser);
+      cmd = grub_register_command ("lua", grub_cmd_lua, N_("[FILE]"),
+				   N_ ("Run lua script FILE or start interactive lua shell"));
     }
 }
 
-GRUB_MOD_FINI(lua)
+GRUB_MOD_FINI (lua)
 {
   if (state)
     {
-      grub_parser_unregister (&grub_lua_parser);
       lua_close (state);
+      grub_unregister_command (cmd);
     }
 }
