@@ -93,7 +93,7 @@ grub_lua_run (lua_State *state)
 
       cmd = grub_command_find (args[0]);
       if (cmd)
-	(cmd->func) (cmd, n, &args[1]);
+	(cmd->func) (cmd, n-1, &args[1]);
       else
 	grub_error (GRUB_ERR_FILE_NOT_FOUND, "command not found");
 
