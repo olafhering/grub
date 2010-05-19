@@ -2,6 +2,8 @@ grub2 (1.98-2) UNRELEASED; urgency=low
 
   * Restore TEXTDOMAINDIR correction in grub.d files, lost by mistake in a
     merge.  Noticed by Anthony Fok.
+  * Don't fail on purge if the ucf association has already been taken over
+    by a different grub package (closes: #574176).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 14 Apr 2010 14:31:56 +0100
 
