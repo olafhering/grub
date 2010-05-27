@@ -24,6 +24,8 @@ grub2 (1.98+20100527-1) UNRELEASED; urgency=low
   * Conflict with grub (<< 0.97-54) as well as grub-legacy.
   * Build-depend on libdevmapper-dev for DM-RAID probe support.
   * Switch to quilt.
+  * Suggest xorriso (>= 0.5.6.pl00) in grub-common, since grub-mkrescue now
+    needs it.  Depend on it in grub-rescue-pc.
 
   [ Updated translations ]
   * Slovenian (sl.po) by Vanja Cvelbar (closes: #570110).
