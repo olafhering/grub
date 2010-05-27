@@ -1,0 +1,140 @@
+# Vietnamese translation for Grub2_Debian.
+# Copyright © 2010 Free Software Foundation, Inc.
+# Clytie Siddall <clytie@riverland.net.au>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: grub2\n"
+"Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
+"POT-Creation-Date: 2009-08-30 17:54+0200\n"
+"PO-Revision-Date: 2010-03-19 14:31+0930\n"
+"Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
+"Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: LocFactoryEditor 1.8\n"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "Chainload from menu.lst?"
+msgstr "Nạp dãy từ menu.lst ?"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
+msgstr ""
+"Văn lệnh nâng cấp GRUB phát hiện được một thiết lập GRUB Thừa Tự (GRUB "
+"Legacy) trong « /boot/grub »."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"In order to replace the Legacy version of GRUB in your system, it is "
+"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
+"your existing GRUB Legacy setup.  This step may be automaticaly performed "
+"now."
+msgstr ""
+"Để thay thế phiên bản Thừ Tự của GRUB trong hệ thống này, khuyến khích điều "
+"chỉnh « /boot/grub/menu.lst » để nạp dãy (chainload) GRUB 2 từ thiết lập GRUB "
+"Thừa Tự đã có. Bước này có thể được tự động thực hiện ngay bây giờ."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
+"verify that your new GRUB 2 setup is functional for you, before you install "
+"it directly to your MBR (Master Boot Record)."
+msgstr ""
+"Khuyên bạn đồng ý với nạp dãy GRUB 2 từ menu.lst, và thẩm tra thiết lập GRUB "
+"2 mới có chức năng, trước khi ghi nó trực tiếp vào MBR (mục ghi khởi động "
+"chủ)."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
+"can do so by issuing (as root) the following command:"
+msgstr ""
+"Trong cả hai trường hợp, khi nào bạn muốn nạp GRUB2 một cách trực tiếp từ "
+"MBR, chỉ cần chạy (dưới người chủ) câu lệnh theo đây:"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "upgrade-from-grub-legacy"
+msgstr "nâng-cấp-từ-grub-thừa-tự"
+
+#. Type: string
+#. Description
+#: ../templates.in:1001
+msgid "Linux command line:"
+msgstr "Dòng lệnh Linux:"
+
+#. Type: string
+#. Description
+#: ../templates.in:1001
+msgid ""
+"The following Linux command line was extracted from /etc/default/grub or the "
+"`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"Dòng lệnh Linux theo đây đã được trích ra « /etc/default/grub » hoặc từ tham "
+"số « kopt » trong menu.lst của GRUB Thừa Tự. Hãy thẩm tra nó vẫn đúng, không "
+"thích hợp thì cũng sửa đổi."
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid "Linux default command line:"
+msgstr "Dòng lệnh Linux mặc định:"
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid ""
+"The following string will be used as Linux parameters for the default menu "
+"entry but not for the recovery mode."
+msgstr ""
+"Chuỗi theo đây sẽ được sử dụng làm các tham số Linux cho mục nhập trình đơn "
+"mặc định, mà không phải cho chế độ phục hồi."
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+msgid "kFreeBSD command line:"
+msgstr "Dòng lệnh kFreeBSD:"
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+msgid ""
+"The following kFreeBSD command line was extracted from /etc/default/grub or "
+"the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"Dòng lệnh kFreeBSD theo đây đã được trích ra « /etc/default/grub » hoặc từ "
+"tham số « kopt » trong menu.lst của GRUB Thừa Tự. Hãy thẩm tra nó vẫn đúng, "
+"không thích hợp thì cũng sửa đổi."
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid "kFreeBSD default command line:"
+msgstr "Dòng lệnh kFreeBSD mặc định:"
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid ""
+"The following string will be used as kFreeBSD parameters for the default "
+"menu entry but not for the recovery mode."
+msgstr ""
+"Chuỗi theo đây sẽ được sử dụng làm các tham số kFreeBSD cho mục nhập trình "
+"đơn mặc định, mà không phải cho chế độ phục hồi."
