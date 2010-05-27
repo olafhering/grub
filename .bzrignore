@@ -18,6 +18,7 @@ conf/*.mk
 conf/gcry.rmk
 *.d
 DISTLIST
+debian/grub-extras/*/conf/*.mk
 docs/*.info
 docs/stamp-vti
 docs/version.texi

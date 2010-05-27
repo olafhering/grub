@@ -38,10 +38,10 @@ CONFIGURE = ../../configure CC=$(CC) TARGET_CC=$(CC) \
 	--libexecdir="\$${prefix}/lib/$(package)" --srcdir=$(CURDIR) \
 	--enable-grub-mkfont --disable-grub-fstest 
 
-AUTOGEN_FILES = configure config.h.in conf/*.mk
+AUTOGEN_FILES = configure config.h.in conf/*.mk debian/grub-extras/*/conf/*.mk
 AUTOGEN_DEB_FILES = docs examples manpages config templates postinst postrm dirs install
 
-$(AUTOGEN_FILES): autogen.sh configure.ac conf/*.rmk
+$(AUTOGEN_FILES): autogen.sh configure.ac conf/*.rmk debian/grub-extras/*/conf/*.rmk
 	sed -i configure.ac -e "s/^AC_INIT.*/AC_INIT(\[GRUB\],\[$(deb_version)\],\[bug-grub@gnu.org\])/"
 	./autogen.sh
 
