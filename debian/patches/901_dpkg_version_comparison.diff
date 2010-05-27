@@ -1,8 +1,8 @@
-Index: util/grub-mkconfig_lib.in
+Index: b/util/grub-mkconfig_lib.in
 ===================================================================
---- util/grub-mkconfig_lib.in	(revision 2482)
-+++ util/grub-mkconfig_lib.in	(working copy)
-@@ -155,8 +155,8 @@ version_test_numeric ()
+--- a/util/grub-mkconfig_lib.in
++++ b/util/grub-mkconfig_lib.in
+@@ -155,8 +155,8 @@
  
  version_test_gt ()
  {
@@ -13,7 +13,7 @@ Index: util/grub-mkconfig_lib.in
    local cmp=gt
    if [ "x$b" = "x" ] ; then
      return 0
-@@ -166,7 +166,7 @@ version_test_gt ()
+@@ -166,7 +166,7 @@
      *.old:*) a=`echo -n $a | sed -e s/\.old$//` ; cmp=gt ;;
      *:*.old) b=`echo -n $b | sed -e s/\.old$//` ; cmp=ge ;;
    esac

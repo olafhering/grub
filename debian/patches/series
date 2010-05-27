@@ -1,0 +1,9 @@
+01_uuids_and_lvm_dont_play_along_nicely.diff
+06_olpc_prefix_hack.diff
+07_core_in_fs.diff
+901_dpkg_version_comparison.diff
+902_boot_blocklist_hack.diff
+903_grub_legacy_0_based_partitions.diff
+904_disable_floppies.diff
+907_grub.cfg_400.diff
+908_gfxpayload_keep_default.diff

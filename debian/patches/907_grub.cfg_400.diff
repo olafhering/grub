@@ -1,8 +1,8 @@
-Index: util/grub-mkconfig.in
+Index: b/util/grub-mkconfig.in
 ===================================================================
---- util/grub-mkconfig.in	(revision 2598)
-+++ util/grub-mkconfig.in	(working copy)
-@@ -304,6 +304,10 @@ for i in ${grub_mkconfig_dir}/* ; do
+--- a/util/grub-mkconfig.in
++++ b/util/grub-mkconfig.in
+@@ -304,6 +304,10 @@
    esac
  done
  

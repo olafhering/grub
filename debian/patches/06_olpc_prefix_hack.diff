@@ -1,10 +1,10 @@
 
 This sucks, but it's better than what OFW was giving us.
 
-Index: kern/ieee1275/init.c
+Index: b/kern/ieee1275/init.c
 ===================================================================
---- kern/ieee1275/init.c	(revision 2615)
-+++ kern/ieee1275/init.c	(working copy)
+--- a/kern/ieee1275/init.c
++++ b/kern/ieee1275/init.c
 @@ -52,6 +52,7 @@
    grub_ieee1275_exit ();
  }

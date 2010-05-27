@@ -13,9 +13,10 @@ Bug-Debian: http://bugs.debian.org/567245
 Forwarded: no
 Last-Update: 2010-03-09
 
-diff -Nur -x '*.orig' -x '*~' grub2/util/grub.d/10_linux.in grub2.new/util/grub.d/10_linux.in
---- grub2/util/grub.d/10_linux.in	2010-03-09 11:35:45.000000000 +0000
-+++ grub2.new/util/grub.d/10_linux.in	2010-03-09 11:37:18.000000000 +0000
+Index: b/util/grub.d/10_linux.in
+===================================================================
+--- a/util/grub.d/10_linux.in
++++ b/util/grub.d/10_linux.in
 @@ -64,16 +64,7 @@
    printf "menuentry '${title}' ${CLASS} {\n" "${os}" "${version}"
    save_default_entry | sed -e "s/^/\t/"

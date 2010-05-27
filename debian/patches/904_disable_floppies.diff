@@ -3,14 +3,14 @@ Author: Robert Millan
 
 An ugly kludge.  Should this be merged upstream?
 
-Index: kern/emu/hostdisk.c
+Index: b/kern/emu/hostdisk.c
 ===================================================================
---- kern/emu/hostdisk.c	(revision 1832)
-+++ kern/emu/hostdisk.c	(working copy)
+--- a/kern/emu/hostdisk.c
++++ b/kern/emu/hostdisk.c
 @@ -945,6 +945,18 @@
  	  continue;
  	}
-
+ 
 +      if (! strncmp (p, "/dev/fd", sizeof ("/dev/fd") - 1))
 +	{
 +	  char *q = p + sizeof ("/dev/fd") - 1;
