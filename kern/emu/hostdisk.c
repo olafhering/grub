@@ -992,7 +992,7 @@ make_device_name (int drive, int dos_part, int bsd_part)
   char *bsd_part_str = NULL;
 
   if (dos_part >= 0)
-    dos_part_str = xasprintf (",%d", dos_part + (getenv ("GRUB_LEGACY_0_BASED_PARTITIONS") ? 0 : 1));
+    dos_part_str = xasprintf (",%d", dos_part + 1);
 
   if (bsd_part >= 0)
     bsd_part_str = xasprintf (",%d", bsd_part + 1);
