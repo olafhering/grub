@@ -93,7 +93,7 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 	# shipped with grub-common
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/etc/grub.d
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{grub-dumpbios,grub-probe,grub-mkconfig,grub-mkdevicemap,grub-ofpathname}{,.8}
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/{grub-bin2h,grub-mkelfimage,grub-mkfont,grub-editenv,grub-mkisofs,grub-mkrescue,grub-mkrelpath,grub-script-check,grub-mkpasswd-pbkdf2}{,.1}
+	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/{grub-bin2h,grub-mkelfimage,grub-mkfont,grub-editenv,grub-mkrescue,grub-mkrelpath,grub-script-check,grub-mkpasswd-pbkdf2}{,.1}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/{grub-mkconfig_lib,update-grub_lib}
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/share/{grub,info,locale}/
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/include
@@ -134,7 +134,7 @@ install/grub-common::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/lib/grub/{i386,powerpc,sparc64,mipsel}-*
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{update-grub,grub-install,grub-setup,grub-reboot,grub-set-default}{,.8}
-	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/{grub-mkimage,grub-mkfloppy}{,.1}
+	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{bin,share/man/man1}/grub-mkimage{,.1}
 	rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/share/info/dir*
 
 clean:: debian/legacy/update-grub debian/grub-extras
