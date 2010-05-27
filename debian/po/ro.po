@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-30 17:54+0200\n"
-"PO-Revision-Date: 2008-11-13 10:41+0200\n"
+"PO-Revision-Date: 2010-05-21 20:53+0300\n"
 "Last-Translator: Eddy Petrișor <eddy.petrisor@gmail.com>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -84,27 +84,20 @@ msgstr "Linia de comandă Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"Această linie de comandă Linux a fost extrasă din parametrul „kopt” din "
-"fișierul menu.lst al vechiului GRUB. Verificați corectitudinea acesteia și "
-"corectați-o, dacă este nevoie."
+"Această linie de comandă Linux a fost extrasă din /etc/default/grub sau "
+"parametrul „kopt” din fișierul menu.lst al vechiului GRUB. Verificați "
+"corectitudinea acesteia și corectați-o, dacă este nevoie."
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "Linia de comandă Linux:"
+msgstr "Linia de comandă implicită Linux:"
 
 #. Type: string
 #. Description
@@ -113,39 +106,32 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"Următorul șir va fi folosit ca parametru pentru Linux pentru poziția "
+"implicită din meniu, dar nu și pentru cea de recuperare."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "Linia de comandă Linux:"
+msgstr "Linia de comandă kFreeBSD:"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"Această linie de comandă Linux a fost extrasă din parametrul „kopt” din "
-"fișierul menu.lst al vechiului GRUB. Verificați corectitudinea acesteia și "
-"corectați-o, dacă este nevoie."
+"Această linie de comandă kFreeBSD a fost extrasă din /etc/default/grub sau "
+"parametrul „kopt” din fișierul menu.lst al vechiului GRUB. Verificați "
+"corectitudinea acesteia și corectați-o, dacă este nevoie."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "Linia de comandă Linux:"
+msgstr "Linia de comandă implicită kFreeBSD:"
 
 #. Type: string
 #. Description
@@ -154,6 +140,8 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"Următorul șir va fi folosit ca parametru pentru kFreeBSD pentru poziția "
+"implicită din meniu, dar nu și pentru cea de recuperare."
 
 #~ msgid "GRUB 1.95 numbering scheme transition"
 #~ msgstr "Tranziția la schema de numerotare pentru GRUB 1.95"
