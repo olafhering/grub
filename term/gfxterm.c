@@ -29,6 +29,7 @@
 #include <grub/command.h>
 #include <grub/extcmd.h>
 #include <grub/bitmap_scale.h>
+#include <grub/i18n.h>
 
 #define DEFAULT_VIDEO_MODE	"auto"
 #define DEFAULT_BORDER_WIDTH	10
@@ -354,7 +355,7 @@ grub_gfxterm_fullscreen (void)
 }
 
 static grub_err_t
-grub_gfxterm_init (void)
+grub_gfxterm_term_init (void)
 {
   char *tmp;
   grub_err_t err;
@@ -398,7 +399,7 @@ destroy_window (void)
 }
 
 static grub_err_t
-grub_gfxterm_fini (void)
+grub_gfxterm_term_fini (void)
 {
   destroy_window ();
   grub_video_restore ();
@@ -706,12 +707,6 @@ real_scroll (void)
       draw_cursor (0);
 
       grub_video_set_active_render_target (render_target);
-      /* Save viewport and set it to our window.  */
-      grub_video_get_viewport ((unsigned *) &saved_view.x, 
-                               (unsigned *) &saved_view.y, 
-                               (unsigned *) &saved_view.width, 
-                               (unsigned *) &saved_view.height);
-      grub_video_set_viewport (window.x, window.y, window.width, window.height);
 
       i = window.double_repaint ? 2 : 1;
 
@@ -719,6 +714,15 @@ real_scroll (void)
 
       while (i--)
 	{
+	  /* Save viewport and set it to our window.  */
+	  grub_video_get_viewport ((unsigned *) &saved_view.x, 
+				   (unsigned *) &saved_view.y, 
+				   (unsigned *) &saved_view.width, 
+				   (unsigned *) &saved_view.height);
+
+	  grub_video_set_viewport (window.x, window.y, window.width,
+				   window.height);
+
 	  /* Clear new border area.  */
 	  grub_video_fill_rect (color,
 				virtual_screen.offset_x,
@@ -734,6 +738,10 @@ real_scroll (void)
 	  grub_video_scroll (color, 0, -virtual_screen.normal_char_height
 			     * virtual_screen.total_scroll);
 
+	  /* Restore saved viewport.  */
+	  grub_video_set_viewport (saved_view.x, saved_view.y,
+				   saved_view.width, saved_view.height);
+
 	  if (i)
 	    grub_video_swap_buffers ();
 	}
@@ -745,9 +753,6 @@ real_scroll (void)
       grub_video_scroll (color, 0, -virtual_screen.normal_char_height
 			 * virtual_screen.total_scroll);
 
-      /* Restore saved viewport.  */
-      grub_video_set_viewport (saved_view.x, saved_view.y,
-                               saved_view.width, saved_view.height);
       grub_video_set_active_render_target (render_target);
 
     }
@@ -1161,8 +1166,8 @@ grub_gfxterm_background_image_cmd (grub_extcmd_t cmd __attribute__ ((unused)),
 static struct grub_term_output grub_video_term =
   {
     .name = "gfxterm",
-    .init = grub_gfxterm_init,
-    .fini = grub_gfxterm_fini,
+    .init = grub_gfxterm_term_init,
+    .fini = grub_gfxterm_term_fini,
     .putchar = grub_gfxterm_putchar,
     .getcharwidth = grub_gfxterm_getcharwidth,
     .getwh = grub_virtual_screen_getwh,
@@ -1180,19 +1185,19 @@ static struct grub_term_output grub_video_term =
 
 static grub_extcmd_t background_image_cmd_handle;
 
-GRUB_MOD_INIT(term_gfxterm)
+GRUB_MOD_INIT(gfxterm)
 {
   grub_term_register_output ("gfxterm", &grub_video_term);
   background_image_cmd_handle =
     grub_register_extcmd ("background_image",
                           grub_gfxterm_background_image_cmd,
                           GRUB_COMMAND_FLAG_BOTH,
-                          "[-m (stretch|normal)] FILE",
-                          "Load background image for active terminal.",
+                          N_("[-m (stretch|normal)] FILE"),
+                          N_("Load background image for active terminal."),
                           background_image_cmd_options);
 }
 
-GRUB_MOD_FINI(term_gfxterm)
+GRUB_MOD_FINI(gfxterm)
 {
   grub_unregister_extcmd (background_image_cmd_handle);
   grub_term_unregister_output (&grub_video_term);

@@ -1,5 +1,18 @@
-grub2 (1.98-2) UNRELEASED; urgency=low
+grub2 (1.98+20100527-1) UNRELEASED; urgency=low
 
+  * New Bazaar snapshot.
+    - Support multiple terminals in grub-mkconfig, e.g.
+      GRUB_TERMINAL='serial console' (closes: #506707).
+    - Fix grammar error in grub-setup warning (closes: #559005).
+    - Speed up consecutive hostdisk operations on the same device (closes:
+      #508834, #574088).
+    - Fix typo in make_device_name which caused grub-probe problems on
+      systems with BSD disk labels (closes: #578201).
+    - Add DM-RAID probe support (closes: #579919).
+    - Include all gnumach kernels on Hurd, not just gnumach and gnumach.gz
+      (closes: #581584).
+
+  [ Colin Watson ]
   * Restore TEXTDOMAINDIR correction in grub.d files, lost by mistake in a
     merge.  Noticed by Anthony Fok.
   * Don't fail on purge if the ucf association has already been taken over
