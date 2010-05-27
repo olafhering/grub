@@ -82,6 +82,7 @@ build/grub-firmware-qemu::
 	cp debian/grub-firmware-qemu_grub.cfg $${grub_dir}/boot/grub/grub.cfg ; \
 	tar -cf - -C $${grub_dir} boot > $${grub_memdisk} ; \
 	$(CURDIR)/$@/grub-mkimage \
+		-O i386-qemu \
 		-d $(CURDIR)/$@ \
 		$(CURDIR)/$@/*.mod \
 		-m $${grub_memdisk} \
