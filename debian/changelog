@@ -26,6 +26,7 @@ grub2 (1.98+20100527-1) UNRELEASED; urgency=low
   * Switch to quilt.
 
   [ Updated translations ]
+  * Slovenian (sl.po) by Vanja Cvelbar (closes: #570110).
   * Vietnamese (vi.po) by Clytie Siddall (closes: #574578).
   * Tamil (ta.po) by Tirumurti Vasudevan (closes: #578282).
   * Portuguese (pt.po) by Tiago Fernandes (closes: #580140).
