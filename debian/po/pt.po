@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the grub2 package.
 # Miguel Figueiredo <elmig@debianpt.org>, 2007.
 # Ricardo Silva <ardoric@gmail.com>, 2008.
+# Tiago Fernandes <tjg.fernandes@gmail.com>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.96+20081005-1\n"
+"Project-Id-Version: grub2 1.98-1\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-30 17:54+0200\n"
-"PO-Revision-Date: 2008-11-02 11:07+0000\n"
-"Last-Translator: Ricardo Silva <ardoric@gmail.com>\n"
+"PO-Revision-Date: 2010-04-26 10:15+0100\n"
+"Last-Translator: Tiago Fernandes <tjg.fernandes@gmail.com>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,15 +21,15 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:2001
 msgid "Chainload from menu.lst?"
-msgstr "Carregar a partir do menu.lst?"
+msgstr "Carregar em cadeia a partir do menu.lst?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
-"Os scripts de actualização do GRUB detectaram uma configuração do GRUB "
-"Legacy em /boot/grub."
+"Os scripts de actualização do GRUB detectaram um GRUB, que deixou de ser "
+"suportado, configurado em /boot/grub."
 
 #. Type: boolean
 #. Description
@@ -39,10 +40,10 @@ msgid ""
 "your existing GRUB Legacy setup.  This step may be automaticaly performed "
 "now."
 msgstr ""
-"Para substituir a versão Legacy do GRUB no seu sistema, é recomendado que o /"
-"boot/grub/menu.lst seja ajustado para carregar o GRUB 2 a partir da sua "
-"configuração do GRUB Legacy existente. Este passo pode ser executado agora "
-"automaticamente."
+"Por forma a substituir a versão do GRUB não suportado que se encontra no "
+"sistema, é recomendado que o /boot/grub/menu.lst seja ajustado para permitir "
+"carregar em cadeia o GRUB 2 a partir da configuração actual do GRUB não "
+"suportado. Este passo pode ser efectuado automaticamente agora."
 
 #. Type: boolean
 #. Description
@@ -52,9 +53,9 @@ msgid ""
 "verify that your new GRUB 2 setup is functional for you, before you install "
 "it directly to your MBR (Master Boot Record)."
 msgstr ""
-"É recomendado que aceite carregar o GRUB 2 a partir do menu.lst, e verifique "
-"que a sua nova configuração do GRUB 2 está funcional, antes de o instalar "
-"directamente no seu MBR (Master Boot Record)."
+"É recomendado que aceite carregar em cadeia o GRUB 2 a partir do menu.lst, e "
+"verificar que a configuração do novo GRUB 2 está funcional para si, antes de "
+"o instalar directamente no seu MBR (Master Boot Record)."
 
 #. Type: boolean
 #. Description
@@ -64,8 +65,8 @@ msgid ""
 "can do so by issuing (as root) the following command:"
 msgstr ""
 "Em qualquer dos casos, quando quiser que o GRUB 2 seja carregado "
-"directamente a partir do MBR, pode fazê-lo correndo o seguinte comando (como "
-"root):"
+"directamente a partir do MBR, pode fazê-lo executando (como root) o seguinte "
+"comando: "
 
 #. Type: boolean
 #. Description
@@ -82,27 +83,20 @@ msgstr "Linha de comandos do Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"A linha de comandos do Linux que se segue foi obtida a partir do parâmetro "
-"`kopt' no ficheiro menu.lst do GRUB Legacy. Por favor verifique que ela está "
-"correcta, e modifique-a se necessário."
+"A seguinte linha de comandos Linux foi extraída a partir de /etc/default/"
+"grub ou do parâmetro `kopt' no menu.lst do GRUB não suportado. Por favor "
+"verifique que está correcta, e modifique se necessário."
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "Linha de comandos do Linux:"
+msgstr "Linha de comandos padrão do Linux:"
 
 #. Type: string
 #. Description
@@ -111,39 +105,32 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"A seguinte linha será utilizada como parâmetros para o Linux na entrada "
+"predefinida do menu, mas não para o modo de recuperação."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "Linha de comandos do Linux:"
+msgstr "linha de comandos kFreeBSD:"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"A linha de comandos do Linux que se segue foi obtida a partir do parâmetro "
-"`kopt' no ficheiro menu.lst do GRUB Legacy. Por favor verifique que ela está "
-"correcta, e modifique-a se necessário."
+"A seguinte linha de comandos kFreeBSD foi extraída a partir de /etc/default/"
+"grub ou do parâmetro `kopt' no menu.lst do GRUB não suportado. Por favor "
+"verifique que está correcta, e modifique se necessário."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "Linha de comandos do Linux:"
+msgstr "Linha de comandos padrão do kFreeBSD:"
 
 #. Type: string
 #. Description
@@ -152,3 +139,5 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"A seguinte linha será utilizada como parâmetros para o kFreeBSD para a "
+"entrada por omissão do menu, mas não para o modo de recuperação."
