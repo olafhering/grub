@@ -6,6 +6,7 @@ grub2 (1.98-2) UNRELEASED; urgency=low
     by a different grub package (closes: #574176).
   * Add debian/grub-extras/*/conf/*.mk to AUTOGEN_FILES.
   * Remove support for the lpia architecture, now removed from Ubuntu.
+  * Conflict with grub (<< 0.97-54) as well as grub-legacy.
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 14 Apr 2010 14:31:56 +0100
 
