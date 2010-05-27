@@ -28,6 +28,7 @@ grub2 (1.98+20100527-1) UNRELEASED; urgency=low
     needs it.  Depend on it in grub-rescue-pc.
   * Move grub-mkimage to grub-common, now that it only has one
     implementation.
+  * Clean up temporary files used while building grub-firmware-qemu.
 
   [ Updated translations ]
   * Slovenian (sl.po) by Vanja Cvelbar (closes: #570110).

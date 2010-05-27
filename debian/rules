@@ -78,6 +78,7 @@ build/grub-firmware-qemu::
 	$(MAKE) -C $@
 	grub_dir=`mktemp -d` ; \
 	grub_memdisk=`mktemp` ; \
+	trap "rm -rf $${grub_dir} $${grub_memdisk}" EXIT HUP INT QUIT TERM ; \
 	mkdir -p $${grub_dir}/boot/grub ; \
 	cp debian/grub-firmware-qemu_grub.cfg $${grub_dir}/boot/grub/grub.cfg ; \
 	tar -cf - -C $${grub_dir} boot > $${grub_memdisk} ; \
