@@ -17,7 +17,7 @@ diff -Nur -x '*.orig' -x '*~' grub2/util/grub.d/10_linux.in grub2.new/util/grub.
 --- grub2/util/grub.d/10_linux.in	2010-03-09 11:35:45.000000000 +0000
 +++ grub2.new/util/grub.d/10_linux.in	2010-03-09 11:37:18.000000000 +0000
 @@ -64,16 +64,7 @@
-   printf "menuentry \"${title}\" ${CLASS} {\n" "${os}" "${version}"
+   printf "menuentry '${title}' ${CLASS} {\n" "${os}" "${version}"
    save_default_entry | sed -e "s/^/\t/"
  
 -  # Use ELILO's generic "efifb" when it's known to be available.

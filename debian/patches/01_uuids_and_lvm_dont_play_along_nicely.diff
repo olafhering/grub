@@ -2,7 +2,7 @@ diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
 index c2da413..cbd9d6b 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -36,7 +36,8 @@ case ${GRUB_DEVICE} in
+@@ -43,7 +43,8 @@ case ${GRUB_DEVICE} in
  esac
 
  if [ "x${GRUB_DEVICE_UUID}" = "x" ] || [ "x${GRUB_DISABLE_LINUX_UUID}" = "xtrue" ] \

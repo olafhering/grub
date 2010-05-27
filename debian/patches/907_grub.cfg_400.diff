@@ -2,7 +2,7 @@ Index: util/grub-mkconfig.in
 ===================================================================
 --- util/grub-mkconfig.in	(revision 2598)
 +++ util/grub-mkconfig.in	(working copy)
-@@ -261,6 +261,10 @@ for i in ${grub_mkconfig_dir}/* ; do
+@@ -304,6 +304,10 @@ for i in ${grub_mkconfig_dir}/* ; do
    esac
  done
  
