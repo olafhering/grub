@@ -6,6 +6,7 @@ Uploaders: Robert Millan <rmh.debian@aybabtu.com>, Felix Zielcke <fzielcke@z-51.
 DM-Upload-Allowed: yes
 Build-Depends: cdbs,
  debhelper (>= 7),
+ quilt,
  patchutils,
  autoconf,
  automake,
