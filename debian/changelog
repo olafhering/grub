@@ -6,6 +6,8 @@ grub2 (1.98+20100527-1) UNRELEASED; urgency=low
     - Fix grammar error in grub-setup warning (closes: #559005).
     - Speed up consecutive hostdisk operations on the same device (closes:
       #508834, #574088).
+    - Issue an error rather than segfaulting if only some LVM component
+      devices are in device.map (closes: #577808).
     - Fix typo in make_device_name which caused grub-probe problems on
       systems with BSD disk labels (closes: #578201).
     - Add DM-RAID probe support (closes: #579919).
