@@ -103,7 +103,7 @@ case "$1" in
 
     # If grub.cfg has been generated, update it.
     if test -e /boot/grub/grub.cfg ; then
-      update-grub
+      update-grub 3>&-
     fi
   ;;
   abort-upgrade|abort-remove|abort-deconfigure)

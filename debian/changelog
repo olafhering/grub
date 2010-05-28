@@ -37,6 +37,10 @@ grub2 (1.98+20100527-1) UNRELEASED; urgency=low
     rather than confusing the user by prompting them where they want to
     install GRUB (closes: #546822).
   * Build-depend on libsdl1.2-dev for SDL support in grub-emu.
+  * Don't leak debconf's file descriptor to update-grub, so that the LVM
+    tools called from os-prober don't complain about it (closes: #549976).
+    Other leaks are not this package's fault, may not be bugs at all, and in
+    any case os-prober 1.36 suppresses the warnings.
 
   [ Updated translations ]
   * Slovenian (sl.po) by Vanja Cvelbar (closes: #570110).
