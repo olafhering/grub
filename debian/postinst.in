@@ -57,7 +57,7 @@ case "$1" in
     case @PACKAGE@ in
       grub-pc)
 
-        if test -e /boot/grub/stage2 && test -e /boot/grub/menu.lst && ! test -e /boot/grub/core.img ; then
+        if test -e /boot/grub/stage2 && test -e /boot/grub/menu.lst ; then
           db_get grub-pc/chainload_from_menu.lst
           if $RET ; then
             # Create core.img (but do not risk writing to MBR).
