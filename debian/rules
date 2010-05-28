@@ -100,6 +100,10 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/share/{grub,info,locale}/
 	rm -rf $(CURDIR)/debian/$(subst install/,,$@)/usr/include
 
+	if [ "$@" = "install/grub-emu" ] ; then \
+		rm -f $(CURDIR)/debian/$(subst install/,,$@)/usr/{sbin,share/man/man8}/{grub-reboot,grub-set-default}{,.8} ; \
+	fi
+
 	if [ "$@" != "install/grub-emu" ] ; then \
 		for i in $(AUTOGEN_DEB_FILES) ; do \
 			sed debian/$$i.in \
