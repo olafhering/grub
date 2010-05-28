@@ -90,8 +90,8 @@ msgid ""
 "correct, and modify it if necessary."
 msgstr ""
 "La següent línia d'ordres de Linux ha sigut extreta de /etc/default/grub o "
-"del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Per favor verifique "
-"que és correcta, i modifiqueu-la si és necessari."
+"del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Per favor "
+"verifique que és correcta, i modifiqueu-la si és necessari."
 
 #. Type: string
 #. Description
@@ -106,8 +106,8 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
-"La següent cadena serà emprada com a paràmetre Linux per al menú d'entrada per "
-"defecte però no per al mode de recuperació."
+"La següent cadena serà emprada com a paràmetre Linux per al menú d'entrada "
+"per defecte però no per al mode de recuperació."
 
 #. Type: string
 #. Description
@@ -142,5 +142,5 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
-"La següent cadena serà emprada com a paràmetre kFreeBSD per al menú d'entrada "
-"per defecte però no per al mode de recuperació."
+"La següent cadena serà emprada com a paràmetre kFreeBSD per al menú "
+"d'entrada per defecte però no per al mode de recuperació."

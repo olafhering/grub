@@ -80,8 +80,8 @@ msgid ""
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"以下的 Linux 命令列是由 /etc/default/grub，或是由 GRUB Legacy 的 menu.lst 中的 `kopt' 參數所擷取出來的。"
-"請確認它是否正確，若有必要請加以修改。"
+"以下的 Linux 命令列是由 /etc/default/grub，或是由 GRUB Legacy 的 menu.lst 中"
+"的 `kopt' 參數所擷取出來的。請確認它是否正確，若有必要請加以修改。"
 
 #. Type: string
 #. Description
@@ -95,7 +95,8 @@ msgstr "Linux 預設命令列："
 msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
-msgstr "以下的字串將會用在預設的選單項目中做為 Linux 參數，但不會用於回復模式。"
+msgstr ""
+"以下的字串將會用在預設的選單項目中做為 Linux 參數，但不會用於回復模式。"
 
 #. Type: string
 #. Description
@@ -111,8 +112,8 @@ msgid ""
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"以下的 kFreeBSD 命令列是由 /etc/default/grub，或是由 GRUB Legacy 的 menu.lst 中的 `kopt' 參數所擷取出來的。"
-"請確認它是否正確，若有必要請加以修改。"
+"以下的 kFreeBSD 命令列是由 /etc/default/grub，或是由 GRUB Legacy 的 menu.lst "
+"中的 `kopt' 參數所擷取出來的。請確認它是否正確，若有必要請加以修改。"
 
 #. Type: string
 #. Description

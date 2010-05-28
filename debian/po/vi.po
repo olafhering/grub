@@ -40,8 +40,8 @@ msgid ""
 "now."
 msgstr ""
 "Để thay thế phiên bản Thừ Tự của GRUB trong hệ thống này, khuyến khích điều "
-"chỉnh « /boot/grub/menu.lst » để nạp dãy (chainload) GRUB 2 từ thiết lập GRUB "
-"Thừa Tự đã có. Bước này có thể được tự động thực hiện ngay bây giờ."
+"chỉnh « /boot/grub/menu.lst » để nạp dãy (chainload) GRUB 2 từ thiết lập "
+"GRUB Thừa Tự đã có. Bước này có thể được tự động thực hiện ngay bây giờ."
 
 #. Type: boolean
 #. Description
