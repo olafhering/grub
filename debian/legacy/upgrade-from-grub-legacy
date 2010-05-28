@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 if test ! -f /boot/grub/core.img ; then
-  echo -e "\ncore.img doestn't exist, trying to create it.\n" >&2
+  echo -e "\ncore.img doesn't exist, trying to create it.\n" >&2
   grub-install --no-floppy --grub-setup=/bin/true "(hd0)" > /dev/null
 fi
 
