@@ -4,7 +4,8 @@ Description: Make grub-probe work with symlinks under /dev/mapper
  middle and should just work with both.
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Debian: http://bugs.debian.org/550704
-Forwarded: yes
+Forwarded: http://lists.gnu.org/archive/html/grub-devel/2010-05/msg00196.html
+Applied-Upstream: http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/2403
 Last-Update: 2010-05-28
 
 Index: b/kern/emu/getroot.c
