@@ -24,6 +24,7 @@ Build-Depends: cdbs,
  gettext,
  libusb-dev,
  libdevmapper-dev,
+ libsdl1.2-dev,
 Build-Conflicts: autoconf2.13 
 Standards-Version: 3.8.4
 Homepage: http://www.gnu.org/software/grub/grub-2.en.html

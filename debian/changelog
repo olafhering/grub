@@ -36,6 +36,7 @@ grub2 (1.98+20100527-1) UNRELEASED; urgency=low
     upgrade-from-grub-legacy has not been run, upgrade the chainloaded image
     rather than confusing the user by prompting them where they want to
     install GRUB (closes: #546822).
+  * Build-depend on libsdl1.2-dev for SDL support in grub-emu.
 
   [ Updated translations ]
   * Slovenian (sl.po) by Vanja Cvelbar (closes: #570110).
