@@ -29,6 +29,7 @@ grub2 (1.98+20100527-1) UNRELEASED; urgency=low
   * Move grub-mkimage to grub-common, now that it only has one
     implementation.
   * Clean up temporary files used while building grub-firmware-qemu.
+  * Make grub-probe work with symlinks under /dev/mapper (closes: #550704).
 
   [ Updated translations ]
   * Slovenian (sl.po) by Vanja Cvelbar (closes: #570110).
