@@ -3,11 +3,11 @@ grub2 (1.98+20100527-1) UNRELEASED; urgency=low
   * New Bazaar snapshot.
     - Support multiple terminals in grub-mkconfig, e.g.
       GRUB_TERMINAL='serial console' (closes: #506707).
+    - Speed up consecutive hostdisk operations on the same device (closes:
+      #508834, #574088).
     - Fix grammar error in grub-setup warning (closes: #559005).
     - Use xorriso for image creation rather than embedding a modified copy
       of mkisofs (closes: #570156).
-    - Speed up consecutive hostdisk operations on the same device (closes:
-      #508834, #574088).
     - Issue an error rather than segfaulting if only some LVM component
       devices are in device.map (closes: #577808).
     - Fix typo in make_device_name which caused grub-probe problems on
