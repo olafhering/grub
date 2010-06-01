@@ -2,6 +2,8 @@ grub2 (1.98+20100527-2) UNRELEASED; urgency=low
 
   * Always override statically-linked-binary Lintian tag for kernel.img;
     dynamic linking makes no sense here.
+  * kernel.img is stripped upstream where it can be, but override Lintian's
+    error for the cases where it can't.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 01 Jun 2010 13:31:46 +0100
 
