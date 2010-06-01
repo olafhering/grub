@@ -38,56 +38,71 @@ CONFIGURE = ../../configure CC=$(CC) TARGET_CC=$(CC) \
 	--libexecdir="\$${prefix}/lib/$(package)" --srcdir=$(CURDIR) \
 	--enable-grub-mkfont --disable-grub-fstest 
 
-AUTOGEN_FILES = configure config.h.in conf/*.mk debian/grub-extras/*/conf/*.mk
+# autogen.sh runs util/import_gcry.py after autoconf et al, so
+# conf/gcry.rmk's timestamp will be later and we need to disregard it.
+AUTOGEN_FILES = configure $(filter-out conf/gcry.mk,$(wildcard conf/*.mk)) debian/grub-extras/*/conf/*.mk
 AUTOGEN_DEB_FILES = docs examples manpages config templates postinst postrm dirs install
 
-$(AUTOGEN_FILES): autogen.sh configure.ac conf/*.rmk debian/grub-extras/*/conf/*.rmk
+$(AUTOGEN_FILES): autogen.sh configure.ac $(filter-out conf/gcry.rmk,$(wildcard conf/*.rmk)) debian/grub-extras/*/conf/*.rmk
 	sed -i configure.ac -e "s/^AC_INIT.*/AC_INIT(\[GRUB\],\[$(deb_version)\],\[bug-grub@gnu.org\])/"
 	./autogen.sh
 
-configure/grub-pc configure/grub-ieee1275 configure/grub-coreboot configure/grub-emu configure/grub-yeeloong:: $(AUTOGEN_FILES)
-	mkdir -p $(subst configure/,build/,$@)
-	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=$(subst configure/grub-,,$@)
+REAL_PACKAGES = grub-common grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-ieee1275 grub-firmware-qemu grub-yeeloong
+
+$(patsubst %,configure/%,$(REAL_PACKAGES)) :: configure/% : build/stamps/configure-%
+$(patsubst %,build/%,$(REAL_PACKAGES)) :: build/% : build/stamps/build-%
+
+build/stamps/configure-grub-pc build/stamps/configure-grub-ieee1275 build/stamps/configure-grub-coreboot build/stamps/configure-grub-emu build/stamps/configure-grub-yeeloong: $(AUTOGEN_FILES)
+	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
+	cd $(subst build/stamps/configure-,build/,$@) && $(CONFIGURE) --with-platform=$(subst build/stamps/configure-grub-,,$@)
+	touch $@
 
 # This name scheme leaves room for things like ia64 or amd32 someday
-configure/grub-efi-ia32:: $(AUTOGEN_FILES)
-	mkdir -p $(subst configure/,build/,$@)
-	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=efi --target=i386-pe --program-prefix=""
-configure/grub-efi-amd64:: $(AUTOGEN_FILES)
-	mkdir -p $(subst configure/,build/,$@)
-	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=efi --target=amd64-pe --program-prefix=""
+build/stamps/configure-grub-efi-ia32: $(AUTOGEN_FILES)
+	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
+	cd $(subst build/stamps/configure-,build/,$@) && $(CONFIGURE) --with-platform=efi --target=i386-pe --program-prefix=""
+	touch $@
+build/stamps/configure-grub-efi-amd64: $(AUTOGEN_FILES)
+	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
+	cd $(subst build/stamps/configure-,build/,$@) && $(CONFIGURE) --with-platform=efi --target=amd64-pe --program-prefix=""
+	touch $@
 
-configure/grub-firmware-qemu:: $(AUTOGEN_FILES)
-	mkdir -p $(subst configure/,build/,$@)
-	cd $(subst configure/,build/,$@) && $(CONFIGURE) --with-platform=qemu
+build/stamps/configure-grub-firmware-qemu: $(AUTOGEN_FILES)
+	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
+	cd $(subst build/stamps/configure-,build/,$@) && $(CONFIGURE) --with-platform=qemu
+	touch $@
 
-configure/grub-common:: $(AUTOGEN_FILES)
-	mkdir -p $(subst configure/,build/,$@)
-	cd $(subst configure/,build/,$@) && $(CONFIGURE)
+build/stamps/configure-grub-common: $(AUTOGEN_FILES)
+	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
+	cd $(subst build/stamps/configure-,build/,$@) && $(CONFIGURE)
+	touch $@
 
-build/grub-common build/grub-efi-ia32 build/grub-efi-amd64 build/grub-ieee1275 build/grub-coreboot build/grub-emu build/grub-yeeloong::
-	$(MAKE) -C $@
+build/stamps/build-grub-common build/stamps/build-grub-efi-ia32 build/stamps/build-grub-efi-amd64 build/stamps/build-grub-ieee1275 build/stamps/build-grub-coreboot build/stamps/build-grub-emu build/stamps/build-grub-yeeloong: build/stamps/build-%: build/stamps/configure-%
+	$(MAKE) -C $(subst build/stamps/build-,build/,$@)
+	touch $@
 
-build/grub-pc::
-	$(MAKE) -C $@
+build/stamps/build-grub-pc: build/stamps/configure-grub-pc
+	$(MAKE) -C $(subst build/stamps/build-,build/,$@)
 ifeq ($(with_check), yes)
-	$(MAKE) -C $@ check
+	$(MAKE) -C $(subst build/stamps/build-,build/,$@) check
 endif
+	touch $@
 
-build/grub-firmware-qemu::
-	$(MAKE) -C $@
+build/stamps/build-grub-firmware-qemu: build/stamps/configure-grub-firmware-qemu
+	$(MAKE) -C $(subst build/stamps/build-,build/,$@)
 	grub_dir=`mktemp -d` ; \
 	grub_memdisk=`mktemp` ; \
 	trap "rm -rf $${grub_dir} $${grub_memdisk}" EXIT HUP INT QUIT TERM ; \
 	mkdir -p $${grub_dir}/boot/grub ; \
 	cp debian/grub-firmware-qemu_grub.cfg $${grub_dir}/boot/grub/grub.cfg ; \
 	tar -cf - -C $${grub_dir} boot > $${grub_memdisk} ; \
-	$(CURDIR)/$@/grub-mkimage \
+	$(CURDIR)/$(subst build/stamps/build-,build/,$@)/grub-mkimage \
 		-O i386-qemu \
-		-d $(CURDIR)/$@ \
-		$(CURDIR)/$@/*.mod \
+		-d $(CURDIR)/$(subst build/stamps/build-,build/,$@) \
+		$(CURDIR)/$(subst build/stamps/build-,build/,$@)/*.mod \
 		-m $${grub_memdisk} \
-		-o $(CURDIR)/$@/grub.bin
+		-o $(CURDIR)/$(subst build/stamps/build-,build/,$@)/grub.bin
+	touch $@
 
 install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee1275 install/grub-coreboot install/grub-emu install/grub-yeeloong::
 	$(MAKE) -C $(subst install/,build/,$@) install DESTDIR=$(CURDIR)/debian/$(subst install/,,$@)/
