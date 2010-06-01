@@ -1,4 +1,4 @@
-grub2 (1.98+20100527-1) UNRELEASED; urgency=low
+grub2 (1.98+20100527-1) unstable; urgency=low
 
   * New Bazaar snapshot.
     - Support multiple terminals in grub-mkconfig, e.g.
@@ -51,7 +51,7 @@ grub2 (1.98+20100527-1) UNRELEASED; urgency=low
   * Portuguese (pt.po) by Tiago Fernandes (closes: #580140).
   * Romanian (ro.po) by Eddy Petrișor / Andrei Popescu (closes: #583185).
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 14 Apr 2010 14:31:56 +0100
+ -- Colin Watson <cjwatson@debian.org>  Tue, 01 Jun 2010 11:24:38 +0100
 
 grub2 (1.98-1) unstable; urgency=low
 
