@@ -42,6 +42,7 @@ grub2 (1.98+20100527-1) UNRELEASED; urgency=low
     Other leaks are not this package's fault, may not be bugs at all, and in
     any case os-prober 1.36 suppresses the warnings.
   * Build-depend on flex (>= 2.5.35).
+  * Build-depend on gcc-4.4-multilib on amd64.
 
   [ Updated translations ]
   * Slovenian (sl.po) by Vanja Cvelbar (closes: #570110).
