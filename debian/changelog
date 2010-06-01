@@ -1,4 +1,4 @@
-grub2 (1.98+20100527-2) UNRELEASED; urgency=low
+grub2 (1.98+20100527-2) unstable; urgency=low
 
   * Always override statically-linked-binary Lintian tag for kernel.img;
     dynamic linking makes no sense here.
@@ -7,7 +7,7 @@ grub2 (1.98+20100527-2) UNRELEASED; urgency=low
   * Override binary-from-other-architecture for kernel.img as well as *.mod
     when building grub-efi-amd64 on i386.
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 01 Jun 2010 13:31:46 +0100
+ -- Colin Watson <cjwatson@debian.org>  Tue, 01 Jun 2010 13:48:14 +0100
 
 grub2 (1.98+20100527-1) unstable; urgency=low
 
