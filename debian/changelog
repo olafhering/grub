@@ -4,6 +4,8 @@ grub2 (1.98+20100527-2) UNRELEASED; urgency=low
     dynamic linking makes no sense here.
   * kernel.img is stripped upstream where it can be, but override Lintian's
     error for the cases where it can't.
+  * Override binary-from-other-architecture for kernel.img as well as *.mod
+    when building grub-efi-amd64 on i386.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 01 Jun 2010 13:31:46 +0100
 
