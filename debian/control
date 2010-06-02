@@ -26,6 +26,7 @@ Build-Depends: cdbs,
  libusb-dev,
  libdevmapper-dev,
  libsdl1.2-dev,
+ xorriso (>= 0.5.6.pl00),
 Build-Conflicts: autoconf2.13 
 Standards-Version: 3.8.4
 Homepage: http://www.gnu.org/software/grub/grub-2.en.html
@@ -98,7 +99,7 @@ Description: GRand Unified Bootloader, version 2 (PC/BIOS version)
 
 Package: grub-rescue-pc
 Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64
-Depends: ${misc:Depends}, grub-pc (>= 1.97+20091114-1), grub-common (>= 1.97+20091114-1), xorriso (>= 0.5.6.pl00)
+Depends: ${misc:Depends}
 Description: GRUB bootable rescue images, version 2 (PC/BIOS version)
  This package contains two GRUB rescue images that have been built for use with
  traditional PC/BIOS architecture:

@@ -50,7 +50,7 @@ $(AUTOGEN_FILES): autogen.sh configure.ac $(filter-out conf/gcry.rmk,$(wildcard 
 REAL_PACKAGES = grub-common grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-ieee1275 grub-firmware-qemu grub-yeeloong
 
 $(patsubst %,configure/%,$(REAL_PACKAGES)) :: configure/% : build/stamps/configure-%
-$(patsubst %,build/%,$(REAL_PACKAGES)) :: build/% : build/stamps/build-%
+$(patsubst %,build/%,$(REAL_PACKAGES) grub-rescue-pc) :: build/% : build/stamps/build-%
 
 build/stamps/configure-grub-pc build/stamps/configure-grub-ieee1275 build/stamps/configure-grub-coreboot build/stamps/configure-grub-emu build/stamps/configure-grub-yeeloong: $(AUTOGEN_FILES)
 	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
@@ -102,6 +102,24 @@ build/stamps/build-grub-firmware-qemu: build/stamps/configure-grub-firmware-qemu
 		$(CURDIR)/$(subst build/stamps/build-,build/,$@)/*.mod \
 		-m $${grub_memdisk} \
 		-o $(CURDIR)/$(subst build/stamps/build-,build/,$@)/grub.bin
+	touch $@
+
+build/stamps/build-grub-rescue-pc: build/stamps/build-grub-pc
+	mkdir -p build/grub-rescue-pc
+	cp -a build/grub-pc/grub-mkrescue build/grub-rescue-pc/grub-mkrescue
+	mkdir -p build/grub-rescue-pc/rescue-disk/boot/grub
+	cp docs/grub.cfg build/grub-rescue-pc/rescue-disk/boot/grub/
+	sed -i 's,^prefix=.*,prefix=$(CURDIR)/build/grub-rescue-pc,' \
+		build/grub-rescue-pc/grub-mkrescue
+	mkdir -p build/grub-rescue-pc/lib/grub
+	rm -rf build/grub-rescue-pc/lib/grub/i386-pc
+	cp -a build/grub-pc build/grub-rescue-pc/lib/grub/i386-pc
+	# save space, especially for floppy image
+	rm -rf build/grub-rescue-pc/lib/grub/i386-pc/po
+	$(CURDIR)/build/grub-rescue-pc/grub-mkrescue \
+		--grub-mkimage=$(CURDIR)/build/grub-pc/grub-mkimage \
+		--output=$(CURDIR)/build/grub-rescue-pc/grub-rescue-cdrom.iso \
+		$(CURDIR)/build/grub-rescue-pc/rescue-disk
 	touch $@
 
 install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee1275 install/grub-coreboot install/grub-emu install/grub-yeeloong::
