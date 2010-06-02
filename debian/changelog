@@ -1,5 +1,11 @@
-grub2 (1.98+20100527-3) UNRELEASED; urgency=low
+grub2 (1.98+20100602-1) UNRELEASED; urgency=low
 
+  * New Bazaar snapshot.
+    - Add btrfs probing support, currently only in the single-device case
+      (closes: #540786).
+    - Fix grub-emu build on mips/powerpc/sparc.
+
+  [ Colin Watson ]
   * Reorganise configure and build targets in debian/rules to use stamp
     files.  configure/* never existed and build/* was always a directory, so
     make never considered either of them up to date (closes: #450505).
