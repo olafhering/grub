@@ -6,6 +6,9 @@ grub2 (1.98+20100602-1) UNRELEASED; urgency=low
     - Fix grub-emu build on mips/powerpc/sparc.
     - Add safety check to make sure that /boot/grub/locale exists before
       trying to probe it (closes: #567211).
+    - Several 'info grub' improvements, including a new section on
+      configuration file generation using grub-mkconfig which documents the
+      available keys in /etc/default/grub (closes: #497085).
     - Many USB fixes.
 
   [ Colin Watson ]
