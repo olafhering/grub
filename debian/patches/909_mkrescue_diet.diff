@@ -1,0 +1,58 @@
+Description: Allow reducing size of xorriso-created rescue images
+ This lets us create smaller images that will fit on floppy disks.  It has
+ been approved by the upstream maintainer but has not yet been applied.
+Author: Thomas Schmitt <scdbackup@gmx.net>
+Origin: other, http://lists.gnu.org/archive/html/grub-devel/2010-05/msg00100.html
+Forwarded: yes
+Last-Update: 2010-06-02
+
+Index: b/util/grub-mkrescue.in
+===================================================================
+--- a/util/grub-mkrescue.in
++++ b/util/grub-mkrescue.in
+@@ -40,6 +40,9 @@
+ override_dir=
+ grub_mkimage=${bindir}/`echo grub-mkimage | sed ${transform}`
+ 
++xorriso=xorriso
++diet=no
++
+ # Usage: usage
+ # Print the usage.
+ usage () {
+@@ -53,6 +56,8 @@
+   --modules=MODULES       pre-load specified modules MODULES
+   --rom-directory=DIR     save rom images in DIR [optional]
+   --grub-mkimage=FILE     use FILE as grub-mkimage
++  --xorriso=PROGFILE      use PROGFILE as xorriso program [optional]
++  --diet                  apply size reducing measures [optional]
+ 
+ $0 generates a bootable rescue image with specified source files or directories.
+ 
+@@ -83,6 +88,10 @@
+ 	;;
+     --grub-mkimage=*)
+ 	grub_mkimage=`echo "$option" | sed 's/--grub-mkimage=//'` ;;
++    --xorriso=*)
++	xorriso=`echo "${option}/" | sed 's/--xorriso=//'` ;;
++    --diet)
++	diet=yes ;;
+     -*)
+ 	echo "Unrecognized option \`$option'" 1>&2
+ 	usage
+@@ -267,7 +276,14 @@
+ fi
+ 
+ # build iso image
+-xorriso -pathspecs on -as mkisofs ${grub_mkisofs_arguments} --protective-msdos-label -o ${output_image} -r ${iso9660_dir} ${source}
++if [ "${diet}" = yes ]; then
++    if [ -e "${output_image}" ]; then
++        rm "${output_image}" || exit 1
++    fi
++    "${xorriso}" -report_about HINT -as mkisofs -graft-points -no-pad ${grub_mkisofs_arguments} --protective-msdos-label -r ${iso9660_dir} ${source} | cat >"${output_image}"
++else
++    "${xorriso}" -report_about HINT -as mkisofs -graft-points ${grub_mkisofs_arguments} --protective-msdos-label -o "${output_image}" -r ${iso9660_dir} ${source}
++fi
+ rm -rf ${iso9660_dir}
+ 
+ rm -f ${embed_img}

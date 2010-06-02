@@ -7,3 +7,4 @@
 904_disable_floppies.diff
 907_grub.cfg_400.diff
 908_gfxpayload_keep_default.diff
+909_mkrescue_diet.diff
