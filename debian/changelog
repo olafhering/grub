@@ -6,6 +6,7 @@ grub2 (1.98+20100602-1) UNRELEASED; urgency=low
     - Fix grub-emu build on mips/powerpc/sparc.
     - Add safety check to make sure that /boot/grub/locale exists before
       trying to probe it (closes: #567211).
+    - Many USB fixes.
 
   [ Colin Watson ]
   * Reorganise configure and build targets in debian/rules to use stamp
