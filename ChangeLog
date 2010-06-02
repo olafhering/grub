@@ -1,5 +1,56 @@
 2010-06-02  Colin Watson  <cjwatson@ubuntu.com>
 
+	* docs/grub.texi (SCO UnixWare): Remove, at Vladimir's request and
+	per the GNU Coding Standards; this is now too obscure to be worth
+	documenting.
+	(QNX): Likewise.
+	(chainloader): Remove cross-reference to `SCO UnixWare'.
+
+2010-06-02  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub.texi (Chain-loading): New section.
+	(DOS/Windows): New section, borrowed from GRUB Legacy with details
+	adjusted for GRUB 2.
+	(SCO UnixWare): Likewise.
+	(QNX): Likewise.
+	(chainloader): Add reference to `Block list syntax'.
+	(drivemap): New section.
+	(parttool): New section.
+
+2010-06-02  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub.texi (GNU GRUB manual): Remove reference to `Invoking
+	the grub shell'.
+	(Installation): Add reference to `Making a GRUB bootable CD-ROM'.
+	(Installing GRUB using grub-install): Remove reference to the grub
+	shell; mention `grub-mkimage' and `grub-setup' instead.
+	(Invoking grub-install): Likewise.
+	(Interface): Add reference to `Menu entry editor'.
+	(serial): Remove `--device' option.
+
+2010-06-02  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub.texi (Configuration): New section, documenting
+	configuration file generation using grub-mkconfig.  I've left a slot
+	for documenting the full shell scripting format but have not yet
+	started on writing that up.
+	(Invoking grub-mkconfig): New section.
+
+2010-06-02  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub.texi (direntry): Remove grub-terminfo reference.
+	(GNU GRUB manual): Likewise.
+	(General commands): Update description of `terminfo' for GRUB 2.
+
+2010-06-02  Colin Watson  <cjwatson@ubuntu.com>
+
+	* commands/gptsync.c (grub_cmd_gptsync): Fix typos.
+	(GRUB_MOD_INIT): Fix capitalisation.
+	* docs/grub.texi (Command-line and menu entry commands): Document
+	gettext and gptsync commands.
+
+2010-06-02  Colin Watson  <cjwatson@ubuntu.com>
+
 	* conf/any-emu.rmk (kernel_img_SOURCES) [!x86]: Include
 	kern/$(target_cpu)/cache.S even if TARGET_NO_MODULES = yes.
 
