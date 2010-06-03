@@ -1,4 +1,4 @@
-grub2 (1.98+20100602-1) UNRELEASED; urgency=low
+grub2 (1.98+20100602-1) unstable; urgency=low
 
   * New Bazaar snapshot.
     - Add btrfs probing support, currently only in the single-device case
@@ -34,7 +34,7 @@ grub2 (1.98+20100602-1) UNRELEASED; urgency=low
     of xorriso-created images.  Use this to ensure that
     grub-rescue-floppy.img fits well within size limits (closes: #548320).
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 01 Jun 2010 15:54:54 +0100
+ -- Colin Watson <cjwatson@debian.org>  Thu, 03 Jun 2010 11:24:41 +0100
 
 grub2 (1.98+20100527-2) unstable; urgency=low
 
