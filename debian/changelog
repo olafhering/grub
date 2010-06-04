@@ -6,6 +6,8 @@ grub2 (1.98+20100602-2) UNRELEASED; urgency=low
   * Fix printf format mismatch in disk/usbms.c (closes: #584474).
   * Fix verbose error output when device-mapper isn't supported by the
     running kernel (closes: #584196).
+  * Prepend "part_" to partmap module names in grub-mkconfig, in line with
+    grub-install (closes: #584426).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 03 Jun 2010 12:38:22 +0100
 
