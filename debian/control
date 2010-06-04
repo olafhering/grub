@@ -67,7 +67,7 @@ Description: GRand Unified Bootloader, version 2 (common files)
  This package contains common files shared by the distinct flavours of GRUB.
 
 Package: grub-emu
-Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 powerpc sparc
+Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 powerpc
 Depends: ${shlibs:Depends}, base-files (>= 4.0.1~), ${misc:Depends}
 Replaces: grub-common (<= 1.97~beta3-1)
 Description: GRand Unified Bootloader, version 2 (emulated version)
