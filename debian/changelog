@@ -5,6 +5,7 @@ grub2 (1.98+20100602-3) UNRELEASED; urgency=low
   * Don't build-depend on libsdl1.2-dev on hurd-i386.  Although
     libsdl1.2-dev exists there, it's currently uninstallable due to missing
     libpulse-dev, and we can happily live without it for now.
+  * kfreebsd-amd64 needs gcc-4.4-multilib too.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 04 Jun 2010 18:20:20 +0100
 
