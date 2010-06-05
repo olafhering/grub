@@ -2,6 +2,9 @@ grub2 (1.98+20100602-3) UNRELEASED; urgency=low
 
   * Disable grub-emu on sparc for the time being.  We're currently trying to
     use TARGET_* flags to build it, which won't work.
+  * Don't build-depend on libsdl1.2-dev on hurd-i386.  Although
+    libsdl1.2-dev exists there, it's currently uninstallable due to missing
+    libpulse-dev, and we can happily live without it for now.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 04 Jun 2010 18:20:20 +0100
 
