@@ -11,3 +11,4 @@
 910_usbms_format.diff
 911_suppress_dm_warnings.diff
 912_mkconfig_partmap.diff
+913_mkconfig_skip_dmcrypt.diff

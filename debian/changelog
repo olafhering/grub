@@ -6,6 +6,8 @@ grub2 (1.98+20100602-3) UNRELEASED; urgency=low
     libsdl1.2-dev exists there, it's currently uninstallable due to missing
     libpulse-dev, and we can happily live without it for now.
   * kfreebsd-amd64 needs gcc-4.4-multilib too.
+  * Warn and return without error from prepare_grub_to_access_device if
+    /boot is a dm-crypt device (thanks, Marc Haber; closes: #542165).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 04 Jun 2010 18:20:20 +0100
 
