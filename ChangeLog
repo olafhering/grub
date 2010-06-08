@@ -1,3 +1,145 @@
+2010-06-08  Grégoire Sutre  <gregoire.sutre@gmail.com>
+
+	Make --version uniform and avoid hard-coded program name.
+
+	* util/grub-mkimage.c (main): Use `program_name' instead of
+	hard-coded string.
+	* util/i386/pc/grub-setup.c (main): Likewise.
+	* util/sparc64/ieee1275/grub-setup.c (parse_options): Likewise.
+	* util/grub-install.in: Save the basename of $0 in $self, and use the
+	latter in informational messages.  Use the same format for --version
+	as the binary programs.
+	* util/grub-mkconfig.in: Likewise.
+	* util/grub-mkrescue.in: Likewise.
+	* util/grub-reboot.in: Likewise.
+	* util/grub-set-default.in: Likewise.
+	* util/i386/efi/grub-install.in: Likewise.
+	* util/ieee1275/grub-install.in: Likewise.
+	* util/powerpc/ieee1275/grub-mkrescue.in: Likewise.
+
+2010-06-08  Grégoire Sutre  <gregoire.sutre@gmail.com>
+
+	* util/i386/pc/grub-setup.c (setup): Use absolute offsets for start of
+	embedding area.  Use <= instead of == when checking for non-emptiness.
+
+2010-06-08  Grégoire Sutre  <gregoire.sutre@gmail.com>
+
+	* configure.ac: Add `.' to the directories searched for unifont.
+
+2010-06-08  Colin Watson  <cjwatson@ubuntu.com>
+
+	* .bzrignore: Add ascii.bitmaps, ascii.h, grub_script.yy.c, and
+	grub_script.yy.h.
+
+2010-06-08  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub.texi (History): Expand to cover GRUB 2.
+	(Serial terminal): Refer to `terminal_input' and `terminal_output'
+	commands, not `terminal'.
+	(serial): Likewise.
+	(terminal_input): New section.
+	(terminal_output): New section.
+	(uppermem): New section (stub).
+	(Obtaining and Building GRUB): Refer to Bazaar, not Subversion.
+
+2010-06-08  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub.texi (Security): Menu entries are unrestricted by
+	default, not restricted to superusers as I had previously thought.
+	Reword to account for this.
+
+2010-06-07  Colin Watson  <cjwatson@ubuntu.com>
+
+	* kern/emu/misc.c (device_mapper_null_log): New function.
+	(grub_device_mapper_supported): New function.
+	* include/grub/emu/misc.h (grub_device_mapper_supported): Add
+	prototype.
+	* kern/emu/hostdisk.c (find_partition_start): Check whether
+	device-mapper is supported before trying to use it.
+	* util/deviceiter.c (grub_util_iterate_devices): Likewise.
+
+2010-06-07  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub.texi (Naming convention): Use GRUB 2 syntax.
+	(File name syntax): Likewise.
+	(help): --all is no longer supported in GRUB 2.  Be more precise
+	about pattern matching.
+
+2010-06-07  Colin Watson  <cjwatson@ubuntu.com>
+
+	* normal/completion.c (grub_normal_do_completion): When completing
+	arguments to "set" and the current word contains an equals sign,
+	skip to after the equals sign before starting completion.
+
+2010-06-07  Colin Watson  <cjwatson@ubuntu.com>
+
+	* fs/i386/pc/pxe.c (grub_pxe_open): Fix parsing of gateway_ip.
+
+2010-06-07  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub.texi (Network): New section.
+	(Device syntax): The network device is called `(pxe)' in GRUB 2, not
+	`(nd)' as in GRUB Legacy.
+	(pxe_unload): New section.
+
+2010-06-07  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub.texi (Troubleshooting): `echo' is not usually available
+	in the rescue shell, so recommend using `set' instead.  Thanks,
+	Jordan Uggla.
+
+2010-06-07  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub.texi (Filesystem): Refer to `search' instead of `find'.
+	(password): New section.
+	(password_pbkdf2): New section.
+	(search): New section.
+	(Security): New section.
+	(Troubleshooting): New section, currently very incomplete.
+	(Invoking grub-mkpasswd-pbkdf2): New section.
+	(Internals): New section, currently very incomplete.
+
+2010-06-07  Colin Watson  <cjwatson@ubuntu.com>
+
+	* util/grub.d/00_header.in: Add some more quoting (of
+	"${prev_saved_entry}" and "${boot_once}") needed to make savedefault
+	work again.
+	Reported by: Mario 'BitKoenig' Holbe (Debian bug #584812).
+
+2010-06-07  Colin Watson  <cjwatson@ubuntu.com>
+
+	* util/grub-mkpasswd-pbkdf2.c (main): Rename top-level `c' variable
+	to `count', fixing variable shadowing that broke the -c option.
+
+2010-06-05  Colin Watson  <cjwatson@ubuntu.com>
+
+	* util/grub.d/00_header.in: Quote values assigned to `saved_entry',
+	in case they contain spaces.
+
+2010-06-04  Colin Watson  <cjwatson@ubuntu.com>
+
+	* util/grub-mkconfig_lib.in (prepare_grub_to_access_device): Prepend
+	"part_" to partmap module names, in line with grub-install.
+	Reported by: Jindřich Makovička (Debian bug #584426).
+
+2010-06-04  Colin Watson  <cjwatson@ubuntu.com>
+
+	* util/grub-mkimage.c: Make target-related error messages slightly
+	more helpful; -O talks about "format".  Explicitly point to the use
+	of -O if no target is specified.
+	Reported by: Didier Raboud (Debian bug #584415).
+
+2010-06-03  Colin Watson  <cjwatson@ubuntu.com>
+
+	* INSTALL: Document several build requirements for optional features
+	(libdevmapper, ncurses, libusb, SDL, FreeType, GNU Unifont).
+
+2010-06-02  Grégoire Sutre  <gregoire.sutre@gmail.com>
+
+	* kern/emu/hostdisk.c (convert_system_partition_to_system_disk)
+	[__NetBSD__]: Handle all device names matching /dev/r[a-z]+[0-9][a-z].
+	(find_partition_start) [__NetBSD__]: Correct error messages for NetBSD.
+
 2010-06-02  Colin Watson  <cjwatson@ubuntu.com>
 
 	* docs/grub.texi (Simple configuration): Fix copy-and-paste typo.

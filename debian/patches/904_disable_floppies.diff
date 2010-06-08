@@ -7,7 +7,7 @@ Index: b/kern/emu/hostdisk.c
 ===================================================================
 --- a/kern/emu/hostdisk.c
 +++ b/kern/emu/hostdisk.c
-@@ -945,6 +945,18 @@
+@@ -953,6 +953,18 @@
  	  continue;
  	}
  

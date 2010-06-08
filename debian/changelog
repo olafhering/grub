@@ -1,5 +1,14 @@
-grub2 (1.98+20100602-3) UNRELEASED; urgency=low
+grub2 (1.98+20100608-1) UNRELEASED; urgency=low
 
+  * New Bazaar snapshot.
+    - Make target-related error messages from grub-mkimage slightly more
+      helpful (closes: #584415).
+    - Fix underquoting that broke savedefault (thanks, Mario 'BitKoenig'
+      Holbe; closes: #584812).
+    - Expand 'info grub' substantially, including a new section on
+      configuring authentication (closes: #584822).
+
+  [ Colin Watson ]
   * Disable grub-emu on sparc for the time being.  We're currently trying to
     use TARGET_* flags to build it, which won't work.
   * Don't build-depend on libsdl1.2-dev on hurd-i386.  Although

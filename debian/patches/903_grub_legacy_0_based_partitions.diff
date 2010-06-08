@@ -2,7 +2,7 @@ Index: b/kern/emu/hostdisk.c
 ===================================================================
 --- a/kern/emu/hostdisk.c
 +++ b/kern/emu/hostdisk.c
-@@ -992,7 +992,7 @@
+@@ -1000,7 +1000,7 @@
    char *bsd_part_str = NULL;
  
    if (dos_part >= 0)

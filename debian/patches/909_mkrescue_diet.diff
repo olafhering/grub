@@ -10,7 +10,7 @@ Index: b/util/grub-mkrescue.in
 ===================================================================
 --- a/util/grub-mkrescue.in
 +++ b/util/grub-mkrescue.in
-@@ -40,6 +40,9 @@
+@@ -42,6 +42,9 @@
  override_dir=
  grub_mkimage=${bindir}/`echo grub-mkimage | sed ${transform}`
  
@@ -20,16 +20,16 @@ Index: b/util/grub-mkrescue.in
  # Usage: usage
  # Print the usage.
  usage () {
-@@ -53,6 +56,8 @@
+@@ -55,6 +58,8 @@
    --modules=MODULES       pre-load specified modules MODULES
    --rom-directory=DIR     save rom images in DIR [optional]
    --grub-mkimage=FILE     use FILE as grub-mkimage
 +  --xorriso=PROGFILE      use PROGFILE as xorriso program [optional]
 +  --diet                  apply size reducing measures [optional]
  
- $0 generates a bootable rescue image with specified source files or directories.
+ $self generates a bootable rescue image with specified source files or directories.
  
-@@ -83,6 +88,10 @@
+@@ -85,6 +90,10 @@
  	;;
      --grub-mkimage=*)
  	grub_mkimage=`echo "$option" | sed 's/--grub-mkimage=//'` ;;
@@ -40,7 +40,7 @@ Index: b/util/grub-mkrescue.in
      -*)
  	echo "Unrecognized option \`$option'" 1>&2
  	usage
-@@ -267,7 +276,14 @@
+@@ -269,7 +278,14 @@
  fi
  
  # build iso image
