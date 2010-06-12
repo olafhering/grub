@@ -10,48 +10,44 @@ Index: b/util/grub-mkrescue.in
 ===================================================================
 --- a/util/grub-mkrescue.in
 +++ b/util/grub-mkrescue.in
-@@ -42,6 +42,9 @@
- override_dir=
+@@ -43,6 +43,7 @@
  grub_mkimage=${bindir}/`echo grub-mkimage | sed ${transform}`
  
-+xorriso=xorriso
+ xorriso=xorriso
 +diet=no
-+
+ 
  # Usage: usage
  # Print the usage.
- usage () {
-@@ -55,6 +58,8 @@
-   --modules=MODULES       pre-load specified modules MODULES
+@@ -58,6 +59,7 @@
    --rom-directory=DIR     save rom images in DIR [optional]
+   --xorriso=FILE          use FILE as xorriso [optional]
    --grub-mkimage=FILE     use FILE as grub-mkimage
-+  --xorriso=PROGFILE      use PROGFILE as xorriso program [optional]
 +  --diet                  apply size reducing measures [optional]
  
- $self generates a bootable rescue image with specified source files or directories.
+ $self generates a bootable rescue image with specified source files, source
+ directories, or mkisofs options listed by: xorriso -as mkisofs -help
+@@ -131,6 +133,9 @@
+     --xorriso=*)
+         xorriso=`echo "${option}/" | sed 's/--xorriso=//'` ;;
  
-@@ -85,6 +90,10 @@
- 	;;
-     --grub-mkimage=*)
- 	grub_mkimage=`echo "$option" | sed 's/--grub-mkimage=//'` ;;
-+    --xorriso=*)
-+	xorriso=`echo "${option}/" | sed 's/--xorriso=//'` ;;
 +    --diet)
 +	diet=yes ;;
-     -*)
- 	echo "Unrecognized option \`$option'" 1>&2
- 	usage
-@@ -269,7 +278,14 @@
++
+     *)
+ 	source="${source} ${option} $@"; break ;;
+     esac
+@@ -310,7 +315,14 @@
  fi
  
  # build iso image
--xorriso -pathspecs on -as mkisofs ${grub_mkisofs_arguments} --protective-msdos-label -o ${output_image} -r ${iso9660_dir} ${source}
+-"${xorriso}" -as mkisofs -graft-points ${grub_mkisofs_arguments} --protective-msdos-label -o ${output_image} -r ${iso9660_dir} --sort-weight 0 / --sort-weight 1 /boot ${source}
 +if [ "${diet}" = yes ]; then
 +    if [ -e "${output_image}" ]; then
 +        rm "${output_image}" || exit 1
 +    fi
-+    "${xorriso}" -report_about HINT -as mkisofs -graft-points -no-pad ${grub_mkisofs_arguments} --protective-msdos-label -r ${iso9660_dir} ${source} | cat >"${output_image}"
++    "${xorriso}" -report_about HINT -as mkisofs -graft-points -no-pad ${grub_mkisofs_arguments} --protective-msdos-label -r ${iso9660_dir} --sort-weight 0 / --sort-weight 1 /boot ${source} | cat >"${output_image}"
 +else
-+    "${xorriso}" -report_about HINT -as mkisofs -graft-points ${grub_mkisofs_arguments} --protective-msdos-label -o "${output_image}" -r ${iso9660_dir} ${source}
++    "${xorriso}" -report_about HINT -as mkisofs -graft-points ${grub_mkisofs_arguments} --protective-msdos-label -o ${output_image} -r ${iso9660_dir} --sort-weight 0 / --sort-weight 1 /boot ${source}
 +fi
  rm -rf ${iso9660_dir}
  

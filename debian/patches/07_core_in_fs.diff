@@ -10,7 +10,7 @@ Index: b/util/i386/pc/grub-setup.c
  
  #define grub_target_to_host16(x)	grub_le_to_cpu16(x)
  #define grub_target_to_host32(x)	grub_le_to_cpu32(x)
-@@ -413,6 +414,8 @@
+@@ -410,6 +411,8 @@
  		       boot_img))
      grub_util_error ("%s", grub_errmsg);
  
@@ -19,7 +19,7 @@ Index: b/util/i386/pc/grub-setup.c
    goto finish;
  
  unable_to_embed:
-@@ -427,6 +430,9 @@
+@@ -424,6 +427,9 @@
    if (! force)
      grub_util_error (_("if you really want blocklists, use --force"));
  

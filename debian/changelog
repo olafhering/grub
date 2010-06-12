@@ -1,4 +1,4 @@
-grub2 (1.98+20100608-1) UNRELEASED; urgency=low
+grub2 (1.98+20100612-1) UNRELEASED; urgency=low
 
   * New Bazaar snapshot.
     - Make target-related error messages from grub-mkimage slightly more
@@ -7,6 +7,7 @@ grub2 (1.98+20100608-1) UNRELEASED; urgency=low
       Holbe; closes: #584812).
     - Expand 'info grub' substantially, including a new section on
       configuring authentication (closes: #584822).
+    - Give all manual pages proper NAME sections (closes: #496706).
 
   [ Colin Watson ]
   * Disable grub-emu on sparc for the time being.  We're currently trying to
