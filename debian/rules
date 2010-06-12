@@ -21,7 +21,7 @@ else
 	CFLAGS += -O2
 endif
 
-ifneq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
+ifeq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
 with_check := yes
 else
 with_check := no

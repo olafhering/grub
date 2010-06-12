@@ -20,6 +20,7 @@ grub2 (1.98+20100608-1) UNRELEASED; urgency=low
   * Make /etc/grub.d/05_debian_theme usable by shells other than bash
     (thanks, Alex Chiang; closes: #585561).
   * Remove grub-mkisofs leftovers from debian/copyright.
+  * Fix reversed sense of DEB_BUILD_OPTIONS=nocheck handling.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 04 Jun 2010 18:20:20 +0100
 
