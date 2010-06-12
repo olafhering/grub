@@ -1,11 +1,11 @@
-#!/bin/bash -e
+#!/bin/sh -e
 
-source /usr/lib/grub/grub-mkconfig_lib
+. /usr/lib/grub/grub-mkconfig_lib
 
 # this allows desktop-base to override our settings
 f=/usr/share/desktop-base/grub_background.sh
 if test -e ${f} ; then
-  source ${f}
+  . ${f}
 else
   WALLPAPER="/usr/share/images/desktop-base/moreblue-orbit-grub.png"
   COLOR_NORMAL="black/black"
