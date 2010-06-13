@@ -15,7 +15,7 @@ grub2 (1.98+20100612-1) UNRELEASED; urgency=low
   * Don't build-depend on libsdl1.2-dev on hurd-i386.  Although
     libsdl1.2-dev exists there, it's currently uninstallable due to missing
     libpulse-dev, and we can happily live without it for now.
-  * kfreebsd-amd64 needs gcc-4.4-multilib too.
+  * kfreebsd-amd64 needs gcc-4.4-multilib too (closes: #585668).
   * Warn and return without error from prepare_grub_to_access_device if
     /boot is a dm-crypt device (thanks, Marc Haber; closes: #542165).
   * Make /etc/grub.d/05_debian_theme usable by shells other than bash
