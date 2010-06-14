@@ -1,3 +1,19 @@
+2010-06-14  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/man/grub-emu.h2m: New file.
+
+2010-06-13  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub.texi (Commands): Document reduced command set in rescue
+	mode.
+	(cpuid): New section.
+
+2010-06-13  Grégoire Sutre  <gregoire.sutre@gmail.com>
+
+	* kern/emu/hostdisk.c (grub_util_biosdisk_get_grub_dev): Use the
+	new partition naming style.
+	* util/grub-install.in: Adapt sed subtitutions in grub-probe calls.
+
 2010-06-12  BVK Chaitanya  <bvk.groups@gmail.com>
 
 	Add "-o grub.iso" like cmdline options support.

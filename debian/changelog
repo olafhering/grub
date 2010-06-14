@@ -1,4 +1,4 @@
-grub2 (1.98+20100612-1) UNRELEASED; urgency=low
+grub2 (1.98+20100614-1) UNRELEASED; urgency=low
 
   * New Bazaar snapshot.
     - Make target-related error messages from grub-mkimage slightly more
