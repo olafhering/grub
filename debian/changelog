@@ -9,6 +9,9 @@ grub2 (1.98+20100612-1) UNRELEASED; urgency=low
       configuring authentication (closes: #584822).
     - Give all manual pages proper NAME sections (closes: #496706).
 
+  * Update 915resolution from grub-extras:
+    - Fix a hang with 945GME (thanks, Sergio Perticone; closes: #582142).
+
   [ Colin Watson ]
   * Disable grub-emu on sparc for the time being.  We're currently trying to
     use TARGET_* flags to build it, which won't work.
