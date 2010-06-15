@@ -25,6 +25,7 @@ grub2 (1.98+20100614-1) UNRELEASED; urgency=low
     (thanks, Alex Chiang; closes: #585561).
   * Remove grub-mkisofs leftovers from debian/copyright.
   * Fix reversed sense of DEB_BUILD_OPTIONS=nocheck handling.
+  * Build-depend on qemu-system for grub-pc tests.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 04 Jun 2010 18:20:20 +0100
 
