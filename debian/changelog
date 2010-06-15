@@ -1,4 +1,4 @@
-grub2 (1.98+20100614-1) UNRELEASED; urgency=low
+grub2 (1.98+20100614-1) unstable; urgency=low
 
   * New Bazaar snapshot.
     - Make target-related error messages from grub-mkimage slightly more
@@ -27,7 +27,7 @@ grub2 (1.98+20100614-1) UNRELEASED; urgency=low
   * Fix reversed sense of DEB_BUILD_OPTIONS=nocheck handling.
   * Build-depend on qemu-system for grub-pc tests.
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 04 Jun 2010 18:20:20 +0100
+ -- Colin Watson <cjwatson@debian.org>  Tue, 15 Jun 2010 12:45:35 +0100
 
 grub2 (1.98+20100602-2) unstable; urgency=low
 
