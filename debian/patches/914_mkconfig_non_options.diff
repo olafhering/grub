@@ -1,0 +1,26 @@
+Description: Ignore non-option arguments in grub-mkconfig
+ This is for compatibility with older versions (before 2010-06-12) which did
+ the same, making it easier to ship an update-grub compatible with GRUB
+ Legacy.
+Author: Colin Watson <cjwatson@ubuntu.com>
+Origin: upstream, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/2464
+Bug-Debian: http://bugs.debian.org/586056
+Forwarded: yes
+Last-Update: 2010-06-16
+
+Index: b/util/grub-mkconfig.in
+===================================================================
+--- a/util/grub-mkconfig.in
++++ b/util/grub-mkconfig.in
+@@ -86,10 +86,7 @@
+ 	usage
+ 	exit 1
+ 	;;
+-    *)
+-	echo "Invalid parameter, $option" 1>&2
+-	exit 1
+-	;;
++    # Explicitly ignore non-option arguments, for compatibility.
+     esac
+ done
+ 

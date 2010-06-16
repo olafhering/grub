@@ -10,3 +10,4 @@
 909_mkrescue_diet.diff
 910_usbms_format.diff
 913_mkconfig_skip_dmcrypt.diff
+914_mkconfig_non_options.diff

@@ -2,6 +2,7 @@ grub2 (1.98+20100614-2) UNRELEASED; urgency=low
 
   * Build-depend on gcc-4.4-multilib on i386 and kopensolaris-i386 too, in
     order to build grub-efi-amd64.
+  * Ignore non-option arguments in grub-mkconfig (closes: #586056).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 16 Jun 2010 13:25:26 +0100
 
