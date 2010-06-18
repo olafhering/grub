@@ -16,6 +16,71 @@ merge_debconf_into_conf()
   fi
 }
 
+# This only works on a Linux system with udev running.  This is probably the
+# vast majority of systems where we need any of this, though, and we fall
+# back reasonably gracefully if we don't have it.
+cached_available_ids=
+available_ids()
+{
+  local id path
+
+  if [ "$cached_available_ids" ]; then
+    echo "$cached_available_ids"
+    return
+  fi
+
+  [ -d /dev/disk/by-id ] || return
+  cached_available_ids="$(
+    for path in /dev/disk/by-id/*; do
+      [ -e "$path" ] || continue
+      printf '%s %s\n' "$path" "$(readlink -f "$path")"
+    done | sort -k2 -s -u | cut -d' ' -f1
+  )"
+  echo "$cached_available_ids"
+}
+
+all_disks()
+{
+  local id
+  for id in $(available_ids); do
+    case $id in
+      *-part*) ;;
+      *) echo "$id" ;;
+    esac
+  done
+}
+
+# In order to determine whether we accidentally ran grub-install without
+# upgrade-from-grub-legacy on versions older than 1.98+20100614-3, we need
+# to be able to scan a disk to determine whether GRUB 2 was installed in its
+# boot sector.  This is specific to i386-pc (but that's the only platform
+# where we need it).
+scan_grub2()
+{
+  if ! dd if="$1" bs=512 count=1 2>/dev/null | grep -aq GRUB; then
+    # No version of GRUB is installed.
+    return 1
+  fi
+
+  # The GRUB boot sector always starts with a JMP instruction.
+  initial_jmp="$(dd if="$1" bs=2 count=1 2>/dev/null | od -Ax -tx1 | \
+                 head -n1 | cut -d' ' -f2,3)"
+  [ "$initial_jmp" ] || return 1
+  initial_jmp_opcode="${initial_jmp%% *}"
+  [ "$initial_jmp_opcode" = eb ] || return 1
+  initial_jmp_operand="${initial_jmp#* }"
+  case $initial_jmp_operand in
+    47|4b|4c|63)
+      # I believe this covers all versions of GRUB 2 up to the package
+      # version where we gained a more explicit mechanism.  GRUB Legacy
+      # always had 48 here.
+      return 0
+    ;;
+  esac
+
+  return 1
+}
+
 case "$1" in
   configure)
     . /usr/share/debconf/confmodule
@@ -57,7 +122,44 @@ case "$1" in
     case @PACKAGE@ in
       grub-pc)
 
+        fix_mixed_system=
         if test -e /boot/grub/stage2 && test -e /boot/grub/menu.lst && \
+           ! test -e /boot/grub/grub2-installed && \
+           test -z "$UPGRADE_FROM_GRUB_LEGACY"; then
+          # Unfortunately, it's still possible that the user upgraded fully
+          # to GRUB 2 in some way other than running
+          # upgrade-from-grub-legacy; perhaps they ran grub-install by hand
+          # for some reason.  It's really quite difficult to detect this
+          # situation, because the only difference between this and a
+          # working chainloaded setup is that in this case grub-setup has
+          # been run.  So, to try to tell the difference, we scan the boot
+          # sectors of all disks for a GRUB 2 boot sector.  Hopefully this
+          # won't cause too much to explode, since I can't think of a better
+          # method.
+          grub2_disks=
+          for disk in $(all_disks); do
+            if scan_grub2 "$disk"; then
+              grub2_disks="${grub2_disks:+$grub2_disks }$(readlink -f "$disk")"
+            fi
+          done
+          if [ "$grub2_disks" ]; then
+            # No || true here; it's vital that the user sees this, and it's
+            # better to throw an error than to do the wrong thing.
+            db_subst grub-pc/mixed_legacy_and_grub2 DISKS "$grub2_disks"
+            db_input critical grub-pc/mixed_legacy_and_grub2
+            db_go
+            db_get grub-pc/mixed_legacy_and_grub2
+            if [ "$RET" = true ]; then
+              db_reset grub-pc/install_devices
+              UPGRADE_FROM_GRUB_LEGACY=1
+              fix_mixed_system=1
+              # Fall through to normal installation logic.
+            fi
+          fi
+        fi
+
+        if test -e /boot/grub/stage2 && test -e /boot/grub/menu.lst && \
+           ! test -e /boot/grub/grub2-installed && \
            test -z "$UPGRADE_FROM_GRUB_LEGACY"; then
           db_get grub-pc/chainload_from_menu.lst
           if $RET ; then
@@ -99,6 +201,15 @@ case "$1" in
           done
         fi
 
+        if [ "$fix_mixed_system" ]; then
+          # These never contain any valuable information, and they aren't
+          # useful for boot any more, since we just overwrote MBR/PBR.
+          rm -f /boot/grub/{{xfs,reiserfs,e2fs,fat,jfs,minix}_stage1_5,stage{1,2}}
+          # Remove marker file used to indicate that grub-install was run
+          # rather than upgrade-from-grub-legacy.  Since stage2 has been
+          # removed, we don't need this any more.
+          rm -f /boot/grub/grub2-installed
+        fi
       ;;
     esac
 

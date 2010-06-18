@@ -26,6 +26,9 @@ fi
 # These never contain any valuable information, and they aren't useful for
 # boot anymore, since we just overwrote MBR/PBR.
 rm -f /boot/grub/{{xfs,reiserfs,e2fs,fat,jfs,minix}_stage1_5,stage{1,2}}
+# Remove marker file used to indicate that grub-install was run rather than
+# this script.  Since stage2 has been removed, we don't need this any more.
+rm -f /boot/grub/grub2-installed
 
 cat << EOF
 

@@ -49,6 +49,25 @@ Description: Remove GRUB 2 from /boot/grub?
  .
  Your system would be then unbootable if you don't install another bootloader.
 
+Template: grub-pc/mixed_legacy_and_grub2
+Type: boolean
+Default: true
+_Description: Finish conversion to GRUB 2 now?
+ This system still has files from the GRUB Legacy boot loader installed, but
+ it now also has GRUB 2 boot records installed on these disks:
+ .
+  ${DISKS}
+ .
+ It seems likely that GRUB Legacy is no longer in use, and that you should
+ instead upgrade the GRUB 2 images on these disks and finish the conversion
+ to GRUB 2 by removing old GRUB Legacy files.  If you do not upgrade these
+ GRUB 2 images, then they may be incompatible with the new packages and
+ cause your system to stop booting properly.
+ .
+ You should generally finish the conversion to GRUB 2 unless these boot
+ records were created by a GRUB 2 installation on some other operating
+ system.
+
 Template: grub-pc/kopt_extracted
 Type: boolean
 Default: false

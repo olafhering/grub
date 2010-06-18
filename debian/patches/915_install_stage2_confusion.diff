@@ -1,0 +1,23 @@
+Description: If GRUB Legacy is still around, tell packaging to ignore it
+Author: Colin Watson <cjwatson@debian.org>
+Bug-Debian: http://bugs.debian.org/586143
+Forwarded: not-needed
+Last-Update: 2010-06-18
+
+Index: b/util/grub-install.in
+===================================================================
+--- a/util/grub-install.in
++++ b/util/grub-install.in
+@@ -407,6 +407,12 @@
+     $grub_mkimage -O ${mkimage_target} ${config_opt} -d ${pkglibdir} --output=/boot/multiboot.img --prefix=${prefix_drive}${relative_grubdir} $modules || exit 1
+ fi
+ 
++# If vestiges of GRUB Legacy still exist, tell the Debian packaging that
++# they can ignore them.
++if test -e /boot/grub/stage2 && test -e /boot/grub/menu.lst; then
++    touch /boot/grub/grub2-installed
++fi
++
+ echo "Installation finished. No error reported."
+ 
+ # Bye.
