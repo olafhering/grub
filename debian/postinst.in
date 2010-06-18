@@ -57,7 +57,8 @@ case "$1" in
     case @PACKAGE@ in
       grub-pc)
 
-        if test -e /boot/grub/stage2 && test -e /boot/grub/menu.lst ; then
+        if test -e /boot/grub/stage2 && test -e /boot/grub/menu.lst && \
+           test -z "$UPGRADE_FROM_GRUB_LEGACY"; then
           db_get grub-pc/chainload_from_menu.lst
           if $RET ; then
             # Create core.img (but do not risk writing to MBR).

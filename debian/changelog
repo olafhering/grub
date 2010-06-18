@@ -1,3 +1,11 @@
+grub2 (1.98+20100614-3) UNRELEASED; urgency=low
+
+  * When running grub-pc.postinst from upgrade-from-grub-legacy, tell it to
+    disregard the fact that /boot/grub/stage2 and /boot/grub/menu.lst still
+    exist (closes: #550477).
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 18 Jun 2010 21:50:49 +0100
+
 grub2 (1.98+20100614-2) unstable; urgency=low
 
   * Build-depend on gcc-4.4-multilib on i386 and kopensolaris-i386 too, in
