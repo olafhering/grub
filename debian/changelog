@@ -10,6 +10,13 @@ grub2 (1.98+20100614-3) UNRELEASED; urgency=low
     all disks for GRUB 2.  If we find GRUB 2 installed anywhere, then ask
     the user if they want to finish conversion to GRUB 2, and warn them that
     not doing so may render the system unbootable (closes: #586143).
+  * Leaving grub-pc/install_devices empty makes sense in some situations,
+    but more often than not is a mistake.  On the other hand, automatically
+    selecting all disk devices would upset some people too.  Compromise by
+    simply asking for explicit confirmation if grub-pc/install_devices is
+    left empty, defaulting to false so that simply selecting all the
+    defaults in debconf can't leave you with an unbootable system (closes:
+    #547944, #557425).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 18 Jun 2010 21:50:49 +0100
 

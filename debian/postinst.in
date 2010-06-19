@@ -180,14 +180,41 @@ case "$1" in
             touch /boot/grub/grub.cfg
           fi
         else
-          db_subst grub-pc/install_devices CHOICES `grub-mkdevicemap -m - | sed -e "/^(fd[0-9]\+)/d;s,.*\t,,g" | tr '\n' ',' | sed -e 's/,$//g;s/,/, /g'`
-          db_input high grub-pc/install_devices || true
-          db_go
-          db_get grub-pc/install_devices
-          for i in `echo $RET | sed -e 's/,/ /g'` ; do
-            if grub-install --force --no-floppy $i ; then
-              # We just installed GRUB 2; then also generate grub.cfg.
-              touch /boot/grub/grub.cfg
+          while :; do
+            db_subst grub-pc/install_devices CHOICES `grub-mkdevicemap -m - | sed -e "/^(fd[0-9]\+)/d;s,.*\t,,g" | tr '\n' ',' | sed -e 's/,$//g;s/,/, /g'`
+            db_input high grub-pc/install_devices || true
+            db_go
+            db_get grub-pc/install_devices
+            for i in `echo $RET | sed -e 's/,/ /g'` ; do
+              if grub-install --force --no-floppy $i ; then
+                # We just installed GRUB 2; then also generate grub.cfg.
+                touch /boot/grub/grub.cfg
+              fi
+            done
+
+            db_get grub-pc/install_devices
+            if [ "$RET" ]; then
+              break
+            fi
+
+            # Reset the seen flag if the current answer is false, since
+            # otherwise we'll loop with no indication of why.
+            db_get grub-pc/install_devices_empty
+            if [ "$RET" = false ]; then
+              db_fset grub-pc/install_devices_empty seen false
+            fi
+            if db_input critical grub-pc/install_devices_empty; then
+              db_go
+              db_get grub-pc/install_devices_empty
+              if [ "$RET" = true ]; then
+                break
+              else
+                db_fset grub-pc/install_devices seen false
+                db_fset grub-pc/install_devices_empty seen false
+                # Go back round the loop.
+              fi
+            else
+              break # noninteractive
             fi
           done
         fi
