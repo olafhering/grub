@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2009-08-30 17:54+0200\n"
+"POT-Creation-Date: 2010-06-19 01:28+0100\n"
 "PO-Revision-Date: 2009-08-30 18:05+0400\n"
 "Last-Translator: Aiet Kolkhi <aietkolkhi@gmail.com>\n"
 "Language-Team: Georgian <aiet@gakartuleba.org>\n"
@@ -74,6 +74,66 @@ msgstr ""
 #: ../grub-pc.templates.in:2001
 msgid "upgrade-from-grub-legacy"
 msgstr "upgrade-from-grub-legacy"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:4001
+msgid "Continue without installing GRUB?"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:4001
+msgid ""
+"You chose not to install GRUB to any devices.  If you continue, the boot "
+"loader may not be properly configured, and when your computer next starts up "
+"it will use whatever was previously in the boot sector.  If there is an "
+"earlier version of GRUB 2 in the boot sector, it may be unable to load "
+"modules or handle the current configuration file."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:4001
+msgid ""
+"If you are already running a different boot loader and want to carry on "
+"doing so, or if this is a special environment where you do not need a boot "
+"loader, then you should continue anyway.  Otherwise, you should install GRUB "
+"somewhere."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:6001
+msgid "Finish conversion to GRUB 2 now?"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:6001
+msgid ""
+"This system still has files from the GRUB Legacy boot loader installed, but "
+"it now also has GRUB 2 boot records installed on these disks:"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:6001
+msgid ""
+"It seems likely that GRUB Legacy is no longer in use, and that you should "
+"instead upgrade the GRUB 2 images on these disks and finish the conversion "
+"to GRUB 2 by removing old GRUB Legacy files.  If you do not upgrade these "
+"GRUB 2 images, then they may be incompatible with the new packages and cause "
+"your system to stop booting properly."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:6001
+msgid ""
+"You should generally finish the conversion to GRUB 2 unless these boot "
+"records were created by a GRUB 2 installation on some other operating system."
+msgstr ""
 
 #. Type: string
 #. Description
