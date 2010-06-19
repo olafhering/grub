@@ -1,4 +1,4 @@
-grub2 (1.98+20100617-1) UNRELEASED; urgency=low
+grub2 (1.98+20100617-1) unstable; urgency=low
 
   * New Bazaar snapshot.
     - Fix i386-pc prefix handling with nested partitions (closes: #585068).
@@ -21,7 +21,7 @@ grub2 (1.98+20100617-1) UNRELEASED; urgency=low
     defaults in debconf can't leave you with an unbootable system (closes:
     #547944, #557425).
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 18 Jun 2010 21:50:49 +0100
+ -- Colin Watson <cjwatson@debian.org>  Sat, 19 Jun 2010 01:31:40 +0100
 
 grub2 (1.98+20100614-2) unstable; urgency=low
 
