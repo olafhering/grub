@@ -51,7 +51,7 @@ all_disks()
 }
 
 # In order to determine whether we accidentally ran grub-install without
-# upgrade-from-grub-legacy on versions older than 1.98+20100614-3, we need
+# upgrade-from-grub-legacy on versions older than 1.98+20100617-1, we need
 # to be able to scan a disk to determine whether GRUB 2 was installed in its
 # boot sector.  This is specific to i386-pc (but that's the only platform
 # where we need it).

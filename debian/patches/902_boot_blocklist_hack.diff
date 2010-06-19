@@ -2,7 +2,7 @@ Index: b/util/i386/pc/grub-setup.c
 ===================================================================
 --- a/util/i386/pc/grub-setup.c
 +++ b/util/i386/pc/grub-setup.c
-@@ -451,6 +451,15 @@
+@@ -466,6 +466,15 @@
        grub_disk_cache_invalidate_all ();
  
        file = grub_file_open (core_path_dev);

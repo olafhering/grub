@@ -1,4 +1,7 @@
-grub2 (1.98+20100614-3) UNRELEASED; urgency=low
+grub2 (1.98+20100617-1) UNRELEASED; urgency=low
+
+  * New Bazaar snapshot.
+    - Fix i386-pc prefix handling with nested partitions (closes: #585068).
 
   * When running grub-pc.postinst from upgrade-from-grub-legacy, tell it to
     disregard the fact that /boot/grub/stage2 and /boot/grub/menu.lst still
