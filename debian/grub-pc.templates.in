@@ -67,11 +67,12 @@ Description: Remove GRUB 2 from /boot/grub?
 Template: grub-pc/mixed_legacy_and_grub2
 Type: boolean
 Default: true
+#flag:translate!:3
 _Description: Finish conversion to GRUB 2 now?
  This system still has files from the GRUB Legacy boot loader installed, but
  it now also has GRUB 2 boot records installed on these disks:
  .
-  ${DISKS}
+ ${DISKS}
  .
  It seems likely that GRUB Legacy is no longer in use, and that you should
  instead upgrade the GRUB 2 images on these disks and finish the conversion
