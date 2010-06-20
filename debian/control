@@ -209,6 +209,7 @@ Description: GRUB firmware image for QEMU
 Package: grub-yeeloong
 Architecture: mipsel
 Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}, ucf
+Replaces: grub-common (<< 1.98+20100617-2)
 Suggests: os-prober
 Description: GRand Unified Bootloader, version 2 (Yeeloong version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a

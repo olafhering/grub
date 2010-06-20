@@ -3,6 +3,10 @@ grub2 (1.98+20100617-2) UNRELEASED; urgency=low
   * Mention grub-rescue-usb.img in grub-rescue-pc description (closes:
     #586462).
   * Add instructions for using grub-rescue-usb.img (closes: #586463).
+  * Remove /usr/lib/grub/mips-* from grub-common rather than the incorrect
+    /usr/lib/grub/mipsel-*, so that it stops clashing with grub-yeeloong;
+    add a versioned Replaces to grub-yeeloong just in case (closes:
+    #586526).
 
  -- Colin Watson <cjwatson@debian.org>  Sun, 20 Jun 2010 09:06:05 +0100
 
