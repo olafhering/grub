@@ -102,11 +102,12 @@ Package: grub-rescue-pc
 Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64
 Depends: ${misc:Depends}
 Description: GRUB bootable rescue images, version 2 (PC/BIOS version)
- This package contains two GRUB rescue images that have been built for use with
- traditional PC/BIOS architecture:
+ This package contains three GRUB rescue images that have been built for use
+ with the traditional PC/BIOS architecture:
  .
   - grub-rescue-floppy.img: floppy image.
   - grub-rescue-cdrom.iso: El Torito CDROM image.
+  - grub-rescue-usb.img: USB image.
 
 Package: grub-coreboot
 Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64

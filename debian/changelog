@@ -1,3 +1,10 @@
+grub2 (1.98+20100617-2) UNRELEASED; urgency=low
+
+  * Mention grub-rescue-usb.img in grub-rescue-pc description (closes:
+    #586462).
+
+ -- Colin Watson <cjwatson@debian.org>  Sun, 20 Jun 2010 09:06:05 +0100
+
 grub2 (1.98+20100617-1) unstable; urgency=low
 
   * New Bazaar snapshot.
