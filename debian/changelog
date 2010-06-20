@@ -24,7 +24,8 @@ grub2 (1.98+20100617-1) unstable; urgency=low
   * If GRUB Legacy files are present when upgrading, scan boot sectors of
     all disks for GRUB 2.  If we find GRUB 2 installed anywhere, then ask
     the user if they want to finish conversion to GRUB 2, and warn them that
-    not doing so may render the system unbootable (closes: #586143).
+    not doing so may render the system unbootable (closes: #586143).  Thanks
+    to Sedat Dilek for helping to narrow down this bug.
   * Leaving grub-pc/install_devices empty makes sense in some situations,
     but more often than not is a mistake.  On the other hand, automatically
     selecting all disk devices would upset some people too.  Compromise by
