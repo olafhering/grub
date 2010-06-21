@@ -1,0 +1,140 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Олександр Яценко, 2010.
+# Yatsenko Alexandr <yatsenko.alexandr@gmail.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
+"POT-Creation-Date: 2009-08-30 17:54+0200\n"
+"PO-Revision-Date: 2010-06-19 22:31+0300\n"
+"Last-Translator: Yatsenko Alexandr <yatsenko.alexandr@gmail.com>\n"
+"Language-Team: Ukrainian <translation@linux.org.ua>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "Chainload from menu.lst?"
+msgstr "Завантажити послідовно з menu.lst? "
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
+msgstr "Скрипт оновлення GRUB знайшов попередню Legacy версію в /boot/grub."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"In order to replace the Legacy version of GRUB in your system, it is "
+"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
+"your existing GRUB Legacy setup.  This step may be automaticaly performed "
+"now."
+msgstr ""
+"Перед заміною попередньої версії GRUB у вашій системі рекомендовано "
+"приєднати GRUB 2 як варіант завантаження у наявному меню GRUB Legacy. Цей "
+"крок може бути виконано автоматично зараз."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
+"verify that your new GRUB 2 setup is functional for you, before you install "
+"it directly to your MBR (Master Boot Record)."
+msgstr ""
+"Рекомендовано прийняти послідовне завантаження GRUB 2 з menu.lst щоб "
+"переконатися, що ваш новий GRUB 2 функціонує, до того як встановити його "
+"напряму до MBR (Головного завантажувального сектору)"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
+"can do so by issuing (as root) the following command:"
+msgstr ""
+"В іншому випадку, якщо ви бажаєте завантажити GRUB 2 прямо до MBR, ви можете "
+"зробити це, задавши (з правами root) наступну команду:"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "upgrade-from-grub-legacy"
+msgstr "upgrade-from-grub-legacy"
+
+#. Type: string
+#. Description
+#: ../templates.in:1001
+msgid "Linux command line:"
+msgstr "Рядок параметрів ядра Linux:"
+
+#. Type: string
+#. Description
+#: ../templates.in:1001
+msgid ""
+"The following Linux command line was extracted from /etc/default/grub or the "
+"`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"Наступний рядок параметрів ядра Linux було взято із /etc/default/grub чи з "
+"параметру 'kopt' в menu.lst із GRUB Legacy. Перевірте будь ласка його "
+"правильність і, за потреби, внесіть зміни."
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid "Linux default command line:"
+msgstr "Типовий рядок параметрів ядра Linux:"
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid ""
+"The following string will be used as Linux parameters for the default menu "
+"entry but not for the recovery mode."
+msgstr ""
+"Даний рядок буде використано як параметри ядра Linux для типового пункту "
+"меню, проте не для режиму відновлення."
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+msgid "kFreeBSD command line:"
+msgstr "Рядок параметрів ядра kFreeBSD:"
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+msgid ""
+"The following kFreeBSD command line was extracted from /etc/default/grub or "
+"the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"Наступний рядок параметрів ядра kFreeBSD було взято із /etc/default/grub чи "
+"з параметру 'kopt' в menu.lst із GRUB Legacy. Перевірте будь ласка його "
+"правильність і, за потреби, внесіть зміни."
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid "kFreeBSD default command line:"
+msgstr "Типовий рядок параметрів ядра kFreeBSD:"
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid ""
+"The following string will be used as kFreeBSD parameters for the default "
+"menu entry but not for the recovery mode."
+msgstr ""
+"Даний рядок буде використано як параметри ядра kFreeBSD для типового пункту "
+"меню, проте не для режиму відновлення."

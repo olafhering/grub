@@ -8,6 +8,10 @@ grub2 (1.98+20100617-2) UNRELEASED; urgency=low
     add a versioned Replaces to grub-yeeloong just in case (closes:
     #586526).
 
+  [ Updated translations ]
+  * Ukrainian (uk.po) by Yatsenko Alexandr / Borys Yanovych (closes:
+    #586611).
+
  -- Colin Watson <cjwatson@debian.org>  Sun, 20 Jun 2010 09:06:05 +0100
 
 grub2 (1.98+20100617-1) unstable; urgency=low
