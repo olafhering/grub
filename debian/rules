@@ -27,6 +27,10 @@ else
 with_check := no
 endif
 
+ifeq (,$(shell which qemu-system-i386 2>/dev/null))
+with_check := no
+endif
+
 CC := gcc-4.4
 
 # Enable external modules from grub-extras.

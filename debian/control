@@ -27,7 +27,7 @@ Build-Depends: cdbs,
  libdevmapper-dev [amd64 i386 powerpc mipsel sparc],
  libsdl1.2-dev [!hurd-i386],
  xorriso (>= 0.5.6.pl00),
- qemu-system [i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64],
+ qemu-system [i386 kfreebsd-i386 kopensolaris-i386 amd64 kfreebsd-amd64],
 Build-Conflicts: autoconf2.13 
 Standards-Version: 3.8.4
 Homepage: http://www.gnu.org/software/grub/grub-2.en.html
