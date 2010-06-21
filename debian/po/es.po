@@ -32,7 +32,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2 1.96+20090829-2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-06-19 01:28+0100\n"
+"POT-Creation-Date: 2010-06-21 09:11+0100\n"
 "PO-Revision-Date: 2009-08-30 19:42+0100\n"
 "Last-Translator: Francisco Javier Cuadrado <fcocuadrado@gmail.com>\n"
 "Language-Team: Debian l10n Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -90,12 +90,6 @@ msgid ""
 msgstr ""
 "En cualquier caso, cuando quiera que GRUB 2 se cargue directamente desde el "
 "MBR, puede hacerlo ejecutando (como usuario «root») la siguiente orden:"
-
-#. Type: boolean
-#. Description
-#: ../grub-pc.templates.in:2001
-msgid "upgrade-from-grub-legacy"
-msgstr "upgrade-from-grub-legacy"
 
 #. Type: boolean
 #. Description

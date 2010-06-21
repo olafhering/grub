@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-06-19 01:28+0100\n"
+"POT-Creation-Date: 2010-06-21 09:11+0100\n"
 "PO-Revision-Date: 2009-09-02 18:12+0200\n"
 "Last-Translator: Juan Andrés Gimeno Crespo <juagicre@gmail.com>\n"
 "Language-Team: catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -69,12 +69,6 @@ msgid ""
 msgstr ""
 "En qualsevol cas, quan vulgueu que es carregue el GRUB 2 directament des de "
 "l'MBR, podeu fer-ho executant (com a root) l'ordre següent:"
-
-#. Type: boolean
-#. Description
-#: ../grub-pc.templates.in:2001
-msgid "upgrade-from-grub-legacy"
-msgstr "upgrade-from-grub-legacy"
 
 #. Type: boolean
 #. Description

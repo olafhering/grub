@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-06-19 01:28+0100\n"
+"POT-Creation-Date: 2010-06-21 09:11+0100\n"
 "PO-Revision-Date: 2010-03-19 14:31+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
@@ -65,12 +65,6 @@ msgid ""
 msgstr ""
 "Trong cả hai trường hợp, khi nào bạn muốn nạp GRUB2 một cách trực tiếp từ "
 "MBR, chỉ cần chạy (dưới người chủ) câu lệnh theo đây:"
-
-#. Type: boolean
-#. Description
-#: ../grub-pc.templates.in:2001
-msgid "upgrade-from-grub-legacy"
-msgstr "nâng-cấp-từ-grub-thừa-tự"
 
 #. Type: boolean
 #. Description

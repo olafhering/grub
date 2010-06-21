@@ -4,6 +4,7 @@
 Template: grub-pc/chainload_from_menu.lst
 Type: boolean
 Default: true
+#flag:translate!:6
 _Description: Chainload from menu.lst?
  GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub.
  .

@@ -9,6 +9,8 @@ grub2 (1.98+20100617-2) UNRELEASED; urgency=low
     #586526).
   * Remove qemu-system build-dependency on hurd-i386, where it doesn't seem
     to exist.  Disable tests if qemu-system-i386 isn't available.
+  * Mark "upgrade-from-grub-legacy" paragraph in
+    grub-pc/chainload_from_menu.lst as untranslatable.
 
   [ Updated translations ]
   * Ukrainian (uk.po) by Yatsenko Alexandr / Borys Yanovych (closes:
