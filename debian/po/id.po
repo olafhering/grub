@@ -1,0 +1,142 @@
+# Grub2 translation to Bahasa Indonesia.
+# Copyright (C) Grub2 Developer
+# This file is distributed under the same license as the Grub2 package.
+# Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: grub2\n"
+"Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
+"POT-Creation-Date: 2009-08-30 17:54+0200\n"
+"PO-Revision-Date: 2010-06-23 00:02+0700\n"
+"Last-Translator: Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>\n"
+"Language-Team: Debian Indonesian Translation Team <debian-l10n-id@gurame."
+"fisika.ui.ac.id>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Indonesian\n"
+"X-Poedit-Country: INDONESIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "Chainload from menu.lst?"
+msgstr "Chainload dari menu.lst?"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
+msgstr ""
+"Script pemutakhiran GRUB menemukan konfigurasi GRUB jadul di /boot/grub."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"In order to replace the Legacy version of GRUB in your system, it is "
+"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
+"your existing GRUB Legacy setup.  This step may be automaticaly performed "
+"now."
+msgstr ""
+"Untuk mengganti GRUB jadul pada sistem Anda, sangat disarankan menyesuaikan /"
+"boot/grub/menu.lst dengan chainload GRUB 2. Langkah ini mungkin akan "
+"dilakukan otomatis sekarang."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
+"verify that your new GRUB 2 setup is functional for you, before you install "
+"it directly to your MBR (Master Boot Record)."
+msgstr ""
+"Sangat disarankan Anda menerima hasil penyesuaian GRUB 2 dari menu.lst dan "
+"memastikan bahwa konfigurasi GRUB 2 berfungsi sebelum Anda memasangnya pada "
+"MBR (Master Boot Record)."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
+"can do so by issuing (as root) the following command:"
+msgstr ""
+"Di semua kasus, ketika Anda ingin agar GRUB 2 dimuatkan langsung dari MBR, "
+"Anda dapat melakukan (sebagai root) perintah berikut:"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "upgrade-from-grub-legacy"
+msgstr "perbaharui-dari-grub-jadul"
+
+#. Type: string
+#. Description
+#: ../templates.in:1001
+msgid "Linux command line:"
+msgstr "Baris perintah Linux:"
+
+#. Type: string
+#. Description
+#: ../templates.in:1001
+msgid ""
+"The following Linux command line was extracted from /etc/default/grub or the "
+"`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"Baris perintah Linux berikut ini disadur dari /etc/default/grub atau "
+"parameter 'kopt' di menu.lst pada GRUB jadul. Pastikan kebenarannya dan "
+"suntinglah bila perlu."
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid "Linux default command line:"
+msgstr "Baris perintah standar Linux:"
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid ""
+"The following string will be used as Linux parameters for the default menu "
+"entry but not for the recovery mode."
+msgstr ""
+"String berikut ini akan digunakan sebagai parameter Linux untuk menu standar "
+"tetapi tidak digunakan untuk modus darurat."
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+msgid "kFreeBSD command line:"
+msgstr "Baris perintah kFreeBSD:"
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+msgid ""
+"The following kFreeBSD command line was extracted from /etc/default/grub or "
+"the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"Baris perintah kFreeBSD berikut ini disadur dari /etc/default/grub atau "
+"parameter 'kopt' di menu.lst pada GRUB jadul. Pastikan kebenarannya dan "
+"suntinglah bila perlu."
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid "kFreeBSD default command line:"
+msgstr "Baris perintah standar kFreeBSD:"
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid ""
+"The following string will be used as kFreeBSD parameters for the default "
+"menu entry but not for the recovery mode."
+msgstr ""
+"String berikut ini digunakan sebagai parameter kFreeBSD untuk menu standar, "
+"tetapi tidak digunakan untuk modus darurat."
