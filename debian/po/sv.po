@@ -1,24 +1,27 @@
 # translation of grub2_sv.po to Swedish
 # Swedish translation for grub2.
-# Copyright (C) 2007, 2008, 2009 Free Software Foundation, Inc.
+# Copyright (C) 2007, 2008, 2009, 2010 Free Software Foundation, Inc.
 # This file is distributed under the same license as the grub2 package.
 #
 # Daniel Nylander <po@danielnylander.se>, 2007.
 # Martin Ågren <martin.agren@gmail.com>, 2008, 2009.
+# Martin Bagge <brother@bsnet.se>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2_sv\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-06-21 09:11+0100\n"
-"PO-Revision-Date: 2009-09-02 20:53+0200\n"
-"Last-Translator: Martin Ågren <martin.agren@gmail.com>\n"
+"POT-Creation-Date: 2010-06-19 01:28+0100\n"
+"PO-Revision-Date: 2010-06-22 22:32+0100\n"
+"Last-Translator: Martin Bagge <brother@bsnet.se>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
-"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: Sweden\n"
 
 #. Type: boolean
 #. Description
@@ -73,7 +76,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:4001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "Fortsätt utan att installera GRUB?"
 
 #. Type: boolean
 #. Description
@@ -85,6 +88,12 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"Du valde att inte installera GRUB på några enheter. Om du fortsätter kommer "
+"uppstartshanteraren kanske inte att få korrekta inställningar och när ditt "
+"system startar nästa gång kommer det att använda vad som tidigare fanns i "
+"boot-sektorn. Om en tidigare version av GRUB 2 används i boot-sektorn finns "
+"risk att vissa moduler inte kan laddas och hantera de aktuella "
+"inställningsfilerna."
 
 #. Type: boolean
 #. Description
@@ -95,12 +104,15 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"Om du redan kör en annan uppstartshanterare och vill fortsätta med det eller "
+"om detta är en specialmiljö som inte behöver en uppstartshanterare kan du "
+"tryggt fortsätta. I annat fall ska du installera GRUB någonstans."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:6001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "Avsluta konverteringen till GRUB 2 nu?"
 
 #. Type: boolean
 #. Description
@@ -109,6 +121,9 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"Detta system har fortfarande filer från den äldre GRUB-uppstartshanteraren "
+"installerade men nu finns det dessutom GRUB 2 uppstartsinformation på "
+"följande enheter:"
 
 #. Type: boolean
 #. Description
@@ -120,6 +135,11 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"Det är troligt att den äldre GRUB-versionen inte längre används och du bör "
+"istället uppgradera till GRUB 2-avbildningar på dessa enheter och avsluta "
+"konverteringen till GRUB 2 genom att ta bort äldre GRUB-filer. Om du inte "
+"vill uppgradera dessa GRUB 2-avbildningar kan de bli oanvändbara tillsammans "
+"med det nya paketet och systemet sluta att fungera korrekt."
 
 #. Type: boolean
 #. Description
@@ -128,6 +148,8 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"Det generella rådet är att avsluta konverteringen till GRUB 2 om dessa filer "
+"inte skapats av en GRUB 2-installation på ett annat opertivsystem."
 
 #. Type: string
 #. Description

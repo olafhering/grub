@@ -16,6 +16,7 @@ grub2 (1.98+20100617-2) UNRELEASED; urgency=low
   * Ukrainian (uk.po) by Yatsenko Alexandr / Borys Yanovych (closes:
     #586611).
   * Indonesian (id.po) by Arief S Fitrianto (closes: #586799).
+  * Swedish (sv.po) by Martin Bagge (closes: #586827).
 
  -- Colin Watson <cjwatson@debian.org>  Sun, 20 Jun 2010 09:06:05 +0100
 
