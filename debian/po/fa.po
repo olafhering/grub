@@ -1,0 +1,131 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: fa\n"
+"Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
+"POT-Creation-Date: 2009-08-30 17:54+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Behrad Eslamifar <behrad_es@yahoo.com>\n"
+"Language-Team: debian-l10n-persian <debian-l10n-persian@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Persian\n"
+"X-Poedit-Country: IRAN, ISLAMIC REPUBLIC OF\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "Chainload from menu.lst?"
+msgstr "بارگزاری به صورت Chainload از menu.lst؟"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
+msgstr ""
+"اسکریپت ارتقاء GRUB, نسخه قدیمی GRUB‌ نصب شده در /boot/grub را پیدا کرده است."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"In order to replace the Legacy version of GRUB in your system, it is "
+"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
+"your existing GRUB Legacy setup.  This step may be automaticaly performed "
+"now."
+msgstr ""
+"برای حایگزینی نسخه قدیمی GRUB در سیستم شما پیشنهاد می شود که در /boot/grub/"
+"menu.lst گراب ۲ به صورت chainload تنظیم شود. اکنون این مرحله به صورت خودکار "
+"انجام می شود."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
+"verify that your new GRUB 2 setup is functional for you, before you install "
+"it directly to your MBR (Master Boot Record)."
+msgstr ""
+"قبل از آنکه GRUB 2 را مستقیماً در MBR نصب کنید, به شما توصیه می شود تا با "
+"پیکربندی آن به صورت chainload در menu.lst موافقت کنید و صحت عملکرد GRUB 2 "
+"نصب شده جدید را بررسی کنید."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
+"can do so by issuing (as root) the following command:"
+msgstr ""
+"در هر صورت, هر زمان که شما بخواهید مستقیماً GRUB 2 را از MBR بارگزاری کنید, "
+"می توانید این کار را با اجرای دستوری که در ادامه آمده, تحت کاربر ریشه, انجام "
+"دهید:"
+
+#. Type: string
+#. Description
+#: ../templates.in:1001
+msgid "Linux command line:"
+msgstr "خط فرمان لینوکس:"
+
+#. Type: string
+#. Description
+#: ../templates.in:1001
+msgid ""
+"The following Linux command line was extracted from /etc/default/grub or the "
+"`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"این خط فرمان لینوکس از /etc/default/grub یا پارامتر های `kopt' در فایل menu."
+"lst گراب قدیمی استخراج می‌شود. لطفاً صحت آن را بررسی کنید و در صورت لزوم آن را "
+"ویرایش نمایید."
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid "Linux default command line:"
+msgstr "خط فرمان پیش فرض لینوکس:"
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid ""
+"The following string will be used as Linux parameters for the default menu "
+"entry but not for the recovery mode."
+msgstr ""
+"این رشته به عنوان یکی از پارامتر های لینوکس برای منوی پیش فرض استفاده خواهد "
+"شد و نه برای حالت بازیابی."
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+msgid "kFreeBSD command line:"
+msgstr "خط فرمان kFreeBSD:"
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+msgid ""
+"The following kFreeBSD command line was extracted from /etc/default/grub or "
+"the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"این خط فرمان kFreeBSD از /etc/default/grub یا پارامتر های `kopt' در فایل "
+"menu.lst گراب قدیمی استخراج می‌شود. لطفاً صحت آن را بررسی کنید و در صورت لزوم "
+"آن را ویرایش نمایید."
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid "kFreeBSD default command line:"
+msgstr "خط فرمان پیش فرض kFreeBSD:"
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid ""
+"The following string will be used as kFreeBSD parameters for the default "
+"menu entry but not for the recovery mode."
+msgstr ""
+"این رشته به عنوان یکی از پارامتر های kFreeBSD برای منوی پیش فرض استفاده "
+"خواهد شد و نه برای حالت بازیابی."
