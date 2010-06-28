@@ -1,15 +1,15 @@
 # translation of fr.po to French
 # Translation of grub2 debconf templates to French
-# Copyright (C) 2008 Christian Perrier <bubulle@debian.org>
+# Copyright (C) 2008-2010 Debian French l10n <debian-l10n-french@lists.debian.org>
 # This file is distributed under the same license as the grub2 package.
 #
-# Christian Perrier <bubulle@debian.org>, 2007, 2008, 2009.
+# Christian Perrier <bubulle@debian.org>, 2007, 2008, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-06-21 09:11+0100\n"
-"PO-Revision-Date: 2009-08-30 15:58+0200\n"
+"POT-Creation-Date: 2010-06-19 01:28+0100\n"
+"PO-Revision-Date: 2010-06-21 22:01+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "Language: fr\n"
@@ -55,7 +55,7 @@ msgid ""
 msgstr ""
 "Il est recommandé de choisir cette option pour pouvoir confirmer le bon "
 "fonctionnement de GRUB 2 avant de l'installer directement sur le secteur "
-"d'amorçage (MBR : « Master Boot Record »)."
+"d'amorçage (MBR : « Master Boot Record »)."
 
 #. Type: boolean
 #. Description
@@ -72,7 +72,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:4001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "Faut-il poursuivre sans installer GRUB ?"
 
 #. Type: boolean
 #. Description
@@ -84,6 +84,12 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"Vous avez choisi de n'installer GRUB sur aucun périphérique. Si vous "
+"poursuivez, il est possible que le programme de démarrage ne soit pas "
+"configuré correctement et que la machine démarre avec ce qui était "
+"précédemment installé sur le secteur d'amorçage. Si une ancienne version de "
+"GRUB 2 s'y trouve, il est possible qu'elle ne puisse pas charger certains "
+"modules ou lire le fichier de configuration actuel."
 
 #. Type: boolean
 #. Description
@@ -94,12 +100,16 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"Si vous utilisez déjà un autre programme de démarrage et souhaitez "
+"poursuivre ou si, en raison d'un environnement particulier, vous n'avez pas "
+"besoin de programme de démarrage, vous pouvez continuer malgré tout. Dans le "
+"cas contraire, il est nécessaire d'installer GRUB quelque part."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:6001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "Faut-il terminer la migration vers GRUB 2 maintenant ?"
 
 #. Type: boolean
 #. Description
@@ -108,6 +118,9 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"Ce système comporte encore des fichiers de la version précédente du "
+"programme de démarrage GRUB mais comporte également des secteurs d'amorçage "
+"de GRUB 2 sur les disques suivants :"
 
 #. Type: boolean
 #. Description
@@ -119,6 +132,12 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"Il est très probable que la version précédente de GRUB ne soit plus utilisée "
+"et il est donc conseillé de mettre à jour les images de GRUB 2 sur ces "
+"disques, puis terminer la migration vers GRUB 2 en supprimant les anciens "
+"fichiers de la version précédente. Si vous ne mettez pas ces images de "
+"GRUB 2 à jour, elles pourraient être incompatibles avec de nouvelles "
+"versions, ce qui pourrait empêcher un démarrage normal."
 
 #. Type: boolean
 #. Description
@@ -127,6 +146,9 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"Il est donc très probablement nécessaire de terminer la migration vers "
+"GRUB 2 à moins que ces secteurs d'amorçage n'aient été créés par une "
+"installation de GRUB 2 d'un autre système d'exploitation."
 
 #. Type: string
 #. Description

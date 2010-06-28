@@ -19,6 +19,7 @@ grub2 (1.98+20100617-2) UNRELEASED; urgency=low
   * Indonesian (id.po) by Arief S Fitrianto (closes: #586799).
   * Swedish (sv.po) by Martin Bagge (closes: #586827).
   * Persian (fa.po) by Behrad Eslamifar (closes: #587085).
+  * French (fr.po) by Christian Perrier (closes: #587383).
 
  -- Colin Watson <cjwatson@debian.org>  Sun, 20 Jun 2010 09:06:05 +0100
 
