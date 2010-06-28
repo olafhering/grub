@@ -12,6 +12,7 @@ grub2 (1.98+20100628-1) UNRELEASED; urgency=low
     - Return CF correctly in mmap e820/e801 int15 hook (closes: #584846).
     - The info documentation now has no broken references, although of
       course it could still use more work (closes: #553460).
+    - Support GRUB_BADRAM in grub-mkconfig.
 
   * Mention grub-rescue-usb.img in grub-rescue-pc description (closes:
     #586462).
@@ -40,7 +41,10 @@ grub2 (1.98+20100628-1) UNRELEASED; urgency=low
   * Persian (fa.po) by Behrad Eslamifar (closes: #587085).
   * French (fr.po) by Christian Perrier (closes: #587383).
 
- -- Colin Watson <cjwatson@debian.org>  Sun, 20 Jun 2010 09:06:05 +0100
+  [ Robert Millan ]
+  * Add commented GRUB_BADRAM example in debian/default/grub.
+
+ -- Robert Millan <rmh@gnu.org>  Mon, 28 Jun 2010 23:59:46 +0200
 
 grub2 (1.98+20100617-1) unstable; urgency=low
 
