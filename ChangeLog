@@ -1,3 +1,296 @@
+2010-06-28  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub.texi (Device map): New section.
+	(Themes): New section (stub).
+	* Makefile.in (docs/grub.info): The info documentation now builds
+	without errors.  Make sure it stays that way.
+
+2010-06-28  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Use normal parser for menu entries.
+	Reported by: Thomas Frauendorfer
+
+	* include/grub/parser.h (grub_parser_execute): Don't export.
+	* normal/menu.c (grub_menu_execute_entry_real): New function.
+	(grub_menu_execute_entry): Use grub_menu_execute_entry_real.
+
+2010-06-28  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub.texi (Embedded configuration): New section (replacing
+	old "Preset Menu" stub).
+	(Images): New section.
+	(configfile): Note that any menu entries defined in `file' are shown
+	immediately.
+
+2010-06-28  Josh Triplett  <josh@joshtriplett.org>
+
+	* mmap/i386/pc/mmap_helper.S: Set CF on return.
+
+2010-06-28  Colin Watson  <cjwatson@ubuntu.com>
+
+	* util/grub-install.in: Add --debug-image= option.
+
+2010-06-28  Colin Watson  <cjwatson@ubuntu.com>
+
+	Change grub-mkdevicemap to emit /dev/disk/by-id/ names where
+	possible on Linux.
+
+	* util/deviceiter.c (check_device): Rename to ...
+	(check_device_readable_unique): ... this.  Update all callers.
+	Maintain and check a list of which devices (by canonicalized name)
+	have already been seen.
+	(clear_seen_devices): New function.
+	(compare_file_names) [__linux__]: New function.
+	(grub_util_iterate_devices): Clear the list of seen devices on exit
+	and (just in case) on entry.
+	(grub_util_iterate_devices) [__linux__]: Iterate over non-partition
+	devices in /dev/disk/by-id/, in sorted order.  Remove DM-RAID
+	seen-devices list, superseded by general code in check_device.
+
+2010-06-28  Colin Watson  <cjwatson@ubuntu.com>
+
+	* commands/cat.c (options): New variable.
+	(grub_cmd_cat): Parse options.  If the --dos option is given, print
+	DOS-style "\r\n" line endings as simple newlines (Debian bug
+	#586358).
+	(GRUB_MOD_INIT): Use extcmd.
+	(GRUB_MOD_FINI): Likewise.
+	* docs/grub.texi (cat): Document --dos.
+
+2010-06-28  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	XEN with Linux grub-mkconfig support.
+
+	* conf/common.rmk (grub-mkconfig_SCRIPTS) [linux]: Add 20_linux_xen.
+	* util/grub-mkconfig.in: Export GRUB_CMDLINE_XEN and
+	GRUB_CMDLINE_XEN_DEFAULT.
+	* util/grub.d/20_linux_xen.in: New file.
+
+2010-06-28  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Initialise VGA video on qemu ourselves.
+
+	* boot/i386/qemu/boot.S: Don't call 0xc000.
+	* conf/i386-qemu.rmk (kern/i386/qemu/init.c_DEPENDENCIES): New variable.
+	(kernel_img_SOURCES): Add kern/i386/qemu/init.c and bus/pci.c.
+	(kernel_img_HEADERS): Add pci.h.
+	* conf/i386.rmk (pkglib_MODULES) [qemu]: Remove pci.mod.
+	* configure.ac: Force unifont on qemu and yeeloong.
+	* include/grub/i386/qemu/kernel.h (grub_qemu_init_cirrus): New proto.
+	(grub_vga_palette_write): Use correct register.
+	* kern/i386/coreboot/init.c (grub_machine_init) [GRUB_MACHINE_QEMU]:
+	Call grub_qemu_init_cirrus.
+	* kern/i386/qemu/init.c: New file.
+	* term/i386/pc/vga_text.c (inc_y): Never read outside the screen.
+
+	* commands/videotest.c (grub_cmd_videotest): Handle double buffering.
+
+2010-06-26  Pavel Roskin  <proski@gnu.org>
+
+	* util/grub.d/10_linux.in: Add support for initrd images on Fedora
+	13.
+
+2010-06-26  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub.texi (Simple configuration): Explain that
+	GRUB_DISABLE_LINUX_RECOVERY and GRUB_DISABLE_NETBSD_RECOVERY must be
+	set to `true' to disable their respective recovery entries, not
+	merely set.
+
+2010-06-26  Colin Watson  <cjwatson@ubuntu.com>
+
+	Make the `source' command slightly faster.
+
+	* normal/main.c (grub_normal_execute): Don't re-read list files when
+	nested.
+
+2010-06-23  Colin Watson  <cjwatson@ubuntu.com>
+
+	* loader/i386/multiboot_mbi.c (retrieve_video_parameters): Set red
+	field position and mask size to red fields from mode_info, not
+	green.
+	* loader/multiboot_mbi2.c (retrieve_video_parameters): Likewise.
+	Remove redundant tag->common.framebuffer_type assignment.
+	Reported by: Seth Goldberg.
+
+2010-06-23  Colin Watson  <cjwatson@ubuntu.com>
+
+	Sync up other versions of the Linux loader with Robert Millan's
+	change of 2010-01-09, "Make loader output a bit more user-friendly".
+
+	* loader/i386/efi/linux.c (grub_linux_boot): Move debug info to
+	grub_dprintf().
+	(grub_cmd_linux): Likewise.
+	(grub_cmd_initrd): Likewise.
+	* loader/i386/ieee1275/linux.c (grub_cmd_linux): Likewise.
+	* loader/i386/pc/linux.c (grub_cmd_linux): Likewise.
+
+2010-06-21  Colin Watson  <cjwatson@ubuntu.com>
+
+	* kern/efi/mm.c (grub_efi_mm_init): Handle systems with memory maps
+	larger than MEMORY_MAP_SIZE.
+
+2010-06-21  BVK Chaitanya  <bvk.groups@gmail.com>
+
+	Fix parallel build.
+
+	* conf/common.rmk: Add grub_script.tab.h as a grub-script-check
+	dependency.
+	* script/parser.y: #include grub_script.tab.h header.
+
+2010-06-20  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Support >3GiB and <16MiB RAM in i386-qemu.
+
+	* kern/i386/qemu/mmap.c (QEMU_CMOS_MEMSIZE2_HIGH): New const.
+	(QEMU_CMOS_MEMSIZE2_LOW): Likewise.
+	(grub_lower_mem): Removed.
+	(grub_upper_mem): Likewise.
+	(mem_size): Made static.
+	(above_4g): New variable.
+	(grub_machine_mmap_init): Detect small mem_size and above_4g.
+	(grub_machine_mmap_iterate): Order in ascending order and add above_4g
+	support.
+
+2010-06-20  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Cirrus 5446 and Bochs video cards support.
+
+	* conf/i386.rmk (pkglib_MODULES): Add video_cirrus.mod and
+	video_bochs.mod
+	(video_cirrus_mod_SOURCES): New variable.
+	(video_cirrus_mod_CFLAGS): Likewise.
+	(video_cirrus_mod_LDFLAGS): Likewise.
+	(video_bochs_mod_SOURCES): Likewise.
+	(video_bochs_mod_CFLAGS): Likewise.
+	(video_bochs_mod_LDFLAGS): Likewise.
+	* include/grub/vga.h: New file.
+	* include/grub/video_fb.h (grub_video_fb_doublebuf_blit_init): Removed.
+	(grub_video_fb_set_page_t): New type.
+	(grub_video_fb_setup): New prototype.
+	(grub_video_fb_swap_buffers): Likewise.
+	(grub_video_fb_get_info_and_fini): Likewise.
+	* term/i386/pc/vga_text.c (CRTC_ADDR_PORT): Moved to include/grub/vga.h.
+	(CRTC_DATA_PORT): Likewise.
+	(CRTC_CURSOR): Likewise.
+	(CRTC_CURSOR_ADDR_HIGH): Likewise.
+	(CRTC_CURSOR_ADDR_LOW): Likewise.
+	(CRTC_CURSOR_DISABLE): Likewise.
+	(update_cursor): Use grub_vga_cr_write.
+	(grub_vga_text_setcursor): Likewise.
+	* video/bochs.c: New file.
+	* video/fb/video_fb.c (render_target): Moved into framebuffer variable.
+	(palette): Likewise.
+	(palette_size): Likewise.
+	(framebuffer): New variable.
+	(grub_video_fb_init): Use 'framebuffer'.
+	(grub_video_fb_fini): Likewise.
+	(grub_video_fb_get_info): Likewise.
+	(grub_video_fb_get_palette): Likewise.
+	(grub_video_fb_set_palette): Likewise.
+	(grub_video_fb_set_viewport): Likewise.
+	(grub_video_fb_get_viewport): Likewise.
+	(grub_video_fb_map_color): Likewise.
+	(grub_video_fb_map_rgb): Likewise.
+	(grub_video_fb_map_rgba): Likewise.
+	(grub_video_fb_unmap_color): Likewise.
+	(grub_video_fb_unmap_color_int): Likewise.
+	(grub_video_fb_fill_rect): Likewise.
+	(grub_video_fb_blit_bitmap): Likewise.
+	(grub_video_fb_blit_render_target): Likewise.
+	(grub_video_fb_scroll): Likewise.
+	(grub_video_fb_create_render_target): Likewise.
+	(grub_video_fb_doublebuf_blit_init): Likewise.
+	(grub_video_fb_set_active_render_target): Handle doublebuffering.
+	(doublebuf_pageflipping_update_screen): New function.
+	(doublebuf_pageflipping_init): Likewise.
+	(grub_video_fb_setup): Likewise.
+	(grub_video_fb_swap_buffers): Likewise.
+	(grub_video_fb_get_info_and_fini): Likewise.
+	* video/i386/pc/vbe.c (framebuffer): Remove all doublebuffering fields.
+	All users updated.
+	(doublebuf_pageflipping_commit): Restructured into ...
+	(doublebuf_pageflipping_set_page): ... this.
+	(doublebuf_pageflipping_update_screen): Removed.
+	(doublebuf_pageflipping_init): Likewise.
+	(double_buffering_init): Likewise.
+	(grub_video_vbe_setup): Use grub_video_fb_setup.
+	(grub_video_vbe_swap_buffers): Removed.
+	(grub_video_vbe_set_active_render_target): Likewise.
+	(grub_video_vbe_get_active_render_target): Likewise.
+	(grub_video_vbe_get_info_and_fini): Use grub_video_fb_get_info_and_fini.
+	(grub_video_vbe_adapter): Use grub_video_fb_swap_buffers,
+	grub_video_fb_set_active_render_target and
+	grub_video_fb_get_active_render_target.
+	* video/i386/pc/vga.c (SEQUENCER_ADDR_PORT): Move to include/grub/vga.h.
+	(SEQUENCER_DATA_PORT): Likewise.
+	(MAP_MASK_REGISTER): Likewise.
+	(CRTC_ADDR_PORT): Likewise.
+	(CRTC_DATA_PORT): Likewise.
+	(START_ADDR_HIGH_REGISTER): Likewise.
+	(START_ADDR_LOW_REGISTER): Likewise.
+	(GRAPHICS_ADDR_PORT): Likewise.
+	(GRAPHICS_DATA_PORT): Likewise.
+	(READ_MAP_REGISTER): Likewise.
+	(INPUT_STATUS1_REGISTER): Likewise.
+	(INPUT_STATUS1_VERTR_BIT): Likewise.
+	(get_map_mask): Use grub_vga_sr_read.
+	(set_map_mask): Use grub_vga_sr_write.
+	(set_read_map): Use grub_vga_gr_write.
+	(set_start_address): Use grub_vga_cr_write.
+	* video/sm712.c (framebuffer): Remove leftover fields.
+
+2010-06-20  Colin Watson  <cjwatson@ubuntu.com>
+
+	* util/grub-mkconfig.in: Capitalise and export GRUB_PREFIX.  Stop
+	setting GRUB_VIDEO_BACKEND.  Make it available as a user override
+	instead.  Replace the gfxterm backend check with a check that
+	${GRUB_PREFIX}/video.lst is non-empty.
+	* util/grub.d/00_header.in: Use GRUB_PREFIX rather than computing it
+	again.
+	(load_video): New generated function.  Call it before loading
+	gfxterm rather than loading ${GRUB_VIDEO_BACKEND}.
+	* util/grub.d/10_linux.in (linux_entry): Call load_video.
+	* util/grub.d/30_os-prober.in (osx_entry): Likewise.
+	* docs/grub.texi (Simple configuration): Document
+	GRUB_VIDEO_BACKEND.
+
+2010-06-20  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Use video functions in linux and xnu loaders.
+
+	* conf/i386-pc.rmk (xnu_mod_SOURCES): Remove loader/i386/pc/xnu.c.
+	* conf/x86-efi.rmk (xnu_mod_SOURCES): Remove loader/i386/efi/xnu.c.
+	* include/grub/i386/xnu.h (grub_xnu_set_video): Removed.
+	* loader/i386/efi/linux.c (grub_linux_setup_video): Copied from
+	loader/i386/pc/linux.c.
+	(grub_linux_boot): Resynced with loader/i386/pc/linux.c.
+	(find_line_len): Removed.
+	(find_framebuf): Likewise.
+	(grub_cmd_linux): Declare grub_linux_boot as possibly returning.
+	* loader/i386/efi/xnu.c: Removed.
+	* loader/i386/pc/xnu.c: Moved from here...
+	* loader/i386/xnu.c: ...here.
+
+	Enable priorities in video drivers.
+
+	* include/grub/video.h (grub_video_adapter_prio_t): New type.
+	(grub_video_adapter): New field prio.
+	(grub_video_register): Respect prio when inserting.
+	* video/efi_gop.c (grub_video_gop_adapter): Add prio.
+	* video/efi_uga.c (grub_video_uga_adapter): Likewise.
+	* video/emu/sdl.c (grub_video_sdl_adapter): Likewise.
+	* video/i386/pc/vbe.c (grub_video_vbe_adapter): Likewise.
+	* video/i386/pc/vga.c (grub_video_vga_adapter): Likewise.
+	* video/ieee1275.c (grub_video_ieee1275_adapter): Likewise.
+	* video/sm712.c (grub_video_sm712_adapter): Likewise.
+
+	Fix SDL driver ID.
+
+	* include/grub/video.h (grub_video_driver_id_t): New value
+	GRUB_VIDEO_DRIVER_SDL.
+	* video/emu/sdl.c (grub_video_sdl_adapter): Add id.
+
 2010-06-17  Colin Watson  <cjwatson@ubuntu.com>
 
 	* util/i386/pc/grub-setup.c (usage): Pass an extra `program_name'

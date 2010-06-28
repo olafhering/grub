@@ -1,4 +1,17 @@
-grub2 (1.98+20100617-2) UNRELEASED; urgency=low
+grub2 (1.98+20100628-1) UNRELEASED; urgency=low
+
+  * New Bazaar snapshot.
+    - Use video functions in Linux loader rather than hardcoding UGA; load
+      all available video backends (closes: #565576, probably).
+    - Add support for initrd images on Fedora 13.
+    - Output grub.cfg stanzas for Xen (closes: #505517).
+    - Add 'cat --dos' option to treat DOS-style "\r\n" line endings as
+      simple newlines (closes: #586358).
+    - Change grub-mkdevicemap to emit /dev/disk/by-id/ names where possible
+      on Linux.
+    - Return CF correctly in mmap e820/e801 int15 hook (closes: #584846).
+    - The info documentation now has no broken references, although of
+      course it could still use more work (closes: #553460).
 
   * Mention grub-rescue-usb.img in grub-rescue-pc description (closes:
     #586462).

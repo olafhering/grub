@@ -95,6 +95,7 @@ grub_script_check_SOURCES = gnulib/progname.c gnulib/getdelim.c gnulib/getline.c
 	kern/misc.c kern/env.c grub_script.tab.c \
 	grub_script.yy.c
 grub_script_check_CFLAGS = $(GNULIB_UTIL_CFLAGS)
+grub_script_check_DEPENDENCIES = grub_script.tab.h
 MOSTLYCLEANFILES += symlist.c kernel_syms.lst
 DEFSYMFILES += kernel_syms.lst
 
@@ -204,6 +205,9 @@ CLEANFILES += grub-gettext_lib
 grub-mkconfig_SCRIPTS = 00_header 30_os-prober 40_custom 41_custom
 ifneq (, $(host_kernel))
 grub-mkconfig_SCRIPTS += 10_$(host_kernel)
+endif
+ifeq (linux, $(host_kernel))
+grub-mkconfig_SCRIPTS += 20_linux_xen
 endif
 
 CLEANFILES += $(grub-mkconfig_SCRIPTS)
