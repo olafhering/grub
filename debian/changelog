@@ -25,6 +25,12 @@ grub2 (1.98+20100628-1) UNRELEASED; urgency=low
   * Mark "upgrade-from-grub-legacy" paragraph in
     grub-pc/chainload_from_menu.lst as untranslatable.
   * Update Homepage field (thanks, Sedat Dilek).
+  * If /boot/grub/device.map exists on upgrade to this version, regenerate
+    it to use stable device names in /dev/disk/by-id/.  If it had more than
+    one entry, then display a critical-priority debconf note (sorry, but
+    it's better than silently breaking boot menu entries) advising people to
+    check custom boot menu entries and update them if necessary (closes:
+    #583271).
 
   [ Updated translations ]
   * Ukrainian (uk.po) by Yatsenko Alexandr / Borys Yanovych (closes:

@@ -85,6 +85,8 @@ case "$1" in
   configure)
     . /usr/share/debconf/confmodule
 
+    devicemap_regenerated=
+
     case @PACKAGE@ in
       grub-pc)
 
@@ -100,9 +102,24 @@ case "$1" in
           # used to generate broken device.map (see #422851).  Avoid the risk
           # by regenerating it.
           grub-mkdevicemap --no-floppy
+          devicemap_regenerated=1
         fi
       ;;
     esac
+
+    if test -z "$devicemap_regenerated" && test -s /boot/grub/device.map && \
+       dpkg --compare-versions "$1" lt-nl 1.98+20100628-1; then
+      # Earlier versions of GRUB used unstable device names in device.map,
+      # which caused a variety of problems.  There is some risk associated with
+      # regenerating it (so we prompt the user if it's non-trivial), but on the
+      # whole it's less risky to move to /dev/disk/by-id/.
+      devicemap_lines="$(egrep -v '^[[:space:]]+#' /boot/grub/device.map | wc -l)"
+      grub-mkdevicemap --no-floppy
+      if test "$devicemap_lines" != 1; then
+        db_input critical grub2/device_map_regenerated || true
+        db_go || true
+      fi
+    fi
 
     tmp_default_grub="$(mktemp "/tmp/grub.XXXXXXXXXX")"
     trap "rm -f ${tmp_default_grub}" EXIT
