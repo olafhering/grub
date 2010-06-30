@@ -14,6 +14,7 @@ grub2 (1.98+20100628-1) UNRELEASED; urgency=low
       course it could still use more work (closes: #553460).
     - Support GRUB_BADRAM in grub-mkconfig.
 
+  [ Colin Watson ]
   * Mention grub-rescue-usb.img in grub-rescue-pc description (closes:
     #586462).
   * Add instructions for using grub-rescue-usb.img (closes: #586463).
@@ -32,6 +33,8 @@ grub2 (1.98+20100628-1) UNRELEASED; urgency=low
     it's better than silently breaking boot menu entries) advising people to
     check custom boot menu entries and update them if necessary (closes:
     #583271).
+  * Use 'set -e' rather than '#! /bin/sh -e' or '#! /bin/bash -e', to avoid
+    accidents when debugging with 'sh -x'.
 
   [ Updated translations ]
   * Ukrainian (uk.po) by Yatsenko Alexandr / Borys Yanovych (closes:

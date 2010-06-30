@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/bin/bash
+set -e
 
 # Taken from http://wiki.debian.org/DpkgConffileHandling
 # Remove a no-longer used conffile
