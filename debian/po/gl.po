@@ -1,19 +1,22 @@
+# translation of grub2_1.98+20100617-1_gl.po to Galician
 # Galician translation of grub2's debconf templates
 # This file is distributed under the same license as the grub2 package.
-# Jacobo Tarrio <jtarrio@debian.org>, 2007, 2008.
 #
+# Jacobo Tarrio <jtarrio@debian.org>, 2007, 2008.
+# Jorge Barreiro <yortx.barry@gmail.com>, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2\n"
+"Project-Id-Version: grub2_1.98+20100617-1_gl\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-06-21 09:11+0100\n"
-"PO-Revision-Date: 2008-05-28 17:15+0100\n"
-"Last-Translator: Jacobo Tarrio <jtarrio@debian.org>\n"
+"POT-Creation-Date: 2010-06-19 01:28+0100\n"
+"PO-Revision-Date: 2010-07-01 19:08+0200\n"
+"Last-Translator: Jorge Barreiro <yortx.barry@gmail.com>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
-"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: gl\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #. Type: boolean
 #. Description
@@ -68,7 +71,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:4001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "Continuar sen instalar GRUB?"
 
 #. Type: boolean
 #. Description
@@ -80,6 +83,11 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"Escolleu non instalar GRUB en ningún dispositivo. De continuar, o cargador "
+"de arranque pode non quedar adecuadamente configurado, e a próxima vez que "
+"arranque o sistema usarase o que houbese antes no sector de arranque. Se nel "
+"hai unha versión antiga de GRUB 2 pode que esta sexa incapaz de cargar os "
+"módulos ou de manexar o ficheiro de configuración actual."
 
 #. Type: boolean
 #. Description
@@ -90,12 +98,15 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"Se xa está usando un cargador de arranque diferente e quere seguir usandoo, "
+"ou se este é un ambiente especial onde non necesita un cargador de arranque, "
+"debería continuar. En caso contrario debería instalar GRUB en algún lugar."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:6001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "Rematar a conversión a GRUB 2 agora?"
 
 #. Type: boolean
 #. Description
@@ -104,6 +115,8 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"Este sistema aínda ten instalados ficheiros do cargador de arranque GRUB "
+"Legacy, pero agora tamén ten rexistros de arranque de GRUB 2 nestes discos:"
 
 #. Type: boolean
 #. Description
@@ -115,6 +128,11 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"Asemella que GRUB Legacy xa non se usa, e que debería actualizar as imaxes "
+"de GRUB 2 nestes discos e rematar a conversión a GRUB2 eliminando os "
+"ficheiros vellos de GRUB Legacy. Se non actualiza estas imaxes de GRUB 2, "
+"poderían ser incompatibles cos novos paquetes e provocar que  sistema non "
+"arranque correctamente."
 
 #. Type: boolean
 #. Description
@@ -123,12 +141,15 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"En xeral, debería rematar a conversión a GRUB 2 a menos que estos rexistros "
+"de inicio fosen creatos por unha instalación de GRUB 2 en outro sistema "
+"operativo."
 
 #. Type: string
 #. Description
 #: ../templates.in:1001
 msgid "Linux command line:"
-msgstr ""
+msgstr "Liña de comando de Linux:"
 
 #. Type: string
 #. Description
@@ -138,12 +159,15 @@ msgid ""
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
+"A seguinte liña de comando de Linux sacouse de /etc/default/grub ou do "
+"parámetro \"kopt\" no ficheiro menu.lst de GRUB Legacy. Verifique que sexa "
+"correcta e modifíquea de ser preciso."
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
 msgid "Linux default command line:"
-msgstr ""
+msgstr "Liña de comando por defecto para Linux:"
 
 #. Type: string
 #. Description
@@ -152,12 +176,14 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"A seguinte liña será usada como parámetros para Linux na entrada por defecto "
+"do menú, pero non no modo de recuperación."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
 msgid "kFreeBSD command line:"
-msgstr ""
+msgstr "Liña de comando de kFreeBSD:"
 
 #. Type: string
 #. Description
@@ -167,12 +193,15 @@ msgid ""
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
+"A seguinte liña de comando de kFreeBSD sacouse de /etc/default/grub, ou do "
+"parámetro \"kopt\" no ficheiro menu.lst de GRUB Legacy. Verifique que sexa "
+"correcta e modifíquea de ser preciso."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
 msgid "kFreeBSD default command line:"
-msgstr ""
+msgstr "Liña de comando por defecto para kFreeBSD:"
 
 #. Type: string
 #. Description
@@ -181,3 +210,5 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"A seguinte cadea usarase como parámetros para kFreeBSD para a entrada por "
+"defecto do menú, pero non para o modo de recuperación."

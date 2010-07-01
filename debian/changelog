@@ -44,6 +44,7 @@ grub2 (1.98+20100628-1) UNRELEASED; urgency=low
   * Swedish (sv.po) by Martin Bagge (closes: #586827).
   * Persian (fa.po) by Behrad Eslamifar (closes: #587085).
   * French (fr.po) by Christian Perrier (closes: #587383).
+  * Galician (gl.po) by Jorge Barreiro (closes: #587796).
 
   [ Robert Millan ]
   * Add commented GRUB_BADRAM example in debian/default/grub.
