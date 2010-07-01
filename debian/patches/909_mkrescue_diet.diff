@@ -10,7 +10,7 @@ Index: b/util/grub-mkrescue.in
 ===================================================================
 --- a/util/grub-mkrescue.in
 +++ b/util/grub-mkrescue.in
-@@ -43,6 +43,7 @@
+@@ -44,6 +44,7 @@
  grub_mkimage=${bindir}/`echo grub-mkimage | sed ${transform}`
  
  xorriso=xorriso
@@ -18,7 +18,7 @@ Index: b/util/grub-mkrescue.in
  
  # Usage: usage
  # Print the usage.
-@@ -58,6 +59,7 @@
+@@ -59,6 +60,7 @@
    --rom-directory=DIR     save rom images in DIR [optional]
    --xorriso=FILE          use FILE as xorriso [optional]
    --grub-mkimage=FILE     use FILE as grub-mkimage
@@ -26,7 +26,7 @@ Index: b/util/grub-mkrescue.in
  
  $self generates a bootable rescue image with specified source files, source
  directories, or mkisofs options listed by: xorriso -as mkisofs -help
-@@ -131,6 +133,9 @@
+@@ -132,6 +134,9 @@
      --xorriso=*)
          xorriso=`echo "${option}/" | sed 's/--xorriso=//'` ;;
  
@@ -36,7 +36,7 @@ Index: b/util/grub-mkrescue.in
      *)
  	source="${source} ${option} $@"; break ;;
      esac
-@@ -310,7 +315,14 @@
+@@ -309,7 +314,14 @@
  fi
  
  # build iso image

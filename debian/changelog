@@ -13,6 +13,7 @@ grub2 (1.98+20100628-1) UNRELEASED; urgency=low
     - The info documentation now has no broken references, although of
       course it could still use more work (closes: #553460).
     - Support GRUB_BADRAM in grub-mkconfig.
+    - Skip LVM snapshots (closes: #574863).
 
   [ Colin Watson ]
   * Mention grub-rescue-usb.img in grub-rescue-pc description (closes:

@@ -2,13 +2,12 @@ Index: b/util/grub.d/10_linux.in
 ===================================================================
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -43,7 +43,8 @@
- esac
+@@ -45,7 +45,7 @@
  
  if [ "x${GRUB_DEVICE_UUID}" = "x" ] || [ "x${GRUB_DISABLE_LINUX_UUID}" = "xtrue" ] \
--    || ! test -e "/dev/disk/by-uuid/${GRUB_DEVICE_UUID}" ; then
-+    || ! test -e "/dev/disk/by-uuid/${GRUB_DEVICE_UUID}" \
-+    || [ "`grub-probe -t abstraction --device ${GRUB_DEVICE} | sed -e 's,.*\(lvm\).*,\1,'`" = "lvm"  ] ; then
+     || ! test -e "/dev/disk/by-uuid/${GRUB_DEVICE_UUID}" \
+-    || [ "x`grub-probe -t abstraction --device ${GRUB_DEVICE}`" = "xlvm"  ] ; then
++    || [ "x`grub-probe -t abstraction --device ${GRUB_DEVICE} | sed -e 's,.*\(lvm\).*,\1,'`" = "xlvm"  ] ; then
    LINUX_ROOT_DEVICE=${GRUB_DEVICE}
  else
    LINUX_ROOT_DEVICE=UUID=${GRUB_DEVICE_UUID}

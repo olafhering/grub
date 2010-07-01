@@ -17,7 +17,7 @@ Index: b/util/grub.d/10_linux.in
 ===================================================================
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -66,17 +66,7 @@
+@@ -67,17 +67,7 @@
  
    # Use ELILO's generic "efifb" when it's known to be available.
    # FIXME: We need an interface to select vesafb in case efifb can't be used.
