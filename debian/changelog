@@ -44,6 +44,8 @@ grub2 (1.98+20100702-1) UNRELEASED; urgency=low
   * If grub-install fails during upgrade-from-grub-legacy, allow the user to
     try again with a different device, but failing that cancel the upgrade
     (closes: #587790).
+  * Remove numbering from patch files.  The order is now explicit in a quilt
+    series file, and renumbering from time to time is tedious.
 
   [ Updated translations ]
   * Ukrainian (uk.po) by Yatsenko Alexandr / Borys Yanovych (closes:
