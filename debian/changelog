@@ -41,6 +41,9 @@ grub2 (1.98+20100701-1) UNRELEASED; urgency=low
     that, with explicit confirmation in non-trivial cases to make sure we
     got the right ones.  If the devices we were told to install to ever go
     away, ask again.  (This is based on the implementation in Ubuntu.)
+  * If grub-install fails during upgrade-from-grub-legacy, allow the user to
+    try again with a different device, but failing that cancel the upgrade
+    (closes: #587790).
 
   [ Updated translations ]
   * Ukrainian (uk.po) by Yatsenko Alexandr / Borys Yanovych (closes:

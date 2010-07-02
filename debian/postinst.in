@@ -462,20 +462,38 @@ case "$1" in
             fi
 
             if [ "$failed_devices" ]; then
-              db_subst grub-pc/install_devices_failed FAILED_DEVICES "$failed_devices"
-              db_fset grub-pc/install_devices_failed seen false
-              if db_input critical grub-pc/install_devices_failed; then
-                db_go
-                db_get grub-pc/install_devices_failed
-                if [ "$RET" = true ]; then
-                  break
+              if [ "$UPGRADE_FROM_GRUB_LEGACY" ]; then
+                db_subst grub-pc/install_devices_failed_upgrade FAILED_DEVICES "$failed_devices"
+                db_fset grub-pc/install_devices_failed_upgrade seen false
+                if db_input critical grub-pc/install_devices_failed_upgrade; then
+                  db_go
+                  db_get grub-pc/install_devices_failed_upgrade
+                  if [ "$RET" = true ]; then
+                    db_fset "$question" seen false
+                    db_fset grub-pc/install_devices_failed_upgrade seen false
+                    continue
+                  else
+                    exit 1
+                  fi
                 else
-                  db_fset "$question" seen false
-                  db_fset grub-pc/install_devices_failed seen false
-                  continue
+                  exit 1 # noninteractive
                 fi
               else
-                break # noninteractive
+                db_subst grub-pc/install_devices_failed FAILED_DEVICES "$failed_devices"
+                db_fset grub-pc/install_devices_failed seen false
+                if db_input critical grub-pc/install_devices_failed; then
+                  db_go
+                  db_get grub-pc/install_devices_failed
+                  if [ "$RET" = true ]; then
+                    break
+                  else
+                    db_fset "$question" seen false
+                    db_fset grub-pc/install_devices_failed seen false
+                    continue
+                  fi
+                else
+                  break # noninteractive
+                fi
               fi
             fi
 

@@ -87,6 +87,19 @@ _Description: GRUB installation failed.  Continue?
  Do you want to continue anyway?  If you do, your computer may not start up
  properly.
 
+Template: grub-pc/install_devices_failed_upgrade
+Type: boolean
+Default: true
+#flag:translate!:3
+_Description: GRUB installation failed.  Try again?
+ GRUB failed to install to the following devices:
+ .
+ ${FAILED_DEVICES}
+ .
+ You may be able to install GRUB to some other device, although you should
+ check that your system will boot from that device.  Otherwise, the upgrade
+ from GRUB Legacy will be cancelled.
+
 Template: grub-pc/install_devices_empty
 Type: boolean
 Default: false
