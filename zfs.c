@@ -830,7 +830,7 @@ zap_leaf_lookup (zap_leaf_phys_t * l, grub_zfs_endian_t endian,
 	  la = &ZAP_LEAF_CHUNK (l, blksft, le->le_value_chunk).l_array;
 	  ip = la->la_array;
 
-	  *value = grub_be_to_cpu64 (*(grub_uint64_t *)la->la_array);
+	  *value = grub_be_to_cpu64 (la->la_array64);
 
 	  return GRUB_ERR_NONE;
 	}
@@ -968,7 +968,7 @@ fzap_iterate (dnode_end_t * zap_dnode, zap_phys_t * zap,
 
 	    /* get the uint64_t property value */
 	    la = &ZAP_LEAF_CHUNK (l, blksft, le->le_value_chunk).l_array;
-	    val = grub_be_to_cpu64 (*(grub_uint64_t *)la->la_array);
+	    val = grub_be_to_cpu64 (la->la_array64);
 	    if (hook (buf, val))
 	      return 1;
 	    grub_free (buf);
