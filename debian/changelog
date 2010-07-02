@@ -1,4 +1,4 @@
-grub2 (1.98+20100701-1) UNRELEASED; urgency=low
+grub2 (1.98+20100702-1) UNRELEASED; urgency=low
 
   * New Bazaar snapshot.
     - Use video functions in Linux loader rather than hardcoding UGA; load
