@@ -36,6 +36,11 @@ grub2 (1.98+20100701-1) UNRELEASED; urgency=low
     necessary (closes: #583271).
   * Use 'set -e' rather than '#! /bin/sh -e' or '#! /bin/bash -e', to avoid
     accidents when debugging with 'sh -x'.
+  * Store grub-pc/install_devices as persistent device names under
+    /dev/disk/by-id/ (closes: #554790).  Migrate previous device names to
+    that, with explicit confirmation in non-trivial cases to make sure we
+    got the right ones.  If the devices we were told to install to ever go
+    away, ask again.  (This is based on the implementation in Ubuntu.)
 
   [ Updated translations ]
   * Ukrainian (uk.po) by Yatsenko Alexandr / Borys Yanovych (closes:
