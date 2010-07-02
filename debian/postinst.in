@@ -109,7 +109,8 @@ case "$1" in
     esac
 
     if test -z "$devicemap_regenerated" && test -s /boot/grub/device.map && \
-       dpkg --compare-versions "$1" lt-nl 1.98+20100628-1; then
+       dpkg --compare-versions "$1" lt-nl 1.98+20100628-1 && \
+       test "$(uname -s)" = Linux; then
       # Earlier versions of GRUB used unstable device names in device.map,
       # which caused a variety of problems.  There is some risk associated with
       # regenerating it (so we prompt the user if it's non-trivial), but on the
