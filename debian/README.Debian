@@ -1,8 +1,0 @@
-GRUB 2 for Debian
-=================
-
-GRUB 2 is a redesign of the original version of GRUB, now known as GRUB
-Legacy.  There are a number of important user-visible differences, which are
-documented in the GNU GRUB manual.  For a summary, please see:
-
-  info grub Introduction 'Changes from GRUB Legacy'

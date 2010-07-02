@@ -46,8 +46,6 @@ grub2 (1.98+20100702-1) UNRELEASED; urgency=low
     (closes: #587790).
   * Remove numbering from patch files.  The order is now explicit in a quilt
     series file, and renumbering from time to time is tedious.
-  * Add a README.Debian file linking to the Info documentation's page on
-    "Changes from GRUB Legacy" (closes: #502623).
 
   [ Updated translations ]
   * Ukrainian (uk.po) by Yatsenko Alexandr / Borys Yanovych (closes:
