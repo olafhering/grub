@@ -1,5 +1,21 @@
 2010-07-02  Colin Watson  <cjwatson@ubuntu.com>
 
+	* include/grub/misc.h (grub_reboot): Declare as noreturn.
+	* kern/efi/efi.c (grub_reboot): Don't return, even if reset_system
+	fails.
+	(grub_halt): Likewise.
+	* kern/ieee1275/openfw.c (grub_reboot): Don't return, even if
+	reset-all fails.
+	(grub_halt): Don't return, even if all of shut-down, power-off, and
+	poweroff fail.
+
+2010-07-02  Colin Watson  <cjwatson@ubuntu.com>
+
+	* kern/efi/init.c (grub_efi_init): set_watchdog_timer takes four
+	arguments, not three.
+
+2010-07-02  Colin Watson  <cjwatson@ubuntu.com>
+
 	* util/grub-mkconfig_lib.in (uses_abstraction): New function.
 	* util/grub.d/10_linux.in: Use it to check for LVM, so that
 	LVM-on-RAID is handled correctly.
