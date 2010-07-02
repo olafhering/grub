@@ -1262,7 +1262,7 @@ dnode_get_path (dnode_end_t * mdn, const char *path_in, dnode_end_t * dn,
 	break;
 
       *path = ch;      
-      if (((grub_zfs_to_cpu64(((znode_phys_t *) &dnode_path->dn.dn.dn_bonus)->zp_mode, dnode_path->dn.endian) >> 12) & 0xf) == 0xa && ch)
+      if (((grub_zfs_to_cpu64(((znode_phys_t *) DN_BONUS (&dnode_path->dn.dn))->zp_mode, dnode_path->dn.endian) >> 12) & 0xf) == 0xa && ch)
 	{
 	  char *oldpath = path, *oldpathbuf = path_buf;
 	  path = path_buf 
@@ -1274,7 +1274,7 @@ dnode_get_path (dnode_end_t * mdn, const char *path_in, dnode_end_t * dn,
 	      return grub_errno;
 	    }
 	  grub_memcpy (path, 
-		       (char *) &dnode_path->dn.dn.dn_bonus[sizeof (znode_phys_t)],
+		       (char *) DN_BONUS(&dnode_path->dn.dn) + sizeof (znode_phys_t),
 		       sizeof (dnode_path->dn.dn.dn_bonus) - sizeof (znode_phys_t));
 	  path [sizeof (dnode_path->dn.dn.dn_bonus) - sizeof (znode_phys_t)] = 0;
 	  grub_memcpy (path + grub_strlen (path), oldpath, 
@@ -1415,7 +1415,7 @@ get_filesystem_dnode (dnode_end_t * mosmdn, char *fsname,
       ch = *fsname;
       *fsname = 0;
 
-      childobj = grub_zfs_to_cpu64(((dsl_dir_phys_t *) &(mdn->dn.dn_bonus))->dd_child_dir_zapobj, mdn->endian);
+      childobj = grub_zfs_to_cpu64 ((((dsl_dir_phys_t *) DN_BONUS (&mdn->dn)))->dd_child_dir_zapobj, mdn->endian);
       err = dnode_get (mosmdn, childobj,
 		       DMU_OT_DSL_DIR_CHILD_MAP, mdn, data);
       if (err)
@@ -1444,7 +1444,7 @@ make_mdn (dnode_end_t * mdn, struct grub_zfs_data *data)
 
   grub_dprintf ("zfs", "endian = %d\n", mdn->endian);
 
-  bp = &((dsl_dataset_phys_t *) &(mdn->dn.dn_bonus))->ds_bp;
+  bp = &(((dsl_dataset_phys_t *) DN_BONUS (&mdn->dn))->ds_bp);
   err = zio_read (bp, mdn->endian, (void **) &osp, &ospsize, data);
   if (err)
     return err;
@@ -1519,7 +1519,7 @@ dnode_get_fullpath (const char *fullpath, dnode_end_t * mdn,
 
   grub_dprintf ("zfs", "alive\n");
 
-  headobj = grub_zfs_to_cpu64 (((dsl_dir_phys_t *) &(dn->dn.dn_bonus))->dd_head_dataset_obj, dn->endian);
+  headobj = grub_zfs_to_cpu64 (((dsl_dir_phys_t *) DN_BONUS (&dn->dn))->dd_head_dataset_obj, dn->endian);
 
   grub_dprintf ("zfs", "endian = %d\n", mdn->endian);
 
@@ -1536,7 +1536,7 @@ dnode_get_fullpath (const char *fullpath, dnode_end_t * mdn,
     {
       grub_uint64_t snapobj;
 
-      snapobj = grub_zfs_to_cpu64 (((dsl_dataset_phys_t *) &(mdn->dn.dn_bonus))->ds_snapnames_zapobj, mdn->endian);
+      snapobj = grub_zfs_to_cpu64 (((dsl_dataset_phys_t *) DN_BONUS (&mdn->dn))->ds_snapnames_zapobj, mdn->endian);
 
       err = dnode_get (&(data->mos), snapobj, 
 		       DMU_OT_DSL_DS_SNAP_MAP, mdn, data);
@@ -2169,7 +2169,7 @@ grub_zfs_open (struct grub_file *file, const char *fsfilename)
   /* get the file size and set the file position to 0 */
   file->data = data;
   file->offset = 0;
-  file->size = grub_zfs_to_cpu64 (((znode_phys_t *) &(data->dnode.dn.dn_bonus))->zp_size, data->dnode.endian);
+  file->size = grub_zfs_to_cpu64 (((znode_phys_t *) DN_BONUS (&data->dnode.dn))->zp_size, data->dnode.endian);
 
 #ifndef GRUB_UTIL
   grub_dl_ref (my_mod);
@@ -2291,7 +2291,7 @@ fill_fs_info (struct grub_dirhook_info *info,
   
   if (mdn.dn.dn_type == DMU_OT_DSL_DIR)
     {
-      headobj = grub_zfs_to_cpu64 (((dsl_dir_phys_t *) &(mdn.dn.dn_bonus))->dd_head_dataset_obj, mdn.endian);
+      headobj = grub_zfs_to_cpu64 (((dsl_dir_phys_t *) DN_BONUS (&mdn.dn))->dd_head_dataset_obj, mdn.endian);
 
       err = dnode_get (&(data->mos), headobj, DMU_OT_DSL_DATASET, &mdn, data);
       if (err)
@@ -2324,7 +2324,7 @@ fill_fs_info (struct grub_dirhook_info *info,
     }
   
   info->mtimeset = 1;
-  info->mtime = grub_zfs_to_cpu64 (((znode_phys_t *) &dn.dn.dn_bonus)->zp_mtime[0], dn.endian);
+  info->mtime = grub_zfs_to_cpu64 (((znode_phys_t *) DN_BONUS (&dn.dn))->zp_mtime[0], dn.endian);
   return;
 }
 
@@ -2349,7 +2349,7 @@ grub_zfs_dir (grub_device_t device, const char *path,
 
     dnode_get (&(data->mdn), val, 0, &dn, data);
     info.mtimeset = 1;
-    info.mtime = grub_zfs_to_cpu64 (((znode_phys_t *) &dn.dn.dn_bonus)->zp_mtime[0], dn.endian);
+    info.mtime = grub_zfs_to_cpu64 (((znode_phys_t *) DN_BONUS (&dn.dn))->zp_mtime[0], dn.endian);
     info.dir = (dn.dn.dn_type == DMU_OT_DIRECTORY_CONTENTS);
     grub_dprintf ("zfs", "type=%d, name=%s\n", 
 		  (int)dn.dn.dn_type, (char *)name);
@@ -2412,8 +2412,8 @@ grub_zfs_dir (grub_device_t device, const char *path,
       fill_fs_info (&info, data->dnode, data);
       hook ("@", &info);
       
-      childobj = grub_zfs_to_cpu64 (((dsl_dir_phys_t *) &(data->dnode.dn.dn_bonus))->dd_child_dir_zapobj, data->dnode.endian);
-      headobj = grub_zfs_to_cpu64 (((dsl_dir_phys_t *) &(data->dnode.dn.dn_bonus))->dd_head_dataset_obj, data->dnode.endian);
+      childobj = grub_zfs_to_cpu64 (((dsl_dir_phys_t *) DN_BONUS (&data->dnode.dn))->dd_child_dir_zapobj, data->dnode.endian);
+      headobj = grub_zfs_to_cpu64 (((dsl_dir_phys_t *) DN_BONUS (&data->dnode.dn))->dd_head_dataset_obj, data->dnode.endian);
       err = dnode_get (&(data->mos), childobj,
 		       DMU_OT_DSL_DIR_CHILD_MAP, &dn, data);
       if (err)
@@ -2431,7 +2431,7 @@ grub_zfs_dir (grub_device_t device, const char *path,
 	  return err;
 	}
 
-      snapobj = grub_zfs_to_cpu64 (((dsl_dataset_phys_t *) &dn.dn.dn_bonus)->ds_snapnames_zapobj, dn.endian);
+      snapobj = grub_zfs_to_cpu64 (((dsl_dataset_phys_t *) DN_BONUS (&dn.dn))->ds_snapnames_zapobj, dn.endian);
 
       err = dnode_get (&(data->mos), snapobj,
 		       DMU_OT_DSL_DS_SNAP_MAP, &dn, data);
