@@ -165,6 +165,9 @@ describe_disk()
     model="$(udevadm info -n "$disk" -q property | sed -n 's/^ID_MODEL=//p')"
     if [ -z "$model" ]; then
       model="$(udevadm info -n "$disk" -q property | sed -n 's/^DM_NAME=//p')"
+      if [ -z "$model" ] && which dmsetup >/dev/null 2>&1; then
+        model="$(dmsetup info -c --noheadings -o name "$disk" 2>/dev/null || true)"
+      fi
     fi
   fi
   [ "$model" ] || model='???'
