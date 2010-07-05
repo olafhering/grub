@@ -7,6 +7,5 @@ disable_floppies.patch
 grub.cfg_400.patch
 gfxpayload_keep_default.patch
 mkrescue_diet.patch
-usbms_format.patch
 mkconfig_skip_dmcrypt.patch
 install_stage2_confusion.patch

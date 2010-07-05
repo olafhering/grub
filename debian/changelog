@@ -1,4 +1,11 @@
-grub2 (1.98+20100702-2) UNRELEASED; urgency=low
+grub2 (1.98+20100705-1) UNRELEASED; urgency=low
+
+  * New Bazaar snapshot.
+    - Bidi and diacritics support.
+      + Use terminfo for ieee1275 terminals (closes: #586953).
+    - Don't use empty grub_device in EFI grub-install (closes: #587838).
+    - Fix grub-setup core.img comparison when not embedding (thanks, Matt
+      Kraai and M. Vefa Bicakci; closes: #586621).
 
   * Update Source: in debian/copyright (thanks, Jörg Sommer).
   * Convert by-id disk device names from device.map to traditional device
