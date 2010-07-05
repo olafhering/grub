@@ -1,4 +1,4 @@
-grub2 (1.98+20100705-1) UNRELEASED; urgency=low
+grub2 (1.98+20100705-1) UNRELEASED; urgency=medium
 
   * New Bazaar snapshot.
     - Bidi and diacritics support.
@@ -10,6 +10,9 @@ grub2 (1.98+20100705-1) UNRELEASED; urgency=low
   * Update Source: in debian/copyright (thanks, Jörg Sommer).
   * Convert by-id disk device names from device.map to traditional device
     names for display (closes: #587951).
+  * Set urgency=medium.  We've cleared out most of the apparent regressions
+    at this point, and #550704 is getting more and more urgent to fix in
+    testing.
 
  -- Colin Watson <cjwatson@debian.org>  Sun, 04 Jul 2010 22:20:08 +0100
 
