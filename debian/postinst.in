@@ -429,14 +429,14 @@ case "$1" in
               disk_id="$(device_to_id "$device" || true)"
               if [ "$disk_id" ]; then
                 ids="${ids:+$ids, }$disk_id"
-                describe_disk "$device" "$disk_id"
+                describe_disk "$(readlink -f "$device")" "$disk_id"
                 RET="$(printf %s "$RET" | sed 's/,/\\,/g')"
                 descriptions="${descriptions:+$descriptions, }$RET"
                 for partition_pair in $partitions; do
                   partition_id="${partition_pair#*:}"
                   if [ "${partition_id#$disk_id-part}" != "$partition_id" ]; then
                     ids="${ids:+$ids, }$partition_id"
-                    describe_partition "$device" "$(readlink -f "$partition_id")" "$partition_id" "$(get_mountpoint "${partition_pair%%:*}")"
+                    describe_partition "$(readlink -f "$device")" "$(readlink -f "$partition_id")" "$partition_id" "$(get_mountpoint "${partition_pair%%:*}")"
                     RET="$(printf %s "$RET" | sed 's/,/\\,/g')"
                     descriptions="${descriptions:+$descriptions, }$RET"
                   fi
