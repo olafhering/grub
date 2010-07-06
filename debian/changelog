@@ -1,4 +1,4 @@
-grub2 (1.98+20100706-1) UNRELEASED; urgency=low
+grub2 (1.98+20100706-1) unstable; urgency=low
 
   * New Bazaar snapshot.
     - USB hub support.
@@ -8,7 +8,7 @@ grub2 (1.98+20100706-1) UNRELEASED; urgency=low
       RAID and upgraded through 1.98+20100702-1 or 1.98+20100705-1, you may
       need to fix this up manually).
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 06 Jul 2010 18:03:26 +0100
+ -- Colin Watson <cjwatson@debian.org>  Tue, 06 Jul 2010 18:06:40 +0100
 
 grub2 (1.98+20100705-1) unstable; urgency=medium
 
