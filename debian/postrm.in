@@ -21,7 +21,7 @@ case "$1" in
 
         db_input high grub-pc/postrm_purge_boot_grub || true
         db_go || true
-        db_get grub-pc/purge_boot_grub || true
+        db_get grub-pc/postrm_purge_boot_grub || true
         if [ "$RET" = "true" ] ; then
           rm -f /boot/grub/{grub.cfg,ascii.pf2,unicode.pf2,moreblue-orbit-grub.png,*.mod,*.lst,*.img,efiemu32.o,efiemu64.o} || true
           rmdir --ignore-fail-on-non-empty /boot/grub || true
