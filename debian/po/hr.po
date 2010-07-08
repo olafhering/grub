@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2 1.97-2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2009-08-30 17:54+0200\n"
+"POT-Creation-Date: 2010-07-02 12:55+0100\n"
 "PO-Revision-Date: 2010-07-07 14:55+0200\n"
 "Last-Translator: Josip Rodin <joy+ditrans@linux.hr>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -33,32 +33,6 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:2001
 msgid ""
-"In order to replace the Legacy version of GRUB in your system, it is "
-"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
-"your existing GRUB Legacy setup.  This step may be automaticaly performed "
-"now."
-msgstr ""
-"Kako bi zamijenili Legacy verziju GRUB-a na va¹em sustavu, preporuèuje se "
-"prilagodba /boot/grub/menu.lst kako bi se ulanèano uèitao GRUB 2 iz va¹ih "
-"postojeæih GRUB Legacy postavki. Ovaj korak se sada mo¾e automatski "
-"izvr¹iti."
-
-#. Type: boolean
-#. Description
-#: ../grub-pc.templates.in:2001
-msgid ""
-"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
-"verify that your new GRUB 2 setup is functional for you, before you install "
-"it directly to your MBR (Master Boot Record)."
-msgstr ""
-"Preporuèuje se da prihvatite ulanèano uèitavanje GRUB 2 iz menu.lst, tako "
-"da mo¾ete provjeriti da vam nove GRUB 2 postavke funkcioniraju, prije nego "
-"¹to izravno instalirate GRUB2 u MBR (Master Boot Record)."
-
-#. Type: boolean
-#. Description
-#: ../grub-pc.templates.in:2001
-msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
 msgstr ""
@@ -68,8 +42,132 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-msgid "upgrade-from-grub-legacy"
-msgstr "upgrade-from-grub-legacy"
+msgid ""
+"In order to replace the Legacy version of GRUB in your system, it is "
+"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
+"your existing GRUB Legacy setup.  This step may be automaticaly performed "
+"now."
+msgstr ""
+"Kako bi zamijenili Legacy verziju GRUB-a na va¹em sustavu, preporuèuje se "
+"prilagodba /boot/grub/menu.lst kako bi se ulanèano uèitao GRUB 2 iz va¹ih "
+"postojeæih GRUB Legacy postavki. Ovaj korak se sada mo¾e automatski izvr¹iti."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
+"verify that your new GRUB 2 setup is functional for you, before you install "
+"it directly to your MBR (Master Boot Record)."
+msgstr ""
+"Preporuèuje se da prihvatite ulanèano uèitavanje GRUB 2 iz menu.lst, tako da "
+"mo¾ete provjeriti da vam nove GRUB 2 postavke funkcioniraju, prije nego ¹to "
+"izravno instalirate GRUB2 u MBR (Master Boot Record)."
+
+#. Type: text
+#. Description
+#. Disk sizes are in decimal megabytes, to match how disk manufacturers
+#. usually describe them.
+#: ../grub-pc.templates.in:5001
+msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:7001
+msgid ""
+"Do you want to continue anyway?  If you do, your computer may not start up "
+"properly."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
+msgid "GRUB failed to install to the following devices:"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:7001
+msgid "GRUB installation failed.  Continue?"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:8001
+msgid "GRUB installation failed.  Try again?"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:8001
+msgid ""
+"You may be able to install GRUB to some other device, although you should "
+"check that your system will boot from that device.  Otherwise, the upgrade "
+"from GRUB Legacy will be cancelled."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:9001
+msgid "Continue without installing GRUB?"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:9001
+msgid ""
+"If you are already running a different boot loader and want to carry on "
+"doing so, or if this is a special environment where you do not need a boot "
+"loader, then you should continue anyway.  Otherwise, you should install GRUB "
+"somewhere."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:9001
+msgid ""
+"You chose not to install GRUB to any devices.  If you continue, the boot "
+"loader may not be properly configured, and when your computer next starts up "
+"it will use whatever was previously in the boot sector.  If there is an "
+"earlier version of GRUB 2 in the boot sector, it may be unable to load "
+"modules or handle the current configuration file."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:11001
+msgid "Finish conversion to GRUB 2 now?"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:11001
+msgid ""
+"It seems likely that GRUB Legacy is no longer in use, and that you should "
+"instead upgrade the GRUB 2 images on these disks and finish the conversion "
+"to GRUB 2 by removing old GRUB Legacy files.  If you do not upgrade these "
+"GRUB 2 images, then they may be incompatible with the new packages and cause "
+"your system to stop booting properly."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:11001
+msgid ""
+"This system still has files from the GRUB Legacy boot loader installed, but "
+"it now also has GRUB 2 boot records installed on these disks:"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:11001
+msgid ""
+"You should generally finish the conversion to GRUB 2 unless these boot "
+"records were created by a GRUB 2 installation on some other operating system."
+msgstr ""
 
 #. Type: string
 #. Description
@@ -85,9 +183,9 @@ msgid ""
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"Ovaj naredbeni redak za sam Linux kernel je izvaðen iz /etc/default/grub "
-"ili iz parametra 'kopt' u menu.lst datoteci GRUB Legacya. Molim provjerite "
-"je li ispravan, i ako je potrebno uredite ga."
+"Ovaj naredbeni redak za sam Linux kernel je izvaðen iz /etc/default/grub ili "
+"iz parametra 'kopt' u menu.lst datoteci GRUB Legacya. Molim provjerite je li "
+"ispravan, i ako je potrebno uredite ga."
 
 #. Type: string
 #. Description
@@ -108,26 +206,20 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../templates.in:3001
-msgid "kFreeBSD command line:"
-msgstr "kFreeBSD naredbeni redak:"
-
-#. Type: string
-#. Description
-#: ../templates.in:3001
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"Ovaj naredbeni redak za kFreeBSD kernel je izvaðen iz /etc/default/grub "
-"ili iz parametra 'kopt' u menu.lst datoteci GRUB Legacya. Molim provjerite "
-"je li ispravan, i ako je potrebno uredite ga."
+"Ovaj naredbeni redak za kFreeBSD kernel je izvaðen iz /etc/default/grub ili "
+"iz parametra 'kopt' u menu.lst datoteci GRUB Legacya. Molim provjerite je li "
+"ispravan, i ako je potrebno uredite ga."
 
 #. Type: string
 #. Description
-#: ../templates.in:4001
-msgid "kFreeBSD default command line:"
-msgstr "Pretpostavljeni kFreeBSD naredbeni redak:"
+#: ../templates.in:3001
+msgid "kFreeBSD command line:"
+msgstr "kFreeBSD naredbeni redak:"
 
 #. Type: string
 #. Description
@@ -138,3 +230,45 @@ msgid ""
 msgstr ""
 "Sljedeæi izraz æe biti kori¹ten kao parametar za kFreeBSD stavke u "
 "izborniku, osim za spasonosni naèin rada."
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid "kFreeBSD default command line:"
+msgstr "Pretpostavljeni kFreeBSD naredbeni redak:"
+
+#. Type: note
+#. Description
+#: ../templates.in:5001
+msgid "/boot/grub/device.map has been regenerated"
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../templates.in:5001
+msgid ""
+"However, since you have more than one disk in your system, it is possible "
+"that you were depending on the old device map.  Please check whether you "
+"have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
+"and update them if necessary."
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../templates.in:5001
+msgid ""
+"If you do not understand this message, or if you do not have any custom boot "
+"menu entries, you can ignore this message."
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../templates.in:5001
+msgid ""
+"The file /boot/grub/device.map has been rewritten to use stable device "
+"names.  In most cases, this should significantly reduce the need to change "
+"it in future, and boot menu entries generated by GRUB should not be affected."
+msgstr ""
+
+#~ msgid "upgrade-from-grub-legacy"
+#~ msgstr "upgrade-from-grub-legacy"
