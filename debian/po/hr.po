@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the grub2 package.
 # Josip Rodin <joy+ditrans@linux.hr>, 2010.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2 1.97-2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2010-07-07 14:55+0200\n"
+"PO-Revision-Date: 2010-07-08 15:40+0200\n"
 "Last-Translator: Josip Rodin <joy+ditrans@linux.hr>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "MIME-Version: 1.0\n"
@@ -70,7 +69,7 @@ msgstr ""
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
 msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgstr ""
+msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 
 #. Type: boolean
 #. Description
@@ -79,6 +78,8 @@ msgid ""
 "Do you want to continue anyway?  If you do, your computer may not start up "
 "properly."
 msgstr ""
+"®elite li ipak nastaviti? Ako to napravite, va¹e raèunalo se mo¾da neæe "
+"moæi uredno pokrenuti."
 
 #. Type: boolean
 #. Description
@@ -86,19 +87,19 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr ""
+msgstr "GRUB nije uspio instalaciju na sljedeæe ureðaje:"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "GRUB installation failed.  Continue?"
-msgstr ""
+msgstr "Instalacija GRUB-a nije uspjela. Nastaviti?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "GRUB installation failed.  Try again?"
-msgstr ""
+msgstr "Instalacija GRUB-a nije uspjela. Poku¹ati ponovo?"
 
 #. Type: boolean
 #. Description
@@ -108,12 +109,15 @@ msgid ""
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
 msgstr ""
+"Mo¾da mo¾ete instalirati GRUB na neki drugi ureðaj, iako biste morali "
+"provjeriti da se va¹ sustav mo¾e podizati s tog ureðaja. U suprotnom, "
+"nadogradnja s GRUB Legacy æe biti prekinuta."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "Nastaviti bez instalacije GRUB-a?"
 
 #. Type: boolean
 #. Description
@@ -124,6 +128,9 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"Ako veæ imate neki drugi boot uèitavaè i ¾elite ga zadr¾ati, ili ako je ovo "
+"neko posebno okru¾enje gdje ne trebate boot uèitavaè, trebate nastaviti. "
+"Inaèe biste morali negdje instalirati GRUB."
 
 #. Type: boolean
 #. Description
@@ -135,12 +142,17 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"Odabrali ste da ne instalirate GRUB ni na jedan ureðaj. Ako nastavite, "
+"boot uèitavaè neæe biti ispravno pode¹en, a kada se va¹e raèunalo iduæi "
+"put upali, koristit æe ¹to god je prethodno bilo u boot sektoru. Ako se "
+"tamo nalazi ranija verzija GRUB 2, mo¾da æe doæi do problema s uèitavanjem "
+"modula ili a¾urnih postavki."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "Zavr¹iti prebacivanje na GRUB 2?"
 
 #. Type: boolean
 #. Description
@@ -152,6 +164,11 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"Vjerojatno je GRUB Legacy izbaèen iz uporabe i trebali biste nadograditi "
+"na GRUB 2 snimke na ovim diskovima te zavr¹iti prebacivanje brisanjem starih "
+"GRUB Legacy datoteka. Ako niste nadogradili ove GRUB 2 snimke, onda bi one "
+"mogle biti nekompatibilne s novim verzijama paketa, ¹to bi moglo uzrokovati "
+"nemoguænost ispravnog pokretanja sustava."
 
 #. Type: boolean
 #. Description
@@ -160,6 +177,8 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"Ovaj sustav jo¹ uvijek ima instalirane datoteke GRUB Legacy boot uèitavaèa, "
+"ali sada ima i GRUB 2 boot zapise instalirane na ovim diskovima:"
 
 #. Type: boolean
 #. Description
@@ -168,6 +187,9 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"Opæenito, trebali biste dovr¹iti nadogradnju na GRUB 2, osim ako su navedeni "
+"boot zapisi napravljeni instalacijom GRUB 2 na nekom drugom operacijskom "
+"sustavu."
 
 #. Type: string
 #. Description
@@ -241,7 +263,7 @@ msgstr "Pretpostavljeni kFreeBSD naredbeni redak:"
 #. Description
 #: ../templates.in:5001
 msgid "/boot/grub/device.map has been regenerated"
-msgstr ""
+msgstr "/boot/grub/device.map je regeneriran"
 
 #. Type: note
 #. Description
@@ -252,6 +274,10 @@ msgid ""
 "have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
 "and update them if necessary."
 msgstr ""
+"Ipak, buduæi da imate vi¹e od jednog diska u va¹em sustavu, moguæe je da "
+"ste ovisili o staroj mapi ureðaja. Molim provjerite imate li nekih "
+"prilagoðenih boot zapisa koji ovise o GRUB-ovom (hdN) oznaèavanju ureðaja, "
+"i a¾urirajte ih ako je potrebno."
 
 #. Type: note
 #. Description
@@ -260,6 +286,8 @@ msgid ""
 "If you do not understand this message, or if you do not have any custom boot "
 "menu entries, you can ignore this message."
 msgstr ""
+"Ako ne razumijete ovu poruku, ili ako nemate prilagoðenih boot zapisa, "
+"ovu poruku mo¾ete zanemariti."
 
 #. Type: note
 #. Description
@@ -269,6 +297,7 @@ msgid ""
 "names.  In most cases, this should significantly reduce the need to change "
 "it in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
-
-#~ msgid "upgrade-from-grub-legacy"
-#~ msgstr "upgrade-from-grub-legacy"
+"Datoteka /boot/grub/device.map je prepisana kako bi se u njoj koristila "
+"stabilna imena ureðaja. U veæini sluèajeva, to bi trebalo znaèajno smanjiti "
+"potrebu za njenim buduæim mijenjanjem, a boot stavke koje generira GRUB "
+"ne bi trebale biti pod utjecajem ove promjene."
