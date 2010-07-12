@@ -118,8 +118,8 @@ void (*grub_gfxterm_decorator_hook) (void) = NULL;
 static struct grub_gfxterm_window window;
 static struct grub_virtual_screen virtual_screen;
 static grub_gfxterm_repaint_callback_t repaint_callback;
-static int repaint_schedulded = 0;
-static int repaint_was_schedulded = 0;
+static int repaint_scheduled = 0;
+static int repaint_was_scheduled = 0;
 
 static void destroy_window (void);
 
@@ -278,7 +278,7 @@ grub_virtual_screen_setup (unsigned int x, unsigned int y,
 void
 grub_gfxterm_schedule_repaint (void)
 {
-  repaint_schedulded = 1;
+  repaint_scheduled = 1;
 }
 
 grub_err_t
@@ -510,7 +510,7 @@ dirty_region_reset (void)
   dirty_region.top_left_y = -1;
   dirty_region.bottom_right_x = -1;
   dirty_region.bottom_right_y = -1;
-  repaint_was_schedulded = 0;
+  repaint_was_scheduled = 0;
 }
 
 static int
@@ -530,14 +530,14 @@ dirty_region_add (int x, int y, unsigned int width, unsigned int height)
   if ((width == 0) || (height == 0))
     return;
 
-  if (repaint_schedulded)
+  if (repaint_scheduled)
     {
       x = virtual_screen.offset_x;
       y = virtual_screen.offset_y;
       width = virtual_screen.width;
       height = virtual_screen.height;
-      repaint_schedulded = 0;
-      repaint_was_schedulded = 1;
+      repaint_scheduled = 0;
+      repaint_was_scheduled = 1;
     }
 
   if (dirty_region_is_empty ())
@@ -586,7 +586,7 @@ dirty_region_redraw (void)
   width = dirty_region.bottom_right_x - x + 1;
   height = dirty_region.bottom_right_y - y + 1;
 
-  if (repaint_was_schedulded && grub_gfxterm_decorator_hook)
+  if (repaint_was_scheduled && grub_gfxterm_decorator_hook)
     grub_gfxterm_decorator_hook ();
 
   redraw_screen_rect (x, y, width, height);
@@ -1134,44 +1134,44 @@ grub_gfxterm_background_image_cmd (grub_extcmd_t cmd __attribute__ ((unused)),
   /* If filename was provided, try to load that.  */
   if (argc >= 1)
     {
-    /* Try to load new one.  */
-    grub_video_bitmap_load (&bitmap, args[0]);
-    if (grub_errno != GRUB_ERR_NONE)
-      return grub_errno;
+      /* Try to load new one.  */
+      grub_video_bitmap_load (&bitmap, args[0]);
+      if (grub_errno != GRUB_ERR_NONE)
+        return grub_errno;
 
-    /* Determine if the bitmap should be scaled to fit the screen.  */
-    if (!state[BACKGROUND_CMD_ARGINDEX_MODE].set
-        || grub_strcmp (state[BACKGROUND_CMD_ARGINDEX_MODE].arg,
-                        "stretch") == 0)
+      /* Determine if the bitmap should be scaled to fit the screen.  */
+      if (!state[BACKGROUND_CMD_ARGINDEX_MODE].set
+          || grub_strcmp (state[BACKGROUND_CMD_ARGINDEX_MODE].arg,
+                          "stretch") == 0)
+          {
+            if (window.width != grub_video_bitmap_get_width (bitmap)
+                || window.height != grub_video_bitmap_get_height (bitmap))
+              {
+                struct grub_video_bitmap *scaled_bitmap;
+                grub_video_bitmap_create_scaled (&scaled_bitmap,
+                                                 window.width, 
+                                                 window.height,
+                                                 bitmap,
+                                                 GRUB_VIDEO_BITMAP_SCALE_METHOD_BEST);
+                if (grub_errno == GRUB_ERR_NONE)
+                  {
+                    /* Replace the original bitmap with the scaled one.  */
+                    grub_video_bitmap_destroy (bitmap);
+                    bitmap = scaled_bitmap;
+                  }
+              }
+          }
+
+      /* If bitmap was loaded correctly, display it.  */
+      if (bitmap)
         {
-          if (window.width != grub_video_bitmap_get_width (bitmap)
-              || window.height != grub_video_bitmap_get_height (bitmap))
-            {
-              struct grub_video_bitmap *scaled_bitmap;
-              grub_video_bitmap_create_scaled (&scaled_bitmap,
-                                               window.width, 
-                                               window.height,
-                                               bitmap,
-                                               GRUB_VIDEO_BITMAP_SCALE_METHOD_BEST);
-              if (grub_errno == GRUB_ERR_NONE)
-                {
-                  /* Replace the original bitmap with the scaled one.  */
-                  grub_video_bitmap_destroy (bitmap);
-                  bitmap = scaled_bitmap;
-                }
-            }
+          /* Determine bitmap dimensions.  */
+          bitmap_width = grub_video_bitmap_get_width (bitmap);
+          bitmap_height = grub_video_bitmap_get_height (bitmap);
+
+          /* Mark whole screen as dirty.  */
+          dirty_region_add (0, 0, window.width, window.height);
         }
-
-    /* If bitmap was loaded correctly, display it.  */
-    if (bitmap)
-      {
-        /* Determine bitmap dimensions.  */
-        bitmap_width = grub_video_bitmap_get_width (bitmap);
-        bitmap_height = grub_video_bitmap_get_height (bitmap);
-
-        /* Mark whole screen as dirty.  */
-        dirty_region_add (0, 0, window.width, window.height);
-      }
     }
 
   /* All was ok.  */
