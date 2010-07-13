@@ -4,9 +4,8 @@ Priority: extra
 Maintainer: GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
 Uploaders: Robert Millan <rmh.debian@aybabtu.com>, Felix Zielcke <fzielcke@z-51.de>, Jordi Mallach <jordi@debian.org>, Colin Watson <cjwatson@debian.org>
 DM-Upload-Allowed: yes
-Build-Depends: cdbs,
- debhelper (>= 7),
- quilt,
+Build-Depends: debhelper (>= 7.0.50~),
+ quilt (>= 0.46-7),
  patchutils,
  autoconf,
  automake,
