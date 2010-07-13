@@ -4,8 +4,9 @@ grub2 (1.98+20100710-2) UNRELEASED; urgency=low
   * Compare -trunk kernels earlier than numeric ABIs (closes: #568160).
 
   [ Colin Watson ]
-  * Remove /boot/grub/grubenv, /boot/grub/installed-version, and
-    /boot/grub/locale/ on purge, if permitted.
+  * Remove /boot/grub/device.map, /boot/grub/grubenv,
+    /boot/grub/installed-version, and /boot/grub/locale/ on purge, if
+    permitted (closes: #547679).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 13 Jul 2010 02:14:33 +0100
 
