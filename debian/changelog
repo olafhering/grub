@@ -12,6 +12,7 @@ grub2 (1.98+20100710-2) UNRELEASED; urgency=low
     potential confusion.
   * Raise priority of grub-common and grub-pc to optional (also done in
     archive overrides).
+  * Copy-edit debian/presubj.
 
   [ Mario 'BitKoenig' Holbe ]
   * Update /etc/grub.d/05_debian_theme to handle multiple entries in
