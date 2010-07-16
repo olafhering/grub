@@ -22,23 +22,26 @@ EOF
 
 # check for usable backgrounds
 use_bg=false
-if [ "$GRUB_TERMINAL_OUTPUT" = "gfxterm" ] ; then
-  for i in /boot/grub/`basename ${WALLPAPER}` ${WALLPAPER} ; do
-    if is_path_readable_by_grub $i ; then 
-      bg=$i
-      case ${bg} in
-        *.png)		reader=png ;;
-        *.tga)		reader=tga ;;
-        *.jpg|*.jpeg)	reader=jpeg ;;
-      esac
-      if test -e /boot/grub/${reader}.mod ; then
-        echo "Found background image: `basename ${bg}`" >&2
-        use_bg=true
-        break
+for output in ${GRUB_TERMINAL_OUTPUT}; do
+  if [ "$output" = "gfxterm" ] ; then
+    for i in /boot/grub/`basename ${WALLPAPER}` ${WALLPAPER} ; do
+      if is_path_readable_by_grub $i ; then 
+        bg=$i
+        case ${bg} in
+          *.png)		reader=png ;;
+          *.tga)		reader=tga ;;
+          *.jpg|*.jpeg)	reader=jpeg ;;
+        esac
+        if test -e /boot/grub/${reader}.mod ; then
+          echo "Found background image: `basename ${bg}`" >&2
+          use_bg=true
+          break
+        fi
       fi
-    fi
-  done
-fi
+    done
+    break
+  fi
+done
 
 # set the background if possible
 if ${use_bg} ; then
