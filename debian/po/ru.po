@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Yuri Kozlov <kozlov.y@gmail.com>, 2007, 2008.
-# Yuri Kozlov <yuray@komyakino.ru>, 2009.
+# Yuri Kozlov <yuray@komyakino.ru>, 2009, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.96+1.96+20090829-2\n"
+"Project-Id-Version: grub2 1.98+20100710-2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2009-08-30 19:10+0400\n"
+"PO-Revision-Date: 2010-07-16 09:24+0400\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.0\n"
 "Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -76,13 +76,13 @@ msgstr ""
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
 msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgstr ""
+msgstr "${DEVICE} (${SIZE} МБ, ${MODEL})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "GRUB installation failed.  Continue?"
-msgstr ""
+msgstr "Установка GRUB завершилась неудачно. Продолжить?"
 
 #. Type: boolean
 #. Description
@@ -90,7 +90,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr ""
+msgstr "Не удалось установить GRUB на следующие устройства:"
 
 #. Type: boolean
 #. Description
@@ -99,12 +99,13 @@ msgid ""
 "Do you want to continue anyway?  If you do, your computer may not start up "
 "properly."
 msgstr ""
+"Продолжить,  не смотря на это? Возможно, не удастся загрузить компьютер."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "GRUB installation failed.  Try again?"
-msgstr ""
+msgstr "Установка GRUB завершилась неудачно. Попробовать ещё раз?"
 
 #. Type: boolean
 #. Description
@@ -114,12 +115,15 @@ msgid ""
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
 msgstr ""
+"Вы можете установить GRUB на другое устройство, но проверьте, что компьютер "
+"будет загружаться с этого устройства. Иначе, обновление со старой версии "
+"GRUB Legacy будет отменено."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "Продолжить без установки GRUB?"
 
 #. Type: boolean
 #. Description
@@ -131,6 +135,11 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"Вы отказались от установки GRUB. Если продолжите, то системный загрузчик "
+"может быть неправильно настроен, и когда компьютер будет включён в следующий "
+"раз, будет использоваться то, что было раньше в загрузочном секторе. Если "
+"там была предыдущая версия GRUB 2, то она не сможет загрузить модули или "
+"обработать текущий файл настройки."
 
 #. Type: boolean
 #. Description
@@ -141,12 +150,16 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"Если у вас уже работает другой системный загрузчик и вы хотите оставить "
+"выполнение как есть, или если есть специальное окружение, где не нужен "
+"системный загрузчик, то продолжайте установку. Иначе, вам нужно установить "
+"GRUB как-то иначе."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "Завершить переход к GRUB 2?"
 
 #. Type: boolean
 #. Description
@@ -155,6 +168,8 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"В системе остались файлы от старого системного загрузчика GRUB Legacy, но "
+"теперь на те же диски установлена загрузочная запись GRUB 2:"
 
 #. Type: boolean
 #. Description
@@ -166,6 +181,10 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"Вероятно, GRUB Legacy больше не используется и вам нужно обновить образы "
+"GRUB 2 на этих дисках и завершить переход к GRUB 2, удалив старые файлы GRUB "
+"Legacy. Если вы не обновите данные образы GRUB 2, то они могут оказаться "
+"несовместимыми с новыми пакетами и система больше не загрузится."
 
 #. Type: boolean
 #. Description
@@ -174,12 +193,14 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"Обычно, вам нужно завершить переход к GRUB 2, если нет загрузочных записей, "
+"созданных установкой GRUB 2 в какой-то другой операционной системе."
 
 #. Type: string
 #. Description
 #: ../templates.in:1001
 msgid "Linux command line:"
-msgstr "Строка команд Linux:"
+msgstr "Командная строка Linux:"
 
 #. Type: string
 #. Description
@@ -190,14 +211,14 @@ msgid ""
 "correct, and modify it if necessary."
 msgstr ""
 "Представленная ниже строка команд Linux была извлечена из /etc/default/grub "
-"или параметра `kopt' старого файла GRUB menu.lst. Проверьте, что всё "
+"или параметра kopt старого файла GRUB menu.lst. Проверьте, что всё "
 "правильно, или измените её, если требуется."
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
 msgid "Linux default command line:"
-msgstr "Строка команд Linux по умолчанию:"
+msgstr "Командная строка Linux по умолчанию:"
 
 #. Type: string
 #. Description
@@ -206,14 +227,14 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
-"Данная строка будет использоваться в качестве параметров Linux в меню в "
-"записи по умолчанию, кроме режима восстановления."
+"Данная строка будет использоваться в качестве параметров Linux в пункте меню "
+"по умолчанию, кроме режима восстановления."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
 msgid "kFreeBSD command line:"
-msgstr "Строка команд kFreeBSD:"
+msgstr "Командная строка kFreeBSD:"
 
 #. Type: string
 #. Description
@@ -224,14 +245,14 @@ msgid ""
 "correct, and modify it if necessary."
 msgstr ""
 "Представленная ниже строка команд kFreeBSD была извлечена из /etc/default/"
-"grub или параметра `kopt' старого файла GRUB menu.lst. Проверьте, что всё "
+"grub или параметра kopt старого файла GRUB menu.lst. Проверьте, что всё "
 "правильно, или измените её, если требуется."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
 msgid "kFreeBSD default command line:"
-msgstr "Строка команд kFreeBSD по умолчанию:"
+msgstr "Командная строка kFreeBSD по умолчанию:"
 
 #. Type: string
 #. Description
@@ -240,14 +261,14 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
-"Данная строка будет использоваться в качестве параметров kFreeBSD в меню в "
-"записи по умолчанию, кроме режима восстановления."
+"Данная строка будет использоваться в качестве параметров kFreeBSD в пункте "
+"меню по умолчанию, кроме режима восстановления."
 
 #. Type: note
 #. Description
 #: ../templates.in:5001
 msgid "/boot/grub/device.map has been regenerated"
-msgstr ""
+msgstr "Пересоздан файл /boot/grub/device.map"
 
 #. Type: note
 #. Description
@@ -257,6 +278,10 @@ msgid ""
 "names.  In most cases, this should significantly reduce the need to change "
 "it in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
+"Файл /boot/grub/device.map перезаписан, согласно имеющимся стабильным именам "
+"устройств. В большинстве случаев, это должно значительно сократить "
+"необходимость изменения его в будущем, и пункты загрузочного меню, "
+"созданного GRUB, не должны быть затронуты."
 
 #. Type: note
 #. Description
@@ -267,6 +292,10 @@ msgid ""
 "have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
 "and update them if necessary."
 msgstr ""
+"Однако, так как у вас в системе более одного диска, возможно, что была "
+"зависимость от старого именования устройств. Проверьте, что во всех "
+"настроенных вручную пунктах  загрузочного меню используется нумерация "
+"устройств GRUB (hdN), и измените их, если нужно."
 
 #. Type: note
 #. Description
@@ -275,3 +304,5 @@ msgid ""
 "If you do not understand this message, or if you do not have any custom boot "
 "menu entries, you can ignore this message."
 msgstr ""
+"Если вы не понимаете о чём речь, или у вас нет настроенных вручную пунктов "
+"загрузочного меню, то игнорируйте это сообщение."
