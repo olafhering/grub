@@ -1,26 +1,27 @@
 # Bulgarian translation of grub2 debconf messages.
+# Damyan Ivanov <dam@modsoftsys.com>, 2009.
+# Damyan Ivanov <dmn@debian.org>, 2010.
 # Copyright (C) grub2 packagers.
 # This file is distributed under the same license as the grub2 package.
-# Damyan Ivanov <dam@modsoftsys.com>, 2009.
-# Damyan Ivanov <dam@modsoftsys.com>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2009-11-26 07:24+0200\n"
-"Last-Translator: Damyan Ivanov <dam@modsoftsys.com>\n"
+"PO-Revision-Date: 2010-07-16 12:38+0300\n"
+"Last-Translator: Damyan Ivanov <dmn@debian.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
 msgid "Chainload from menu.lst?"
-msgstr "Каскадно зареждане от menu.lst?"
+msgstr "Верижно зареждане от menu.lst?"
 
 #. Type: boolean
 #. Description
@@ -69,13 +70,13 @@ msgstr ""
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
 msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgstr ""
+msgstr "${DEVICE} (${SIZE} МБ, ${MODEL})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "GRUB installation failed.  Continue?"
-msgstr ""
+msgstr "Инсталирането на GRUB се провали. Продължаване?"
 
 #. Type: boolean
 #. Description
@@ -83,7 +84,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr ""
+msgstr "Опитът за инсталиране на GRUB на следните устройства беше неуспешен:"
 
 #. Type: boolean
 #. Description
@@ -92,12 +93,14 @@ msgid ""
 "Do you want to continue anyway?  If you do, your computer may not start up "
 "properly."
 msgstr ""
+"Желаете ли да продължите въпреки това? Ако го направите е възможно "
+"компютърът да не може да зареди операционна система."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "GRUB installation failed.  Try again?"
-msgstr ""
+msgstr "Инсталирането на GRUB се провали. Нов опит?"
 
 #. Type: boolean
 #. Description
@@ -107,12 +110,15 @@ msgid ""
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
 msgstr ""
+"Възможно е инсталирането на GRUB на друго устройство да успее, но трябва да "
+"проверите дали компютърът може да извършва първоначално зареждане от него. "
+"Ако откажете, обновяването от стария GRUB ще бъде отменено."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "Продължаване без инсталиране на GRUB?"
 
 #. Type: boolean
 #. Description
@@ -124,6 +130,10 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"Избрано е GRUB да не се инсталира на никакви устройства. Ако продължите, "
+"предишното съдържание на сектора за начално зареждане ще продължи да се "
+"използва. Ако в него има предишна инсталация на GRUB 2 е възможно тя да не "
+"може да работи с осъвременения конфигурационен файл."
 
 #. Type: boolean
 #. Description
@@ -134,12 +144,16 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"Ако използвате друга програма за начално зареждане и желаете да я запазите "
+"или ако обкръжението е специално и не изисква програма за начално зареждане, "
+"тогава е редно да продължите без да инсталирате GRUB. В противен случай би "
+"трябвало да инсталирате някъде GRUB."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "Завършване на преминаването към GRUB2 ?"
 
 #. Type: boolean
 #. Description
@@ -148,6 +162,8 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"На системата има файлове от стария GRUB, но има сектори за начално зареждане "
+"от GRUB 2, инсталирани на следните дискове:"
 
 #. Type: boolean
 #. Description
@@ -159,6 +175,10 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"Изглежда, че старият GRUB не се използва и вместо него е редно се инсталира "
+"GRUB 2 върху дисковете и да се завърши прехода чрез премахване на файловете "
+"на стария GRUB. Ако не обновите инсталацията на GRUB 2 е възможно да се "
+"появят проблеми с началното зареждане поради несъвместимост с новите пакети."
 
 #. Type: boolean
 #. Description
@@ -167,12 +187,15 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"В общия случай е добре преходът към GRUB 2 да бъде завършен, освен ако "
+"секторите за начално зареждане са създадени от GRUB 2 или от друга "
+"операционна система."
 
 #. Type: string
 #. Description
 #: ../templates.in:1001
 msgid "Linux command line:"
-msgstr "Команден ред за Линукс:"
+msgstr "Команден ред на Линукс:"
 
 #. Type: string
 #. Description
@@ -240,7 +263,7 @@ msgstr ""
 #. Description
 #: ../templates.in:5001
 msgid "/boot/grub/device.map has been regenerated"
-msgstr ""
+msgstr "/boot/grub/device.map е създаден наново"
 
 #. Type: note
 #. Description
@@ -250,6 +273,10 @@ msgid ""
 "names.  In most cases, this should significantly reduce the need to change "
 "it in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
+"Файлът /boot/grub/device.map е създаден наново, използвайки непроменящи се "
+"имена на устройства. В повечето случаи това води до намаляване на нуждата да "
+"се правят промени в бъдеще. Елементите в менюто за начално зареждане на GRUB "
+"не са засегнати."
 
 #. Type: note
 #. Description
@@ -260,6 +287,10 @@ msgid ""
 "have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
 "and update them if necessary."
 msgstr ""
+"Все пак, понеже в системата има повече от един диск е възможно съдържанието "
+"на стария файл да е от критична важност. Провереде дали имате елементи в "
+"менюто за начално зареждане на GRUB, в които да се използват устройства от "
+"вида „(hdN)“ и ако е нужно ги коригирайте."
 
 #. Type: note
 #. Description
@@ -268,3 +299,5 @@ msgid ""
 "If you do not understand this message, or if you do not have any custom boot "
 "menu entries, you can ignore this message."
 msgstr ""
+"Ако не разбирате предупреждението или ако нямате ръчно-въведени елементи в "
+"менюто на GRUB, не обръщайте внимание на това предупреждение."
