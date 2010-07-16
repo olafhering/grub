@@ -56,6 +56,7 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
 
 
 Package: grub-common
+Priority: optional
 Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64 powerpc sparc mipsel
 Depends: base-files (>= 4.0.1~), dpkg (>= 1.15.4) | install-info | dpkg (<= 1.14.25), ${shlibs:Depends}, ${misc:Depends}, gettext-base
 Replaces: grub-pc (<< 1.98+20100527-1), grub-ieee1275 (<< 1.98+20100527-1), grub-efi (<< 1.96+20080831-1), grub-coreboot (<< 1.97+20091114-1), grub-linuxbios (<< 1.96+20080831-1), grub-efi-ia32 (<< 1.98+20100527-1), grub-efi-amd64 (<< 1.98+20100527-1), grub-yeeloong (<< 1.98+20100527-1)
@@ -75,6 +76,7 @@ Description: GRand Unified Bootloader, version 2 (emulated version)
  provided for debugging purposes.
 
 Package: grub-pc
+Priority: optional
 Architecture: i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}), ucf
 Replaces: grub, grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1), grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-ieee1275
