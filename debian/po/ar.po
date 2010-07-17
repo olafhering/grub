@@ -2,20 +2,22 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Ossama M. Khayat <okhayat@yahoo.com>, 2008, 2009.
+# Ossama M. Khayat <okhayat@yahoo.com>, 2008, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: grub.ar\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2009-08-31 13:11+0300\n"
+"PO-Revision-Date: 2010-07-16 02:38+0300\n"
 "Last-Translator: Ossama M. Khayat <okhayat@yahoo.com>\n"
 "Language-Team: Arabic <support@arabeyes.org>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #. Type: boolean
 #. Description
@@ -70,13 +72,13 @@ msgstr ""
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
 msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgstr ""
+msgstr "${DEVICE} (${SIZE} م.ب.، ${MODEL})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "GRUB installation failed.  Continue?"
-msgstr ""
+msgstr "تعذر تثبيت GRUB. تريد الاستمرار؟"
 
 #. Type: boolean
 #. Description
@@ -84,7 +86,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr ""
+msgstr "تعذر تثبيت GRUB على الأجهزة التالية:"
 
 #. Type: boolean
 #. Description
@@ -93,12 +95,14 @@ msgid ""
 "Do you want to continue anyway?  If you do, your computer may not start up "
 "properly."
 msgstr ""
+"هل تريد الاستمرار على أي حال؟ إن فعلت، فقد لا يتمكن جهازك من بدء التشغيل كما "
+"يجب."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "GRUB installation failed.  Try again?"
-msgstr ""
+msgstr "تعذر تثبيت GRUB. تريد المحاولة مجدداً؟"
 
 #. Type: boolean
 #. Description
@@ -108,12 +112,15 @@ msgid ""
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
 msgstr ""
+"قد تتمكن من تثبيت GRUB على جهاز آخر، لكن يجب أن تتحقق من إمكانية نظامك "
+"الإقلاع من ذلك الجهاز. وإن لم يكن كذلك، فسيتم إلغاء الترقية من نظام GRUB "
+"القديم."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "تريد الاستمرار دون تثبيت GRUB؟"
 
 #. Type: boolean
 #. Description
@@ -125,6 +132,10 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"اخترت عدم تثبيت GRUB على أية جهاز. إن استمريت، فقد لا يتم تهيئة محمّل الإقلاع "
+"بشكل صحيح، كما يستخدم حاسبك أي نظام موجود على قطاع الإقلاع مسبقاً. إن كان "
+"هناك نسخة سابقة من GRUB 2 في قطاع الإقلاع، فقد لا يستطيع تحميل الوحدات أو "
+"قراءة ملف التهيئة الحالي بشكل صحيح."
 
 #. Type: boolean
 #. Description
@@ -135,12 +146,15 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"إن كنت تستخدم محمل إقلاع آخر وتريد الاستمرار باستخدامه، أو إن كانت لديك بيئة "
+"عمل خاصة حيث لا تحتاج إلى محمل إقلاع، فيجب عليك الاستمرار على أي حال. وإلا "
+"يجب أن تقوم بتثبيت GRUB في مكان ما."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "إنهاء التحويل إلى GRUB 2 الآن؟"
 
 #. Type: boolean
 #. Description
@@ -149,6 +163,8 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"لا زال النظام يحتوي على ملفات GRUB قديمة مثبتة، كما يحتوي أيضاً على سجلات "
+"إقلاع GRUB 2 على هذه الأقراص:"
 
 #. Type: boolean
 #. Description
@@ -160,6 +176,10 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"يبدو أن GRUB القديم لم يعد مستخدماً، ويجب عليك الترقية إلى GRUB 2 وإنهاء "
+"التحويل إلى GRUB 2 بإزالة ملفات GRUB القديمة. وإن لم تقم بعملية الترقية هذه، "
+"فقد لا يكون نظام الإقلاع متوافقاً مع الحزم الجديدة ويتسبب ذلك بعدم إقلاع نظام "
+"كما هو مفترض."
 
 #. Type: boolean
 #. Description
@@ -168,6 +188,8 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"بشكل عام، يجب عليك إنهاء التحويل إلى GRUB 2 إلا إن كانت سجلات الإقلاع هذه قد "
+"أنشأها تثبيت GRUB 2 لنظام تشغيل آخر."
 
 #. Type: string
 #. Description
@@ -241,7 +263,7 @@ msgstr ""
 #. Description
 #: ../templates.in:5001
 msgid "/boot/grub/device.map has been regenerated"
-msgstr ""
+msgstr "تم إعادة إنشاء /boot/grub/device.map"
 
 #. Type: note
 #. Description
@@ -251,6 +273,9 @@ msgid ""
 "names.  In most cases, this should significantly reduce the need to change "
 "it in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
+"تم إعادة كتابة الملف /boot/grub/device.map ليستخدم أسماء الأجهزة الصحيحة. في "
+"معظم الحالات، سيقلل هذا العمل الحاجة إلى التغييرات بشكل كبير في المستقبل، "
+"كما أن مُدخلات قائمة إقلاع GRUB الناتجة لن تتأثر."
 
 #. Type: note
 #. Description
@@ -261,6 +286,10 @@ msgid ""
 "have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
 "and update them if necessary."
 msgstr ""
+"على كل، حيث أنه لديك اكثر من قرص في نظامك، من المحتمل أنه كان يعتمد على "
+"خريطة الأجهزة القديمة. فالرجاء التحقق مما إذا كان لديك أية مُدخلات قائمة "
+"مخصصة تعتمد على طريقة GRUB لترقيم الأجهزة، (hdN)، وقم بتحديثها إن كانت "
+"ضرورياً."
 
 #. Type: note
 #. Description
@@ -269,3 +298,5 @@ msgid ""
 "If you do not understand this message, or if you do not have any custom boot "
 "menu entries, you can ignore this message."
 msgstr ""
+"إن لم تعرف مقصود هذه الرسالة، أو إن لم يكن لديك أية مُدخلات مُخصصة في القائمة، "
+"يمكنك تجاهل هذه الرسالة."
