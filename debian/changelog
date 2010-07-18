@@ -27,7 +27,7 @@ grub2 (1.98+20100710-2) UNRELEASED; urgency=low
   * Indonesian (id.po) by Arief S Fitrianto (closes: #589318).
   * Arabic (ar.po) by Ossama M. Khayat.
   * Basque (eu.po) by Iñaki Larrañaga Murgoitio (closes: #589489).
-  * Persian (fa.po) by Bersam Karbasion).  Closes: #589544
+  * Persian (fa.po) by Bersam Karbasion (closes: #589544).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 13 Jul 2010 02:14:33 +0100
 
