@@ -25,8 +25,8 @@ grub2 (1.98+20100710-2) UNRELEASED; urgency=low
   * Swedish (sv.po) by Martin Bagge / brother (closes: #589259).
   * Bulgarian (bg.po) by Damyan Ivanov (closes: #589272).
   * Indonesian (id.po) by Arief S Fitrianto (closes: #589318).
-  * Arabic (Ossama M. Khayat).
-  * Basque (Iñaki Larrañaga Murgoitio).  Closes: #589489
+  * Arabic (ar.po) by Ossama M. Khayat.
+  * Basque (eu.po) by Iñaki Larrañaga Murgoitio (closes: #589489).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 13 Jul 2010 02:14:33 +0100
 
