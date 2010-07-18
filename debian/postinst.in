@@ -269,7 +269,7 @@ case "$1" in
       fi
     fi
 
-    tmp_default_grub="$(mktemp "/tmp/grub.XXXXXXXXXX")"
+    tmp_default_grub="$(mktemp -t grub.XXXXXXXXXX)"
     trap "rm -f ${tmp_default_grub}" EXIT
     cp -p /usr/share/grub/default/grub ${tmp_default_grub}
 
