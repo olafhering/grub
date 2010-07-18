@@ -1,23 +1,23 @@
-# translation of eu.po to Basque
+# translation of grub2_1.98+20100710-2_eu.po to Basque
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Piarres Beobide <pi@beobide.net>, 2008.
-# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2008, 2009.
+# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2008, 2009, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: eu\n"
+"Project-Id-Version: grub2_1.98+20100710-2_eu\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2009-04-04 14:29+0200\n"
+"PO-Revision-Date: 2010-07-16 15:41+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
-"Language-Team: Basque <itzulpena@euskalgnu.org>\n"
+"Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Type: boolean
 #. Description
@@ -30,8 +30,8 @@ msgstr "Kargatu menu.lst fitxategitik?"
 #: ../grub-pc.templates.in:2001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
-"GRUB eguneratzeko skriptek GRUB zahar baten konfigurazioa aurkitu dute /boot/"
-"grub-en."
+"GRUB eguneratzeko script-ek GRUB zahar baten konfigurazioa aurkitu dute /"
+"boot/grub-en."
 
 #. Type: boolean
 #. Description
@@ -55,7 +55,7 @@ msgid ""
 "it directly to your MBR (Master Boot Record)."
 msgstr ""
 "Gomendagarria da GRUB 2 menu.lst bidez kargatzea onartzea, GRUB 2 "
-"konfigurazioak zure beharrak betetzen dituela egiatzatzeko MBR-ran (Master "
+"konfigurazioak zure beharrak betetzen dituela egiaztzatzeko MBR-ran (Master "
 "Boot Record) zuzenean instalatu aurretik."
 
 #. Type: boolean
@@ -74,13 +74,13 @@ msgstr ""
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
 msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgstr ""
+msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "GRUB installation failed.  Continue?"
-msgstr ""
+msgstr "Huts egin du GRUB instalatzean. Jarraitu?"
 
 #. Type: boolean
 #. Description
@@ -88,7 +88,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr ""
+msgstr "GRUBek huts egin du honako gailuetan instalatzean:"
 
 #. Type: boolean
 #. Description
@@ -97,12 +97,14 @@ msgid ""
 "Do you want to continue anyway?  If you do, your computer may not start up "
 "properly."
 msgstr ""
+"Jarraitzea nahi duzu dena den? Jarraituz gero, baliteke ordenagailua ongi ez "
+"abiaraztea."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "GRUB installation failed.  Try again?"
-msgstr ""
+msgstr "Huts egin du GRUB instalatzean. Saiatu berriro?"
 
 #. Type: boolean
 #. Description
@@ -112,12 +114,15 @@ msgid ""
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
 msgstr ""
+"GRUB beste gailu batean instalatzeko aukera duzu, hala ere, sistema beste "
+"gailu horretatik abiatzeko ahalmena duela egiaztatu behar duzu. Bestela, "
+"'GRUB Legacy' eguneratzea bertan behera utz daiteke."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "Jarraitu GRUB instalatu gabe?"
 
 #. Type: boolean
 #. Description
@@ -129,6 +134,11 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"GRUB inolako gailuetan ez instalatzea aukeratu duzu. Jarraitzen baduzu, "
+"baliteke abioko kargatzailea ongi konfiguratuta ez egotea, eta abioko "
+"sektorean aurretik zegoena erabiliko da ordenagailua hurrengo batean "
+"abiatzean. Abioko sektorean GRUB 2ren aurreko bertsio bat egonez gero, agian "
+"ezin izango du uneko konfigurazioko fitxategia irakurri."
 
 #. Type: boolean
 #. Description
@@ -139,12 +149,16 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"Unean bestelako abioko kargatzaile bat erabiltzean ari bazara, eta horrela "
+"jarraitzea nahi baduzu, edo hau abioko kargatzailearen beharrik ez duen "
+"ingurune berezi bat bada, aurrera jarrai dezakezu. Bestela, GRUB nonbaiten "
+"instalatu beharko zenuke."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "Amaitu GRUB 2-rako bihurketa orain?"
 
 #. Type: boolean
 #. Description
@@ -153,6 +167,9 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"Sistemak oraindik 'GRUB Legacy' abioko kargatzailearen fitxategiak ditu "
+"oraindik, baina orain GRUB 2 bertsioko abioko erregistroak ere baditu honako "
+"diskoetan:"
 
 #. Type: boolean
 #. Description
@@ -164,6 +181,11 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"Badirudi 'GRUB Legacy' ez denez aurrerantzean erabiliko, disko hauetako GRUB "
+"2 bertsioko irudiak eguneratu eta 'GRUB Legacy'-ko fitxategiak kenduz GRUB 2-"
+"ren eguneraketa amaitu beharko zenuke. GRUB 2-ko irudi hauek ez badituzu "
+"eguneratzen, pakete berriekin ez dira bateragarriak izango eta sistema ongi "
+"abiatzea galaraz dezake."
 
 #. Type: boolean
 #. Description
@@ -172,6 +194,9 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"GRUB 2-rako bihurketa amaitu beharko zenuke, abioko erregistro hauek beste "
+"sistema eragile batzuetako GRUB 2 bertsioaren instalazioan ez badira sortuak "
+"izan."
 
 #. Type: string
 #. Description
@@ -182,26 +207,20 @@ msgstr "Linux-eko komando-lerroa:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"Linux-eko komando-lerro hau GRUB zaharraren menu.lst fitxategiko 'kopt' "
-"parametrotik atera da. Egiaztatu zuzena dela, eta eraldatu behar izanez gero."
+"Linux-eko komando-lerro hau /etc/default/grub edo GRUB zaharraren menu.lst "
+"fitxategiko 'kopt' parametrotik atera da. Egiaztatu zuzena dela, eta "
+"eraldatu behar izanez gero."
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "Linux default command line:"
-msgstr "Linux-eko komando-lerroa:"
+msgstr "Linux-eko komando-lerro lehenetsia:"
 
 #. Type: string
 #. Description
@@ -210,38 +229,32 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"Honako katea menuko sarrera lehenetsiaren Linux-eko parametro gisa erabiliko "
+"da, baina ez berreskuratzeko moduan."
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "Linux-eko komando-lerroa:"
+msgstr "KFreeBSD-ko komando-lerroa:"
 
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from the `kopt' parameter "
-#| "in GRUB Legacy's menu.lst.  Please verify that it is correct, and modify "
-#| "it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"Linux-eko komando-lerro hau GRUB zaharraren menu.lst fitxategiko 'kopt' "
-"parametrotik atera da. Egiaztatu zuzena dela, eta eraldatu behar izanez gero."
+"KFreeBSD-ko komando-lerro hau /etc/default/grub edo GRUB zaharraren menu.lst "
+"fitxategiko 'kopt' parametrotik atera da. Egiaztatu zuzena dela, eta "
+"eraldatu behar izanez gero."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD default command line:"
-msgstr "Linux-eko komando-lerroa:"
+msgstr "KFreeBSD-ko komando-lerro lehenetsia:"
 
 #. Type: string
 #. Description
@@ -250,12 +263,14 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"Honako katea menuko sarrera lehenetsiaren KFreeBSD-ko parametro gisa "
+"erabiliko da, baina ez berreskuratzeko moduan."
 
 #. Type: note
 #. Description
 #: ../templates.in:5001
 msgid "/boot/grub/device.map has been regenerated"
-msgstr ""
+msgstr "/boot/grub/device.map berriro sortu da"
 
 #. Type: note
 #. Description
@@ -265,6 +280,9 @@ msgid ""
 "names.  In most cases, this should significantly reduce the need to change "
 "it in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
+"/boot/grub/device.map fitxategia berriro idatzi da gailuen izen egonkorrak "
+"erabiltzeko. Gehienetan, etorkizunean hau aldatzeko beharra asko murriztu "
+"beharko luke, eta GRUBek sortutako menuko sarrerei ez die eragingo."
 
 #. Type: note
 #. Description
@@ -275,6 +293,10 @@ msgid ""
 "have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
 "and update them if necessary."
 msgstr ""
+"Hala ere, sisteman disko bat baino gehiago dagoenez, baliteke gailuen mapa "
+"zaharrean mendekotasunen bat egotea. Egiaztatu ezazu GRUBen unitateko "
+"zenbaketan oinarrituta abioaren menuko sarrera pertsonalizaturen bat duzun "
+"edo ez, eta egunera itzazu beharrezkoa izanez gero."
 
 #. Type: note
 #. Description
@@ -283,3 +305,5 @@ msgid ""
 "If you do not understand this message, or if you do not have any custom boot "
 "menu entries, you can ignore this message."
 msgstr ""
+"Mezu hau ez baduzu ulertzen, edo abioaren menuko sarrera pertsonalizaturik "
+"ez baduzu, ezikusi egin diezaiokezu mezu honi."
