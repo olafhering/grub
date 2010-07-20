@@ -9,4 +9,3 @@ gfxpayload_keep_default.patch
 mkrescue_diet.patch
 mkconfig_skip_dmcrypt.patch
 install_stage2_confusion.patch
-better_device_map_ordering.patch

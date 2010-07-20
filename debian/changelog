@@ -1,4 +1,9 @@
-grub2 (1.98+20100710-2) UNRELEASED; urgency=low
+grub2 (1.98+20100720-1) UNRELEASED; urgency=low
+
+  * New Bazaar snapshot.
+    - Link to Info documentation on changes from GRUB Legacy in README
+      (closes: #502623).
+    - Add support for mdadm metadata formats 1.x (closes: #492897).
 
   [ Aaron M. Ucko ]
   * Compare -trunk kernels earlier than numeric ABIs (closes: #568160).
