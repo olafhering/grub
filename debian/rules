@@ -94,9 +94,7 @@ build/stamps/build-grub-common build/stamps/build-grub-efi-ia32 build/stamps/bui
 build/stamps/build-grub-pc: build/stamps/configure-grub-pc
 	dh_auto_build
 ifeq ($(with_check), yes)
-	# dh_auto_test doesn't work because it tries 'test' first and that
-	# does something entirely different.
-	dh_auto_build -- check
+	dh_auto_test
 endif
 	touch $@
 
