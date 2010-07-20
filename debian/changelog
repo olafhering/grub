@@ -33,6 +33,7 @@ grub2 (1.98+20100720-1) UNRELEASED; urgency=low
   * Arabic (ar.po) by Ossama M. Khayat.
   * Basque (eu.po) by Iñaki Larrañaga Murgoitio (closes: #589489).
   * Persian (fa.po) by Bersam Karbasion (closes: #589544).
+  * Czech (cs.po) by Miroslav Kure (closes: #589568).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 13 Jul 2010 02:14:33 +0100
 

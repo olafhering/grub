@@ -1,14 +1,14 @@
 # Czech translation of grub2 debconf messages.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the grub2 package.
-# Miroslav Kure <kurem@debian.cz>, 2008, 2009
+# Miroslav Kure <kurem@debian.cz>, 2008 -- 2010
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2009-08-30 18:47+0200\n"
+"PO-Revision-Date: 2010-07-18 20:08+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "Language: cs\n"
@@ -71,13 +71,13 @@ msgstr ""
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
 msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgstr ""
+msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "GRUB installation failed.  Continue?"
-msgstr ""
+msgstr "Instalace GRUBu selhala. Pokračovat?"
 
 #. Type: boolean
 #. Description
@@ -85,7 +85,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr ""
+msgstr "GRUB se nepodařilo nainstalovat na následující zařízení:"
 
 #. Type: boolean
 #. Description
@@ -94,12 +94,14 @@ msgid ""
 "Do you want to continue anyway?  If you do, your computer may not start up "
 "properly."
 msgstr ""
+"Chcete přesto pokračovat? Pokud ano, je možné, že počítač nemusí korektně "
+"nastartovat."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "GRUB installation failed.  Try again?"
-msgstr ""
+msgstr "Instalace GRUBu selhala. Zkusit znovu?"
 
 #. Type: boolean
 #. Description
@@ -109,12 +111,15 @@ msgid ""
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
 msgstr ""
+"Je možné, že se povede instalace GRUBu na nějaké jiné zařízení, ovšem měli "
+"byste se ujistit, že váš systém umí z daného zařízení zavádět. V opačném "
+"případě bude aktualizace z GRUB Legacy zrušena."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "Pokračovat bez instalace GRUBu?"
 
 #. Type: boolean
 #. Description
@@ -126,6 +131,11 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"Rozhodli jste se neinstalovat GRUB na žádné zařízení. Budete-li pokračovat, "
+"zavaděč nemusí být nastaven správně a při příštím spuštění počítače se "
+"použije cokoliv, co bylo dříve v zaváděcím sektoru. Pokud tam je dřívější "
+"verze GRUBu 2, nemusí se jí podařit načíst moduly, nebo zpracovat současný "
+"konfigurační soubor."
 
 #. Type: boolean
 #. Description
@@ -136,12 +146,15 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"Pokud používáte jiný zavaděč a chcete ho používat i nadále, nebo pokud "
+"je toto speciální prostředí, ve kterém zavaděč nepotřebujete, můžete "
+"pokračovat. V opačném případě byste někam měli GRUB nainstalovat."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "Dokončit nyní přechod na GRUB 2?"
 
 #. Type: boolean
 #. Description
@@ -150,6 +163,8 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"Tento systém stále obsahuje soubory starého zavaděče GRUB Legacy, ale na "
+"následujících discích již má zaváděcí záznamy GRUBu 2:"
 
 #. Type: boolean
 #. Description
@@ -161,6 +176,11 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"Je dosti pravděpodobné, že se GRUB Legacy již nepoužívá a tudíž byste na "
+"těchto discích měli aktualizovat obrazy GRUBu 2 a dokončit konverzi na "
+"GRUB 2 odstraněním starých souborů z GRUB Legacy. Neaktualizujete-li "
+"tyto obrazy GRUBu 2, nemusí být kompatibilní s novými balíky a mohou "
+"způsobit, že se váš systém přestane zavádět správně."
 
 #. Type: boolean
 #. Description
@@ -169,6 +189,8 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"Obvykle byste měli konverzi na GRUB 2 dokončit, s výjimkou situace, kdy "
+"tyto zaváděcí záznamy vytvořila instalace nějakého jiného operačního systému."
 
 #. Type: string
 #. Description
@@ -244,7 +266,7 @@ msgstr ""
 #. Description
 #: ../templates.in:5001
 msgid "/boot/grub/device.map has been regenerated"
-msgstr ""
+msgstr "/boot/grub/device.map byl aktualizován"
 
 #. Type: note
 #. Description
@@ -254,6 +276,10 @@ msgid ""
 "names.  In most cases, this should significantly reduce the need to change "
 "it in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
+"Soubor /boot/grub/device.map byl přepsán tak, aby používal stabilní jména "
+"zařízení. Ve většině případů by to mělo výrazně snížit potřebu jejich změny "
+"v budoucnosti a položky v zaváděcí nabídce vygenerované GRUBem by neměly být "
+"nijak ovlivněny."
 
 #. Type: note
 #. Description
@@ -264,6 +290,10 @@ msgid ""
 "have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
 "and update them if necessary."
 msgstr ""
+"Nicméně je možné (protože máte v systému více než jeden disk), že jste se "
+"spoléhali na starý soubor device.map. Zkontrolujte prosím, zda používáte "
+"vlastní upravené položky zaváděcí nabídky, které spoléhají na GRUBovské "
+"číslování disků (hdN) a podle potřeby je aktualizujte."
 
 #. Type: note
 #. Description
@@ -272,3 +302,5 @@ msgid ""
 "If you do not understand this message, or if you do not have any custom boot "
 "menu entries, you can ignore this message."
 msgstr ""
+"Nerozumíte-li této zprávě, nebo pokud žádné vlastní upravené položky "
+"zaváděcí nabídky nemáte, můžete tuto zprávu ignorovat."
