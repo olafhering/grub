@@ -146,8 +146,8 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
-"Pokud používáte jiný zavaděč a chcete ho používat i nadále, nebo pokud "
-"je toto speciální prostředí, ve kterém zavaděč nepotřebujete, můžete "
+"Pokud používáte jiný zavaděč a chcete ho používat i nadále, nebo pokud je "
+"toto speciální prostředí, ve kterém zavaděč nepotřebujete, můžete "
 "pokračovat. V opačném případě byste někam měli GRUB nainstalovat."
 
 #. Type: boolean
@@ -177,10 +177,10 @@ msgid ""
 "your system to stop booting properly."
 msgstr ""
 "Je dosti pravděpodobné, že se GRUB Legacy již nepoužívá a tudíž byste na "
-"těchto discích měli aktualizovat obrazy GRUBu 2 a dokončit konverzi na "
-"GRUB 2 odstraněním starých souborů z GRUB Legacy. Neaktualizujete-li "
-"tyto obrazy GRUBu 2, nemusí být kompatibilní s novými balíky a mohou "
-"způsobit, že se váš systém přestane zavádět správně."
+"těchto discích měli aktualizovat obrazy GRUBu 2 a dokončit konverzi na GRUB "
+"2 odstraněním starých souborů z GRUB Legacy. Neaktualizujete-li tyto obrazy "
+"GRUBu 2, nemusí být kompatibilní s novými balíky a mohou způsobit, že se váš "
+"systém přestane zavádět správně."
 
 #. Type: boolean
 #. Description
@@ -189,8 +189,8 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
-"Obvykle byste měli konverzi na GRUB 2 dokončit, s výjimkou situace, kdy "
-"tyto zaváděcí záznamy vytvořila instalace nějakého jiného operačního systému."
+"Obvykle byste měli konverzi na GRUB 2 dokončit, s výjimkou situace, kdy tyto "
+"zaváděcí záznamy vytvořila instalace nějakého jiného operačního systému."
 
 #. Type: string
 #. Description
