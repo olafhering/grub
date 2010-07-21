@@ -1,4 +1,4 @@
-grub2 (1.98+20100720-1) UNRELEASED; urgency=low
+grub2 (1.98+20100720-1) unstable; urgency=low
 
   * New Bazaar snapshot.
     - Link to Info documentation on changes from GRUB Legacy in README
@@ -36,7 +36,7 @@ grub2 (1.98+20100720-1) UNRELEASED; urgency=low
   * Czech (cs.po) by Miroslav Kure (closes: #589568).
   * Belarusian (be.po) by Viktar Siarheichyk (closes: #589634).
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 13 Jul 2010 02:14:33 +0100
+ -- Colin Watson <cjwatson@debian.org>  Wed, 21 Jul 2010 09:11:14 +0100
 
 grub2 (1.98+20100710-1) unstable; urgency=low
 
