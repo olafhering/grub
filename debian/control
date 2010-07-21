@@ -64,6 +64,7 @@ Recommends: os-prober (>= 1.33)
 Suggests: multiboot-doc [i386 kfreebsd-i386 hurd-i386 kopensolaris-i386 amd64 kfreebsd-amd64], grub-emu, xorriso (>= 0.5.6.pl00)
 # See bugs #435983 and #455746
 Conflicts: mdadm (<< 2.6.7-2), grub-doc (<< 0.97-32), grub-legacy-doc (<< 0.97-59)
+Breaks: lupin-support (<< 0.30)
 Description: GRand Unified Bootloader, version 2 (common files)
  This package contains common files shared by the distinct flavours of GRUB.
 
