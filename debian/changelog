@@ -1,5 +1,9 @@
-grub2 (1.98+20100720-2) UNRELEASED; urgency=low
+grub2 (1.98+20100722-1) UNRELEASED; urgency=low
 
+  * New Bazaar snapshot.
+    - Don't count named RAID arrays when looking for unused array numbers.
+
+  [ Colin Watson ]
   * Merge from Ubuntu:
     - grub-common Breaks: lupin-support (<< 0.30) due to a grub-mkimage
       syntax change (lupin-support isn't in Debian, but this is harmless
