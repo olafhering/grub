@@ -1,4 +1,4 @@
-grub2 (1.98+20100722-1) UNRELEASED; urgency=low
+grub2 (1.98+20100722-1) unstable; urgency=low
 
   * New Bazaar snapshot.
     - Don't count named RAID arrays when looking for unused array numbers.
@@ -9,7 +9,7 @@ grub2 (1.98+20100722-1) UNRELEASED; urgency=low
       syntax change (lupin-support isn't in Debian, but this is harmless
       anyway).
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 21 Jul 2010 21:32:03 +0100
+ -- Colin Watson <cjwatson@debian.org>  Thu, 22 Jul 2010 14:33:34 +0100
 
 grub2 (1.98+20100720-1) unstable; urgency=low
 
