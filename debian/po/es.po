@@ -1,5 +1,5 @@
 # grub2 po-debconf translation to Spanish
-# Copyright (C) 2007, 2009 Software in the Public Interest
+# Copyright (C) 2007, 2009, 2010 Software in the Public Interest
 # This file is distributed under the same license as the grub2 package.
 #
 # Changes:
@@ -8,7 +8,7 @@
 #
 #   - Updates
 #       Gary Ariel Sandi Vigabriel <gary.gsv@gmail.com>, 2009
-#       Francisco Javier Cuadrado <fcocuadrado@gmail.com>, 2009
+#       Francisco Javier Cuadrado <fcocuadrado@gmail.com>, 2009, 2010
 #
 # Traductores, si no conocen el formato PO, merece la pena leer la
 # documentación de gettext, especialmente las secciones dedicadas a este
@@ -30,10 +30,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.96+20090829-2\n"
+"Project-Id-Version: grub2 1.98+20100710-2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2009-08-30 19:42+0100\n"
+"PO-Revision-Date: 2010-07-16 09:40+0100\n"
 "Last-Translator: Francisco Javier Cuadrado <fcocuadrado@gmail.com>\n"
 "Language-Team: Debian l10n Spanish <debian-l10n-spanish@lists.debian.org>\n"
 "Language: es\n"
@@ -97,13 +97,13 @@ msgstr ""
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
 msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgstr ""
+msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "GRUB installation failed.  Continue?"
-msgstr ""
+msgstr "La instalación de GRUB ha fallado. ¿Desea continuar?"
 
 #. Type: boolean
 #. Description
@@ -111,7 +111,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr ""
+msgstr "GRUB no pudo instalar los siguientes dispositivos:"
 
 #. Type: boolean
 #. Description
@@ -120,12 +120,14 @@ msgid ""
 "Do you want to continue anyway?  If you do, your computer may not start up "
 "properly."
 msgstr ""
+"¿Desea continuar de todos modos? Si lo hace, puede que su máquina no se "
+"inicie apropiadamente."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "GRUB installation failed.  Try again?"
-msgstr ""
+msgstr "La instalación de GRUB ha fallado. ¿Desea volver a intentarlo?"
 
 #. Type: boolean
 #. Description
@@ -135,12 +137,15 @@ msgid ""
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
 msgstr ""
+"Puede instalar GRUB en otro dispositivo, aunque debería comprobar que su "
+"sistema arrancará desde ese dispositivo. De otro modo, se cancelará la "
+"actualización de la versión anterior de GRUB."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "¿Desea continuar sin instalar GRUB?"
 
 #. Type: boolean
 #. Description
@@ -152,6 +157,12 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"Ha escogido no instalar GRUB en ningún dispositivo. Si continúa, puede que "
+"el cargador de arranque no se configure correctamente, y cuando su máquina "
+"se vuelva a iniciar se utilizará lo que hubiera anteriormente en el sector "
+"de arranque. Si hay una versión previa de GRUB 2 en el sector de arranque, "
+"puede que sea imposible cargar los módulos o manejar el archivo de "
+"configuración actual."
 
 #. Type: boolean
 #. Description
@@ -162,12 +173,16 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"Si está ejecutando un cargador de arranque diferente y quiere seguir, o si "
+"es un entorno especial en el que no necesita un cargador de arranque, "
+"entonces debería continuar. De otro modo, debería instalar GRUB en algún "
+"lado."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "¿Desea terminar la conversión a GRUB 2 ahora?"
 
 #. Type: boolean
 #. Description
@@ -176,6 +191,9 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"Este sistema todavía tiene archivos del cargador de arranque de la versión "
+"anterior de GRUB instalados, pero ahora también tiene registros de arranque "
+"de GRUB 2 instalados en estos distos:"
 
 #. Type: boolean
 #. Description
@@ -187,6 +205,11 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"Parece que la versión anterior de GRUB ya no se utiliza, y que usted debería "
+"actualizar las imágenes de GRUB 2 en estos discos y terminar la conversión a "
+"GRUB 2 borrando los archivos de la versión anterior de GRUB. Si no actualiza "
+"estas imágenes de GRUB 2, puede que sean incompatibles con los nuevos "
+"paquetes y que provoquen que su sistema no arranque correctamente."
 
 #. Type: boolean
 #. Description
@@ -195,6 +218,9 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"Debería terminar la conversión a GRUB 2 a menos que estos registros de "
+"arranque los crease una instalación de GRUB 2 en algún otro sistema "
+"operativo."
 
 #. Type: string
 #. Description
@@ -270,7 +296,7 @@ msgstr ""
 #. Description
 #: ../templates.in:5001
 msgid "/boot/grub/device.map has been regenerated"
-msgstr ""
+msgstr "Se ha regenerado el archivo «/boot/grub/device.map»"
 
 #. Type: note
 #. Description
@@ -280,6 +306,10 @@ msgid ""
 "names.  In most cases, this should significantly reduce the need to change "
 "it in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
+"El archivo «/boot/grub/device.map» se ha rescrito para utilizar los nombres "
+"de dispositivos estables. En la mayoría de los casos, esto debería reducir "
+"significativamente la necesidad de cambiarlo en el futuro, y las entradas "
+"del menú que generó GRUB no se verán afectadas."
 
 #. Type: note
 #. Description
@@ -290,6 +320,10 @@ msgid ""
 "have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
 "and update them if necessary."
 msgstr ""
+"Sin embargo, ya que tiene más de un disco en su sistema, es posible que "
+"dependiera de un mapa de dispositivos antiguo. Por favor, compruebe si tiene "
+"alguna entrada personalizada en el menú de arranque que depende de la "
+"numeración de los dispositivos de GRUB (hdN) y actualizarla si es necesario."
 
 #. Type: note
 #. Description
@@ -298,6 +332,8 @@ msgid ""
 "If you do not understand this message, or if you do not have any custom boot "
 "menu entries, you can ignore this message."
 msgstr ""
+"Puede ignorar este mensaje si no lo entiende, o si no tiene ninguna entrada "
+"personalizada en el menú de arranque."
 
 #~ msgid "GRUB 1.95 numbering scheme transition"
 #~ msgstr "Esquema de transición numérica de GRUB 1.95"
