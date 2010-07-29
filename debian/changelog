@@ -4,6 +4,9 @@ grub2 (1.98+20100722-2) UNRELEASED; urgency=low
   * German (Martin Eberhard Schauer).  Closes: #590108
   * Spanish (Francisco Javier Cuadrado).  Closes: #590448
 
+  [ Christian Perrier ]
+  * Dutch (Paul Gevers).  Closes: #590864
+
  -- Christian Perrier <bubulle@debian.org>  Sun, 25 Jul 2010 15:04:30 +0200
 
 grub2 (1.98+20100722-1) unstable; urgency=low
