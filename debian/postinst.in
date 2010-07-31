@@ -125,6 +125,7 @@ scan_grub2()
   return 1
 }
 
+# for Linux
 sysfs_size()
 {
   local num_sectors sector_size size
@@ -145,6 +146,19 @@ sysfs_size()
   echo "$size"
 }
 
+# for kFreeBSD
+camcontrol_size()
+{
+  local num_sectors sector_size size
+
+  num_sectors="$(camcontrol readcap "$1" -q -s -N)"
+  sector_size="$(camcontrol readcap "$1" -q -b)"
+  size="$(expr "$num_sectors" \* "$sector_size" / 1000 / 1000)"
+
+  [ "$size" ] || size='???'
+  echo "$size"
+}
+
 # Returns value in $RET, like a debconf command.
 describe_disk()
 {
@@ -152,24 +166,34 @@ describe_disk()
   disk="$1"
   id="$2"
 
-  if which udevadm >/dev/null 2>&1; then
-    size="$(sysfs_size "/sys$(udevadm info -n "$disk" -q path)")"
-  else
-    base="${disk#/dev/}"
-    base="$(printf %s "$base" | sed 's,/,!,g')"
-    size="$(sysfs_size "/sys/block/$base")"
-  fi
-
   model=
-  if which udevadm >/dev/null 2>&1; then
-    model="$(udevadm info -n "$disk" -q property | sed -n 's/^ID_MODEL=//p')"
-    if [ -z "$model" ]; then
-      model="$(udevadm info -n "$disk" -q property | sed -n 's/^DM_NAME=//p')"
-      if [ -z "$model" ] && which dmsetup >/dev/null 2>&1; then
-        model="$(dmsetup info -c --noheadings -o name "$disk" 2>/dev/null || true)"
+  case $(uname -s) in
+    Linux)
+      if which udevadm >/dev/null 2>&1; then
+        size="$(sysfs_size "/sys$(udevadm info -n "$disk" -q path)")"
+      else
+        base="${disk#/dev/}"
+        base="$(printf %s "$base" | sed 's,/,!,g')"
+        size="$(sysfs_size "/sys/block/$base")"
       fi
-    fi
-  fi
+
+      if which udevadm >/dev/null 2>&1; then
+        model="$(udevadm info -n "$disk" -q property | sed -n 's/^ID_MODEL=//p')"
+        if [ -z "$model" ]; then
+          model="$(udevadm info -n "$disk" -q property | sed -n 's/^DM_NAME=//p')"
+          if [ -z "$model" ] && which dmsetup >/dev/null 2>&1; then
+            model="$(dmsetup info -c --noheadings -o name "$disk" 2>/dev/null || true)"
+          fi
+        fi
+      fi
+    ;;
+    GNU/kFreeBSD)
+      disk_basename=$(basename "$disk")
+      size="$(camcontrol_size "$disk_basename")"
+      model="$(camcontrol inquiry "$disk_basename" | sed -ne "s/^pass0: <\([^>]*\)>.*/\1/p")"
+    ;;
+  esac
+
   [ "$model" ] || model='???'
 
   db_subst grub-pc/disk_description DEVICE "$disk"
