@@ -3,6 +3,7 @@ grub2 (1.98+20100722-2) UNRELEASED; urgency=low
   [ Updated translations ]
   * German (Martin Eberhard Schauer).  Closes: #590108
   * Spanish (Francisco Javier Cuadrado).  Closes: #590448
+  * Traditional Chinese (Tetralet).  Closes: #591191
 
   [ Christian Perrier ]
   * Dutch (Paul Gevers).  Closes: #590864
