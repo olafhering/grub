@@ -1,14 +1,14 @@
-# Copyright (C) 2008-2009 GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
+# Copyright (C) 2008-2010 GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
 # This file is distributed under the same license as the grub2 package.
-# Hideki Yamane (Debian-JP) <henrich@debian.or.jp>, 2008-2009.
+# Hideki Yamane <henrich@debian.or.jp>, <henrich@debian.org>, 2008-2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.96+20080724-4\n"
+"Project-Id-Version: grub2 1.98+20100617-1\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2009-10-05 02:07+0900\n"
-"Last-Translator: Hideki Yamane (Debian-JP) <henrich@debian.or.jp>\n"
+"PO-Revision-Date: 2010-07-25 14:19+0900\n"
+"Last-Translator: Hideki Yamane <henrich@debian.org>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -19,14 +19,14 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:2001
 msgid "Chainload from menu.lst?"
-msgstr "menu.lst から続けて起動 (チェーンロード)しますか?"
+msgstr "menu.lst 経由で起動 (チェーンロード) しますか?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
-"GRUB のアップグレードプログラムは GRUB Legacy の設定が /boot/grub にあるのを"
+"GRUB のアップグレードプログラムが、/boot/grub に GRUB Legacy の設定があるのを"
 "検出しました。"
 
 #. Type: boolean
@@ -38,9 +38,9 @@ msgid ""
 "your existing GRUB Legacy setup.  This step may be automaticaly performed "
 "now."
 msgstr ""
-"システム中に存在している以前のバージョンの GRUB を置き換えるためには、/boot/"
-"grub/menu.lst にある GRUB Legacy の設定を使って GRUB2 をチェーンロードするよ"
-"うに調整するのがお勧めです。この作業は自動的に実行されます。"
+"システム中に存在している古いバージョンの GRUB を置き換えるには、/boot/grub/"
+"menu.lst にある GRUB Legacy の設定を使って GRUB2 を起動 (チェーンロード) する"
+"ように設定するのがお勧めです。この作業はここで自動的に実行されます。"
 
 #. Type: boolean
 #. Description
@@ -50,9 +50,9 @@ msgid ""
 "verify that your new GRUB 2 setup is functional for you, before you install "
 "it directly to your MBR (Master Boot Record)."
 msgstr ""
-"MBR (マスタブートレコード) に直接インストールする前に、GRUB 2 が menu.lst か"
-"らチェーンロードするように設定し、新しい GRUB 2 の設定が動作するかどうかを確"
-"認する事をお勧めします。"
+"MBR (マスターブートレコード) に直接インストールする前に、GRUB 2 が menu.lst "
+"からチェーンロードするように設定し、新しい GRUB 2 の設定が動作するかどうかを"
+"確認する事をお勧めします。"
 
 #. Type: boolean
 #. Description
@@ -61,8 +61,8 @@ msgid ""
 "In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
 "can do so by issuing (as root) the following command:"
 msgstr ""
-"いずれにせよ、GRUB 2 を MBR から直接起動したくなった時いつでも (root にて) 以"
-"下のコマンドを入力することで対応できます:"
+"いずれにせよ、GRUB 2 を MBR から直接起動したくなった時は、いつでも (root 権限"
+"で) 以下のコマンドを入力することで変更できます:"
 
 #. Type: text
 #. Description
@@ -70,13 +70,15 @@ msgstr ""
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
 msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgstr ""
+msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "GRUB installation failed.  Continue?"
 msgstr ""
+"GRUB のインストールに失敗しました。パッケージのインストール作業を続行します"
+"か?"
 
 #. Type: boolean
 #. Description
@@ -84,7 +86,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr ""
+msgstr "GRUB は以下のデバイスへのインストールに失敗しました:"
 
 #. Type: boolean
 #. Description
@@ -93,12 +95,14 @@ msgid ""
 "Do you want to continue anyway?  If you do, your computer may not start up "
 "properly."
 msgstr ""
+"とにかく続行しますか? その場合、コンピュータが正常に起動しないかもしれませ"
+"ん。"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "GRUB installation failed.  Try again?"
-msgstr ""
+msgstr "GRUB のインストールに失敗しました。もう一度試してみますか?"
 
 #. Type: boolean
 #. Description
@@ -108,12 +112,15 @@ msgid ""
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
 msgstr ""
+"別のデバイスに GRUB をインストールできるかもしれませんが、そのデバイスからシ"
+"ステムが起動するかどうかを確認しておく必要があります。どのデバイスにもインス"
+"トールを行わない場合は、GRUB Legacy からのアップグレードは中止されます。"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "GRUB をインストールせずにパッケージのインストールを続行しますか?"
 
 #. Type: boolean
 #. Description
@@ -125,6 +132,12 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"どのデバイスに対しても GRUB をインストールしないことが選択されました。ブート"
+"ローダーが正しく設定されていない可能性があり、このまま続行するとコンピュータ"
+"の次回起動時には、以前に起動セクタにインストールされていたものを何であろうと"
+"も利用しようとします。以前のバージョンの GRUB 2 が起動セクタにある場合は、モ"
+"ジュールの読み込みや現在の設定ファイルの取り扱いが出来なくなる可能性がありま"
+"す。"
 
 #. Type: boolean
 #. Description
@@ -135,12 +148,15 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"既に別のブートローダーを利用していてそれを使い続けたい場合、あるいはブート"
+"ローダーを必要としない特殊な環境の場合は、とにかく続行してしまって構いませ"
+"ん。そうでない場合は、どこかに GRUB をインストールしてください。"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "ここで GRUB 2 へのコンバートを終了しますか?"
 
 #. Type: boolean
 #. Description
@@ -149,6 +165,8 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"このシステムには GRUB Legacy のブートローダーがインストールしたファイルがあり"
+"ますが、GRUB 2 のブートレコードも以下のディスクにインストールされています:"
 
 #. Type: boolean
 #. Description
@@ -160,6 +178,11 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"GRUB Legacy はもはや使われてはいないようなので、代わりにこれらのディスク上の "
+"GRUB 2 イメージをアップグレードして、古い GRUB Legacy のファイルを削除するこ"
+"とで GRUB 2 へのコンバートを完了する必要があります。これらの GRUB 2 イメージ"
+"をアップグレードしていない場合は、新しいパッケージとの互換性がないためにシス"
+"テムが正常に起動しない可能性があります。"
 
 #. Type: boolean
 #. Description
@@ -168,12 +191,14 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"他の OS 上での GRUB 2 のインストールによって作成されていたブートレコードを除"
+"き、GRUB 2 へのコンバートはほぼ完了しました。"
 
 #. Type: string
 #. Description
 #: ../templates.in:1001
 msgid "Linux command line:"
-msgstr "Linux コマンド:"
+msgstr "Linux コマンドライン:"
 
 #. Type: string
 #. Description
@@ -200,7 +225,7 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
-"以下の文字列はリカバリーモードではない通常のメニューエントリでの Linux パラ"
+"以下の文字列は、リカバリーモードではない通常のメニューエントリでの Linux パラ"
 "メータとして使われます。"
 
 #. Type: string
@@ -217,7 +242,7 @@ msgid ""
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"以下の kFreeBSD のコマンドラインは /etc/default/grub か GRUB Legacy の menu."
+"以下の kFreeBSD のコマンドラインは、/etc/default/grub か GRUB Legacy の menu."
 "lst 上の「kopt」パラメータから取得されています。これが正しいものであるかを確"
 "認して、必要であれば修正してください。"
 
@@ -241,7 +266,7 @@ msgstr ""
 #. Description
 #: ../templates.in:5001
 msgid "/boot/grub/device.map has been regenerated"
-msgstr ""
+msgstr "/boot/grub/device.map が再生成されました"
 
 #. Type: note
 #. Description
@@ -251,6 +276,9 @@ msgid ""
 "names.  In most cases, this should significantly reduce the need to change "
 "it in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
+"/boot/grub/device.map ファイルは固定のデバイス名を使うように書き換えられまし"
+"た。多くの場合は、今後このファイルを変更する必要が大幅に減っており、GRUB に"
+"よって生成される起動メニューの項目は影響を受けないはずです。"
 
 #. Type: note
 #. Description
@@ -261,6 +289,10 @@ msgid ""
 "have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
 "and update them if necessary."
 msgstr ""
+"しかし、システムに 2 個以上ディスクがあるので、起動メニューの項目が古いデバイ"
+"ス情報に依存していた可能性があります。起動メニューの項目が GRUB でのドライブ"
+"の順番 (hdN) に関連していないかどうかを確認して、必要であれば更新してくださ"
+"い。"
 
 #. Type: note
 #. Description
@@ -269,3 +301,5 @@ msgid ""
 "If you do not understand this message, or if you do not have any custom boot "
 "menu entries, you can ignore this message."
 msgstr ""
+"このメッセージの意味が分からない、あるいは起動メニューの項目を変更していない"
+"場合は、このメッセージを無視して構いません。"
