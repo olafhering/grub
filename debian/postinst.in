@@ -181,8 +181,11 @@ describe_disk()
         model="$(udevadm info -n "$disk" -q property | sed -n 's/^ID_MODEL=//p')"
         if [ -z "$model" ]; then
           model="$(udevadm info -n "$disk" -q property | sed -n 's/^DM_NAME=//p')"
-          if [ -z "$model" ] && which dmsetup >/dev/null 2>&1; then
-            model="$(dmsetup info -c --noheadings -o name "$disk" 2>/dev/null || true)"
+          if [ -z "$model" ]; then
+            model="$(udevadm info -n "$disk" -q property | sed -n 's/^MD_NAME=//p')"
+            if [ -z "$model" ] && which dmsetup >/dev/null 2>&1; then
+              model="$(dmsetup info -c --noheadings -o name "$disk" 2>/dev/null || true)"
+            fi
           fi
         fi
       fi
@@ -465,6 +468,22 @@ case "$1" in
                     descriptions="${descriptions:+$descriptions, }$RET"
                   fi
                 done
+              fi
+            done
+            # Some "partitions" may in fact be at the disk level, e.g. RAID.
+            # List these as well if they haven't already been listed.
+            for partition_pair in $partitions; do
+              partition_id="${partition_pair#*:}"
+              if [ "${partition_id#*-part}" = "$partition_id" ]; then
+                case ", $ids, " in
+                  ", $partition_id, ") ;;
+                  *)
+                    ids="${ids:+$ids, }$partition_id"
+                    describe_disk "$(readlink -f "$partition_id")" "$partition_id"
+                    RET="$(printf %s "$RET" | sed 's/,/\\,/g')"
+                    descriptions="${descriptions:+$descriptions, }$RET"
+                    ;;
+                esac
               fi
             done
             db_subst "$question" RAW_CHOICES "$ids"
