@@ -1,5 +1,16 @@
 grub2 (1.98+20100722-2) UNRELEASED; urgency=low
 
+  * New Bazaar snapshot.
+    - Remove compatibility with terminal.mod prior to
+      terminal_input/terminal_output separation (LP: #519358).
+    - Enable `grub-probe -t device' resolution on ZFS.
+    - Don't use UUID for LVM root when generating Xen entries (closes:
+      #591093).
+    - Restore missing whitespace to commands' --help output (closes:
+      #590874).
+    - Select unique numbers for named RAID arrays, for use as keys in the
+      disk cache.
+
   [ Updated translations ]
   * German (Martin Eberhard Schauer).  Closes: #590108
   * Spanish (Francisco Javier Cuadrado).  Closes: #590448
