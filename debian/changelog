@@ -1,4 +1,4 @@
-grub2 (1.98+20100722-2) UNRELEASED; urgency=low
+grub2 (1.98+20100802-1) unstable; urgency=low
 
   * New Bazaar snapshot.
     - Remove compatibility with terminal.mod prior to
@@ -30,7 +30,7 @@ grub2 (1.98+20100722-2) UNRELEASED; urgency=low
   * Offer RAID devices as GRUB installation targets if they contain /,
     /boot, or /boot/grub.
 
- -- Robert Millan <rmh@gnu.org>  Sun, 01 Aug 2010 23:29:58 +0200
+ -- Colin Watson <cjwatson@debian.org>  Tue, 03 Aug 2010 02:13:07 +0100
 
 grub2 (1.98+20100722-1) unstable; urgency=low
 
