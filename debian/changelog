@@ -1,3 +1,10 @@
+grub2 (1.98+20100802-2) UNRELEASED; urgency=low
+
+  [ Updated translations ]
+  * Slovak (sk.po) by Slavko (closes: #591458).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 03 Aug 2010 14:09:47 +0100
+
 grub2 (1.98+20100802-1) unstable; urgency=low
 
   * New Bazaar snapshot.

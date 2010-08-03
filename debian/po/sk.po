@@ -1,0 +1,306 @@
+# Slovak translations for grub2 package.
+# Copyright (C) 2010 THE grub2'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the grub2 package.
+# Slavko <linux@slavino.sk>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: grub 2\n"
+"Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
+"POT-Creation-Date: 2010-07-02 12:55+0100\n"
+"PO-Revision-Date: 2010-08-03 11:47+0200\n"
+"Last-Translator: Slavko <linux@slavino.sk>\n"
+"Language-Team: Slovak <nomail>\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "Chainload from menu.lst?"
+msgstr "Zreťaziť z menu.lst?"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
+msgstr ""
+"Aktualizačné skripty GRUB zistili nastavenie starej verzie GRUB (Legacy) v /"
+"boot/grub."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"In order to replace the Legacy version of GRUB in your system, it is "
+"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
+"your existing GRUB Legacy setup.  This step may be automaticaly performed "
+"now."
+msgstr ""
+"Pre nahradenie starej verzie GRUB (Legacy ) vo vašom systéme, je odporúčané "
+"aby bol /boot/grub/menu.lst nastavený na zreťazenie (chainload) GRUB 2 z "
+"existujúceho nastavenia starého GRUB (Legacy). Tento krok môže byť teraz "
+"vykonaný automaticky."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
+"verify that your new GRUB 2 setup is functional for you, before you install "
+"it directly to your MBR (Master Boot Record)."
+msgstr ""
+"Doporučujeme aby ste schválili zreťazenie GRUB 2 z menu.lst a overili, že "
+"nastavenie vášho nového GRUB 2 je funkčné ešte predtým, ako ho nainštalujete "
+"priamo do svojho MBR (Master Boot Record)."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
+"can do so by issuing (as root) the following command:"
+msgstr ""
+"Keď sa rozhodnete zavádzať GRUB 2 priamo z MBR, môžete to urobiť pomocou "
+"nasledujúceho príkazu (ako root):"
+
+#. Type: text
+#. Description
+#. Disk sizes are in decimal megabytes, to match how disk manufacturers
+#. usually describe them.
+#: ../grub-pc.templates.in:5001
+msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
+msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:7001
+msgid "GRUB installation failed.  Continue?"
+msgstr "Inštalácia GRUB zlyhala. Pokračovať?"
+
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
+msgid "GRUB failed to install to the following devices:"
+msgstr "GRUB sa nepodarilo nainštalovať na tieto zariadenia:"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:7001
+msgid ""
+"Do you want to continue anyway?  If you do, your computer may not start up "
+"properly."
+msgstr ""
+"Chcete napriek tomu pokračovať? Ak áno, môže sa stať, že sa váš počítač "
+"nenaštartuje správne."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:8001
+msgid "GRUB installation failed.  Try again?"
+msgstr "Inštalácia GRUB zlyhala. Skúsiť znova?"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:8001
+msgid ""
+"You may be able to install GRUB to some other device, although you should "
+"check that your system will boot from that device.  Otherwise, the upgrade "
+"from GRUB Legacy will be cancelled."
+msgstr ""
+"Možno sa vám podarí nainštalovať GRUB aj na niektoré iné zariadenie, ale "
+"musíte skontrolovať, že váš systém dokáže z neho zavádzať. Inak bude "
+"aktualizácia zo starého GRUB (Legacy) zrušená."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:9001
+msgid "Continue without installing GRUB?"
+msgstr "Pokračovať bez inštalácie GRUB?"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:9001
+msgid ""
+"You chose not to install GRUB to any devices.  If you continue, the boot "
+"loader may not be properly configured, and when your computer next starts up "
+"it will use whatever was previously in the boot sector.  If there is an "
+"earlier version of GRUB 2 in the boot sector, it may be unable to load "
+"modules or handle the current configuration file."
+msgstr ""
+"Zvolili ste si neinštalovať GRUB na žiadne zariadenie. Ak budete pokračovať, "
+"zavádzač nemusí byť správne nastavený a pri nasledujúcom štarte počítača "
+"bude použité to, čo bolo v zavádzacom sektore predtým.  Ak tam bola "
+"predchádzajúca verzia GRUB 2, nemusí sa jej podariť načítať moduly alebo "
+"spracovať aktuálny konfiguračný súbor."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:9001
+msgid ""
+"If you are already running a different boot loader and want to carry on "
+"doing so, or if this is a special environment where you do not need a boot "
+"loader, then you should continue anyway.  Otherwise, you should install GRUB "
+"somewhere."
+msgstr ""
+"Ak už používate iný zavádzač a chcete ho zachovať, alebo ak používate "
+"špeciálne prostredie, v ktorom zavádzač nepotrebujete, potom môžete "
+"pokračovať. V opačnom prípade by ste mali niekde GRUB nainštalovať."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:11001
+msgid "Finish conversion to GRUB 2 now?"
+msgstr "Dokončiť konverziu na GRUB 2 teraz?"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:11001
+msgid ""
+"This system still has files from the GRUB Legacy boot loader installed, but "
+"it now also has GRUB 2 boot records installed on these disks:"
+msgstr ""
+"Tento systém má stále nainštalované súbory zo starého zavádzača GRUB "
+"(Legacy), ale má nainštalované aj nové zavádzacie záznamy GRUB 2 na týchto "
+"diskoch:"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:11001
+msgid ""
+"It seems likely that GRUB Legacy is no longer in use, and that you should "
+"instead upgrade the GRUB 2 images on these disks and finish the conversion "
+"to GRUB 2 by removing old GRUB Legacy files.  If you do not upgrade these "
+"GRUB 2 images, then they may be incompatible with the new packages and cause "
+"your system to stop booting properly."
+msgstr ""
+"Vyzerá to, že starý GRUB (Legacy) už nie je používaný, a tak môžete na "
+"týchto diskoch aktualizovať obrazy GRUB 2 a dokončiť konverziu na GRUB 2 "
+"odstránením súborov starého GRUB (Legacy). Ak nezaktualizuje tieto obrazy "
+"GRUB 2, potom nemusia byť kompatibilné s novými balíkmi a môžu narušiť "
+"správne zavádzanie systému."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:11001
+msgid ""
+"You should generally finish the conversion to GRUB 2 unless these boot "
+"records were created by a GRUB 2 installation on some other operating system."
+msgstr ""
+"Mali by ste dokončiť konverziu na GRUB 2, ibaže boli tieto zavádzacie "
+"záznamy vytvorené inštaláciou GRUB 2 iného operačného systému."
+
+#. Type: string
+#. Description
+#: ../templates.in:1001
+msgid "Linux command line:"
+msgstr "Parametre pre Linux:"
+
+#. Type: string
+#. Description
+#: ../templates.in:1001
+msgid ""
+"The following Linux command line was extracted from /etc/default/grub or the "
+"`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"Nasledujúce parametre pre Linux boli získané z /etc/default/grub alebo z "
+"parametra 'kopt' z menu.lst starého GRUB (Legacy). Skontrolujte prosím ich "
+"správnosť a prípadne ich opravte."
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid "Linux default command line:"
+msgstr "Predvolené parametre pre Linux:"
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid ""
+"The following string will be used as Linux parameters for the default menu "
+"entry but not for the recovery mode."
+msgstr ""
+"nasledujúci reťazec bude použitý ako parametre pre Linux pre predvolenú "
+"položku menu, ale nie pre záchranný režim."
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+msgid "kFreeBSD command line:"
+msgstr "Parametre pre kFreeBSD:"
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+msgid ""
+"The following kFreeBSD command line was extracted from /etc/default/grub or "
+"the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"Nasledujúce parametre pre kFreeBSD boli získané z /etc/default/grub alebo z "
+"parametra 'kopt' z menu.lst starého GRUB (Legacy). Skontrolujte prosím ich "
+"správnosť a prípadne ich opravte."
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid "kFreeBSD default command line:"
+msgstr "Predvolené parametre pre kFreeBSD:"
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid ""
+"The following string will be used as kFreeBSD parameters for the default "
+"menu entry but not for the recovery mode."
+msgstr ""
+"nasledujúci reťazec bude použitý ako parametre pre kFreeBSD pre predvolenú "
+"položku menu, ale nie pre záchranný režim."
+
+#. Type: note
+#. Description
+#: ../templates.in:5001
+msgid "/boot/grub/device.map has been regenerated"
+msgstr "/boot/grub/device.map bol aktualizovaný"
+
+#. Type: note
+#. Description
+#: ../templates.in:5001
+msgid ""
+"The file /boot/grub/device.map has been rewritten to use stable device "
+"names.  In most cases, this should significantly reduce the need to change "
+"it in future, and boot menu entries generated by GRUB should not be affected."
+msgstr ""
+"Súbor /boot/grub/device.map bol upravený tak, aby používal stabilné mená "
+"zariadení. Väčšinou to významne zníži potrebu zmien v budúcnosti a položky "
+"zavádzacieho menu, generované GRUB, by tým nemali byť ovplyvnené."
+
+#. Type: note
+#. Description
+#: ../templates.in:5001
+msgid ""
+"However, since you have more than one disk in your system, it is possible "
+"that you were depending on the old device map.  Please check whether you "
+"have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
+"and update them if necessary."
+msgstr ""
+"Avšak, keďže máte vo svojom systéme viac ako jeden disk, že ste sa "
+"spoliehali na na starý súbor device.map. Skontrolujte si prosím, že že "
+"nepoužívate žiadne upravené položky menu, ktoré závisia na číslovaní "
+"zariadení GRUB (hdN) a prípadne ich aktualizuje."
+
+#. Type: note
+#. Description
+#: ../templates.in:5001
+msgid ""
+"If you do not understand this message, or if you do not have any custom boot "
+"menu entries, you can ignore this message."
+msgstr ""
+"Ak nerozumiete tejto správe, alebo ak nemáte žiadne upravené položky v "
+"zavádzacom menu, môžete túto správu ignorovať."
