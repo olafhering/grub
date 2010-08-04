@@ -1,4 +1,7 @@
-grub2 (1.98+20100802-2) UNRELEASED; urgency=low
+grub2 (1.98+20100804-1) UNRELEASED; urgency=low
+
+  * New Bazaar snapshot.
+    - Fix grub-emu build on GNU/kFreeBSD (closes: #591490).
 
   [ Colin Watson ]
   * Add kernel hook scripts and remove any uses of update-grub as a
