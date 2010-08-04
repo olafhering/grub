@@ -1,4 +1,4 @@
-grub2 (1.98+20100804-1) UNRELEASED; urgency=low
+grub2 (1.98+20100804-1) unstable; urgency=low
 
   * New Bazaar snapshot.
     - Fix grub-emu build on GNU/kFreeBSD (closes: #591490).
@@ -15,7 +15,7 @@ grub2 (1.98+20100804-1) UNRELEASED; urgency=low
   [ Updated translations ]
   * Slovak (sk.po) by Slavko (closes: #591458).
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 03 Aug 2010 14:09:47 +0100
+ -- Colin Watson <cjwatson@debian.org>  Wed, 04 Aug 2010 04:48:11 +0100
 
 grub2 (1.98+20100802-1) unstable; urgency=low
 
