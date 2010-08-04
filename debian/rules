@@ -32,7 +32,7 @@ confflags = CC=$(CC) TARGET_CC=$(CC) --enable-grub-mkfont --disable-grub-fstest
 # autogen.sh runs util/import_gcry.py after autoconf et al, so
 # conf/gcry.rmk's timestamp will be later and we need to disregard it.
 AUTOGEN_FILES = configure $(filter-out conf/gcry.mk,$(wildcard conf/*.mk)) debian/grub-extras/*/conf/*.mk
-AUTOGEN_DEB_FILES = examples manpages config templates postinst postrm dirs install
+AUTOGEN_DEB_FILES = examples manpages config templates postinst postrm dirs install links
 
 $(AUTOGEN_FILES): autogen.sh configure.ac $(filter-out conf/gcry.rmk,$(wildcard conf/*.rmk)) debian/grub-extras/*/conf/*.rmk
 	sed -i configure.ac -e "s/^AC_INIT.*/AC_INIT(\[GRUB\],\[$(deb_version)\],\[bug-grub@gnu.org\])/"
@@ -207,7 +207,7 @@ override_dh_auto_clean:
 override_dh_clean: debian/legacy/update-grub debian/grub-extras
 	dh_clean
 
-	chmod +x debian/{script,grub.d/*,legacy/*}
+	chmod +x debian/{script,grub.d/*,legacy/*,kernel/*}
 
 	for i in $(AUTOGEN_DEB_FILES) ; do \
 		rm -f debian/grub-{pc,efi-*,ieee1275,coreboot,yeeloong}.$$i ; \

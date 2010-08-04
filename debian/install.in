@@ -4,3 +4,4 @@ debian/default			usr/share/grub
 debian/grub.d			etc
 debian/update-grub2		usr/sbin
 debian/update-grub		usr/sbin
+debian/kernel/zz-update-grub	etc/kernel/postinst.d

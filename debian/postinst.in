@@ -261,14 +261,14 @@ case "$1" in
 
     devicemap_regenerated=
 
+    if egrep -q '^[[:space:]]*post(inst|rm)_hook[[:space:]]*=[[:space:]]*(/sbin/|/usr/sbin/)?update-grub' /etc/kernel-img.conf 2>/dev/null; then
+      echo 'Removing update-grub hooks from /etc/kernel-img.conf in favour of' >&2
+      echo '/etc/kernel/ hooks.' >&2
+      sed -ri /etc/kernel-img.conf -e '\%^[[:space:]]*post(inst|rm)_hook[[:space:]]*=[[:space:]]*(/sbin/|/usr/sbin/)?update-grub%d'
+    fi
+
     case @PACKAGE@ in
       grub-pc)
-
-        if grep -q "[= ]/sbin/update-grub" /etc/kernel-img.conf 2> /dev/null ; then
-          echo -e "\n/etc/kernel-img.conf still contains /sbin/update-grub in the hooks." >&2
-          echo -e "Running sed over it to remove the /sbin/ prefix.\n" >&2
-          sed -i /etc/kernel-img.conf -e "s,\(.*\)  */sbin/update-grub$,\1 update-grub,g"
-        fi
         mkdir -p /boot/grub
 
         if test -e /boot/grub/device.map && ! test -e /boot/grub/core.img ; then
