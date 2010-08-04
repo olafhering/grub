@@ -5,6 +5,9 @@ grub2 (1.98+20100802-2) UNRELEASED; urgency=low
     postinst_hook or postrm_hook in /etc/kernel-img.conf (closes: #554175).
     Thanks to Ben Hutchings for advice and to Harald Braumann for an early
     implementation.
+  * Extend the existing GRUB_LEGACY_0_BASED_PARTITIONS handling to avoid
+    new-style partition naming when generating output for GRUB Legacy
+    (closes: #590554).
 
   [ Updated translations ]
   * Slovak (sk.po) by Slavko (closes: #591458).
