@@ -1,5 +1,9 @@
 grub2 (1.98+20100804-2) UNRELEASED; urgency=low
 
+  [ Colin Watson ]
+  * Make /etc/kernel/postrm.d/zz-update-grub a real file rather than a
+    symlink (closes: #592076).
+
   [ Updated translations ]
   * Norwegian Bokmål (nb.po) by Hans Nordhaug (closes: #591569).
 
