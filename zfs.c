@@ -164,11 +164,12 @@ struct grub_zfs_data
 };
 
 decomp_entry_t decomp_table[ZIO_COMPRESS_FUNCTIONS] = {
-  {"inherit", 0},		/* ZIO_COMPRESS_INHERIT */
+  {"inherit", NULL},		/* ZIO_COMPRESS_INHERIT */
   {"on", lzjb_decompress},	/* ZIO_COMPRESS_ON */
-  {"off", 0},			/* ZIO_COMPRESS_OFF */
+  {"off", NULL},		/* ZIO_COMPRESS_OFF */
   {"lzjb", lzjb_decompress},	/* ZIO_COMPRESS_LZJB */
-  {"empty", 0}			/* ZIO_COMPRESS_EMPTY */
+  {"empty", NULL},		/* ZIO_COMPRESS_EMPTY */
+  {"gzip", NULL},		/* ZIO_COMPRESS_GZIP */
 };
 
 static grub_err_t zio_read_data (blkptr_t * bp, grub_zfs_endian_t endian,
