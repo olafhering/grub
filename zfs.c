@@ -3,6 +3,7 @@
  *  Copyright (C) 1999,2000,2001,2002,2003,2004  Free Software Foundation, Inc.
  *  Copyright 2008  Sun Microsystems, Inc.
  *  Copyright (C) 2009  Vladimir Serbinenko <phcoder@gmail.com>
+ *  Copyright (C) 2010  Robert Millan <rmh@gnu.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -515,14 +516,14 @@ zio_read (blkptr_t * bp, grub_zfs_endian_t endian, void **buf,
 	  grub_size_t *size, struct grub_zfs_data *data)
 {
   grub_size_t lsize, psize;
-  int comp;
+  unsigned int comp;
   char *compbuf;
   grub_err_t err;
   zio_cksum_t zc = bp->blk_cksum;
   grub_uint32_t checksum;
 
   checksum = (grub_zfs_to_cpu64((bp)->blk_prop, endian) >> 40) & 0xff;
-  comp = (grub_zfs_to_cpu64((bp)->blk_prop, endian)>>32) & 0xff;
+  comp = (grub_zfs_to_cpu64((bp)->blk_prop, endian)>>32) & 0x7;
   lsize = (BP_IS_HOLE(bp) ? 0 :
 	   (((grub_zfs_to_cpu64 ((bp)->blk_prop, endian) & 0xffff) + 1)
 	    << SPA_MINBLOCKSHIFT));
@@ -531,13 +532,13 @@ zio_read (blkptr_t * bp, grub_zfs_endian_t endian, void **buf,
   if (size)
     *size = lsize;
 
-  if ((unsigned int) comp >= ZIO_COMPRESS_FUNCTIONS ||
-      (comp != ZIO_COMPRESS_OFF && decomp_table[comp].decomp_func == NULL))
-    {
-      grub_dprintf ("zfs", "comp=%d\n", comp);
-      return grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET,
-			 "compression algorithm not supported\n");
-    }
+  if (comp >= ZIO_COMPRESS_FUNCTIONS)
+    return grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET,
+		       "compression algorithm %u not supported\n", (unsigned int) comp);
+
+  if (comp != ZIO_COMPRESS_OFF && decomp_table[comp].decomp_func == NULL)
+    return grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET,
+		       "compression algorithm %s not supported\n", decomp_table[comp].name);
 
   if (comp != ZIO_COMPRESS_OFF)
     {
