@@ -1,3 +1,10 @@
+grub2 (1.98+20100804-3) UNRELEASED; urgency=low
+
+  [ Updated translations ]
+  * Brazilian Portuguese (pt_BR.po) by Hans Nordhaug (closes: #592156).
+
+ -- Christian Perrier <bubulle@debian.org>  Sun, 08 Aug 2010 19:50:34 -0400
+
 grub2 (1.98+20100804-2) unstable; urgency=low
 
   [ Colin Watson ]
