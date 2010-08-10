@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2009-08-30 15:50+0100\n"
-"Last-Translator: Marcos <marcos.alvarez.costales@gmail.com>\n"
-"Language-Team: Asturian <softast-xeneral@lists.sourceforge.net>\n"
-"Language: ast\n"
+"PO-Revision-Date: 2010-08-09 09:23+0100\n"
+"Last-Translator: maacub <maacub@gmail.com>\n"
+"Language-Team: Asturian <alministradores@softastur.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ast\n"
 
 #. Type: boolean
 #. Description
@@ -72,13 +72,13 @@ msgstr ""
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
 msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgstr ""
+msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "GRUB installation failed.  Continue?"
-msgstr ""
+msgstr "La instalación de GRUB falló. ¿Siguir?"
 
 #. Type: boolean
 #. Description
@@ -86,7 +86,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr ""
+msgstr "Falló GRUB al instalar nos siguientes preseos:"
 
 #. Type: boolean
 #. Description
@@ -95,12 +95,13 @@ msgid ""
 "Do you want to continue anyway?  If you do, your computer may not start up "
 "properly."
 msgstr ""
+"¿Quies siguir igualmente? Si quies, el to ordenador podría nun arrancar bien."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "GRUB installation failed.  Try again?"
-msgstr ""
+msgstr "Falló la instalación de GRUB. ¿Intentalo otra vegada?"
 
 #. Type: boolean
 #. Description
@@ -110,12 +111,15 @@ msgid ""
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
 msgstr ""
+"Puedes instalar GRUB a otru preséu, aunque deberíes comprobar que'l to "
+"sistema arrancará dende esi preséu. De lo contrario, l'anovamientu de GRUB "
+"encaboxarase."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "¿Siguir ensin instalar GRUB?"
 
 #. Type: boolean
 #. Description
@@ -127,6 +131,11 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"Escoyistes nun instalar GRUB en dengún preséu. De siguir, el xestor "
+"d'arranque podría nun tar configuráu dafechu, y nel siguiente aniciu del "
+"ordenador usarás lo que teníes previamente nel sector d'arranque. Si hai un "
+"versión anterior de GRUB 2 nel sector d'arranque, podría ser capaz de cargar "
+"módulos o remanar el ficheru de configuración actual."
 
 #. Type: boolean
 #. Description
@@ -137,12 +146,16 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"Si ya tas executando un xestor d'arranque distintu y quies siguir "
+"faciéndolo, o si ye un ambiente especial onde nun necesites un xestor "
+"d'arranque, entós puedes siguir. D'otra miente, deberíes instalar GRUB en "
+"dalgún sitiu."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "¿Finar agora conversión a GRUB 2?"
 
 #. Type: boolean
 #. Description
@@ -151,6 +164,8 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"Esti sistema tovía tien ficheros del xestor d'arranque GRUB instaláu, pero "
+"agora tamién registros d'arranque GRUB 2 instaláu n'estos discos:"
 
 #. Type: boolean
 #. Description
@@ -162,6 +177,11 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"Parez probable que GRUB ya nun ta n'usu, y que deberíes anovar les imáxenes "
+"de GRUB 2 d'estos discos y finar la conversión a GRUB 2, desaniciando vieyos "
+"ficheros heredaos de GRUB. Si nun anoves estes imáxenes de GRUB, entós "
+"pueden ser incompatibles colos nuevos paquetes y facer que'l to sistema nun "
+"arranque correutamente."
 
 #. Type: boolean
 #. Description
@@ -170,6 +190,9 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"En xeneral, deberíes finar la conversión a GRUB 2 a menos qu'estos rexistros "
+"d'arranque fueren creaos por una instalación de GRUB 2 en dalgún otru "
+"sistema operativu."
 
 #. Type: string
 #. Description
@@ -243,7 +266,7 @@ msgstr ""
 #. Description
 #: ../templates.in:5001
 msgid "/boot/grub/device.map has been regenerated"
-msgstr ""
+msgstr "/boot/grub/device.map foi xeneráu"
 
 #. Type: note
 #. Description
@@ -253,6 +276,10 @@ msgid ""
 "names.  In most cases, this should significantly reduce the need to change "
 "it in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
+"El ficheru /boot/grub/device.map foi sobroescritu pa usar nomes estables pal "
+"preséu. Na mayoría de los casos, esto va a amenorgar considerablemente la "
+"necesidá de camudar nel futuru, y les entraes del menú d'arranque GRUB "
+"xeneraos nun deberíen vese afectaes."
 
 #. Type: note
 #. Description
@@ -263,6 +290,10 @@ msgid ""
 "have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
 "and update them if necessary."
 msgstr ""
+"En too casu, ya tienes más d'un discu nel to sistema, ye posible que "
+"dependieres del mapa antigüu del preséu. Por favor, comprueba si tienes o "
+"non entraes d'arranque del menú personalizaes que se basen na númberación de "
+"la unidá GRUB's (hdN), y anovalos si ye necesario."
 
 #. Type: note
 #. Description
@@ -271,3 +302,5 @@ msgid ""
 "If you do not understand this message, or if you do not have any custom boot "
 "menu entries, you can ignore this message."
 msgstr ""
+"Si nun entiendes esti mensax, o si nun tienes nenguna entrada personalizada "
+"nel menú d'arranque, puedes ignorar esti mensax."
