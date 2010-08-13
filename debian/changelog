@@ -3,6 +3,7 @@ grub2 (1.98+20100804-3) UNRELEASED; urgency=low
   [ Updated translations ]
   * Brazilian Portuguese (pt_BR.po) by Flamarion Jorge (closes: #592156).
   * Asturian (ast.po) by Maacub (closes: #592313).
+  * Galician (gl.po) by Jorge Barreiro (closes: #592816).
 
  -- Christian Perrier <bubulle@debian.org>  Sun, 08 Aug 2010 19:50:34 -0400
 
