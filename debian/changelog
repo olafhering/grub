@@ -5,7 +5,14 @@ grub2 (1.98+20100804-3) UNRELEASED; urgency=low
   * Asturian (ast.po) by Maacub (closes: #592313).
   * Galician (gl.po) by Jorge Barreiro (closes: #592816).
 
- -- Christian Perrier <bubulle@debian.org>  Sun, 08 Aug 2010 19:50:34 -0400
+  [ Robert Millan ]
+  * Backport ZFS bugfixes from upstream Bazaar:
+    - zfs_fix_chroot.patch: Fix breakage when running grub-probe inside chroot.
+    - zfs_fix_label_arg.patch: Fix grub-probe fs_label argument.
+    - zfs_fix_pathname.patch: Fix pathname for non-root ZFS filesystems.
+    - zfs_fix_segfault.patch: Fix segfault when /dev is not mounted.
+
+ -- Robert Millan <rmh@debian.org>  Mon, 16 Aug 2010 15:17:13 +0200
 
 grub2 (1.98+20100804-2) unstable; urgency=low
 

@@ -1,0 +1,38 @@
+Description: Fix segfault when /dev is not mounted
+Author: Robert Millan <rmh@debian.org>
+Forwarded: not needed, patch from upstream Bazaar
+Last-Update: 2010-08-16
+
+--- a/kern/emu/getroot.c	2010-08-01 21:12:24 +0000
++++ b/kern/emu/getroot.c	2010-08-16 13:07:46 +0000
+@@ -193,11 +193,16 @@ find_root_device_from_libzfs (const char
+ 
+   {
+     zpool_handle_t *zpool;
++    libzfs_handle_t *libzfs;
+     nvlist_t *nvlist;
+     nvlist_t **nvlist_array;
+     unsigned int nvlist_count;
+ 
+-    zpool = zpool_open (grub_get_libzfs_handle (), poolname);
++    libzfs = grub_get_libzfs_handle ();
++    if (! libzfs)
++      return NULL;
++
++    zpool = zpool_open (libzfs, poolname);
+     nvlist = zpool_get_config (zpool, NULL);
+ 
+     if (nvlist_lookup_nvlist (nvlist, "vdev_tree", &nvlist) != 0)
+
+--- a/kern/emu/misc.c	2010-08-03 22:15:29 +0000
++++ b/kern/emu/misc.c	2010-08-16 13:07:46 +0000
+@@ -268,7 +268,8 @@ grub_get_libzfs_handle (void)
+   if (! __libzfs_handle)
+     {
+       __libzfs_handle = libzfs_init ();
+-      atexit (fini_libzfs);
++      if (__libzfs_handle)
++	atexit (fini_libzfs);
+     }
+ 
+   return __libzfs_handle;
