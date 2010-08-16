@@ -12,6 +12,11 @@ grub2 (1.98+20100804-3) UNRELEASED; urgency=low
     - zfs_fix_pathname.patch: Fix pathname for non-root ZFS filesystems.
     - zfs_fix_segfault.patch: Fix segfault when /dev is not mounted.
 
+  [ Colin Watson ]
+  * Escape single quotes when removing them from $mode in zz-update-grub, so
+    that this works when /bin/sh is bash (thanks, Will Dyson; closes:
+    #593242).
+
  -- Robert Millan <rmh@debian.org>  Mon, 16 Aug 2010 15:17:13 +0200
 
 grub2 (1.98+20100804-2) unstable; urgency=low

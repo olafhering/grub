@@ -2,8 +2,8 @@
 set -e
 
 set -- $DEB_MAINT_PARAMS
-mode="${1#'}"
-mode="${mode%'}"
+mode="${1#\'}"
+mode="${mode%\'}"
 case $0:$mode in
     # Only run on postinst configure and postrm remove, to avoid wasting
     # time by calling update-grub multiple times on upgrade and removal.
