@@ -14,3 +14,4 @@ zfs_fix_chroot.patch
 zfs_fix_segfault.patch
 zfs_fix_pathname.patch
 zfs_fix_label_arg.patch
+kfreebsd_ext2.patch

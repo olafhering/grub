@@ -16,6 +16,8 @@ grub2 (1.98+20100804-3) UNRELEASED; urgency=low
   * Escape single quotes when removing them from $mode in zz-update-grub, so
     that this works when /bin/sh is bash (thanks, Will Dyson; closes:
     #593242).
+  * Add support for ext2 root on GNU/kFreeBSD (thanks, Aurelien Jarno;
+    closes: #593467).
 
  -- Robert Millan <rmh@debian.org>  Mon, 16 Aug 2010 15:17:13 +0200
 
