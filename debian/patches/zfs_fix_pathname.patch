@@ -3,9 +3,11 @@ Author: Robert Millan <rmh@debian.org>
 Forwarded: not needed, patch from upstream Bazaar
 Last-Update: 2010-08-16
 
---- a/kern/emu/misc.c	2010-08-03 22:15:29 +0000
-+++ b/kern/emu/misc.c	2010-08-16 13:07:46 +0000
-@@ -508,7 +519,7 @@ grub_make_system_path_relative_to_its_ro
+Index: b/kern/emu/misc.c
+===================================================================
+--- a/kern/emu/misc.c
++++ b/kern/emu/misc.c
+@@ -519,7 +519,7 @@
  
    if (poolfs)
      {
@@ -14,4 +16,3 @@ Last-Update: 2010-08-16
        free (buf3);
      }
    else
-
