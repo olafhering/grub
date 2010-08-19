@@ -1,4 +1,4 @@
-grub2 (1.98+20100804-3) UNRELEASED; urgency=low
+grub2 (1.98+20100804-3) unstable; urgency=low
 
   [ Updated translations ]
   * Brazilian Portuguese (pt_BR.po) by Flamarion Jorge (closes: #592156).
@@ -19,7 +19,7 @@ grub2 (1.98+20100804-3) UNRELEASED; urgency=low
   * Add support for ext2 root on GNU/kFreeBSD (thanks, Aurelien Jarno;
     closes: #593467).
 
- -- Robert Millan <rmh@debian.org>  Mon, 16 Aug 2010 15:17:13 +0200
+ -- Colin Watson <cjwatson@debian.org>  Thu, 19 Aug 2010 18:21:45 +0100
 
 grub2 (1.98+20100804-2) unstable; urgency=low
 
