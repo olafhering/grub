@@ -1,13 +1,13 @@
 # Italian (it) translation of debconf templates for grub2
 # This file is distributed under the same license as the grub2 package.
-# Luca Monducci <luca.mo@tiscali.it>, 2007-2009.
-# 
+# Luca Monducci <luca.mo@tiscali.it>, 2007-2010.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.96+20090829-2 italian debconf templates\n"
+"Project-Id-Version: grub2 1.98+20100710-2 italian debconf templates\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2009-09-04 10:37+0200\n"
+"PO-Revision-Date: 2010-08-20 12:02+0200\n"
 "Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
 "Language: it\n"
@@ -26,8 +26,8 @@ msgstr "Effettuare il caricamento in cascata da menu.lst?"
 #: ../grub-pc.templates.in:2001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
-"Gli script di aggiornamento hanno rilevato una configurazione del vecchio "
-"GRUB in /boot/grub."
+"Gli script di aggiornamento hanno rilevato la configurazione di GRUB Legacy "
+"in /boot/grub."
 
 #. Type: boolean
 #. Description
@@ -38,10 +38,10 @@ msgid ""
 "your existing GRUB Legacy setup.  This step may be automaticaly performed "
 "now."
 msgstr ""
-"Per sostituire la vecchia versione di GRUB sul proprio sistema, si "
-"raccomanda di correggere il file /boot/grub/menu.lst in modo da caricare "
-"GRUB 2 in cascata dalla versione di GRUB esistente. Questa modifica può "
-"essere effettuata automaticamente adesso."
+"Per sostituire la versione Legacy di GRUB sul proprio sistema, si raccomanda "
+"di correggere il file /boot/grub/menu.lst in modo da caricare GRUB 2 in "
+"cascata dalla versione di GRUB esistente. Questa modifica può essere "
+"effettuata automaticamente adesso."
 
 #. Type: boolean
 #. Description
@@ -72,13 +72,13 @@ msgstr ""
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
 msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgstr ""
+msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "GRUB installation failed.  Continue?"
-msgstr ""
+msgstr "Installazione di GRUB non riuscita. Continuare?"
 
 #. Type: boolean
 #. Description
@@ -86,7 +86,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr ""
+msgstr "L'installazione di GRUB su i seguenti device non è riuscita:"
 
 #. Type: boolean
 #. Description
@@ -95,12 +95,14 @@ msgid ""
 "Do you want to continue anyway?  If you do, your computer may not start up "
 "properly."
 msgstr ""
+"Si vuole continuare? Continuando, il computer potrebbe non avviarsi più "
+"correttamente."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "GRUB installation failed.  Try again?"
-msgstr ""
+msgstr "Installazione di GRUB non riuscita. Riprovare?"
 
 #. Type: boolean
 #. Description
@@ -110,12 +112,15 @@ msgid ""
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
 msgstr ""
+"È possibile installare GRUB su altri device però è necessario verificare che "
+"il propio sistema si possa avviare dai quei device. Altrimenti, "
+"l'aggiornamento da GRUB Legacy verrà annullato."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "Continuare senza installare GRUB?"
 
 #. Type: boolean
 #. Description
@@ -127,6 +132,12 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"Si è scelto di non installare GRUB su alcun device. Continuando, il boot "
+"loader potrebbe non essere configurato correttamente e al prossimo avvio del "
+"computer verrà usato il vecchio contenuto del settore di boot. Se nel "
+"settore di boot è presente una versione precedente di GRUB 2, questa "
+"potrebbe non essere in grado di caricare i moduli o di gestire l'attuale "
+"file di configurazione."
 
 #. Type: boolean
 #. Description
@@ -137,12 +148,15 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"Se già si usa un altro boot loader e si vuole continuare a farlo oppure se "
+"non si ha necessità di usare un boot loader allora è possibile continuare. "
+"Altrimenti è necessario installare GRUB da qualche parte."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "Completare la conversione a GRUB 2 adesso?"
 
 #. Type: boolean
 #. Description
@@ -151,6 +165,8 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"Su questo sistema sono ancora presenti i file del boot loader GRUB Legacy ma "
+"adesso su i seguenti dischi sono installati anche i boot record di GRUB 2:"
 
 #. Type: boolean
 #. Description
@@ -162,6 +178,11 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"Sembra che GRUB Legacy non sia più usato quindi si dovrebbero aggiornare le "
+"immagini su i dischi con GRUB 2 e completare la conversione a GRUB 2 "
+"eliminando i vecchi file di GRUB Legacy. Se non si aggiornano le immagini "
+"con GRUB 2, in futuro potrebbero non essere più compatibili con i nuovi "
+"pacchetti e potrebbero impedire il corretto avvio del sistema."
 
 #. Type: boolean
 #. Description
@@ -170,6 +191,9 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"Si dovrebbe completare la conversione a GRUB 2 a meno che i boot record non "
+"siano stati creati da un'altra installazione di GRUB 2 su un altro sistema "
+"operativo."
 
 #. Type: string
 #. Description
@@ -243,7 +267,7 @@ msgstr ""
 #. Description
 #: ../templates.in:5001
 msgid "/boot/grub/device.map has been regenerated"
-msgstr ""
+msgstr "/boot/grub/device.map è stato rigenerato"
 
 #. Type: note
 #. Description
@@ -253,6 +277,10 @@ msgid ""
 "names.  In most cases, this should significantly reduce the need to change "
 "it in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
+"Il file /boot/grub/device.map è stato riscritto in modo da usare i nomi "
+"stabili dei device. In molti casi questo dovrebbe ridurre in modo "
+"significativo la necessità di cambiarli in futuro e le voci nel menu di GRUB "
+"non dovrebbero essere influenzate."
 
 #. Type: note
 #. Description
@@ -263,6 +291,10 @@ msgid ""
 "have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
 "and update them if necessary."
 msgstr ""
+"Comunque, visto che sul sistema ci sono più dischi, è possibile che si fosse "
+"dipendenti dalla vecchia mappa dei device. Controllare se nel menu di GRUB "
+"ci sono delle voci personalizzate che usano la numeriazione dei device di "
+"GRUB (hdN) e, se necessario, aggiornarle."
 
 #. Type: note
 #. Description
@@ -271,3 +303,5 @@ msgid ""
 "If you do not understand this message, or if you do not have any custom boot "
 "menu entries, you can ignore this message."
 msgstr ""
+"Se non si capisce questo messaggio o non si hanno voci di menu "
+"personalizzate, ignorare questo messaggio."
