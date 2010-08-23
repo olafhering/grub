@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: grub2 1.98+20100710-2 italian debconf templates\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2010-08-20 12:02+0200\n"
+"PO-Revision-Date: 2010-08-22 14:32+0200\n"
 "Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
 "Language: it\n"
@@ -86,7 +86,7 @@ msgstr "Installazione di GRUB non riuscita. Continuare?"
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr "L'installazione di GRUB su i seguenti device non è riuscita:"
+msgstr "L'installazione di GRUB sui seguenti device non è riuscita:"
 
 #. Type: boolean
 #. Description
@@ -112,8 +112,8 @@ msgid ""
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
 msgstr ""
-"È possibile installare GRUB su altri device però è necessario verificare che "
-"il propio sistema si possa avviare dai quei device. Altrimenti, "
+"È possibile installare GRUB su un altro device però è necessario verificare "
+"che il propio sistema si possa avviare da quel device. Altrimenti, "
 "l'aggiornamento da GRUB Legacy verrà annullato."
 
 #. Type: boolean
@@ -166,7 +166,7 @@ msgid ""
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
 "Su questo sistema sono ancora presenti i file del boot loader GRUB Legacy ma "
-"adesso su i seguenti dischi sono installati anche i boot record di GRUB 2:"
+"adesso sui seguenti dischi sono installati anche i boot record di GRUB 2:"
 
 #. Type: boolean
 #. Description
@@ -179,7 +179,7 @@ msgid ""
 "your system to stop booting properly."
 msgstr ""
 "Sembra che GRUB Legacy non sia più usato quindi si dovrebbero aggiornare le "
-"immagini su i dischi con GRUB 2 e completare la conversione a GRUB 2 "
+"immagini sui dischi con GRUB 2 e completare la conversione a GRUB 2 "
 "eliminando i vecchi file di GRUB Legacy. Se non si aggiornano le immagini "
 "con GRUB 2, in futuro potrebbero non essere più compatibili con i nuovi "
 "pacchetti e potrebbero impedire il corretto avvio del sistema."
@@ -293,7 +293,7 @@ msgid ""
 msgstr ""
 "Comunque, visto che sul sistema ci sono più dischi, è possibile che si fosse "
 "dipendenti dalla vecchia mappa dei device. Controllare se nel menu di GRUB "
-"ci sono delle voci personalizzate che usano la numeriazione dei device di "
+"ci sono delle voci personalizzate che usano la numerazione dei device di "
 "GRUB (hdN) e, se necessario, aggiornarle."
 
 #. Type: note
