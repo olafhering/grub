@@ -71,7 +71,7 @@
 #define fprintf(stream,template,args...)	grub_printf(template, ## args)
 #define strtol(x,y,z)				grub_strtoul(x,y,z)
 #define atoi(x)					grub_strtoul(x,NULL,10)
-#define assert(x)				0 /* FIXME */
+#define assert(x)				
 #define memset					grub_memset
 #define outl		grub_outl
 #define outb		grub_outb
@@ -91,12 +91,14 @@
 
 #define MODE_TABLE_OFFSET_845G 617
 
-#define VERSION "0.5.3"
+#define RES915_VERSION "0.5.3"
 
 #define ATI_SIGNATURE1 "ATI MOBILITY RADEON"
 #define ATI_SIGNATURE2 "ATI Technologies Inc"
 #define NVIDIA_SIGNATURE "NVIDIA Corp"
 #define INTEL_SIGNATURE "Intel Corp"
+
+#define DEBUG 0
 
 typedef unsigned char * address;
 typedef unsigned char byte;
@@ -212,12 +214,12 @@ typedef struct {
 } vbios_map;
 
 
-cardinal get_chipset_id(void) {
+static cardinal get_chipset_id(void) {
     outl(0x80000000, 0xcf8);
     return inl(0xcfc);
 }
 
-chipset_type get_chipset(cardinal id) {
+static chipset_type get_chipset(cardinal id) {
     chipset_type type;
     
     switch (id) {
@@ -298,24 +300,24 @@ chipset_type get_chipset(cardinal id) {
 }
 
 
-vbios_resolution_type1 * map_type1_resolution(vbios_map * map, word res) {
+static vbios_resolution_type1 * map_type1_resolution(vbios_map * map, word res) {
     vbios_resolution_type1 * ptr = ((vbios_resolution_type1*)(map->bios_ptr + res)); 
     return ptr;
 }
 
-vbios_resolution_type2 * map_type2_resolution(vbios_map * map, word res) {
+static vbios_resolution_type2 * map_type2_resolution(vbios_map * map, word res) {
     vbios_resolution_type2 * ptr = ((vbios_resolution_type2*)(map->bios_ptr + res)); 
     return ptr;
 }
 
-vbios_resolution_type3 * map_type3_resolution(vbios_map * map, word res) {
+static vbios_resolution_type3 * map_type3_resolution(vbios_map * map, word res) {
     vbios_resolution_type3 * ptr = ((vbios_resolution_type3*)(map->bios_ptr + res)); 
     return ptr;
 }
 
 
-boolean detect_bios_type(vbios_map * map, boolean modeline, int entry_size) {
-    int i;
+static boolean detect_bios_type(vbios_map * map, int entry_size) {
+    unsigned i;
     short int r1, r2;
     
     r1 = r2 = 32000;
@@ -337,10 +339,10 @@ boolean detect_bios_type(vbios_map * map, boolean modeline, int entry_size) {
 }
 
 
-void close_vbios(vbios_map * map);
+static void close_vbios(vbios_map * map);
 
 
-vbios_map * open_vbios(chipset_type forced_chipset) {
+static vbios_map * open_vbios(chipset_type forced_chipset) {
     vbios_map * map = NEW(vbios_map);
     memset (map, 0, sizeof(vbios_map));
 
@@ -364,7 +366,7 @@ vbios_map * open_vbios(chipset_type forced_chipset) {
      *  Map the video bios to memory
      */
 
-    map->bios_ptr=(char*)VBIOS_START;
+    map->bios_ptr = (unsigned char *) VBIOS_START;
 
 #if 0
     /*
@@ -466,13 +468,13 @@ vbios_map * open_vbios(chipset_type forced_chipset) {
      *  order of detection is important
      */
 
-    if (detect_bios_type(map, TRUE, sizeof(vbios_modeline_type3))) {
+    if (detect_bios_type(map, sizeof(vbios_modeline_type3))) {
         map->bios = BT_3;
     }
-    else if (detect_bios_type(map, TRUE, sizeof(vbios_modeline_type2))) {
+    else if (detect_bios_type(map, sizeof(vbios_modeline_type2))) {
         map->bios = BT_2;
     }
-    else if (detect_bios_type(map, FALSE, sizeof(vbios_resolution_type1))) {
+    else if (detect_bios_type(map, sizeof(vbios_resolution_type1))) {
         map->bios = BT_1;
     }
     else {
@@ -489,13 +491,13 @@ vbios_map * open_vbios(chipset_type forced_chipset) {
     return map;
 }
 
-void close_vbios(vbios_map * map) {
+static void close_vbios(vbios_map * map) {
     assert(!map->unlocked);
 
     FREE(map);
 }
 
-void unlock_vbios(vbios_map * map) {
+static void unlock_vbios(vbios_map * map) {
 
     assert(!map->unlocked);
         
@@ -545,7 +547,7 @@ void unlock_vbios(vbios_map * map) {
 #endif
 }
 
-void relock_vbios(vbios_map * map) {
+static void relock_vbios(vbios_map * map) {
 
     assert(map->unlocked);
     map->unlocked = FALSE;
@@ -588,7 +590,7 @@ void relock_vbios(vbios_map * map) {
 }
 
 
-void list_modes(vbios_map *map, cardinal raw) {
+static void list_modes(vbios_map *map, cardinal raw) {
     cardinal i, x, y;
 
     for (i=0; i < map->mode_table_size; i++) {
@@ -662,7 +664,7 @@ static void gtf_timings(int x, int y, int freq,
     *clock = (x + hbl) * vfreq / 1000;
 }
 
-void set_mode(vbios_map * map, cardinal mode, cardinal x, cardinal y, cardinal bp, cardinal htotal, cardinal vtotal) {
+static void set_mode(vbios_map * map, cardinal mode, cardinal x, cardinal y, cardinal bp, cardinal htotal, cardinal vtotal) {
     int xprev, yprev;
     cardinal i, j;
 
@@ -763,7 +765,7 @@ void set_mode(vbios_map * map, cardinal mode, cardinal x, cardinal y, cardinal b
     }
 }   
 
-void display_map_info(vbios_map * map) {
+static void display_map_info(vbios_map * map) {
     printf("Chipset: %s\n", chipset_type_names[map->chipset]);
     printf("BIOS: %s\n", bios_type_names[map->bios]);
 
@@ -772,10 +774,11 @@ void display_map_info(vbios_map * map) {
 }
 
 
-int parse_args(int argc, char *argv[], chipset_type *forced_chipset, cardinal *list, cardinal *mode, cardinal *x, cardinal *y, cardinal *bp, cardinal *raw, cardinal *htotal, cardinal *vtotal) {
+static int parse_args(cardinal argc, char *argv[], chipset_type *forced_chipset, cardinal *list, cardinal *mode, cardinal *x, cardinal *y, cardinal *bp, cardinal *raw, cardinal *htotal, cardinal *vtotal) {
     cardinal index = 0;
 
     *list = *mode = *x = *y = *raw = *htotal = *vtotal = 0;
+    *bp = 0;
 
     *forced_chipset = CT_UNKWN;
     
@@ -897,7 +900,7 @@ int parse_args(int argc, char *argv[], chipset_type *forced_chipset, cardinal *l
     return 0;
 }
 
-static void usage() {
+static void usage(void) {
     printf("Usage: 915resolution [-c chipset] [-l] [mode X Y] [bits/pixel] [htotal] [vtotal]\n");
     printf("  Set the resolution to XxY for a video mode\n");
     printf("  Bits per pixel are optional.  htotal/vtotal settings are additionally optional.\n");
@@ -907,13 +910,13 @@ static void usage() {
     printf("    -r display the modes found in the video BIOS in raw mode (THIS IS USED FOR DEBUG PURPOSES)\n");
 }
 
-int main (int argc, char *argv[])
+static int main (int argc, char *argv[])
 {
     vbios_map * map;
     cardinal list, mode, x, y, bp, raw, htotal, vtotal;
     chipset_type forced_chipset;
     
-    printf("Intel 800/900 Series VBIOS Hack : version %s\n\n", VERSION);
+    printf("Intel 800/900 Series VBIOS Hack : version %s\n\n", RES915_VERSION);
 
     if (parse_args(argc, argv, &forced_chipset, &list, &mode, &x, &y, &bp, &raw, &htotal, &vtotal) == -1) {
         usage();
@@ -953,19 +956,21 @@ int main (int argc, char *argv[])
 
 
 static grub_err_t
-grub_cmd_915resolution (struct grub_arg_list *state __attribute__ ((unused)), int argc, char *argv[])
+grub_cmd_915resolution (grub_command_t cmd __attribute__ ((unused)), 
+			int argc, char *argv[])
 {
   return main (argc, argv);
 }
 
+static grub_command_t cmd;
+
 GRUB_MOD_INIT(915resolution)
 {
-  (void)mod;			/* To stop warning. */
-  grub_register_extcmd ("915resolution", grub_cmd_915resolution, GRUB_COMMAND_FLAG_BOTH,
-			 "915resolution", "Intel VBE editor", 0);
+  cmd = grub_register_command ("915resolution", grub_cmd_915resolution,
+			       "915resolution", "Intel VBE editor");
 }
 
 GRUB_MOD_FINI(915resolution)
 {
-  grub_unregister_command ("915resolution");
+  grub_unregister_command (cmd);
 }
