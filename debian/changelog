@@ -1,4 +1,4 @@
-grub2 (1.98+20100804-4) UNRELEASED; urgency=low
+grub2 (1.98+20100804-4) unstable; urgency=low
 
   [ Updated translations ]
   * Italian (it.po) by Luca Monducci (closes: #593685).
@@ -10,7 +10,7 @@ grub2 (1.98+20100804-4) UNRELEASED; urgency=low
     of update-grub, but that's better than not running it at all (closes:
     #594037).
 
- -- Colin Watson <cjwatson@debian.org>  Sat, 21 Aug 2010 14:23:41 +0100
+ -- Colin Watson <cjwatson@debian.org>  Mon, 23 Aug 2010 12:11:55 +0100
 
 grub2 (1.98+20100804-3) unstable; urgency=low
 
