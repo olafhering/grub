@@ -2,6 +2,7 @@ grub2 (1.98+20100804-4) UNRELEASED; urgency=low
 
   [ Updated translations ]
   * Italian (it.po) by Luca Monducci (closes: #593685).
+  * Finnish (fi.po) by Esko Arajärvi (closes: #593921).
 
   [ Colin Watson ]
   * Run update-grub from kernel hooks if DEB_MAINT_PARAMS is unset, for

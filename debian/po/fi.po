@@ -1,10 +1,10 @@
-# Esko Arajärvi <edu@iki.fi>, 2009.
+# Esko Arajärvi <edu@iki.fi>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2009-10-21 21:25+0300\n"
+"PO-Revision-Date: 2010-08-22 13:43+0300\n"
 "Last-Translator: Esko Arajärvi <edu@iki.fi>\n"
 "Language-Team: Finnish <debian-l10n-finnish@lists.debian.org>\n"
 "Language: fi\n"
@@ -52,7 +52,7 @@ msgid ""
 "it directly to your MBR (Master Boot Record)."
 msgstr ""
 "On suositeltavaa, että hyväksyt GRUB 2:n ketjutetun lataamisen tiedostosta "
-"menu.lst, ja varmistat uusien GRUB 2 -asetusten toimivuuden ennen kuin "
+"menu.lst ja varmistat uusien GRUB 2 -asetusten toimivuuden ennen kuin "
 "asennat ne pääkäynnistyslohkoon (MBR)."
 
 #. Type: boolean
@@ -71,13 +71,13 @@ msgstr ""
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
 msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgstr ""
+msgstr "${DEVICE} (${SIZE} Mt, ${MODEL})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "GRUB installation failed.  Continue?"
-msgstr ""
+msgstr "GRUBin asennus epäonnistui. Jatketaanko?"
 
 #. Type: boolean
 #. Description
@@ -85,7 +85,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr ""
+msgstr "GRUBia ei voitu asentaa seuraaville laitteille:"
 
 #. Type: boolean
 #. Description
@@ -94,12 +94,14 @@ msgid ""
 "Do you want to continue anyway?  If you do, your computer may not start up "
 "properly."
 msgstr ""
+"Valitse haluatko jatkaa tästä huolimatta. Jos jatkat, järjestelmä ei "
+"välttämättä käynnisty kunnolla."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "GRUB installation failed.  Try again?"
-msgstr ""
+msgstr "GRUBin asennus epäonnistui. Yritetäänkö uudelleen?"
 
 #. Type: boolean
 #. Description
@@ -109,12 +111,15 @@ msgid ""
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
 msgstr ""
+"Voit ehkä asentaa GRUBin jollekin toiselle levylle. Varmista tällöin, että "
+"järjestelmäsi voidaan käynnistää kyseiseltä levyltä. Muussa tapauksessa "
+"GRUBin aiemman version päivitys perutaan."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "Jatketaanko asentamatta GRUBia?"
 
 #. Type: boolean
 #. Description
@@ -126,6 +131,11 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"Päätit olla asentamatta GRUBia millekään levylle. Jos jatkat, "
+"alkulatausohjelman asetukset saattavat olla väärät ja kun kone käynnistetään "
+"uudelleen seuraavan kerran, se käyttää käynnistyslohkon aiempia asetuksia. "
+"Jos käynnistyslohkossa on GRUB 2:n aiempi versio, se ei välttämättä pysty "
+"lataamaan moduuleja tai käsittelemään nykyistä asetustiedostoa."
 
 #. Type: boolean
 #. Description
@@ -136,12 +146,15 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"Jos käytät jo muuta alkulatausohjelmaa ja haluat jatkaa sen käyttöä tai jos "
+"käytössäsi on erityinen ympäristö, jossa et tarvitse alkulatausohjelmaa, "
+"voit jatkaa asennusta. Muussa tapauksessa sinun tulisi asentaa GRUB johonkin."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "Saatetaanko siirtyminen GRUB 2:een loppuun nyt?"
 
 #. Type: boolean
 #. Description
@@ -150,6 +163,8 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"Järjestelmässä on edelleen GRUBin aiemman version tiedostoja, mutta myös "
+"GRUB 2:n käynnistystiedot on asennettu seuraaville levyille:"
 
 #. Type: boolean
 #. Description
@@ -161,6 +176,11 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"GRUBin aiempi versio ei luultavasti ole enää käytössä ja näillä levyillä "
+"olevat GRUB 2:n levykuvat tulisi päivittää ja siirtyminen GRUB 2:een saattaa "
+"loppuun poistamalla vanhat GRUB-tiedostot. Jos et päivitä GRUB 2:n kuvia, "
+"uusien pakettien kanssa voi tulla yhteensopivuusongelmia ja järjestelmän "
+"käynnistys ei ehkä toimi oikein."
 
 #. Type: boolean
 #. Description
@@ -169,6 +189,9 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"Yleisesti ottaen siirtyminen GRUB 2:een tulisi saattaa loppuun ellei näitä "
+"käynnistystietoja luotu johonkin toiseen käyttöjärjestelmään asennetulla "
+"GRUB 2:lla."
 
 #. Type: string
 #. Description
@@ -184,9 +207,9 @@ msgid ""
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"GRUB Legacyn tiedoston menu.lst parametrista ”kopt” tai tiedostosta /etc/"
-"default/grub löydettiin seuraava Linuxin komentorivi. Varmista, että se on "
-"kunnossa ja muuta sitä tarvittaessa."
+"GRUBin aiemman version tiedostosta menu.lst parametrista ”kopt” tai "
+"tiedostosta /etc/default/grub löydettiin seuraava Linuxin komentorivi. "
+"Varmista, että se on kunnossa ja muuta sitä tarvittaessa."
 
 #. Type: string
 #. Description
@@ -218,9 +241,9 @@ msgid ""
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
-"GRUB Legacyn tiedoston menu.lst parametrista ”kopt” tai tiedostosta /etc/"
-"default/grub löydettiin seuraava kFreeBSD:n komentorivi. Varmista, että se "
-"on kunnossa ja muuta sitä tarvittaessa."
+"GRUBin aiemman version tiedostosta menu.lst parametrista ”kopt” tai "
+"tiedostosta /etc/default/grub löydettiin seuraava kFreeBSD:n komentorivi. "
+"Varmista, että se on kunnossa ja muuta sitä tarvittaessa."
 
 #. Type: string
 #. Description
@@ -242,7 +265,7 @@ msgstr ""
 #. Description
 #: ../templates.in:5001
 msgid "/boot/grub/device.map has been regenerated"
-msgstr ""
+msgstr "/boot/grub/device.map on luotu uudelleen"
 
 #. Type: note
 #. Description
@@ -252,6 +275,10 @@ msgid ""
 "names.  In most cases, this should significantly reduce the need to change "
 "it in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
+"Tiedosto /boot/grub/device.map on kirjoitettu uudelleen käyttäen pysyviä "
+"laitenimiä. Useimmissa tapauksissa tämän pitäisi huomattavasti vähentää "
+"tarvetta sen muuttamiseen ja GRUBin luomien käynnistysvalikon rivien pitäisi "
+"toimia edelleen."
 
 #. Type: note
 #. Description
@@ -262,6 +289,10 @@ msgid ""
 "have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
 "and update them if necessary."
 msgstr ""
+"Koska järjestelmässä kuitenkin on useampia levyjä, on mahdollista, että "
+"jotkin asetukset viittaavat vanhaan laitetiedostoon. Tarkista onko "
+"käynnistysvalikossa rivejä, joissa käytetään GRUBin laitenumerointia (hdN), "
+"ja päivitä ne tarvittaessa."
 
 #. Type: note
 #. Description
@@ -270,3 +301,5 @@ msgid ""
 "If you do not understand this message, or if you do not have any custom boot "
 "menu entries, you can ignore this message."
 msgstr ""
+"Jos et ymmärrä tätä viestiä tai käynnistysvalikossa ei ole erityisiä rivejä, "
+"voit jättää tämän viestin huomiotta."
