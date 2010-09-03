@@ -1,3 +1,10 @@
+grub2 (1.98+20100804-5) UNRELEASED; urgency=low
+
+  [ Updated translations ]
+  * Hebrew (he.po) by Omer Zak and Lior Kaplan (closes: #593855).
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 03 Sep 2010 15:13:20 +0100
+
 grub2 (1.98+20100804-4) unstable; urgency=low
 
   [ Updated translations ]
