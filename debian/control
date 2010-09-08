@@ -156,7 +156,7 @@ Package: grub-efi-amd64
 Architecture: i386 kopensolaris-i386 amd64 kfreebsd-amd64
 Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}, ucf
 Replaces: grub, grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1), grub-pc, grub-efi-ia32, grub-coreboot, grub-ieee1275
-Conflicts: grub, grub-legacy, grub-efi-ia32, grub-coreboot, grub-ieee1275
+Conflicts: grub, grub-legacy, grub-efi-ia32, grub-pc, grub-coreboot, grub-ieee1275
 Suggests: os-prober, efibootmgr
 Description: GRand Unified Bootloader, version 2 (EFI-AMD64 version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
