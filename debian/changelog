@@ -3,6 +3,7 @@ grub2 (1.98+20100804-5) UNRELEASED; urgency=low
   [ Updated translations ]
   * Hebrew (he.po) by Omer Zak and Lior Kaplan (closes: #593855).
   * Romanian (ro.po) by ioan-eugen STAN (closes: #595727).
+  * Esperanto (eo.po) by Felipe Castro (closes: #596171).
 
   [ Colin Watson ]
   * Make grub-efi-amd64 conflict with grub-pc as well as the other way
