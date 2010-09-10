@@ -9,7 +9,10 @@ grub2 (1.98+20100804-5) UNRELEASED; urgency=low
   * Make grub-efi-amd64 conflict with grub-pc as well as the other way
     round.
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 03 Sep 2010 15:13:20 +0100
+  [ Robert Millan ]
+  * enable_zfs.patch: Fix grub-fstest build problem.
+
+ -- Robert Millan <rmh@debian.org>  Fri, 10 Sep 2010 13:42:52 +0200
 
 grub2 (1.98+20100804-4) unstable; urgency=low
 
