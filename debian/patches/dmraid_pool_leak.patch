@@ -16,7 +16,8 @@ Index: b/kern/emu/hostdisk.c
 -	  static struct dm_tree *tree = NULL;
 +	  struct dm_tree *tree;
  	  uint32_t maj, min;
- 	  struct dm_tree_node *node, *child;
+-	  struct dm_tree_node *node, *child;
++	  struct dm_tree_node *node = NULL, *child;
  	  void *handle;
 -	  const char *node_uuid, *mapper_name, *child_uuid, *child_name;
 -
