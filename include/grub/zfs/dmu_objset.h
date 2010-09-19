@@ -17,7 +17,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 /*
- * Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  * Use is subject to license terms.
  */
 
@@ -30,8 +30,11 @@ typedef struct objset_phys {
 	dnode_phys_t os_meta_dnode;
 	zil_header_t os_zil_header;
 	grub_uint64_t os_type;
-	char os_pad[1024 - sizeof (dnode_phys_t) - sizeof (zil_header_t) -
-	    sizeof (grub_uint64_t)];
+	grub_uint64_t os_flags;
+	char os_pad[2048 - sizeof (dnode_phys_t)*3 -
+	    sizeof (zil_header_t) - sizeof (grub_uint64_t)*2];
+	dnode_phys_t os_userused_dnode;
+	dnode_phys_t os_groupused_dnode;
 } objset_phys_t;
 
 #endif /* _SYS_DMU_OBJSET_H */
