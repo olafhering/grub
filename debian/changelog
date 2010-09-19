@@ -1,4 +1,4 @@
-grub2 (1.98+20100804-5) UNRELEASED; urgency=low
+grub2 (1.98+20100804-5) unstable; urgency=low
 
   [ Updated translations ]
   * Hebrew (he.po) by Omer Zak and Lior Kaplan (closes: #593855).
@@ -16,7 +16,7 @@ grub2 (1.98+20100804-5) UNRELEASED; urgency=low
   * zfs_fix_label_arg.patch: Fix kfreebsd_device initialization on ZFS
     for non-main filesystems.
 
- -- Robert Millan <rmh@debian.org>  Fri, 10 Sep 2010 13:48:27 +0200
+ -- Colin Watson <cjwatson@debian.org>  Fri, 17 Sep 2010 23:45:10 +0100
 
 grub2 (1.98+20100804-4) unstable; urgency=low
 
