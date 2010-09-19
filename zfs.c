@@ -1453,7 +1453,7 @@ make_mdn (dnode_end_t * mdn, struct grub_zfs_data *data)
   err = zio_read (bp, mdn->endian, (void **) &osp, &ospsize, data);
   if (err)
     return err;
-  if (ospsize < sizeof (objset_phys_t))
+  if (ospsize < OBJSET_PHYS_SIZE_V14)
     {
       grub_free (osp);
       return grub_error (GRUB_ERR_BAD_FS, "too small osp");
@@ -2025,7 +2025,7 @@ zfs_mount (grub_device_t dev)
 	  continue;
 	}
 
-      if (ospsize < sizeof (objset_phys_t))
+      if (ospsize < OBJSET_PHYS_SIZE_V14)
 	{
 	  grub_dprintf ("zfs", "osp too small\n"); 
 	  grub_free (osp);
