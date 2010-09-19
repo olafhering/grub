@@ -572,7 +572,10 @@ zio_read (blkptr_t * bp, grub_zfs_endian_t endian, void **buf,
       err = decomp_table[comp].decomp_func (compbuf, *buf, psize, lsize);
       grub_free (compbuf);
       if (err)
-	return err;
+	{
+	  grub_free (*buf);
+	  return err;
+	}
     }
 
   return GRUB_ERR_NONE;
