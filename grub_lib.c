@@ -428,7 +428,7 @@ grub_lua_add_menu (lua_State *state)
       if (! p)
 	return push_result (state);
 
-      grub_normal_add_menu_entry (n, args, p);
+      grub_normal_add_menu_entry (n, args, NULL, NULL, NULL, NULL, p, 0);
     }
   else
     {
