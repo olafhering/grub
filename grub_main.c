@@ -25,6 +25,7 @@
 #include <grub/command.h>
 #include <grub/i18n.h>
 #include <grub/misc.h>
+#include <grub/normal.h>
 
 static const char *
 scan_str (const char *s1, const char *s2)
