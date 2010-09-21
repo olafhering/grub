@@ -99,7 +99,7 @@ handle_lua_error (const char *error_type)
 }
 
 /* Taken from lua.c */
-int
+static int
 incomplete (lua_State * L, int status)
 {
   if (status == LUA_ERRSYNTAX)
@@ -116,7 +116,7 @@ incomplete (lua_State * L, int status)
   return 0;			/* else... */
 }
 
-grub_err_t
+static grub_err_t
 interactive (void)
 {
   char *ps1 = "lua> ";
@@ -130,7 +130,7 @@ interactive (void)
 
   grub_printf ("%s", N_ ("Welcome to lua, press the escape key to exit."));
 
-  while (line = grub_cmdline_get (prompt))
+  while ((line = grub_cmdline_get (prompt)) != NULL)
     {
       /* len = lenght of chunk + line + newline character */
       len = oldlen + grub_strlen (line) + 1;
@@ -190,7 +190,8 @@ interactive (void)
 }
 
 static grub_err_t
-grub_cmd_lua (grub_command_t cmd, int argc, char **args)
+grub_cmd_lua (grub_command_t cmd __attribute__ ((unused)),
+	      int argc, char **args)
 {
   if (argc == 1)
     {
