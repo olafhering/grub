@@ -252,7 +252,7 @@ flsl (long n)
 
 #define INT_MAX 2147483647L
 
-#define putchar(x) grub_putchar(x)
+#define putchar(x) grub_printf("%c", x)
 
 #define snprintf grub_snprintf
 #define ssnprintf grub_snprintf
