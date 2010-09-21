@@ -80,10 +80,10 @@ grub_gpxe_register_pci_nic (struct pci_driver *nic)
 	    pci->dev.desc.device = pciid >> 16;
 	    pci->vendor = pciid & 0xffff;
 	    pci->device = pciid >> 16;
-	    pci->dev.name = grub_asprintf ("PCI:%02x:%02x.%x",
-					   grub_pci_get_bus (dev),
-					   grub_pci_get_device (dev),
-					   grub_pci_get_function (dev));
+	    pci->dev.name = grub_xasprintf ("PCI:%02x:%02x.%x",
+					    grub_pci_get_bus (dev),
+					    grub_pci_get_device (dev),
+					    grub_pci_get_function (dev));
 	    pci->dev.pci_dev = dev;
 	    pci->priv = 0;
 	    pci->drvdata = 0;
