@@ -1,7 +1,7 @@
 /*
  *  GRUB  --  GRand Unified Bootloader
  *  Copyright (C) 1999,2000,2001,2002,2003,2004  Free Software Foundation, Inc.
- *  Copyright 2007 Sun Microsystems, Inc.
+ *  Copyright 2009 Sun Microsystems, Inc.
  *  Copyright (C) 2009  Vladimir Serbinenko <phcoder@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -83,6 +83,11 @@ typedef enum grub_zfs_endian
 #define	SPA_BLOCKSIZES		(SPA_MAXBLOCKSHIFT - SPA_MINBLOCKSHIFT + 1)
 
 /*
+ * Size of block to hold the configuration data (a packed nvlist)
+ */
+#define	SPA_CONFIG_BLOCKSIZE	(1 << 14)
+
+/*
  * The DVA size encodings for LSIZE and PSIZE support blocks up to 32MB.
  * The ASIZE encoding should be at least 64 times larger (6 more bits)
  * to support up to 4-way RAID-Z mirror mode with worst-case gang block
@@ -126,15 +131,15 @@ typedef struct zio_cksum {
  *	+-------+-------+-------+-------+-------+-------+-------+-------+
  * 5	|G|			 offset3				|
  *	+-------+-------+-------+-------+-------+-------+-------+-------+
- * 6	|E| lvl | type	| cksum | comp	|     PSIZE	|     LSIZE	|
+ * 6	|BDX|lvl| type	| cksum | comp	|     PSIZE	|     LSIZE	|
  *	+-------+-------+-------+-------+-------+-------+-------+-------+
  * 7	|			padding					|
  *	+-------+-------+-------+-------+-------+-------+-------+-------+
  * 8	|			padding					|
  *	+-------+-------+-------+-------+-------+-------+-------+-------+
- * 9	|			padding					|
+ * 9	|			physical birth txg			|
  *	+-------+-------+-------+-------+-------+-------+-------+-------+
- * a	|			birth txg				|
+ * a	|			logical birth txg			|
  *	+-------+-------+-------+-------+-------+-------+-------+-------+
  * b	|			fill count				|
  *	+-------+-------+-------+-------+-------+-------+-------+-------+
@@ -158,24 +163,28 @@ typedef struct zio_cksum {
  * cksum	checksum function
  * comp		compression function
  * G		gang block indicator
- * E		endianness
- * type		DMU object type
+ * B		byteorder (endianness)
+ * D		dedup
+ * X		unused
  * lvl		level of indirection
- * birth txg	transaction group in which the block was born
+ * type		DMU object type
+ * phys birth	txg of block allocation; zero if same as logical birth txg
+ * log. birth	transaction group in which the block was logically born
  * fill count	number of non-zero blocks under this bp
  * checksum[4]	256-bit checksum of the data this bp describes
  */
-typedef struct blkptr {
-	dva_t		blk_dva[3];	/* 128-bit Data Virtual Address	*/
-	grub_uint64_t	blk_prop;	/* size, compression, type, etc	*/
-	grub_uint64_t	blk_pad[3];	/* Extra space for the future	*/
-	grub_uint64_t	blk_birth;	/* transaction group at birth	*/
-	grub_uint64_t	blk_fill;	/* fill count			*/
-	zio_cksum_t	blk_cksum;	/* 256-bit checksum		*/
-} blkptr_t;
-
 #define	SPA_BLKPTRSHIFT	7		/* blkptr_t is 128 bytes	*/
 #define	SPA_DVAS_PER_BP	3		/* Number of DVAs in a bp	*/
+
+typedef struct blkptr {
+	dva_t		blk_dva[SPA_DVAS_PER_BP]; /* Data Virtual Addresses */
+	grub_uint64_t	blk_prop;	/* size, compression, type, etc	    */
+	grub_uint64_t	blk_pad[2];	/* Extra space for the future	    */
+	grub_uint64_t	blk_phys_birth;	/* txg when block was allocated	    */
+	grub_uint64_t	blk_birth;	/* transaction group at birth	    */
+	grub_uint64_t	blk_fill;	/* fill count			    */
+	zio_cksum_t	blk_cksum;	/* 256-bit checksum		    */
+} blkptr_t;
 
 /*
  * Macros to get and set fields in a bp or DVA.
@@ -195,25 +204,39 @@ typedef struct blkptr {
 #define	DVA_SET_GANG(dva, x)	BF64_SET((dva)->dva_word[1], 63, 1, x)
 
 #define	BP_GET_LSIZE(bp)	\
-	(BP_IS_HOLE(bp) ? 0 : \
-	BF64_GET_SB((bp)->blk_prop, 0, 16, SPA_MINBLOCKSHIFT, 1))
+	BF64_GET_SB((bp)->blk_prop, 0, 16, SPA_MINBLOCKSHIFT, 1)
 #define	BP_SET_LSIZE(bp, x)	\
 	BF64_SET_SB((bp)->blk_prop, 0, 16, SPA_MINBLOCKSHIFT, 1, x)
 
-#define	BP_GET_COMPRESS(bp)	BF64_GET((bp)->blk_prop, 32, 8)
-#define	BP_SET_COMPRESS(bp, x)	BF64_SET((bp)->blk_prop, 32, 8, x)
+#define	BP_GET_COMPRESS(bp)		BF64_GET((bp)->blk_prop, 32, 8)
+#define	BP_SET_COMPRESS(bp, x)		BF64_SET((bp)->blk_prop, 32, 8, x)
 
-#define	BP_GET_CHECKSUM(bp)	BF64_GET((bp)->blk_prop, 40, 8)
-#define	BP_SET_CHECKSUM(bp, x)	BF64_SET((bp)->blk_prop, 40, 8, x)
+#define	BP_GET_CHECKSUM(bp)		BF64_GET((bp)->blk_prop, 40, 8)
+#define	BP_SET_CHECKSUM(bp, x)		BF64_SET((bp)->blk_prop, 40, 8, x)
 
-#define	BP_GET_TYPE(bp)		BF64_GET((bp)->blk_prop, 48, 8)
-#define	BP_SET_TYPE(bp, x)	BF64_SET((bp)->blk_prop, 48, 8, x)
+#define	BP_GET_TYPE(bp)			BF64_GET((bp)->blk_prop, 48, 8)
+#define	BP_SET_TYPE(bp, x)		BF64_SET((bp)->blk_prop, 48, 8, x)
 
-#define	BP_GET_LEVEL(bp)	BF64_GET((bp)->blk_prop, 56, 5)
-#define	BP_SET_LEVEL(bp, x)	BF64_SET((bp)->blk_prop, 56, 5, x)
+#define	BP_GET_LEVEL(bp)		BF64_GET((bp)->blk_prop, 56, 5)
+#define	BP_SET_LEVEL(bp, x)		BF64_SET((bp)->blk_prop, 56, 5, x)
 
-#define	BP_GET_BYTEORDER(bp)	(0 - BF64_GET((bp)->blk_prop, 63, 1))
-#define	BP_SET_BYTEORDER(bp, x)	BF64_SET((bp)->blk_prop, 63, 1, x)
+#define	BP_GET_PROP_BIT_61(bp)		BF64_GET((bp)->blk_prop, 61, 1)
+#define	BP_SET_PROP_BIT_61(bp, x)	BF64_SET((bp)->blk_prop, 61, 1, x)
+
+#define	BP_GET_DEDUP(bp)		BF64_GET((bp)->blk_prop, 62, 1)
+#define	BP_SET_DEDUP(bp, x)		BF64_SET((bp)->blk_prop, 62, 1, x)
+
+#define	BP_GET_BYTEORDER(bp)		(0 - BF64_GET((bp)->blk_prop, 63, 1))
+#define	BP_SET_BYTEORDER(bp, x)		BF64_SET((bp)->blk_prop, 63, 1, x)
+
+#define	BP_PHYSICAL_BIRTH(bp)		\
+	((bp)->blk_phys_birth ? (bp)->blk_phys_birth : (bp)->blk_birth)
+
+#define	BP_SET_BIRTH(bp, logical, physical)	\
+{						\
+	(bp)->blk_birth = (logical);		\
+	(bp)->blk_phys_birth = ((logical) == (physical) ? 0 : (physical)); \
+}
 
 #define	BP_GET_ASIZE(bp)	\
 	(DVA_GET_ASIZE(&(bp)->blk_dva[0]) + DVA_GET_ASIZE(&(bp)->blk_dva[1]) + \
@@ -237,12 +260,17 @@ typedef struct blkptr {
 	((dva1)->dva_word[1] == (dva2)->dva_word[1] && \
 	(dva1)->dva_word[0] == (dva2)->dva_word[0])
 
+#define	BP_EQUAL(bp1, bp2)	\
+	(BP_PHYSICAL_BIRTH(bp1) == BP_PHYSICAL_BIRTH(bp2) &&	\
+	DVA_EQUAL(&(bp1)->blk_dva[0], &(bp2)->blk_dva[0]) &&	\
+	DVA_EQUAL(&(bp1)->blk_dva[1], &(bp2)->blk_dva[1]) &&	\
+	DVA_EQUAL(&(bp1)->blk_dva[2], &(bp2)->blk_dva[2]))
+
 #define	ZIO_CHECKSUM_EQUAL(zc1, zc2) \
 	(0 == (((zc1).zc_word[0] - (zc2).zc_word[0]) | \
 	((zc1).zc_word[1] - (zc2).zc_word[1]) | \
 	((zc1).zc_word[2] - (zc2).zc_word[2]) | \
 	((zc1).zc_word[3] - (zc2).zc_word[3])))
-
 
 #define	DVA_IS_VALID(dva)	(DVA_GET_ASIZE(dva) != 0)
 
@@ -257,7 +285,6 @@ typedef struct blkptr {
 #define	BP_IDENTITY(bp)		(&(bp)->blk_dva[0])
 #define	BP_IS_GANG(bp)		DVA_GET_GANG(BP_IDENTITY(bp))
 #define	BP_IS_HOLE(bp)		((bp)->blk_birth == 0)
-#define	BP_IS_OLDER(bp, txg)	(!BP_IS_HOLE(bp) && (bp)->blk_birth < (txg))
 
 #define	BP_ZERO(bp)				\
 {						\
@@ -270,7 +297,7 @@ typedef struct blkptr {
 	(bp)->blk_prop = 0;			\
 	(bp)->blk_pad[0] = 0;			\
 	(bp)->blk_pad[1] = 0;			\
-	(bp)->blk_pad[2] = 0;			\
+	(bp)->blk_phys_birth = 0;		\
 	(bp)->blk_birth = 0;			\
 	(bp)->blk_fill = 0;			\
 	ZIO_SET_CHECKSUM(&(bp)->blk_cksum, 0, 0, 0, 0);	\

@@ -17,7 +17,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 /*
- * Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
  * Use is subject to license terms.
  */
 
@@ -99,6 +99,8 @@ typedef struct zap_phys {
 	grub_uint64_t zap_num_leafs;		/* number of leafs */
 	grub_uint64_t zap_num_entries;	/* number of entries */
 	grub_uint64_t zap_salt;		/* salt to stir into hash function */
+	grub_uint64_t zap_normflags;		/* flags for u8_textprep_str() */
+	grub_uint64_t zap_flags;		/* zap_flag_t */
 	/*
 	 * This structure is followed by padding, and then the embedded
 	 * pointer table.  The embedded pointer table takes up second

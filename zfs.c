@@ -844,6 +844,23 @@ zap_leaf_lookup (zap_leaf_phys_t * l, grub_zfs_endian_t endian,
   return grub_error (GRUB_ERR_FILE_NOT_FOUND, "couldn't find %s", name);
 }
 
+
+/* Verify if this is a fat zap header block */
+static grub_err_t
+zap_verify (zap_phys_t *zap)
+{
+  if (zap->zap_magic != (grub_uint64_t) ZAP_MAGIC)
+    return grub_error (GRUB_ERR_BAD_FS, "bad ZAP magic");
+
+  if (zap->zap_flags != 0)
+    return grub_error (GRUB_ERR_BAD_FS, "bad ZAP flags");
+
+  if (zap->zap_salt == 0)
+    return grub_error (GRUB_ERR_BAD_FS, "bad ZAP salt");
+
+  return GRUB_ERR_NONE;
+}
+
 /*
  * Fat ZAP lookup
  *
@@ -860,12 +877,9 @@ fzap_lookup (dnode_end_t * zap_dnode, zap_phys_t * zap,
   grub_err_t err;
   grub_zfs_endian_t leafendian;
 
-  /* Verify if this is a fat zap header block */
-  if (zap->zap_magic != (grub_uint64_t) ZAP_MAGIC)
-    return grub_error (GRUB_ERR_BAD_FS, "bad ZAP magic");
+  if (err = zap_verify (zap))
+    return err;
 
-  if (zap->zap_salt == 0)
-    return grub_error (GRUB_ERR_BAD_FS, "bad ZAP salt");
   hash = zap_hash (zap->zap_salt, name);
 
   /* get block id from index */
@@ -902,12 +916,8 @@ fzap_iterate (dnode_end_t * zap_dnode, zap_phys_t * zap,
   grub_err_t err;
   grub_zfs_endian_t endian;
 
-  /* Verify if this is a fat zap header block */
-  if (zap->zap_magic != (grub_uint64_t) ZAP_MAGIC)
-    {
-      grub_error (GRUB_ERR_BAD_FS, "bad ZAP magic");
-      return 0;
-    }
+  if (zap_verify (zap))
+    return 0;
 
   /* get block id from index */
   if (zap->zap_ptrtbl.zt_numblks != 0)
