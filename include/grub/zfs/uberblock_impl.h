@@ -17,7 +17,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 /*
- * Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
  * Use is subject to license terms.
  */
 
@@ -53,8 +53,8 @@ typedef struct uberblock {
 typedef struct uberblock_phys {
 	uberblock_t	ubp_uberblock;
 	char		ubp_pad[UBERBLOCK_SIZE - sizeof (uberblock_t) -
-				sizeof (zio_block_tail_t)];
-	zio_block_tail_t ubp_zbt;
+				sizeof (zio_eck_t)];
+	zio_eck_t	ubp_zec;
 } uberblock_phys_t;
 
 

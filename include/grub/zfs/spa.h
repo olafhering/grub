@@ -1,7 +1,7 @@
 /*
  *  GRUB  --  GRand Unified Bootloader
  *  Copyright (C) 1999,2000,2001,2002,2003,2004  Free Software Foundation, Inc.
- *  Copyright 2009 Sun Microsystems, Inc.
+ *  Copyright 2010 Sun Microsystems, Inc.
  *  Copyright (C) 2009  Vladimir Serbinenko <phcoder@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -285,6 +285,10 @@ typedef struct blkptr {
 #define	BP_IDENTITY(bp)		(&(bp)->blk_dva[0])
 #define	BP_IS_GANG(bp)		DVA_GET_GANG(BP_IDENTITY(bp))
 #define	BP_IS_HOLE(bp)		((bp)->blk_birth == 0)
+
+/* BP_IS_RAIDZ(bp) assumes no block compression */
+#define	BP_IS_RAIDZ(bp)		(DVA_GET_ASIZE(&(bp)->blk_dva[0]) > \
+				BP_GET_PSIZE(bp))
 
 #define	BP_ZERO(bp)				\
 {						\

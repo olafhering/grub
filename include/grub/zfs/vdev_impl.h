@@ -17,7 +17,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 /*
- * Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
  * Use is subject to license terms.
  */
 
@@ -42,8 +42,8 @@ typedef struct vdev_boot_header {
 } vdev_boot_header_t;
 
 typedef struct vdev_phys {
-	char		vp_nvlist[VDEV_PHYS_SIZE - sizeof (zio_block_tail_t)];
-	zio_block_tail_t vp_zbt;
+	char		vp_nvlist[VDEV_PHYS_SIZE - sizeof (zio_eck_t)];
+	zio_eck_t	vp_zbt;
 } vdev_phys_t;
 
 typedef struct vdev_label {

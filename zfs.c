@@ -1,7 +1,7 @@
 /*
  *  GRUB  --  GRand Unified Bootloader
  *  Copyright (C) 1999,2000,2001,2002,2003,2004  Free Software Foundation, Inc.
- *  Copyright 2008  Sun Microsystems, Inc.
+ *  Copyright 2010  Sun Microsystems, Inc.
  *  Copyright (C) 2009  Vladimir Serbinenko <phcoder@gmail.com>
  *  Copyright (C) 2010  Robert Millan <rmh@gnu.org>
  *
@@ -209,10 +209,11 @@ zio_checksum_info_t zio_checksum_table[ZIO_CHECKSUM_FUNCTIONS] = {
   {zio_checksum_off, 0, 0, "off"},
   {zio_checksum_SHA256, 1, 1, "label"},
   {zio_checksum_SHA256, 1, 1, "gang_header"},
-  {fletcher_2, 0, 1, "zilog"},
+  {NULL, 0, 0, "zilog"},
   {fletcher_2, 0, 0, "fletcher2"},
   {fletcher_4, 1, 0, "fletcher4"},
   {zio_checksum_SHA256, 1, 0, "SHA256"},
+  {NULL, 0, 0, "zilog2"},
 };
 
 /*
@@ -225,7 +226,7 @@ static grub_err_t
 zio_checksum_verify (zio_cksum_t zc, grub_uint32_t checksum,
 		     grub_zfs_endian_t endian, char *buf, int size)
 {
-  zio_block_tail_t *zbt = (zio_block_tail_t *) (buf + size) - 1;
+  zio_eck_t *zec = (zio_eck_t *) (buf + size) - 1;
   zio_checksum_info_t *ci = &zio_checksum_table[checksum];
   zio_cksum_t actual_cksum, expected_cksum;
 
@@ -236,12 +237,12 @@ zio_checksum_verify (zio_cksum_t zc, grub_uint32_t checksum,
 			 "unknown checksum function %d", checksum);
     }
 
-  if (ci->ci_zbt)
+  if (ci->ci_eck)
     {
-      expected_cksum = zbt->zbt_cksum;
-      zbt->zbt_cksum = zc;
+      expected_cksum = zec->zec_cksum;  
+      zec->zec_cksum = zc;  
       ci->ci_func (buf, size, endian, &actual_cksum);
-      zbt->zbt_cksum = expected_cksum;
+      zec->zec_cksum = expected_cksum;
       zc = expected_cksum;
     }
   else

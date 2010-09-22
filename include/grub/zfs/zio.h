@@ -17,7 +17,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 /*
- * Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
  * Use is subject to license terms.
  */
 
@@ -26,12 +26,12 @@
 
 #include <grub/zfs/spa.h>
 
-#define	ZBT_MAGIC	0x210da7ab10c7a11ULL	/* zio data bloc tail */
+#define	ZEC_MAGIC	0x210da7ab10c7a11ULL	/* zio data bloc tail */
 
-typedef struct zio_block_tail {
-	grub_uint64_t	zbt_magic;	/* for validation, endianness	*/
-	zio_cksum_t	zbt_cksum;	/* 256-bit checksum		*/
-} zio_block_tail_t;
+typedef struct zio_eck {
+	grub_uint64_t	zec_magic;	/* for validation, endianness	*/
+	zio_cksum_t	zec_cksum;	/* 256-bit checksum		*/
+} zio_eck_t;
 
 /*
  * Gang block headers are self-checksumming and contain an array
@@ -39,9 +39,9 @@ typedef struct zio_block_tail {
  */
 #define	SPA_GANGBLOCKSIZE	SPA_MINBLOCKSIZE
 #define	SPA_GBH_NBLKPTRS	((SPA_GANGBLOCKSIZE - \
-	sizeof (zio_block_tail_t)) / sizeof (blkptr_t))
+	sizeof (zio_eck_t)) / sizeof (blkptr_t))
 #define	SPA_GBH_FILLER		((SPA_GANGBLOCKSIZE - \
-	sizeof (zio_block_tail_t) - \
+	sizeof (zio_eck_t) - \
 	(SPA_GBH_NBLKPTRS * sizeof (blkptr_t))) /\
 	sizeof (grub_uint64_t))
 
@@ -52,7 +52,7 @@ typedef struct zio_block_tail {
 typedef struct zio_gbh {
 	blkptr_t		zg_blkptr[SPA_GBH_NBLKPTRS];
 	grub_uint64_t		zg_filler[SPA_GBH_FILLER];
-	zio_block_tail_t	zg_tail;
+	zio_eck_t		zg_tail;
 } zio_gbh_phys_t;
 
 enum zio_checksum {
@@ -65,6 +65,7 @@ enum zio_checksum {
 	ZIO_CHECKSUM_FLETCHER_2,
 	ZIO_CHECKSUM_FLETCHER_4,
 	ZIO_CHECKSUM_SHA256,
+	ZIO_CHECKSUM_ZILOG2,
 	ZIO_CHECKSUM_FUNCTIONS
 };
 

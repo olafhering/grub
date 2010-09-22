@@ -17,7 +17,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 /*
- * Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+ * Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
  * Use is subject to license terms.
  */
 
@@ -36,7 +36,7 @@ typedef void zio_checksum_t(const void *data, grub_uint64_t size,
 typedef struct zio_checksum_info {
 	zio_checksum_t	*ci_func; /* checksum function for each byteorder */
 	int		ci_correctable;	/* number of correctable bits	*/
-	int		ci_zbt;		/* uses zio block tail?	*/
+	int		ci_eck;		/* uses zio embedded checksum? */
 	char		*ci_name;	/* descriptive name */
 } zio_checksum_info_t;
 
