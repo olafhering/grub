@@ -1,3 +1,9 @@
+grub2 (1.98+20100804-6) UNRELEASED; urgency=low
+
+  * zfs_v23.patch: Accept ZFS up to v23 (no changes required).
+
+ -- Robert Millan <rmh@debian.org>  Wed, 22 Sep 2010 17:49:46 +0200
+
 grub2 (1.98+20100804-5) unstable; urgency=low
 
   [ Updated translations ]
