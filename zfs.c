@@ -879,7 +879,8 @@ fzap_lookup (dnode_end_t * zap_dnode, zap_phys_t * zap,
   grub_err_t err;
   grub_zfs_endian_t leafendian;
 
-  if (err = zap_verify (zap))
+  err = zap_verify (zap);
+  if (err)
     return err;
 
   hash = zap_hash (zap->zap_salt, name);
