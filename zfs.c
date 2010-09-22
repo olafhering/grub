@@ -51,6 +51,7 @@
 #include <grub/zfs/zfs_znode.h>
 #include <grub/zfs/dmu.h>
 #include <grub/zfs/dmu_objset.h>
+#include <grub/zfs/sa_impl.h>
 #include <grub/zfs/dsl_dir.h>
 #include <grub/zfs/dsl_dataset.h>
 
@@ -2183,9 +2184,45 @@ grub_zfs_open (struct grub_file *file, const char *fsfilename)
     }
 
   /* get the file size and set the file position to 0 */
+
+  /*
+   * For DMU_OT_SA we will need to locate the SIZE attribute
+   * attribute, which could be either in the bonus buffer
+   * or the "spill" block.
+   */
+  if (data->dnode.dn.dn_bonustype == DMU_OT_SA)
+    {
+      sa_hdr_phys_t *sahdrp;
+      int hdrsize;
+
+      if (data->dnode.dn.dn_bonuslen != 0)
+	{
+	  sahdrp = (sa_hdr_phys_t *) DN_BONUS (&data->dnode.dn);
+	}
+      else if (data->dnode.dn.dn_flags & DNODE_FLAG_SPILL_BLKPTR)
+	{
+	  blkptr_t *bp = &data->dnode.dn.dn_spill;
+	  grub_err_t err;
+
+	  err = zio_read (bp, data->dnode.endian, (void **) &sahdrp, NULL, data);
+	  if (err)
+	    return err;
+	}
+      else
+	{
+	  return grub_error (GRUB_ERR_BAD_FS, "filesystem is corrupt");
+	}
+
+      hdrsize = SA_HDR_SIZE (sahdrp);
+      file->size = *(grub_uint64_t *) ((char *) sahdrp + hdrsize + SA_SIZE_OFFSET);
+    }
+  else
+    {
+      file->size = grub_zfs_to_cpu64 (((znode_phys_t *) DN_BONUS (&data->dnode.dn))->zp_size, data->dnode.endian);
+    }
+
   file->data = data;
   file->offset = 0;
-  file->size = grub_zfs_to_cpu64 (((znode_phys_t *) DN_BONUS (&data->dnode.dn))->zp_size, data->dnode.endian);
 
 #ifndef GRUB_UTIL
   grub_dl_ref (my_mod);
