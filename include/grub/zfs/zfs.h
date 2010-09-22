@@ -1,7 +1,6 @@
 /*
  *  GRUB  --  GRand Unified Bootloader
  *  Copyright (C) 1999,2000,2001,2002,2003,2004  Free Software Foundation, Inc.
- *  Copyright 2008  Sun Microsystems, Inc.
  *  Copyright (C) 2009  Vladimir Serbinenko <phcoder@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -18,9 +17,9 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-/*
- * Use is subject to license terms.
- */
+ /*
+  * Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+  */
 
 #ifndef	GRUB_ZFS_HEADER
 #define	GRUB_ZFS_HEADER 1
@@ -31,7 +30,7 @@
 /*
  * On-disk version number.
  */
-#define	SPA_VERSION			24ULL
+#define	SPA_VERSION			26ULL
 
 /*
  * The following are configuration names used in the nvlist describing a pool's
