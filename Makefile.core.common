@@ -1,0 +1,29 @@
+# Compatibility symlink.
+noinst_PROGRAMS += g2hdr.bin
+g2hdr.bin: g2hdr.img
+	rm -f $@
+	$(LN_S) $< $@
+CLEANFILES += g2hdr.bin
+
+grldr.mbr: grldr.img
+	head -c 8192 $< > $@
+CLEANFILES += grldr.mbr
+
+bin2h: contrib/ntldr-img/bin2h.c
+	$(CC) $^ -o $@
+CLEANFILES += bin2h
+
+grub_mbr.h: grldr.mbr bin2h
+	./bin2h grub_mbr 8192 < $< > $@
+CLEANFILES += grub_mbr.h
+
+# TODO: This should be installed somewhere, but 'grubinst' is too generic a
+# name and would be confused with grub-install.  Perhaps grub-mkntldrimg?
+grubinst: contrib/ntldr-img/grubinst.c contrib/ntldr-img/utils.c grub_mbr.h
+	$(CC) -I. -Icontrib/ntldr-img -DLINUX -o $@ contrib/ntldr-img/grubinst.c contrib/ntldr-img/utils.c
+CLEANFILES += grubinst
+
+noinst_PROGRAMS += g2ldr.mbr
+g2ldr.mbr: grubinst
+	./grubinst --grub2 -o $@
+CLEANFILES += g2ldr.mbr
