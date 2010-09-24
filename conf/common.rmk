@@ -1,2 +1,0 @@
-# -*- makefile -*-
--include $(GRUB_CONTRIB)/915resolution/conf/$(target_cpu)-$(platform).mk
