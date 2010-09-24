@@ -1,1 +1,3 @@
-conf/common.mk
+**/.deps-core
+**/.dirstamp
+Makefile.core.am
