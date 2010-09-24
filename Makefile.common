@@ -1,0 +1,2 @@
+ZFS_CPPFLAGS = -Icontrib/zfs/include
+ZFS_CFLAGS = -Wno-error
