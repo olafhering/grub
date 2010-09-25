@@ -18,3 +18,4 @@ zfs_v23.patch
 kfreebsd_ext2.patch
 dmraid_mapper_paths.patch
 dmraid_pool_leak.patch
+fix_usb_boot.patch
