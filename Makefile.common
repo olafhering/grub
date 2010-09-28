@@ -1,2 +1,2 @@
-ZFS_CPPFLAGS = -Icontrib/zfs/include
+ZFS_CPPFLAGS = -I$(top_srcdir)/contrib/zfs/include
 ZFS_CFLAGS = -Wno-error
