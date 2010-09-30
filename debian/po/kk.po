@@ -1,0 +1,301 @@
+# Kazakh translation for grub2.
+# Copyright (C) 2010 The Stardict team
+# This file is distributed under the same license as the PACKAGE package.
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: master\n"
+"Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
+"POT-Creation-Date: 2010-07-02 12:55+0100\n"
+"PO-Revision-Date: 2010-09-27 15:51+0600\n"
+"Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
+"Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
+"Language: kk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Kazakh\n"
+"X-Poedit-Country: KAZAKHSTAN\n"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "Chainload from menu.lst?"
+msgstr "menu.lst ішінен тізбектей жүктелу керек пе?"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
+msgstr "GRUB жаңарту скриптері /boot/grub ішінен орнатылған GRUB Legacy тапты."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"In order to replace the Legacy version of GRUB in your system, it is "
+"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
+"your existing GRUB Legacy setup.  This step may be automaticaly performed "
+"now."
+msgstr ""
+"GRUB Legacy нұсқасын алмастыру үшін, сіздің бар болып тұрған GRUB Legacy "
+"орнатудың /boot/grub/menu.lst файлынан GRUB 2 жүктеушісін тізбектей жүктеуге "
+"баптауға ұсынылады. Бұл қадам қазір автоматты түрде жасалуы мүмкін."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
+"verify that your new GRUB 2 setup is functional for you, before you install "
+"it directly to your MBR (Master Boot Record)."
+msgstr ""
+"GRUB 2 алдымен menu.lst ішінен тізбектей жүктеле алатынына көз жеткізіңіз, "
+"содан кейін ғана оны MBR (Басты жүктелу жазбасына) орнату ұсынылады."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:2001
+msgid ""
+"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
+"can do so by issuing (as root) the following command:"
+msgstr ""
+"Қалай болса да, GRUB 2 тура MBR ішінен жүктелуді қалайтын болсаңыз, сол "
+"кезде root атынан келесі команданы орындаңыз:"
+
+#. Type: text
+#. Description
+#. Disk sizes are in decimal megabytes, to match how disk manufacturers
+#. usually describe them.
+#: ../grub-pc.templates.in:5001
+msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
+msgstr "${DEVICE} (${SIZE} МБ, ${MODEL})"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:7001
+msgid "GRUB installation failed.  Continue?"
+msgstr "GRUB орнату сәтсіз. Жалғастыру керек пе?"
+
+#. Type: boolean
+#. Description
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
+msgid "GRUB failed to install to the following devices:"
+msgstr "GRUB келесі құрылғыларға орнату сәтсіз аяқталды:"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:7001
+msgid ""
+"Do you want to continue anyway?  If you do, your computer may not start up "
+"properly."
+msgstr ""
+"Бәрібір жалғастыруды қалайсыз ба? Нәтижесінде компьютеріңіз дұрыс жүктелмеуі "
+"мүмкін."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:8001
+msgid "GRUB installation failed.  Try again?"
+msgstr "GRUB орнату сәтсіз. Қайталау керек пе?"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:8001
+msgid ""
+"You may be able to install GRUB to some other device, although you should "
+"check that your system will boot from that device.  Otherwise, the upgrade "
+"from GRUB Legacy will be cancelled."
+msgstr ""
+"Сіз оған қоса GRUB-ты басқа да құрылғыларға орната аласыз, бірақ жүйеңіз ол "
+"кезде жүктеле алатынына көз жеткізіңіз. Болмаса, GRUB Legacy нұсқасынан "
+"жаңартудан бас тартылады."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:9001
+msgid "Continue without installing GRUB?"
+msgstr "GRUB орнатпай-ақ жалғастыру керек пе?"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:9001
+msgid ""
+"You chose not to install GRUB to any devices.  If you continue, the boot "
+"loader may not be properly configured, and when your computer next starts up "
+"it will use whatever was previously in the boot sector.  If there is an "
+"earlier version of GRUB 2 in the boot sector, it may be unable to load "
+"modules or handle the current configuration file."
+msgstr ""
+"Сіз GRUB-ты ешбір құрылғыға орнатпауды қалағансыз. Жалғастырсаңыз, жүктеуші "
+"дұрыс бапталмауы мүмкін, және компьютеріңіз келесі рет жүктелген кезде, "
+"жүктелу жазбасында оған дейін болған нәрсені қолданады. Егер ол жүктелу "
+"жазбасында GRUB 2 ертерек шыққан нұсқасы болса, ол модульдерді жүктей алмай, "
+"не ағымдағы баптаулар файлын талдай алмайтын болуы әдбен мүмкін."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:9001
+msgid ""
+"If you are already running a different boot loader and want to carry on "
+"doing so, or if this is a special environment where you do not need a boot "
+"loader, then you should continue anyway.  Otherwise, you should install GRUB "
+"somewhere."
+msgstr ""
+"Егер сіз басқа жүктеушіні қолданып, оны жалғастыруды қаласаңыз, немесе бұл - "
+"жүктеушіні талап етпейтін ерекше жүйе болса, олда жалғастырыңыз. Болмаса, "
+"қайда болса да, GRUB орнатуыңыз керек."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:11001
+msgid "Finish conversion to GRUB 2 now?"
+msgstr "GRUB 2-ге айналдыруды қазір аяқтау керек пе?"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:11001
+msgid ""
+"This system still has files from the GRUB Legacy boot loader installed, but "
+"it now also has GRUB 2 boot records installed on these disks:"
+msgstr ""
+"Жүйеде әлі де GRUB Legacy жүктеушісі орнатылған, оған қоса GRUB 2 жүктелу "
+"жазбалары келесі дискілерге орнатылған:"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:11001
+msgid ""
+"It seems likely that GRUB Legacy is no longer in use, and that you should "
+"instead upgrade the GRUB 2 images on these disks and finish the conversion "
+"to GRUB 2 by removing old GRUB Legacy files.  If you do not upgrade these "
+"GRUB 2 images, then they may be incompatible with the new packages and cause "
+"your system to stop booting properly."
+msgstr ""
+"GRUB Legacy енді қолданылмайтын сияқты, орнына GRUB 2 бейнелерін ол "
+"дискілерде жаңартып, ескі GRUB Legacy файлдарын өшіріңіз. GRUB 2 бейнелерін "
+"жаңартпасаңыз, олар жаңа дестелермен үйлеспей, жүйеңіз дұрыс жүктелмеуі "
+"мүмкін."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:11001
+msgid ""
+"You should generally finish the conversion to GRUB 2 unless these boot "
+"records were created by a GRUB 2 installation on some other operating system."
+msgstr ""
+"GRUB 2 дейін жаңартуды аяқтауыңыз керек, егер осы жүктелу жазбалары басқа "
+"жүйеде орнатылған GRUB 2 көмегімен жасалмаған болса."
+
+#. Type: string
+#. Description
+#: ../templates.in:1001
+msgid "Linux command line:"
+msgstr "Linux командалық жолы:"
+
+#. Type: string
+#. Description
+#: ../templates.in:1001
+msgid ""
+"The following Linux command line was extracted from /etc/default/grub or the "
+"`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"Келесі Linux командасы /etc/default/grub ішінен не GRUB Legacy menu.lst "
+"ішіндегі `kopt' параметрінен алынды. Оның дұрыстығын тексеріп, керек болса, "
+"өзгертіңіз."
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid "Linux default command line:"
+msgstr "Linux бастапқы командалық жолы:"
+
+#. Type: string
+#. Description
+#: ../templates.in:2001
+msgid ""
+"The following string will be used as Linux parameters for the default menu "
+"entry but not for the recovery mode."
+msgstr ""
+"Келесі жол Linux параметрлері бастапқы мәзірі үшін, бірақ қалпына келтіру "
+"үшін емес, қолданылатын болады."
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+msgid "kFreeBSD command line:"
+msgstr "kFreeBSD командалық жолы:"
+
+#. Type: string
+#. Description
+#: ../templates.in:3001
+msgid ""
+"The following kFreeBSD command line was extracted from /etc/default/grub or "
+"the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"correct, and modify it if necessary."
+msgstr ""
+"Келесі kFreeBSD командасы /etc/default/grub ішінен не GRUB Legacy menu.lst "
+"ішіндегі `kopt' параметрінен алынды. Оның дұрыстығын тексеріп, керек болса, "
+"өзгертіңіз."
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid "kFreeBSD default command line:"
+msgstr "kFreeBSD бастапқы командалық жолы:"
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
+msgid ""
+"The following string will be used as kFreeBSD parameters for the default "
+"menu entry but not for the recovery mode."
+msgstr ""
+"Келесі жол kFreeBSD параметрлері бастапқы мәзірі үшін, бірақ қалпына келтіру "
+"үшін емес, қолданылатын болады."
+
+#. Type: note
+#. Description
+#: ../templates.in:5001
+msgid "/boot/grub/device.map has been regenerated"
+msgstr "/boot/grub/device.map қайта құрылды"
+
+#. Type: note
+#. Description
+#: ../templates.in:5001
+msgid ""
+"The file /boot/grub/device.map has been rewritten to use stable device "
+"names.  In most cases, this should significantly reduce the need to change "
+"it in future, and boot menu entries generated by GRUB should not be affected."
+msgstr ""
+"/boot/grub/device.map файлы құрылғылардың тұрақты аттарын қолданатындай "
+"түзетілген. Көп жағдайда, болашақта өзгерту керек емес болады, және GRUB "
+"жасаған мәзір элементтері өзгеріссіз-ақ қалады."
+
+#. Type: note
+#. Description
+#: ../templates.in:5001
+msgid ""
+"However, since you have more than one disk in your system, it is possible "
+"that you were depending on the old device map.  Please check whether you "
+"have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
+"and update them if necessary."
+msgstr ""
+"Алайда, жүйеңізде бірден көп диск болған соң, ескі device map-қа тәуелді "
+"болуыңыз мүмкін. GRUB-ң (hdN) түріндегі дисктер нөмірленуі мәзірде жоқ "
+"болуына көз жеткізіңіз, керек болса, оларды жаңартыңыз."
+
+#. Type: note
+#. Description
+#: ../templates.in:5001
+msgid ""
+"If you do not understand this message, or if you do not have any custom boot "
+"menu entries, you can ignore this message."
+msgstr ""
+"Егер сіз осы хабарламаны түсінбесеңіз, немесе сізде таңдауыңызша жүктелу "
+"мәзірінің элементтері жоқ болса, бұл хабарламаны елемеңіз."
