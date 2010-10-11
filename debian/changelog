@@ -8,6 +8,7 @@ grub2 (1.98+20100804-6) UNRELEASED; urgency=low
   [ Updated translations ]
   * Kazakh (kk.po) by Baurzhan Muftakhidinov via Timur Birsh (closes:
     #598188).
+  * Portuguese (pt.po) by Tiago Fernandes via Rui Branco (closes: #599767).
   
  -- Robert Millan <rmh@debian.org>  Sat, 25 Sep 2010 22:49:24 +0200
 

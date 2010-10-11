@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: grub2 1.98-1\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2010-04-26 10:15+0100\n"
+"PO-Revision-Date: 2010-10-11 00:27+0100\n"
 "Last-Translator: Tiago Fernandes <tjg.fernandes@gmail.com>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
 "Language: pt\n"
@@ -75,13 +75,13 @@ msgstr ""
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
 msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgstr ""
+msgstr "${DISPOSITIVO} (${DIMENSÃO} MB, ${MODELO})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "GRUB installation failed.  Continue?"
-msgstr ""
+msgstr "A instalação do GRUB falhou.  Continuar?"
 
 #. Type: boolean
 #. Description
@@ -89,7 +89,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr ""
+msgstr "A instalação do GRUB falhou nos seguintes dispositivos:"
 
 #. Type: boolean
 #. Description
@@ -98,12 +98,14 @@ msgid ""
 "Do you want to continue anyway?  If you do, your computer may not start up "
 "properly."
 msgstr ""
+"Pretende continuar de qualquer modo?  Em caso afirmativo, o seu computador "
+"pode não arrancar em condições. "
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "GRUB installation failed.  Try again?"
-msgstr ""
+msgstr "A instalação do GRUB falhou.  Tentar novamente?"
 
 #. Type: boolean
 #. Description
@@ -113,12 +115,15 @@ msgid ""
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
 msgstr ""
+"Poderá instalar o GRUB noutro dispositivo, no entanto deverá verificar que o "
+"seu sistema arranca desse dispositivo.  Se não o fizer, a actualização a "
+"partir do GRUB Legacy será cancelada."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "Continuar sem instalar o GRUB?"
 
 #. Type: boolean
 #. Description
@@ -130,6 +135,12 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"Escolheu não instalar o GRUB em nenhum dispositivo.  Se continuar o gestor "
+"de arranque pode não ficar propriamente configurado, quando o computador "
+"arrancar da próxima vez irá usar o que estiver anteriormente no sector de "
+"arranque.  Se existir uma versão anterior do GRUB2 no sector de arranque, "
+"este pode não ser capaz de carregar os módulos e gerir o ficheiro de "
+"configuração actual."
 
 #. Type: boolean
 #. Description
@@ -140,12 +151,16 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"Se já estiver a correr um gestor de arranque diferente e queira continuar a "
+"fazê-lo, ou se se tratar de ambiente especial onde não necessita de gestor "
+"de arranque, então deverá continuar de qualquer modo.  De outro modo, deverá "
+"instalar o GRUB em algum local."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "Finalizar a conversão para o GRUB2 agora?"
 
 #. Type: boolean
 #. Description
@@ -154,6 +169,9 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"Este sistema ainda tem ficheiros instalados do gestor de arranque GRUB "
+"Legacy, no entanto tem agora registo de arranque do GRUB2 instalados nos "
+"discos seguintes:"
 
 #. Type: boolean
 #. Description
@@ -165,6 +183,11 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"Pareçe provável que o GRUB Legacy não esteja a ser usado, deve fazer a "
+"actualização das imagens do GRUB2 nestes discos e finalizar a conversão para "
+"o GRUB2 removendo os ficheiros antigos do GRUB Legacy.  Se não actualizar "
+"estas imagens GRUB2 então estas podem ser incompatíveis com novos pacotes e "
+"provocar uma falha no arranque dos sistema."
 
 #. Type: boolean
 #. Description
@@ -173,6 +196,9 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"Normalmente deverá finalizar a conversão para o GRUB2 a não ser que estes "
+"registos de arranque tenham sido criados por uma instalação do GRUB2 noutro "
+"sistema operativo."
 
 #. Type: string
 #. Description
@@ -246,7 +272,7 @@ msgstr ""
 #. Description
 #: ../templates.in:5001
 msgid "/boot/grub/device.map has been regenerated"
-msgstr ""
+msgstr "O /boot/grub/device.map foi recriado"
 
 #. Type: note
 #. Description
@@ -256,6 +282,10 @@ msgid ""
 "names.  In most cases, this should significantly reduce the need to change "
 "it in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
+"O ficheiro /boot/grub/device.map foi reescrito para usar nomes de "
+"dispositivos estáveis.  Na maioria dos casos, esta acção reduz "
+"significativamente a necessidade de alterações no futuro e as entradas de "
+"menu geradas pelo GRUB não deverão ser afectadas."
 
 #. Type: note
 #. Description
@@ -266,6 +296,10 @@ msgid ""
 "have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
 "and update them if necessary."
 msgstr ""
+"No entanto, como tem mais do que um disco no seu sistema é possível que "
+"dependa do mapa de dispositivos (device map) antigo.  Por favor verifique se "
+"tem algumas entradas de menu de arranque personalizadas que dependam da "
+"numeração de drives do GRUB (hdN), e actualize-as quando necessário."
 
 #. Type: note
 #. Description
@@ -274,3 +308,5 @@ msgid ""
 "If you do not understand this message, or if you do not have any custom boot "
 "menu entries, you can ignore this message."
 msgstr ""
+"Se não entender esta mensagem ou se não tiver entradas de menu de arranque "
+"personalizadas, pode ignorar esta mensagem."
