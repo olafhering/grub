@@ -3,7 +3,7 @@ grub2 (1.98+20100804-6) UNRELEASED; urgency=low
   [ Robert Millan ]
   * zfs_v23.patch: Accept ZFS up to v23 (no changes required).
   * fix_usb_boot.patch: Fix boot on USB devices, for BIOSes that
-    expose them as floppies.
+    expose them as floppies.  (Closes: #600580)
   * zfs_fix_mkrelpath.patch: Fix grub-mkrelpath for non-root ZFS.
     (Closes: #600578)
 
