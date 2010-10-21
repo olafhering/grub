@@ -1,23 +1,22 @@
 # translation of ca.po to catalan
 # Catalan translation of grub2's debconf messages
-# Copyright © 2009 Free Software Foundation, Inc.
+# Copyright © 2009, 2010 Free Software Foundation, Inc.
 # This file is distributed under the same license as the grub2 package.
 #
-# Jordi Mallach <jordi@debian.org>, 2009.
+# Jordi Mallach <jordi@debian.org>, 2009, 2010.
 # Juan Andrés Gimeno Crespo <juagicre@gmail.com>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: ca\n"
+"Project-Id-Version: grub2 1.98+20100804-5\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2009-09-02 18:12+0200\n"
-"Last-Translator: Juan Andrés Gimeno Crespo <juagicre@gmail.com>\n"
-"Language-Team: catalan <debian-l10n-catalan@lists.debian.org>\n"
+"PO-Revision-Date: 2010-10-21 19:19+0200\n"
+"Last-Translator: Jordi Mallach <jordi@debian.org>\n"
+"Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
 
 #. Type: boolean
 #. Description
@@ -76,13 +75,13 @@ msgstr ""
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
 msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgstr ""
+msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "GRUB installation failed.  Continue?"
-msgstr ""
+msgstr "Ha fallat la instaŀlació del GRUB. Voleu continuar?"
 
 #. Type: boolean
 #. Description
@@ -90,7 +89,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr ""
+msgstr "El GRUB no s'ha pogut instaŀlar als dispositius següents:"
 
 #. Type: boolean
 #. Description
@@ -98,13 +97,13 @@ msgstr ""
 msgid ""
 "Do you want to continue anyway?  If you do, your computer may not start up "
 "properly."
-msgstr ""
+msgstr "Voleu continuar tot i això? Si ho feu, és possible que l'ordinador no arrenque correctament."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "GRUB installation failed.  Try again?"
-msgstr ""
+msgstr "Ha fallat la instaŀlació del GRUB. Voleu tornar a provar-ho?"
 
 #. Type: boolean
 #. Description
@@ -113,13 +112,13 @@ msgid ""
 "You may be able to install GRUB to some other device, although you should "
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
-msgstr ""
+msgstr "És possible que pogueu instaŀlar el GRUB en un altre dispositiu, tot i que haurieu de comprovar que el sistema arrencarà des d'aquell dispositiu. En cas contrari, es canceŀlarà l'actualització des del GRUB Legacy."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "Voleu continuar sense instaŀlar el GRUB?"
 
 #. Type: boolean
 #. Description
@@ -130,7 +129,7 @@ msgid ""
 "it will use whatever was previously in the boot sector.  If there is an "
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
-msgstr ""
+msgstr "Heu triat no instaŀlar el GRUB en cap dispositiu. Si continueu, és possible que el carregador no estiga configurat correctament, i quan s'arrenque l'ordinador la pròxima vegada, emprarà allò que estigués al sector d'arrencada. Si hi ha una versió anterior del GRUB2 al sector d'arrencada, és possible que no puga carregar mòduls o gestionar el fitxer de configuració actual."
 
 #. Type: boolean
 #. Description
@@ -140,13 +139,13 @@ msgid ""
 "doing so, or if this is a special environment where you do not need a boot "
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
-msgstr ""
+msgstr "Si ja esteu emprant un altre carregador i voleu continuar fent-ho, o aquest és un entorn especial on no necessiteu un carregador, hauríeu de continuar. Si no és així, hauríeu d'instaŀlar el GRUB en algun lloc."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "Voleu finalitzar la conversió al GRUB 2 ara?"
 
 #. Type: boolean
 #. Description
@@ -154,7 +153,7 @@ msgstr ""
 msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
-msgstr ""
+msgstr "Aquest sistema encara té fitxers antics del carregador GRUB Legacy instaŀlats, però ara també té registres d'arrencada del GRUB 2 instaŀlats als discs següents:"
 
 #. Type: boolean
 #. Description
@@ -165,7 +164,7 @@ msgid ""
 "to GRUB 2 by removing old GRUB Legacy files.  If you do not upgrade these "
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
-msgstr ""
+msgstr "Sembla probable que el GRUB Legacy no estiga ja en ús, i que hauríeu d'actualitzar les imatges del GRUB 2 presents a aquests discs per a finalitzar la conversió al GRUB 2, suprimint els fitxers vells del GRUB Legacy. Si no actualitzeu aquestes imatges del GRUB 2, és possible que romanen incompatibles amb els paquets nous i que causen que el sistema deixe d'arrencar correctament."
 
 #. Type: boolean
 #. Description
@@ -173,7 +172,7 @@ msgstr ""
 msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
-msgstr ""
+msgstr "En general, hauríeu de finalitzar la conversió al GRUB 2 a no ser que aquests registres d'arrencada els haja creat una instaŀlació del GRUB 2 des d'un altre sistema operatiu."
 
 #. Type: string
 #. Description
@@ -188,10 +187,7 @@ msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
-msgstr ""
-"La següent línia d'ordres de Linux ha sigut extreta de /etc/default/grub o "
-"del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Per favor "
-"verifique que és correcta, i modifiqueu-la si és necessari."
+msgstr "La següent línia d'ordres de Linux ha sigut extreta de /etc/default/grub o del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Verifiqueu que és correcta, i modifiqueu-la si és necessari."
 
 #. Type: string
 #. Description
@@ -212,10 +208,8 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Linux command line:"
 msgid "kFreeBSD command line:"
-msgstr "Línia d'ordres de Linux:"
+msgstr "Línia d'ordres de kFreeBSD:"
 
 #. Type: string
 #. Description
@@ -224,10 +218,7 @@ msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
-msgstr ""
-"La següent línia d'ordres de kFreeBSD ha sigut extreta de /etc/default/grub "
-"o del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Per favor "
-"verifique que és correcta, i modifiqueu-la si és necessari."
+msgstr "La següent línia d'ordres de kFreeBSD ha sigut extreta de /etc/default/grub o del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Verifiqueu que és correcta, i modifiqueu-la si és necessari."
 
 #. Type: string
 #. Description
@@ -249,7 +240,7 @@ msgstr ""
 #. Description
 #: ../templates.in:5001
 msgid "/boot/grub/device.map has been regenerated"
-msgstr ""
+msgstr "S'ha regenerat el fitxer «/boot/grub/device.map»"
 
 #. Type: note
 #. Description
@@ -258,7 +249,7 @@ msgid ""
 "The file /boot/grub/device.map has been rewritten to use stable device "
 "names.  In most cases, this should significantly reduce the need to change "
 "it in future, and boot menu entries generated by GRUB should not be affected."
-msgstr ""
+msgstr "S'ha reescrit el fitxer «/boot/grub/device.map» per a usar noms estables de dispositiu. En la majoria dels casos, això hauria de reduir la necessitat de canviar-ho en el futur, i no hauria d'afectar les entrades del menú d'arrencada generades pel GRUB."
 
 #. Type: note
 #. Description
@@ -268,7 +259,7 @@ msgid ""
 "that you were depending on the old device map.  Please check whether you "
 "have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
 "and update them if necessary."
-msgstr ""
+msgstr "Tanmateix, com teniu més d'un disc al sistema, és possible que depenguèreu del mapa de dispositius antic. Comrpoveu si teniu alguna entrada del menú d'arrencada personalitzada que requerisca la numeració d'unitats del GRUB (hdN), i actualitzeu-les si és necessari."
 
 #. Type: note
 #. Description
@@ -276,4 +267,4 @@ msgstr ""
 msgid ""
 "If you do not understand this message, or if you do not have any custom boot "
 "menu entries, you can ignore this message."
-msgstr ""
+msgstr "Si no enteneu aquest missatge, o si no teniu cap entrada del menú d'arrencada personalitzada, podeu descartar aquest missatge."
