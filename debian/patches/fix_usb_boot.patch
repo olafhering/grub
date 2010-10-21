@@ -2,7 +2,7 @@ Description: Fix boot on USB devices, for BIOSes that expose them as floppies.
 Author: Robert Millan <rmh@debian.org>
 Forwarded: not-needed, this is a safer / less intrusive version of upstream
  commit (upstream change also affects CD-ROM boot).
-Last-Update: 2010-09-25
+Last-Update: 2010-10-21
 
 --- a/disk/i386/pc/biosdisk.c
 +++ b/disk/i386/pc/biosdisk.c
@@ -11,7 +11,7 @@ Last-Update: 2010-09-25
      return grub_errno;
  
 -  disk->has_partitions = ((drive & 0x80) && (drive != cd_drive));
-+  disk->has_partitions = ((cd_drive) && (drive != cd_drive));
++  disk->has_partitions = cd_drive ? (drive != cd_drive) : 1;
    disk->id = drive;
  
    data = (struct grub_biosdisk_data *) grub_zalloc (sizeof (*data));
