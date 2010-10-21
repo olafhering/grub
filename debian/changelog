@@ -1,4 +1,4 @@
-grub2 (1.98+20100804-6) UNRELEASED; urgency=low
+grub2 (1.98+20100804-6) unstable; urgency=low
 
   [ Robert Millan ]
   * zfs_v23.patch: Accept ZFS up to v23 (no changes required).
@@ -13,7 +13,7 @@ grub2 (1.98+20100804-6) UNRELEASED; urgency=low
   * Portuguese (pt.po) by Tiago Fernandes via Rui Branco (closes: #599767).
   * Catalan (ca.po) by Jordi Mallach.
 
- -- Jordi Mallach <jordi@debian.org>  Thu, 21 Oct 2010 19:21:25 +0200
+ -- Jordi Mallach <jordi@debian.org>  Thu, 21 Oct 2010 23:35:16 +0200
 
 grub2 (1.98+20100804-5) unstable; urgency=low
 
