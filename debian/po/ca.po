@@ -56,7 +56,7 @@ msgid ""
 msgstr ""
 "És recomanable que accepteu la càrrega en cadena del GRUB 2 des del menu."
 "lst, per a verificar que la nova configuració del GRUB 2 funciona "
-"correctament, abans de que l'instal·leu directament al vostre registre "
+"correctament, abans de que l'instaŀleu directament al vostre registre "
 "mestre d'arrencada (MBR)."
 
 #. Type: boolean
@@ -112,7 +112,7 @@ msgid ""
 "You may be able to install GRUB to some other device, although you should "
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
-msgstr "És possible que pogueu instaŀlar el GRUB en un altre dispositiu, tot i que haurieu de comprovar que el sistema arrencarà des d'aquell dispositiu. En cas contrari, es canceŀlarà l'actualització des del GRUB Legacy."
+msgstr "És possible que pugueu instaŀlar el GRUB en un altre dispositiu, tot i que haurieu de comprovar que el sistema arrencarà des d'aquell dispositiu. En cas contrari, es canceŀlarà l'actualització des del GRUB Legacy."
 
 #. Type: boolean
 #. Description
@@ -187,7 +187,7 @@ msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
-msgstr "La següent línia d'ordres de Linux ha sigut extreta de /etc/default/grub o del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Verifiqueu que és correcta, i modifiqueu-la si és necessari."
+msgstr "La línia d'ordres de Linux següent ha sigut extreta de /etc/default/grub o del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Verifiqueu que és correcta, i modifiqueu-la si és necessari."
 
 #. Type: string
 #. Description
@@ -202,7 +202,7 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
-"La següent cadena serà emprada com a paràmetre Linux per al menú d'entrada "
+"La cadena següent serà emprada com a paràmetres del Linux per al menú d'entrada "
 "per defecte però no per al mode de recuperació."
 
 #. Type: string
@@ -218,7 +218,7 @@ msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
 "correct, and modify it if necessary."
-msgstr "La següent línia d'ordres de kFreeBSD ha sigut extreta de /etc/default/grub o del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Verifiqueu que és correcta, i modifiqueu-la si és necessari."
+msgstr "La línia d'ordres de kFreeBSD següent ha sigut extreta de /etc/default/grub o del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Verifiqueu que és correcta, i modifiqueu-la si és necessari."
 
 #. Type: string
 #. Description
@@ -233,7 +233,7 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
-"La següent cadena serà emprada com a paràmetre kFreeBSD per al menú "
+"La cadena següent serà emprada com a paràmetres del kFreeBSD per al menú "
 "d'entrada per defecte però no per al mode de recuperació."
 
 #. Type: note
