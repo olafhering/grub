@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2010-03-19 14:31+0930\n"
+"PO-Revision-Date: 2010-09-28 19:02+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "Language: vi\n"
@@ -66,19 +66,20 @@ msgstr ""
 "Trong cả hai trường hợp, khi nào bạn muốn nạp GRUB2 một cách trực tiếp từ "
 "MBR, chỉ cần chạy (dưới người chủ) câu lệnh theo đây:"
 
+# Variable: don't translate; Biến: đừng dịch
 #. Type: text
 #. Description
 #. Disk sizes are in decimal megabytes, to match how disk manufacturers
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
 msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgstr ""
+msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "GRUB installation failed.  Continue?"
-msgstr ""
+msgstr "Lỗi cài đặt GRUB. Tiếp tục ?"
 
 #. Type: boolean
 #. Description
@@ -86,7 +87,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr ""
+msgstr "GRUB không cài đặt được vào những thiết bị theo đây:"
 
 #. Type: boolean
 #. Description
@@ -95,12 +96,13 @@ msgid ""
 "Do you want to continue anyway?  If you do, your computer may not start up "
 "properly."
 msgstr ""
+"Bạn vẫn muốn tiếp tục không? Có thì máy tính có thể không khởi động đúng."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "GRUB installation failed.  Try again?"
-msgstr ""
+msgstr "Lỗi cài đặt GRUB. Thử lại ?"
 
 #. Type: boolean
 #. Description
@@ -110,12 +112,15 @@ msgid ""
 "check that your system will boot from that device.  Otherwise, the upgrade "
 "from GRUB Legacy will be cancelled."
 msgstr ""
+"Có thể là bạn cài đặt được GRUB vào một thiết bị khác (trước tiên nên kiểm "
+"tra nếu hệ thống sẽ khởi động từ thiết bị đó). Không thì tiến trình nâng cấp "
+"từ GRUB Cũ (Legacy) sẽ bị thôi."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid "Continue without installing GRUB?"
-msgstr ""
+msgstr "Tiếp tục lại mà không cài đặt GRUB ?"
 
 #. Type: boolean
 #. Description
@@ -127,6 +132,11 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
+"Bạn đã chọn không cài đặt GRUB vào thiết bị nào. Tiếp tục thì có thể là bộ "
+"nạp khởi động bị sai cấu hình, và máy tính khởi động lại sẽ sử dụng dữ liệu "
+"nào đã có trong phân vùng khởi động. Nếu phiên bản khởi động chứa một phiên "
+"bản GRUB2 cũ, có thể là nó không nạp được mô-đun hoặc không xử lý được tập "
+"tin cấu hình hiện thời."
 
 #. Type: boolean
 #. Description
@@ -137,12 +147,15 @@ msgid ""
 "loader, then you should continue anyway.  Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"Nếu bạn muốn tiếp tục chạy một bộ nạp khởi động đã có, hoặc nếu đây là một "
+"môi trường đặc biệt mà không cần thiết bộ nạp khởi động, thì bạn nên tiếp "
+"tục. Khác thì bạn nên cài đặt GRUB vào một vị trí nào đó."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr ""
+msgstr "Kết thúc chuyển đổi sang GRUB2 ngay bây giờ ?"
 
 #. Type: boolean
 #. Description
@@ -151,6 +164,8 @@ msgid ""
 "This system still has files from the GRUB Legacy boot loader installed, but "
 "it now also has GRUB 2 boot records installed on these disks:"
 msgstr ""
+"Hệ thống này vẫn còn có tập tin được cài đặt bởi bộ nạp khởi động GRUB Cũ "
+"(Legacy), nhưng mà cũng có mục ghi GRUB2 được cài đặt vào những đĩa này:"
 
 #. Type: boolean
 #. Description
@@ -162,6 +177,11 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"Rất có thể là GRUB Cũ (Legacy) không còn được sử dụng, vì thế bạn nên nâng "
+"cấp các ảnh GRUB2 trên những đĩa này và kết thúc chuyển đổi sang GRUB2 bằng "
+"cách gỡ bỏ tất cả các tập tin GRUB Cũ. Không nâng cấp các ảnh GRUB2 thì "
+"chúng có thể không tương thích với gói mới và gây ra hệ thống này không khởi "
+"động đúng."
 
 #. Type: boolean
 #. Description
@@ -170,6 +190,8 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"Nói chung bạn nên kết thúc chuyển đổi sang GRUB2 nếu các mục ghi khởi động "
+"này không được tạo bởi một bản cài đặt GRUB2 trên một hệ điều hành khác."
 
 #. Type: string
 #. Description
@@ -243,7 +265,7 @@ msgstr ""
 #. Description
 #: ../templates.in:5001
 msgid "/boot/grub/device.map has been regenerated"
-msgstr ""
+msgstr "Tập tin « /boot/grub/device.map » đã được tạo lại."
 
 #. Type: note
 #. Description
@@ -253,6 +275,10 @@ msgid ""
 "names.  In most cases, this should significantly reduce the need to change "
 "it in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
+"Tập tin « /boot/grub/device.map » đã được ghi nhớ lại để sử dụng tên thiết "
+"bị kiểu ổn định. Trong phần lớn các trường hợp, bản cập nhật này nên giảm "
+"một cách đáng kể sự cần sửa đổi về sau, và không nên tác động trình đơn khởi "
+"động được GRUB tạo."
 
 #. Type: note
 #. Description
@@ -263,6 +289,9 @@ msgid ""
 "have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
 "and update them if necessary."
 msgstr ""
+"Tuy nhiên, vì bạn có nhiều đĩa trong hệ thống, có thể là bạn vẫn còn phụ "
+"thuộc vào sơ đồ thiết bị cũ. Hãy kiểm tra nếu bạn có mục trình đơn khởi động "
+"riêng mà dựa vào số thứ tự ổ đĩa của GRUB (hdN) và cập nhật nếu thích hợp."
 
 #. Type: note
 #. Description
@@ -271,3 +300,5 @@ msgid ""
 "If you do not understand this message, or if you do not have any custom boot "
 "menu entries, you can ignore this message."
 msgstr ""
+"Nếu bạn không hiểu thông điệp này, hoặc nếu bạn không có mục trình đơn khởi "
+"động riêng nào, thì bạn có thể bỏ qua thông điệp này."
