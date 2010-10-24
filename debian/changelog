@@ -1,10 +1,14 @@
-grub2 (1.98+20100804-7) UNRELEASED; urgency=low
+grub2 (1.98+20100804-7) unstable; urgency=low
+
+  [ Robert Millan ]
+  * zfs_fix_mkrelpath.patch: Replace with proper fix from upstream Bazaar.
+    (Closes: #601087)
 
   [ Updated translations ]
   * Vietnamese (Clytie Siddall). Closes: #598327
   * Icelandic (Sveinn í Felli).  Closes: #600126
 
- -- Christian Perrier <bubulle@debian.org>  Sat, 23 Oct 2010 08:30:47 +0200
+ -- Robert Millan <rmh@debian.org>  Sun, 24 Oct 2010 16:35:37 +0200
 
 grub2 (1.98+20100804-6) unstable; urgency=low
 
