@@ -7,6 +7,8 @@ grub2 (1.98+20100804-7) unstable; urgency=low
   [ Updated translations ]
   * Vietnamese (Clytie Siddall). Closes: #598327
   * Icelandic (Sveinn í Felli).  Closes: #600126
+  * Portuguese fixed by Christian Perrier (variable names
+    were translated)
 
  -- Robert Millan <rmh@debian.org>  Sun, 24 Oct 2010 16:35:37 +0200
 
