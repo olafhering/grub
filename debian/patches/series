@@ -21,3 +21,4 @@ dmraid_pool_leak.patch
 fix_usb_boot.patch
 zfs_fix_mkrelpath.patch
 increase_disk_limit.patch
+linux_mdraid_1x.patch
