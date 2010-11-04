@@ -1,10 +1,14 @@
 grub2 (1.98+20100804-8) UNRELEASED; urgency=low
 
+  [ Robert Millan ]
+  * increase_disk_limit.patch: Increase SCSI/IDE disk limits to cope with
+    Sun Fire X4500.
+
   [ Updated translations ]
   * Portuguese fixed by Christian Perrier (variable names
     were translated)
 
- -- Colin Watson <cjwatson@debian.org>  Sun, 24 Oct 2010 20:31:55 +0100
+ -- Robert Millan <rmh@debian.org>  Thu, 04 Nov 2010 14:47:57 +0100
 
 grub2 (1.98+20100804-7) unstable; urgency=low
 

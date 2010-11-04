@@ -1,0 +1,25 @@
+Description: Increase SCSI limit to 48 and IDE limit to 96 (to cope with Sun Fire X4500)
+Author: Robert Millan <rmh@debian.org>
+Forwarded: not-needed, patch from upstream
+Last-Update: 2010-11-04
+
+--- a/util/deviceiter.c
++++ b/util/deviceiter.c
+@@ -601,7 +601,7 @@ grub_util_iterate_devices (int NESTED_FU
+ #endif /* __linux__ */
+ 
+   /* IDE disks.  */
+-  for (i = 0; i < 26; i++)
++  for (i = 0; i < 96; i++)
+     {
+       char name[16];
+ 
+@@ -655,7 +655,7 @@ grub_util_iterate_devices (int NESTED_FU
+ #endif /* __linux__ */
+ 
+   /* The rest is SCSI disks.  */
+-  for (i = 0; i < 26; i++)
++  for (i = 0; i < 48; i++)
+     {
+       char name[16];
+ 
