@@ -22,3 +22,4 @@ fix_usb_boot.patch
 zfs_fix_mkrelpath.patch
 increase_disk_limit.patch
 linux_mdraid_1x.patch
+yeeloong_boot_info.patch

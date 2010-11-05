@@ -4,12 +4,14 @@ grub2 (1.98+20100804-8) UNRELEASED; urgency=low
   * increase_disk_limit.patch: Increase SCSI/IDE disk limits to cope with
     Sun Fire X4500.
   * linux_mdraid_1x.patch: Support for Linux MD RAID v1.x.  (Closes: #593652)
+  * yeeloong_boot_info.patch: On Yeeloong, pass machine type information
+    to Linux.
 
   [ Updated translations ]
   * Portuguese fixed by Christian Perrier (variable names
     were translated)
 
- -- Robert Millan <rmh@debian.org>  Thu, 04 Nov 2010 15:07:41 +0100
+ -- Robert Millan <rmh@debian.org>  Fri, 05 Nov 2010 19:53:48 +0100
 
 grub2 (1.98+20100804-7) unstable; urgency=low
 
