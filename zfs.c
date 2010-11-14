@@ -2214,7 +2214,6 @@ grub_zfs_open (struct grub_file *file, const char *fsfilename)
       else if (data->dnode.dn.dn_flags & DNODE_FLAG_SPILL_BLKPTR)
 	{
 	  blkptr_t *bp = &data->dnode.dn.dn_spill;
-	  grub_err_t err;
 
 	  err = zio_read (bp, data->dnode.endian, (void **) &sahdrp, NULL, data);
 	  if (err)
