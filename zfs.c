@@ -520,10 +520,12 @@ zio_read (blkptr_t * bp, grub_zfs_endian_t endian, void **buf,
 {
   grub_size_t lsize, psize;
   unsigned int comp;
-  char *compbuf;
+  char *compbuf = NULL;
   grub_err_t err;
   zio_cksum_t zc = bp->blk_cksum;
   grub_uint32_t checksum;
+
+  *buf = NULL;
 
   checksum = (grub_zfs_to_cpu64((bp)->blk_prop, endian) >> 40) & 0xff;
   comp = (grub_zfs_to_cpu64((bp)->blk_prop, endian)>>32) & 0x7;
@@ -557,6 +559,7 @@ zio_read (blkptr_t * bp, grub_zfs_endian_t endian, void **buf,
   if (err)
     {
       grub_free (compbuf);
+      *buf = NULL;
       return err;
     }
 
@@ -565,17 +568,25 @@ zio_read (blkptr_t * bp, grub_zfs_endian_t endian, void **buf,
     {
       grub_dprintf ("zfs", "incorrect checksum\n");
       grub_free (compbuf);
+      *buf = NULL;
       return err;
     }
 
   if (comp != ZIO_COMPRESS_OFF)
     {
       *buf = grub_malloc (lsize);
+      if (!*buf)
+	{
+	  grub_free (compbuf);
+	  return grub_errno;
+	}
+
       err = decomp_table[comp].decomp_func (compbuf, *buf, psize, lsize);
       grub_free (compbuf);
       if (err)
 	{
 	  grub_free (*buf);
+	  *buf = NULL;
 	  return err;
 	}
     }
