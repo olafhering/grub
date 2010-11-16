@@ -1,3 +1,4 @@
+if COND_i386_pc
 # Compatibility symlink.
 noinst_PROGRAMS += g2hdr.bin
 g2hdr.bin: g2hdr.img
@@ -27,3 +28,4 @@ noinst_PROGRAMS += g2ldr.mbr
 g2ldr.mbr: grubinst
 	./grubinst --grub2 -o $@
 CLEANFILES += g2ldr.mbr
+endif
