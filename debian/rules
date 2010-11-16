@@ -201,6 +201,7 @@ override_dh_strip:
 
 override_dh_auto_clean:
 	-rm -rf build
+	-rm -f contrib grub-core/contrib
 	sed -i configure.ac -e "s/^AC_INIT.*/AC_INIT(\[GRUB\],\[0\],\[bug-grub@gnu.org\]) dnl version is filled by debian\/rules/"
 
 override_dh_clean: debian/legacy/update-grub debian/grub-extras
