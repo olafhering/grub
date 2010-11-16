@@ -1,5 +1,42 @@
-grub2 (1.98+20100804-9) UNRELEASED; urgency=low
+grub2 (1.99~20101116-1) UNRELEASED; urgency=low
 
+  * New Bazaar snapshot.  Too many changes to list in full, but some of the
+    more user-visible ones are as follows:
+    - GRUB script:
+      + Function parameters, "break", "continue", "shift", "setparams",
+        "return", and "!".
+      + "export" command supports multiple variable names.
+      + Multi-line quoted strings support.
+      + Wildcard expansion.
+    - sendkey support.
+    - USB hotunplugging and USB serial support.
+    - Rename CD-ROM to cd on BIOS.
+    - Add new --boot-directory option to grub-install, grub-reboot, and
+      grub-set-default; the old --root-directory option is still accepted
+      but was often confusing.
+    - Basic btrfs detection/UUID support (but no file reading yet).
+    - bash-completion for utilities.
+    - If a device is listed in device.map, always assume that it is
+      BIOS-visible rather than using extra layers such as LVM or RAID.
+    - Add grub-mknetdir script (closes: #550658).
+    - Remove deprecated "root" command.
+    - Handle RAID devices containing virtio components.
+    - GRUB Legacy configuration file support (via grub-menulst2cfg).
+    - Keyboard layout support (via grub-mklayout and grub-kbdcomp).
+    - Check generated grub.cfg for syntax errors before saving.
+    - Pause execution for at most ten seconds if any errors are displayed,
+      so that the user has a chance to see them.
+    - Support submenus.
+    - Write embedding zone using Reed-Solomon, so that it's robust against
+      being partially overwritten (closes: #550702, #591416, #593347).
+    - GRUB_DISABLE_LINUX_RECOVERY and GRUB_DISABLE_NETBSD_RECOVERY merged
+      into a single GRUB_DISABLE_RECOVERY variable.
+    - Fix loader memory allocation failure (closes: #551627).
+    - Don't call savedefault on recovery entries (closes: #589325).
+    - Support triple-indirect blocks on ext2 (closes: #543924).
+    - Recognise DDF1 fake RAID (closes: #603354).
+
+  [ Robert Millan ]
   * Import from upstream:
     - refuse_embedingless_cross_disk.patch: Refuse to do a cross-disk
       embeddingless install rather than creating a broken install.

@@ -2,7 +2,7 @@ Index: b/util/grub-mkconfig.in
 ===================================================================
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -313,6 +313,10 @@
+@@ -291,6 +291,10 @@
    esac
  done
  
@@ -11,5 +11,5 @@ Index: b/util/grub-mkconfig.in
 +fi
 +
  if test "x${grub_cfg}" != "x" ; then
-   # none of the children aborted with error, install the new grub.cfg
-   mv -f ${grub_cfg}.new ${grub_cfg}
+   if ! ${grub_script_check} ${grub_cfg}.new; then
+     echo "Syntax errors are detected in generated GRUB config file." >&2

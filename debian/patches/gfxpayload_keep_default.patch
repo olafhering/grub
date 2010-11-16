@@ -17,7 +17,7 @@ Index: b/util/grub.d/10_linux.in
 ===================================================================
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -67,17 +67,7 @@
+@@ -69,17 +69,7 @@
  
    # Use ELILO's generic "efifb" when it's known to be available.
    # FIXME: We need an interface to select vesafb in case efifb can't be used.
@@ -33,6 +33,6 @@ Index: b/util/grub.d/10_linux.in
 -      fi
 -  else
 +  if [ "x$GRUB_GFXPAYLOAD_LINUX" != x ]; then
+       if [ "x$GRUB_GFXPAYLOAD_LINUX" != xtext ]; then
  	  cat << EOF
- 	set gfxpayload=$GRUB_GFXPAYLOAD_LINUX
- EOF
+ 	load_video

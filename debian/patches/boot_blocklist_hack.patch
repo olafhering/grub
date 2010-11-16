@@ -1,10 +1,10 @@
-Index: b/util/i386/pc/grub-setup.c
+Index: b/util/grub-setup.c
 ===================================================================
---- a/util/i386/pc/grub-setup.c
-+++ b/util/i386/pc/grub-setup.c
-@@ -482,6 +482,15 @@
-       grub_disk_cache_invalidate_all ();
+--- a/util/grub-setup.c
++++ b/util/grub-setup.c
+@@ -525,6 +525,15 @@
  
+       grub_file_filter_disable_compression ();
        file = grub_file_open (core_path_dev);
 +
 +      if (grub_errno == GRUB_ERR_FILE_NOT_FOUND)

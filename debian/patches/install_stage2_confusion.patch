@@ -8,8 +8,8 @@ Index: b/util/grub-install.in
 ===================================================================
 --- a/util/grub-install.in
 +++ b/util/grub-install.in
-@@ -420,6 +420,12 @@
-     $grub_mkimage -O ${mkimage_target} ${config_opt} -d ${pkglibdir} --output=/boot/multiboot.img --prefix=${prefix_drive}${relative_grubdir} $modules || exit 1
+@@ -653,6 +653,12 @@
+     fi
  fi
  
 +# If vestiges of GRUB Legacy still exist, tell the Debian packaging that

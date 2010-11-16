@@ -43,6 +43,8 @@
 
 #define ALIGN_UP(addr, align) \
 	((addr + (typeof (addr)) align - 1) & ~((typeof (addr)) align - 1))
+#define ALIGN_DOWN(addr, align) \
+	((addr) & ~((typeof (addr)) align - 1))
 #define ARRAY_SIZE(array) (sizeof (array) / sizeof (array[0]))
 #define COMPILE_TIME_ASSERT(cond) switch (0) { case 1: case !(cond): ; }
 
@@ -268,11 +270,11 @@ void EXPORT_FUNC(grub_abort) (void) __attribute__ ((noreturn));
 grub_uint64_t EXPORT_FUNC(grub_divmod64) (grub_uint64_t n,
 					  grub_uint32_t d, grub_uint32_t *r);
 
-#if defined(NEED_ENABLE_EXECUTE_STACK) && !defined(GRUB_UTIL)
+#if NEED_ENABLE_EXECUTE_STACK && !defined(GRUB_UTIL)
 void EXPORT_FUNC(__enable_execute_stack) (void *addr);
 #endif
 
-#if defined (NEED_REGISTER_FRAME_INFO) && !defined(GRUB_UTIL)
+#if NEED_REGISTER_FRAME_INFO && !defined(GRUB_UTIL)
 void EXPORT_FUNC (__register_frame_info) (void);
 void EXPORT_FUNC (__deregister_frame_info) (void);
 #endif
@@ -286,6 +288,15 @@ grub_abs (int x)
     return (unsigned int) (-x);
   else
     return (unsigned int) x;
+}
+
+static inline long
+grub_min (long x, long y)
+{
+  if (x < y)
+    return x;
+  else
+    return y;
 }
 
 static inline long
@@ -310,9 +321,16 @@ void EXPORT_FUNC (grub_reboot) (void) __attribute__ ((noreturn));
 #ifdef GRUB_MACHINE_PCBIOS
 /* Halt the system, using APM if possible. If NO_APM is true, don't
  * use APM even if it is available.  */
-void EXPORT_FUNC (grub_halt) (int no_apm) __attribute__ ((noreturn));
+void grub_halt (int no_apm) __attribute__ ((noreturn));
 #else
-void EXPORT_FUNC (grub_halt) (void) __attribute__ ((noreturn));
+void grub_halt (void) __attribute__ ((noreturn));
+#endif
+
+#ifdef GRUB_MACHINE_EMU
+/* Flag to control module autoloading in normal mode.  */
+extern int EXPORT_VAR(grub_no_autoload);
+#else
+#define grub_no_autoload 0
 #endif
 
 #endif /* ! GRUB_MISC_HEADER */

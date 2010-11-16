@@ -26,7 +26,7 @@ Index: b/util/grub-mkrescue.in
  
  $self generates a bootable rescue image with specified source files, source
  directories, or mkisofs options listed by: xorriso -as mkisofs -help
-@@ -132,6 +134,9 @@
+@@ -133,6 +135,9 @@
      --xorriso=*)
          xorriso=`echo "${option}/" | sed 's/--xorriso=//'` ;;
  
@@ -36,7 +36,7 @@ Index: b/util/grub-mkrescue.in
      *)
  	source="${source} ${option} $@"; break ;;
      esac
-@@ -310,7 +315,14 @@
+@@ -303,7 +308,14 @@
  fi
  
  # build iso image
