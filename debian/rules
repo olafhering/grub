@@ -107,7 +107,7 @@ build/stamps/build-grub-firmware-qemu: build/stamps/configure-grub-firmware-qemu
 	$(CURDIR)/build/$(package)/grub-mkimage \
 		-O i386-qemu \
 		-d $(CURDIR)/build/$(package)/grub-core \
-		$(CURDIR)/build/$(package)/*.mod \
+		$(CURDIR)/build/$(package)/grub-core/*.mod \
 		-m $${grub_memdisk} \
 		-o $(CURDIR)/build/$(package)/grub.bin
 	touch $@
