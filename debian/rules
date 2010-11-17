@@ -185,7 +185,11 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 			| sed -e "s%.*%$(package): binary-from-other-architecture &%g" \
 		>> $(CURDIR)/debian/$(package)/usr/share/lintian/overrides/$(package) ; \
 	fi
-	if [ "$@" = "install/grub-pc" ] && [ "$(DEB_HOST_ARCH_CPU)" = "i386" ] ; then \
+	if ([ "$@" = "install/grub-pc" ] || \
+	    [ "$@" = "install/grub-ieee1275" ] || \
+	    [ "$@" = "install/grub-coreboot" ] || \
+	    [ "$@" = "install/grub-emu" ]) && \
+	   [ "$(DEB_HOST_ARCH_CPU)" = "i386" ] ; then \
 		echo "$(package): binary-from-other-architecture *efiemu64.o" \
 			>> $(CURDIR)/debian/$(package)/usr/share/lintian/overrides/$(package) ; \
 	fi
