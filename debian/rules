@@ -8,13 +8,16 @@ package		:= grub2
 
 DEB_HOST_ARCH_CPU ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU 2>/dev/null)
 
-CFLAGS := -g -Wall
+HOST_CFLAGS := -g -Wall
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
-	CFLAGS += -O0
+	HOST_CFLAGS += -O0
 else
-	CFLAGS += -O2
+	HOST_CFLAGS += -O2
 endif
+
+unexport CFLAGS
+export HOST_CFLAGS
 
 ifeq (,$(shell which qemu-system-i386 2>/dev/null))
 with_check := no
