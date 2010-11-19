@@ -1,4 +1,4 @@
-grub2 (1.99~20101117-1) UNRELEASED; urgency=low
+grub2 (1.99~20101118-1) UNRELEASED; urgency=low
 
   [ Colin Watson ]
   * New Bazaar snapshot.  Too many changes to list in full, but some of the
