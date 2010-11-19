@@ -40,6 +40,9 @@ grub2 (1.99~20101117-1) UNRELEASED; urgency=low
   [ Robert Millan ]
   * Use dpkg architecture wildcards.
 
+  [ Updated translations ]
+  * Slovenian (Vanja Cvelbar).  Closes: #604003
+
  -- Robert Millan <rmh@debian.org>  Wed, 17 Nov 2010 18:43:38 +0100
 
 grub2 (1.98+20100804-8) unstable; urgency=low
