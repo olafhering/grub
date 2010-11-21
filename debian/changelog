@@ -6,7 +6,7 @@ grub2 (1.98+20100804-9) UNRELEASED; urgency=low
     - fix_grub_install_error_msg.patch: Replace useless recomendation to
       pass --modules with a recomendation to report a bug.
 
- -- Robert Millan <rmh@debian.org>  Sat, 13 Nov 2010 19:05:00 +0100
+ -- Robert Millan <rmh@debian.org>  Sun, 21 Nov 2010 14:18:45 +0100
 
 grub2 (1.98+20100804-8) unstable; urgency=low
 
