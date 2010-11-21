@@ -216,6 +216,9 @@ override_dh_clean: debian/legacy/update-grub debian/grub-extras
 	# make sure PO files are always up-to-date
 	debconf-updatepo
 
+	# clean regenerated Catalan gmo
+	rm -f po/ca.gmo
+
 debian/legacy/update-grub:
 	@echo "Missing $@.  Try: \"bzr cat http://bzr.debian.org/bzr/pkg-grub/trunk/grub-legacy/debian/update-grub > $@\""
 	exit 1

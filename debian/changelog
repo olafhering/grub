@@ -1,12 +1,16 @@
 grub2 (1.98+20100804-9) UNRELEASED; urgency=low
 
+  [ Robert Millan ]
   * Import from upstream:
     - refuse_embedingless_cross_disk.patch: Refuse to do a cross-disk
       embeddingless install rather than creating a broken install.
     - fix_grub_install_error_msg.patch: Replace useless recomendation to
       pass --modules with a recomendation to report a bug.
 
- -- Robert Millan <rmh@debian.org>  Sun, 21 Nov 2010 14:18:45 +0100
+  [ Jordi Mallach ]
+  * Update Catalan translation with latest file from the Translation Project.
+
+ -- Jordi Mallach <jordi@debian.org>  Sun, 21 Nov 2010 17:54:46 +0100
 
 grub2 (1.98+20100804-8) unstable; urgency=low
 
