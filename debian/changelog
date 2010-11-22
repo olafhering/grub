@@ -1,3 +1,9 @@
+grub2 (1.99~20101122-2) UNRELEASED; urgency=low
+
+  * Build-depend on qemu-img and parted on non-Hurd architectures.
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 22 Nov 2010 15:44:40 +0000
+
 grub2 (1.99~20101122-1) experimental; urgency=low
 
   [ Colin Watson ]
