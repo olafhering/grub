@@ -1,4 +1,4 @@
-grub2 (1.99~20101122-1) UNRELEASED; urgency=low
+grub2 (1.99~20101122-1) experimental; urgency=low
 
   [ Colin Watson ]
   * New Bazaar snapshot.  Too many changes to list in full, but some of the
@@ -44,7 +44,7 @@ grub2 (1.99~20101122-1) UNRELEASED; urgency=low
   * Slovenian (Vanja Cvelbar).  Closes: #604003
   * Dzongkha (dawa pemo via Tenzin Dendup).  Closes: #604102
 
- -- Robert Millan <rmh@debian.org>  Wed, 17 Nov 2010 18:43:38 +0100
+ -- Colin Watson <cjwatson@debian.org>  Mon, 22 Nov 2010 12:24:56 +0000
 
 grub2 (1.98+20100804-8) unstable; urgency=low
 
