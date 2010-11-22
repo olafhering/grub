@@ -9,3 +9,4 @@ gfxpayload_keep_default.patch
 mkrescue_diet.patch
 mkconfig_skip_dmcrypt.patch
 install_stage2_confusion.patch
+qemu_img_exists.patch
