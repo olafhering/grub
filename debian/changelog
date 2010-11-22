@@ -12,6 +12,7 @@ grub2 (1.98+20100804-9) UNRELEASED; urgency=low
 
   [ Updated translations ]
   * Slovenian (Vanja Cvelbar).  Closes: #604003
+  * Dzongkha (dawa pemo via Tenzin Dendup).  Closes: #604102
 
  -- Jordi Mallach <jordi@debian.org>  Sun, 21 Nov 2010 17:54:46 +0100
 
