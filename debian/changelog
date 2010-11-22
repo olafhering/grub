@@ -10,6 +10,9 @@ grub2 (1.98+20100804-9) UNRELEASED; urgency=low
   [ Jordi Mallach ]
   * Update Catalan translation with latest file from the Translation Project.
 
+  [ Updated translations ]
+  * Slovenian (Vanja Cvelbar).  Closes: #604003
+
  -- Jordi Mallach <jordi@debian.org>  Sun, 21 Nov 2010 17:54:46 +0100
 
 grub2 (1.98+20100804-8) unstable; urgency=low
