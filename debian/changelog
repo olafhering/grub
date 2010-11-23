@@ -8,6 +8,9 @@ grub2 (1.99~20101122-2) UNRELEASED; urgency=low
   * Upgrade the installed core image when upgrading grub-efi-ia32 or
     grub-efi-amd64, although only if /boot/efi/EFI/<id> (where <id> is an
     identifier based on GRUB_DISTRIBUTOR, e.g. 'debian') already exists.
+  * Re-expand a couple of dpkg architecture wildcards to exclude certain
+    special cases: gcc-4.4-multilib is not available on kfreebsd-i386 or
+    hurd-i386, and qemu-system is not available on hurd-i386.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 22 Nov 2010 15:44:40 +0000
 
