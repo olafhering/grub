@@ -1,6 +1,6 @@
 grub2 (1.99~20101122-2) UNRELEASED; urgency=low
 
-  * Build-depend on qemu-img and parted on non-Hurd architectures.
+  * Build-depend on qemu-utils and parted on non-Hurd architectures.
   * qemu_img_exists.patch: Skip partmap test if qemu-img doesn't exist (as
     is the case on the Hurd).
   * Make grub-efi-ia32 and grub-efi-amd64 depend on efibootmgr so that
