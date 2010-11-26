@@ -387,7 +387,7 @@ case "$1" in
              test "$(uname -s)" = Linux; then
             # Migrate to new by-id naming scheme.
             db_get grub-pc/install_devices
-            old_devices="$RET"
+            old_devices="$(echo "$RET" | sed 's/, / /g')"
             new_devices=
             # Common-case optimisation: if the list of devices is
             # identical to the LHS of grub-mkdevicemap's output, then
@@ -443,7 +443,7 @@ case "$1" in
             db_get grub-pc/install_devices
             valid=1
             for device in $RET; do
-              if [ ! -e "$device" ]; then
+              if [ ! -e "${device%,}" ]; then
                 valid=0
                 break
               fi
@@ -500,7 +500,7 @@ case "$1" in
             db_go
             db_get "$question"
             failed_devices=
-            for i in `echo $RET | sed -e 's/,/ /g'` ; do
+            for i in `echo $RET | sed -e 's/, / /g'` ; do
               real_device="$(readlink -f "$i")"
               if grub-install --force --no-floppy $real_device ; then
                 # We just installed GRUB 2; then also generate grub.cfg.
