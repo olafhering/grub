@@ -1,9 +1,9 @@
-grub2 (1.99~20101126-1) UNRELEASED; urgency=low
+grub2 (1.99~20101126-1) experimental; urgency=low
 
   * New Bazaar snapshot (mipsel build fix, LVM-on-RAID probing fix).
   * Fix comma-separation in handling of grub-pc/install_devices.
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 26 Nov 2010 12:23:06 +0000
+ -- Colin Watson <cjwatson@debian.org>  Fri, 26 Nov 2010 13:08:52 +0000
 
 grub2 (1.99~20101124-1) experimental; urgency=low
 
