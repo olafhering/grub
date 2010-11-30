@@ -1,0 +1,28 @@
+Description: Make error messages visible again
+Author: Robert Millan <rmh@debian.org>
+Forwarded: not needed, patch from upstream Bazaar
+Last-Update: 2010-11-30
+
+--- a/commands/echo.c	2010-01-03 18:24:22 +0000
++++ b/commands/echo.c	2010-11-30 14:35:32 +0000
+@@ -106,6 +106,8 @@ grub_cmd_echo (grub_extcmd_t cmd, int ar
+   if (newline)
+     grub_printf ("\n");
+ 
++  grub_refresh ();  
++
+   return 0;
+ }
+ 
+
+--- a/normal/menu.c	2010-07-02 17:35:07 +0000
++++ b/normal/menu.c	2010-11-30 14:32:13 +0000
+@@ -45,6 +45,7 @@ grub_wait_after_message (void)
+ {
+   grub_xputs ("\n");
+   grub_printf_ (N_("Press any key to continue..."));
++  grub_refresh ();
+   (void) grub_getkey ();
+   grub_xputs ("\n");
+ }
+
