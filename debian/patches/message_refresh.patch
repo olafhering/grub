@@ -5,6 +5,14 @@ Last-Update: 2010-11-30
 
 --- a/commands/echo.c	2010-01-03 18:24:22 +0000
 +++ b/commands/echo.c	2010-11-30 14:35:32 +0000
+@@ -21,6 +21,7 @@
+ #include <grub/misc.h>
+ #include <grub/extcmd.h>
+ #include <grub/i18n.h>
++#include <grub/term.h>
+ 
+ static const struct grub_arg_option options[] =
+   {
 @@ -106,6 +106,8 @@ grub_cmd_echo (grub_extcmd_t cmd, int ar
    if (newline)
      grub_printf ("\n");
