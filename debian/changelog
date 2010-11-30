@@ -1,4 +1,4 @@
-grub2 (1.98+20100804-9) UNRELEASED; urgency=low
+grub2 (1.98+20100804-9) unstable; urgency=low
 
   [ Robert Millan ]
   * Import from upstream:
