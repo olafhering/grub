@@ -2002,9 +2002,7 @@ zfs_mount (grub_device_t dev)
   vdevnum = VDEV_LABELS;
 
   /* Don't check back labels on CDROM.  */
-  if (! data->disk->partition
-      && data->disk->dev->id == GRUB_DISK_DEVICE_BIOSDISK_ID
-      && data->disk->id >= 0xc0)
+  if (grub_disk_get_size (dev->disk) == GRUB_DISK_SIZE_UNKNOWN)
     vdevnum = VDEV_LABELS / 2;
 
   for (label = 0; ubbest == NULL && label < vdevnum; label++)
