@@ -1,0 +1,27 @@
+Description: Fix crash condition in case kfreebsd_* commands are
+ used after kfreebsd has (gracefully) failed.
+Author: Robert Millan <rmh@debian.org>
+Forwarded: not needed, patch from upstream Bazaar
+Last-Update: 2010-11-30
+
+--- a/loader/i386/bsd.c	2010-03-26 14:44:13 +0000
++++ b/loader/i386/bsd.c	2010-11-30 18:35:33 +0000
+@@ -1072,7 +1072,7 @@ grub_cmd_freebsd_loadenv (grub_command_t
+   char *buf = 0, *curr, *next;
+   int len;
+ 
+-  if (kernel_type == KERNEL_TYPE_NONE)
++  if (! grub_loader_is_loaded ())
+     return grub_error (GRUB_ERR_BAD_ARGUMENT,
+ 		       "you need to load the kernel first");
+ 
+@@ -1238,7 +1238,7 @@ grub_cmd_freebsd_module_elf (grub_comman
+   grub_file_t file = 0;
+   grub_err_t err;
+ 
+-  if (kernel_type == KERNEL_TYPE_NONE)
++  if (! grub_loader_is_loaded ())
+     return grub_error (GRUB_ERR_BAD_ARGUMENT,
+ 		       "you need to load the kernel first");
+ 
+

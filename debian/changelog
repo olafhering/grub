@@ -1,3 +1,11 @@
+grub2 (1.98+20100804-10) unstable; urgency=low
+
+  * fix_crash_condition_in_kfreebsd_loader.patch: Import from upstream.
+    Fixes crash condition in case kfreebsd_* commands are used after
+    kfreebsd has (gracefully) failed.
+
+ -- Robert Millan <rmh@debian.org>  Tue, 30 Nov 2010 19:40:11 +0100
+
 grub2 (1.98+20100804-9) unstable; urgency=low
 
   [ Robert Millan ]
