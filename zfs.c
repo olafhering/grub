@@ -1290,7 +1290,8 @@ dnode_get_path (dnode_end_t * mdn, const char *path_in, dnode_end_t * dn,
       if (err)
 	break;
 
-      *path = ch;      
+      *path = ch;
+#if 0
       if (((grub_zfs_to_cpu64(((znode_phys_t *) DN_BONUS (&dnode_path->dn.dn))->zp_mode, dnode_path->dn.endian) >> 12) & 0xf) == 0xa && ch)
 	{
 	  char *oldpath = path, *oldpathbuf = path_buf;
@@ -1324,6 +1325,7 @@ dnode_get_path (dnode_end_t * mdn, const char *path_in, dnode_end_t * dn,
 	    }
 	}
     }
+#endif
 
   if (!err)
     grub_memcpy (dn, &(dnode_path->dn), sizeof (*dn));
