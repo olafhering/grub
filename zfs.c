@@ -1324,8 +1324,8 @@ dnode_get_path (dnode_end_t * mdn, const char *path_in, dnode_end_t * dn,
 	      grub_free (dn_new);
 	    }
 	}
-    }
 #endif
+    }
 
   if (!err)
     grub_memcpy (dn, &(dnode_path->dn), sizeof (*dn));
