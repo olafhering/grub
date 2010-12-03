@@ -151,7 +151,7 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 	rm -rf $(CURDIR)/debian/$(package)/usr/include
 
 	if [ "$@" = "install/grub-emu" ] ; then \
-		rm -f $(CURDIR)/debian/$(package)/usr/{sbin,share/man/man8}/{grub-reboot,grub-set-default}{,.8} ; \
+		rm -f $(CURDIR)/debian/$(package)/usr/{sbin,share/man/man8}/{grub-reboot,grub-set-default,grub-mknetdir}{,.8} ; \
 	fi
 
 	if [ "$@" != "install/grub-emu" ] ; then \
