@@ -1,3 +1,11 @@
+grub2 (1.98+20100804-11) UNRELEASED; urgency=low
+
+  * Exit silently from zz-update-grub kernel hook if update-grub does not
+    exist (e.g. if grub-pc has been removed but not purged; closes:
+    #606184).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 07 Dec 2010 09:51:17 +0000
+
 grub2 (1.98+20100804-10) unstable; urgency=low
 
   * fix_crash_condition_in_kfreebsd_loader.patch: Import from upstream.
