@@ -3,6 +3,9 @@ grub2 (1.98+20100804-11) UNRELEASED; urgency=low
   * Exit silently from zz-update-grub kernel hook if update-grub does not
     exist (e.g. if grub-pc has been removed but not purged; closes:
     #606184).
+  * Apply debconf template review by debian-l10n-english and mark several
+    more strings for translation, thanks to David Prévot and Justin B Rye
+    (closes: #605748).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 07 Dec 2010 09:51:17 +0000
 
