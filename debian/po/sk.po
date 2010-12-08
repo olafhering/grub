@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub 2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 17:04+0000\n"
+"POT-Creation-Date: 2010-12-08 21:22+0000\n"
 "PO-Revision-Date: 2010-08-03 11:47+0200\n"
 "Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: Slovak <nomail>\n"
@@ -172,8 +172,12 @@ msgstr "GRUB sa nepodarilo nainštalovať na tieto zariadenia:"
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
+#, fuzzy
+#| msgid ""
+#| "Do you want to continue anyway?  If you do, your computer may not start "
+#| "up properly."
 msgid ""
-"Do you want to continue anyway?  If you do, your computer may not start up "
+"Do you want to continue anyway? If you do, your computer may not start up "
 "properly."
 msgstr ""
 "Chcete napriek tomu pokračovať? Ak áno, môže sa stať, že sa váš počítač "

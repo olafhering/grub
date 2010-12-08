@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 17:04+0000\n"
+"POT-Creation-Date: 2010-12-08 21:22+0000\n"
 "PO-Revision-Date: 2010-11-19 12:16+0530\n"
 "Last-Translator: dawa pemo <dpemo@dit.gov.bt>\n"
 "Language-Team: Dzongkha <LL@li.org>\n"
@@ -170,8 +170,12 @@ msgstr "GRUB འདི་ འོག་གི་ཐབས་འཕྲུལ་ཚ
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
+#, fuzzy
+#| msgid ""
+#| "Do you want to continue anyway?  If you do, your computer may not start "
+#| "up properly."
 msgid ""
-"Do you want to continue anyway?  If you do, your computer may not start up "
+"Do you want to continue anyway? If you do, your computer may not start up "
 "properly."
 msgstr ""
 "ག་དེ་འབད་རུང་ འཕྲོ་མཐུད་འབད་ནི་ཨིན་ན? འཕྲོ་མཐུད་འབད་བ་ཅིན་ ཁྱོད་ཀྱི་གློག་རིག་འདི་ལེགས་ཤོམ་སྦེ་འགོ་"

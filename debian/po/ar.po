@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub.ar\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 17:04+0000\n"
+"POT-Creation-Date: 2010-12-08 21:22+0000\n"
 "PO-Revision-Date: 2010-07-16 02:38+0300\n"
 "Last-Translator: Ossama M. Khayat <okhayat@yahoo.com>\n"
 "Language-Team: Arabic <support@arabeyes.org>\n"
@@ -171,8 +171,12 @@ msgstr "تعذر تثبيت GRUB على الأجهزة التالية:"
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
+#, fuzzy
+#| msgid ""
+#| "Do you want to continue anyway?  If you do, your computer may not start "
+#| "up properly."
 msgid ""
-"Do you want to continue anyway?  If you do, your computer may not start up "
+"Do you want to continue anyway? If you do, your computer may not start up "
 "properly."
 msgstr ""
 "هل تريد الاستمرار على أي حال؟ إن فعلت، فقد لا يتمكن جهازك من بدء التشغيل كما "

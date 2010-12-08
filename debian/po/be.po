@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: be\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 17:04+0000\n"
+"POT-Creation-Date: 2010-12-08 21:22+0000\n"
 "PO-Revision-Date: 2010-07-18 01:16+0300\n"
 "Last-Translator: Viktar Siarheichyk <vics@eq.by>\n"
 "Language-Team: Debian Belarusian (Official spelling) <debian-l10n-"
@@ -175,8 +175,12 @@ msgstr "Не атрымалася ўсталяваць GRUB на наступн�
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
+#, fuzzy
+#| msgid ""
+#| "Do you want to continue anyway?  If you do, your computer may not start "
+#| "up properly."
 msgid ""
-"Do you want to continue anyway?  If you do, your computer may not start up "
+"Do you want to continue anyway? If you do, your computer may not start up "
 "properly."
 msgstr ""
 "Вы жадаеце працягваць, не зважаючы на гэта? Калі працягнеце, ваш кампутар "

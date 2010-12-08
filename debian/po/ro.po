@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 17:04+0000\n"
+"POT-Creation-Date: 2010-12-08 21:22+0000\n"
 "PO-Revision-Date: 2010-08-31 20:58+0300\n"
 "Last-Translator: ioan-eugen STAN <stan.ieugen@gmail.com>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -177,8 +177,12 @@ msgstr "A eșuat instalarea GRUB pe următoarele dispozitive:"
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
+#, fuzzy
+#| msgid ""
+#| "Do you want to continue anyway?  If you do, your computer may not start "
+#| "up properly."
 msgid ""
-"Do you want to continue anyway?  If you do, your computer may not start up "
+"Do you want to continue anyway? If you do, your computer may not start up "
 "properly."
 msgstr ""
 "Doriți să continuați?  Dacă da, este posibil ca sistemul să nu pornească "

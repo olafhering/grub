@@ -81,7 +81,7 @@ _Description: Writing GRUB to boot device failed - continue?
  .
  ${FAILED_DEVICES}
  .
- Do you want to continue anyway?  If you do, your computer may not start up
+ Do you want to continue anyway? If you do, your computer may not start up
  properly.
 
 Template: grub-pc/install_devices_failed_upgrade
