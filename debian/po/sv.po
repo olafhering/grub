@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2_sv\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 21:22+0000\n"
-"PO-Revision-Date: 2010-07-16 09:40+0100\n"
+"POT-Creation-Date: 2010-12-08 18:02-0400\n"
+"PO-Revision-Date: 2010-12-09 12:48+0100\n"
 "Last-Translator: Martin Bagge / brother <brother@bsnet.se>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -39,11 +39,10 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#, fuzzy
 #| msgid ""
 #| "In order to replace the Legacy version of GRUB in your system, it is "
 #| "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
-#| "your existing GRUB Legacy setup.  This step may be automaticaly performed "
+#| "your existing GRUB Legacy setup. This step may be automaticaly performed "
 #| "now."
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
@@ -53,12 +52,11 @@ msgid ""
 msgstr ""
 "Om du vill ersätta den gamla versionen av GRUB i systemet, rekommenderas "
 "att /boot/grub/menu.lst justeras till att kedjeladda GRUB 2 från din "
-"existerande, gamla GRUB-inställning.  Detta steg kan nu utföras automatiskt."
+"existerande, gamla GRUB-inställning. Detta steg kan utföras automatiskt nu."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#, fuzzy
 #| msgid ""
 #| "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 #| "verify that your new GRUB 2 setup is functional for you, before you "
@@ -70,7 +68,7 @@ msgid ""
 msgstr ""
 "Det rekommenderas att GRUB 2 kedjeladdas från menu.lst så att det kan "
 "säkerställas att den nya GRUB 2-inställningen fungerar innan den installeras "
-"direkt till huvudstartsektorn."
+"direkt till huvudstartsektorn (MBR)."
 
 #. Type: boolean
 #. Description
@@ -79,16 +77,17 @@ msgid ""
 "Whatever your decision, you can replace the old MBR image with GRUB 2 later "
 "by issuing the following command as root:"
 msgstr ""
+"Oberoende av ditt beslut kan den gamla MBR-avbildningen ersättas med GRUB 2 "
+"vid ett senare tillfälle genom att följande kommando utförs som root:"
 
 #. Type: multiselect
 #. Description
 #. Type: multiselect
 #. Description
 #: ../grub-pc.templates.in:3001 ../grub-pc.templates.in:4001
-#, fuzzy
 #| msgid "GRUB failed to install to the following devices:"
 msgid "GRUB install devices:"
-msgstr "GRUB kunde inte installeras på följande enheter:"
+msgstr "GRUB installationsenheter:"
 
 #. Type: multiselect
 #. Description
@@ -97,6 +96,8 @@ msgid ""
 "The grub-pc package is being upgraded. This menu allows you to select which "
 "devices you'd like grub-install to be automatically run for, if any."
 msgstr ""
+"Paketet grub-pc uppdateras. Denna meny ger dig möjlighet att välja vilka, om "
+"några, enheter som grub-install ska köras automatiskt för."
 
 #. Type: multiselect
 #. Description
@@ -106,6 +107,9 @@ msgid ""
 "prevent the installed GRUB core image from getting out of sync with GRUB "
 "modules or grub.cfg."
 msgstr ""
+"Att köra grub-install automatiskt är rekomenderat i de flesta situationer "
+"för att förhindra att den installerade GRUB-huvudavbidlningen för att hamna "
+"i ett förhållande där GRUB-moduler eller grub.cfg inte är i korrekt läge."
 
 #. Type: multiselect
 #. Description
@@ -116,6 +120,8 @@ msgid ""
 "If you're unsure which drive is designated as boot drive by your BIOS, it is "
 "often a good idea to install GRUB to all of them."
 msgstr ""
+"Om du är osäker på vilken disk som är uppstartsdisken enligt BIOS så är det "
+"vanligen en god idé att installera GRUB på alla."
 
 #. Type: multiselect
 #. Description
@@ -128,6 +134,10 @@ msgid ""
 "use the blocklist mechanism, which makes it less reliable, and therefore is "
 "not recommended."
 msgstr ""
+"OBS: det är möjligt att installera GRUB i partitionens uppstartsområde "
+"också, några av dessa visas nedan. Dock innebär installation där att GRUB "
+"tvingas använda en blockeringslista, som gör funktionen mindre pålitlig, och "
+"detta rekomenderas inte."
 
 #. Type: multiselect
 #. Description
@@ -139,6 +149,11 @@ msgid ""
 "GRUB modules and grub.cfg. Please check again to make sure that GRUB is "
 "written to the appropriate boot devices."
 msgstr ""
+"Uppstartshanteraren GRUB var tidigare installerad på en disk som inte längre "
+"finns tillgänglig eller vars unika identifikation har ändrats av någon "
+"anledning. Det är viktigt att säkerställa att den installerade GRUB-"
+"huvudavbildningen är korrekt i förhållande till GRUB-moduler och grub.cfg. "
+"Kontrollera återigen att GRUB är tillgänglig på rätt uppstartsenhet."
 
 #. Type: text
 #. Description
@@ -152,18 +167,15 @@ msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 #. Description
 #. The "-" is used to indicate indentation. Leading spaces may not work.
 #: ../grub-pc.templates.in:6001
-#, fuzzy
 #| msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
 msgid "- ${DEVICE} (${SIZE} MB, ${PATH})"
-msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
+msgstr "- ${DEVICE} (${SIZE} MB, ${PATH})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
-#, fuzzy
-#| msgid "GRUB installation failed.  Continue?"
 msgid "Writing GRUB to boot device failed - continue?"
-msgstr "Installationen av GRUB misslyckades. Fortsätta?"
+msgstr "Skriva GRUB till uppstartsenhet misslyckades - fortsätta?"
 
 #. Type: boolean
 #. Description
@@ -176,10 +188,6 @@ msgstr "GRUB kunde inte installeras på följande enheter:"
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
-#, fuzzy
-#| msgid ""
-#| "Do you want to continue anyway?  If you do, your computer may not start "
-#| "up properly."
 msgid ""
 "Do you want to continue anyway? If you do, your computer may not start up "
 "properly."
@@ -190,19 +198,13 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
-#, fuzzy
-#| msgid "GRUB installation failed.  Try again?"
+#| msgid "GRUB installation failed. Try again?"
 msgid "Writing GRUB to boot device failed - try again?"
-msgstr "Installationen av GRUB misslyckades. Försöka igen?"
+msgstr "Skrivningen av GRUB till uppstartsenheten misslyckades - försöka igen?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
-#, fuzzy
-#| msgid ""
-#| "You may be able to install GRUB to some other device, although you should "
-#| "check that your system will boot from that device.  Otherwise, the "
-#| "upgrade from GRUB Legacy will be cancelled."
 msgid ""
 "You may be able to install GRUB to some other device, although you should "
 "check that your system will boot from that device. Otherwise, the upgrade "
@@ -221,12 +223,11 @@ msgstr "Fortsätt utan att installera GRUB?"
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#, fuzzy
 #| msgid ""
-#| "You chose not to install GRUB to any devices.  If you continue, the boot "
+#| "You chose not to install GRUB to any devices. If you continue, the boot "
 #| "loader may not be properly configured, and when your computer next starts "
-#| "up it will use whatever was previously in the boot sector.  If there is "
-#| "an earlier version of GRUB 2 in the boot sector, it may be unable to load "
+#| "up it will use whatever was previously in the boot sector. If there is an "
+#| "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 #| "modules or handle the current configuration file."
 msgid ""
 "You chose not to install GRUB to any devices. If you continue, the boot "
@@ -245,11 +246,10 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#, fuzzy
 #| msgid ""
 #| "If you are already running a different boot loader and want to carry on "
 #| "doing so, or if this is a special environment where you do not need a "
-#| "boot loader, then you should continue anyway.  Otherwise, you should "
+#| "boot loader, then you should continue anyway. Otherwise, you should "
 #| "install GRUB somewhere."
 msgid ""
 "If you are already using a different boot loader and want to carry on doing "
@@ -258,20 +258,20 @@ msgid ""
 "somewhere."
 msgstr ""
 "Om du redan kör en annan uppstartshanterare och vill fortsätta med det eller "
-"om detta är en specialmiljö som inte behöver en uppstartshanterare kan du "
-"tryggt fortsätta. I annat fall ska du installera GRUB någonstans."
+"om detta är en specialmiljö som inte behöver en uppstartshanterare ska du "
+"fortsätta i alla fall. I annat fall ska du installera GRUB någonstans."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:10001
 msgid "Remove GRUB 2 from /boot/grub?"
-msgstr ""
+msgstr "Radera GRUB 2 från /boot/grub?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:10001
 msgid "Do you want to have all GRUB 2 files removed from /boot/grub?"
-msgstr ""
+msgstr "Vill du att alla GRUB 2-filer ska raderas från /boot/grub?"
 
 #. Type: boolean
 #. Description
@@ -279,6 +279,8 @@ msgstr ""
 msgid ""
 "This will make the system unbootable unless another boot loader is installed."
 msgstr ""
+"Detta innebär att systemet inte kan starta om ingen annan uppstartshanterare "
+"är installerad."
 
 #. Type: boolean
 #. Description
@@ -300,13 +302,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
-#, fuzzy
-#| msgid ""
-#| "It seems likely that GRUB Legacy is no longer in use, and that you should "
-#| "instead upgrade the GRUB 2 images on these disks and finish the "
-#| "conversion to GRUB 2 by removing old GRUB Legacy files.  If you do not "
-#| "upgrade these GRUB 2 images, then they may be incompatible with the new "
-#| "packages and cause your system to stop booting properly."
 msgid ""
 "It seems likely that GRUB Legacy is no longer in use, and that you should "
 "instead upgrade the GRUB 2 images on these disks and finish the conversion "
@@ -339,11 +334,6 @@ msgstr "Kommandorad för Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -378,11 +368,6 @@ msgstr "Kommandorad för kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -417,12 +402,6 @@ msgstr "/boot/grub/device.map har skapats på nytt"
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
-#| msgid ""
-#| "The file /boot/grub/device.map has been rewritten to use stable device "
-#| "names.  In most cases, this should significantly reduce the need to "
-#| "change it in future, and boot menu entries generated by GRUB should not "
-#| "be affected."
 msgid ""
 "The file /boot/grub/device.map has been rewritten to use stable device "
 "names. In most cases, this should significantly reduce the need to change it "
@@ -436,10 +415,9 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
 #| msgid ""
 #| "However, since you have more than one disk in your system, it is possible "
-#| "that you were depending on the old device map.  Please check whether you "
+#| "that you were depending on the old device map. Please check whether you "
 #| "have any custom boot menu entries that rely on GRUB's (hdN) drive "
 #| "numbering, and update them if necessary."
 msgid ""
@@ -448,15 +426,14 @@ msgid ""
 "there are any custom boot menu entries that rely on GRUB's (hdN) drive "
 "numbering, and update them if necessary."
 msgstr ""
-"Dock, eftersom du har mer än en disk i systemet kan det innebära att det är "
-"beroende av den gamla enhetskopplingen. Kontrollera om det finns poster i "
-"uppstartsmenyn som är beroende av GRUB:s enhetsnumrering (hdN) och uppdatera "
-"dessa om nödvändigt."
+"Dock, eftersom mer än en disk finns i systemet kan det innebära att systemet "
+"är beroende av den gamla enhetskopplingen. Kontrollera om det finns manuellt "
+"införda poster i uppstartsmenyn som är beroende av GRUB:s enhetsnumrering "
+"(hdN) och uppdatera dessa om nödvändigt."
 
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
 #| msgid ""
 #| "If you do not understand this message, or if you do not have any custom "
 #| "boot menu entries, you can ignore this message."
@@ -473,3 +450,6 @@ msgstr ""
 #~ msgstr ""
 #~ "När GRUB 2 ska laddas direkt från huvudstartsektorn, kan detta "
 #~ "åstadkommas genom att (som root) köra följande kommando:"
+
+#~ msgid "GRUB installation failed. Continue?"
+#~ msgstr "Installationen av GRUB misslyckades. Fortsätta?"
