@@ -7,6 +7,9 @@ grub2 (1.98+20100804-11) UNRELEASED; urgency=low
     more strings for translation, thanks to David Prévot and Justin B Rye
     (closes: #605748).
 
+  [ Updated translations ]
+  * Chinese (YunQiang Su).  Closes: #606426
+
  -- Colin Watson <cjwatson@debian.org>  Tue, 07 Dec 2010 09:51:17 +0000
 
 grub2 (1.98+20100804-10) unstable; urgency=low
