@@ -10,6 +10,7 @@ grub2 (1.98+20100804-11) UNRELEASED; urgency=low
   [ Updated translations ]
   * Chinese (YunQiang Su).  Closes: #606426
   * Indonesian (Arief S Fitrianto).  Closes: #606431
+  * Slovenian (Vanja Cvelbar).  Closes: #606445
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 07 Dec 2010 09:51:17 +0000
 
