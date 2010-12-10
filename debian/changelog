@@ -15,6 +15,7 @@ grub2 (1.98+20100804-11) UNRELEASED; urgency=low
   * Ukrainian (Yatsenko Alexandr).  Closes: #606538
   * Basque (Iñaki Larrañaga Murgoitio).  Closes: #606644
   * Slovak (Slavko).  Closes: #606663
+  * Catalan (Jordi Mallach).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 07 Dec 2010 09:51:17 +0000
 
