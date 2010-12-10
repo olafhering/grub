@@ -14,6 +14,7 @@ grub2 (1.98+20100804-11) UNRELEASED; urgency=low
   * Swedish (Martin Bagge / brother).  Closes: #606455
   * Ukrainian (Yatsenko Alexandr).  Closes: #606538
   * Basque (Iñaki Larrañaga Murgoitio).  Closes: #606644
+  * Slovak (Slavko).  Closes: #606663
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 07 Dec 2010 09:51:17 +0000
 
