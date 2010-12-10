@@ -12,6 +12,7 @@ grub2 (1.98+20100804-11) UNRELEASED; urgency=low
   * Indonesian (Arief S Fitrianto).  Closes: #606431
   * Slovenian (Vanja Cvelbar).  Closes: #606445
   * Swedish (Martin Bagge / brother).  Closes: #606455
+  * Ukrainian (Yatsenko Alexandr).  Closes: #606538
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 07 Dec 2010 09:51:17 +0000
 
