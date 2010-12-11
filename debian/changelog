@@ -1,4 +1,4 @@
-grub2 (1.99~20101210-1) UNRELEASED; urgency=low
+grub2 (1.99~20101210-1) experimental; urgency=low
 
   * New Bazaar snapshot.
     - ZFS moved into grub-core.
@@ -9,7 +9,7 @@ grub2 (1.99~20101210-1) UNRELEASED; urgency=low
     exist (e.g. if grub-pc has been removed but not purged; closes:
     #606184).
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 03 Dec 2010 15:51:00 +0000
+ -- Colin Watson <cjwatson@debian.org>  Sat, 11 Dec 2010 01:22:26 +0000
 
 grub2 (1.99~20101126-1) experimental; urgency=low
 
