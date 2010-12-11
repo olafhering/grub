@@ -17,6 +17,7 @@ grub2 (1.98+20100804-11) UNRELEASED; urgency=low
   * Slovak (Slavko).  Closes: #606663
   * Catalan (Jordi Mallach).
   * Bulgarian (Damyan Ivanov).  Closes: #606452
+  * Persian (Morteza Fakhraee).  Closes: #606672
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 07 Dec 2010 09:51:17 +0000
 
