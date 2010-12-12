@@ -22,6 +22,7 @@ grub2 (1.98+20100804-11) UNRELEASED; urgency=low
   * Dutch (Paul Gevers).  Closes: #606807
   * Japanese (Hideki Yamane).  Closes: #606836
   * French (Christian Perrier).  Closes: #606842
+  * Czech (Miroslav Kure).  Closes: #606854
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 07 Dec 2010 09:51:17 +0000
 
