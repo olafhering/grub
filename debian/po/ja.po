@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2 1.98+20100617-1\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 21:22+0000\n"
-"PO-Revision-Date: 2010-07-25 14:19+0900\n"
+"POT-Creation-Date: 2010-12-08 18:02-0400\n"
+"PO-Revision-Date: 2010-12-12 09:43+0900\n"
 "Last-Translator: Hideki Yamane <henrich@debian.org>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
 "Language: ja\n"
@@ -26,18 +26,12 @@ msgstr "menu.lst 経由で起動 (チェーンロード) しますか?"
 #: ../grub-pc.templates.in:2001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
-"GRUB のアップグレードプログラムが、/boot/grub に GRUB Legacy の設定があるのを"
+"GRUB のアップグレードプログラムは、/boot/grub に GRUB Legacy の設定があるのを"
 "検出しました。"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#, fuzzy
-#| msgid ""
-#| "In order to replace the Legacy version of GRUB in your system, it is "
-#| "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
-#| "your existing GRUB Legacy setup.  This step may be automaticaly performed "
-#| "now."
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
 "recommended that /boot/grub/menu.lst is adjusted to load a GRUB 2 boot image "
@@ -45,17 +39,12 @@ msgid ""
 "performed now."
 msgstr ""
 "システム中に存在している古いバージョンの GRUB を置き換えるには、/boot/grub/"
-"menu.lst にある GRUB Legacy の設定を使って GRUB2 を起動 (チェーンロード) する"
-"ように設定するのがお勧めです。この作業はここで自動的に実行されます。"
+"menu.lst にある GRUB Legacy の設定を使って GRUB2 の起動イメージを読み込むよう"
+"に設定するのがお勧めです。この作業はここで自動的に実行されます。"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#, fuzzy
-#| msgid ""
-#| "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
-#| "verify that your new GRUB 2 setup is functional for you, before you "
-#| "install it directly to your MBR (Master Boot Record)."
 msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that the new GRUB 2 setup works before it is written to the MBR "
@@ -72,16 +61,16 @@ msgid ""
 "Whatever your decision, you can replace the old MBR image with GRUB 2 later "
 "by issuing the following command as root:"
 msgstr ""
+"どの設定を選ぶにせよ、root として以下のコマンドを実行することによって、後から"
+"でも古い MBR イメージを GRUB 2 に置き換えられます。"
 
 #. Type: multiselect
 #. Description
 #. Type: multiselect
 #. Description
 #: ../grub-pc.templates.in:3001 ../grub-pc.templates.in:4001
-#, fuzzy
-#| msgid "GRUB failed to install to the following devices:"
 msgid "GRUB install devices:"
-msgstr "GRUB は以下のデバイスへのインストールに失敗しました:"
+msgstr "GRUB をインストールするデバイス:"
 
 #. Type: multiselect
 #. Description
@@ -90,6 +79,8 @@ msgid ""
 "The grub-pc package is being upgraded. This menu allows you to select which "
 "devices you'd like grub-install to be automatically run for, if any."
 msgstr ""
+"grub-pc パッケージのアップグレード中です。このメニューでは、もしデバイスがあ"
+"れば、どのデバイスに自動的に grub-install を実行するかを選べます。"
 
 #. Type: multiselect
 #. Description
@@ -99,6 +90,9 @@ msgid ""
 "prevent the installed GRUB core image from getting out of sync with GRUB "
 "modules or grub.cfg."
 msgstr ""
+"インストール済みの GRUB コアイメージが GRUB モジュールや grub.cfg との同期が"
+"ずれるのを防ぐため、ほとんどの場合、自動的に grub-instsall を実行するのがお勧"
+"めです。"
 
 #. Type: multiselect
 #. Description
@@ -109,6 +103,8 @@ msgid ""
 "If you're unsure which drive is designated as boot drive by your BIOS, it is "
 "often a good idea to install GRUB to all of them."
 msgstr ""
+"BIOS でどのドライブが起動ドライブとして設定されているのか判らないのであれば、"
+"すべてに GRUB をインストールするのが大抵の場合良い考えです。"
 
 #. Type: multiselect
 #. Description
@@ -121,6 +117,10 @@ msgid ""
 "use the blocklist mechanism, which makes it less reliable, and therefore is "
 "not recommended."
 msgstr ""
+"注意: パーティションブートレコードに GRUB をインストールするのも可能です。そ"
+"して、ここでは適切なパーティションが表示されます。しかし、これによって GRUB "
+"がブロックリストの仕組みを強制的に使うようになります。この仕組みは信頼性に欠"
+"けるため、お勧めはしません。"
 
 #. Type: multiselect
 #. Description
@@ -132,6 +132,11 @@ msgid ""
 "GRUB modules and grub.cfg. Please check again to make sure that GRUB is "
 "written to the appropriate boot devices."
 msgstr ""
+"以前、GRUB ブートローダーは、すでに存在しない、あるいは何らかの理由で一意の識"
+"別子が変更されたディスクにインストールされていました。インストールされている "
+"GRUB コアイメージが GRUB モジュールや grub.cfg と一致しているのを確認するのは"
+"重要です。もう一度、GRUB が適切な起動デバイスに書き込まれているか確かめてくだ"
+"さい。"
 
 #. Type: text
 #. Description
@@ -145,20 +150,14 @@ msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 #. Description
 #. The "-" is used to indicate indentation. Leading spaces may not work.
 #: ../grub-pc.templates.in:6001
-#, fuzzy
-#| msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
 msgid "- ${DEVICE} (${SIZE} MB, ${PATH})"
-msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
+msgstr "- ${DEVICE} (${SIZE} MB, ${PATH})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
-#, fuzzy
-#| msgid "GRUB installation failed.  Continue?"
 msgid "Writing GRUB to boot device failed - continue?"
-msgstr ""
-"GRUB のインストールに失敗しました。パッケージのインストール作業を続行します"
-"か?"
+msgstr "起動デバイスへの GRUB の書き込みが失敗しました - 続行しますか?"
 
 #. Type: boolean
 #. Description
@@ -171,10 +170,6 @@ msgstr "GRUB は以下のデバイスへのインストールに失敗しまし�
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
-#, fuzzy
-#| msgid ""
-#| "Do you want to continue anyway?  If you do, your computer may not start "
-#| "up properly."
 msgid ""
 "Do you want to continue anyway? If you do, your computer may not start up "
 "properly."
@@ -185,19 +180,13 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
-#, fuzzy
-#| msgid "GRUB installation failed.  Try again?"
 msgid "Writing GRUB to boot device failed - try again?"
-msgstr "GRUB のインストールに失敗しました。もう一度試してみますか?"
+msgstr ""
+"ブートデバイスへの GRUB の書き込みに失敗しました。もう一度試してみますか?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
-#, fuzzy
-#| msgid ""
-#| "You may be able to install GRUB to some other device, although you should "
-#| "check that your system will boot from that device.  Otherwise, the "
-#| "upgrade from GRUB Legacy will be cancelled."
 msgid ""
 "You may be able to install GRUB to some other device, although you should "
 "check that your system will boot from that device. Otherwise, the upgrade "
@@ -216,13 +205,6 @@ msgstr "GRUB をインストールせずにパッケージのインストール�
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#, fuzzy
-#| msgid ""
-#| "You chose not to install GRUB to any devices.  If you continue, the boot "
-#| "loader may not be properly configured, and when your computer next starts "
-#| "up it will use whatever was previously in the boot sector.  If there is "
-#| "an earlier version of GRUB 2 in the boot sector, it may be unable to load "
-#| "modules or handle the current configuration file."
 msgid ""
 "You chose not to install GRUB to any devices. If you continue, the boot "
 "loader may not be properly configured, and when this computer next starts up "
@@ -231,21 +213,15 @@ msgid ""
 "modules or handle the current configuration file."
 msgstr ""
 "どのデバイスに対しても GRUB をインストールしないことが選択されました。ブート"
-"ローダーが正しく設定されていない可能性があり、このまま続行するとコンピュータ"
-"の次回起動時には、以前に起動セクタにインストールされていたものを何であろうと"
-"も利用しようとします。以前のバージョンの GRUB 2 が起動セクタにある場合は、モ"
-"ジュールの読み込みや現在の設定ファイルの取り扱いが出来なくなる可能性がありま"
-"す。"
+"ローダーが正しく設定されていない可能性があり、このまま続行するとこのコン"
+"ピュータの次回起動時には、以前に起動セクタにインストールされていたものを何で"
+"あろうとも利用しようとします。以前のバージョンの GRUB 2 が起動セクタにある場"
+"合は、モジュールの読み込みや現在の設定ファイルの取り扱いが出来なくなる可能性"
+"があります。"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#, fuzzy
-#| msgid ""
-#| "If you are already running a different boot loader and want to carry on "
-#| "doing so, or if this is a special environment where you do not need a "
-#| "boot loader, then you should continue anyway.  Otherwise, you should "
-#| "install GRUB somewhere."
 msgid ""
 "If you are already using a different boot loader and want to carry on doing "
 "so, or if this is a special environment where you do not need a boot loader, "
@@ -260,13 +236,13 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:10001
 msgid "Remove GRUB 2 from /boot/grub?"
-msgstr ""
+msgstr "/boot/grub から GRUB 2 を削除しますか?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:10001
 msgid "Do you want to have all GRUB 2 files removed from /boot/grub?"
-msgstr ""
+msgstr "/boot/grub から GRUB 2 のファイルをすべて削除しますか?"
 
 #. Type: boolean
 #. Description
@@ -274,6 +250,8 @@ msgstr ""
 msgid ""
 "This will make the system unbootable unless another boot loader is installed."
 msgstr ""
+"この作業は、別のブートローダーがインストールされていないとシステムが起動でき"
+"なくなります。"
 
 #. Type: boolean
 #. Description
@@ -294,13 +272,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
-#, fuzzy
-#| msgid ""
-#| "It seems likely that GRUB Legacy is no longer in use, and that you should "
-#| "instead upgrade the GRUB 2 images on these disks and finish the "
-#| "conversion to GRUB 2 by removing old GRUB Legacy files.  If you do not "
-#| "upgrade these GRUB 2 images, then they may be incompatible with the new "
-#| "packages and cause your system to stop booting properly."
 msgid ""
 "It seems likely that GRUB Legacy is no longer in use, and that you should "
 "instead upgrade the GRUB 2 images on these disks and finish the conversion "
@@ -333,11 +304,6 @@ msgstr "Linux コマンドライン:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -372,11 +338,6 @@ msgstr "kFreeBSD コマンドライン:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -411,12 +372,6 @@ msgstr "/boot/grub/device.map が再生成されました"
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
-#| msgid ""
-#| "The file /boot/grub/device.map has been rewritten to use stable device "
-#| "names.  In most cases, this should significantly reduce the need to "
-#| "change it in future, and boot menu entries generated by GRUB should not "
-#| "be affected."
 msgid ""
 "The file /boot/grub/device.map has been rewritten to use stable device "
 "names. In most cases, this should significantly reduce the need to change it "
@@ -429,12 +384,6 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
-#| msgid ""
-#| "However, since you have more than one disk in your system, it is possible "
-#| "that you were depending on the old device map.  Please check whether you "
-#| "have any custom boot menu entries that rely on GRUB's (hdN) drive "
-#| "numbering, and update them if necessary."
 msgid ""
 "However, since more than one disk is present in the system, it is possible "
 "that the system is depending on the old device map. Please check whether "
@@ -449,20 +398,9 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
-#| msgid ""
-#| "If you do not understand this message, or if you do not have any custom "
-#| "boot menu entries, you can ignore this message."
 msgid ""
 "If you do not understand this message, or if there are no custom boot menu "
 "entries, you can ignore this message."
 msgstr ""
-"このメッセージの意味が分からない、あるいは起動メニューの項目を変更していない"
-"場合は、このメッセージを無視して構いません。"
-
-#~ msgid ""
-#~ "In either case, whenever you want GRUB 2 to be loaded directly from MBR, "
-#~ "you can do so by issuing (as root) the following command:"
-#~ msgstr ""
-#~ "いずれにせよ、GRUB 2 を MBR から直接起動したくなった時は、いつでも (root "
-#~ "権限で) 以下のコマンドを入力することで変更できます:"
+"このメッセージの意味が分からない、あるいは変更した起動メニュー項目が無い場合"
+"は、このメッセージを無視して構いません。"

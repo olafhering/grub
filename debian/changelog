@@ -20,6 +20,7 @@ grub2 (1.98+20100804-11) UNRELEASED; urgency=low
   * Persian (Morteza Fakhraee).  Closes: #606672
   * Russian (Yuri Kozlov).  Closes: #606753
   * Dutch (Paul Gevers).  Closes: #606807
+  * Japanese (Hideki Yamane).  Closes: #606836
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 07 Dec 2010 09:51:17 +0000
 
