@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 21:22+0000\n"
+"POT-Creation-Date: 2010-12-08 18:02-0400\n"
 "PO-Revision-Date: 2010-11-19 12:16+0530\n"
 "Last-Translator: dawa pemo <dpemo@dit.gov.bt>\n"
 "Language-Team: Dzongkha <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgstr ""
 #| msgid ""
 #| "In order to replace the Legacy version of GRUB in your system, it is "
 #| "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
-#| "your existing GRUB Legacy setup.  This step may be automaticaly performed "
+#| "your existing GRUB Legacy setup. This step may be automaticaly performed "
 #| "now."
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
@@ -154,10 +154,8 @@ msgstr "${DEVICE} (${SIZE} ཨེམ་བི་ ${MODEL})"
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
-#, fuzzy
-#| msgid "GRUB installation failed.  Continue?"
 msgid "Writing GRUB to boot device failed - continue?"
-msgstr "GRUB གཞི་བཙུགས་འཐུས་ཤོར་བྱུང་ཡོདཔ། འཕྲོ་མཐུད་འབད་ནི་ཨིན་ན?"
+msgstr ""
 
 #. Type: boolean
 #. Description
@@ -170,10 +168,6 @@ msgstr "GRUB འདི་ འོག་གི་ཐབས་འཕྲུལ་ཚ
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
-#, fuzzy
-#| msgid ""
-#| "Do you want to continue anyway?  If you do, your computer may not start "
-#| "up properly."
 msgid ""
 "Do you want to continue anyway? If you do, your computer may not start up "
 "properly."
@@ -185,18 +179,13 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:8001
 #, fuzzy
-#| msgid "GRUB installation failed.  Try again?"
+#| msgid "GRUB installation failed. Try again?"
 msgid "Writing GRUB to boot device failed - try again?"
 msgstr "GRUB གཞི་བཙུགས་འཐུས་ཤོར་བྱུང་ཡོདཔ། ལོག་འབད་རྩོལ་བསྐྱེད་ནི་ཨིན་ན?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
-#, fuzzy
-#| msgid ""
-#| "You may be able to install GRUB to some other device, although you should "
-#| "check that your system will boot from that device.  Otherwise, the "
-#| "upgrade from GRUB Legacy will be cancelled."
 msgid ""
 "You may be able to install GRUB to some other device, although you should "
 "check that your system will boot from that device. Otherwise, the upgrade "
@@ -217,10 +206,10 @@ msgstr "GRUB གཞི་བཙུགས་མ་འབད་བར་འཕྲ�
 #: ../grub-pc.templates.in:9001
 #, fuzzy
 #| msgid ""
-#| "You chose not to install GRUB to any devices.  If you continue, the boot "
+#| "You chose not to install GRUB to any devices. If you continue, the boot "
 #| "loader may not be properly configured, and when your computer next starts "
-#| "up it will use whatever was previously in the boot sector.  If there is "
-#| "an earlier version of GRUB 2 in the boot sector, it may be unable to load "
+#| "up it will use whatever was previously in the boot sector. If there is an "
+#| "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 #| "modules or handle the current configuration file."
 msgid ""
 "You chose not to install GRUB to any devices. If you continue, the boot "
@@ -242,7 +231,7 @@ msgstr ""
 #| msgid ""
 #| "If you are already running a different boot loader and want to carry on "
 #| "doing so, or if this is a special environment where you do not need a "
-#| "boot loader, then you should continue anyway.  Otherwise, you should "
+#| "boot loader, then you should continue anyway. Otherwise, you should "
 #| "install GRUB somewhere."
 msgid ""
 "If you are already using a different boot loader and want to carry on doing "
@@ -292,13 +281,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
-#, fuzzy
-#| msgid ""
-#| "It seems likely that GRUB Legacy is no longer in use, and that you should "
-#| "instead upgrade the GRUB 2 images on these disks and finish the "
-#| "conversion to GRUB 2 by removing old GRUB Legacy files.  If you do not "
-#| "upgrade these GRUB 2 images, then they may be incompatible with the new "
-#| "packages and cause your system to stop booting properly."
 msgid ""
 "It seems likely that GRUB Legacy is no longer in use, and that you should "
 "instead upgrade the GRUB 2 images on these disks and finish the conversion "
@@ -330,11 +312,6 @@ msgstr "ལི་ནགསི་བརྡ་བཀོད་གྲལ་ཐིག
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -369,11 +346,6 @@ msgstr "kFreeBSD བརྡ་བཀོད་གྲལ་ཐིག་:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -408,12 +380,6 @@ msgstr "/boot/grub/device.map འདི་ ལོག་བཟོ་ཡོདཔ�
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
-#| msgid ""
-#| "The file /boot/grub/device.map has been rewritten to use stable device "
-#| "names.  In most cases, this should significantly reduce the need to "
-#| "change it in future, and boot menu entries generated by GRUB should not "
-#| "be affected."
 msgid ""
 "The file /boot/grub/device.map has been rewritten to use stable device "
 "names. In most cases, this should significantly reduce the need to change it "
@@ -429,7 +395,7 @@ msgstr ""
 #, fuzzy
 #| msgid ""
 #| "However, since you have more than one disk in your system, it is possible "
-#| "that you were depending on the old device map.  Please check whether you "
+#| "that you were depending on the old device map. Please check whether you "
 #| "have any custom boot menu entries that rely on GRUB's (hdN) drive "
 #| "numbering, and update them if necessary."
 msgid ""
@@ -462,3 +428,6 @@ msgstr ""
 #~ msgstr ""
 #~ "ཡང་ཅིན་ ཁྱོད་ར་ལུ་  GRUB ༢ འདི་ MBR ལས་ ནམ་ཨིན་རུང་ མངོན་གསལ་འབད་འདོད་ཡོད་པ་ཅིན་ འོག་"
 #~ "གི་བརྡ་བཀོད་འདི་ རྩ་བའི་ཐོག་ལས་འབད་བཏུབ:"
+
+#~ msgid "GRUB installation failed. Continue?"
+#~ msgstr "GRUB གཞི་བཙུགས་འཐུས་ཤོར་བྱུང་ཡོདཔ། འཕྲོ་མཐུད་འབད་ནི་ཨིན་ན?"

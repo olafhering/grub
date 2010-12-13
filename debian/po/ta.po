@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ta\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 21:22+0000\n"
+"POT-Creation-Date: 2010-12-08 18:02-0400\n"
 "PO-Revision-Date: 2010-04-18 21:36+0530\n"
 "Last-Translator: Dr,T,Vasudevan <agnihot3@gmail.com>\n"
 "Language-Team: Tamil <Ubuntu-l10n-tam@lists.ubuntu.com>>\n"
@@ -36,7 +36,7 @@ msgstr "/boot/grub இல் பாரம்பரிய க்ரப் அம�
 #| msgid ""
 #| "In order to replace the Legacy version of GRUB in your system, it is "
 #| "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
-#| "your existing GRUB Legacy setup.  This step may be automaticaly performed "
+#| "your existing GRUB Legacy setup. This step may be automaticaly performed "
 #| "now."
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
@@ -271,11 +271,6 @@ msgstr "லீனக்ஸ் கட்டளை வரி:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -310,11 +305,6 @@ msgstr "கேப்ரீபிஎஸ்டி கட்டளை வரி:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "

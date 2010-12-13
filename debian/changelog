@@ -6,6 +6,8 @@ grub2 (1.98+20100804-11) UNRELEASED; urgency=low
   * Apply debconf template review by debian-l10n-english and mark several
     more strings for translation, thanks to David Prévot and Justin B Rye
     (closes: #605748).
+  * Unfuzzy some translations that were not updated in this round (thanks,
+    David Prévot; closes: #606921).
 
   [ Updated translations ]
   * Chinese (YunQiang Su).  Closes: #606426
