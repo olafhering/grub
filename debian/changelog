@@ -27,6 +27,7 @@ grub2 (1.98+20100804-11) UNRELEASED; urgency=low
   * Czech (Miroslav Kure).  Closes: #606854
   * Spanish (Francisco Javier Cuadrado).  Closes: #606903
   * Portuguese (Tiago Fernandes / Miguel Figueiredo).  Closes: #606908
+  * German (Martin Eberhard Schauer).  Closes: #606896
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 07 Dec 2010 09:51:17 +0000
 
