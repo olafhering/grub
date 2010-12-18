@@ -10,6 +10,8 @@ grub2 (1.98+20100804-11) UNRELEASED; urgency=low
     David Prévot; closes: #606921).
   * Incorporate rewritten 05_debian_theme by Alexander Kurtz, which works
     when /usr is inaccessible by GRUB (closes: #605705).
+  * Backport from upstream:
+    - Recognise DDF1 DM-RAID (closes: #603354).
 
   [ Updated translations ]
   * Chinese (YunQiang Su).  Closes: #606426
