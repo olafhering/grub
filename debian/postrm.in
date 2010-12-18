@@ -23,7 +23,7 @@ case "$1" in
         db_go || true
         db_get grub-pc/postrm_purge_boot_grub || true
         if [ "$RET" = "true" ] ; then
-          rm -f /boot/grub/{grub.cfg,ascii.pf2,unicode.pf2,moreblue-orbit-grub.png,*.mod,*.lst,*.img,efiemu32.o,efiemu64.o,device.map,grubenv,installed-version} || true
+          rm -f /boot/grub/{grub.cfg,ascii.pf2,unicode.pf2,moreblue-orbit-grub.png,*.mod,*.lst,*.img,efiemu32.o,efiemu64.o,device.map,grubenv,installed-version,.background_cache.jpeg,.background_cache.png,.background_cache.tga} || true
           rm -rf /boot/grub/locale
           rmdir --ignore-fail-on-non-empty /boot/grub || true
         fi

@@ -9,16 +9,16 @@ _Description: Chainload from menu.lst?
  GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub.
  .
  In order to replace the Legacy version of GRUB in your system, it is
- recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2
- from your existing GRUB Legacy setup.  This step may be automaticaly
+ recommended that /boot/grub/menu.lst is adjusted to load a GRUB 2 boot
+ image from your existing GRUB Legacy setup. This step can be automatically
  performed now.
  .
  It's recommended that you accept chainloading GRUB 2 from menu.lst, and
- verify that your new GRUB 2 setup is functional for you, before you install
- it directly to your MBR (Master Boot Record).
+ verify that the new GRUB 2 setup works before it is written to the MBR
+ (Master Boot Record).
  .
- In either case, whenever you want GRUB 2 to be loaded directly from MBR,
- you can do so by issuing (as root) the following command:
+ Whatever your decision, you can replace the old MBR image with GRUB 2
+ later by issuing the following command as root:
  .
  upgrade-from-grub-legacy
 
@@ -26,20 +26,19 @@ Template: grub-pc/install_devices
 Type: multiselect
 Choices-C: ${RAW_CHOICES}
 Choices: ${CHOICES}
-# Intentionally not marked for translations yet; will do after a review period
-Description: GRUB install devices:
- The grub-pc package is being upgraded.  This menu allows you to select which
+_Description: GRUB install devices:
+ The grub-pc package is being upgraded. This menu allows you to select which
  devices you'd like grub-install to be automatically run for, if any.
  .
- It is recommended that you do this in most situations, to prevent the installed
- GRUB from getting out of sync with other components such as grub.cfg or with
- newer Linux images it will have to load.
+ Running grub-install automatically is recommended in most situations, to
+ prevent the installed GRUB core image from getting out of sync with GRUB
+ modules or grub.cfg.
  .
  If you're unsure which drive is designated as boot drive by your BIOS, it is
  often a good idea to install GRUB to all of them.
  .
- Note: It is possible to install GRUB to partition boot records as well, and
- some appropriate partitions are offered here.  However, this forces GRUB to
+ Note: it is possible to install GRUB to partition boot records as well, and
+ some appropriate partitions are offered here. However, this forces GRUB to
  use the blocklist mechanism, which makes it less reliable, and therefore is
  not recommended.
 
@@ -47,20 +46,18 @@ Template: grub-pc/install_devices_disks_changed
 Type: multiselect
 Choices-C: ${RAW_CHOICES}
 Choices: ${CHOICES}
-# Intentionally not marked for translations yet; will do after a review period
-Description: GRUB install devices:
+_Description: GRUB install devices:
  The GRUB boot loader was previously installed to a disk that is no longer
- present, or whose normally unique identifier has changed for some reason.
- It is important to make sure that the installed GRUB stays in sync with
- other components such as grub.cfg or with newer Linux images it will have
- to load, and so you should check again to make sure that GRUB is installed
- to the appropriate boot devices.
+ present, or whose unique identifier has changed for some reason. It is
+ important to make sure that the installed GRUB core image stays in sync
+ with GRUB modules and grub.cfg. Please check again to make sure that GRUB
+ is written to the appropriate boot devices.
  .
  If you're unsure which drive is designated as boot drive by your BIOS, it is
  often a good idea to install GRUB to all of them.
  .
- Note: It is possible to install GRUB to partition boot records as well, and
- some appropriate partitions are offered here.  However, this forces GRUB to
+ Note: it is possible to install GRUB to partition boot records as well, and
+ some appropriate partitions are offered here. However, this forces GRUB to
  use the blocklist mechanism, which makes it less reliable, and therefore is
  not recommended.
 
@@ -73,56 +70,56 @@ _Description: ${DEVICE} (${SIZE} MB, ${MODEL})
 Template: grub-pc/partition_description
 Type: text
 # The "-" is used to indicate indentation. Leading spaces may not work.
-Description: - ${DEVICE} (${SIZE} MB, ${PATH})
+_Description: - ${DEVICE} (${SIZE} MB, ${PATH})
 
 Template: grub-pc/install_devices_failed
 Type: boolean
 Default: false
 #flag:translate!:3
-_Description: GRUB installation failed.  Continue?
+_Description: Writing GRUB to boot device failed - continue?
  GRUB failed to install to the following devices:
  .
  ${FAILED_DEVICES}
  .
- Do you want to continue anyway?  If you do, your computer may not start up
+ Do you want to continue anyway? If you do, your computer may not start up
  properly.
 
 Template: grub-pc/install_devices_failed_upgrade
 Type: boolean
 Default: true
 #flag:translate!:3
-_Description: GRUB installation failed.  Try again?
+_Description: Writing GRUB to boot device failed - try again?
  GRUB failed to install to the following devices:
  .
  ${FAILED_DEVICES}
  .
  You may be able to install GRUB to some other device, although you should
- check that your system will boot from that device.  Otherwise, the upgrade
- from GRUB Legacy will be cancelled.
+ check that your system will boot from that device. Otherwise, the upgrade
+ from GRUB Legacy will be canceled.
 
 Template: grub-pc/install_devices_empty
 Type: boolean
 Default: false
 _Description: Continue without installing GRUB?
- You chose not to install GRUB to any devices.  If you continue, the boot
- loader may not be properly configured, and when your computer next starts
- up it will use whatever was previously in the boot sector.  If there is an
+ You chose not to install GRUB to any devices. If you continue, the boot
+ loader may not be properly configured, and when this computer next starts
+ up it will use whatever was previously in the boot sector. If there is an
  earlier version of GRUB 2 in the boot sector, it may be unable to load
  modules or handle the current configuration file.
  .
- If you are already running a different boot loader and want to carry on
+ If you are already using a different boot loader and want to carry on
  doing so, or if this is a special environment where you do not need a boot
- loader, then you should continue anyway.  Otherwise, you should install
+ loader, then you should continue anyway. Otherwise, you should install
  GRUB somewhere.
 
 Template: grub-pc/postrm_purge_boot_grub
 Type: boolean
 Default: false
-# This should get reviewed before it can be translated
-Description: Remove GRUB 2 from /boot/grub?
+_Description: Remove GRUB 2 from /boot/grub?
  Do you want to have all GRUB 2 files removed from /boot/grub?
  .
- Your system would be then unbootable if you don't install another bootloader.
+ This will make the system unbootable unless another boot loader is
+ installed.
 
 Template: grub-pc/mixed_legacy_and_grub2
 Type: boolean
@@ -136,7 +133,7 @@ _Description: Finish conversion to GRUB 2 now?
  .
  It seems likely that GRUB Legacy is no longer in use, and that you should
  instead upgrade the GRUB 2 images on these disks and finish the conversion
- to GRUB 2 by removing old GRUB Legacy files.  If you do not upgrade these
+ to GRUB 2 by removing old GRUB Legacy files. If you do not upgrade these
  GRUB 2 images, then they may be incompatible with the new packages and
  cause your system to stop booting properly.
  .

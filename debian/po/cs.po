@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-07-02 12:55+0100\n"
-"PO-Revision-Date: 2010-07-18 20:08+0200\n"
+"POT-Creation-Date: 2010-12-08 21:22+0000\n"
+"PO-Revision-Date: 2010-12-12 13:35+0100\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "Language: cs\n"
@@ -35,21 +35,21 @@ msgstr ""
 #: ../grub-pc.templates.in:2001
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
-"recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
-"your existing GRUB Legacy setup.  This step may be automaticaly performed "
-"now."
+"recommended that /boot/grub/menu.lst is adjusted to load a GRUB 2 boot image "
+"from your existing GRUB Legacy setup. This step can be automatically "
+"performed now."
 msgstr ""
 "Abyste na svém systému nahradili zastaralou verzi GRUBu, je doporučeno "
-"upravit /boot/grub/menu.lst tak, aby zavedl GRUB 2 pomocí stávajícího GRUB "
-"Legacy. Tento krok je nyní možné provést automaticky."
+"upravit /boot/grub/menu.lst tak, aby zavedl obraz GRUBu 2 pomocí stávajícího "
+"GRUB Legacy. Tento krok je nyní možné provést automaticky."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
 msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
-"verify that your new GRUB 2 setup is functional for you, before you install "
-"it directly to your MBR (Master Boot Record)."
+"verify that the new GRUB 2 setup works before it is written to the MBR "
+"(Master Boot Record)."
 msgstr ""
 "Před instalací GRUBu 2 přímo do MBR (Master Boot Record) se doporučuje "
 "nejprve vyzkoušet zavedení GRUBu 2 skrze menu.lst a teprve po ověření, že "
@@ -59,11 +59,84 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:2001
 msgid ""
-"In either case, whenever you want GRUB 2 to be loaded directly from MBR, you "
-"can do so by issuing (as root) the following command:"
+"Whatever your decision, you can replace the old MBR image with GRUB 2 later "
+"by issuing the following command as root:"
 msgstr ""
-"Až se rozhodnete zavádět GRUB 2 přímo z MBR, stačí jako uživatel root "
-"spustit příkaz:"
+"Ať se rozhodnete jakkoliv, obraz v MBR můžete kdykoliv později nahradit "
+"GRUBem 2. Stačí jako root spustit následující příkaz:"
+
+#. Type: multiselect
+#. Description
+#. Type: multiselect
+#. Description
+#: ../grub-pc.templates.in:3001 ../grub-pc.templates.in:4001
+msgid "GRUB install devices:"
+msgstr "Zařízení pro instalaci GRUBu:"
+
+#. Type: multiselect
+#. Description
+#: ../grub-pc.templates.in:3001
+msgid ""
+"The grub-pc package is being upgraded. This menu allows you to select which "
+"devices you'd like grub-install to be automatically run for, if any."
+msgstr ""
+"Balík grub-pc se právě aktualizuje. Tato nabídka vám umožňuje zvolit "
+"zařízení, na kterých se má automaticky spouštět grub-install."
+
+#. Type: multiselect
+#. Description
+#: ../grub-pc.templates.in:3001
+msgid ""
+"Running grub-install automatically is recommended in most situations, to "
+"prevent the installed GRUB core image from getting out of sync with GRUB "
+"modules or grub.cfg."
+msgstr ""
+"Automatické spouštění grub-install je ve většině případů doporučeno, protože "
+"tak předcházíte tomu, aby se obraz jádra GRUBu rozcházel s GRUB moduly nebo "
+"souborem grub.cfg."
+
+#. Type: multiselect
+#. Description
+#. Type: multiselect
+#. Description
+#: ../grub-pc.templates.in:3001 ../grub-pc.templates.in:4001
+msgid ""
+"If you're unsure which drive is designated as boot drive by your BIOS, it is "
+"often a good idea to install GRUB to all of them."
+msgstr ""
+"Pokud si nejste jisti, který disk je v BIOSu označen jako zaváděcí, bývá "
+"často dobrým nápadem nainstalovat GRUB na všechny disky."
+
+#. Type: multiselect
+#. Description
+#. Type: multiselect
+#. Description
+#: ../grub-pc.templates.in:3001 ../grub-pc.templates.in:4001
+msgid ""
+"Note: it is possible to install GRUB to partition boot records as well, and "
+"some appropriate partitions are offered here. However, this forces GRUB to "
+"use the blocklist mechanism, which makes it less reliable, and therefore is "
+"not recommended."
+msgstr ""
+"Poznámka: GRUB je možné instalovat také do zaváděcích záznamů jednotlivých "
+"oblastí, jejichž seznam zde vidíte. Tímto však donutíte GRUB, aby používal "
+"mechanismus zvaný blocklist, který je méně spolehlivý tudíž se nedoporučuje."
+
+#. Type: multiselect
+#. Description
+#: ../grub-pc.templates.in:4001
+msgid ""
+"The GRUB boot loader was previously installed to a disk that is no longer "
+"present, or whose unique identifier has changed for some reason. It is "
+"important to make sure that the installed GRUB core image stays in sync with "
+"GRUB modules and grub.cfg. Please check again to make sure that GRUB is "
+"written to the appropriate boot devices."
+msgstr ""
+"Zavaděč GRUB byl dříve nainstalován na disk, který již není dostupný, nebo "
+"jehož unikátní identifikátor se z nějakého důvodu změnil. Je důležité, aby "
+"nainstalovaný obraz jádra GRUBu odpovídal GRUB modulům a souboru grub.cfg. "
+"Ještě jednou se prosím ujistěte, že je GRUB zapsán na příslušných zaváděcích "
+"zařízeních."
 
 #. Type: text
 #. Description
@@ -73,11 +146,18 @@ msgstr ""
 msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
 msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 
+#. Type: text
+#. Description
+#. The "-" is used to indicate indentation. Leading spaces may not work.
+#: ../grub-pc.templates.in:6001
+msgid "- ${DEVICE} (${SIZE} MB, ${PATH})"
+msgstr "- ${DEVICE} (${SIZE} MB, ${PATH})"
+
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
-msgid "GRUB installation failed.  Continue?"
-msgstr "Instalace GRUBu selhala. Pokračovat?"
+msgid "Writing GRUB to boot device failed - continue?"
+msgstr "Zápis GRUBu na zaváděcí zařízení selhal - pokračovat?"
 
 #. Type: boolean
 #. Description
@@ -91,7 +171,7 @@ msgstr "GRUB se nepodařilo nainstalovat na následující zařízení:"
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid ""
-"Do you want to continue anyway?  If you do, your computer may not start up "
+"Do you want to continue anyway? If you do, your computer may not start up "
 "properly."
 msgstr ""
 "Chcete přesto pokračovat? Pokud ano, je možné, že počítač nemusí korektně "
@@ -100,16 +180,16 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
-msgid "GRUB installation failed.  Try again?"
-msgstr "Instalace GRUBu selhala. Zkusit znovu?"
+msgid "Writing GRUB to boot device failed - try again?"
+msgstr "Zápis GRUBu na zaváděcí zařízení selhal - zkusit znovu?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid ""
 "You may be able to install GRUB to some other device, although you should "
-"check that your system will boot from that device.  Otherwise, the upgrade "
-"from GRUB Legacy will be cancelled."
+"check that your system will boot from that device. Otherwise, the upgrade "
+"from GRUB Legacy will be canceled."
 msgstr ""
 "Je možné, že se povede instalace GRUBu na nějaké jiné zařízení, ovšem měli "
 "byste se ujistit, že váš systém umí z daného zařízení zavádět. V opačném "
@@ -125,9 +205,9 @@ msgstr "Pokračovat bez instalace GRUBu?"
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid ""
-"You chose not to install GRUB to any devices.  If you continue, the boot "
-"loader may not be properly configured, and when your computer next starts up "
-"it will use whatever was previously in the boot sector.  If there is an "
+"You chose not to install GRUB to any devices. If you continue, the boot "
+"loader may not be properly configured, and when this computer next starts up "
+"it will use whatever was previously in the boot sector. If there is an "
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
@@ -141,14 +221,34 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid ""
-"If you are already running a different boot loader and want to carry on "
-"doing so, or if this is a special environment where you do not need a boot "
-"loader, then you should continue anyway.  Otherwise, you should install GRUB "
+"If you are already using a different boot loader and want to carry on doing "
+"so, or if this is a special environment where you do not need a boot loader, "
+"then you should continue anyway. Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
 "Pokud používáte jiný zavaděč a chcete ho používat i nadále, nebo pokud je "
 "toto speciální prostředí, ve kterém zavaděč nepotřebujete, můžete "
 "pokračovat. V opačném případě byste někam měli GRUB nainstalovat."
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:10001
+msgid "Remove GRUB 2 from /boot/grub?"
+msgstr "Odstranit GRUB 2 z /boot/grub?"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:10001
+msgid "Do you want to have all GRUB 2 files removed from /boot/grub?"
+msgstr "Chcete z /boot/grub odstranit všechny soubory GRUBu 2?"
+
+#. Type: boolean
+#. Description
+#: ../grub-pc.templates.in:10001
+msgid ""
+"This will make the system unbootable unless another boot loader is installed."
+msgstr ""
+"Tímto se stane systém nezaveditelným do doby, než nainstalujete jiný zavaděč."
 
 #. Type: boolean
 #. Description
@@ -172,7 +272,7 @@ msgstr ""
 msgid ""
 "It seems likely that GRUB Legacy is no longer in use, and that you should "
 "instead upgrade the GRUB 2 images on these disks and finish the conversion "
-"to GRUB 2 by removing old GRUB Legacy files.  If you do not upgrade these "
+"to GRUB 2 by removing old GRUB Legacy files. If you do not upgrade these "
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
@@ -203,7 +303,7 @@ msgstr "Parametry pro Linux:"
 #: ../templates.in:1001
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
-"`kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
 "Následující řádka s parametry pro Linux byla získána ze starého souboru menu."
@@ -238,7 +338,7 @@ msgstr "Parametry pro kFreeBSD:"
 #: ../templates.in:3001
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
-"the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
+"the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary."
 msgstr ""
 "Následující řádka s parametry pro kFreeBSD byla získána ze starého souboru "
@@ -273,8 +373,8 @@ msgstr "/boot/grub/device.map byl aktualizován"
 #: ../templates.in:5001
 msgid ""
 "The file /boot/grub/device.map has been rewritten to use stable device "
-"names.  In most cases, this should significantly reduce the need to change "
-"it in future, and boot menu entries generated by GRUB should not be affected."
+"names. In most cases, this should significantly reduce the need to change it "
+"in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
 "Soubor /boot/grub/device.map byl přepsán tak, aby používal stabilní jména "
 "zařízení. Ve většině případů by to mělo výrazně snížit potřebu jejich změny "
@@ -285,13 +385,13 @@ msgstr ""
 #. Description
 #: ../templates.in:5001
 msgid ""
-"However, since you have more than one disk in your system, it is possible "
-"that you were depending on the old device map.  Please check whether you "
-"have any custom boot menu entries that rely on GRUB's (hdN) drive numbering, "
-"and update them if necessary."
+"However, since more than one disk is present in the system, it is possible "
+"that the system is depending on the old device map. Please check whether "
+"there are any custom boot menu entries that rely on GRUB's (hdN) drive "
+"numbering, and update them if necessary."
 msgstr ""
-"Nicméně je možné (protože máte v systému více než jeden disk), že jste se "
-"spoléhali na starý soubor device.map. Zkontrolujte prosím, zda používáte "
+"Nicméně je možné (protože je v systému více než jeden disk), že se systém "
+"spoléhal na starý soubor device.map. Zkontrolujte prosím, zda používáte "
 "vlastní upravené položky zaváděcí nabídky, které spoléhají na GRUBovské "
 "číslování disků (hdN) a podle potřeby je aktualizujte."
 
@@ -299,8 +399,18 @@ msgstr ""
 #. Description
 #: ../templates.in:5001
 msgid ""
-"If you do not understand this message, or if you do not have any custom boot "
-"menu entries, you can ignore this message."
+"If you do not understand this message, or if there are no custom boot menu "
+"entries, you can ignore this message."
 msgstr ""
 "Nerozumíte-li této zprávě, nebo pokud žádné vlastní upravené položky "
 "zaváděcí nabídky nemáte, můžete tuto zprávu ignorovat."
+
+#~ msgid ""
+#~ "In either case, whenever you want GRUB 2 to be loaded directly from MBR, "
+#~ "you can do so by issuing (as root) the following command:"
+#~ msgstr ""
+#~ "Až se rozhodnete zavádět GRUB 2 přímo z MBR, stačí jako uživatel root "
+#~ "spustit příkaz:"
+
+#~ msgid "GRUB installation failed. Continue?"
+#~ msgstr "Instalace GRUBu selhala. Pokračovat?"

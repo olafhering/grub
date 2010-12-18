@@ -3,6 +3,7 @@ grub2 (1.99~20101210-2) UNRELEASED; urgency=low
   * Automatically remove MD devices from device.map on upgrade, since the
     BIOS cannot read from these and including them in device.map will break
     GRUB's ability to read from such devices (LP: #690030).
+  * Merge 1.98+20100804-9, 1.98+20100804-10, and 1.98+20100804-11.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 17 Dec 2010 11:40:37 +0000
 
@@ -99,6 +100,70 @@ grub2 (1.99~20101122-1) experimental; urgency=low
   * Dzongkha (dawa pemo via Tenzin Dendup).  Closes: #604102
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 22 Nov 2010 12:24:56 +0000
+
+grub2 (1.98+20100804-11) unstable; urgency=low
+
+  * Exit silently from zz-update-grub kernel hook if update-grub does not
+    exist (e.g. if grub-pc has been removed but not purged; closes:
+    #606184).
+  * Apply debconf template review by debian-l10n-english and mark several
+    more strings for translation, thanks to David Prévot and Justin B Rye
+    (closes: #605748).
+  * Unfuzzy some translations that were not updated in this round (thanks,
+    David Prévot; closes: #606921).
+  * Incorporate rewritten 05_debian_theme by Alexander Kurtz, which works
+    when /usr is inaccessible by GRUB (closes: #605705).
+  * Backport from upstream:
+    - Recognise DDF1 DM-RAID (closes: #603354).
+
+  [ Updated translations ]
+  * Chinese (YunQiang Su).  Closes: #606426
+  * Indonesian (Arief S Fitrianto).  Closes: #606431
+  * Slovenian (Vanja Cvelbar).  Closes: #606445
+  * Swedish (Martin Bagge / brother).  Closes: #606455
+  * Ukrainian (Yatsenko Alexandr).  Closes: #606538
+  * Basque (Iñaki Larrañaga Murgoitio).  Closes: #606644
+  * Slovak (Slavko).  Closes: #606663
+  * Catalan (Jordi Mallach).
+  * Bulgarian (Damyan Ivanov).  Closes: #606452
+  * Persian (Morteza Fakhraee).  Closes: #606672
+  * Russian (Yuri Kozlov).  Closes: #606753
+  * Dutch (Paul Gevers).  Closes: #606807
+  * Japanese (Hideki Yamane).  Closes: #606836
+  * French (Christian Perrier).  Closes: #606842
+  * Czech (Miroslav Kure).  Closes: #606854
+  * Spanish (Francisco Javier Cuadrado).  Closes: #606903
+  * Portuguese (Tiago Fernandes / Miguel Figueiredo).  Closes: #606908
+  * German (Martin Eberhard Schauer).  Closes: #606896
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 18 Dec 2010 17:20:09 +0000
+
+grub2 (1.98+20100804-10) unstable; urgency=low
+
+  * fix_crash_condition_in_kfreebsd_loader.patch: Import from upstream.
+    Fixes crash condition in case kfreebsd_* commands are used after
+    kfreebsd has (gracefully) failed.
+
+ -- Robert Millan <rmh@debian.org>  Tue, 30 Nov 2010 19:40:11 +0100
+
+grub2 (1.98+20100804-9) unstable; urgency=low
+
+  [ Robert Millan ]
+  * Import from upstream:
+    - refuse_embedingless_cross_disk.patch: Refuse to do a cross-disk
+      embeddingless install rather than creating a broken install.
+    - fix_grub_install_error_msg.patch: Replace useless recomendation to
+      pass --modules with a recomendation to report a bug.
+    - message_refresh.patch: Make error messages visible again. (Closes: #605485)
+
+  [ Jordi Mallach ]
+  * Update Catalan translation with latest file from the Translation Project.
+
+  [ Updated translations ]
+  * Slovenian (Vanja Cvelbar).  Closes: #604003
+  * Dzongkha (dawa pemo via Tenzin Dendup).  Closes: #604102
+
+ -- Robert Millan <rmh@debian.org>  Tue, 30 Nov 2010 15:44:02 +0100
 
 grub2 (1.98+20100804-8) unstable; urgency=low
 
