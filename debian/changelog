@@ -8,6 +8,8 @@ grub2 (1.98+20100804-11) UNRELEASED; urgency=low
     (closes: #605748).
   * Unfuzzy some translations that were not updated in this round (thanks,
     David Prévot; closes: #606921).
+  * Incorporate rewritten 05_debian_theme by Alexander Kurtz, which works
+    when /usr is inaccessible by GRUB (closes: #605705).
 
   [ Updated translations ]
   * Chinese (YunQiang Su).  Closes: #606426

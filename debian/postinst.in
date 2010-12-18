@@ -571,7 +571,7 @@ case "$1" in
 
         # /boot/grub/ has more chances of being accessible by GRUB
         if test -e /boot/grub/grub.cfg ; then
-          for i in /usr/share/grub/unicode.pf2 /usr/share/images/desktop-base/moreblue-orbit-grub.png ; do
+          for i in /usr/share/grub/unicode.pf2 ; do
             if test -e $i ; then
               cp $i /boot/grub/
             fi
