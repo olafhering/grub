@@ -298,10 +298,18 @@ case "$1" in
       # whole it's less risky to move to /dev/disk/by-id/.
       devicemap_lines="$(egrep -v '^[[:space:]]+#' /boot/grub/device.map | wc -l)"
       grub-mkdevicemap --no-floppy
+      devicemap_regenerated=1
       if test "$devicemap_lines" != 1; then
         db_input critical grub2/device_map_regenerated || true
         db_go || true
       fi
+    fi
+
+    if test -z "$devicemap_regenerated" && \
+       dpkg --compare-versions "$2" lt-nl 1.99~20101210-2 && \
+       grep -qs /md-uuid- /boot/grub/device.map; then
+      echo "Removing MD devices from device.map, since the BIOS cannot read from these." >&2
+      sed -i '/\/md-uuid-/d' /boot/grub/device.map
     fi
 
     tmp_default_grub="$(mktemp -t grub.XXXXXXXXXX)"
