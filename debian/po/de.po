@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2 1.98+20100710-2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 18:02-0400\n"
+"POT-Creation-Date: 2010-12-08 21:22+0000\n"
 "PO-Revision-Date: 2010-12-11 11:07+0100\n"
 "Last-Translator: Martin Eberhard Schauer <Martin.E.Schauer@gmx.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -185,7 +185,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
-#| msgid "GRUB installation failed. Try again?"
 msgid "Writing GRUB to boot device failed - try again?"
 msgstr ""
 "Das Schreiben von GRUB auf das Boot-Gerät ist fehlgeschlagen. Noch einmal "
@@ -214,12 +213,6 @@ msgstr "Fortsetzen, ohne Grub zu installieren?"
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#| msgid ""
-#| "You chose not to install GRUB to any devices. If you continue, the boot "
-#| "loader may not be properly configured, and when your computer next starts "
-#| "up it will use whatever was previously in the boot sector. If there is an "
-#| "earlier version of GRUB 2 in the boot sector, it may be unable to load "
-#| "modules or handle the current configuration file."
 msgid ""
 "You chose not to install GRUB to any devices. If you continue, the boot "
 "loader may not be properly configured, and when this computer next starts up "

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fa\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 18:02-0400\n"
+"POT-Creation-Date: 2010-12-08 21:22+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Morteza Fakhraee <acr.i18n@gmail.com>\n"
 "Language-Team: debian-l10n-persian <debian-l10n-persian@lists.debian.org>\n"
@@ -30,11 +30,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#| msgid ""
-#| "In order to replace the Legacy version of GRUB in your system, it is "
-#| "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
-#| "your existing GRUB Legacy setup.  This step may be automaticaly performed "
-#| "now."
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
 "recommended that /boot/grub/menu.lst is adjusted to load a GRUB 2 boot image "
@@ -48,10 +43,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#| msgid ""
-#| "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
-#| "verify that your new GRUB 2 setup is functional for you, before you "
-#| "install it directly to your MBR (Master Boot Record)."
 msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that the new GRUB 2 setup works before it is written to the MBR "
@@ -76,7 +67,6 @@ msgstr ""
 #. Type: multiselect
 #. Description
 #: ../grub-pc.templates.in:3001 ../grub-pc.templates.in:4001
-#| msgid "GRUB failed to install to the following devices:"
 msgid "GRUB install devices:"
 msgstr "دستگاه‌های نصب گراب:"
 
@@ -158,14 +148,12 @@ msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 #. Description
 #. The "-" is used to indicate indentation. Leading spaces may not work.
 #: ../grub-pc.templates.in:6001
-#| msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
 msgid "- ${DEVICE} (${SIZE} MB, ${PATH})"
 msgstr "- ${DEVICE} (${SIZE} MB, ${PATH})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
-#| msgid "GRUB installation failed.  Continue?"
 msgid "Writing GRUB to boot device failed - continue?"
 msgstr "نصب GRUB روی ابزار بوت با شکست مواجه شد - ادامه می‌دهید؟"
 
@@ -180,9 +168,6 @@ msgstr "GRUB نتوانست که تجهیزات مورد نظر را نصب کن
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
-#| msgid ""
-#| "Do you want to continue anyway?  If you do, your computer may not start "
-#| "up properly."
 msgid ""
 "Do you want to continue anyway? If you do, your computer may not start up "
 "properly."
@@ -193,7 +178,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
-#| msgid "GRUB installation failed.  Try again?"
 msgid "Writing GRUB to boot device failed - try again?"
 msgstr "نصب GRUB روی دستگاه بوت با شکست مواجه شد - دوباره امتحان می‌کنید؟"
 
@@ -218,12 +202,6 @@ msgstr "آیا بدون نصب کردن GRUB ، ادامه می دهید ؟"
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#| msgid ""
-#| "You chose not to install GRUB to any devices.  If you continue, the boot "
-#| "loader may not be properly configured, and when your computer next starts "
-#| "up it will use whatever was previously in the boot sector.  If there is "
-#| "an earlier version of GRUB 2 in the boot sector, it may be unable to load "
-#| "modules or handle the current configuration file."
 msgid ""
 "You chose not to install GRUB to any devices. If you continue, the boot "
 "loader may not be properly configured, and when this computer next starts up "
@@ -240,11 +218,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#| msgid ""
-#| "If you are already running a different boot loader and want to carry on "
-#| "doing so, or if this is a special environment where you do not need a "
-#| "boot loader, then you should continue anyway.  Otherwise, you should "
-#| "install GRUB somewhere."
 msgid ""
 "If you are already using a different boot loader and want to carry on doing "
 "so, or if this is a special environment where you do not need a boot loader, "
@@ -295,12 +268,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
-#| msgid ""
-#| "It seems likely that GRUB Legacy is no longer in use, and that you should "
-#| "instead upgrade the GRUB 2 images on these disks and finish the "
-#| "conversion to GRUB 2 by removing old GRUB Legacy files.  If you do not "
-#| "upgrade these GRUB 2 images, then they may be incompatible with the new "
-#| "packages and cause your system to stop booting properly."
 msgid ""
 "It seems likely that GRUB Legacy is no longer in use, and that you should "
 "instead upgrade the GRUB 2 images on these disks and finish the conversion "
@@ -333,10 +300,6 @@ msgstr "خط فرمان لینوکس:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -371,10 +334,6 @@ msgstr "خط فرمان kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -409,11 +368,6 @@ msgstr "/boot/grub/device.map بازسازی شده است."
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#| msgid ""
-#| "The file /boot/grub/device.map has been rewritten to use stable device "
-#| "names.  In most cases, this should significantly reduce the need to "
-#| "change it in future, and boot menu entries generated by GRUB should not "
-#| "be affected."
 msgid ""
 "The file /boot/grub/device.map has been rewritten to use stable device "
 "names. In most cases, this should significantly reduce the need to change it "
@@ -427,11 +381,6 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#| msgid ""
-#| "However, since you have more than one disk in your system, it is possible "
-#| "that you were depending on the old device map.  Please check whether you "
-#| "have any custom boot menu entries that rely on GRUB's (hdN) drive "
-#| "numbering, and update them if necessary."
 msgid ""
 "However, since more than one disk is present in the system, it is possible "
 "that the system is depending on the old device map. Please check whether "
@@ -446,9 +395,6 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#| msgid ""
-#| "If you do not understand this message, or if you do not have any custom "
-#| "boot menu entries, you can ignore this message."
 msgid ""
 "If you do not understand this message, or if there are no custom boot menu "
 "entries, you can ignore this message."

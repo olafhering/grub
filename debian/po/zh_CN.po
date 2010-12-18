@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2-po-debconf master\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 18:02-0400\n"
+"POT-Creation-Date: 2010-12-08 21:22+0000\n"
 "PO-Revision-Date: 2010-12-09 09:50+0800\n"
 "Last-Translator: YunQiang Su <wzssyqa@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
@@ -33,11 +33,6 @@ msgstr "GRUB 升级脚本在 /boot/grub 探测到了已安装的  GRUB Legacy。
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#| msgid ""
-#| "In order to replace the Legacy version of GRUB in your system, it is "
-#| "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
-#| "your existing GRUB Legacy setup. This step may be automaticaly performed "
-#| "now."
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
 "recommended that /boot/grub/menu.lst is adjusted to load a GRUB 2 boot image "
@@ -50,10 +45,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#| msgid ""
-#| "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
-#| "verify that your new GRUB 2 setup is functional for you, before you "
-#| "install it directly to your MBR (Master Boot Record)."
 msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that the new GRUB 2 setup works before it is written to the MBR "
@@ -77,7 +68,6 @@ msgstr ""
 #. Type: multiselect
 #. Description
 #: ../grub-pc.templates.in:3001 ../grub-pc.templates.in:4001
-#| msgid "GRUB failed to install to the following devices:"
 msgid "GRUB install devices:"
 msgstr "GRUB 安装设备："
 
@@ -154,7 +144,6 @@ msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 #. Description
 #. The "-" is used to indicate indentation. Leading spaces may not work.
 #: ../grub-pc.templates.in:6001
-#| msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
 msgid "- ${DEVICE} (${SIZE} MB, ${PATH})"
 msgstr "- ${DEVICE} (${SIZE} MB, ${PATH})"
 
@@ -183,7 +172,6 @@ msgstr "仍然想要继续？如果这样，您的计算机可能不能正常启
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
-#| msgid "GRUB installation failed. Try again?"
 msgid "Writing GRUB to boot device failed - try again?"
 msgstr "将 GRUB 写入引导设备失败 - 要重新尝试吗？"
 
@@ -207,12 +195,6 @@ msgstr "不安装 GRUB 并且继续？"
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#| msgid ""
-#| "You chose not to install GRUB to any devices. If you continue, the boot "
-#| "loader may not be properly configured, and when your computer next starts "
-#| "up it will use whatever was previously in the boot sector. If there is an "
-#| "earlier version of GRUB 2 in the boot sector, it may be unable to load "
-#| "modules or handle the current configuration file."
 msgid ""
 "You chose not to install GRUB to any devices. If you continue, the boot "
 "loader may not be properly configured, and when this computer next starts up "
@@ -227,11 +209,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#| msgid ""
-#| "If you are already running a different boot loader and want to carry on "
-#| "doing so, or if this is a special environment where you do not need a "
-#| "boot loader, then you should continue anyway. Otherwise, you should "
-#| "install GRUB somewhere."
 msgid ""
 "If you are already using a different boot loader and want to carry on doing "
 "so, or if this is a special environment where you do not need a boot loader, "
@@ -382,11 +359,6 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#| msgid ""
-#| "However, since you have more than one disk in your system, it is possible "
-#| "that you were depending on the old device map. Please check whether you "
-#| "have any custom boot menu entries that rely on GRUB's (hdN) drive "
-#| "numbering, and update them if necessary."
 msgid ""
 "However, since more than one disk is present in the system, it is possible "
 "that the system is depending on the old device map. Please check whether "
@@ -399,9 +371,6 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#| msgid ""
-#| "If you do not understand this message, or if you do not have any custom "
-#| "boot menu entries, you can ignore this message."
 msgid ""
 "If you do not understand this message, or if there are no custom boot menu "
 "entries, you can ignore this message."
