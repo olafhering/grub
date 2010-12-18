@@ -1,4 +1,4 @@
-grub2 (1.98+20100804-11) UNRELEASED; urgency=low
+grub2 (1.98+20100804-11) unstable; urgency=low
 
   * Exit silently from zz-update-grub kernel hook if update-grub does not
     exist (e.g. if grub-pc has been removed but not purged; closes:
@@ -33,7 +33,7 @@ grub2 (1.98+20100804-11) UNRELEASED; urgency=low
   * Portuguese (Tiago Fernandes / Miguel Figueiredo).  Closes: #606908
   * German (Martin Eberhard Schauer).  Closes: #606896
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 07 Dec 2010 09:51:17 +0000
+ -- Colin Watson <cjwatson@debian.org>  Sat, 18 Dec 2010 17:20:09 +0000
 
 grub2 (1.98+20100804-10) unstable; urgency=low
 
