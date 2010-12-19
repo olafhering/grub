@@ -3,7 +3,11 @@ grub2 (1.99~20101210-2) UNRELEASED; urgency=low
   * Automatically remove MD devices from device.map on upgrade, since the
     BIOS cannot read from these and including them in device.map will break
     GRUB's ability to read from such devices (LP: #690030).
-  * Merge 1.98+20100804-9, 1.98+20100804-10, and 1.98+20100804-11.
+  * Merge 1.98+20100804-9, 1.98+20100804-10, and 1.98+20100804-11:
+    - Apply debconf template review by debian-l10n-english and mark several
+      more strings for translation, thanks to David Prévot and Justin B Rye.
+    - Incorporate rewritten 05_debian_theme by Alexander Kurtz, which works
+      when /usr is inaccessible by GRUB.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 17 Dec 2010 11:40:37 +0000
 
