@@ -1,0 +1,135 @@
+Description: Fix gettext quoting to work with bash as /bin/sh
+Author: Colin Watson <cjwatson@ubuntu.com>
+Origin: backport, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/2987
+Bug-Debian: http://bugs.debian.org/605615
+Forwarded: yes
+Last-Update: 2010-12-21
+
+Index: b/util/grub-mkconfig_lib.in
+===================================================================
+--- a/util/grub-mkconfig_lib.in
++++ b/util/grub-mkconfig_lib.in
+@@ -197,8 +197,20 @@
+   echo "$a"
+ }
+ 
++# One layer of quotation is eaten by "", the second by sed, and the third by
++# printf; so this turns ' into \'.  Note that you must use the output of
++# this function in a printf format string.
+ gettext_quoted () {
+-  $gettext "$@" | sed "s/'/'\\\\''/g"
++  $gettext "$@" | sed "s/'/'\\\\\\\\''/g"
++}
++
++# Run the first argument through gettext_quoted, and then pass that and all
++# remaining arguments to printf.  This is a useful abbreviation and tends to
++# be easier to type.
++gettext_printf () {
++  local format="$1"
++  shift
++  printf "$(gettext_quoted "$format")" "$@"
+ }
+ 
+ uses_abstraction () {
+Index: b/util/grub.d/10_hurd.in
+===================================================================
+--- a/util/grub.d/10_hurd.in
++++ b/util/grub.d/10_hurd.in
+@@ -81,14 +81,16 @@
+ menuentry "${OS} ${KERNEL}" ${CLASS} {
+ EOF
+   prepare_grub_to_access_device ${GRUB_DEVICE_BOOT} | sed -e "s/^/\t/"
++  message="$(gettext_printf "Loading GNU Mach ...")"
+   cat << EOF
+-	echo		'$(gettext_quoted "Loading GNU Mach ...")'
++	echo		'$message'
+ 	multiboot	${kernel} root=device:${GRUB_DEVICE#/dev/}
+ EOF
+   save_default_entry | sed -e "s/^/\t/"
+   prepare_grub_to_access_device ${GRUB_DEVICE} | sed -e "s/^/\t/"
++  message="$(gettext_printf "Loading the Hurd ...")"
+   cat << EOF
+-	echo		'$(gettext_quoted "Loading the Hurd ...")'
++	echo		'$message'
+ 	module		/hurd/${hurd_fs}.static ${hurd_fs} --readonly \\
+ 			--multiboot-command-line='\${kernel-command-line}' \\
+ 			--host-priv-port='\${host-port}' \\
+@@ -103,14 +105,16 @@
+ menuentry "${OS} ${KERNEL} (recovery mode)" ${CLASS} {
+ EOF
+   prepare_grub_to_access_device ${GRUB_DEVICE_BOOT} | sed -e "s/^/\t/"
++  message="$(gettext_printf "Loading GNU Mach ...")"
+   cat << EOF
+-	echo		'$(gettext_quoted "Loading GNU Mach ...")'
++	echo		'$message'
+ 	multiboot	${kernel} root=device:${GRUB_DEVICE#/dev/} -s
+ EOF
+   save_default_entry | sed -e "s/^/\t/"
+   prepare_grub_to_access_device ${GRUB_DEVICE} | sed -e "s/^/\t/"
++  message="$(gettext_printf "Loading the Hurd ...")"
+   cat << EOF
+-	echo		'$(gettext_quoted "Loading the Hurd ...")'
++	echo		'$message'
+ 	module		/hurd/${hurd_fs}.static ${hurd_fs} \\
+ 			--multiboot-command-line='\${kernel-command-line}' \\
+ 			--host-priv-port='\${host-port}' \\
+Index: b/util/grub.d/10_kfreebsd.in
+===================================================================
+--- a/util/grub.d/10_kfreebsd.in
++++ b/util/grub.d/10_kfreebsd.in
+@@ -56,8 +56,9 @@
+   fi
+ 
+   printf '%s\n' "${prepare_boot_cache}"
++  message="$(gettext_printf "Loading kernel of FreeBSD %s ..." ${version})"
+   cat << EOF
+-	echo			'$(printf "$(gettext_quoted "Loading kernel of FreeBSD %s ...")" ${version})'
++	echo			'$message'
+ 	kfreebsd		${rel_dirname}/${basename}
+ EOF
+ 
+Index: b/util/grub.d/10_linux.in
+===================================================================
+--- a/util/grub.d/10_linux.in
++++ b/util/grub.d/10_linux.in
+@@ -77,13 +77,15 @@
+     prepare_boot_cache="$(prepare_grub_to_access_device ${GRUB_DEVICE_BOOT} | sed -e "s/^/\t/")"
+   fi
+   printf '%s\n' "${prepare_boot_cache}"
++  message="$(gettext_printf "Loading Linux %s ..." ${version})"
+   cat << EOF
+-	echo	'$(printf "$(gettext_quoted "Loading Linux %s ...")" ${version})'
++	echo	'$message'
+ 	linux	${rel_dirname}/${basename} root=${linux_root_device_thisversion} ro ${args}
+ EOF
+   if test -n "${initrd}" ; then
++    message="$(gettext_printf "Loading initial ramdisk ...")"
+     cat << EOF
+-	echo	'$(gettext_quoted "Loading initial ramdisk ...")'
++	echo	'$message'
+ 	initrd	${rel_dirname}/${initrd}
+ EOF
+   fi
+Index: b/util/grub.d/20_linux_xen.in
+===================================================================
+--- a/util/grub.d/20_linux_xen.in
++++ b/util/grub.d/20_linux_xen.in
+@@ -71,14 +71,16 @@
+     prepare_boot_cache="$(prepare_grub_to_access_device ${GRUB_DEVICE_BOOT} | sed -e "s/^/\t/")"
+   fi
+   printf '%s\n' "${prepare_boot_cache}"
++  message="$(gettext_printf "Loading Linux %s ..." ${version})"
+   cat << EOF
+-	echo	'$(printf "$(gettext_quoted "Loading Linux %s ...")" ${version})'
++	echo	'$message'
+ 	multiboot	${rel_xen_dirname}/${xen_basename} placeholder ${xen_args}
+ 	module	${rel_dirname}/${basename} placeholder root=${linux_root_device_thisversion} ro ${args}
+ EOF
+   if test -n "${initrd}" ; then
++    message="$(gettext_printf "Loading initial ramdisk ...")"
+     cat << EOF
+-	echo	'$(gettext_quoted "Loading initial ramdisk ...")'
++	echo	'$message'
+ 	module	${rel_dirname}/${initrd}
+ EOF
+   fi

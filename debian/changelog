@@ -2,6 +2,7 @@ grub2 (1.98+20100804-12) UNRELEASED; urgency=low
 
   * Backport from upstream:
     - Support big ext2 files (closes: #543924).
+    - Fix gettext quoting to work with bash as /bin/sh (closes: #605615).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 21 Dec 2010 10:39:56 +0000
 
