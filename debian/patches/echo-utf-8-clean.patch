@@ -1,0 +1,85 @@
+Description: Make echo UTF-8-clean
+Author: Colin Watson <cjwatson@ubuntu.com>
+Origin: upstream, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/2989
+Bug-Debian: http://bugs.debian.org/605615
+Forwarded: yes
+Last-Update: 2010-12-21
+
+Index: b/commands/echo.c
+===================================================================
+--- a/commands/echo.c
++++ b/commands/echo.c
+@@ -44,8 +44,14 @@
+   for (i = 0; i < argc; i++)
+     {
+       char *arg = *args;
++      /* Unescaping results in a string no longer than the original.  */
++      char *unescaped = grub_malloc (grub_strlen (arg) + 1);
++      char *p = unescaped;
+       args++;
+ 
++      if (!unescaped)
++	return grub_errno;
++
+       while (*arg)
+ 	{
+ 	  /* In case `-e' is used, parse backslashes.  */
+@@ -58,11 +64,11 @@
+ 	      switch (*arg)
+ 		{
+ 		case '\\':
+-		  grub_printf ("\\");
++		  *p++ = '\\';
+ 		  break;
+ 
+ 		case 'a':
+-		  grub_printf ("\a");
++		  *p++ = '\a';
+ 		  break;
+ 
+ 		case 'c':
+@@ -70,23 +76,23 @@
+ 		  break;
+ 
+ 		case 'f':
+-		  grub_printf ("\f");
++		  *p++ = '\f';
+ 		  break;
+ 
+ 		case 'n':
+-		  grub_printf ("\n");
++		  *p++ = '\n';
+ 		  break;
+ 
+ 		case 'r':
+-		  grub_printf ("\r");
++		  *p++ = '\r';
+ 		  break;
+ 
+ 		case 't':
+-		  grub_printf ("\t");
++		  *p++ = '\t';
+ 		  break;
+ 
+ 		case 'v':
+-		  grub_printf ("\v");
++		  *p++ = '\v';
+ 		  break;
+ 		}
+ 	      arg++;
+@@ -95,10 +101,14 @@
+ 
+ 	  /* This was not an escaped character, or escaping is not
+ 	     enabled.  */
+-	  grub_printf ("%c", *arg);
++	  *p++ = *arg;
+ 	  arg++;
+ 	}
+ 
++      *p = '\0';
++      grub_xputs (unescaped);
++      grub_free (unescaped);
++
+       /* If another argument follows, insert a space.  */
+       if (i != argc - 1)
+ 	grub_printf (" " );

@@ -2,7 +2,9 @@ grub2 (1.98+20100804-12) UNRELEASED; urgency=low
 
   * Backport from upstream:
     - Support big ext2 files (closes: #543924).
-    - Fix gettext quoting to work with bash as /bin/sh (closes: #605615).
+    - Fix gettext quoting to work with bash as /bin/sh, and make echo
+      UTF-8-clean so that (at least) Catalan boot messages are displayed
+      properly (closes: #605615).
     - Initialise next pointer when creating multiboot module (closes:
       #605567).
 
