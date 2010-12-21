@@ -1,6 +1,7 @@
 Description: Support big ext2 files
 Author: Vladimir Serbinenko <phcoder@gmail.com>
 Origin: upstream, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/2936
+Bug-Debian: http://bugs.debian.org/543924
 Forwarded: yes
 Last-Update: 2010-12-21
 
