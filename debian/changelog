@@ -1,3 +1,16 @@
+grub2 (1.99~20101221-1) UNRELEASED; urgency=low
+
+  * New Bazaar snapshot.
+    - Initialise next pointer when creating multiboot module (closes:
+      #605567).
+    - Fix gettext quoting to work with bash as /bin/sh, and make echo
+      UTF-8-clean so that (at least) Catalan boot messages are displayed
+      properly (closes: #605615).
+    - Fix use of uninitialised memory in Reed-Solomon recovery code
+      (LP: #686705).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 21 Dec 2010 17:01:01 +0000
+
 grub2 (1.99~20101210-2) experimental; urgency=low
 
   * Automatically remove MD devices from device.map on upgrade, since the
