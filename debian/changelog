@@ -1,4 +1,4 @@
-grub2 (1.99~20101221-1) UNRELEASED; urgency=low
+grub2 (1.99~20101221-1) experimental; urgency=low
 
   * New Bazaar snapshot.
     - Initialise next pointer when creating multiboot module (closes:
@@ -9,7 +9,7 @@ grub2 (1.99~20101221-1) UNRELEASED; urgency=low
     - Fix use of uninitialised memory in Reed-Solomon recovery code
       (LP: #686705).
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 21 Dec 2010 17:01:01 +0000
+ -- Colin Watson <cjwatson@debian.org>  Tue, 21 Dec 2010 17:43:52 +0000
 
 grub2 (1.99~20101210-2) experimental; urgency=low
 
