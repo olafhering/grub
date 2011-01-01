@@ -1,3 +1,13 @@
+grub2 (1.99~20110101-1) UNRELEASED; urgency=low
+
+  * New Bazaar snapshot.
+    - Don't emit drivemap directive for Windows Server 2008 (closes:
+      #607687).
+    - Don't add spurious RAID array members (closes: #605357).
+    - Improve presentation of Xen menu entries (closes: #607867).
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 01 Jan 2011 02:41:58 +0000
+
 grub2 (1.99~20101221-1) experimental; urgency=low
 
   * New Bazaar snapshot.
