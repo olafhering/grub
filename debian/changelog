@@ -1,9 +1,9 @@
-grub2 (1.98+20100804-13) UNRELEASED; urgency=low
+grub2 (1.98+20100804-13) unstable; urgency=low
 
   * Backport from upstream:
     - Don't add spurious RAID array members (closes: #605357).
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 04 Jan 2011 13:31:14 +0000
+ -- Colin Watson <cjwatson@debian.org>  Tue, 04 Jan 2011 14:07:14 +0000
 
 grub2 (1.98+20100804-12) unstable; urgency=low
 
