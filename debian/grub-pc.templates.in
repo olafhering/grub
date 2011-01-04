@@ -65,12 +65,12 @@ Template: grub-pc/disk_description
 Type: text
 # Disk sizes are in decimal megabytes, to match how disk manufacturers
 # usually describe them.
-_Description: ${DEVICE} (${SIZE} MB, ${MODEL})
+_Description: ${DEVICE} (${SIZE} MB; ${MODEL})
 
 Template: grub-pc/partition_description
 Type: text
 # The "-" is used to indicate indentation. Leading spaces may not work.
-_Description: - ${DEVICE} (${SIZE} MB, ${PATH})
+_Description: - ${DEVICE} (${SIZE} MB; ${PATH})
 
 Template: grub-pc/install_devices_failed
 Type: boolean

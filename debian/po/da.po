@@ -152,17 +152,17 @@ msgstr ""
 #. Disk sizes are in decimal megabytes, to match how disk manufacturers
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
-msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
+msgid "${DEVICE} (${SIZE} MB; ${MODEL})"
+msgstr "${DEVICE} (${SIZE} MB; ${MODEL})"
 
 #. Type: text
 #. Description
 #. The "-" is used to indicate indentation. Leading spaces may not work.
 #: ../grub-pc.templates.in:6001
 #, fuzzy
-#| msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
-msgid "- ${DEVICE} (${SIZE} MB, ${PATH})"
-msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
+#| msgid "${DEVICE} (${SIZE} MB; ${MODEL})"
+msgid "- ${DEVICE} (${SIZE} MB; ${PATH})"
+msgstr "${DEVICE} (${SIZE} MB; ${MODEL})"
 
 #. Type: boolean
 #. Description
