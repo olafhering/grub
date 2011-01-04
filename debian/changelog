@@ -15,6 +15,7 @@ grub2 (1.99~20110104-1) UNRELEASED; urgency=low
   * Add full btrfs support, from the upstream 'butter' branch.
   * Support partitioned loop devices and improve devmapper support, from the
     upstream 'devmapper' branch.
+  * Add squashfs 4 support, from the upstream 'squash' branch.
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 01 Jan 2011 02:41:58 +0000
 
