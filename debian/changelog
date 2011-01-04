@@ -12,6 +12,7 @@ grub2 (1.99~20110104-1) UNRELEASED; urgency=low
   * Merge 1.98+20100804-12:
     - Use semicolons rather than commas to separate size from model in
       debconf disk and partition descriptions.
+  * Add full btrfs support, from the upstream 'butter' branch.
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 01 Jan 2011 02:41:58 +0000
 
