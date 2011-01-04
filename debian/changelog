@@ -7,6 +7,8 @@ grub2 (1.99~20110104-1) UNRELEASED; urgency=low
     - Improve presentation of Xen menu entries (closes: #607867).
     - Fix PCI probing hangs by skipping remaining functions on devices that
       do not implement function 0 (closes: #594967).
+    - Fix typo in descriptions of extract_legacy_entries_source and
+      extract_legacy_entries_configfile (LP: #696721).
   * Merge 1.98+20100804-12:
     - Use semicolons rather than commas to separate size from model in
       debconf disk and partition descriptions.
