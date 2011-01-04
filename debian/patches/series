@@ -29,7 +29,7 @@ fix_grub_install_error_msg.patch
 message_refresh.patch
 fix_crash_condition_in_kfreebsd_loader.patch
 ddf1_fakeraid.patch
-ext2-big-files.patch
-gettext-quoting.patch
-echo-utf-8-clean.patch
-multiboot-unaligned-pointer.patch
+ext2_big_files.patch
+gettext_quoting.patch
+echo_utf-8_clean.patch
+multiboot_unaligned_pointer.patch
