@@ -7,6 +7,8 @@ grub2 (1.98+20100804-12) UNRELEASED; urgency=low
       properly (closes: #605615).
     - Initialise next pointer when creating multiboot module (closes:
       #605567).
+    - Fix PCI probing hangs by skipping remaining functions on devices that
+      do not implement function 0 (closes: #594967).
   * Use semicolons rather than commas to separate size from model in debconf
     disk and partition descriptions; commas are too easily confused with the
     multiselect choice separator, and in particular make it impossible to

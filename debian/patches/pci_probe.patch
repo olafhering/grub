@@ -1,0 +1,28 @@
+Description: Fix PCI probing hangs
+ Skip remaining functions on devices that do not implement function 0.
+Author: Colin Watson <cjwatson@ubuntu.com>
+Origin: upstream, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3010
+Bug-Debian: http://bugs.debian.org/594967
+Forwarded: yes
+Last-Update: 2011-01-04
+
+Index: b/bus/pci.c
+===================================================================
+--- a/bus/pci.c
++++ b/bus/pci.c
+@@ -90,7 +90,14 @@
+ 
+ 	      /* Check if there is a device present.  */
+ 	      if (id >> 16 == 0xFFFF)
+-		continue;
++		{
++		  if (dev.function == 0)
++		    /* Devices are required to implement function 0, so if
++		       it's missing then there is no device here.  */
++		    break;
++		  else
++		    continue;
++		}
+ 
+ #ifdef GRUB_MACHINE_MIPS_YEELOONG
+ 	      /* Skip ghosts.  */
