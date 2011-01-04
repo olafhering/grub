@@ -1,4 +1,4 @@
-grub2 (1.98+20100804-12) UNRELEASED; urgency=low
+grub2 (1.98+20100804-12) unstable; urgency=low
 
   * Backport from upstream:
     - Support big ext2 files (closes: #543924).
@@ -15,7 +15,7 @@ grub2 (1.98+20100804-12) UNRELEASED; urgency=low
     answer questions properly in the editor frontend (closes: #608449).
     Unfuzzy all translations where possible.
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 21 Dec 2010 10:39:56 +0000
+ -- Colin Watson <cjwatson@debian.org>  Tue, 04 Jan 2011 00:42:29 +0000
 
 grub2 (1.98+20100804-11) unstable; urgency=low
 
