@@ -1,0 +1,32 @@
+Description: Don't add spurious RAID array members
+Author: Jeroen Dekkers <jeroen@dekkers.ch>
+Origin: upstream, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/2996
+Bug-Debian: http://bugs.debian.org/605357
+Forwarded: yes
+Last-Update: 2011-01-04
+
+Index: b/disk/raid.c
+===================================================================
+--- a/disk/raid.c
++++ b/disk/raid.c
+@@ -514,14 +514,16 @@
+           /* We found more members of the array than the array
+              actually has according to its superblock.  This shouldn't
+              happen normally.  */
+-          grub_dprintf ("raid", "array->nr_devs > array->total_devs (%d)?!?",
+-			array->total_devs);
++          return grub_error (GRUB_ERR_BAD_DEVICE,
++			     "superfluous RAID member (%d found)",
++			     array->total_devs);
+ 
+         if (array->members[new_array->index].device != NULL)
+           /* We found multiple devices with the same number. Again,
+              this shouldn't happen.  */
+-          grub_dprintf ("raid", "Found two disks with the number %d?!?",
+-			new_array->number);
++	  return grub_error (GRUB_ERR_BAD_DEVICE,
++			     "found two disks with the number %d",
++			     new_array->number);
+ 
+         if (new_array->disk_size < array->disk_size)
+           array->disk_size = new_array->disk_size;

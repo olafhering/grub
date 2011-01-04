@@ -34,3 +34,4 @@ gettext_quoting.patch
 echo_utf-8_clean.patch
 multiboot_unaligned_pointer.patch
 pci_probe.patch
+raid_spurious_members.patch
