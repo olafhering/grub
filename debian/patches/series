@@ -11,3 +11,4 @@ mkconfig_skip_dmcrypt.patch
 install_stage2_confusion.patch
 qemu_img_exists.patch
 branch_butter.patch
+branch_devmapper.patch
