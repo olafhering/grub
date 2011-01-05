@@ -15,3 +15,4 @@ branch_devmapper.patch
 branch_squash.patch
 branch_longlinuxcmd.patch
 branch_parse-color.patch
+branch_embed-sectors.patch
