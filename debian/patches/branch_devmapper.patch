@@ -125,7 +125,15 @@ Index: b/grub-core/kern/emu/hostdisk.c
 ===================================================================
 --- a/grub-core/kern/emu/hostdisk.c
 +++ b/grub-core/kern/emu/hostdisk.c
-@@ -1047,6 +1047,55 @@
+@@ -24,6 +24,7 @@
+ #include <grub/err.h>
+ #include <grub/emu/misc.h>
+ #include <grub/emu/hostdisk.h>
++#include <grub/emu/getroot.h>
+ #include <grub/misc.h>
+ #include <grub/i18n.h>
+ #include <grub/list.h>
+@@ -1047,6 +1048,55 @@
    return ret;
  }
  
@@ -181,7 +189,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
  static char *
  convert_system_partition_to_system_disk (const char *os_dev, struct stat *st)
  {
-@@ -1223,9 +1272,29 @@
+@@ -1223,9 +1273,29 @@
  	      node = NULL;
  	      goto devmapper_out;
  	    }
