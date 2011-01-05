@@ -14,3 +14,4 @@ branch_butter.patch
 branch_devmapper.patch
 branch_squash.patch
 branch_longlinuxcmd.patch
+branch_parse-color.patch
