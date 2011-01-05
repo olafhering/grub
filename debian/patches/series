@@ -13,3 +13,4 @@ qemu_img_exists.patch
 branch_butter.patch
 branch_devmapper.patch
 branch_squash.patch
+branch_longlinuxcmd.patch

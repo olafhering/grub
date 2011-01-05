@@ -1,3 +1,10 @@
+grub2 (1.99~20110104-2) UNRELEASED; urgency=low
+
+  * Support long command lines as per the 2.06 Linux boot protocol, from the
+    upstream 'longlinuxcmd' branch.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 05 Jan 2011 11:13:43 +0000
+
 grub2 (1.99~20110104-1) experimental; urgency=low
 
   * New Bazaar snapshot.
