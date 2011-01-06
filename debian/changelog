@@ -1,4 +1,4 @@
-grub2 (1.99~20110106-1) UNRELEASED; urgency=low
+grub2 (1.99~20110106-1) experimental; urgency=low
 
   * New Bazaar snapshot.
     - Check that named RAID array devices exist before using them (closes:
@@ -6,7 +6,7 @@ grub2 (1.99~20110106-1) UNRELEASED; urgency=low
     - Clear terminfo output on initialisation (closes: #569678).
     - Fix grub-probe when btrfs is on / without a separate /boot.
 
- -- Colin Watson <cjwatson@debian.org>  Thu, 06 Jan 2011 11:28:00 +0000
+ -- Colin Watson <cjwatson@debian.org>  Thu, 06 Jan 2011 13:38:57 +0000
 
 grub2 (1.99~20110104-2) experimental; urgency=low
 
