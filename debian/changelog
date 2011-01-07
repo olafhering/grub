@@ -1,3 +1,10 @@
+grub2 (1.98+20100804-14) UNRELEASED; urgency=low
+
+  [ Updated translations ]
+  * Kazakh (Baurzhan Muftakhidinov / Timur Birsh).  Closes: #609187
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 07 Jan 2011 14:13:50 +0000
+
 grub2 (1.98+20100804-13) unstable; urgency=low
 
   * Backport from upstream:
