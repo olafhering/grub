@@ -1890,9 +1890,9 @@ Index: b/grub-core/kern/emu/getroot.c
 -	continue; /* only a subtree is mounted */
 -
        enc_path_len = strlen (enc_path);
-       if (strncmp (dir, enc_path, enc_path_len) != 0 ||
- 	  (dir[enc_path_len] && dir[enc_path_len] != '/'))
-@@ -147,9 +147,6 @@
+       /* Check that enc_path is a prefix of dir.  The prefix must either be
+          the entire string, or end with a slash, or be immediately followed
+@@ -151,9 +151,6 @@
        free (ret);
        ret = NULL;
  
@@ -1902,7 +1902,7 @@ Index: b/grub-core/kern/emu/getroot.c
        sep = strstr (buf + count, " - ");
        if (!sep)
  	continue;
-@@ -158,13 +155,9 @@
+@@ -162,13 +159,9 @@
        if (sscanf (sep, "%s %s", fstype, device) != 2)
  	continue;
  
@@ -1918,7 +1918,7 @@ Index: b/grub-core/kern/emu/getroot.c
      }
  
    free (buf);
-@@ -531,7 +524,7 @@
+@@ -535,7 +528,7 @@
    struct stat st;
  
  #ifdef __linux__
