@@ -1,4 +1,4 @@
-grub2 (1.99~20110111-1) UNRELEASED; urgency=low
+grub2 (1.99~20110111-1) experimental; urgency=low
 
   * New Bazaar snapshot.
     - Don't check amount of low memory, as reportedly INT 12h can be broken
@@ -11,7 +11,7 @@ grub2 (1.99~20110111-1) UNRELEASED; urgency=low
   * Add a po/LINGUAS file listing the translations we've synced from the TP
     (closes: #609671).
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 07 Jan 2011 17:27:01 +0000
+ -- Colin Watson <cjwatson@debian.org>  Tue, 11 Jan 2011 17:11:44 +0000
 
 grub2 (1.99~20110106-1) experimental; urgency=low
 
