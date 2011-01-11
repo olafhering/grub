@@ -2,6 +2,8 @@ grub2 (1.99~20110106-2) UNRELEASED; urgency=low
 
   * branch_butter.patch: Don't free an uninitialised pointer if /proc is
     unmounted (LP: #697493).
+  * Add a po/LINGUAS file listing the translations we've synced from the TP
+    (closes: #609671).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 07 Jan 2011 17:27:01 +0000
 
