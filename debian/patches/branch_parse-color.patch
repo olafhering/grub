@@ -83,7 +83,7 @@ Index: b/grub-core/Makefile.core.def
  };
  
  module = {
-@@ -1460,6 +1460,7 @@
+@@ -1462,6 +1462,7 @@
  module = {
    name = video;
    common = video/video.c;

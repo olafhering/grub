@@ -40,7 +40,7 @@ Index: b/grub-core/fs/btrfs.c
 ===================================================================
 --- a/grub-core/fs/btrfs.c
 +++ b/grub-core/fs/btrfs.c
-@@ -24,69 +24,1371 @@
+@@ -24,72 +24,1371 @@
  #include <grub/disk.h>
  #include <grub/dl.h>
  #include <grub/types.h>
@@ -853,6 +853,9 @@ Index: b/grub-core/fs/btrfs.c
 +}
  
 - fail:
+-  if (grub_errno == GRUB_ERR_OUT_OF_RANGE)
+-    grub_error (GRUB_ERR_BAD_FS, "not a Btrfs filesystem");
+-
 +static void
 +grub_btrfs_unmount (struct grub_btrfs_data *data)
 +{
@@ -872,7 +875,8 @@ Index: b/grub-core/fs/btrfs.c
 +grub_btrfs_read_inode (struct grub_btrfs_data *data,
 +		       struct grub_btrfs_inode *inode, grub_uint64_t num,
 +		       grub_uint64_t tree)
-+{
+ {
+-  return grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET, "only detection is supported for Btrfs");
 +  struct grub_btrfs_key key_in, key_out;
 +  grub_disk_addr_t elemaddr;
 +  grub_size_t elemsize;
@@ -897,8 +901,7 @@ Index: b/grub-core/fs/btrfs.c
 +grub_btrfs_extent_read (struct grub_btrfs_data *data,
 +			grub_uint64_t ino, grub_uint64_t tree,
 +			grub_off_t pos0, char *buf, grub_size_t len)
- {
--  return grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET, "only detection is supported for Btrfs");
++{
 +  grub_off_t pos = pos0;
 +  while (len)
 +    {
@@ -1038,9 +1041,11 @@ Index: b/grub-core/fs/btrfs.c
 +      len -= csize;
 +    }
 +  return pos - pos0;
-+}
-+
-+static grub_err_t
+ }
+ 
+ static grub_err_t
+-grub_btrfs_dir (grub_device_t device,
+-                const char *path __attribute__ ((unused)),
 +find_path (struct grub_btrfs_data *data,
 +	   const char *path, struct grub_btrfs_key *key,
 +	   grub_uint64_t *tree, grub_uint8_t *type)
@@ -1267,11 +1272,9 @@ Index: b/grub-core/fs/btrfs.c
 +
 +  grub_free (direl);
 +  return GRUB_ERR_NONE;
- }
- 
- static grub_err_t
--grub_btrfs_dir (grub_device_t device,
--                const char *path __attribute__ ((unused)),
++}
++
++static grub_err_t
 +grub_btrfs_dir (grub_device_t device, const char *path,
                  int (*hook) (const char *filename,
 -                             const struct grub_dirhook_info *info)
@@ -1439,7 +1442,7 @@ Index: b/grub-core/fs/btrfs.c
  static grub_err_t
  grub_btrfs_uuid (grub_device_t device, char **uuid)
  {
-@@ -94,7 +1396,7 @@
+@@ -97,7 +1396,7 @@
  
    *uuid = NULL;
  
@@ -1448,7 +1451,7 @@ Index: b/grub-core/fs/btrfs.c
    if (! data)
      return grub_errno;
  
-@@ -108,7 +1410,25 @@
+@@ -111,7 +1410,25 @@
  			  grub_be_to_cpu16 (data->sblock.uuid[6]),
  			  grub_be_to_cpu16 (data->sblock.uuid[7]));
  
@@ -1475,7 +1478,7 @@ Index: b/grub-core/fs/btrfs.c
  
    return grub_errno;
  }
-@@ -118,7 +1438,10 @@
+@@ -121,7 +1438,10 @@
      .name = "btrfs",
      .dir = grub_btrfs_dir,
      .open = grub_btrfs_open,

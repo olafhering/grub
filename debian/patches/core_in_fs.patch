@@ -2,7 +2,7 @@ Index: b/util/grub-setup.c
 ===================================================================
 --- a/util/grub-setup.c
 +++ b/util/grub-setup.c
-@@ -75,6 +75,7 @@
+@@ -76,6 +76,7 @@
  
  #define DEFAULT_BOOT_FILE	"boot.img"
  #define DEFAULT_CORE_FILE	"core.img"
@@ -10,7 +10,7 @@ Index: b/util/grub-setup.c
  
  #ifdef GRUB_MACHINE_SPARC64
  #define grub_target_to_host16(x)	grub_be_to_cpu16(x)
-@@ -472,6 +473,8 @@
+@@ -488,6 +489,8 @@
  
      grub_free (sectors);
  
@@ -19,7 +19,7 @@ Index: b/util/grub-setup.c
      goto finish;
    }
  #endif
-@@ -497,6 +500,9 @@
+@@ -513,6 +516,9 @@
    /* The core image must be put on a filesystem unfortunately.  */
    grub_util_info ("will leave the core image on the filesystem");
  

@@ -2,7 +2,7 @@ Index: b/util/grub-setup.c
 ===================================================================
 --- a/util/grub-setup.c
 +++ b/util/grub-setup.c
-@@ -525,6 +525,15 @@
+@@ -541,6 +541,15 @@
  
        grub_file_filter_disable_compression ();
        file = grub_file_open (core_path_dev);

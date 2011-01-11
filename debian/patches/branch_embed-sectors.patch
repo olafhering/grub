@@ -130,7 +130,7 @@ Index: b/util/grub-setup.c
 ===================================================================
 --- a/util/grub-setup.c
 +++ b/util/grub-setup.c
-@@ -443,6 +443,13 @@
+@@ -459,6 +459,13 @@
        save_blocklists (sectors[i] + grub_partition_get_start (container),
  		       0, GRUB_DISK_SECTOR_SIZE);
  
@@ -144,7 +144,7 @@ Index: b/util/grub-setup.c
      write_rootdev (core_img, root_dev, boot_img, first_sector);
  
      core_img = realloc (core_img, nsec * GRUB_DISK_SECTOR_SIZE);
-@@ -459,12 +466,6 @@
+@@ -475,12 +482,6 @@
  				      nsec * GRUB_DISK_SECTOR_SIZE
  				      - core_size);
  

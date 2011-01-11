@@ -1,5 +1,11 @@
-grub2 (1.99~20110106-2) UNRELEASED; urgency=low
+grub2 (1.99~20110111-1) UNRELEASED; urgency=low
 
+  * New Bazaar snapshot.
+    - Don't check amount of low memory, as reportedly INT 12h can be broken
+      and if low memory is too low we wouldn't have gotten into
+      grub_machine_init anyway (closes: #588293, LP: #513528).
+    - Submenu default support (LP: #691878).
+    - Fix optimisation-dependent grub-mklayout crash (closes: #609584).
   * branch_butter.patch: Don't free an uninitialised pointer if /proc is
     unmounted (LP: #697493).
   * Add a po/LINGUAS file listing the translations we've synced from the TP
