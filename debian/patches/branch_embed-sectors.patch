@@ -72,8 +72,8 @@ Index: b/grub-core/partmap/msdos.c
  
    if (end >= *nsectors + 1)
      {
--      int i;
-+      int i, j;
+-      unsigned i;
++      unsigned i, j;
 +      char *embed_signature_check;
 +      unsigned int orig_nsectors, extra_sectors = 0;
 +
