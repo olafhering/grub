@@ -1,4 +1,4 @@
-grub2 (1.99~20110112-1) UNRELEASED; urgency=low
+grub2 (1.99~20110112-1) experimental; urgency=low
 
   * New Bazaar snapshot.
     - Disable ieee1275_fb on sparc (closes: #560823).
@@ -7,7 +7,7 @@ grub2 (1.99~20110112-1) UNRELEASED; urgency=low
     grub_find_root_device_from_mountinfo or find_root_device_from_libzfs
     using grub_find_device (closes: #609590, #609814, LP: #700147).
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 12 Jan 2011 23:49:33 +0000
+ -- Colin Watson <cjwatson@debian.org>  Thu, 13 Jan 2011 00:12:41 +0000
 
 grub2 (1.99~20110111-1) experimental; urgency=low
 
