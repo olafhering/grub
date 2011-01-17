@@ -28,7 +28,7 @@ Index: b/grub-core/Makefile.core.def
 ===================================================================
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -905,6 +905,7 @@
+@@ -906,6 +906,7 @@
  module = {
    name = btrfs;
    common = fs/btrfs.c;

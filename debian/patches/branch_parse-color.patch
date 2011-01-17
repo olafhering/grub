@@ -75,7 +75,7 @@ Index: b/grub-core/Makefile.core.def
    videoinkernel = video/fb/fbblit.c;
    videoinkernel = video/fb/fbfill.c;
    videoinkernel = video/fb/fbutil.c;
-@@ -1055,7 +1056,6 @@
+@@ -1056,7 +1057,6 @@
    common = gfxmenu/gui_progress_bar.c;
    common = gfxmenu/gui_util.c;
    common = gfxmenu/gui_string_util.c;
@@ -83,7 +83,7 @@ Index: b/grub-core/Makefile.core.def
  };
  
  module = {
-@@ -1462,6 +1462,7 @@
+@@ -1463,6 +1463,7 @@
  module = {
    name = video;
    common = video/video.c;
