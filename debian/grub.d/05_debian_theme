@@ -130,7 +130,8 @@ if [ -f "/usr/share/desktop-base/grub_background.sh" ]; then
 fi
 
 # First check whether the user has specified a background image explicitly.
-# If so, try use it. Don't try the other possibilites in that case (#608263).
+# If so, try to use it. Don't try the other possibilities in that case
+# (#608263).
 if [ -n "${GRUB_BACKGROUND+x}" ]; then
 	set_background_image "${GRUB_BACKGROUND}" || set_default_theme
 	exit 0
