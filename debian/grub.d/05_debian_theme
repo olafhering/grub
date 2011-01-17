@@ -92,8 +92,15 @@ set_background_image(){
 	# If loading the background image fails, use the default theme.
 	echo "insmod ${reader}"
 	echo "if background_image `make_system_path_relative_to_its_root "${1}"`; then"
-	echo "  set color_normal=${2:-black/black}"
-	echo "  set color_highlight=${3:-magenta/black}"
+	if [ -n "${2}" ]; then
+		echo "  set color_normal=${2}"
+	fi
+	if [ -n "${3}" ]; then
+		echo "  set color_highlight=${3}"
+	fi
+	if [ -z "${2}" ] && [ -z "${3}" ]; then
+		echo "  true"
+	fi
 	echo "else"
 	set_default_theme "  "
 	echo "fi"
@@ -123,11 +130,17 @@ if [ -f "/usr/share/desktop-base/grub_background.sh" ]; then
 fi
 
 # First check whether the user has specified a background image explicitly.
+# If so, try to use it.  Don't try the other possibilities in that case
+# (#608263).
+if [ -n "${GRUB_BACKGROUND+x}" ]; then
+	set_background_image "${GRUB_BACKGROUND}" || set_default_theme
+	exit 0
+fi
+
 # Next search for pictures the user put into /boot/grub/ and use the first one.
 # Next try to use the background image and colors specified by desktop-base.
 # If we haven't found a background image yet, use the default from desktop-base.
 # Finally, if all of the above fails, use the default theme.
-set_background_image "${GRUB_BACKGROUND}" ||
 set_background_image "`ls -1 *.jpg *.JPG *.jpeg *.JPEG *.png *.PNG *.tga *.TGA 2>/dev/null | head -1`" ||
 set_background_image "${WALLPAPER}" "${COLOR_NORMAL}" "${COLOR_HIGHLIGHT}" ||
 set_background_image "/usr/share/images/desktop-base/desktop-grub.png" ||

@@ -3,6 +3,15 @@ grub2 (1.98+20100804-14) UNRELEASED; urgency=low
   [ Updated translations ]
   * Kazakh (Baurzhan Muftakhidinov / Timur Birsh).  Closes: #609187
 
+  [ Alexander Kurtz ]
+  * 05_debian_theme:
+    - If we find a background image and no colours were specified, use
+      upstream defaults for color_normal and color_highlight rather than
+      setting color_normal to black/black.
+    - Don't try the other alternatives when $GRUB_BACKGROUND is set; you can
+      now add GRUB_BACKGROUND= to /etc/default/grub to force no background
+      image (closes: #608263).
+
  -- Colin Watson <cjwatson@debian.org>  Fri, 07 Jan 2011 14:13:50 +0000
 
 grub2 (1.98+20100804-13) unstable; urgency=low
