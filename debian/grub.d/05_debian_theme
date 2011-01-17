@@ -65,7 +65,7 @@ set_background_image(){
 	if ! [ -f "${reader}.mod" ]; then
 		return 4
 	fi
-	
+
 	# Step #5: Check if GRUB can read the background image directly.
 	# If so, we can remove the cache file (if any). Otherwise the backgound
 	# image needs to be cached under /boot/grub/.
@@ -77,7 +77,7 @@ set_background_image(){
 	else
 		return 5
 	fi
-	
+
 	# Step #6: Prepare GRUB to read the background image.
 	if ! prepare_grub_to_access_device "`${grub_probe} --target=device "${1}"`"; then
 		return 6
@@ -85,21 +85,20 @@ set_background_image(){
 
 	# Step #7: Everything went fine, print out a message to stderr ...
 	echo "Found background image: ${1}" >&2
-	
+
 	# ... and write our configuration snippet to stdout. Use the colors
 	# desktop-base specified. If we're using a user-defined background, use
 	# the default colors since we've got no idea how the image looks like.
 	# If loading the background image fails, use the default theme.
 	echo "insmod ${reader}"
 	echo "if background_image `make_system_path_relative_to_its_root "${1}"`; then"
-	if [ "$2" ] || [ "$3" ]; then
-		if [ "$2" ]; then
-			echo "  set color_normal=$2"
-		fi
-		if [ "$3" ]; then
-			echo "  set color_highlight=$3"
-		fi
-	else
+	if [ -n "${2}" ]; then
+		echo "  set color_normal=${2}"
+	fi
+	if [ -n "${3}" ]; then
+		echo "  set color_highlight=${3}"
+	fi
+	if [ -z "${2}" ] && [ -z "${3}" ]; then
 		echo "  true"
 	fi
 	echo "else"
@@ -131,12 +130,28 @@ if [ -f "/usr/share/desktop-base/grub_background.sh" ]; then
 fi
 
 # First check whether the user has specified a background image explicitly.
+# If so, try use it. Don't try the other possibilites in that case (#608263).
+if [ -n "${GRUB_BACKGROUND+x}" ]; then
+	set_background_image "${GRUB_BACKGROUND}" || set_default_theme
+	exit 0
+fi
+
 # Next search for pictures the user put into /boot/grub/ and use the first one.
+for background in *.jpg *.JPG *.jpeg *.JPEG *.png *.PNG *.tga *.TGA; do
+	if set_background_image "${background}"; then
+		exit 0
+	fi
+done
+
 # Next try to use the background image and colors specified by desktop-base.
+if set_background_image "${WALLPAPER}" "${COLOR_NORMAL}" "${COLOR_HIGHLIGHT}"; then
+	exit 0
+fi
+
 # If we haven't found a background image yet, use the default from desktop-base.
+if set_background_image "/usr/share/images/desktop-base/desktop-grub.png"; then
+	exit 0
+fi
+
 # Finally, if all of the above fails, use the default theme.
-set_background_image "${GRUB_BACKGROUND}" ||
-set_background_image "`ls -1 *.jpg *.JPG *.jpeg *.JPEG *.png *.PNG *.tga *.TGA 2>/dev/null | head -1`" ||
-set_background_image "${WALLPAPER}" "${COLOR_NORMAL}" "${COLOR_HIGHLIGHT}" ||
-set_background_image "/usr/share/images/desktop-base/desktop-grub.png" ||
 set_default_theme
