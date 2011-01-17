@@ -1,4 +1,4 @@
-grub2 (1.99~rc1-1) UNRELEASED; urgency=low
+grub2 (1.99~rc1-1) experimental; urgency=low
 
   [ Colin Watson ]
   * New upstream release candidate.
@@ -16,7 +16,7 @@ grub2 (1.99~rc1-1) UNRELEASED; urgency=low
       now add GRUB_BACKGROUND= to /etc/default/grub to force no background
       image (closes: #608263).
 
- -- Colin Watson <cjwatson@debian.org>  Mon, 17 Jan 2011 10:59:11 +0000
+ -- Colin Watson <cjwatson@debian.org>  Mon, 17 Jan 2011 13:43:06 +0000
 
 grub2 (1.99~20110112-1) experimental; urgency=low
 
