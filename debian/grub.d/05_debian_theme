@@ -92,8 +92,16 @@ set_background_image(){
 	# If loading the background image fails, use the default theme.
 	echo "insmod ${reader}"
 	echo "if background_image `make_system_path_relative_to_its_root "${1}"`; then"
-	echo "  set color_normal=${2:-black/black}"
-	echo "  set color_highlight=${3:-magenta/black}"
+	if [ "$2" ] || [ "$3" ]; then
+		if [ "$2" ]; then
+			echo "  set color_normal=$2"
+		fi
+		if [ "$3" ]; then
+			echo "  set color_highlight=$3"
+		fi
+	else
+		echo "  true"
+	fi
 	echo "else"
 	set_default_theme "  "
 	echo "fi"
