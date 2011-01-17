@@ -1,3 +1,9 @@
+grub2 (1.99~rc1-1) UNRELEASED; urgency=low
+
+  * New upstream release candidate.
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 17 Jan 2011 10:59:11 +0000
+
 grub2 (1.99~20110112-1) experimental; urgency=low
 
   * New Bazaar snapshot.
