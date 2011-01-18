@@ -1,4 +1,4 @@
-grub2 (1.98+20100804-14) UNRELEASED; urgency=low
+grub2 (1.98+20100804-14) unstable; urgency=low
 
   [ Updated translations ]
   * Kazakh (Baurzhan Muftakhidinov / Timur Birsh).  Closes: #609187
@@ -12,7 +12,7 @@ grub2 (1.98+20100804-14) UNRELEASED; urgency=low
       now add GRUB_BACKGROUND= to /etc/default/grub to force no background
       image (closes: #608263).
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 07 Jan 2011 14:13:50 +0000
+ -- Colin Watson <cjwatson@debian.org>  Mon, 17 Jan 2011 23:19:38 +0000
 
 grub2 (1.98+20100804-13) unstable; urgency=low
 
