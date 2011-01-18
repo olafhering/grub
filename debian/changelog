@@ -1,3 +1,10 @@
+grub2 (1.99~rc1-2) UNRELEASED; urgency=low
+
+  * Merge 1.98+20100804-13 and 1.98+20100804-14, updating translations:
+    - Kazakh (Baurzhan Muftakhidinov / Timur Birsh).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 18 Jan 2011 11:44:48 +0000
+
 grub2 (1.99~rc1-1) experimental; urgency=low
 
   [ Colin Watson ]
@@ -207,6 +214,29 @@ grub2 (1.99~20101122-1) experimental; urgency=low
   * Dzongkha (dawa pemo via Tenzin Dendup).  Closes: #604102
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 22 Nov 2010 12:24:56 +0000
+
+grub2 (1.98+20100804-14) unstable; urgency=low
+
+  [ Updated translations ]
+  * Kazakh (Baurzhan Muftakhidinov / Timur Birsh).  Closes: #609187
+
+  [ Alexander Kurtz ]
+  * 05_debian_theme:
+    - If we find a background image and no colours were specified, use
+      upstream defaults for color_normal and color_highlight rather than
+      setting color_normal to black/black.
+    - Don't try the other alternatives when $GRUB_BACKGROUND is set; you can
+      now add GRUB_BACKGROUND= to /etc/default/grub to force no background
+      image (closes: #608263).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 17 Jan 2011 23:19:38 +0000
+
+grub2 (1.98+20100804-13) unstable; urgency=low
+
+  * Backport from upstream:
+    - Don't add spurious RAID array members (closes: #605357).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 04 Jan 2011 14:07:14 +0000
 
 grub2 (1.98+20100804-12) unstable; urgency=low
 
