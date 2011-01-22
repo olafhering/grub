@@ -20,7 +20,7 @@ Index: b/util/grub-mkconfig_lib.in
 +    grub_warn \
 +      "$device is a crypto device, which GRUB cannot read directly.  Some" \
 +      "necessary modules may be missing from /boot/grub/grub.cfg.  You may" \
-+      "need to write an /etc/grub.d/01_modules script to load them.  See" \
++      "need to list them in GRUB_PRELOAD_MODULES in /etc/default/grub.  See" \
 +      "http://bugs.debian.org/542165 for details."
 +    return 0
 +  fi
