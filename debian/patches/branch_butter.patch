@@ -1864,7 +1864,7 @@ Index: b/grub-core/kern/emu/getroot.c
 ===================================================================
 --- a/grub-core/kern/emu/getroot.c
 +++ b/grub-core/kern/emu/getroot.c
-@@ -103,14 +103,17 @@
+@@ -103,14 +103,19 @@
     can't deal with the multiple-device case yet, but in the meantime, we can
     at least cope with the single-device case by scanning
     /proc/self/mountinfo.  */
@@ -1878,13 +1878,15 @@ Index: b/grub-core/kern/emu/getroot.c
    size_t len = 0;
    char *ret = NULL;
  
++  if (! *dir)
++    dir = "/";
 +  if (relroot)
 +    *relroot = NULL;
 +
    fp = fopen ("/proc/self/mountinfo", "r");
    if (! fp)
      return NULL; /* fall through to other methods */
-@@ -131,9 +134,6 @@
+@@ -131,9 +136,6 @@
  		  &count) < 6)
  	continue;
  
@@ -1894,7 +1896,7 @@ Index: b/grub-core/kern/emu/getroot.c
        enc_path_len = strlen (enc_path);
        /* Check that enc_path is a prefix of dir.  The prefix must either be
           the entire string, or end with a slash, or be immediately followed
-@@ -151,9 +151,6 @@
+@@ -151,9 +153,6 @@
        free (ret);
        ret = NULL;
  
@@ -1904,7 +1906,7 @@ Index: b/grub-core/kern/emu/getroot.c
        sep = strstr (buf + count, " - ");
        if (!sep)
  	continue;
-@@ -162,13 +159,9 @@
+@@ -162,13 +161,9 @@
        if (sscanf (sep, "%s %s", fstype, device) != 2)
  	continue;
  
@@ -1920,7 +1922,7 @@ Index: b/grub-core/kern/emu/getroot.c
      }
  
    free (buf);
-@@ -474,7 +467,7 @@
+@@ -474,7 +469,7 @@
  char *
  grub_guess_root_device (const char *dir)
  {
@@ -1929,7 +1931,7 @@ Index: b/grub-core/kern/emu/getroot.c
  #ifdef __GNU__
    file_t file;
    mach_port_t *ports;
-@@ -533,30 +526,42 @@
+@@ -533,30 +528,42 @@
    mach_port_deallocate (mach_task_self (), file);
  #else /* !__GNU__ */
    struct stat st;

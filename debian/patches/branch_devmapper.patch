@@ -19,7 +19,7 @@ Index: b/grub-core/kern/emu/getroot.c
  #ifdef __GNU__
  #include <hurd.h>
  #include <hurd/lookup.h>
-@@ -569,32 +573,66 @@
+@@ -571,32 +575,66 @@
  }
  
  static int
@@ -110,7 +110,7 @@ Index: b/grub-core/kern/emu/getroot.c
  }
  
  int
-@@ -606,9 +644,7 @@
+@@ -608,9 +646,7 @@
      return GRUB_DEV_ABSTRACTION_NONE;
  
    /* Check for LVM.  */

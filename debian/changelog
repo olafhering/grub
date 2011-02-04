@@ -5,6 +5,8 @@ grub2 (1.99~rc1-2) UNRELEASED; urgency=low
   * mkconfig_skip_dmcrypt.patch: Refer to GRUB_PRELOAD_MODULES rather than
     suggesting people write a /etc/grub.d/01_modules script (thanks, Jordan
     Uggla).
+  * Handle empty dir passed to grub_find_root_device_from_mountinfo; fixes
+    grub-mkrelpath on btrfs subvolumes (LP: #712029).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 18 Jan 2011 11:44:48 +0000
 
