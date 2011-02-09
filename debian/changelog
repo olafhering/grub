@@ -1,3 +1,9 @@
+grub2 (1.99~rc1-3) UNRELEASED; urgency=low
+
+  * Build for ppc64 (except for grub-emu, which doesn't build cleanly yet).
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 09 Feb 2011 01:04:06 +0000
+
 grub2 (1.99~rc1-2) unstable; urgency=low
 
   * Merge 1.98+20100804-13 and 1.98+20100804-14, updating translations:
