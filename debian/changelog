@@ -4,6 +4,8 @@ grub2 (1.99~rc1-3) UNRELEASED; urgency=low
   * Suppress output from debconf-communicate in upgrade-from-grub-legacy.
   * Refer to the info documentation at the top of /etc/default/grub (closes:
     #612538).
+  * We need at least freebsd-utils (>= 8.0-4) on kFreeBSD architectures for
+    camcontrol, so depend on it.
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 09 Feb 2011 01:04:06 +0000
 
