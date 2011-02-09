@@ -149,11 +149,12 @@ sysfs_size()
 # for kFreeBSD
 camcontrol_size()
 {
-  local num_sectors sector_size size
+  local num_sectors sector_size size=
 
-  num_sectors="$(camcontrol readcap "$1" -q -s -N)"
-  sector_size="$(camcontrol readcap "$1" -q -b)"
-  size="$(expr "$num_sectors" \* "$sector_size" / 1000 / 1000)"
+  if num_sectors="$(camcontrol readcap "$1" -q -s -N)"; then
+    sector_size="$(camcontrol readcap "$1" -q -b)"
+    size="$(expr "$num_sectors" \* "$sector_size" / 1000 / 1000)"
+  fi
 
   [ "$size" ] || size='???'
   echo "$size"

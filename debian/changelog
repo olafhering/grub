@@ -6,6 +6,8 @@ grub2 (1.99~rc1-3) UNRELEASED; urgency=low
     #612538).
   * We need at least freebsd-utils (>= 8.0-4) on kFreeBSD architectures for
     camcontrol, so depend on it.
+  * Tolerate camcontrol failing to read capacity of IDE devices, until such
+    time as we know how to do this properly (see #612128).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 09 Feb 2011 01:04:06 +0000
 
