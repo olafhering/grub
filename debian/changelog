@@ -8,6 +8,8 @@ grub2 (1.99~rc1-3) UNRELEASED; urgency=low
     camcontrol, so depend on it.
   * Tolerate camcontrol failing to read capacity of IDE devices, until such
     time as we know how to do this properly (see #612128).
+  * Adjust /etc/default/grub for rename of GRUB_DISABLE_LINUX_RECOVERY to
+    GRUB_DISABLE_RECOVERY (closes: #612777).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 09 Feb 2011 01:04:06 +0000
 
