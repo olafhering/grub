@@ -10,6 +10,8 @@ grub2 (1.99~rc1-3) UNRELEASED; urgency=low
     time as we know how to do this properly (see #612128).
   * Adjust /etc/default/grub for rename of GRUB_DISABLE_LINUX_RECOVERY to
     GRUB_DISABLE_RECOVERY (closes: #612777).
+  * Update ntldr-img from grub-extras:
+    - Install g2hdr.bin and g2ldr.mbr (closes: #613245).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 09 Feb 2011 01:04:06 +0000
 
