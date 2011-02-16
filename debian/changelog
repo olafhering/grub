@@ -1,4 +1,4 @@
-grub2 (1.99~rc1-3) UNRELEASED; urgency=low
+grub2 (1.99~rc1-3) unstable; urgency=low
 
   * Build for ppc64 (except for grub-emu, which doesn't build cleanly yet).
   * Suppress output from debconf-communicate in upgrade-from-grub-legacy.
@@ -13,7 +13,7 @@ grub2 (1.99~rc1-3) UNRELEASED; urgency=low
   * Update ntldr-img from grub-extras:
     - Install g2hdr.bin and g2ldr.mbr (closes: #613245).
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 09 Feb 2011 01:04:06 +0000
+ -- Colin Watson <cjwatson@debian.org>  Wed, 16 Feb 2011 13:11:11 +0000
 
 grub2 (1.99~rc1-2) unstable; urgency=low
 
