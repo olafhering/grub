@@ -1,3 +1,10 @@
+grub2 (1.99~rc1-4) UNRELEASED; urgency=low
+
+  * Don't touch /boot/grub/grub2-installed if using the --root-directory
+    option to grub-install (thanks, Nicolas George; closes: #614927).
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 24 Feb 2011 13:20:01 +0000
+
 grub2 (1.99~rc1-3) unstable; urgency=low
 
   * Build for ppc64 (except for grub-emu, which doesn't build cleanly yet).
