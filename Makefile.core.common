@@ -23,6 +23,13 @@ grub-ntldr-img: contrib/ntldr-img/grubinst.c contrib/ntldr-img/utils.c grub_mbr.
 bin_PROGRAMS += grub-ntldr-img
 CLEANFILES += grub-ntldr-img
 
+# Compatibility symlink.
+grubinst: grub-ntldr-img
+	rm -f $@
+	$(LN_S) $< $@
+noinst_PROGRAMS += grubinst
+CLEANFILES += grubinst
+
 g2ldr.mbr: grub-ntldr-img
 	./grub-ntldr-img --grub2 -o $@
 platform_DATA += g2ldr.mbr
