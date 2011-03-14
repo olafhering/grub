@@ -8,6 +8,7 @@ grub2 (1.99~rc1-4) UNRELEASED; urgency=low
     - Only call ntfs_fix_mmft if the attribute to find is AT_DATA.  This
       matches GRUB's NTFS module.
     - Install grubinst as grub-ntldr-img.
+  * Fix loading GRUB from lnxboot (LP: #693671).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 24 Feb 2011 13:20:01 +0000
 

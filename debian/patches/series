@@ -17,3 +17,4 @@ branch_longlinuxcmd.patch
 branch_parse-color.patch
 branch_embed-sectors.patch
 btrfs_rootflags.patch
+lnxboot_grub.patch
