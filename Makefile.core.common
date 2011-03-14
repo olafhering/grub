@@ -18,14 +18,13 @@ grub_mbr.h: grldr.mbr bin2h
 	./bin2h grub_mbr 8192 < $< > $@
 CLEANFILES += grub_mbr.h
 
-# TODO: This should be installed somewhere, but 'grubinst' is too generic a
-# name and would be confused with grub-install.  Perhaps grub-mkntldrimg?
-grubinst: contrib/ntldr-img/grubinst.c contrib/ntldr-img/utils.c grub_mbr.h
+grub-ntldr-img: contrib/ntldr-img/grubinst.c contrib/ntldr-img/utils.c grub_mbr.h
 	$(CC) -I. -I$(srcdir)/contrib/ntldr-img -DLINUX -o $@ $(srcdir)/contrib/ntldr-img/grubinst.c $(srcdir)/contrib/ntldr-img/utils.c
-CLEANFILES += grubinst
+bin_PROGRAMS += grub-ntldr-img
+CLEANFILES += grub-ntldr-img
 
-g2ldr.mbr: grubinst
-	./grubinst --grub2 -o $@
+g2ldr.mbr: grub-ntldr-img
+	./grub-ntldr-img --grub2 -o $@
 platform_DATA += g2ldr.mbr
 CLEANFILES += g2ldr.mbr
 endif
