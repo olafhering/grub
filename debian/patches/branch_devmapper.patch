@@ -2,7 +2,7 @@ Description: Support for partitioned loop devices; improved devmapper support
 Author: Vladimir Serbinenko <phcoder@gmail.com>
 Origin: upstream, http://bzr.sv.gnu.org/r/grub/branches/devmapper/
 Forwarded: not-needed
-Last-Update: 2011-01-04
+Last-Update: 2011-03-11
 
 Index: b/grub-core/kern/emu/getroot.c
 ===================================================================
@@ -19,7 +19,7 @@ Index: b/grub-core/kern/emu/getroot.c
  #ifdef __GNU__
  #include <hurd.h>
  #include <hurd/lookup.h>
-@@ -571,32 +575,66 @@
+@@ -571,32 +575,65 @@
  }
  
  static int
@@ -55,9 +55,8 @@ Index: b/grub-core/kern/emu/getroot.c
 +  {
 +    struct dm_tree *tree;
 +    uint32_t maj, min;
-+    struct dm_tree_node *node = NULL, *child;
-+    void *handle;
-+    const char *node_uuid, *mapper_name = NULL, *child_uuid, *child_name;
++    struct dm_tree_node *node = NULL;
++    const char *node_uuid;
 +    struct stat st;
  
 -  return 0;
@@ -110,7 +109,7 @@ Index: b/grub-core/kern/emu/getroot.c
  }
  
  int
-@@ -608,9 +646,7 @@
+@@ -608,13 +645,11 @@
      return GRUB_DEV_ABSTRACTION_NONE;
  
    /* Check for LVM.  */
@@ -121,6 +120,11 @@ Index: b/grub-core/kern/emu/getroot.c
      return GRUB_DEV_ABSTRACTION_LVM;
  
    /* Check for RAID.  */
+-  if (!strncmp (os_dev, "/dev/md", 7))
++  if (!strncmp (os_dev, "/dev/md", 7) && ! grub_util_device_is_mapped (os_dev))
+     return GRUB_DEV_ABSTRACTION_RAID;
+ #endif
+ 
 Index: b/grub-core/kern/emu/hostdisk.c
 ===================================================================
 --- a/grub-core/kern/emu/hostdisk.c
@@ -133,7 +137,44 @@ Index: b/grub-core/kern/emu/hostdisk.c
  #include <grub/misc.h>
  #include <grub/i18n.h>
  #include <grub/list.h>
-@@ -1047,6 +1048,55 @@
+@@ -324,18 +325,23 @@
+   return GRUB_ERR_NONE;
+ }
+ 
+-#ifdef HAVE_DEVICE_MAPPER
+-static int
+-device_is_mapped (const char *dev)
++int
++grub_util_device_is_mapped (const char *dev)
+ {
++#ifdef HAVE_DEVICE_MAPPER
+   struct stat st;
+ 
++  if (!grub_device_mapper_supported ())
++    return 0;
++
+   if (stat (dev, &st) < 0)
+     return 0;
+ 
+   return dm_is_dm_major (major (st.st_rdev));
+-}
++#else
++  return 0;
+ #endif /* HAVE_DEVICE_MAPPER */
++}
+ 
+ #if defined(__linux__) || defined(__CYGWIN__) || defined(HAVE_DIOCGDINFO)
+ static grub_disk_addr_t
+@@ -350,7 +356,7 @@
+ # endif /* !defined(HAVE_DIOCGDINFO) */
+ 
+ # ifdef HAVE_DEVICE_MAPPER
+-  if (grub_device_mapper_supported () && device_is_mapped (dev)) {
++  if (grub_util_device_is_mapped (dev)) {
+     struct dm_task *task = NULL;
+     grub_uint64_t start, length;
+     char *target_type, *params, *space;
+@@ -1047,6 +1053,54 @@
    return ret;
  }
  
@@ -146,7 +187,6 @@ Index: b/grub-core/kern/emu/hostdisk.c
 +  void *next = NULL;
 +  uint64_t length, start;
 +  char *target, *params;
-+  const char *node_name;
 +  char *ptr;
 +  int major, minor;
 +
@@ -189,7 +229,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
  static char *
  convert_system_partition_to_system_disk (const char *os_dev, struct stat *st)
  {
-@@ -1223,9 +1273,29 @@
+@@ -1223,9 +1277,39 @@
  	      node = NULL;
  	      goto devmapper_out;
  	    }
@@ -198,6 +238,16 @@ Index: b/grub-core/kern/emu/hostdisk.c
  	    {
 +	      grub_dprintf ("hostdisk", "%s is an LVM\n", path);
 +	      node = NULL;
++	      goto devmapper_out;
++	    }
++	  if (strncmp (node_uuid, "mpath-", 6) == 0)
++	    {
++	      /* Multipath partitions have partN-mpath-* UUIDs, and are
++		 linear mappings so are handled by
++		 grub_util_get_dm_node_linear_info.  Multipath disks are not
++		 linear mappings and must be handled specially.  */
++	      grub_dprintf ("hostdisk", "%s is a multipath disk\n", path);
++	      mapper_name = dm_tree_node_get_name (node);
 +	      goto devmapper_out;
 +	    }
 +	  if (strncmp (node_uuid, "DMRAID-", 7) != 0)
@@ -220,3 +270,16 @@ Index: b/grub-core/kern/emu/hostdisk.c
  	      node = NULL;
  	      goto devmapper_out;
  	    }
+Index: b/include/grub/emu/misc.h
+===================================================================
+--- a/include/grub/emu/misc.h
++++ b/include/grub/emu/misc.h
+@@ -54,6 +54,8 @@
+ 
+ char *grub_make_system_path_relative_to_its_root (const char *path)
+   __attribute__ ((warn_unused_result));
++int
++grub_util_device_is_mapped (const char *dev);
+ 
+ void * EXPORT_FUNC(xmalloc) (grub_size_t size) __attribute__ ((warn_unused_result));
+ void * EXPORT_FUNC(xrealloc) (void *ptr, grub_size_t size) __attribute__ ((warn_unused_result));
