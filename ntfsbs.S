@@ -819,6 +819,8 @@ ntfs_find_attr:
 	orb	$NT_FG_ALST, nt_flag
 	testb	$NT_FG_MMFT, nt_flag
 	jz	6f
+	cmpb	$AT_DATA, %al
+	jnz	6f
 	call	ntfs_fix_mmft
 6:
 	movw	%bx, %si
