@@ -9,6 +9,8 @@ grub2 (1.99~rc1-4) UNRELEASED; urgency=low
       matches GRUB's NTFS module.
     - Install grubinst as grub-ntldr-img.
   * Fix loading GRUB from lnxboot (LP: #693671).
+  * Update branch_embed-sectors.patch to avoid straying into first partition
+    when embedding-area sectors are in use (closes: #613409, LP: #730225).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 24 Feb 2011 13:20:01 +0000
 
