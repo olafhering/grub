@@ -197,7 +197,8 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 install/grub-common:
 	dh_auto_install --destdir=debian/$(package)
 	rm -rf $(CURDIR)/debian/$(package)/usr/lib/grub/{i386,powerpc,sparc64,mips}-*
-	rm -f $(CURDIR)/debian/$(package)/usr/{sbin,share/man/man8}/{update-grub,grub-install,grub-setup,grub-reboot,grub-set-default,grub-mknetdir,grub-ntldr-img}{,.8}
+	rm -f $(CURDIR)/debian/$(package)/usr/{sbin,share/man/man8}/{update-grub,grub-install,grub-setup,grub-reboot,grub-set-default,grub-mknetdir}{,.8}
+	rm -f $(CURDIR)/debian/$(package)/usr/{bin,share/man/man1}/grub-ntldr-img{,.1}
 	rm -f $(CURDIR)/debian/$(package)/usr/share/info/dir*
 
 override_dh_installdocs:
