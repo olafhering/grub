@@ -1,3 +1,10 @@
+grub2 (1.99~rc1-5) UNRELEASED; urgency=low
+
+  [ Updated translations ]
+  * Esperanto (Felipe Castro).  Closes: #606524
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 16 Mar 2011 16:39:06 +0000
+
 grub2 (1.99~rc1-4) unstable; urgency=low
 
   * Don't touch /boot/grub/grub2-installed if using the --root-directory

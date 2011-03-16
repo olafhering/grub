@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: grub2 1.98+20100710-2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-12-08 18:02-0400\n"
-"PO-Revision-Date: 2010-09-06 14:08-0300\n"
+"PO-Revision-Date: 2010-12-09 20:24-0300\n"
 "Last-Translator: Felipe Castro <fefcas@gmail.com>\n"
 "Language-Team: Esperanto <debian-l10n-esperanto@lists.debian.org>\n"
 "Language: eo\n"
@@ -33,7 +33,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#, fuzzy
 #| msgid ""
 #| "In order to replace the Legacy version of GRUB in your system, it is "
 #| "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
@@ -46,14 +45,13 @@ msgid ""
 "performed now."
 msgstr ""
 "Por anstataŭigi la malaktualan version de GRUB en via sistemo, oni "
-"rekomendas ke /boot/grub/menu.lst estu alĝustata por ĉen-ŝargi je GRUB 2 el "
-"via ekzistanta agordo de malaktuala GRUB. Tiu ĉi paŝo povas esti aŭtomate "
-"farata nun."
+"rekomendas ke /boot/grub/menu.lst estu akomodita por ŝargi je ekŝarga bildo "
+"GRUB 2 el via ekzistanta agordo de malaktuala GRUB. Tiu ĉi paŝo povas esti "
+"aŭtomate farata nun."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#, fuzzy
 #| msgid ""
 #| "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 #| "verify that your new GRUB 2 setup is functional for you, before you "
@@ -64,8 +62,8 @@ msgid ""
 "(Master Boot Record)."
 msgstr ""
 "Oni rekomendas ke vi akceptu ĉen-ŝargi je GRUB 2 el menu.lst, kaj kontrolu "
-"ĉu via nova agordo de GRUB 2 bone funkcias por vi, antaŭ ol rekte instali "
-"ĝin en vian MBR (Mastra Ekŝarga Registro)."
+"ĉu via nova agordo de GRUB 2 bone funkcias antaŭ ol ĝi estu skribata al la "
+"MBR (Mastra Ekŝarga Registro)."
 
 #. Type: boolean
 #. Description
@@ -74,16 +72,17 @@ msgid ""
 "Whatever your decision, you can replace the old MBR image with GRUB 2 later "
 "by issuing the following command as root:"
 msgstr ""
+"Kia ajn estu via decido, per GRUB 2 vi povos poste anstataŭigi la malnovan "
+"bildon MBR, uzante la jenan komandon kiel root:"
 
 #. Type: multiselect
 #. Description
 #. Type: multiselect
 #. Description
 #: ../grub-pc.templates.in:3001 ../grub-pc.templates.in:4001
-#, fuzzy
 #| msgid "GRUB failed to install to the following devices:"
 msgid "GRUB install devices:"
-msgstr "GRUB malsukcesis instali al la jenaj aparatoj:"
+msgstr "Aparatoj instalataj de GRUB:"
 
 #. Type: multiselect
 #. Description
@@ -92,6 +91,8 @@ msgid ""
 "The grub-pc package is being upgraded. This menu allows you to select which "
 "devices you'd like grub-install to be automatically run for, if any."
 msgstr ""
+"La pako grub-pc estas ĝisdatigata. Tiu ĉi menuo ebligas al vi elekti iujn "
+"ajn aparatojn por esti aŭtomate instalotaj de grub-install."
 
 #. Type: multiselect
 #. Description
@@ -101,6 +102,8 @@ msgid ""
 "prevent the installed GRUB core image from getting out of sync with GRUB "
 "modules or grub.cfg."
 msgstr ""
+"Lanĉi grub-install aŭtomate estas rekomendinda plej kutime, por eviti ke la "
+"instalita kerna bildo GRUB malsinkroniĝu kun la moduloj GRUB aŭ grub.cfg."
 
 #. Type: multiselect
 #. Description
@@ -111,6 +114,8 @@ msgid ""
 "If you're unsure which drive is designated as boot drive by your BIOS, it is "
 "often a good idea to install GRUB to all of them."
 msgstr ""
+"Se vi ne certas pri kiu pelilo estas difinita kiel ekŝarga por via BIOS, "
+"ordinare estas bona ideo instali GRUB por ĉiuj el ili."
 
 #. Type: multiselect
 #. Description
@@ -123,6 +128,10 @@ msgid ""
 "use the blocklist mechanism, which makes it less reliable, and therefore is "
 "not recommended."
 msgstr ""
+"Rimarko: eblas instali GRUB ankaŭ al diskpartaj ekŝargaj registroj, kaj "
+"kelkaj taŭgaj diskpartoj estas disponigataj ĉi tie. Tamen, tio devigas ke "
+"GRUB uzu meĥanismon bloklisto, kio igas ĝin malpli fidinda, do tio ne estas "
+"rekomendinda afero."
 
 #. Type: multiselect
 #. Description
@@ -134,29 +143,32 @@ msgid ""
 "GRUB modules and grub.cfg. Please check again to make sure that GRUB is "
 "written to the appropriate boot devices."
 msgstr ""
+"La ekŝargilo GRUB estis antaŭe instalita al disko kiu ne plu ekzistas, "
+"aŭ kies unika identigilo ŝanĝis ial ajn. Estas grave certigi ke la instalita "
+"kerna bildo GRUB teniĝu sinkrona kun la moduloj GRUB kaj grub.cfg. Bonvolu "
+"rekontroli por certigi ke GRUB estas skribota al taŭgaj ekŝargaj aparatoj."
 
 #. Type: text
 #. Description
 #. Disk sizes are in decimal megabytes, to match how disk manufacturers
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
-msgid "${DEVICE} (${SIZE} MB; ${MODEL})"
-msgstr "${DEVICE} (${SIZE} MB; ${MODEL})"
+msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
+msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 
 #. Type: text
 #. Description
 #. The "-" is used to indicate indentation. Leading spaces may not work.
 #: ../grub-pc.templates.in:6001
-#, fuzzy
-#| msgid "${DEVICE} (${SIZE} MB; ${MODEL})"
-msgid "- ${DEVICE} (${SIZE} MB; ${PATH})"
-msgstr "${DEVICE} (${SIZE} MB; ${MODEL})"
+#| msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
+msgid "- ${DEVICE} (${SIZE} MB, ${PATH})"
+msgstr "- ${DEVICE} (${SIZE} MB, ${PATH})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "Writing GRUB to boot device failed - continue?"
-msgstr ""
+msgstr "Skribado de GRUB al ekŝarga aparato malsukcesis - ĉu daŭrigi?"
 
 #. Type: boolean
 #. Description
@@ -178,10 +190,9 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
-#, fuzzy
 #| msgid "GRUB installation failed. Try again?"
 msgid "Writing GRUB to boot device failed - try again?"
-msgstr "La instalado de GRUB malsukcesis. Ĉu reprovi?"
+msgstr "Skribado de GRUB al ekŝarga aparato malsukcesis - ĉu reprovi?"
 
 #. Type: boolean
 #. Description
@@ -204,7 +215,6 @@ msgstr "Ĉu daŭrigi sen instali GRUB?"
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#, fuzzy
 #| msgid ""
 #| "You chose not to install GRUB to any devices. If you continue, the boot "
 #| "loader may not be properly configured, and when your computer next starts "
@@ -219,15 +229,14 @@ msgid ""
 "modules or handle the current configuration file."
 msgstr ""
 "Vi elektis ne instali GRUB al iu ajn aparato. Se vi daŭrigas, la ekŝargilo "
-"eble ne estos ĝuste akomodita, kaj kiam via komputilo sekve ekŝaltos, ĝi "
+"eble ne estos ĝuste agordita, kaj kiam tiu ĉi komputilo sekve ekŝaltos, ĝi "
 "uzos kion ajn estu antaŭe en la ekŝarga sektoro. Se ekzistas pli frua versio "
 "de GRUB 2 en la ekŝarga sektoro, ĝi eble ne povos ŝargi je moduloj aŭ trakti "
-"la nunan akomodo-dosieron."
+"la nunan agordo-dosieron."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#, fuzzy
 #| msgid ""
 #| "If you are already running a different boot loader and want to carry on "
 #| "doing so, or if this is a special environment where you do not need a "
@@ -239,21 +248,21 @@ msgid ""
 "then you should continue anyway. Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
-"Se vi jam lanĉis malsaman ekŝargilon kaj vi volas daŭrigi kun tio, aŭ se tio "
-"ĉi estas speciala medio kie vi ne bezonas ekŝargilon, tiel vi devos daŭrigi "
-"iel ajn. Alie, vi devos instali GRUB ien."
+"Se vi jam uzas malsaman ekŝargilon kaj vi volas daŭrigi kun tio, aŭ se tio "
+"ĉi estas speciala medio kie vi ne bezonas ekŝargilon, tiam vi devos daŭrigi "
+"tiel mem. Alie, vi devos instali GRUB ien ajn."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:10001
 msgid "Remove GRUB 2 from /boot/grub?"
-msgstr ""
+msgstr "Ĉu forviŝi GRUB 2 el /boot/grub?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:10001
 msgid "Do you want to have all GRUB 2 files removed from /boot/grub?"
-msgstr ""
+msgstr "Ĉu vi volas forviŝi ĉiujn dosierojn GRUB 2 el /boot/grub?"
 
 #. Type: boolean
 #. Description
@@ -261,6 +270,7 @@ msgstr ""
 msgid ""
 "This will make the system unbootable unless another boot loader is installed."
 msgstr ""
+"Tio ĉi igos la sistemon ne ekŝargebla, krom se alia ekŝargilo estu instalita."
 
 #. Type: boolean
 #. Description
@@ -396,7 +406,6 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
 #| msgid ""
 #| "However, since you have more than one disk in your system, it is possible "
 #| "that you were depending on the old device map. Please check whether you "
@@ -408,15 +417,14 @@ msgid ""
 "there are any custom boot menu entries that rely on GRUB's (hdN) drive "
 "numbering, and update them if necessary."
 msgstr ""
-"Tamen, ĉar vi havas pli ol unu disko en via sistemo, eblas ke vi dependas de "
-"malnova aparat-mapo. Bonvolu kontroli ĉu vi havas iun personigitan ekŝarg-"
-"menueron, kiu surbaziĝas en disk-numerigo de GRUB (hdN), kaj ĝisdatigu ĝin "
-"laŭ neceso."
+"Tamen, ĉar vi havas pli ol unu disko en via sistemo, eblas ke la sistemo "
+"dependas de malnova aparat-mapo. Bonvolu kontroli ĉu ekzistas iun "
+"personigitan ekŝarg-menueron, kiu surbaziĝas en disk-numerigo de GRUB (hdN), "
+"kaj ĝisdatigu ĝin se necese."
 
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
 #| msgid ""
 #| "If you do not understand this message, or if you do not have any custom "
 #| "boot menu entries, you can ignore this message."
@@ -425,7 +433,7 @@ msgid ""
 "entries, you can ignore this message."
 msgstr ""
 "Se vi ne komprenas tiun ĉi mesaĝon, aŭ se vi havas neniun personigitan "
-"menueron, vi povas preteratenti ĉi tiun mesaĝon."
+"ekŝargan menueron, vi povas preteratenti ĉi tiun mesaĝon."
 
 #~ msgid ""
 #~ "In either case, whenever you want GRUB 2 to be loaded directly from MBR, "
