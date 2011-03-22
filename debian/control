@@ -41,6 +41,7 @@ Vcs-Browser: http://bzr.debian.org/loggerhead/pkg-grub/
 Package: grub2
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
 Depends: grub-pc (= ${binary:Version}) [any-i386 any-amd64] | grub-ieee1275 (= ${binary:Version}) [any-powerpc any-ppc64 any-sparc], ${misc:Depends}
+Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (dummy package)
  This is a dummy transitional package to handle GRUB 2 upgrades.  It can be
  safely removed.
@@ -48,12 +49,14 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
 Package: grub-linuxbios
 Architecture: any-i386 any-amd64
 Depends: grub-coreboot (= ${binary:Version}), ${misc:Depends}
+Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (dummy package)
  This is a dummy transitional package that depends on grub-coreboot.
 
 Package: grub-efi
 Architecture: any-i386 any-amd64
 Depends: ${misc:Depends}, grub-efi-ia32 (= ${binary:Version}) [any-i386], grub-efi-amd64 (= ${binary:Version}) [any-amd64]
+Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (dummy package)
  This is a dummy transitional package that depends on either grub-efi-ia32 or
  grub-efi-amd64, depending on the architecture.
@@ -69,6 +72,7 @@ Suggests: multiboot-doc, grub-emu, xorriso (>= 0.5.6.pl00)
 # See bugs #435983 and #455746
 Conflicts: mdadm (<< 2.6.7-2), grub-doc (<< 0.97-32), grub-legacy-doc (<< 0.97-59)
 Breaks: lupin-support (<< 0.30)
+Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (common files)
  This package contains common files shared by the distinct flavours of GRUB.
 
@@ -76,6 +80,7 @@ Package: grub-emu
 Architecture: any-i386 any-amd64 any-powerpc
 Depends: ${shlibs:Depends}, base-files (>= 4.0.1~), ${misc:Depends}
 Replaces: grub-common (<= 1.97~beta3-1)
+Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (emulated version)
  This package contains grub-emu, an emulated version of GRUB.  It is only
  provided for debugging purposes.
@@ -87,6 +92,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}), 
 Replaces: grub, grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1), grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-ieee1275
 Conflicts: grub (<< 0.97-54), grub-legacy, desktop-base (= 4.0.5), grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-ieee1275
 Suggests: desktop-base (>= 4.0.6)
+Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (PC/BIOS version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
@@ -107,6 +113,7 @@ Description: GRand Unified Bootloader, version 2 (PC/BIOS version)
 Package: grub-rescue-pc
 Architecture: any-i386 any-amd64
 Depends: ${misc:Depends}
+Multi-Arch: foreign
 Description: GRUB bootable rescue images, version 2 (PC/BIOS version)
  This package contains three GRUB rescue images that have been built for use
  with the traditional PC/BIOS architecture:
@@ -121,6 +128,7 @@ Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}, 
 Replaces: grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1), grub-linuxbios, grub-efi-amd64, grub-efi-ia32, grub-pc, grub-ieee1275
 Conflicts: grub (<< 0.97-54), grub-legacy, grub-linuxbios (<< ${source:Version}), grub-efi-amd64, grub-efi-ia32, grub-pc, grub-ieee1275
 Suggests: os-prober
+Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (Coreboot version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
@@ -140,6 +148,7 @@ Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}, 
 Replaces: grub, grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1), grub-efi, grub-efi-amd64, grub-pc, grub-coreboot, grub-ieee1275
 Conflicts: grub (<< 0.97-54), grub-legacy, grub-efi-amd64, grub-pc, grub-coreboot, grub-ieee1275
 Suggests: os-prober
+Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (EFI-IA32 version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
@@ -160,6 +169,7 @@ Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}, 
 Replaces: grub, grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1), grub-pc, grub-efi-ia32, grub-coreboot, grub-ieee1275
 Conflicts: grub, grub-legacy, grub-efi-ia32, grub-pc, grub-coreboot, grub-ieee1275
 Suggests: os-prober
+Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (EFI-AMD64 version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
@@ -181,6 +191,7 @@ Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}),
 Replaces: grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1), grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-pc
 Conflicts: grub (<< 0.97-54), grub-legacy, grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-pc
 Suggests: os-prober, genisoimage [any-powerpc any-ppc64]
+Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (Open Firmware version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
@@ -199,6 +210,7 @@ Architecture: any-i386 any-amd64
 Depends: base-files (>= 4.0.1~), ${misc:Depends}
 Recommends: qemu
 Enhances: qemu
+Multi-Arch: foreign
 Description: GRUB firmware image for QEMU
  This package contains a binary of GRUB that has been built for use as
  firmware for QEMU.  It can be used as a replacement for the standard
@@ -217,6 +229,7 @@ Architecture: any-mipsel
 Depends: ${shlibs:Depends}, grub-common (= ${binary:Version}), ${misc:Depends}, ucf
 Replaces: grub-common (<< 1.98+20100617-2)
 Suggests: os-prober
+Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (Yeeloong version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
