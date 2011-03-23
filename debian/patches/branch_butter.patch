@@ -1915,7 +1915,7 @@ Index: b/grub-core/kern/emu/getroot.c
 -
        ret = strdup (entries[i].device);
 +      if (relroot)
-+	*relroot = strdup (enc_root);
++	*relroot = strdup (entries[i].enc_root);
        break;
      }
  
