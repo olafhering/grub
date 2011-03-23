@@ -10,6 +10,7 @@ mkrescue_diet.patch
 mkconfig_skip_dmcrypt.patch
 install_stage2_confusion.patch
 qemu_img_exists.patch
+mountinfo_move_mounts.patch
 branch_butter.patch
 branch_devmapper.patch
 branch_squash.patch

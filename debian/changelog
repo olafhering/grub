@@ -4,6 +4,8 @@ grub2 (1.99~rc1-5) UNRELEASED; urgency=low
   * Mark binary packages as Multi-Arch: foreign (for example, an amd64
     kernel installed on an i386 system could use the native architecture's
     GRUB).
+  * Rewrite find_root_device_from_mountinfo to cope with move-mounts
+    (LP: #738345).
 
   [ Updated translations ]
   * Esperanto (Felipe Castro).  Closes: #606524

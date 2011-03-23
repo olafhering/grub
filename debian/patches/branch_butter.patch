@@ -1864,7 +1864,7 @@ Index: b/grub-core/kern/emu/getroot.c
 ===================================================================
 --- a/grub-core/kern/emu/getroot.c
 +++ b/grub-core/kern/emu/getroot.c
-@@ -103,14 +103,19 @@
+@@ -111,8 +111,8 @@
     can't deal with the multiple-device case yet, but in the meantime, we can
     at least cope with the single-device case by scanning
     /proc/self/mountinfo.  */
@@ -1875,8 +1875,9 @@ Index: b/grub-core/kern/emu/getroot.c
  {
    FILE *fp;
    char *buf = NULL;
-   size_t len = 0;
-   char *ret = NULL;
+@@ -123,6 +123,11 @@
+   struct mountinfo_entry parent_entry = { 0, 0, 0, "", "", "", "" };
+   int i;
  
 +  if (! *dir)
 +    dir = "/";
@@ -1886,43 +1887,39 @@ Index: b/grub-core/kern/emu/getroot.c
    fp = fopen ("/proc/self/mountinfo", "r");
    if (! fp)
      return NULL; /* fall through to other methods */
-@@ -131,9 +136,6 @@
- 		  &count) < 6)
+@@ -142,9 +147,6 @@
+ 		  entry.enc_root, entry.enc_path, &count) < 6)
  	continue;
  
--      if (strcmp (enc_root, "/") != 0)
+-      if (strcmp (entry.enc_root, "/") != 0)
 -	continue; /* only a subtree is mounted */
 -
-       enc_path_len = strlen (enc_path);
+       enc_path_len = strlen (entry.enc_path);
        /* Check that enc_path is a prefix of dir.  The prefix must either be
           the entire string, or end with a slash, or be immediately followed
-@@ -151,9 +153,6 @@
-       free (ret);
-       ret = NULL;
- 
--      if (major != 0)
+@@ -212,18 +214,12 @@
+   /* Now scan visible mounts for the ones we're interested in.  */
+   for (i = entry_len - 1; i >= 0; i--)
+     {
+-      struct stat st;
+-
+-      if (entries[i].major != 0)
 -	continue; /* not a virtual device */
 -
-       sep = strstr (buf + count, " - ");
-       if (!sep)
- 	continue;
-@@ -162,13 +161,9 @@
-       if (sscanf (sep, "%s %s", fstype, device) != 2)
+-      if (!*entries[i].device || stat (entries[i].device, &st) < 0)
++      if (!*entries[i].device)
  	continue;
  
--      if (stat (device, &st) < 0)
--	continue;
--
 -      if (!S_ISBLK (st.st_mode))
 -	continue; /* not a block device */
 -
-       ret = strdup (device);
+       ret = strdup (entries[i].device);
 +      if (relroot)
 +	*relroot = strdup (enc_root);
+       break;
      }
  
-   free (buf);
-@@ -474,7 +469,7 @@
+@@ -531,7 +527,7 @@
  char *
  grub_guess_root_device (const char *dir)
  {
@@ -1931,7 +1928,7 @@ Index: b/grub-core/kern/emu/getroot.c
  #ifdef __GNU__
    file_t file;
    mach_port_t *ports;
-@@ -533,30 +528,42 @@
+@@ -590,30 +586,42 @@
    mach_port_deallocate (mach_task_self (), file);
  #else /* !__GNU__ */
    struct stat st;
