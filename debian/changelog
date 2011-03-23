@@ -1,4 +1,4 @@
-grub2 (1.99~rc1-5) UNRELEASED; urgency=low
+grub2 (1.99~rc1-5) unstable; urgency=low
 
   * Update debian/legacy/update-grub to the version from grub 0.97-65.
   * Mark binary packages as Multi-Arch: foreign (for example, an amd64
@@ -11,7 +11,7 @@ grub2 (1.99~rc1-5) UNRELEASED; urgency=low
   * Esperanto (Felipe Castro).  Closes: #606524
   * Thai (Theppitak Karoonboonyanan).  Closes: #607706
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 16 Mar 2011 16:39:06 +0000
+ -- Colin Watson <cjwatson@debian.org>  Wed, 23 Mar 2011 15:51:47 +0000
 
 grub2 (1.99~rc1-4) unstable; urgency=low
 
