@@ -20,3 +20,4 @@ branch_embed-sectors.patch
 btrfs_rootflags.patch
 lnxboot_grub.patch
 normal_menu_line_alloc.patch
+freebsd_module_header_alloc.patch

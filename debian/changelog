@@ -3,6 +3,7 @@ grub2 (1.99~rc1-6) UNRELEASED; urgency=low
   * Cherry-pick from upstream:
     - Fix crash when extending menu entry line beyond 79 characters (closes:
       #615893).
+    - Account for FreeBSD module headers when calculating allocation size.
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 24 Mar 2011 11:37:26 +0000
 
