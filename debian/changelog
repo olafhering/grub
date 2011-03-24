@@ -1,3 +1,11 @@
+grub2 (1.99~rc1-6) UNRELEASED; urgency=low
+
+  * Cherry-pick from upstream:
+    - Fix crash when extending menu entry line beyond 79 characters (closes:
+      #615893).
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 24 Mar 2011 11:37:26 +0000
+
 grub2 (1.99~rc1-5) unstable; urgency=low
 
   * Update debian/legacy/update-grub to the version from grub 0.97-65.
