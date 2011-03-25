@@ -21,3 +21,4 @@ btrfs_rootflags.patch
 lnxboot_grub.patch
 normal_menu_line_alloc.patch
 freebsd_module_header_alloc.patch
+video_fb_pageflip.patch

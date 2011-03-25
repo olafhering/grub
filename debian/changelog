@@ -4,6 +4,8 @@ grub2 (1.99~rc1-6) UNRELEASED; urgency=low
     - Fix crash when extending menu entry line beyond 79 characters (closes:
       #615893).
     - Account for FreeBSD module headers when calculating allocation size.
+    - Switch back to framebuffer page zero before loading the kernel
+      (thanks, Felix Kuehling).
   * Merge from Ubuntu:
     - If we're upgrading and /boot/grub/core.img doesn't exist, then don't
       ask where to install GRUB, since it probably means we're in some kind
