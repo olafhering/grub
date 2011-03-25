@@ -10,6 +10,9 @@ grub2 (1.99~rc1-6) UNRELEASED; urgency=low
     - If we're upgrading and /boot/grub/core.img doesn't exist, then don't
       ask where to install GRUB, since it probably means we're in some kind
       of specialised environment such as a live USB stick (LP: #591202).
+    - Drop the default priority of grub2/linux_cmdline to medium.  We only
+      need to ask it if we're upgrading from GRUB Legacy and found an empty
+      kopt in menu.lst (LP: #591202).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 24 Mar 2011 11:37:26 +0000
 

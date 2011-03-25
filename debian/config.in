@@ -10,7 +10,7 @@ esac
 
 . /usr/share/debconf/confmodule
 
-priority=high
+priority=medium
 
 case @PACKAGE@ in
   grub-pc)
