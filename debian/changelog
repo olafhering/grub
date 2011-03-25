@@ -13,6 +13,9 @@ grub2 (1.99~rc1-6) UNRELEASED; urgency=low
     - Drop the default priority of grub2/linux_cmdline to medium.  We only
       need to ask it if we're upgrading from GRUB Legacy and found an empty
       kopt in menu.lst (LP: #591202).
+  * Update branch_embed-sectors.patch, avoiding consuming lots of space and
+    time if the first partition is not near the start of the disk (closes:
+    #619458, LP: #691569).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 24 Mar 2011 11:37:26 +0000
 

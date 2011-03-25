@@ -10,14 +10,40 @@ Index: b/ChangeLog.embed-sectors
 ===================================================================
 --- /dev/null
 +++ b/ChangeLog.embed-sectors
-@@ -0,0 +1,7 @@
+@@ -0,0 +1,12 @@
 +2011-03-14  Colin Watson  <cjwatson@ubuntu.com>
 +
++	* include/grub/partition.h (grub_partition_map): Change prototype of
++	embed to take a maximum value for nsectors.
 +	* grub-core/partmap/msdos.c (embed_signatures): New array.
 +	(pc_partition_map_embed): Check for and avoid sectors matching any
-+	of the signatures in embed_signatures.
++	of the signatures in embed_signatures, up to max_nsectors.
++	* grub-core/partmap/gpt.c (gpt_partition_map_embed): Restrict
++	returned sector map to max_nsectors.
 +	* util/grub-setup.c (setup): Allow for the embedding area being
-+	split into multiple blocklists.
++	split into multiple blocklists.  Tell dest_partmap->embed the
++	maximum number of sectors we care about.
+Index: b/grub-core/partmap/gpt.c
+===================================================================
+--- a/grub-core/partmap/gpt.c
++++ b/grub-core/partmap/gpt.c
+@@ -125,6 +125,7 @@
+ #ifdef GRUB_UTIL
+ static grub_err_t
+ gpt_partition_map_embed (struct grub_disk *disk, unsigned int *nsectors,
++			 unsigned int max_nsectors,
+ 			 grub_embed_type_t embed_type,
+ 			 grub_disk_addr_t **sectors)
+ {
+@@ -174,6 +175,8 @@
+ 		       " embedding won't be possible!");
+ 
+   *nsectors = len;
++  if (*nsectors > max_nsectors)
++    *nsectors = max_nsectors;
+   *sectors = grub_malloc (*nsectors * sizeof (**sectors));
+   if (!*sectors)
+     return grub_errno;
 Index: b/grub-core/partmap/msdos.c
 ===================================================================
 --- a/grub-core/partmap/msdos.c
@@ -68,17 +94,28 @@ Index: b/grub-core/partmap/msdos.c
  grub_err_t
  grub_partition_msdos_iterate (grub_disk_t disk,
  			      int (*hook) (grub_disk_t disk,
-@@ -234,13 +273,56 @@
+@@ -146,6 +185,7 @@
+ #ifdef GRUB_UTIL
+ static grub_err_t
+ pc_partition_map_embed (struct grub_disk *disk, unsigned int *nsectors,
++			unsigned int max_nsectors,
+ 			grub_embed_type_t embed_type,
+ 			grub_disk_addr_t **sectors)
+ {
+@@ -234,13 +274,68 @@
  
    if (end >= *nsectors + 1)
      {
 -      unsigned i;
 +      unsigned i, j;
 +      char *embed_signature_check;
-+      unsigned int orig_nsectors;
++      unsigned int orig_nsectors, avail_nsectors;
 +
 +      orig_nsectors = *nsectors;
        *nsectors = end - 1;
++      avail_nsectors = *nsectors;
++      if (*nsectors > max_nsectors)
++	*nsectors = max_nsectors;
        *sectors = grub_malloc (*nsectors * sizeof (**sectors));
        if (!*sectors)
  	return grub_errno;
@@ -107,11 +144,20 @@ Index: b/grub-core/partmap/msdos.c
 +			  "future.  Please ask its authors not to store data "
 +			  "in the boot track",
 +			  (*sectors)[i], embed_signatures[j].name);
-+	  (*nsectors)--;
++	  avail_nsectors--;
++	  if (avail_nsectors < *nsectors)
++	    *nsectors = avail_nsectors;
 +
 +	  /* Avoid this sector.  */
 +	  for (j = i; j < *nsectors; j++)
 +	    (*sectors)[j]++;
++
++	  /* Have we run out of space?  */
++	  if (avail_nsectors < orig_nsectors)
++	    break;
++
++	  /* Make sure to check the next sector.  */
++	  i--;
 +	}
 +      grub_free (embed_signature_check);
 +
@@ -126,11 +172,35 @@ Index: b/grub-core/partmap/msdos.c
        return GRUB_ERR_NONE;
      }
  
+Index: b/include/grub/partition.h
+===================================================================
+--- a/include/grub/partition.h
++++ b/include/grub/partition.h
+@@ -49,6 +49,7 @@
+ #ifdef GRUB_UTIL
+   /* Determine sectors available for embedding.  */
+   grub_err_t (*embed) (struct grub_disk *disk, unsigned int *nsectors,
++		       unsigned int max_nsectors,
+ 		       grub_embed_type_t embed_type,
+ 		       grub_disk_addr_t **sectors);
+ #endif
 Index: b/util/grub-setup.c
 ===================================================================
 --- a/util/grub-setup.c
 +++ b/util/grub-setup.c
-@@ -459,6 +459,13 @@
+@@ -427,10 +427,8 @@
+       }
+ 
+     nsec = core_sectors;
+-    err = dest_partmap->embed (dest_dev->disk, &nsec,
++    err = dest_partmap->embed (dest_dev->disk, &nsec, 2 * core_sectors,
+ 			       GRUB_EMBED_PCBIOS, &sectors);
+-    if (nsec > 2 * core_sectors)
+-      nsec = 2 * core_sectors;
+     
+     if (err)
+       {
+@@ -459,6 +457,13 @@
        save_blocklists (sectors[i] + grub_partition_get_start (container),
  		       0, GRUB_DISK_SECTOR_SIZE);
  
@@ -144,7 +214,7 @@ Index: b/util/grub-setup.c
      write_rootdev (core_img, root_dev, boot_img, first_sector);
  
      core_img = realloc (core_img, nsec * GRUB_DISK_SECTOR_SIZE);
-@@ -475,12 +482,6 @@
+@@ -475,12 +480,6 @@
  				      nsec * GRUB_DISK_SECTOR_SIZE
  				      - core_size);
  
