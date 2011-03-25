@@ -4,6 +4,10 @@ grub2 (1.99~rc1-6) UNRELEASED; urgency=low
     - Fix crash when extending menu entry line beyond 79 characters (closes:
       #615893).
     - Account for FreeBSD module headers when calculating allocation size.
+  * Merge from Ubuntu:
+    - If we're upgrading and /boot/grub/core.img doesn't exist, then don't
+      ask where to install GRUB, since it probably means we're in some kind
+      of specialised environment such as a live USB stick (LP: #591202).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 24 Mar 2011 11:37:26 +0000
 

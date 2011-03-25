@@ -388,7 +388,8 @@ case "$1" in
             # We just hooked GRUB 2 in menu.lst; then also generate grub.cfg.
             touch /boot/grub/grub.cfg
           fi
-        else
+        elif test -z "$2" || test -e /boot/grub/core.img || \
+             test "$UPGRADE_FROM_GRUB_LEGACY"; then
           question=grub-pc/install_devices
           device_map="$(grub-mkdevicemap -m - | grep -v '^(fd[0-9]\+)' || true)"
           devices="$(echo "$device_map" | cut -f2)"
