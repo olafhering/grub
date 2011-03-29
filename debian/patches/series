@@ -22,6 +22,7 @@ lnxboot_grub.patch
 normal_menu_line_alloc.patch
 freebsd_module_header_alloc.patch
 video_fb_pageflip.patch
+freebsd_definitions.patch
 kfreebsd_libgeom.patch
 copy_partition_table.patch
 ext2_overflow.patch

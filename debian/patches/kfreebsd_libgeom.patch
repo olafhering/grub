@@ -179,7 +179,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
 ===================================================================
 --- a/grub-core/kern/emu/hostdisk.c
 +++ b/grub-core/kern/emu/hostdisk.c
-@@ -103,7 +103,9 @@
+@@ -105,7 +105,9 @@
  # include <libdevmapper.h>
  #endif
  
@@ -190,7 +190,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
  # define HAVE_DIOCGDINFO
  # include <sys/ioctl.h>
  # include <sys/disklabel.h>    /* struct disklabel */
-@@ -343,7 +345,68 @@
+@@ -345,7 +347,68 @@
  #endif /* HAVE_DEVICE_MAPPER */
  }
  
@@ -260,7 +260,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
  static grub_disk_addr_t
  find_partition_start (const char *dev)
  {
-@@ -1380,7 +1443,17 @@
+@@ -1382,7 +1445,17 @@
      path[8] = 0;
    return path;
  
@@ -279,7 +279,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
    char *path = xstrdup (os_dev);
    if (strncmp ("/dev/", path, 5) == 0)
      {
-@@ -1558,7 +1631,8 @@
+@@ -1560,7 +1633,8 @@
  #endif
      return make_device_name (drive, -1, -1);
  

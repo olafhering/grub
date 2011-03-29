@@ -1,3 +1,10 @@
+grub2 (1.99~rc1-8) UNRELEASED; urgency=low
+
+  * Cherry-pick from upstream:
+    - Fix FreeBSD compilation problem.
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 29 Mar 2011 15:12:40 +0100
+
 grub2 (1.99~rc1-7) unstable; urgency=low
 
   * Add /proc/mdstat, LVM information, and listings of /dev/disk/by-id/ and
