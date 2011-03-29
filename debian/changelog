@@ -6,6 +6,7 @@ grub2 (1.99~rc1-7) UNRELEASED; urgency=low
     - Use libgeom on FreeBSD to detect partitions (closes: #612128).
     - Copy the partition table zone if floppy support is disabled, even if
       no partition table is found (LP: #741867).
+    - Fix an ext2 overflow affecting inodes past 2TiB.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Mar 2011 23:47:28 +0100
 
