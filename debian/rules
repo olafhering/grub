@@ -25,7 +25,11 @@ else
 with_check := yes
 endif
 
+ifeq ($(DEB_HOST_ARCH_CPU),ppc64)
+CC := gcc-4.5
+else
 CC := gcc-4.4
+endif
 
 # Enable external modules from grub-extras.
 export GRUB_CONTRIB := $(CURDIR)/debian/grub-extras
