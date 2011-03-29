@@ -2,6 +2,8 @@ grub2 (1.99~rc1-7) UNRELEASED; urgency=low
 
   * Add /proc/mdstat, LVM information, and listings of /dev/disk/by-id/ and
     /dev/disk/by-uuid/ to bug reports, by request of upstream.
+  * Cherry-pick from upstream:
+    - Use libgeom on FreeBSD to detect partitions (closes: #612128).
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Mar 2011 23:47:28 +0100
 
