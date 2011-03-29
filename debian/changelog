@@ -1,9 +1,9 @@
-grub2 (1.99~rc1-8) UNRELEASED; urgency=low
+grub2 (1.99~rc1-8) unstable; urgency=low
 
   * Cherry-pick from upstream:
     - Fix FreeBSD compilation problem.
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 29 Mar 2011 15:12:40 +0100
+ -- Colin Watson <cjwatson@debian.org>  Tue, 29 Mar 2011 15:13:51 +0100
 
 grub2 (1.99~rc1-7) unstable; urgency=low
 
