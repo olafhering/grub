@@ -7,6 +7,7 @@ grub2 (1.99~rc1-7) UNRELEASED; urgency=low
     - Copy the partition table zone if floppy support is disabled, even if
       no partition table is found (LP: #741867).
     - Fix an ext2 overflow affecting inodes past 2TiB.
+    - Fix RAID-0 disk size calculation for metadata 1.x (LP: #743136).
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Mar 2011 23:47:28 +0100
 
