@@ -23,3 +23,4 @@ normal_menu_line_alloc.patch
 freebsd_module_header_alloc.patch
 video_fb_pageflip.patch
 kfreebsd_libgeom.patch
+copy_partition_table.patch
