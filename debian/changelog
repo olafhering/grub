@@ -1,4 +1,4 @@
-grub2 (1.99~rc1-7) UNRELEASED; urgency=low
+grub2 (1.99~rc1-7) unstable; urgency=low
 
   * Add /proc/mdstat, LVM information, and listings of /dev/disk/by-id/ and
     /dev/disk/by-uuid/ to bug reports, by request of upstream.
@@ -13,7 +13,7 @@ grub2 (1.99~rc1-7) UNRELEASED; urgency=low
     - Add apport hook for ProblemType = 'Package', thanks to Jean-Baptiste
       Lallement (LP: #591753).
 
- -- Colin Watson <cjwatson@debian.org>  Mon, 28 Mar 2011 23:47:28 +0100
+ -- Colin Watson <cjwatson@debian.org>  Tue, 29 Mar 2011 12:30:36 +0100
 
 grub2 (1.99~rc1-6) unstable; urgency=low
 
