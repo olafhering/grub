@@ -812,15 +812,16 @@ Index: b/grub-core/term/gfxterm.c
  
        /* Mark whole screen as dirty.  */
        dirty_region_add (0, 0, window.width, window.height);
-@@ -1159,6 +1174,7 @@
-                     /* Replace the original bitmap with the scaled one.  */
-                     grub_video_bitmap_destroy (bitmap);
-                     bitmap = scaled_bitmap;
-+                    blend_text_bg = 1;
-                   }
-               }
-           }
-@@ -1180,6 +1196,48 @@
+@@ -1166,6 +1181,8 @@
+       /* If bitmap was loaded correctly, display it.  */
+       if (bitmap)
+         {
++	  blend_text_bg = 1;
++
+           /* Determine bitmap dimensions.  */
+           bitmap_width = grub_video_bitmap_get_width (bitmap);
+           bitmap_height = grub_video_bitmap_get_height (bitmap);
+@@ -1180,6 +1197,48 @@
    return grub_errno;
  }
  
@@ -869,7 +870,7 @@ Index: b/grub-core/term/gfxterm.c
  static struct grub_term_output grub_video_term =
    {
      .name = "gfxterm",
-@@ -1201,6 +1259,7 @@
+@@ -1201,6 +1260,7 @@
    };
  
  static grub_extcmd_t background_image_cmd_handle;
@@ -877,7 +878,7 @@ Index: b/grub-core/term/gfxterm.c
  
  GRUB_MOD_INIT(gfxterm)
  {
-@@ -1211,10 +1270,16 @@
+@@ -1211,10 +1271,16 @@
                            N_("[-m (stretch|normal)] FILE"),
                            N_("Load background image for active terminal."),
                            background_image_cmd_options);

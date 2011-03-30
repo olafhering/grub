@@ -1,3 +1,11 @@
+grub2 (1.99~rc1-9) UNRELEASED; urgency=low
+
+  * Update branch_parse-color.patch, to blend text when any background is
+    set as opposed to only when a stretched background is set (closes:
+    #613120).
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 30 Mar 2011 02:56:57 +0100
+
 grub2 (1.99~rc1-8) unstable; urgency=low
 
   * Cherry-pick from upstream:
