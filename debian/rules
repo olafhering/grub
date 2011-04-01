@@ -37,7 +37,7 @@ export GRUB_CONTRIB := $(CURDIR)/debian/grub-extras
 confflags = CC=$(CC) TARGET_CC=$(CC) --enable-grub-mkfont
 
 AUTOGEN_FILES = configure Makefile.tpl Makefile.util.am grub-core/Makefile.core.am
-AUTOGEN_DEB_FILES = examples manpages config templates preinst postinst postrm dirs install
+AUTOGEN_DEB_FILES = examples manpages config templates preinst postinst postrm dirs install links
 
 $(AUTOGEN_FILES): autogen.sh configure.ac Makefile.util.def grub-core/Makefile.core.def
 	sed -i configure.ac -e "s/^AC_INIT.*/AC_INIT(\[GRUB\],\[$(deb_version)\],\[bug-grub@gnu.org\])/"
