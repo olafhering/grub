@@ -27,3 +27,4 @@ kfreebsd_libgeom.patch
 copy_partition_table.patch
 ext2_overflow.patch
 mdraid1x_raid0_size.patch
+mdraid1x_super_offset.patch

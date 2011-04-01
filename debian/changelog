@@ -5,6 +5,8 @@ grub2 (1.99~rc1-9) UNRELEASED; urgency=low
     #613120).
   * Make update-grub2 a symlink to update-grub, rather than bothering with a
     wrapper script.
+  * Cherry-pick from upstream:
+    - Check RAID superblock offset (closes: #610184).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 30 Mar 2011 02:56:57 +0100
 
