@@ -34,6 +34,7 @@ Build-Depends: debhelper (>= 7.0.50~),
  qemu-system [i386 kfreebsd-i386 kopensolaris-i386 any-amd64],
  qemu-utils [!hurd-any],
  parted [!hurd-any],
+ libfuse-dev [linux-any],
 Build-Conflicts: autoconf2.13 
 Standards-Version: 3.8.4
 Homepage: http://www.gnu.org/software/grub/
