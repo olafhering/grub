@@ -149,7 +149,7 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 	rm -rf $(CURDIR)/debian/$(package)/etc/grub.d
 	rm -rf $(CURDIR)/debian/$(package)/etc/bash_completion.d
 	rm -f $(CURDIR)/debian/$(package)/usr/{sbin,share/man/man8}/{grub-dumpbios,grub-probe,grub-mkconfig,grub-mkdevicemap,grub-ofpathname}{,.8}
-	rm -f $(CURDIR)/debian/$(package)/usr/{bin,share/man/man1}/{grub-bin2h,grub-mkelfimage,grub-mkfont,grub-mkimage,grub-editenv,grub-mkrescue,grub-mkrelpath,grub-script-check,grub-mkpasswd-pbkdf2,grub-menulst2cfg,grub-mklayout,grub-kbdcomp,grub-fstest}{,.1}
+	rm -f $(CURDIR)/debian/$(package)/usr/{bin,share/man/man1}/{grub-bin2h,grub-mkelfimage,grub-mkfont,grub-mkimage,grub-editenv,grub-mkrescue,grub-mkrelpath,grub-script-check,grub-mkpasswd-pbkdf2,grub-menulst2cfg,grub-mklayout,grub-kbdcomp,grub-fstest,grub-mount}{,.1}
 	rm -f $(CURDIR)/debian/$(package)/usr/lib/grub/{grub-mkconfig_lib,update-grub_lib}
 	rm -rf $(CURDIR)/debian/$(package)/usr/share/{grub,info,locale}/
 	rm -rf $(CURDIR)/debian/$(package)/usr/include

@@ -17,6 +17,7 @@ branch_squash.patch
 branch_longlinuxcmd.patch
 branch_parse-color.patch
 branch_embed-sectors.patch
+branch_fuse.patch
 btrfs_rootflags.patch
 lnxboot_grub.patch
 normal_menu_line_alloc.patch
