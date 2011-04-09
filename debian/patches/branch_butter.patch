@@ -40,7 +40,7 @@ Index: b/grub-core/fs/btrfs.c
 ===================================================================
 --- a/grub-core/fs/btrfs.c
 +++ b/grub-core/fs/btrfs.c
-@@ -24,72 +24,1371 @@
+@@ -24,72 +24,1367 @@
  #include <grub/disk.h>
  #include <grub/dl.h>
  #include <grub/types.h>
@@ -691,13 +691,9 @@ Index: b/grub-core/fs/btrfs.c
 +	  case GRUB_BTRFS_CHUNK_TYPE_RAID1:
 +	    /* FIXME: Use redundancy.  */
 +	    {
-+	      grub_uint32_t stripe_length;
-+	      stripe_length = grub_divmod64 (grub_le_to_cpu64 (chunk->size),
-+					     grub_le_to_cpu16 (chunk->nstripes),
-+					     NULL);
 +	      stripen = 0;
 +	      stripe_offset = off;
-+	      csize = stripe_length - off;
++	      csize = grub_le_to_cpu64 (chunk->size) - off;
 +	      redundancy = 2;
 +	      break;
 +	    }
@@ -756,7 +752,7 @@ Index: b/grub-core/fs/btrfs.c
 +		grub_disk_addr_t paddr;
 +
 +		stripe = (struct grub_btrfs_chunk_stripe *) (chunk + 1);
-+		/* Right now the redundancy handlind is easy.
++		/* Right now the redundancy handling is easy.
 +		   With RAID5-like it will be more difficult.  */
 +		stripe += stripen + i;
 +
@@ -1442,7 +1438,7 @@ Index: b/grub-core/fs/btrfs.c
  static grub_err_t
  grub_btrfs_uuid (grub_device_t device, char **uuid)
  {
-@@ -97,7 +1396,7 @@
+@@ -97,7 +1392,7 @@
  
    *uuid = NULL;
  
@@ -1451,7 +1447,7 @@ Index: b/grub-core/fs/btrfs.c
    if (! data)
      return grub_errno;
  
-@@ -111,7 +1410,25 @@
+@@ -111,7 +1406,25 @@
  			  grub_be_to_cpu16 (data->sblock.uuid[6]),
  			  grub_be_to_cpu16 (data->sblock.uuid[7]));
  
@@ -1478,7 +1474,7 @@ Index: b/grub-core/fs/btrfs.c
  
    return grub_errno;
  }
-@@ -121,7 +1438,10 @@
+@@ -121,7 +1434,10 @@
      .name = "btrfs",
      .dir = grub_btrfs_dir,
      .open = grub_btrfs_open,
