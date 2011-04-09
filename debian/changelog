@@ -8,6 +8,7 @@ grub2 (1.99~rc1-9) UNRELEASED; urgency=low
   * Cherry-pick from upstream:
     - Check RAID superblock offset (closes: #610184).
     - Flush buffer cache on close and not on open (closes: #620663).
+    - Handle special naming of yeeloong directory (closes: #620420).
   * Add grub-mount utility, from the upstream 'fuse' branch.
   * efibootmgr is only available on Linux architectures, so only make
     grub-efi-ia32 and grub-efi-amd64 depend on it on Linux.
