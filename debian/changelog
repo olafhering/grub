@@ -1,4 +1,4 @@
-grub2 (1.99~rc1-11) UNRELEASED; urgency=low
+grub2 (1.99~rc1-11) unstable; urgency=low
 
   * Update branch_fuse.patch:
     - Make grub-mount exit non-zero if opening the device or filesystem
@@ -8,7 +8,7 @@ grub2 (1.99~rc1-11) UNRELEASED; urgency=low
     - Fix use of freed memory when replacing existing loopback device
       (LP: #742967).
 
- -- Colin Watson <cjwatson@debian.org>  Sun, 10 Apr 2011 21:45:43 +0100
+ -- Colin Watson <cjwatson@debian.org>  Sun, 10 Apr 2011 21:52:26 +0100
 
 grub2 (1.99~rc1-10) unstable; urgency=low
 
