@@ -4,6 +4,9 @@ grub2 (1.99~rc1-11) UNRELEASED; urgency=low
     - Make grub-mount exit non-zero if opening the device or filesystem
       fails.
     - Translate GRUB error codes into OS error codes for FUSE (LP: #756456).
+  * Merge from Ubuntu:
+    - Fix use of freed memory when replacing existing loopback device
+      (LP: #742967).
 
  -- Colin Watson <cjwatson@debian.org>  Sun, 10 Apr 2011 21:45:43 +0100
 

@@ -31,3 +31,4 @@ mdraid1x_raid0_size.patch
 mdraid1x_super_offset.patch
 host_optimise_flush.patch
 mkimage_yeeloong.patch
+loopback_replace.patch
