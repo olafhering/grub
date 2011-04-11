@@ -1,3 +1,12 @@
+grub2 (1.99~rc1-12) UNRELEASED; urgency=low
+
+  * Update branch_butter.patch:
+    - Fix filename comparison.
+    - Take extent offset in account on uncompressed extents.
+    - Use filled extent size if available.
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 11 Apr 2011 14:46:05 +0100
+
 grub2 (1.99~rc1-11) unstable; urgency=low
 
   * Update branch_fuse.patch:

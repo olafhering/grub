@@ -40,7 +40,7 @@ Index: b/grub-core/fs/btrfs.c
 ===================================================================
 --- a/grub-core/fs/btrfs.c
 +++ b/grub-core/fs/btrfs.c
-@@ -24,72 +24,1367 @@
+@@ -24,72 +24,1391 @@
  #include <grub/disk.h>
  #include <grub/dl.h>
  #include <grub/types.h>
@@ -110,6 +110,7 @@ Index: b/grub-core/fs/btrfs.c
 +
 +  /* Cached extent data.  */
 +  grub_uint64_t extstart;
++  grub_uint64_t extend;
 +  grub_uint64_t extino;
 +  grub_uint64_t exttree;
 +  grub_size_t extsize;
@@ -229,6 +230,7 @@ Index: b/grub-core/fs/btrfs.c
 +      grub_uint64_t laddr;
 +      grub_uint64_t compressed_size;
 +      grub_uint64_t offset;
++      grub_uint64_t filled;
 +    };
 +  };
 +} __attribute__ ((packed));
@@ -616,6 +618,8 @@ Index: b/grub-core/fs/btrfs.c
 +      struct grub_btrfs_key key_out;
 +      int challoc = 0;
 +      grub_device_t dev;
++      grub_dprintf ("btrfs", "searching for laddr %" PRIxGRUB_UINT64_T "\n",
++		    addr);
 +      for (ptr = data->sblock.bootstrap_mapping;
 +	   ptr < data->sblock.bootstrap_mapping
 +	     + sizeof (data->sblock.bootstrap_mapping)
@@ -674,6 +678,16 @@ Index: b/grub-core/fs/btrfs.c
 +	unsigned redundancy = 1;
 +	unsigned i, j;
 +
++	grub_dprintf ("btrfs", "chunk 0x%" PRIxGRUB_UINT64_T
++		      "+0x%" PRIxGRUB_UINT64_T
++		      " (%d stripes (%d substripes) of %"
++		      PRIxGRUB_UINT64_T ")\n",
++		      grub_le_to_cpu64 (key->offset),
++		      grub_le_to_cpu64 (chunk->size),
++		      grub_le_to_cpu16 (chunk->nstripes),
++		      grub_le_to_cpu16 (chunk->nsubstripes),
++		      grub_le_to_cpu64 (chunk->stripe_length));
++
 +	switch (grub_le_to_cpu64 (chunk->type)
 +		& ~GRUB_BTRFS_CHUNK_TYPE_BITS_DONTCARE)
 +	  {
@@ -689,7 +703,6 @@ Index: b/grub-core/fs/btrfs.c
 +	    }
 +	  case GRUB_BTRFS_CHUNK_TYPE_DUPLICATED:
 +	  case GRUB_BTRFS_CHUNK_TYPE_RAID1:
-+	    /* FIXME: Use redundancy.  */
 +	    {
 +	      stripen = 0;
 +	      stripe_offset = off;
@@ -713,7 +726,6 @@ Index: b/grub-core/fs/btrfs.c
 +	      break;
 +	    }
 +	  case GRUB_BTRFS_CHUNK_TYPE_RAID10:
-+	    /* FIXME: Use redundancy.  */
 +	    {
 +	      grub_uint64_t middle, high;
 +	      grub_uint32_t low;
@@ -905,12 +917,12 @@ Index: b/grub-core/fs/btrfs.c
 +      grub_err_t err;
 +      grub_off_t extoff;
 +      if (!data->extent || data->extstart > pos || data->extino != ino
-+	  || data->exttree != tree
-+	  || grub_le_to_cpu64 (data->extent->size) + data->extstart <= pos)
++	  || data->exttree != tree || data->extend <= pos)
 +	{
 +	  struct grub_btrfs_key key_in, key_out;
 +	  grub_disk_addr_t elemaddr;
 +	  grub_size_t elemsize;
++
 +	  grub_free (data->extent);
 +	  key_in.object_id = ino;
 +	  key_in.type = GRUB_BTRFS_ITEM_TYPE_EXTENT_ITEM;
@@ -937,15 +949,29 @@ Index: b/grub-core/fs/btrfs.c
 +					 data->extent, elemsize);
 +	  if (err)
 +	    return err;
-+	  if (grub_le_to_cpu64 (data->extent->size) + data->extstart <= pos)
-+	    return grub_error (GRUB_ERR_BAD_FS, "extent not found");
++
++	  data->extend = data->extstart
++	    + grub_le_to_cpu64 (data->extent->size);
++	  if (data->extent->type == GRUB_BTRFS_EXTENT_REGULAR
++	      && (char *) &data->extent + elemsize
++	      >= (char *) &data->extent->filled
++	      + sizeof (data->extent->filled))
++	    data->extend = data->extstart
++	      + grub_le_to_cpu64 (data->extent->filled);
++
 +	  grub_dprintf ("btrfs", "extent 0x%" PRIxGRUB_UINT64_T "+0x%"
-+			PRIxGRUB_UINT64_T "\n",
++			PRIxGRUB_UINT64_T " (0x%"
++			PRIxGRUB_UINT64_T ")\n",
 +			grub_le_to_cpu64 (key_out.offset),
-+			grub_le_to_cpu64 (data->extent->size));
++			grub_le_to_cpu64 (data->extent->size),
++			grub_le_to_cpu64 (data->extent->filled));
++	  if (data->extend <= pos)
++	    {
++	      grub_error (GRUB_ERR_BAD_FS, "extent not found");
++	      return -1;
++	    }
 +	}
-+      csize = grub_le_to_cpu64 (data->extent->size)
-+	+ grub_le_to_cpu64 (data->extstart) - pos;
++      csize = data->extend - pos;
 +      extoff = pos - data->extstart;
 +      if (csize > len)
 +	csize = len;
@@ -1022,6 +1048,7 @@ Index: b/grub-core/fs/btrfs.c
 +	    }
 +	  err = grub_btrfs_read_logical (data,
 +					 grub_le_to_cpu64 (data->extent->laddr)
++					 + grub_le_to_cpu64 (data->extent->offset)
 +					 + extoff,
 +					 buf, csize);
 +	  if (err)
@@ -1138,12 +1165,9 @@ Index: b/grub-core/fs/btrfs.c
 +			      + grub_le_to_cpu16 (cdirel->n)
 +			      + grub_le_to_cpu16 (cdirel->m)))
 +	{
-+	  char c;
-+	  c = cdirel->name[grub_le_to_cpu16 (cdirel->n)];
-+	  cdirel->name[grub_le_to_cpu16 (cdirel->n)] = 0;
-+	  if (grub_strncmp (cdirel->name, ctoken, ctokenlen) == 0)
++	  if (ctokenlen == grub_le_to_cpu16 (cdirel->n)
++	      && grub_memcmp (cdirel->name, ctoken, ctokenlen) == 0)
 +	    break;
-+	  cdirel->name[grub_le_to_cpu16 (cdirel->n)] = c;
 +	}
 +      if ((grub_uint8_t *) cdirel - (grub_uint8_t *) direl
 +	  >= (grub_ssize_t) elemsize)
@@ -1438,7 +1462,7 @@ Index: b/grub-core/fs/btrfs.c
  static grub_err_t
  grub_btrfs_uuid (grub_device_t device, char **uuid)
  {
-@@ -97,7 +1392,7 @@
+@@ -97,7 +1416,7 @@
  
    *uuid = NULL;
  
@@ -1447,7 +1471,7 @@ Index: b/grub-core/fs/btrfs.c
    if (! data)
      return grub_errno;
  
-@@ -111,7 +1406,25 @@
+@@ -111,7 +1430,25 @@
  			  grub_be_to_cpu16 (data->sblock.uuid[6]),
  			  grub_be_to_cpu16 (data->sblock.uuid[7]));
  
@@ -1474,7 +1498,7 @@ Index: b/grub-core/fs/btrfs.c
  
    return grub_errno;
  }
-@@ -121,7 +1434,10 @@
+@@ -121,7 +1458,10 @@
      .name = "btrfs",
      .dir = grub_btrfs_dir,
      .open = grub_btrfs_open,
