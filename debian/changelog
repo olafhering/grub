@@ -1,4 +1,4 @@
-grub2 (1.99~rc1-12) UNRELEASED; urgency=low
+grub2 (1.99~rc1-12) unstable; urgency=low
 
   * Update branch_butter.patch:
     - Fix filename comparison.
@@ -8,7 +8,7 @@ grub2 (1.99~rc1-12) UNRELEASED; urgency=low
   * Merge from Ubuntu:
     - Build part_msdos and vfat into EFI boot images (LP: #677758).
 
- -- Colin Watson <cjwatson@debian.org>  Mon, 11 Apr 2011 14:46:05 +0100
+ -- Colin Watson <cjwatson@debian.org>  Mon, 11 Apr 2011 16:22:08 +0100
 
 grub2 (1.99~rc1-11) unstable; urgency=low
 
