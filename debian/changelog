@@ -5,6 +5,8 @@ grub2 (1.99~rc1-12) UNRELEASED; urgency=low
     - Take extent offset in account on uncompressed extents.
     - Use filled extent size if available.
   * Allow use of first sector on btrfs (LP: #757446).
+  * Merge from Ubuntu:
+    - Build part_msdos and vfat into EFI boot images (LP: #677758).
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 11 Apr 2011 14:46:05 +0100
 
