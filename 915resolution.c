@@ -64,6 +64,8 @@
 #include <grub/normal.h>
 #include <grub/i386/io.h>
 
+GRUB_MOD_LICENSE ("GPLv3+");
+
 #define printf					grub_printf
 #define malloc					grub_malloc
 #define free					grub_free
