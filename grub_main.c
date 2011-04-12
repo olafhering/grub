@@ -27,6 +27,8 @@
 #include <grub/misc.h>
 #include <grub/normal.h>
 
+GRUB_MOD_LICENSE("GPLv3+");
+
 static const char *
 scan_str (const char *s1, const char *s2)
 {
