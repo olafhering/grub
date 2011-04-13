@@ -1,8 +1,9 @@
 Description: Rewrite find_root_device_from_mountinfo to cope with move-mounts
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/738345
-Forwarded: yes
-Last-Update: 2011-03-23
+Forwarded: http://www.mail-archive.com/grub-devel@gnu.org/msg17105.html
+Applied-Upstream: http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3214
+Last-Update: 2011-04-13
 
 Index: b/grub-core/kern/emu/getroot.c
 ===================================================================
