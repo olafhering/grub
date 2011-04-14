@@ -1,3 +1,10 @@
+grub2 (1.99~rc1-13) UNRELEASED; urgency=low
+
+  * Cherry-pick from upstream:
+    - Use correct limits for mips initrd.
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 14 Apr 2011 02:09:21 +0100
+
 grub2 (1.99~rc1-12) unstable; urgency=low
 
   * Update branch_butter.patch:

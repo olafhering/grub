@@ -34,3 +34,4 @@ mkimage_yeeloong.patch
 loopback_replace.patch
 btrfs_reserved_sector.patch
 mkrescue_efi_modules.patch
+mips_initrd_limits.patch
