@@ -102,7 +102,7 @@ Index: b/util/grub-mount.c
 ===================================================================
 --- /dev/null
 +++ b/util/grub-mount.c
-@@ -0,0 +1,505 @@
+@@ -0,0 +1,508 @@
 +/* grub-mount.c - FUSE driver for filesystems that GRUB understands */
 +/*
 + *  GRUB  --  GRand Unified Bootloader
@@ -555,8 +555,11 @@ Index: b/util/grub-mount.c
 +
 +  grub_util_init_nls ();
 +
-+  fuse_args = xrealloc (fuse_args, (fuse_argc + 1) * sizeof (fuse_args[0]));
++  fuse_args = xrealloc (fuse_args, (fuse_argc + 2) * sizeof (fuse_args[0]));
 +  fuse_args[fuse_argc] = xstrdup (argv[0]);
++  fuse_argc++;
++  /* Run single-threaded.  */
++  fuse_args[fuse_argc] = xstrdup ("-s");
 +  fuse_argc++;
 +
 +  argp_parse (&argp, argc, argv, 0, 0, 0);
