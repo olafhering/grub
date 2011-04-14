@@ -614,6 +614,10 @@ case "$1" in
           grub-install
         fi
       ;;
+
+      grub-yeeloong)
+        grub-install
+      ;;
     esac
 
     # If grub.cfg has been generated, update it.
