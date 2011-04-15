@@ -1,4 +1,4 @@
-grub2 (1.99~rc1-13) UNRELEASED; urgency=low
+grub2 (1.99~rc1-13) unstable; urgency=low
 
   * Cherry-pick from upstream:
     - Use correct limits for mips initrd.
@@ -7,7 +7,7 @@ grub2 (1.99~rc1-13) UNRELEASED; urgency=low
     - Tell FUSE to run single-threaded, since GRUB code is not thread-safe
       (LP: #756297).
 
- -- Colin Watson <cjwatson@debian.org>  Thu, 14 Apr 2011 02:09:21 +0100
+ -- Colin Watson <cjwatson@debian.org>  Fri, 15 Apr 2011 12:11:21 +0100
 
 grub2 (1.99~rc1-12) unstable; urgency=low
 
