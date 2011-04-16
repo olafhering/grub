@@ -2,6 +2,8 @@ grub2 (1.99~rc1-14) UNRELEASED; urgency=low
 
   * Drop extra word in French debconf translation. Thanks to David
     Prévôt.
+  * Fix spelling error in French debconf translation. Thanks to David
+    Prévôt.
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 16 Apr 2011 07:58:49 +0200
 
