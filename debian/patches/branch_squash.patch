@@ -36,7 +36,7 @@ Index: b/grub-core/fs/squash4.c
 ===================================================================
 --- /dev/null
 +++ b/grub-core/fs/squash4.c
-@@ -0,0 +1,546 @@
+@@ -0,0 +1,548 @@
 +/* squash4.c - SquashFS */
 +/*
 + *  GRUB  --  GRand Unified Bootloader
@@ -65,6 +65,8 @@ Index: b/grub-core/fs/squash4.c
 +#include <grub/types.h>
 +#include <grub/fshelp.h>
 +#include <grub/deflate.h>
++
++GRUB_MOD_LICENSE ("GPLv3+");
 +
 +/*
 +  object         format      Pointed by
