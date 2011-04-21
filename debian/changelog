@@ -48,6 +48,7 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
   [ Updated translations ]
   * Belarusian (Viktar Siarheichyk).  Closes: #606864
   * Danish (Joe Hansen).  Closes: #606879
+  * Romanian (Andrei POPESCU).  Closes: #606888
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 21 Apr 2011 11:19:57 +0100
 
