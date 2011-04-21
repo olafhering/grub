@@ -45,6 +45,9 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
       mismerge.
   * Add debian/README.source (from quilt).
 
+  [ Updated translations ]
+  * Belarusian (Viktar Siarheichyk).  Closes: #606864
+
  -- Colin Watson <cjwatson@debian.org>  Thu, 21 Apr 2011 11:19:57 +0100
 
 grub2 (1.99~rc1-13) unstable; urgency=low

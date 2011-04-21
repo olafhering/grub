@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: be\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2010-12-08 21:22+0000\n"
-"PO-Revision-Date: 2010-07-18 01:16+0300\n"
-"Last-Translator: Viktar Siarheichyk <vics@eq.by>\n"
+"PO-Revision-Date: 2010-12-12 17:08+0300\n"
+"Last-Translator: Viktar Siarheichyk <viсs@eq.by>\n"
 "Language-Team: Debian Belarusian (Official spelling) <debian-l10n-"
 "belarusian@lists.debian.org>\n"
 "Language: be\n"
@@ -37,39 +37,27 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#, fuzzy
-#| msgid ""
-#| "In order to replace the Legacy version of GRUB in your system, it is "
-#| "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
-#| "your existing GRUB Legacy setup.  This step may be automaticaly performed "
-#| "now."
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
 "recommended that /boot/grub/menu.lst is adjusted to load a GRUB 2 boot image "
 "from your existing GRUB Legacy setup. This step can be automatically "
 "performed now."
 msgstr ""
-"Каб замяніць папярэднюю версію GRUB у Вашай сістэме, раім выправіць файл /"
-"boot/grub/menu.lst такім чынам, каб GRUB 2 загружаўся праз механізм "
-"ланцуговай загрузкі (chainload) з існуючай папярэдняй версіі GRUB. Зараз "
-"можна зрабіць гэтую наладку аўтаматычна. "
+"Каб замяніць папярэднюю версію GRUB у Вашай сістэме, пажадана выправіць "
+"файл /boot/grub/menu.lst такім чынам, каб GRUB 2 загружаўся з існуючай "
+"папярэдняй версіі GRUB. Зараз можна зрабіць гэтую наладку аўтаматычна."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#, fuzzy
-#| msgid ""
-#| "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
-#| "verify that your new GRUB 2 setup is functional for you, before you "
-#| "install it directly to your MBR (Master Boot Record)."
 msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that the new GRUB 2 setup works before it is written to the MBR "
 "(Master Boot Record)."
 msgstr ""
-"Раім абраць опцыю ланцуговай загрузкі GRUB 2 з menu.lst, каб праверыць, ці "
-"прыдатны для Вас нанова ўсталяваны GRUB 2, перад тым як усталёўваць яго "
-"непасрэдна ў галоўны загрузачны запіс (MBR, Master Boot Record)."
+"Раім абраць ланцуговую загрузку GRUB 2 з menu.lst, і праверыць, што нанова "
+"ўсталяваны GRUB 2 працуе, перад тым як усталёўваць яго ў галоўны загрузачны "
+"запіс (MBR, Master Boot Record)."
 
 #. Type: boolean
 #. Description
@@ -78,16 +66,16 @@ msgid ""
 "Whatever your decision, you can replace the old MBR image with GRUB 2 later "
 "by issuing the following command as root:"
 msgstr ""
+"Як бы вы ні вырашылі, можна пазней замяніць стары вобраз MBR на GRUB 2, калі "
+"выканаць як root наступныя каманды:"
 
 #. Type: multiselect
 #. Description
 #. Type: multiselect
 #. Description
 #: ../grub-pc.templates.in:3001 ../grub-pc.templates.in:4001
-#, fuzzy
-#| msgid "GRUB failed to install to the following devices:"
 msgid "GRUB install devices:"
-msgstr "Не атрымалася ўсталяваць GRUB на наступныя прылады:"
+msgstr "Прылады, на якія ўсталёўваць GRUB:"
 
 #. Type: multiselect
 #. Description
@@ -96,6 +84,8 @@ msgid ""
 "The grub-pc package is being upgraded. This menu allows you to select which "
 "devices you'd like grub-install to be automatically run for, if any."
 msgstr ""
+"x`Пакет grub-pc абнаўляецца. Гэтае меню дазваляе абраць, для якіх прыладаў "
+"трэба, калі ўвогуле трэба, аўтаматычна запускаць grub-install."
 
 #. Type: multiselect
 #. Description
@@ -105,6 +95,9 @@ msgid ""
 "prevent the installed GRUB core image from getting out of sync with GRUB "
 "modules or grub.cfg."
 msgstr ""
+"У большасці выпадкаў рэкамендуецца запускаць grub-install аўтаматычна, каб "
+"усталяваны асноўны вобраз GRUB заставаўся ў адпаведнасці з модулямі GRUB і "
+"grub.cfg."
 
 #. Type: multiselect
 #. Description
@@ -115,6 +108,8 @@ msgid ""
 "If you're unsure which drive is designated as boot drive by your BIOS, it is "
 "often a good idea to install GRUB to all of them."
 msgstr ""
+"Калі вы не пэўныя, якая прылада ў вашым BIOS прызначаная як галоўная, то "
+"хутчэй за ўсё лепей будзе ўсталяваць GRUB на іх усіх."
 
 #. Type: multiselect
 #. Description
@@ -127,6 +122,10 @@ msgid ""
 "use the blocklist mechanism, which makes it less reliable, and therefore is "
 "not recommended."
 msgstr ""
+"Увага: таксама магчыма ўсталяваць GRUB у сектары пачатковай загрузкі "
+"падзелаў, і некаторыя адпаведныя падзелы тут прапануюцца. Аднак, для гэтага "
+"GRUB мусіць карыстацца механізмам спісаў блокаў, што змяншае надзейнасць і "
+"таму не рэкамендуецца."
 
 #. Type: multiselect
 #. Description
@@ -138,6 +137,11 @@ msgid ""
 "GRUB modules and grub.cfg. Please check again to make sure that GRUB is "
 "written to the appropriate boot devices."
 msgstr ""
+"Пачатковы запускальнік GRUB раней быў усталяваны на дыск, які зараз "
+"адсутнічае, альбо чый унікальны ідэнтыфікатар па нейкай прычыне змяніўся. "
+"Важна, каб усталяваны асноўны вобраз GRUB адпавядаў модулям GRUB і grub.cfg. "
+"Калі ласка, праверце яшчэ раз, каб упэўніцца, што GRUB запісаны ў адпаведныя "
+"загрузкавыя прылады."
 
 #. Type: text
 #. Description
@@ -151,18 +155,14 @@ msgstr "${DEVICE} (${SIZE} MB; ${MODEL})"
 #. Description
 #. The "-" is used to indicate indentation. Leading spaces may not work.
 #: ../grub-pc.templates.in:6001
-#, fuzzy
-#| msgid "${DEVICE} (${SIZE} MB; ${MODEL})"
 msgid "- ${DEVICE} (${SIZE} MB; ${PATH})"
-msgstr "${DEVICE} (${SIZE} MB; ${MODEL})"
+msgstr "- ${DEVICE} (${SIZE} Мб; ${PATH})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
-#, fuzzy
-#| msgid "GRUB installation failed.  Continue?"
 msgid "Writing GRUB to boot device failed - continue?"
-msgstr "Не атрымалася ўсталяваць GRUB. Працягваць?"
+msgstr "Запіс GRUB на загрузкавую прыладу не ўдаўся - працягваць?"
 
 #. Type: boolean
 #. Description
@@ -175,10 +175,6 @@ msgstr "Не атрымалася ўсталяваць GRUB на наступн�
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
-#, fuzzy
-#| msgid ""
-#| "Do you want to continue anyway?  If you do, your computer may not start "
-#| "up properly."
 msgid ""
 "Do you want to continue anyway? If you do, your computer may not start up "
 "properly."
@@ -189,19 +185,13 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
-#, fuzzy
-#| msgid "GRUB installation failed.  Try again?"
 msgid "Writing GRUB to boot device failed - try again?"
-msgstr "Не атрымалася ўсталяваць GRUB. Паспрабаваць ізноў?"
+msgstr ""
+"Не атрымалася запісаць GRUB у загрузкавую прыладу - паспрабаваць ізноў?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
-#, fuzzy
-#| msgid ""
-#| "You may be able to install GRUB to some other device, although you should "
-#| "check that your system will boot from that device.  Otherwise, the "
-#| "upgrade from GRUB Legacy will be cancelled."
 msgid ""
 "You may be able to install GRUB to some other device, although you should "
 "check that your system will boot from that device. Otherwise, the upgrade "
@@ -220,13 +210,6 @@ msgstr "Працягваць, не ўсталёўваючы GRUB?"
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#, fuzzy
-#| msgid ""
-#| "You chose not to install GRUB to any devices.  If you continue, the boot "
-#| "loader may not be properly configured, and when your computer next starts "
-#| "up it will use whatever was previously in the boot sector.  If there is "
-#| "an earlier version of GRUB 2 in the boot sector, it may be unable to load "
-#| "modules or handle the current configuration file."
 msgid ""
 "You chose not to install GRUB to any devices. If you continue, the boot "
 "loader may not be properly configured, and when this computer next starts up "
@@ -234,42 +217,36 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
-"Вы выбралі не ўсталёўваць GRUB ні на якую прыладу. Калі Вы працягнеце, "
-"загрузчык, магчыма, не будзе сканфігураваны належным чынам, і калі Ваш "
-"кампутар запусціцца наступным разам, ён загрузіцца з таго, што было раней у "
-"загрузачным сектары. Калі там была старая версія GRUB 2, ён можа не здолець "
-"загрузіць модулі альбо альбо не разабраць цяперашні канфігурацыйны файл."
+"Вы выбралі не ўсталёўваць GRUB ні на якую прыладу. Калі Вы працягнеце далей, "
+"пачатковы запускальнік, магчыма, не будзе сканфігураваны належным чынам, і "
+"калі гэты кампутар запусціцца наступным разам, ён загрузіцца з таго, што "
+"было раней у сектары запуску. Калі там была старая версія GRUB 2, ён можа не "
+"здолець загрузіць модулі альбо не разабраць цяперашні канфігурацыйны файл."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#, fuzzy
-#| msgid ""
-#| "If you are already running a different boot loader and want to carry on "
-#| "doing so, or if this is a special environment where you do not need a "
-#| "boot loader, then you should continue anyway.  Otherwise, you should "
-#| "install GRUB somewhere."
 msgid ""
 "If you are already using a different boot loader and want to carry on doing "
 "so, or if this is a special environment where you do not need a boot loader, "
 "then you should continue anyway. Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
-"Калі Вы ўжо маеце іншы загрузчык і хочаце так рабіць і надалей альбо калі "
-"гэта адмысловае асяроддзе, дзе загрузчык непатрэбны, то вам варта ўсё ж "
-"працягваць. Іначай вам трэба ўсталяваць GRUB некуды."
+"Калі Вы ўжо карыстаецеся іншым пачатковым запускальнікам і хочаце так рабіць "
+"і надалей альбо калі гэта адмысловае асяроддзе, дзе загрузчык непатрэбны, то "
+"вам варта ўсё ж працягваць. Іначай вам трэба некуды ўсталяваць GRUB."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:10001
 msgid "Remove GRUB 2 from /boot/grub?"
-msgstr ""
+msgstr "Выдаліць GRUB 2 з /boot/grub?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:10001
 msgid "Do you want to have all GRUB 2 files removed from /boot/grub?"
-msgstr ""
+msgstr "Хочаце выдаліць усе файлы GRUB 2 з /boot/grub?"
 
 #. Type: boolean
 #. Description
@@ -277,6 +254,8 @@ msgstr ""
 msgid ""
 "This will make the system unbootable unless another boot loader is installed."
 msgstr ""
+"З-за гэтага сістэма будзе не ў стане запусціцца, пакуль не будзе ўсталяваны "
+"іншы пачатковы запускальнік."
 
 #. Type: boolean
 #. Description
@@ -298,13 +277,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:11001
-#, fuzzy
-#| msgid ""
-#| "It seems likely that GRUB Legacy is no longer in use, and that you should "
-#| "instead upgrade the GRUB 2 images on these disks and finish the "
-#| "conversion to GRUB 2 by removing old GRUB Legacy files.  If you do not "
-#| "upgrade these GRUB 2 images, then they may be incompatible with the new "
-#| "packages and cause your system to stop booting properly."
 msgid ""
 "It seems likely that GRUB Legacy is no longer in use, and that you should "
 "instead upgrade the GRUB 2 images on these disks and finish the conversion "
@@ -338,11 +310,6 @@ msgstr "Радок камандаў для ядра Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -378,11 +345,6 @@ msgstr "Радок камандаў для ядра kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst.  Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -418,12 +380,6 @@ msgstr "/boot/grub/device.map быў перагенераваны"
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
-#| msgid ""
-#| "The file /boot/grub/device.map has been rewritten to use stable device "
-#| "names.  In most cases, this should significantly reduce the need to "
-#| "change it in future, and boot menu entries generated by GRUB should not "
-#| "be affected."
 msgid ""
 "The file /boot/grub/device.map has been rewritten to use stable device "
 "names. In most cases, this should significantly reduce the need to change it "
@@ -437,36 +393,26 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
-#| msgid ""
-#| "However, since you have more than one disk in your system, it is possible "
-#| "that you were depending on the old device map.  Please check whether you "
-#| "have any custom boot menu entries that rely on GRUB's (hdN) drive "
-#| "numbering, and update them if necessary."
 msgid ""
 "However, since more than one disk is present in the system, it is possible "
 "that the system is depending on the old device map. Please check whether "
 "there are any custom boot menu entries that rely on GRUB's (hdN) drive "
 "numbering, and update them if necessary."
 msgstr ""
-"Аднак, паколькі ў вашай сістэме больш за адзін дыск, то магчыма, што вы "
-"выкарыстоўвалі старую табліцу прыладаў. Праверце, ці ёсць пункты "
-"загрузачнага меню, што ўжываюць нумерацыю прыладаў GRUB (hdN) і абнавіце іх, "
+"Аднак, паколькі ў вашай сістэме больш за адзін дыск, то магчыма, што ў "
+"сістэме выкарыстоўваецца старая табліца прыладаў. Праверце, ці ёсць пункты "
+"загрузкавага меню, што ўжываюць нумарацыю прыладаў GRUB (hdN) і абнавіце іх, "
 "калі патрэбна."
 
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
-#| msgid ""
-#| "If you do not understand this message, or if you do not have any custom "
-#| "boot menu entries, you can ignore this message."
 msgid ""
 "If you do not understand this message, or if there are no custom boot menu "
 "entries, you can ignore this message."
 msgstr ""
 "Калі вы не зразумелі гэтае паведамленне, альбо калі вы не маеце ўласных "
-"пунктаў загрузачнага меню, вы можаце ігнараваць гэтае паведамленне."
+"пунктаў загрузкавага меню, вы можаце ігнараваць гэтае паведамленне."
 
 #~ msgid ""
 #~ "In either case, whenever you want GRUB 2 to be loaded directly from MBR, "
@@ -475,14 +421,17 @@ msgstr ""
 #~ "Калі ж Вы хочаце, каб GRUB 2 запускаўся непасрэдна з MBR, дастаткова "
 #~ "запусціць з правамі карыстальніка root наступную каманду:"
 
+#~ msgid "GRUB installation failed. Continue?"
+#~ msgstr "Не атрымалася ўсталяваць GRUB. Працягваць?"
+
 #~ msgid "GRUB 1.95 numbering scheme transition"
 #~ msgstr "Змена схемы нумарацыі GRUB 1.95"
 
 #~ msgid ""
-#~ "As of version 1.95, GRUB 2 has changed its numbering scheme.  Partitions "
-#~ "are now counted starting from 1 rather than 0.  This is to make it "
+#~ "As of version 1.95, GRUB 2 has changed its numbering scheme. Partitions "
+#~ "are now counted starting from 1 rather than 0. This is to make it "
 #~ "consistent with device names of Linux and the other kernels used in "
-#~ "Debian.  For example, when using Linux as the kernel, \"(hd0,1)\" refers "
+#~ "Debian. For example, when using Linux as the kernel, \"(hd0,1)\" refers "
 #~ "to the same partition as the /dev/sda1 device node."
 #~ msgstr ""
 #~ "Схема нумарацыі ў GRUB 2 змянілася ў параўнанні з версіяй 1.95 . Зараз "
@@ -495,7 +444,7 @@ msgstr ""
 #~ msgid ""
 #~ "Because of this, there's a chance your system becomes unbootable if "
 #~ "update-grub(8) is run before GRUB is updated, generating a grub.cfg file "
-#~ "that your installed GRUB won't yet be able to parse correctly.  To ensure "
+#~ "that your installed GRUB won't yet be able to parse correctly. To ensure "
 #~ "your system will be able to boot, you have to:"
 #~ msgstr ""
 #~ "З гэтай прычыны Ваша сістэма можа стаць няздольнай да загрузкі, калі "
