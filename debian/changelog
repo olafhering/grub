@@ -50,6 +50,7 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
   * Danish (Joe Hansen).  Closes: #606879
   * Romanian (Andrei POPESCU).  Closes: #606888
   * Italian (Luca Monducci).  Closes: #606891
+  * Brazilian Portuguese (Flamarion Jorge).  Closes: #610613
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 21 Apr 2011 11:19:57 +0100
 
