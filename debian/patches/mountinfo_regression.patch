@@ -1,0 +1,21 @@
+Description: Remove non-virtual-device test reintroduced by mismerge
+Author: Colin Watson <cjwatson@ubuntu.com>
+Bug: https://savannah.gnu.org/bugs/?33133
+Forwarded: yes
+Applied-Upstream: http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3231
+Last-Update: 2011-04-21
+
+Index: b/grub-core/kern/emu/getroot.c
+===================================================================
+--- a/grub-core/kern/emu/getroot.c
++++ b/grub-core/kern/emu/getroot.c
+@@ -220,9 +220,6 @@
+   /* Now scan visible mounts for the ones we're interested in.  */
+   for (i = entry_len - 1; i >= 0; i--)
+     {
+-      if (entries[i].major != 0)
+-	continue; /* not a virtual device */
+-
+       if (!*entries[i].device)
+ 	continue;
+ 
