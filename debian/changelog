@@ -43,6 +43,7 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
     - Fix stack pointer handling in 16-bit relocator.
     - Remove non-virtual-device test that was incorrectly reintroduced by a
       mismerge.
+  * Add debian/README.source (from quilt).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 21 Apr 2011 11:19:57 +0100
 
