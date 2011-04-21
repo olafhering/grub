@@ -17,3 +17,4 @@ branch_parse-color.patch
 branch_embed-sectors.patch
 branch_fuse.patch
 mkrescue_efi_modules.patch
+16bit_relocator_sp.patch
