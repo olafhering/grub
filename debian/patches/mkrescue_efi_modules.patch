@@ -17,6 +17,6 @@ Index: b/util/grub-mkrescue.in
      # build bootia32.efi
 -    make_image "${efi32_dir}" i386-efi "${efi_dir}"/efi/boot/bootia32.efi ""
 +    make_image "${efi32_dir}" i386-efi "${efi_dir}"/efi/boot/bootia32.efi "part_msdos fat"
- 
-     mformat -C -f 2880 -L 16 -i "${iso9660_dir}"/efi.img ::
-     mcopy -s -i "${iso9660_dir}"/efi.img ${efi_dir}/efi ::/
+     if [ -e "${efi_dir}"/efi/boot/bootia32.efi ]; then
+         # For old macs. Suggested by Peter Jones.
+ 	cp "${efi_dir}"/efi/boot/bootia32.efi "${efi_dir}"/efi/boot/boot.efi

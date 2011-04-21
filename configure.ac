@@ -32,7 +32,7 @@ dnl type, so there is no conflict. Variables with the prefix "TARGET_"
 dnl (such as TARGET_CC, TARGET_CFLAGS, etc.) are used for the target
 dnl type.
 
-AC_INIT([GRUB],[1.99~rc1],[bug-grub@gnu.org])
+AC_INIT([GRUB],[1.99~rc2],[bug-grub@gnu.org])
 
 AC_CONFIG_AUX_DIR([build-aux])
 
@@ -889,6 +889,15 @@ if test x"$device_mapper_excuse" = x ; then
 fi
 
 AC_SUBST([LIBDEVMAPPER])
+
+LIBGEOM=
+if test x$host_kernel = xkfreebsd; then
+  AC_CHECK_LIB([geom], [geom_gettree], [],
+               [AC_MSG_ERROR([Your platform requires libgeom])])
+  LIBGEOM="-lgeom"
+fi
+
+AC_SUBST([LIBGEOM])
 
 AC_CHECK_LIB([lzma], [lzma_code],
              [LIBLZMA="-llzma"

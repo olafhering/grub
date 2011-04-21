@@ -10,7 +10,7 @@ Index: b/util/grub-setup.c
  
  #ifdef GRUB_MACHINE_SPARC64
  #define grub_target_to_host16(x)	grub_be_to_cpu16(x)
-@@ -488,6 +489,8 @@
+@@ -489,6 +490,8 @@
  
      grub_free (sectors);
  
@@ -19,7 +19,7 @@ Index: b/util/grub-setup.c
      goto finish;
    }
  #endif
-@@ -513,6 +516,9 @@
+@@ -514,6 +517,9 @@
    /* The core image must be put on a filesystem unfortunately.  */
    grub_util_info ("will leave the core image on the filesystem");
  

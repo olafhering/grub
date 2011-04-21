@@ -8,7 +8,7 @@ Index: b/util/grub-install.in
 ===================================================================
 --- a/util/grub-install.in
 +++ b/util/grub-install.in
-@@ -653,6 +653,13 @@
+@@ -660,6 +660,13 @@
      fi
  fi
  

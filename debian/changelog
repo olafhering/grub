@@ -1,4 +1,31 @@
-grub2 (1.99~rc1-14) UNRELEASED; urgency=low
+grub2 (1.99~rc2-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+    - Ensure uniqueness of RAID array numbers even if some elements have a
+      name (closes: #609804).
+    - Remove unnecessary brackets from tr arguments (closes: #612564).
+    - Add grub-mkrescue info documentation (closes: #612585).
+    - Avoid generating invalid configuration when something that looks like
+      a Xen hypervisor is present without any Xen kernels (closes: #612898).
+    - Fix memory alignment when calling 'linux' multiple times on EFI
+      (closes: #616638).
+    - Fix grub-install on amd64 EFI systems (closes: #617388).
+    - Automatically export pager variable (closes: #612995).
+    - Fix parser error with "time" (closes: #612991).
+    - Ignore case of bitmap extensions (closes: #611123).
+    - Skip vmlinux-* on x86 platforms (closes: #536846, #546008).
+    - Accept old-style Xen kernels (closes: #610428).
+    - Skip damaged LVM volumes (closes: #544731).
+    - Handle LVM mirroring (closes: #598441).
+    - Detect spares and report them as not RAID members (closes: #611561).
+    - Don't enable localisation unless gfxterm is available (closes:
+      #604609).
+    - Fix partitioned RAID support (closes: #595071, #613444).
+    - Dynamically count the number of lines for the lower banner (closes:
+      #606494).
+    - Improve quoting in grub-mkconfig, to support background image file
+      names containing spaces (closes: #612417).
+    - Flush BIOS disk devices more accurately (closes: #623124).
 
   [ Christian Perrier ]
   * Drop extra word in French debconf translation. Thanks to David
@@ -10,8 +37,10 @@ grub2 (1.99~rc1-14) UNRELEASED; urgency=low
   * Set PACKAGE_VERSION and PACKAGE_STRING using configure arguments rather
     than sedding configure.ac in debian/rules (which sometimes has annoying
     interactions with quilt, etc.).
+  * Update branch_embed-sectors.patch:
+    - Detect sector used by HighPoint RAID controller (closes: #394868).
 
- -- Christian Perrier <bubulle@debian.org>  Sat, 16 Apr 2011 07:58:49 +0200
+ -- Colin Watson <cjwatson@debian.org>  Thu, 21 Apr 2011 11:19:57 +0100
 
 grub2 (1.99~rc1-13) unstable; urgency=low
 

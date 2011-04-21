@@ -46,7 +46,6 @@ grub-kbdcomp
 grub-macho2img
 grub-menulst2cfg
 grub-mk*
-grub-mkpasswd-pbkdf2
 grub-pe2elf
 grub-probe
 grub_probe_init.c
@@ -136,3 +135,5 @@ grub-core/gnulib/wctype.h
 grub-core/rs_decoder.S
 widthspec.bin
 widthspec.h
+docs/stamp-1
+docs/version-dev.texi

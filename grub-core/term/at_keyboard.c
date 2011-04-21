@@ -26,6 +26,8 @@
 #include <grub/time.h>
 #include <grub/loader.h>
 
+GRUB_MOD_LICENSE ("GPLv3+");
+
 static short at_keyboard_status = 0;
 static int e0_received = 0;
 static int f0_received = 0;
@@ -329,6 +331,11 @@ set_scancodes (void)
       current_set = 1;
       return;
     }
+
+#if !(defined (GRUB_MACHINE_MIPS_YEELOONG) || defined (GRUB_MACHINE_QEMU))
+  current_set = 1;
+  return;
+#endif
 
   grub_keyboard_controller_write (grub_keyboard_controller_orig
 				  & ~KEYBOARD_AT_TRANSLATE);

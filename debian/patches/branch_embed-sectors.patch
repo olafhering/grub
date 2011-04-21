@@ -4,7 +4,7 @@ Description: Detect other software using embedding area
 Author: Colin Watson <cjwatson@ubuntu.com>
 Origin: upstream, http://bzr.sv.gnu.org/r/grub/branches/embed-sectors/
 Forwarded: http://lists.gnu.org/archive/html/grub-devel/2010-08/msg00137.html
-Last-Update: 2011-03-14
+Last-Update: 2011-04-21
 
 Index: b/ChangeLog.embed-sectors
 ===================================================================
@@ -27,7 +27,7 @@ Index: b/grub-core/partmap/gpt.c
 ===================================================================
 --- a/grub-core/partmap/gpt.c
 +++ b/grub-core/partmap/gpt.c
-@@ -125,6 +125,7 @@
+@@ -127,6 +127,7 @@
  #ifdef GRUB_UTIL
  static grub_err_t
  gpt_partition_map_embed (struct grub_disk *disk, unsigned int *nsectors,
@@ -35,7 +35,7 @@ Index: b/grub-core/partmap/gpt.c
  			 grub_embed_type_t embed_type,
  			 grub_disk_addr_t **sectors)
  {
-@@ -174,6 +175,8 @@
+@@ -176,6 +177,8 @@
  		       " embedding won't be possible!");
  
    *nsectors = len;
@@ -48,7 +48,7 @@ Index: b/grub-core/partmap/msdos.c
 ===================================================================
 --- a/grub-core/partmap/msdos.c
 +++ b/grub-core/partmap/msdos.c
-@@ -27,6 +27,45 @@
+@@ -29,6 +29,66 @@
  static struct grub_partition_map grub_msdos_partition_map;
  
  
@@ -60,7 +60,18 @@ Index: b/grub-core/partmap/msdos.c
 +  const char *name;
 +  const char *signature;
 +  int signature_len;
++  enum { TYPE_SOFTWARE, TYPE_RAID } type;
 +};
++
++const char message_warn[][200] = {
++  [TYPE_RAID] = "Sector %llu is already in use by %s; avoiding it.  "
++  "Please ask the manufacturer not to store data in MBR gap",
++  [TYPE_SOFTWARE] = "Sector %llu is already in use by %s; avoiding it.  "
++  "This software may cause boot or other problems in "
++  "future.  Please ask its authors not to store data "
++  "in the boot track" 
++};
++
 +
 +/* Signatures of other software that may be using sectors in the embedding
 +   area.  */
@@ -69,24 +80,34 @@ Index: b/grub-core/partmap/msdos.c
 +    {
 +      .name = "ZISD",
 +      .signature = "ZISD",
-+      .signature_len = 4
++      .signature_len = 4,
++      .type = TYPE_SOFTWARE
 +    },
 +    {
 +      .name = "FlexNet",
 +      .signature = "\xd4\x41\xa0\xf5\x03\x00\x03\x00",
-+      .signature_len = 8
++      .signature_len = 8,
++      .type = TYPE_SOFTWARE
 +    },
 +    {
 +      .name = "FlexNet",
 +      .signature = "\xd8\x41\xa0\xf5\x02\x00\x02\x00",
-+      .signature_len = 8
++      .signature_len = 8,
++      .type = TYPE_SOFTWARE
 +    },
 +    {
 +      /* from Ryan Perkins */
 +      .name = "HP Backup and Recovery Manager (?)",
 +      .signature = "\x70\x8a\x5d\x46\x35\xc5\x1b\x93"
 +		   "\xae\x3d\x86\xfd\xb1\x55\x3e\xe0",
-+      .signature_len = 16
++      .signature_len = 16,
++      .type = TYPE_SOFTWARE
++    },
++    {
++      .name = "HighPoint RAID controller",
++      .signature = "ycgl",
++      .signature_len = 4,
++      .type = TYPE_RAID
 +    }
 +  };
 +#endif
@@ -94,7 +115,7 @@ Index: b/grub-core/partmap/msdos.c
  grub_err_t
  grub_partition_msdos_iterate (grub_disk_t disk,
  			      int (*hook) (grub_disk_t disk,
-@@ -146,6 +185,7 @@
+@@ -148,6 +208,7 @@
  #ifdef GRUB_UTIL
  static grub_err_t
  pc_partition_map_embed (struct grub_disk *disk, unsigned int *nsectors,
@@ -102,9 +123,9 @@ Index: b/grub-core/partmap/msdos.c
  			grub_embed_type_t embed_type,
  			grub_disk_addr_t **sectors)
  {
-@@ -234,13 +274,68 @@
+@@ -236,13 +297,65 @@
  
-   if (end >= *nsectors + 1)
+   if (end >= *nsectors + 2)
      {
 -      unsigned i;
 +      unsigned i, j;
@@ -112,7 +133,7 @@ Index: b/grub-core/partmap/msdos.c
 +      unsigned int orig_nsectors, avail_nsectors;
 +
 +      orig_nsectors = *nsectors;
-       *nsectors = end - 1;
+       *nsectors = end - 2;
 +      avail_nsectors = *nsectors;
 +      if (*nsectors > max_nsectors)
 +	*nsectors = max_nsectors;
@@ -139,10 +160,7 @@ Index: b/grub-core/partmap/msdos.c
 +	      break;
 +	  if (j == ARRAY_SIZE (embed_signatures))
 +	    continue;
-+	  grub_util_warn ("Sector %llu is already in use by %s; avoiding it.  "
-+			  "This software may cause boot or other problems in "
-+			  "future.  Please ask its authors not to store data "
-+			  "in the boot track",
++	  grub_util_warn (message_warn[embed_signatures[j].type],
 +			  (*sectors)[i], embed_signatures[j].name);
 +	  avail_nsectors--;
 +	  if (avail_nsectors < *nsectors)
@@ -188,7 +206,7 @@ Index: b/util/grub-setup.c
 ===================================================================
 --- a/util/grub-setup.c
 +++ b/util/grub-setup.c
-@@ -427,10 +427,8 @@
+@@ -428,10 +428,8 @@
        }
  
      nsec = core_sectors;
@@ -200,7 +218,7 @@ Index: b/util/grub-setup.c
      
      if (err)
        {
-@@ -459,6 +457,13 @@
+@@ -460,6 +458,13 @@
        save_blocklists (sectors[i] + grub_partition_get_start (container),
  		       0, GRUB_DISK_SECTOR_SIZE);
  
@@ -214,7 +232,7 @@ Index: b/util/grub-setup.c
      write_rootdev (core_img, root_dev, boot_img, first_sector);
  
      core_img = realloc (core_img, nsec * GRUB_DISK_SECTOR_SIZE);
-@@ -475,12 +480,6 @@
+@@ -476,12 +481,6 @@
  				      nsec * GRUB_DISK_SECTOR_SIZE
  				      - core_size);
  

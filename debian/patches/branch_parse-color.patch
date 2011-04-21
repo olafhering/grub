@@ -1,16 +1,16 @@
 Description: Add a background_color command
  Move gfxmenu color handling to video, so that gfxterm can use it too; add a
- background_color command; fix border repainting.
+ background_color command.
 Author: Colin Watson <cjwatson@ubuntu.com>
 Origin: upstream, http://bzr.sv.gnu.org/r/grub/branches/parse-color/
 Forwarded: http://lists.gnu.org/archive/html/grub-devel/2010-12/msg00045.html
-Last-Update: 2011-01-05
+Last-Update: 2011-04-21
 
 Index: b/ChangeLog.parse-color
 ===================================================================
 --- /dev/null
 +++ b/ChangeLog.parse-color
-@@ -0,0 +1,52 @@
+@@ -0,0 +1,44 @@
 +2010-12-23  Colin Watson  <cjwatson@ubuntu.com>
 +
 +	Move gfxmenu color handling to video, so that gfxterm can use it
@@ -53,16 +53,8 @@ Index: b/ChangeLog.parse-color
 +	(GRUB_MOD_FINI): Unregister background_color command.
 +	(redraw_screen_rect): Allow blend/replace of text layer to be
 +	controlled independently from whether there is a background bitmap.
-+	(grub_gfxterm_fullscreen): Change blend_text_bg when changing
-+	bitmap.
-+	(destroy_window): Likewise.
-+	(grub_gfxterm_background_image_cmd): Likewise.
-+
-+	Fix border repainting.
-+
-+	* grub-core/term/gfxterm.c (dirty_region_add): When a repaint is
-+	already scheduled, merge the virtual screen with the requested
-+	region rather than repainting only the virtual screen.
++	(grub_gfxterm_background_image_cmd): Change blend_text_bg when
++	changing bitmap.
 Index: b/grub-core/Makefile.core.def
 ===================================================================
 --- a/grub-core/Makefile.core.def
@@ -138,7 +130,7 @@ Index: b/grub-core/gfxmenu/gui_list.c
  
    int draw_scrollbar;
    int need_to_recreate_scrollbar;
-@@ -267,13 +267,13 @@
+@@ -269,13 +269,13 @@
          (is_selected && self->selected_item_font
           ? self->selected_item_font
           : self->item_font);
@@ -154,7 +146,7 @@ Index: b/grub-core/gfxmenu/gui_list.c
                               sel_leftpad + self->icon_width + icon_text_space,
                               (item_top + (item_height - (ascent + descent))
                                / 2 + ascent));
-@@ -429,7 +429,7 @@
+@@ -431,7 +431,7 @@
      }
    else if (grub_strcmp (name, "item_color") == 0)
      {
@@ -163,7 +155,7 @@ Index: b/grub-core/gfxmenu/gui_list.c
      }
    else if (grub_strcmp (name, "selected_item_color") == 0)
      {
-@@ -439,7 +439,7 @@
+@@ -441,7 +441,7 @@
          }
        else
          {
@@ -172,7 +164,7 @@ Index: b/grub-core/gfxmenu/gui_list.c
                == GRUB_ERR_NONE)
              self->selected_item_color_set = 1;
          }
-@@ -562,7 +562,7 @@
+@@ -564,7 +564,7 @@
  {
    list_impl_t self;
    grub_font_t default_font;
@@ -181,7 +173,7 @@ Index: b/grub-core/gfxmenu/gui_list.c
  
    self = grub_zalloc (sizeof (*self));
    if (! self)
-@@ -574,7 +574,7 @@
+@@ -576,7 +576,7 @@
    self->visible = 1;
  
    default_font = grub_font_get ("Unknown Regular 16");
@@ -715,7 +707,7 @@ Index: b/grub-core/term/gfxterm.c
 ===================================================================
 --- a/grub-core/term/gfxterm.c
 +++ b/grub-core/term/gfxterm.c
-@@ -128,6 +128,7 @@
+@@ -130,6 +130,7 @@
  static unsigned int bitmap_width;
  static unsigned int bitmap_height;
  static struct grub_video_bitmap *bitmap;
@@ -723,23 +715,7 @@ Index: b/grub-core/term/gfxterm.c
  
  static struct grub_dirty_region dirty_region;
  
-@@ -344,6 +345,7 @@
-       grub_video_fill_rect (color, 0, 0, mode_info.width, mode_info.height);
-     }
-   bitmap = 0;
-+  blend_text_bg = 0;
- 
-   /* Select the font to use.  */
-   font_name = grub_env_get ("gfxterm_font");
-@@ -396,6 +398,7 @@
-     {
-       grub_video_bitmap_destroy (bitmap);
-       bitmap = 0;
-+      blend_text_bg = 0;
-     }
- 
-   repaint_callback = 0;
-@@ -481,26 +484,27 @@
+@@ -476,26 +477,27 @@
            /* Render background layer.  */
  	  grub_video_fill_rect (color, x, ty, width, h);
          }
@@ -779,32 +755,7 @@ Index: b/grub-core/term/gfxterm.c
    /* Restore saved viewport.  */
    grub_video_set_viewport (saved_view.x, saved_view.y,
                             saved_view.width, saved_view.height);
-@@ -539,10 +543,20 @@
- 
-   if (repaint_scheduled)
-     {
--      x = virtual_screen.offset_x;
--      y = virtual_screen.offset_y;
--      width = virtual_screen.width;
--      height = virtual_screen.height;
-+      if (x > (int)virtual_screen.offset_x)
-+        {
-+          width += virtual_screen.offset_x - x;
-+          x = virtual_screen.offset_x;
-+        }
-+      if (y > (int)virtual_screen.offset_y)
-+        {
-+          height += virtual_screen.offset_y - y;
-+          y = virtual_screen.offset_y;
-+        }
-+      if (width < virtual_screen.width)
-+        width = virtual_screen.width;
-+      if (height < virtual_screen.height)
-+        height = virtual_screen.height;
-       repaint_scheduled = 0;
-       repaint_was_scheduled = 1;
-     }
-@@ -1127,6 +1141,7 @@
+@@ -1127,6 +1129,7 @@
      {
        grub_video_bitmap_destroy (bitmap);
        bitmap = 0;
@@ -812,7 +763,7 @@ Index: b/grub-core/term/gfxterm.c
  
        /* Mark whole screen as dirty.  */
        dirty_region_add (0, 0, window.width, window.height);
-@@ -1166,6 +1181,8 @@
+@@ -1166,6 +1169,8 @@
        /* If bitmap was loaded correctly, display it.  */
        if (bitmap)
          {
@@ -821,7 +772,7 @@ Index: b/grub-core/term/gfxterm.c
            /* Determine bitmap dimensions.  */
            bitmap_width = grub_video_bitmap_get_width (bitmap);
            bitmap_height = grub_video_bitmap_get_height (bitmap);
-@@ -1180,6 +1197,48 @@
+@@ -1180,6 +1185,48 @@
    return grub_errno;
  }
  
@@ -870,7 +821,7 @@ Index: b/grub-core/term/gfxterm.c
  static struct grub_term_output grub_video_term =
    {
      .name = "gfxterm",
-@@ -1201,6 +1260,7 @@
+@@ -1201,6 +1248,7 @@
    };
  
  static grub_extcmd_t background_image_cmd_handle;
@@ -878,7 +829,7 @@ Index: b/grub-core/term/gfxterm.c
  
  GRUB_MOD_INIT(gfxterm)
  {
-@@ -1211,10 +1271,16 @@
+@@ -1211,10 +1259,16 @@
                            N_("[-m (stretch|normal)] FILE"),
                            N_("Load background image for active terminal."),
                            background_image_cmd_options);

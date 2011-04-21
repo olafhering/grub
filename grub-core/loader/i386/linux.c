@@ -35,6 +35,8 @@
 #include <grub/i18n.h>
 #include <grub/lib/cmdline.h>
 
+GRUB_MOD_LICENSE ("GPLv3+");
+
 #ifdef GRUB_MACHINE_PCBIOS
 #include <grub/i386/pc/vesa_modes_table.h>
 #endif
@@ -136,7 +138,8 @@ find_efi_mmap_size (void)
      later, and EFI itself may allocate more.  */
   mmap_size += (1 << 12);
 
-  return page_align (mmap_size);
+  mmap_size = page_align (mmap_size);
+  return mmap_size;
 }
 
 #endif

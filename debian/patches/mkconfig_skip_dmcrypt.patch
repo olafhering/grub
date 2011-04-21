@@ -12,9 +12,9 @@ Index: b/util/grub-mkconfig_lib.in
 ===================================================================
 --- a/util/grub-mkconfig_lib.in
 +++ b/util/grub-mkconfig_lib.in
-@@ -99,6 +99,15 @@
+@@ -105,6 +105,15 @@
  {
-   device=$1
+   device="$1"
  
 +  if dmsetup status $device 2>/dev/null | grep -q 'crypt[[:space:]]$'; then
 +    grub_warn \
@@ -26,5 +26,5 @@ Index: b/util/grub-mkconfig_lib.in
 +  fi
 +
    # Abstraction modules aren't auto-loaded.
-   abstraction="`${grub_probe} --device ${device} --target=abstraction`"
+   abstraction="`"${grub_probe}" --device "${device}" --target=abstraction`"
    for module in ${abstraction} ; do

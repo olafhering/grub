@@ -8,7 +8,7 @@ Index: b/grub-core/kern/emu/getroot.c
 ===================================================================
 --- a/grub-core/kern/emu/getroot.c
 +++ b/grub-core/kern/emu/getroot.c
-@@ -32,6 +32,10 @@
+@@ -34,6 +34,10 @@
  #include <stdint.h>
  #include <grub/util/misc.h>
  
@@ -19,7 +19,7 @@ Index: b/grub-core/kern/emu/getroot.c
  #ifdef __GNU__
  #include <hurd.h>
  #include <hurd/lookup.h>
-@@ -629,32 +633,65 @@
+@@ -637,32 +641,65 @@
  }
  
  static int
@@ -109,7 +109,7 @@ Index: b/grub-core/kern/emu/getroot.c
  }
  
  int
-@@ -666,13 +703,11 @@
+@@ -674,13 +711,11 @@
      return GRUB_DEV_ABSTRACTION_NONE;
  
    /* Check for LVM.  */
@@ -137,7 +137,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
  #include <grub/misc.h>
  #include <grub/i18n.h>
  #include <grub/list.h>
-@@ -324,18 +325,23 @@
+@@ -331,18 +332,23 @@
    return GRUB_ERR_NONE;
  }
  
@@ -163,9 +163,9 @@ Index: b/grub-core/kern/emu/hostdisk.c
  #endif /* HAVE_DEVICE_MAPPER */
 +}
  
- #if defined(__linux__) || defined(__CYGWIN__) || defined(HAVE_DIOCGDINFO)
- static grub_disk_addr_t
-@@ -350,7 +356,7 @@
+ #if defined (__FreeBSD__) || defined(__FreeBSD_kernel__)
+ /* FIXME: geom actually gives us the whole container hierarchy.
+@@ -418,7 +424,7 @@
  # endif /* !defined(HAVE_DIOCGDINFO) */
  
  # ifdef HAVE_DEVICE_MAPPER
@@ -174,7 +174,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
      struct dm_task *task = NULL;
      grub_uint64_t start, length;
      char *target_type, *params, *space;
-@@ -1047,6 +1053,54 @@
+@@ -1159,6 +1165,54 @@
    return ret;
  }
  
@@ -229,7 +229,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
  static char *
  convert_system_partition_to_system_disk (const char *os_dev, struct stat *st)
  {
-@@ -1223,9 +1277,39 @@
+@@ -1335,9 +1389,39 @@
  	      node = NULL;
  	      goto devmapper_out;
  	    }

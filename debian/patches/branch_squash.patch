@@ -594,8 +594,8 @@ Index: b/grub-core/io/gzio.c
 +#include <grub/disk.h>
  #include <grub/deflate.h>
  
- /*
-@@ -62,6 +63,9 @@
+ GRUB_MOD_LICENSE ("GPLv3+");
+@@ -64,6 +65,9 @@
    /* If input is in memory following fields are used instead of file.  */
    grub_size_t mem_input_size, mem_input_off;
    grub_uint8_t *mem_input;
@@ -605,7 +605,7 @@ Index: b/grub-core/io/gzio.c
    /* The offset at which the data starts in the underlying file.  */
    grub_off_t data_offset;
    /* The type of current block.  */
-@@ -382,8 +386,21 @@
+@@ -384,8 +388,21 @@
        return 0;
      }
  
@@ -629,7 +629,7 @@ Index: b/grub-core/io/gzio.c
      {
        gzio->inbuf_d = 0;
        grub_file_read (gzio->file, gzio->inbuf, INBUFSIZ);
-@@ -401,8 +418,10 @@
+@@ -403,8 +420,10 @@
  	grub_error (GRUB_ERR_OUT_OF_RANGE,
  		    "attempt to seek outside of the file");
        else
@@ -641,7 +641,7 @@ Index: b/grub-core/io/gzio.c
    else
      grub_file_seek (gzio->file, off);
  }
-@@ -1296,6 +1315,34 @@
+@@ -1298,6 +1317,34 @@
    return ret;
  }
  

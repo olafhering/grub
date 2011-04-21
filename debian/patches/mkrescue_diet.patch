@@ -36,7 +36,7 @@ Index: b/util/grub-mkrescue.in
      *)
  	source="${source} ${option} $@"; break ;;
      esac
-@@ -303,7 +308,14 @@
+@@ -307,7 +312,14 @@
  fi
  
  # build iso image
