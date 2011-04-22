@@ -72,6 +72,7 @@ override_dh_quilt_unpatch:
 
 build/stamps/autogen: autogen.sh configure.ac Makefile.util.def grub-core/Makefile.core.def
 	./autogen.sh
+	touch $@
 
 build/stamps/configure-grub-pc build/stamps/configure-grub-ieee1275 build/stamps/configure-grub-coreboot build/stamps/configure-grub-emu build/stamps/configure-grub-yeeloong: build/stamps/autogen
 	mkdir -p build/stamps build/$(package)
