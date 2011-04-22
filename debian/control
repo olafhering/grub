@@ -259,3 +259,10 @@ Description: GRand Unified Bootloader, version 2 (Yeeloong version)
  .
  This package contains a version of GRUB that has been built for use with
  the Lemote Yeeloong laptop.
+
+Package: grub-mount-udeb
+XC-Package-Type: udeb
+Section: debian-installer
+Architecture: i386 amd64 powerpc ppc64 sparc mipsel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: export GRUB filesystems using FUSE

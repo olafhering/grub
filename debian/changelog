@@ -53,6 +53,8 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
     - Add a grub-rescue-efi-amd64 package containing a rescue CD-ROM image
       for EFI-AMD64.  For the moment, the purpose of this is mainly to
       deliver files to debian-installer.
+    - Add grub-mount-udeb, containing just grub-mount.  This can be used by
+      os-prober and other parts of d-i.
 
   [ Updated translations ]
   * Belarusian (Viktar Siarheichyk).  Closes: #606864
