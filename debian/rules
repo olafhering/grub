@@ -71,6 +71,7 @@ override_dh_quilt_unpatch:
 	rm -f build/stamps/autogen
 
 build/stamps/autogen: autogen.sh configure.ac Makefile.util.def grub-core/Makefile.core.def
+	mkdir -p build/stamps
 	./autogen.sh
 	touch $@
 
