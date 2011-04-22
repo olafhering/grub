@@ -17,6 +17,29 @@ merge_debconf_into_conf()
   fi
 }
 
+get_wubi_device()
+{
+  if [ ! -x /usr/share/lupin-support/grub-mkimage ] || \
+     ! /usr/share/lupin-support/grub-mkimage --test; then
+    return 1
+  fi
+
+  local bootdev="$(grub-probe --target=device /boot)" || true
+  local loop_file=
+  case $bootdev in
+    /dev/loop/*|/dev/loop[0-9])
+      loop_file="$(losetup "$bootdev" | sed -e "s/^[^(]*(\([^)]\+\)).*/\1/")"
+      # If it's loop-mounted from another device, it isn't Wubi.
+      case $loop_file in
+        /dev/*) return 1 ;;
+      esac
+    ;;
+    *) return 1 ;;
+  esac
+
+  echo "$bootdev"
+}
+
 # This only works on a Linux system with udev running.  This is probably the
 # vast majority of systems where we need any of this, though, and we fall
 # back reasonably gracefully if we don't have it.
@@ -367,6 +390,18 @@ case "$1" in
           fi
         fi
 
+        # Make sure that Wubi users never see confusing device prompts.
+        # Wubi is a very specialised hack that does complicated things with
+        # grub-install diversions to create an image that's chained from the
+        # Windows boot loader to boot an operating system from a file on a
+        # Windows file system.  In these circumstances, prompting for where
+        # to install GRUB is not going to help anyone.
+        wubi_device="$(get_wubi_device)" || true
+        if [ "$wubi_device" ]; then
+          db_set grub-pc/install_devices "$wubi_device"
+          db_fset grub-pc/install_devices seen true
+        fi
+
         if test -e /boot/grub/stage2 && test -e /boot/grub/menu.lst && \
            ! test -e /boot/grub/grub2-installed && \
            test -z "$UPGRADE_FROM_GRUB_LEGACY"; then
@@ -389,12 +424,12 @@ case "$1" in
             touch /boot/grub/grub.cfg
           fi
         elif test -z "$2" || test -e /boot/grub/core.img || \
-             test "$UPGRADE_FROM_GRUB_LEGACY"; then
+             test "$UPGRADE_FROM_GRUB_LEGACY" || test "$wubi_device"; then
           question=grub-pc/install_devices
           device_map="$(grub-mkdevicemap -m - | grep -v '^(fd[0-9]\+)' || true)"
           devices="$(echo "$device_map" | cut -f2)"
           if dpkg --compare-versions "$2" lt 1.98+20100702-1 && \
-             test "$(uname -s)" = Linux; then
+             test "$(uname -s)" = Linux && [ -z "$wubi_device" ]; then
             # Migrate to new by-id naming scheme.
             db_get grub-pc/install_devices
             old_devices="$(echo "$RET" | sed 's/, / /g')"

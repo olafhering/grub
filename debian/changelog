@@ -48,6 +48,8 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
     to be careful that all full builds run it, since we use GRUB extras.
   * Merge from Ubuntu:
     - Handle filesystems loop-mounted on file images.
+    - On Wubi, don't ask for an install device, but just update wubildr
+      using the diverted grub-install.
 
   [ Updated translations ]
   * Belarusian (Viktar Siarheichyk).  Closes: #606864
