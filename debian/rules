@@ -36,11 +36,7 @@ export GRUB_CONTRIB := $(CURDIR)/debian/grub-extras
 
 confflags = PACKAGE_VERSION="$(deb_version)" PACKAGE_STRING="GRUB $(deb_version)" CC=$(CC) TARGET_CC=$(CC) --enable-grub-mkfont
 
-AUTOGEN_FILES = configure Makefile.tpl Makefile.util.am grub-core/Makefile.core.am
 AUTOGEN_DEB_FILES = examples manpages config templates preinst postinst postrm dirs install links
-
-$(AUTOGEN_FILES): autogen.sh configure.ac Makefile.util.def grub-core/Makefile.core.def
-	./autogen.sh
 
 BUILD_PACKAGES := $(strip $(shell dh_listpackages))
 REAL_PACKAGES = grub-common grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-ieee1275 grub-firmware-qemu grub-yeeloong
@@ -66,27 +62,38 @@ build/stamps/build-%: export DH_OPTIONS = -p$(package) -Bbuild/$(package)
 install/%: package = $(subst install/,,$@)
 install/%: export DH_OPTIONS = -p$(package) -Bbuild/$(package)
 
-build/stamps/configure-grub-pc build/stamps/configure-grub-ieee1275 build/stamps/configure-grub-coreboot build/stamps/configure-grub-emu build/stamps/configure-grub-yeeloong: $(AUTOGEN_FILES)
+override_dh_quilt_patch:
+	dh_quilt_patch
+	rm -f build/stamps/autogen
+
+override_dh_quilt_unpatch:
+	dh_quilt_unpatch
+	rm -f build/stamps/autogen
+
+build/stamps/autogen: autogen.sh configure.ac Makefile.util.def grub-core/Makefile.core.def
+	./autogen.sh
+
+build/stamps/configure-grub-pc build/stamps/configure-grub-ieee1275 build/stamps/configure-grub-coreboot build/stamps/configure-grub-emu build/stamps/configure-grub-yeeloong: build/stamps/autogen
 	mkdir -p build/stamps build/$(package)
 	dh_auto_configure -- $(confflags) --with-platform=$(subst grub-,,$(package))
 	touch $@
 
 # This name scheme leaves room for things like ia64 or amd32 someday
-build/stamps/configure-grub-efi-ia32: $(AUTOGEN_FILES)
+build/stamps/configure-grub-efi-ia32: build/stamps/autogen
 	mkdir -p build/stamps build/$(package)
 	dh_auto_configure -- $(confflags) --with-platform=efi --target=i386-pe --program-prefix=""
 	touch $@
-build/stamps/configure-grub-efi-amd64: $(AUTOGEN_FILES)
+build/stamps/configure-grub-efi-amd64: build/stamps/autogen
 	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=efi --target=amd64-pe --program-prefix=""
 	touch $@
 
-build/stamps/configure-grub-firmware-qemu: $(AUTOGEN_FILES)
+build/stamps/configure-grub-firmware-qemu: build/stamps/autogen
 	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=qemu
 	touch $@
 
-build/stamps/configure-grub-common: $(AUTOGEN_FILES)
+build/stamps/configure-grub-common: build/stamps/autogen
 	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
 	dh_auto_configure -- $(confflags)
 	touch $@

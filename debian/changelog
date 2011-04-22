@@ -44,6 +44,8 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
     - Remove non-virtual-device test that was incorrectly reintroduced by a
       mismerge.
   * Add debian/README.source (from quilt).
+  * Make debian/rules more explicit about when autogen.sh is run.  We need
+    to be careful that all full builds run it, since we use GRUB extras.
 
   [ Updated translations ]
   * Belarusian (Viktar Siarheichyk).  Closes: #606864
