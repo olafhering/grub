@@ -19,3 +19,4 @@ branch_fuse.patch
 mkrescue_efi_modules.patch
 16bit_relocator_sp.patch
 mountinfo_regression.patch
+mkconfig_loopback.patch
