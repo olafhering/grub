@@ -35,6 +35,7 @@ Build-Depends: debhelper (>= 7.0.50~),
  qemu-utils [!hurd-any],
  parted [!hurd-any],
  libfuse-dev [linux-any],
+ mtools [any-i386 any-amd64],
 Build-Conflicts: autoconf2.13 
 Standards-Version: 3.8.4
 Homepage: http://www.gnu.org/software/grub/
@@ -187,6 +188,18 @@ Description: GRand Unified Bootloader, version 2 (EFI-AMD64 version)
  This package contains a version of GRUB that has been built for use with
  EFI-AMD64 architecture, such as the one provided by Intel Macs (that is, unless
  a BIOS interface has been activated).
+
+Package: grub-rescue-efi-amd64
+Architecture: i386 kopensolaris-i386 amd64 kfreebsd-amd64
+Depends: ${misc:Depends}
+Multi-Arch: foreign
+Description: GRUB bootable rescue images, version 2 (EFI-AMD64 version)
+ This package contains two GRUB rescue images that have been built for use
+ with the EFI-AMD64 architecture, such as the one provided by Intel Macs
+ (that is, unless a BIOS interface has been activated):
+ .
+  - grub-rescue-cdrom.iso: El Torito CDROM image.
+  - grub-rescue-usb.img: USB image.
 
 Package: grub-ieee1275
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
