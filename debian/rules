@@ -41,12 +41,22 @@ AUTOGEN_DEB_FILES = examples manpages config templates preinst postinst postrm d
 BUILD_PACKAGES := $(strip $(shell dh_listpackages))
 REAL_PACKAGES = grub-common grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-ieee1275 grub-firmware-qemu grub-yeeloong
 
+ifneq (,$(filter i386 amd64,$(DEB_HOST_ARCH_CPU)))
+COMMON_PLATFORM := pc
+else ifneq (,$(filter powerpc ppc64 sparc,$(DEB_HOST_ARCH_CPU)))
+COMMON_PLATFORM := ieee1275
+else ifeq (mipsel,$(DEB_HOST_ARCH_CPU))
+COMMON_PLATFORM := yeeloong
+else
+$(error COMMON_PLATFORM not set for $(DEB_HOST_ARCH_CPU))
+endif
+
 %:
 	dh $@ --with quilt
 
-override_dh_auto_configure: $(patsubst %,configure/%,$(BUILD_PACKAGES))
+override_dh_auto_configure: $(patsubst %,configure/%,$(filter-out grub-common,$(BUILD_PACKAGES)))
 
-override_dh_auto_build: $(patsubst %,build/%,$(BUILD_PACKAGES))
+override_dh_auto_build: $(patsubst %,build/%,$(filter-out grub-common,$(BUILD_PACKAGES)))
 
 override_dh_auto_install: $(patsubst %,install/%,$(BUILD_PACKAGES))
 
@@ -60,7 +70,7 @@ build/stamps/build-%: package = $(subst build/stamps/build-,,$@)
 build/stamps/build-%: export DH_OPTIONS = -p$(package) -Bbuild/$(package)
 
 install/%: package = $(subst install/,,$@)
-install/%: export DH_OPTIONS = -p$(package) -Bbuild/$(package)
+install/%: export DH_OPTIONS = -p$(package) -Bbuild/$(patsubst grub-common,grub-$(COMMON_PLATFORM),$(package))
 
 override_dh_quilt_patch:
 	dh_quilt_patch
@@ -74,6 +84,10 @@ build/stamps/autogen: autogen.sh configure.ac Makefile.util.def grub-core/Makefi
 	mkdir -p build/stamps
 	./autogen.sh
 	touch $@
+
+build/stamps/configure-grub-common: build/stamps/configure-grub-$(COMMON_PLATFORM)
+
+build/stamps/build-grub-common: build/stamps/build-grub-$(COMMON_PLATFORM)
 
 build/stamps/configure-grub-pc build/stamps/configure-grub-ieee1275 build/stamps/configure-grub-coreboot build/stamps/configure-grub-emu build/stamps/configure-grub-yeeloong: build/stamps/autogen
 	mkdir -p build/stamps build/$(package)
@@ -95,12 +109,7 @@ build/stamps/configure-grub-firmware-qemu: build/stamps/autogen
 	dh_auto_configure -- $(confflags) --with-platform=qemu
 	touch $@
 
-build/stamps/configure-grub-common: build/stamps/autogen
-	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
-	dh_auto_configure -- $(confflags)
-	touch $@
-
-build/stamps/build-grub-common build/stamps/build-grub-efi-ia32 build/stamps/build-grub-efi-amd64 build/stamps/build-grub-ieee1275 build/stamps/build-grub-coreboot build/stamps/build-grub-emu build/stamps/build-grub-yeeloong: build/stamps/build-%: build/stamps/configure-%
+build/stamps/build-grub-efi-ia32 build/stamps/build-grub-efi-amd64 build/stamps/build-grub-ieee1275 build/stamps/build-grub-coreboot build/stamps/build-grub-emu build/stamps/build-grub-yeeloong: build/stamps/build-%: build/stamps/configure-%
 	dh_auto_build
 	touch $@
 
@@ -236,6 +245,9 @@ install/grub-common:
 	rm -f $(CURDIR)/debian/$(package)/usr/{sbin,share/man/man8}/{update-grub,grub-install,grub-setup,grub-reboot,grub-set-default,grub-mknetdir}{,.8}
 	rm -f $(CURDIR)/debian/$(package)/usr/{bin,share/man/man1}/grub-ntldr-img{,.1}
 	rm -f $(CURDIR)/debian/$(package)/usr/share/info/dir*
+
+install/grub-mount-udeb:
+	dh_install build/grub-$(COMMON_PLATFORM)/grub-mount usr/bin
 
 override_dh_installdocs:
 	dh_installdocs -A AUTHORS NEWS README THANKS TODO
