@@ -32,7 +32,7 @@ Build-Depends: debhelper (>= 7.0.50~),
  qemu-system [i386 kfreebsd-i386 kopensolaris-i386 any-amd64],
  qemu-utils [!hurd-any],
  parted [!hurd-any],
- libfuse-dev [linux-any],
+ libfuse-dev (>= 2.8.4-1.4) [linux-any],
  mtools [any-i386 any-amd64],
 Build-Conflicts: autoconf2.13 
 Standards-Version: 3.8.4
