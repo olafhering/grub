@@ -58,6 +58,7 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
   * Don't do a separate build pass for grub-common.  It will be identical to
     the build for the default platform for the CPU architecture anyway, so
     reuse that.
+  * Build with GCC 4.5 on all architectures.
 
   [ Updated translations ]
   * Belarusian (Viktar Siarheichyk).  Closes: #606864
