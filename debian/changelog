@@ -65,6 +65,9 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
     to declare the files we do want.  This means a little more repetition
     for platform-specific programs, but it seems less confusing and easier
     to extend.
+  * Drop versioned dependencies on base-files.  GPL-3 has been there for two
+    Debian releases now, and the dependency was never upgrade-critical
+    anyway.
 
   [ Updated translations ]
   * Belarusian (Viktar Siarheichyk).  Closes: #606864

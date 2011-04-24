@@ -68,7 +68,7 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
 Package: grub-common
 Priority: optional
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc any-mipsel
-Depends: base-files (>= 4.0.1~), dpkg (>= 1.15.4) | install-info | dpkg (<= 1.14.25), ${shlibs:Depends}, ${misc:Depends}, gettext-base
+Depends: dpkg (>= 1.15.4) | install-info | dpkg (<= 1.14.25), ${shlibs:Depends}, ${misc:Depends}, gettext-base
 Replaces: grub-pc (<< 1.98+20100527-1), grub-ieee1275 (<< 1.98+20100527-1), grub-efi (<< 1.96+20080831-1), grub-coreboot (<< 1.97+20091114-1), grub-linuxbios (<< 1.96+20080831-1), grub-efi-ia32 (<< 1.98+20100527-1), grub-efi-amd64 (<< 1.98+20100527-1), grub-yeeloong (<< 1.98+20100527-1)
 Recommends: os-prober (>= 1.33)
 Suggests: multiboot-doc, grub-emu, xorriso (>= 0.5.6.pl00)
@@ -81,7 +81,7 @@ Description: GRand Unified Bootloader, version 2 (common files)
 
 Package: grub-emu
 Architecture: any-i386 any-amd64 any-powerpc
-Depends: ${shlibs:Depends}, base-files (>= 4.0.1~), ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Replaces: grub-common (<= 1.97~beta3-1)
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (emulated version)
@@ -222,7 +222,7 @@ Description: GRand Unified Bootloader, version 2 (Open Firmware version)
 
 Package: grub-firmware-qemu
 Architecture: any-i386 any-amd64
-Depends: base-files (>= 4.0.1~), ${misc:Depends}
+Depends: ${misc:Depends}
 Recommends: qemu
 Enhances: qemu
 Multi-Arch: foreign
