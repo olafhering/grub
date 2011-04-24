@@ -60,6 +60,11 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
     reuse that.
   * Build with GCC 4.5 on all architectures.
   * Update Lintian overrides for changes in Lintian 2.5.0~rc1.
+  * Invert how files are split among binary packages: rather than code in
+    debian/rules to remove files we don't want, add dh_install configuration
+    to declare the files we do want.  This means a little more repetition
+    for platform-specific programs, but it seems less confusing and easier
+    to extend.
 
   [ Updated translations ]
   * Belarusian (Viktar Siarheichyk).  Closes: #606864

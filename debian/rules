@@ -6,6 +6,8 @@ upstream_version	:= $(shell echo $(deb_version) | sed -e "s/-[^-]*$$//")
 
 package		:= grub2
 
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH 2>/dev/null)
+DEB_HOST_ARCH_OS ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS 2>/dev/null)
 DEB_HOST_ARCH_CPU ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU 2>/dev/null)
 
 HOST_CFLAGS := -g -Wall
@@ -35,7 +37,7 @@ confflags = PACKAGE_VERSION="$(deb_version)" PACKAGE_STRING="GRUB $(deb_version)
 AUTOGEN_DEB_FILES = examples manpages config templates preinst postinst postrm dirs install links
 
 BUILD_PACKAGES := $(strip $(shell dh_listpackages))
-REAL_PACKAGES = grub-common grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-ieee1275 grub-firmware-qemu grub-yeeloong
+REAL_PACKAGES = grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-ieee1275 grub-firmware-qemu grub-yeeloong
 
 ifneq (,$(filter i386 amd64,$(DEB_HOST_ARCH_CPU)))
 COMMON_PLATFORM := pc
@@ -50,9 +52,9 @@ endif
 %:
 	dh $@ --with quilt
 
-override_dh_auto_configure: $(patsubst %,configure/%,$(filter-out grub-common,$(BUILD_PACKAGES)))
+override_dh_auto_configure: $(patsubst %,configure/%,$(BUILD_PACKAGES))
 
-override_dh_auto_build: $(patsubst %,build/%,$(filter-out grub-common,$(BUILD_PACKAGES)))
+override_dh_auto_build: $(patsubst %,build/%,$(BUILD_PACKAGES))
 
 override_dh_auto_install: $(patsubst %,install/%,$(BUILD_PACKAGES))
 
@@ -180,33 +182,28 @@ build/stamps/build-grub-rescue-efi-amd64: build/stamps/build-grub-efi-amd64
 	touch $@
 
 install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee1275 install/grub-coreboot install/grub-emu install/grub-yeeloong:
-	dh_auto_install --destdir=debian/$(package)
-
-	# shipped with grub-common
-	rm -rf $(CURDIR)/debian/$(package)/etc/grub.d
-	rm -rf $(CURDIR)/debian/$(package)/etc/bash_completion.d
-	rm -f $(CURDIR)/debian/$(package)/usr/{sbin,share/man/man8}/{grub-dumpbios,grub-probe,grub-mkconfig,grub-mkdevicemap,grub-ofpathname}{,.8}
-	rm -f $(CURDIR)/debian/$(package)/usr/{bin,share/man/man1}/{grub-bin2h,grub-mkelfimage,grub-mkfont,grub-mkimage,grub-editenv,grub-mkrescue,grub-mkrelpath,grub-script-check,grub-mkpasswd-pbkdf2,grub-menulst2cfg,grub-mklayout,grub-kbdcomp,grub-fstest,grub-mount}{,.1}
-	rm -f $(CURDIR)/debian/$(package)/usr/lib/grub/{grub-mkconfig_lib,update-grub_lib}
-	rm -rf $(CURDIR)/debian/$(package)/usr/share/{grub,info,locale}/
-	rm -rf $(CURDIR)/debian/$(package)/usr/include
-
-	if [ "$@" = "install/grub-emu" ] ; then \
-		rm -f $(CURDIR)/debian/$(package)/usr/{sbin,share/man/man8}/{grub-reboot,grub-set-default,grub-mknetdir}{,.8} ; \
-	fi
+	dh_auto_install --destdir=debian/tmp-$(package)
 
 	if [ "$@" != "install/grub-emu" ] ; then \
-		for i in $(AUTOGEN_DEB_FILES) ; do \
+		set -e ; for i in $(AUTOGEN_DEB_FILES) ; do \
 			sed debian/$$i.in \
 				-e "s/@PACKAGE@/$(package)/g" \
 				> debian/$(package).$$i ; \
-		done ; \
-	fi
-
-	# grub-pc is a bit special.  It includes a few overlays for autogen files.
-	if [ "$@" = "install/grub-pc" ] ; then \
-		for i in templates install dirs ; do \
-			cat debian/grub-pc.$$i.in >> debian/grub-pc.$$i ; \
+			if [ -e debian/$(package).$$i.in ] ; then \
+				sed debian/$(package).$$i.in \
+					-e "s/@PACKAGE@/$(package)/g" \
+					>> debian/$(package).$$i ; \
+			fi ; \
+			if [ -e debian/$(package).$$i.$(DEB_HOST_ARCH).in ] ; then \
+				sed debian/$(package).$$i.$(DEB_HOST_ARCH).in \
+					-e "s/@PACKAGE@/$(package)/g" \
+					>> debian/$(package).$$i ; \
+			fi ; \
+			if [ -e debian/$(package).$$i.$(DEB_HOST_ARCH_OS).in ] ; then \
+				sed debian/$(package).$$i.$(DEB_HOST_ARCH_OS).in \
+					-e "s/@PACKAGE@/$(package)/g" \
+					>> debian/$(package).$$i ; \
+			fi ; \
 		done ; \
 	fi
 
@@ -236,14 +233,30 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 	fi
 
 install/grub-common:
-	dh_auto_install --destdir=debian/$(package)
-	rm -rf $(CURDIR)/debian/$(package)/usr/lib/grub/{i386,powerpc,sparc64,mips}-*
-	rm -f $(CURDIR)/debian/$(package)/usr/{sbin,share/man/man8}/{update-grub,grub-install,grub-setup,grub-reboot,grub-set-default,grub-mknetdir}{,.8}
-	rm -f $(CURDIR)/debian/$(package)/usr/{bin,share/man/man1}/grub-ntldr-img{,.1}
-	rm -f $(CURDIR)/debian/$(package)/usr/share/info/dir*
+	set -e ; for i in $(AUTOGEN_DEB_FILES) ; do \
+		if [ -e debian/grub-common.$$i.in ] ; then \
+			cat debian/grub-common.$$i.in \
+				> debian/grub-common.$$i ; \
+		fi ; \
+		if [ -e debian/grub-common.$$i.$(DEB_HOST_ARCH).in ] ; then \
+			cat debian/grub-common.$$i.$(DEB_HOST_ARCH).in \
+				>> debian/grub-common.$$i ; \
+		fi ; \
+		if [ -e debian/grub-common.$$i.$(DEB_HOST_ARCH_OS).in ] ; then \
+			cat debian/grub-common.$$i.$(DEB_HOST_ARCH_OS).in \
+				>> debian/grub-common.$$i ; \
+		fi ; \
+	done
 
-install/grub-mount-udeb:
-	dh_install build/grub-$(COMMON_PLATFORM)/grub-mount usr/bin
+override_dh_install:
+	dh_install -pgrub2 -pgrub-linuxbios -pgrub-efi -pgrub-rescue-pc -pgrub-rescue-efi-amd64 -pgrub-firmware-qemu
+	set -e; for package in grub-common grub-mount-udeb; do \
+		dh_install -p$$package --sourcedir=debian/tmp-grub-$(COMMON_PLATFORM); \
+	done
+	rm -f debian/grub-common/usr/share/info/dir*
+	set -e; for package in grub-pc grub-efi-ia32 grub-efi-amd64 grub-ieee1275 grub-coreboot grub-emu grub-yeeloong; do \
+		dh_install -p$$package --sourcedir=debian/tmp-$$package; \
+	done
 
 override_dh_installdocs:
 	dh_installdocs -A AUTHORS NEWS README THANKS TODO
@@ -263,6 +276,7 @@ override_dh_clean: debian/legacy/update-grub debian/grub-extras
 	for i in $(AUTOGEN_DEB_FILES) ; do \
 		rm -f debian/grub-{pc,efi-*,ieee1275,coreboot,yeeloong}.$$i ; \
 	done
+	rm -rf debian/tmp-*/
 
 	# make sure PO files are always up-to-date
 	debconf-updatepo

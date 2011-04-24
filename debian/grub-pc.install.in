@@ -1,2 +1,6 @@
-debian/legacy/update-grub	usr/lib/grub-legacy
-debian/legacy/upgrade-from-grub-legacy	usr/sbin
+../../debian/legacy/update-grub			usr/lib/grub-legacy
+../../debian/legacy/upgrade-from-grub-legacy	usr/sbin
+
+usr/bin/grub-ntldr-img
+usr/sbin/grub-setup
+usr/share/man/man8/grub-setup.8
