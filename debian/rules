@@ -213,16 +213,16 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 	mkdir -p $(CURDIR)/debian/$(package)/usr/share/lintian/overrides
 	echo "$(package): unstripped-binary-or-object *.mod" \
 		>> $(CURDIR)/debian/$(package)/usr/share/lintian/overrides/$(package)
-	cd $(CURDIR)/debian/$(package) && find ./usr/lib/grub -name kernel.img \
+	cd $(CURDIR)/debian/$(package) && find usr/lib/grub -name kernel.img \
 		| sed -e "s%.*%$(package): statically-linked-binary &%g" \
 	>> $(CURDIR)/debian/$(package)/usr/share/lintian/overrides/$(package)
-	cd $(CURDIR)/debian/$(package) && find ./usr/lib/grub -name kernel.img \
+	cd $(CURDIR)/debian/$(package) && find usr/lib/grub -name kernel.img \
 		| sed -e "s%.*%$(package): unstripped-binary-or-object &%g" \
 	>> $(CURDIR)/debian/$(package)/usr/share/lintian/overrides/$(package)
 	if [ "$@" = "install/grub-efi-amd64" ] && [ "$(DEB_HOST_ARCH_CPU)" = "i386" ] ; then \
 		echo "$(package): binary-from-other-architecture *.mod" \
 			>> $(CURDIR)/debian/$(package)/usr/share/lintian/overrides/$(package) ; \
-		cd $(CURDIR)/debian/$(package) && find ./usr/lib/grub -name kernel.img \
+		cd $(CURDIR)/debian/$(package) && find usr/lib/grub -name kernel.img \
 			| sed -e "s%.*%$(package): binary-from-other-architecture &%g" \
 		>> $(CURDIR)/debian/$(package)/usr/share/lintian/overrides/$(package) ; \
 	fi

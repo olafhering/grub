@@ -59,6 +59,7 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
     the build for the default platform for the CPU architecture anyway, so
     reuse that.
   * Build with GCC 4.5 on all architectures.
+  * Update Lintian overrides for changes in Lintian 2.5.0~rc1.
 
   [ Updated translations ]
   * Belarusian (Viktar Siarheichyk).  Closes: #606864
