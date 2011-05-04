@@ -34,7 +34,7 @@ export GRUB_CONTRIB := $(CURDIR)/debian/grub-extras
 
 confflags = PACKAGE_VERSION="$(deb_version)" PACKAGE_STRING="GRUB $(deb_version)" CC=$(CC) TARGET_CC=$(CC) --enable-grub-mkfont
 
-AUTOGEN_DEB_FILES = examples manpages config templates preinst postinst postrm dirs install links
+AUTOGEN_DEB_FILES = examples config templates preinst postinst postrm dirs install
 
 BUILD_PACKAGES := $(strip $(shell dh_listpackages))
 REAL_PACKAGES = grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-ieee1275 grub-firmware-qemu grub-yeeloong
@@ -250,10 +250,10 @@ install/grub-common:
 
 override_dh_install:
 	dh_install -pgrub2 -pgrub-linuxbios -pgrub-efi -pgrub-rescue-pc -pgrub-rescue-efi-amd64 -pgrub-firmware-qemu
-	set -e; for package in grub-common grub-mount-udeb; do \
+	set -e; for package in grub-common grub2-common grub-mount-udeb; do \
 		dh_install -p$$package --sourcedir=debian/tmp-grub-$(COMMON_PLATFORM); \
 	done
-	rm -f debian/grub-common/usr/share/info/dir*
+	rm -f debian/grub2-common/usr/share/info/dir*
 	set -e; for package in grub-pc grub-efi-ia32 grub-efi-amd64 grub-ieee1275 grub-coreboot grub-emu grub-yeeloong; do \
 		dh_install -p$$package --sourcedir=debian/tmp-$$package; \
 	done

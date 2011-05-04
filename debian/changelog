@@ -68,6 +68,9 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
   * Drop versioned dependencies on base-files.  GPL-3 has been there for two
     Debian releases now, and the dependency was never upgrade-critical
     anyway.
+  * Create grub2-common package containing files that are common among GRUB
+    platform packages but that would break GRUB Legacy, or that are too
+    confusing when coinstalled with GRUB Legacy (closes: #564167).
 
   [ Updated translations ]
   * Belarusian (Viktar Siarheichyk).  Closes: #606864
