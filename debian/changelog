@@ -72,6 +72,8 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
     platform packages but that would break GRUB Legacy, or that are too
     confusing when coinstalled with GRUB Legacy (closes: #564167).
   * Drop conflict on an ancient (pre-lenny/hardy) version of desktop-base.
+  * Move /etc/grub.d/05_debian_theme to grub-common, to go with the other
+    /etc/grub.d/* files.
 
   [ Updated translations ]
   * Belarusian (Viktar Siarheichyk).  Closes: #606864

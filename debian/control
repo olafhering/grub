@@ -69,9 +69,9 @@ Package: grub-common
 Priority: optional
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc any-mipsel
 Depends: ${shlibs:Depends}, ${misc:Depends}, gettext-base
-Replaces: grub-pc (<< 1.98+20100527-1), grub-ieee1275 (<< 1.98+20100527-1), grub-efi (<< 1.96+20080831-1), grub-coreboot (<< 1.97+20091114-1), grub-linuxbios (<< 1.96+20080831-1), grub-efi-ia32 (<< 1.98+20100527-1), grub-efi-amd64 (<< 1.98+20100527-1), grub-yeeloong (<< 1.98+20100527-1)
+Replaces: grub-pc (<< 1.99~rc2-1), grub-ieee1275 (<< 1.99~rc2-1), grub-efi (<< 1.99~rc2-1), grub-coreboot (<< 1.99~rc2-1), grub-linuxbios (<< 1.96+20080831-1), grub-efi-ia32 (<< 1.99~rc2-1), grub-efi-amd64 (<< 1.99~rc2-1), grub-yeeloong (<< 1.99~rc2-1)
 Recommends: os-prober (>= 1.33)
-Suggests: multiboot-doc, grub-emu, xorriso (>= 0.5.6.pl00)
+Suggests: multiboot-doc, grub-emu, xorriso (>= 0.5.6.pl00), desktop-base (>= 4.0.6)
 # See bugs #435983 and #455746
 Conflicts: mdadm (<< 2.6.7-2)
 Breaks: lupin-support (<< 0.30)
@@ -108,7 +108,6 @@ Architecture: any-i386 any-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), ucf, freebsd-utils (>= 8.0-4) [kfreebsd-any]
 Replaces: grub, grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.96+20080413-1), grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-ieee1275
 Conflicts: grub (<< 0.97-54), grub-legacy, grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-ieee1275
-Suggests: desktop-base (>= 4.0.6)
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (PC/BIOS version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
