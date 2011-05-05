@@ -74,6 +74,8 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
   * Drop conflict on an ancient (pre-lenny/hardy) version of desktop-base.
   * Move /etc/grub.d/05_debian_theme to grub-common, to go with the other
     /etc/grub.d/* files.
+  * Drop redundant Suggests: os-prober from several platform packages, as
+    grub-common already Recommends: os-prober.
 
   [ Updated translations ]
   * Belarusian (Viktar Siarheichyk).  Closes: #606864
