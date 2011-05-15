@@ -79,9 +79,9 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
   * Create grub-<platform>-bin packages corresponding to all grub-<platform>
     packages (except for grub-emu).  These do not automatically install the
     boot loader or update grub.cfg, and they install their binaries to
-    /usr/lib/grub/<cpu>-<platform>/; this means that can be installed in
-    parallel, making it easier to use them to build GRUB-based disk images
-    (e.g. d-i).  The grub-<platform> packages now depend on these and
+    /usr/lib/grub/<cpu>-<platform>/; this means that they can be installed
+    in parallel, making it easier to use them to build GRUB-based disk
+    images (e.g. d-i).  The grub-<platform> packages now depend on these and
     include symlinks, so their behaviour will remain as before.
 
   [ Updated translations ]
