@@ -34,7 +34,7 @@ export GRUB_CONTRIB := $(CURDIR)/debian/grub-extras
 
 confflags = PACKAGE_VERSION="$(deb_version)" PACKAGE_STRING="GRUB $(deb_version)" CC=$(CC) TARGET_CC=$(CC) --enable-grub-mkfont
 
-AUTOGEN_DEB_FILES = examples config templates preinst postinst postrm dirs install
+AUTOGEN_DEB_FILES = examples config templates preinst postinst postrm dirs install links
 
 BUILD_PACKAGES := $(strip $(shell dh_listpackages))
 REAL_PACKAGES = grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-ieee1275 grub-firmware-qemu grub-yeeloong
@@ -68,6 +68,8 @@ build/stamps/build-%: package = $(subst build/stamps/build-,,$@)
 build/stamps/build-%: export DH_OPTIONS = -p$(package) -Bbuild/$(package)
 
 install/%: package = $(subst install/,,$@)
+install/%: package_bin = $(package)-bin
+install/grub-emu: package_bin = grub-emu
 install/%: export DH_OPTIONS = -p$(package) -Bbuild/$(patsubst grub-common,grub-$(COMMON_PLATFORM),$(package))
 
 override_dh_quilt_patch:
@@ -181,55 +183,60 @@ build/stamps/build-grub-rescue-efi-amd64: build/stamps/build-grub-efi-amd64
 		$(CURDIR)/build/grub-rescue-efi-amd64/rescue-disk
 	touch $@
 
+platform_subst = \
+	if [ -e debian/$(1) ]; then \
+		sed debian/$(1) \
+			-e "s/@PACKAGE@/$(2)/g" \
+			-e "s/@CPU_PLATFORM@/$$cpu_platform/g" \
+			>> debian/$(2).$(3); \
+	fi
+
 install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee1275 install/grub-coreboot install/grub-emu install/grub-yeeloong:
 	dh_auto_install --destdir=debian/tmp-$(package)
 
 	if [ "$@" != "install/grub-emu" ] ; then \
-		set -e ; for i in $(AUTOGEN_DEB_FILES) ; do \
-			sed debian/$$i.in \
-				-e "s/@PACKAGE@/$(package)/g" \
-				> debian/$(package).$$i ; \
-			if [ -e debian/$(package).$$i.in ] ; then \
-				sed debian/$(package).$$i.in \
-					-e "s/@PACKAGE@/$(package)/g" \
-					>> debian/$(package).$$i ; \
-			fi ; \
-			if [ -e debian/$(package).$$i.$(DEB_HOST_ARCH).in ] ; then \
-				sed debian/$(package).$$i.$(DEB_HOST_ARCH).in \
-					-e "s/@PACKAGE@/$(package)/g" \
-					>> debian/$(package).$$i ; \
-			fi ; \
-			if [ -e debian/$(package).$$i.$(DEB_HOST_ARCH_OS).in ] ; then \
-				sed debian/$(package).$$i.$(DEB_HOST_ARCH_OS).in \
-					-e "s/@PACKAGE@/$(package)/g" \
-					>> debian/$(package).$$i ; \
-			fi ; \
+		set -e ; \
+		cpu_platform=$$(find debian/tmp-$(package)/usr/lib/grub \
+			-mindepth 1 -maxdepth 1 -type d -printf '%P\n') ; \
+		for i in $(AUTOGEN_DEB_FILES) ; do \
+			> debian/$(package).$$i; \
+			$(call platform_subst,$$i.in,$(package),$$i); \
+			$(call platform_subst,$(package).$$i.in,$(package),$$i); \
+			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH).in,$(package),$$i); \
+			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_OS).in,$(package),$$i); \
+			[ -s debian/$(package).$$i ] || rm -f debian/$(package).$$i; \
+			> debian/$(package_bin).$$i; \
+			$(call platform_subst,$$i-bin.in,$(package_bin),$$i); \
+			$(call platform_subst,$(package_bin).$$i.in,$(package_bin),$$i); \
+			$(call platform_subst,$(package_bin).$$i.$(DEB_HOST_ARCH).in,$(package_bin),$$i); \
+			$(call platform_subst,$(package_bin).$$i.$(DEB_HOST_ARCH_OS).in,$(package_bin),$$i); \
+			[ -s debian/$(package_bin).$$i ] || rm -f debian/$(package_bin).$$i; \
 		done ; \
 	fi
 
-	mkdir -p $(CURDIR)/debian/$(package)/usr/share/lintian/overrides
-	echo "$(package): unstripped-binary-or-object *.mod" \
-		>> $(CURDIR)/debian/$(package)/usr/share/lintian/overrides/$(package)
-	cd $(CURDIR)/debian/$(package) && find usr/lib/grub -name kernel.img \
-		| sed -e "s%.*%$(package): statically-linked-binary &%g" \
-	>> $(CURDIR)/debian/$(package)/usr/share/lintian/overrides/$(package)
-	cd $(CURDIR)/debian/$(package) && find usr/lib/grub -name kernel.img \
-		| sed -e "s%.*%$(package): unstripped-binary-or-object &%g" \
-	>> $(CURDIR)/debian/$(package)/usr/share/lintian/overrides/$(package)
+	mkdir -p $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides
+	echo "$(package_bin): unstripped-binary-or-object *.mod" \
+		>> $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin)
+	cd debian/tmp-$(package) && find usr/lib/grub -name kernel.img \
+		| sed -e "s%.*%$(package_bin): statically-linked-binary &%g" \
+	>> $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin)
+	cd debian/tmp-$(package) && find usr/lib/grub -name kernel.img \
+		| sed -e "s%.*%$(package_bin): unstripped-binary-or-object &%g" \
+	>> $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin)
 	if [ "$@" = "install/grub-efi-amd64" ] && [ "$(DEB_HOST_ARCH_CPU)" = "i386" ] ; then \
-		echo "$(package): binary-from-other-architecture *.mod" \
-			>> $(CURDIR)/debian/$(package)/usr/share/lintian/overrides/$(package) ; \
-		cd $(CURDIR)/debian/$(package) && find usr/lib/grub -name kernel.img \
-			| sed -e "s%.*%$(package): binary-from-other-architecture &%g" \
-		>> $(CURDIR)/debian/$(package)/usr/share/lintian/overrides/$(package) ; \
+		echo "$(package_bin): binary-from-other-architecture *.mod" \
+			>> $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin) ; \
+		cd debian/tmp-$(package) && find usr/lib/grub -name kernel.img \
+			| sed -e "s%.*%$(package_bin): binary-from-other-architecture &%g" \
+		>> $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin) ; \
 	fi
 	if ([ "$@" = "install/grub-pc" ] || \
 	    [ "$@" = "install/grub-ieee1275" ] || \
 	    [ "$@" = "install/grub-coreboot" ] || \
 	    [ "$@" = "install/grub-emu" ]) && \
 	   [ "$(DEB_HOST_ARCH_CPU)" = "i386" ] ; then \
-		echo "$(package): binary-from-other-architecture *efiemu64.o" \
-			>> $(CURDIR)/debian/$(package)/usr/share/lintian/overrides/$(package) ; \
+		echo "$(package_bin): binary-from-other-architecture *efiemu64.o" \
+			>> $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin) ; \
 	fi
 
 install/grub-common:
@@ -254,9 +261,11 @@ override_dh_install:
 		dh_install -p$$package --sourcedir=debian/tmp-grub-$(COMMON_PLATFORM); \
 	done
 	rm -f debian/grub2-common/usr/share/info/dir*
-	set -e; for package in grub-pc grub-efi-ia32 grub-efi-amd64 grub-ieee1275 grub-coreboot grub-emu grub-yeeloong; do \
+	set -e; for package in grub-pc grub-efi-ia32 grub-efi-amd64 grub-ieee1275 grub-coreboot grub-yeeloong; do \
 		dh_install -p$$package --sourcedir=debian/tmp-$$package; \
+		dh_install -p$$package-bin --sourcedir=debian/tmp-$$package; \
 	done
+	dh_install -pgrub-emu --sourcedir=debian/tmp-grub-emu
 
 override_dh_installdocs:
 	dh_installdocs -A AUTHORS NEWS README THANKS TODO
@@ -274,7 +283,7 @@ override_dh_clean: debian/legacy/update-grub debian/grub-extras
 	chmod +x debian/{script,grub.d/*,legacy/*,kernel/*}
 
 	for i in $(AUTOGEN_DEB_FILES) ; do \
-		rm -f debian/grub-{pc,efi-*,ieee1275,coreboot,yeeloong}.$$i ; \
+		rm -f debian/grub-{pc,efi-*,ieee1275,coreboot,yeeloong}{,-bin}.$$i ; \
 	done
 	rm -rf debian/tmp-*/
 

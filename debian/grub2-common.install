@@ -1,3 +1,4 @@
+../../debian/default			usr/share/grub
 ../../debian/update-grub		usr/sbin
 
 usr/sbin/grub-reboot

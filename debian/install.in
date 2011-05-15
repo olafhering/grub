@@ -1,11 +1,7 @@
 ../../debian/presubj			usr/share/bug/@PACKAGE@
 ../../debian/script			usr/share/bug/@PACKAGE@
-../../debian/default			usr/share/grub
 ../../debian/kernel/zz-update-grub	etc/kernel/postinst.d
 ../../debian/kernel/zz-update-grub	etc/kernel/postrm.d
 
-usr/lib/grub/*-*/
-usr/sbin/grub-install
-usr/sbin/grub-mknetdir
 usr/share/man/man8/grub-install.8
 usr/share/man/man8/grub-mknetdir.8
