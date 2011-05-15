@@ -83,6 +83,7 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
     in parallel, making it easier to use them to build GRUB-based disk
     images (e.g. d-i).  The grub-<platform> packages now depend on these and
     include symlinks, so their behaviour will remain as before.
+  * Make grub-emu depend on grub-common.
 
   [ Updated translations ]
   * Belarusian (Viktar Siarheichyk).  Closes: #606864

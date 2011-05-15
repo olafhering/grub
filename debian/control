@@ -95,7 +95,7 @@ Description: GRand Unified Bootloader (common files for version 2)
 
 Package: grub-emu
 Architecture: any-i386 any-amd64 any-powerpc
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
 Replaces: grub-common (<= 1.97~beta3-1)
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (emulated version)
