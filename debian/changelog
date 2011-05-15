@@ -50,9 +50,6 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
     - Handle filesystems loop-mounted on file images.
     - On Wubi, don't ask for an install device, but just update wubildr
       using the diverted grub-install.
-    - Add a grub-rescue-efi-amd64 package containing a rescue CD-ROM image
-      for EFI-AMD64.  For the moment, the purpose of this is mainly to
-      deliver files to debian-installer.
     - Add grub-mount-udeb, containing just grub-mount.  This can be used by
       os-prober and other parts of d-i.
   * Don't do a separate build pass for grub-common.  It will be identical to

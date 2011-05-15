@@ -59,7 +59,7 @@ override_dh_auto_build: $(patsubst %,build/%,$(BUILD_PACKAGES))
 override_dh_auto_install: $(patsubst %,install/%,$(BUILD_PACKAGES))
 
 $(patsubst %,configure/%,$(REAL_PACKAGES)) :: configure/% : build/stamps/configure-%
-$(patsubst %,build/%,$(REAL_PACKAGES) grub-rescue-pc grub-rescue-efi-amd64) :: build/% : build/stamps/build-%
+$(patsubst %,build/%,$(REAL_PACKAGES) grub-rescue-pc) :: build/% : build/stamps/build-%
 
 build/stamps/configure-%: package = $(subst build/stamps/configure-,,$@)
 build/stamps/configure-%: export DH_OPTIONS = -p$(package) -Bbuild/$(package)
@@ -159,30 +159,6 @@ build/stamps/build-grub-rescue-pc: build/stamps/build-grub-pc
 		$(CURDIR)/build/grub-rescue-pc/rescue-disk
 	touch $@
 
-build/stamps/build-grub-rescue-efi-amd64: build/stamps/build-grub-efi-amd64
-	mkdir -p build/grub-rescue-efi-amd64
-	cp -a build/grub-efi-amd64/grub-mkrescue build/grub-rescue-efi-amd64/grub-mkrescue
-	mkdir -p build/grub-rescue-efi-amd64/rescue-disk/boot/grub
-	cp docs/grub.cfg build/grub-rescue-efi-amd64/rescue-disk/boot/grub/
-	sed -i 's,^prefix=.*,prefix=$(CURDIR)/build/grub-rescue-efi-amd64,' \
-		build/grub-rescue-efi-amd64/grub-mkrescue
-	# temporary, to allow this to be part of other CD images
-	sed -i 's,^search --fs-uuid.*,search --file --set=root /.disk/info,' \
-		build/grub-rescue-efi-amd64/grub-mkrescue
-	mkdir -p build/grub-rescue-efi-amd64/rescue-disk/.disk
-	echo 'GRUB EFI-AMD64 rescue CD $(deb_version)' \
-		>build/grub-rescue-efi-amd64/rescue-disk/.disk/info
-	mkdir -p build/grub-rescue-efi-amd64/lib/grub
-	rm -rf build/grub-rescue-efi-amd64/lib/grub/x86_64-efi
-	cp -a build/grub-efi-amd64/grub-core build/grub-rescue-efi-amd64/lib/grub/x86_64-efi
-	# save space
-	rm -rf build/grub-rescue-efi-amd64/lib/grub/x86_64-efi/po
-	$(CURDIR)/build/grub-rescue-efi-amd64/grub-mkrescue \
-		--grub-mkimage=$(CURDIR)/build/grub-efi-amd64/grub-mkimage \
-		--output=$(CURDIR)/build/grub-rescue-efi-amd64/grub-rescue-cdrom.iso \
-		$(CURDIR)/build/grub-rescue-efi-amd64/rescue-disk
-	touch $@
-
 platform_subst = \
 	if [ -e debian/$(1) ]; then \
 		sed debian/$(1) \
@@ -256,7 +232,7 @@ install/grub-common:
 	done
 
 override_dh_install:
-	dh_install -pgrub2 -pgrub-linuxbios -pgrub-efi -pgrub-rescue-pc -pgrub-rescue-efi-amd64 -pgrub-firmware-qemu
+	dh_install -pgrub2 -pgrub-linuxbios -pgrub-efi -pgrub-rescue-pc -pgrub-firmware-qemu
 	set -e; for package in grub-common grub2-common grub-mount-udeb; do \
 		dh_install -p$$package --sourcedir=debian/tmp-grub-$(COMMON_PLATFORM); \
 	done
