@@ -291,7 +291,7 @@ case "$1" in
   configure)
     . /usr/share/debconf/confmodule
 
-    if dpkg --compare-versions "$2" lt-nl 1.99~rc2-1; then
+    if dpkg --compare-versions "$2" lt-nl 1.99-1; then
       # Force dpkg to replace this directory with a symlink.
       if [ ! -L /usr/share/doc/@PACKAGE@ ] && [ -d /usr/share/doc/@PACKAGE@ ]; then
         if rmdir /usr/share/doc/@PACKAGE@ 2>/dev/null; then
