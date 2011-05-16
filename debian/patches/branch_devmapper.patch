@@ -19,7 +19,7 @@ Index: b/grub-core/kern/emu/getroot.c
  #ifdef __GNU__
  #include <hurd.h>
  #include <hurd/lookup.h>
-@@ -637,32 +641,65 @@
+@@ -634,32 +638,65 @@
  }
  
  static int
@@ -109,7 +109,7 @@ Index: b/grub-core/kern/emu/getroot.c
  }
  
  int
-@@ -674,13 +711,11 @@
+@@ -671,13 +708,11 @@
      return GRUB_DEV_ABSTRACTION_NONE;
  
    /* Check for LVM.  */
@@ -174,7 +174,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
      struct dm_task *task = NULL;
      grub_uint64_t start, length;
      char *target_type, *params, *space;
-@@ -1159,6 +1165,54 @@
+@@ -1161,6 +1167,54 @@
    return ret;
  }
  
@@ -229,7 +229,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
  static char *
  convert_system_partition_to_system_disk (const char *os_dev, struct stat *st)
  {
-@@ -1335,9 +1389,39 @@
+@@ -1337,9 +1391,39 @@
  	      node = NULL;
  	      goto devmapper_out;
  	    }

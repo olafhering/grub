@@ -1,3 +1,283 @@
+2011-05-14  Jordan Uggla  <jordan.uggla@gmail.com>
+
+	* docs/grub.texi (Invoking grub-install): Fix additional outdated claims
+	and add some clarification.
+
+2011-05-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub.d/10_linux.in: Autoload gzio since it's needed on some
+	platforms if kernel is compressed.
+
+2011-05-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/mm.c (grub_memalign): Disable auto-unloadding of
+	unused modules since currently referrence counter isn't reliable and
+	there isn't much memory to recover there anyway.
+
+2011-05-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/dl.c (grub_dl_load_file): Decrease ref counter
+	rather than resetting it to allow modules to reference themselves
+	in init.
+
+2011-05-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/dl.c (grub_dl_unload): Don't decrease reference
+	counter on dependencies since grub_dl_unref already handles this.
+
+2011-05-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/font/font_cmd.c (loadfont_command): Set grub_errno
+	on error if not already done.
+
+2011-05-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Fix few potential memory misusage.
+
+	* grub-core/font/font.c (load_font_index): Don't free char_index to
+	avoid double free.
+	(grub_font_load): Zero-fill font at alloc for safety.
+	Close file on error.
+	(free_font): Free bmp_idx.
+
+2011-05-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* docs/grub.texi (Installation): Fix several outdated claims.
+
+2011-05-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Handle module_license on windows.
+
+	* util/grub-pe2elf.c (MODLICENSE_SECTION): New definition. All following
+	sections shifted.
+	(insert_string): Make argument const char * instead of char *.
+	(write_section_data): Handle long section names.
+	Handle module_license.
+
+2011-05-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/commands/menuentry.c (grub_cmd_menuentry): Correctly
+	handle class-free menuentries.
+	(grub_normal_add_menu_entry): Add a check to be sure.
+
+2011-05-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/term/at_keyboard.c (set1_e0_mapping): Fix swap between
+	PgUp and PgDown.
+
+2011-05-13  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Bump version to 1.99.
+
+2011-05-13  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Give ATA device a bit more time on first try in order to allow disks
+	to spin up.
+
+	* grub-core/disk/ata.c (grub_atapi_identify): Use GRUB_ATA_TOUT_DEV_INIT
+	if dev->present is 1. Reset dev->present on failure.
+	(grub_ata_device_initialize): Set dev->present to 1.
+	* include/grub/ata.h (GRUB_ATA_TOUT_DEV_INIT): New value.
+	(grub_ata_device): New member 'present'.
+
+2011-05-13  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-mkimage.c (generate_image): Update hash.
+
+2011-05-13  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Flush caches on DMA memory.
+
+	* grub-core/kern/mips/cache.S (grub_arch_sync_dma_caches): New function.
+	* grub-core/bus/pci.c (grub_memalign_dma32): Flush caches.
+	(grub_dma_free): Likewise.
+	* include/grub/cache.h (grub_arch_sync_dma_caches): New declaration.
+
+2011-05-13  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/boot/mips/yeeloong/fwstart.S: Add explicit set mips3
+	to avoid asm treating ld and sd as macros.
+
+2011-05-13  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/boot/mips/startup_raw.S: Flush cache after loading
+	decompressor.
+
+2011-05-13  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/boot/mips/startup_raw.S: Use jalr rather than bal to call
+	grub_decompress_core since later would fail if grub_decompress_core
+	is too far.
+
+2011-05-13  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/mips/dl.c (grub_arch_dl_relocate_symbols): Handle
+	R_MIPS_JALR since it's used by newer compiler.
+
+2011-05-10  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub.d/10_linux.in: Correctly handle the Linux in root.
+
+2011-05-09  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/loader/efi/chainloader.c (grub_chainloader_unload): Set
+	file_path to 0 for surety.
+	(grub_chainloader_boot): Set exit_data to NULL.
+	Unset the loader once done.
+	(grub_cmd_chainloader): Fix confusing error message if file is empty.
+
+2011-05-09  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/term/at_keyboard.c (fetch_key): Make a printf on
+	unknown key into a dprintf.
+
+2011-05-09  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/emu/hostdisk.c (linux_find_partition): Don't abort
+	on first non-existant partition.
+
+2011-05-09  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/emu/hostdisk.c (open_device): Set data->fd to -1 if
+	openning fails.
+	Reported by: Mark Korenberg.
+
+2011-05-09  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/emu/hostdisk.c (linux_find_partition): Prevent possible
+	overflow.
+
+2011-05-09  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-mkimage.c (main): Explicitely flush and sync the output
+	before closing to ensure that it will be readable by grub-setup.
+
+2011-05-05  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/loader/efi/appleloader.c (MAKE_PIWG_PATH): New macro.
+	(devpath_1): Use MAKE_PIWG_PATH.
+	(devpath_2): Likewise.
+	(devpath_3): Likewise.
+	(devpath_4): Likewise.
+	(devpath_5): Likewise.
+	(devpath_6): Likewise.
+
+	The appleldr.mod was checked that to be binary identical to previous
+	version.
+
+2011-05-05  Zach <mikezackles>
+
+	Support 2010 Macbooks.
+
+	* grub-core/loader/efi/appleloader.c (devpath_6): New variable.
+	(devs): Add devpath_6.
+
+2011-05-05  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-mkpasswd-pbkdf2.c (main): Use /dev/urandom and not
+	/dev/random. /dev/urandom is good enough for our purposes (salting).
+
+2011-05-05  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-mkrescue.in (process_input_dir): Include efiemu??.o.
+
+2011-05-05  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/lib/legacy_parse.c (grub_legacy_parse): Correctly handle
+	hexadecimal.
+
+2011-05-05  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/efiemu/main.c (grub_efiemu_load_file): Return grub_errno
+	and not 0 on failure.
+
+2011-05-03  Colin Watson  <cjwatson@ubuntu.com>
+
+	* grub-core/fs/i386/pc/pxe.c (grub_pxefs_dir): Return
+	GRUB_ERR_BAD_FS rather than GRUB_ERR_IO if the disk is not a pxe
+	disk; otherwise grub_fs_probe will not fall back to the next
+	filesystem.
+	(grub_pxefs_open): Likewise, for consistency.
+	Reported and tested by: Ezekiel Grave.
+
+2011-05-03  Colin Watson  <cjwatson@ubuntu.com>
+
+	* tests/partmap_test.in: Don't hardcode path to parted.
+	Reported by: Peter Hjalmarsson.  Fixes Savannah bug #33150.
+
+2011-05-01  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub.texi (GRUB only offers a rescue shell): Suggest the use
+	of `ls' to find out which devices are available.
+
+2011-04-25  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/loader/i386/linux.c (grub_linux_boot): Supply target rather
+	than source address for efi mmap buffer.
+
+2011-04-25  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/partmap/amiga.c (amiga_partition_map_iterate): Fix a
+	wrong action on non-detecting the magic.
+
+2011-04-25  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/gnulib/regex.c: Remove GRUB_MOD_LICENSE since it's
+	already supplied by another part of the module (fixes compilation on
+	FreeBSD).
+
+2011-04-25  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/disk/mdraid_linux.c (grub_mdraid_detect): Make mdraid UUID
+	match the one used by mdadm.
+
+2011-04-21  Colin Watson  <cjwatson@ubuntu.com>
+
+	* po/README: Add instructions for creating po/LINGUAS.
+
+2011-04-21  Colin Watson  <cjwatson@ubuntu.com>
+
+	Add "SEE ALSO" sections to most man pages.  Fixes Debian bug
+	#551428.
+
+	* docs/man/grub-editenv.h2m (SEE ALSO): New section.
+	* docs/man/grub-emu.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-fstest.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-install.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-macho2img.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-menulst2cfg.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-mkconfig.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-mkdevicemap.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-mkfont.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-mkimage.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-mklayout.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-mknetdir.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-mkpasswd-pbkdf2.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-mkrelpath.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-mkrescue.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-ofpathname.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-pe2elf.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-probe.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-reboot.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-script-check.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-set-default.h2m (SEE ALSO): Likewise.
+	* docs/man/grub-setup.h2m (SEE ALSO): Likewise.
+
+2011-04-21  Colin Watson  <cjwatson@ubuntu.com>
+
+	* grub-core/kern/emu/getroot.c
+	(grub_find_root_device_from_mountinfo): Remove non-virtual-device
+	test that was incorrectly reintroduced in r3214.
+	Reported by: Ian Dall.  Fixes Savannah bug #33133.
+
+2011-04-21  Colin Watson  <cjwatson@ubuntu.com>
+
+	Fix stack pointer handling in 16-bit relocator.
+
+	* grub-core/lib/i386/relocator16.S (grub_relocator16_start): Move
+	grub_relocator16_sp to %esp rather than %ss, and zero-extend it.
+	Fixes Ubuntu bug #683904.
+
 2011-04-20  Vladimir Serbinenko  <phcoder@gmail.com>
 
 	* configure.ac: Bump version to 1.99~rc2.
@@ -206,7 +486,7 @@
 	(grub_util_biosdisk_open): Don't apply ioctl on non-disk devices.
 	(open_device) Likewise.
 	(grub_util_biosdisk_close): Likewise.
-	Reported by: Mark Korenberger.
+	Reported by: Mark Korenberg.
 
 2011-04-10  Alexander Kurtz <kurtz.alex@googlemail.com>
 

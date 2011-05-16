@@ -150,6 +150,13 @@ argdone:
 	b 1b
 	 addiu $t1, $t1, 1
 2:
+	lui $a0, %hi(base)
+	addiu $a0, $a0, %lo(base)
+	lui $a1, %hi(_end)
+	addiu $a1, %lo(_end)
+	subu $a1,$a1,$a0
+
+#include "../../kern/mips/cache_flush.S"
 
 	/* Decompress the payload. */
 	lui $a0, %hi(__bss_start)
@@ -170,9 +177,11 @@ argdone:
 	*/
 	move $s6, $a3
 
-	lui $sp, %hi(_start - 256)
+	lui $t0, %hi(EXT_C(grub_decompress_core))
+	addiu $t0, $t0, %lo(EXT_C(grub_decompress_core))
 
-	bal EXT_C(grub_decompress_core)
+	lui $sp, %hi(_start - 256)
+	jalr $t0
 	 addiu $sp, $sp, %lo(_start - 256)
 	
 	move $a0, $s1

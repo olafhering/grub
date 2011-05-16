@@ -550,7 +550,7 @@ struct linux_partition_cache
 struct linux_partition_cache *linux_partition_cache_list;
 
 static int
-linux_find_partition (char *dev, unsigned long sector)
+linux_find_partition (char *dev, grub_disk_addr_t sector)
 {
   size_t len = strlen (dev);
   const char *format;
@@ -596,7 +596,7 @@ linux_find_partition (char *dev, unsigned long sector)
 
       fd = open (real_dev, O_RDONLY);
       if (fd == -1)
-	return 0;
+	continue;
       close (fd);
 
       start = find_partition_start (real_dev);
@@ -678,6 +678,7 @@ open_device (const grub_disk_t disk, grub_disk_addr_t sector, int flags)
 	      }
 
 	    close (data->fd);
+	    data->fd = -1;
 	  }
 
 	/* Open the partition.  */
@@ -736,6 +737,7 @@ open_device (const grub_disk_t disk, grub_disk_addr_t sector, int flags)
 #endif
 	      }
 	    close (data->fd);
+	    data->fd = -1;
 	}
 
       fd = open (map[disk->id].device, flags);

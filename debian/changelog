@@ -1,4 +1,4 @@
-grub2 (1.99~rc2-1) UNRELEASED; urgency=low
+grub2 (1.99-1) UNRELEASED; urgency=low
 
   * New upstream release.
     - Ensure uniqueness of RAID array numbers even if some elements have a
@@ -26,6 +26,7 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
     - Improve quoting in grub-mkconfig, to support background image file
       names containing spaces (closes: #612417).
     - Flush BIOS disk devices more accurately (closes: #623124).
+    - Add "SEE ALSO" sections to most man pages (closes: #551428).
 
   [ Christian Perrier ]
   * Drop extra word in French debconf translation. Thanks to David
