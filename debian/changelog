@@ -82,6 +82,9 @@ grub2 (1.99-1) UNRELEASED; urgency=low
   * Make grub-emu depend on grub-common.
   * Make the documentation directory in most binary packages be a symlink to
     that in grub-common.
+  * Drop lenny compatibility from grub2-common's dpkg/install-info
+    dependency, since it produces a Lintian warning and using the current
+    packaging on lenny is probably rather a stretch anyway.
 
   [ Updated translations ]
   * Belarusian (Viktar Siarheichyk).  Closes: #606864

@@ -83,7 +83,7 @@ Description: GRand Unified Bootloader (common files)
 Package: grub2-common
 Priority: optional
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc any-mipsel
-Depends: grub-common (= ${binary:Version}), dpkg (>= 1.15.4) | install-info | dpkg (<= 1.14.25), ${shlibs:Depends}, ${misc:Depends}
+Depends: grub-common (= ${binary:Version}), dpkg (>= 1.15.4) | install-info, ${shlibs:Depends}, ${misc:Depends}
 Replaces: grub, grub-legacy, grub-common (<< 1.99-1), grub-pc (<< 1.99-1), grub-ieee1275 (<< 1.99-1), grub-efi (<< 1.99-1), grub-coreboot (<< 1.99-1), grub-linuxbios (<< 1.99-1), grub-efi-ia32 (<< 1.99-1), grub-efi-amd64 (<< 1.99-1), grub-yeeloong (<< 1.99-1)
 Conflicts: grub (<< 0.97-54), grub-legacy, grub-doc (<< 0.97-32), grub-legacy-doc (<< 0.97-59)
 Multi-Arch: foreign
