@@ -51,6 +51,8 @@ grub2 (1.99-1) UNRELEASED; urgency=low
       using the diverted grub-install.
     - Add grub-mount-udeb, containing just grub-mount.  This can be used by
       os-prober and other parts of d-i.
+    - Artificially bump Replaces: grub-common versioning to account for
+      grub-reboot/grub-set-default movement in Ubuntu.
   * Don't do a separate build pass for grub-common.  It will be identical to
     the build for the default platform for the CPU architecture anyway, so
     reuse that.
