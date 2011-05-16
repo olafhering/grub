@@ -34,7 +34,7 @@ export GRUB_CONTRIB := $(CURDIR)/debian/grub-extras
 
 confflags = PACKAGE_VERSION="$(deb_version)" PACKAGE_STRING="GRUB $(deb_version)" CC=$(CC) TARGET_CC=$(CC) --enable-grub-mkfont
 
-AUTOGEN_DEB_FILES = examples config templates preinst postinst postrm dirs install links
+AUTOGEN_DEB_FILES = config templates preinst postinst postrm dirs install links
 
 BUILD_PACKAGES := $(strip $(shell dh_listpackages))
 REAL_PACKAGES = grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-ieee1275 grub-firmware-qemu grub-yeeloong
@@ -244,7 +244,8 @@ override_dh_install:
 	dh_install -pgrub-emu --sourcedir=debian/tmp-grub-emu
 
 override_dh_installdocs:
-	dh_installdocs -A AUTHORS NEWS README THANKS TODO
+	dh_installdocs -pgrub-common -pgrub-rescue-pc -pgrub-firmware-qemu -A AUTHORS NEWS README THANKS TODO
+	dh_installdocs -Ngrub-common -Ngrub-rescue-pc -Ngrub-firmware-qemu --link-doc=grub-common
 
 override_dh_strip:
 	dh_strip -X/usr/bin/grub-emu

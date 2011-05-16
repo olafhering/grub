@@ -81,6 +81,8 @@ grub2 (1.99~rc2-1) UNRELEASED; urgency=low
     images (e.g. d-i).  The grub-<platform> packages now depend on these and
     include symlinks, so their behaviour will remain as before.
   * Make grub-emu depend on grub-common.
+  * Make the documentation directory in most binary packages be a symlink to
+    that in grub-common.
 
   [ Updated translations ]
   * Belarusian (Viktar Siarheichyk).  Closes: #606864
