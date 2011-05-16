@@ -1,4 +1,4 @@
-grub2 (1.99-1) UNRELEASED; urgency=low
+grub2 (1.99-1) unstable; urgency=low
 
   * New upstream release.
     - Ensure uniqueness of RAID array numbers even if some elements have a
@@ -96,7 +96,7 @@ grub2 (1.99-1) UNRELEASED; urgency=low
   * Brazilian Portuguese (Flamarion Jorge).  Closes: #610613
   * Greek (Emmanuel Galatoulas).  Closes: #604847
 
- -- Colin Watson <cjwatson@debian.org>  Thu, 21 Apr 2011 11:19:57 +0100
+ -- Colin Watson <cjwatson@debian.org>  Mon, 16 May 2011 17:42:07 +0100
 
 grub2 (1.99~rc1-13) unstable; urgency=low
 
