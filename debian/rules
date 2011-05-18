@@ -178,13 +178,13 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee12
 			> debian/$(package).$$i; \
 			$(call platform_subst,$$i.in,$(package),$$i); \
 			$(call platform_subst,$(package).$$i.in,$(package),$$i); \
-			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH).in,$(package),$$i); \
+			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_CPU).in,$(package),$$i); \
 			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_OS).in,$(package),$$i); \
 			[ -s debian/$(package).$$i ] || rm -f debian/$(package).$$i; \
 			> debian/$(package_bin).$$i; \
 			$(call platform_subst,$$i-bin.in,$(package_bin),$$i); \
 			$(call platform_subst,$(package_bin).$$i.in,$(package_bin),$$i); \
-			$(call platform_subst,$(package_bin).$$i.$(DEB_HOST_ARCH).in,$(package_bin),$$i); \
+			$(call platform_subst,$(package_bin).$$i.$(DEB_HOST_ARCH_CPU).in,$(package_bin),$$i); \
 			$(call platform_subst,$(package_bin).$$i.$(DEB_HOST_ARCH_OS).in,$(package_bin),$$i); \
 			[ -s debian/$(package_bin).$$i ] || rm -f debian/$(package_bin).$$i; \
 		done ; \
@@ -224,8 +224,8 @@ install/grub-common:
 			cat debian/grub-common.$$i.in \
 				> debian/grub-common.$$i ; \
 		fi ; \
-		if [ -e debian/grub-common.$$i.$(DEB_HOST_ARCH).in ] ; then \
-			cat debian/grub-common.$$i.$(DEB_HOST_ARCH).in \
+		if [ -e debian/grub-common.$$i.$(DEB_HOST_ARCH_CPU).in ] ; then \
+			cat debian/grub-common.$$i.$(DEB_HOST_ARCH_CPU).in \
 				>> debian/grub-common.$$i ; \
 		fi ; \
 		if [ -e debian/grub-common.$$i.$(DEB_HOST_ARCH_OS).in ] ; then \
