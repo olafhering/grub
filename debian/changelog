@@ -1,11 +1,11 @@
-grub2 (1.99-3) UNRELEASED; urgency=low
+grub2 (1.99-3) unstable; urgency=low
 
   * Ship grub-mkrescue on non-Linux amd64/i386 architectures.
   * Don't try to ship grub-mkrescue on sparc.
   * Drop boot_blocklist_hack.patch, fixed differently upstream some time ago
     by being smarter about filesystem-root-relative path conversion.
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 18 May 2011 09:51:55 +0100
+ -- Colin Watson <cjwatson@debian.org>  Wed, 18 May 2011 14:06:51 +0100
 
 grub2 (1.99-2) unstable; urgency=low
 
