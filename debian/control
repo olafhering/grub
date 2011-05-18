@@ -104,7 +104,7 @@ Description: GRand Unified Bootloader, version 2 (emulated version)
 Package: grub-pc-bin
 Priority: optional
 Architecture: any-i386 any-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
 Replaces: grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-pc (<< 1.99-1)
 Suggests: desktop-base (>= 4.0.6)
 Multi-Arch: foreign
@@ -130,7 +130,7 @@ Description: GRand Unified Bootloader, version 2 (PC/BIOS binaries)
 Package: grub-pc
 Priority: optional
 Architecture: any-i386 any-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-pc-bin (= ${binary:Version}), ucf, freebsd-utils (>= 8.0-4) [kfreebsd-any]
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-pc-bin (= ${binary:Version}), ucf, freebsd-utils (>= 8.0-4) [kfreebsd-any]
 Replaces: grub, grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-ieee1275
 Conflicts: grub (<< 0.97-54), grub-legacy, grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-ieee1275
 Multi-Arch: foreign
@@ -165,7 +165,7 @@ Description: GRUB bootable rescue images, version 2 (PC/BIOS version)
 
 Package: grub-coreboot-bin
 Architecture: any-i386 any-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
 Replaces: grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-linuxbios, grub-coreboot (<< 1.99-1)
 Conflicts: grub-linuxbios (<< ${source:Version})
 Multi-Arch: foreign
@@ -186,7 +186,7 @@ Description: GRand Unified Bootloader, version 2 (Coreboot binaries)
 
 Package: grub-coreboot
 Architecture: any-i386 any-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-coreboot-bin (= ${binary:Version}), ucf
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-coreboot-bin (= ${binary:Version}), ucf
 Replaces: grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-linuxbios, grub-efi-amd64, grub-efi-ia32, grub-pc, grub-ieee1275
 Conflicts: grub (<< 0.97-54), grub-legacy, grub-linuxbios (<< ${source:Version}), grub-efi-amd64, grub-efi-ia32, grub-pc, grub-ieee1275
 Multi-Arch: foreign
@@ -205,7 +205,7 @@ Description: GRand Unified Bootloader, version 2 (Coreboot version)
 
 Package: grub-efi-ia32-bin
 Architecture: any-i386 any-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), efibootmgr [i386 amd64]
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}), efibootmgr [i386 amd64]
 Replaces: grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-efi, grub-efi-ia32 (<< 1.99-1)
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (EFI-IA32 binaries)
@@ -226,7 +226,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-IA32 binaries)
 
 Package: grub-efi-ia32
 Architecture: any-i386 any-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-efi-ia32-bin (= ${binary:Version}), ucf
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-efi-ia32-bin (= ${binary:Version}), ucf
 Replaces: grub, grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-efi, grub-efi-amd64, grub-pc, grub-coreboot, grub-ieee1275
 Conflicts: grub (<< 0.97-54), grub-legacy, grub-efi-amd64, grub-pc, grub-coreboot, grub-ieee1275
 Multi-Arch: foreign
@@ -246,7 +246,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-IA32 version)
 
 Package: grub-efi-amd64-bin
 Architecture: i386 kopensolaris-i386 any-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), efibootmgr [i386 amd64]
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}), efibootmgr [i386 amd64]
 Replaces: grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-efi-amd64 (<< 1.99-1)
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (EFI-AMD64 binaries)
@@ -267,7 +267,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-AMD64 binaries)
 
 Package: grub-efi-amd64
 Architecture: i386 kopensolaris-i386 any-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-efi-amd64-bin (= ${binary:Version}), ucf
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-efi-amd64-bin (= ${binary:Version}), ucf
 Replaces: grub, grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-pc, grub-efi-ia32, grub-coreboot, grub-ieee1275
 Conflicts: grub, grub-legacy, grub-efi-ia32, grub-pc, grub-coreboot, grub-ieee1275
 Multi-Arch: foreign
@@ -287,7 +287,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-AMD64 version)
 
 Package: grub-ieee1275-bin
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}),
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}),
  powerpc-ibm-utils [any-powerpc any-ppc64], powerpc-utils [any-powerpc any-ppc64], bc [any-powerpc any-ppc64]
 Replaces: grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-ieee1275 (<< 1.99-1)
 Suggests: genisoimage [any-powerpc any-ppc64]
@@ -309,7 +309,7 @@ Description: GRand Unified Bootloader, version 2 (Open Firmware binaries)
 
 Package: grub-ieee1275
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-ieee1275-bin (= ${binary:Version}), ucf
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-ieee1275-bin (= ${binary:Version}), ucf
 Replaces: grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-pc
 Conflicts: grub (<< 0.97-54), grub-legacy, grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-pc
 Multi-Arch: foreign
@@ -347,7 +347,7 @@ Description: GRUB firmware image for QEMU
 
 Package: grub-yeeloong-bin
 Architecture: any-mipsel
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
 Replaces: grub-common (<< 1.98+20100617-2), grub-yeeloong (<< 1.99-1)
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (Yeeloong binaries)
@@ -367,7 +367,7 @@ Description: GRand Unified Bootloader, version 2 (Yeeloong binaries)
 
 Package: grub-yeeloong
 Architecture: any-mipsel
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-yeeloong-bin (= ${binary:Version}), ucf
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-yeeloong-bin (= ${binary:Version}), ucf
 Replaces: grub-common (<< 1.98+20100617-2)
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (Yeeloong version)

@@ -1,3 +1,12 @@
+grub2 (1.99-4) UNRELEASED; urgency=low
+
+  * Make grub-<platform>-bin packages depend on grub-common rather than
+    grub2-common, and add grub2-common dependencies to grub-<platform>.
+    This ensures that grub-<platform>-bin packages are coinstallable with
+    grub-legacy, making it easier to use them as build-dependencies.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 18 May 2011 17:22:38 +0100
+
 grub2 (1.99-3) unstable; urgency=low
 
   * Ship grub-mkrescue on non-Linux amd64/i386 architectures.
