@@ -4,6 +4,8 @@ grub2 (1.99-4) UNRELEASED; urgency=low
     grub2-common, and add grub2-common dependencies to grub-<platform>.
     This ensures that grub-<platform>-bin packages are coinstallable with
     grub-legacy, making it easier to use them as build-dependencies.
+  * Stop trying to install the non-existent grub-ofpathname(8) on sparc for
+    now.  It will exist in the next upstream snapshot.
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 18 May 2011 17:22:38 +0100
 
