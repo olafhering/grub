@@ -4,7 +4,8 @@ Description: Add a background_color command
 Author: Colin Watson <cjwatson@ubuntu.com>
 Origin: upstream, http://bzr.sv.gnu.org/r/grub/branches/parse-color/
 Forwarded: http://lists.gnu.org/archive/html/grub-devel/2010-12/msg00045.html
-Last-Update: 2011-04-21
+Applied-Upstream: http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3308
+Last-Update: 2011-05-19
 
 Index: b/ChangeLog.parse-color
 ===================================================================

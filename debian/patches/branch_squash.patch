@@ -2,7 +2,8 @@ Description: Add squashfs 4 support
 Author: Vladimir Serbinenko <phcoder@gmail.com>
 Origin: upstream, http://bzr.sv.gnu.org/r/grub/branches/squash/
 Forwarded: not-needed
-Last-Update: 2011-01-04
+Applied-Upstream: http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3278
+Last-Update: 2011-05-19
 
 Index: b/Makefile.util.def
 ===================================================================

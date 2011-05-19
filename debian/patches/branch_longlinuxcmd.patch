@@ -2,7 +2,8 @@ Description: Support long Linux command lines
 Author: Vladimir Serbinenko <phcoder@gmail.com>
 Origin: upstream, http://bzr.sv.gnu.org/r/grub/branches/longlinuxcmd/
 Forwarded: not-needed
-Last-Update: 2011-01-05
+Applied-Upstream: http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3303
+Last-Update: 2011-05-19
 
 Index: b/grub-core/loader/i386/linux.c
 ===================================================================

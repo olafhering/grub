@@ -2,7 +2,8 @@ Description: Support for partitioned loop devices; improved devmapper support
 Author: Vladimir Serbinenko <phcoder@gmail.com>
 Origin: upstream, http://bzr.sv.gnu.org/r/grub/branches/devmapper/
 Forwarded: not-needed
-Last-Update: 2011-03-11
+Applied-Upstream: http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3302
+Last-Update: 2011-05-19
 
 Index: b/grub-core/kern/emu/getroot.c
 ===================================================================
