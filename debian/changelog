@@ -1,4 +1,4 @@
-grub2 (1.99-4) UNRELEASED; urgency=low
+grub2 (1.99-4) unstable; urgency=low
 
   * Make grub-<platform>-bin packages depend on grub-common rather than
     grub2-common, and add grub2-common dependencies to grub-<platform>.
@@ -7,7 +7,7 @@ grub2 (1.99-4) UNRELEASED; urgency=low
   * Stop trying to install the non-existent grub-ofpathname(8) on sparc for
     now.  It will exist in the next upstream snapshot.
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 18 May 2011 17:22:38 +0100
+ -- Colin Watson <cjwatson@debian.org>  Thu, 19 May 2011 12:38:45 +0100
 
 grub2 (1.99-3) unstable; urgency=low
 
