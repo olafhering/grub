@@ -124,9 +124,9 @@ msgid ""
 "not recommended."
 msgstr ""
 "Veuillez noter que GRUB peut également être installé sur les secteurs "
-"d'amorçage de partitions. Certaines partitions où cela pourrait "
-"être nécessaire sont indiquées ici. Cependant, cela impose que GRUB utilise "
-"le mécanisme « blocklist », ce qui le rend moins fiable et n'est donc pas "
+"d'amorçage de partitions. Certaines partitions où cela pourrait être "
+"nécessaire sont indiquées ici. Cependant, cela impose que GRUB utilise le "
+"mécanisme « blocklist », ce qui le rend moins fiable et n'est donc pas "
 "recommandé."
 
 #. Type: multiselect

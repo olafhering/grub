@@ -39,7 +39,11 @@ msgid ""
 "recommended that /boot/grub/menu.lst is adjusted to load a GRUB 2 boot image "
 "from your existing GRUB Legacy setup. This step can be automatically "
 "performed now."
-msgstr "A l'hora de reemplaçar la versió Legacy del GRUB que hi ha al sistema, és recomanable que es modifique /boot/grub/menu.lst per a carregar una imatge d'arrencada del GRUB 2 des de la vostra configuració del GRUB Legacy existent. Aquest pas es pot dur a terme ara."
+msgstr ""
+"A l'hora de reemplaçar la versió Legacy del GRUB que hi ha al sistema, és "
+"recomanable que es modifique /boot/grub/menu.lst per a carregar una imatge "
+"d'arrencada del GRUB 2 des de la vostra configuració del GRUB Legacy "
+"existent. Aquest pas es pot dur a terme ara."
 
 #. Type: boolean
 #. Description
@@ -48,7 +52,11 @@ msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that the new GRUB 2 setup works before it is written to the MBR "
 "(Master Boot Record)."
-msgstr "És recomanable que accepteu la càrrega en cadena del GRUB 2 des del menu.lst, per a verificar que la nova configuració del GRUB 2 funciona correctament, abans de que que s'escriga al registre mestre d'arrencada (MBR)."
+msgstr ""
+"És recomanable que accepteu la càrrega en cadena del GRUB 2 des del menu."
+"lst, per a verificar que la nova configuració del GRUB 2 funciona "
+"correctament, abans de que que s'escriga al registre mestre d'arrencada "
+"(MBR)."
 
 #. Type: boolean
 #. Description
@@ -56,7 +64,9 @@ msgstr "És recomanable que accepteu la càrrega en cadena del GRUB 2 des del me
 msgid ""
 "Whatever your decision, you can replace the old MBR image with GRUB 2 later "
 "by issuing the following command as root:"
-msgstr "Independentment de la vostra decisió, podeu reemplaçar la imatge antiga de l'MBR amb el GRUB2 executant l'ordre següent com a root:"
+msgstr ""
+"Independentment de la vostra decisió, podeu reemplaçar la imatge antiga de "
+"l'MBR amb el GRUB2 executant l'ordre següent com a root:"
 
 #. Type: multiselect
 #. Description
@@ -72,7 +82,10 @@ msgstr "Dispositius d'instaŀlació del GRUB:"
 msgid ""
 "The grub-pc package is being upgraded. This menu allows you to select which "
 "devices you'd like grub-install to be automatically run for, if any."
-msgstr "S'està actualitzant el paquet grub-pc. Aquest menú us permet seleccionar sobre quins dispositius voleu que s'execute el grub-install automàticament, en cas de voler-ho."
+msgstr ""
+"S'està actualitzant el paquet grub-pc. Aquest menú us permet seleccionar "
+"sobre quins dispositius voleu que s'execute el grub-install automàticament, "
+"en cas de voler-ho."
 
 #. Type: multiselect
 #. Description
@@ -81,7 +94,10 @@ msgid ""
 "Running grub-install automatically is recommended in most situations, to "
 "prevent the installed GRUB core image from getting out of sync with GRUB "
 "modules or grub.cfg."
-msgstr "L'execució automàtica del grub-install és recomanable en la majoria de les situacions, per a evitar que la imatge del nucli del GRUB es desincronitze amb els mòduls del GRUB o el grub.cfg."
+msgstr ""
+"L'execució automàtica del grub-install és recomanable en la majoria de les "
+"situacions, per a evitar que la imatge del nucli del GRUB es desincronitze "
+"amb els mòduls del GRUB o el grub.cfg."
 
 #. Type: multiselect
 #. Description
@@ -91,7 +107,10 @@ msgstr "L'execució automàtica del grub-install és recomanable en la majoria d
 msgid ""
 "If you're unsure which drive is designated as boot drive by your BIOS, it is "
 "often a good idea to install GRUB to all of them."
-msgstr "Si no esteu segur sobre quina és la unitat designada com a unitat d'arrencada per la BIOS, normalment és una bona idea instaŀlar el GRUB a tots ells."
+msgstr ""
+"Si no esteu segur sobre quina és la unitat designada com a unitat "
+"d'arrencada per la BIOS, normalment és una bona idea instaŀlar el GRUB a "
+"tots ells."
 
 #. Type: multiselect
 #. Description
@@ -103,7 +122,11 @@ msgid ""
 "some appropriate partitions are offered here. However, this forces GRUB to "
 "use the blocklist mechanism, which makes it less reliable, and therefore is "
 "not recommended."
-msgstr "Nota: també és possible instaŀlar el GRUB a registres d'arrencada de particions, i s'ofereixen algunes particions addients. Tanmateix, això força al GRUB a usar el mecanisme de llistes de blocs, que fa que siga menys fiable, per la qual cosa no és recomanable."
+msgstr ""
+"Nota: també és possible instaŀlar el GRUB a registres d'arrencada de "
+"particions, i s'ofereixen algunes particions addients. Tanmateix, això força "
+"al GRUB a usar el mecanisme de llistes de blocs, que fa que siga menys "
+"fiable, per la qual cosa no és recomanable."
 
 #. Type: multiselect
 #. Description
@@ -114,7 +137,12 @@ msgid ""
 "important to make sure that the installed GRUB core image stays in sync with "
 "GRUB modules and grub.cfg. Please check again to make sure that GRUB is "
 "written to the appropriate boot devices."
-msgstr "El carregador GRUB estava instaŀlat a un disc que ja no és present, o per al qual ha canviat el seu identificador únic per alguna raó. És important assegurar-se que la imatge del nucli del GRUB roman sincronitzada amb els mòduls del GRUB i el grub.cfg. Comproveu de nou que el GRUB s'escriu als dispositius d'arrencada apropiats."
+msgstr ""
+"El carregador GRUB estava instaŀlat a un disc que ja no és present, o per al "
+"qual ha canviat el seu identificador únic per alguna raó. És important "
+"assegurar-se que la imatge del nucli del GRUB roman sincronitzada amb els "
+"mòduls del GRUB i el grub.cfg. Comproveu de nou que el GRUB s'escriu als "
+"dispositius d'arrencada apropiats."
 
 #. Type: text
 #. Description
@@ -159,7 +187,8 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "Writing GRUB to boot device failed - try again?"
-msgstr "Ha fallat l'escriptura del GRUB al dispositiu. Voleu tornar a provar-ho?"
+msgstr ""
+"Ha fallat l'escriptura del GRUB al dispositiu. Voleu tornar a provar-ho?"
 
 #. Type: boolean
 #. Description
@@ -226,7 +255,8 @@ msgstr "Voleu suprimir tots els fitxers del GRUB 2 de /boot/grub?"
 #: ../grub-pc.templates.in:10001
 msgid ""
 "This will make the system unbootable unless another boot loader is installed."
-msgstr "Això farà que el sistema no arrenque si no s'instaŀla un altre carregador."
+msgstr ""
+"Això farà que el sistema no arrenque si no s'instaŀla un altre carregador."
 
 #. Type: boolean
 #. Description
@@ -368,7 +398,11 @@ msgid ""
 "that the system is depending on the old device map. Please check whether "
 "there are any custom boot menu entries that rely on GRUB's (hdN) drive "
 "numbering, and update them if necessary."
-msgstr "Tanmateix, com hi ha més d'un disc al sistema, és possible que el sistema depenga del mapa de dispositius antic. Comproveu si hi ha entrades del menú d'arrencada personalitzades que requerisquen la numeració d'unitats del GRUB (hdN), i actualitzeu-les si és necessari."
+msgstr ""
+"Tanmateix, com hi ha més d'un disc al sistema, és possible que el sistema "
+"depenga del mapa de dispositius antic. Comproveu si hi ha entrades del menú "
+"d'arrencada personalitzades que requerisquen la numeració d'unitats del GRUB "
+"(hdN), i actualitzeu-les si és necessari."
 
 #. Type: note
 #. Description
@@ -376,7 +410,9 @@ msgstr "Tanmateix, com hi ha més d'un disc al sistema, és possible que el sist
 msgid ""
 "If you do not understand this message, or if there are no custom boot menu "
 "entries, you can ignore this message."
-msgstr "Si no enteneu aquest missatge, o si no hi ha cap entrada del menú d'arrencada personalitzada, podeu descartar aquest missatge."
+msgstr ""
+"Si no enteneu aquest missatge, o si no hi ha cap entrada del menú "
+"d'arrencada personalitzada, podeu descartar aquest missatge."
 
 #~ msgid ""
 #~ "In either case, whenever you want GRUB 2 to be loaded directly from MBR, "
