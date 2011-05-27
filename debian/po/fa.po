@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fa\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 21:22+0000\n"
+"POT-Creation-Date: 2011-05-27 13:33+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Morteza Fakhraee <acr.i18n@gmail.com>\n"
 "Language-Team: debian-l10n-persian <debian-l10n-persian@lists.debian.org>\n"
@@ -300,10 +300,15 @@ msgstr "خط فرمان لینوکس:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from /etc/default/grub or "
+#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
+#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-"correct, and modify it if necessary."
+"correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "خط فرمان لینوکس ذیل از /etc/default/grub یا پارامتر های `kopt' در فایل menu."
 "lst از گراب قدیمی استخراج شده است. لطفاً صحت آن را بررسی کنید، و در صورت لزوم "
@@ -334,10 +339,15 @@ msgstr "خط فرمان kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
+#, fuzzy
+#| msgid ""
+#| "The following kFreeBSD command line was extracted from /etc/default/grub "
+#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
+#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-"correct, and modify it if necessary."
+"correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "خط فرمان kFreeBSD ذیل از /etc/default/grub یا پارامتر های `kopt' در فایل "
 "menu.lst از گراب قدیمی استخراج شده است. لطفاً صحت آن را بررسی کنید، و در صورت "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2 1.98+20100804-11\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 18:02-0400\n"
+"POT-Creation-Date: 2011-05-27 13:33+0100\n"
 "PO-Revision-Date: 2010-12-10 19:54+0100\n"
 "Last-Translator: Jordi Mallach <jordi@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -312,10 +312,15 @@ msgstr "Línia d'ordres de Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from /etc/default/grub or "
+#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
+#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-"correct, and modify it if necessary."
+"correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "La línia d'ordres de Linux següent ha sigut extreta de /etc/default/grub o "
 "del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Verifiqueu que és "
@@ -346,10 +351,15 @@ msgstr "Línia d'ordres de kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
+#, fuzzy
+#| msgid ""
+#| "The following kFreeBSD command line was extracted from /etc/default/grub "
+#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
+#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-"correct, and modify it if necessary."
+"correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "La línia d'ordres de kFreeBSD següent ha sigut extreta de /etc/default/grub "
 "o del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Verifiqueu que "

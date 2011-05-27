@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 21:22+0000\n"
+"POT-Creation-Date: 2011-05-27 13:33+0100\n"
 "PO-Revision-Date: 2010-12-11 00:04+0100\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -320,10 +320,15 @@ msgstr "Ligne de commande de Linux :"
 #. Type: string
 #. Description
 #: ../templates.in:1001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from /etc/default/grub or "
+#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
+#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-"correct, and modify it if necessary."
+"correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "La ligne de commande de Linux suivante a été récupérée via le fichier /etc/"
 "default/grub ou le paramètre « kopt » du fichier menu.lst utilisé par la "
@@ -355,10 +360,15 @@ msgstr "Ligne de commande de kFreeBSD :"
 #. Type: string
 #. Description
 #: ../templates.in:3001
+#, fuzzy
+#| msgid ""
+#| "The following kFreeBSD command line was extracted from /etc/default/grub "
+#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
+#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-"correct, and modify it if necessary."
+"correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "La ligne de commande de kFreeBSD suivante a été récupérée via le fichier /"
 "etc/default/grub ou le paramètre « kopt » du fichier menu.lst utilisé par la "

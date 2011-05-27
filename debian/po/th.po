@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 21:22+0000\n"
+"POT-Creation-Date: 2011-05-27 13:33+0100\n"
 "PO-Revision-Date: 2010-12-21 17:12+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -291,10 +291,15 @@ msgstr "พารามิเตอร์สำหรับบูตลินุ
 #. Type: string
 #. Description
 #: ../templates.in:1001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from /etc/default/grub or "
+#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
+#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-"correct, and modify it if necessary."
+"correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "พารามิเตอร์สำหรับบูตลินุกซ์ต่อไปนี้ดึงออกมาจาก /etc/default/grub หรือพารามิเตอร์ `kopt' ใน "
 "menu.lst ของ GRUB รุ่นเก่า กรุณาตรวจสอบว่าค่านี้ถูกต้องหรือไม่ และกรุณาแก้ไขถ้าจำเป็น"
@@ -322,10 +327,15 @@ msgstr "พารามิเตอร์สำหรับบูต kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
+#, fuzzy
+#| msgid ""
+#| "The following kFreeBSD command line was extracted from /etc/default/grub "
+#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
+#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-"correct, and modify it if necessary."
+"correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "พารามิเตอร์สำหรับบูต kFreeBSD ต่อไปนี้ดึงออกมาจาก /etc/default/grub หรือพารามิเตอร์ "
 "`kopt' ใน menu.lst ของ GRUB รุ่นเก่า กรุณาตรวจสอบว่าค่านี้ถูกต้องหรือไม่ "

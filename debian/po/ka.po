@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 18:02-0400\n"
+"POT-Creation-Date: 2011-05-27 13:33+0100\n"
 "PO-Revision-Date: 2009-08-30 18:05+0400\n"
 "Last-Translator: Aiet Kolkhi <aietkolkhi@gmail.com>\n"
 "Language-Team: Georgian <aiet@gakartuleba.org>\n"
@@ -276,10 +276,15 @@ msgstr "ლინუქსის ბრძანების სტრიქო�
 #. Type: string
 #. Description
 #: ../templates.in:1001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from /etc/default/grub or "
+#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
+#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-"correct, and modify it if necessary."
+"correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "ლინუქსის შემდეგი ბრძანება მოძიებულ იქნა /etc/default/grub-დან ან `kopt' "
 "პარამეტრიდან ძველი GRUB-ის menu.lst-ში.  გადაამოწმეთ, რომ იგი სწორია, ან "
@@ -310,10 +315,15 @@ msgstr "kFreeBSD ბრძანების სტრიქონი:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
+#, fuzzy
+#| msgid ""
+#| "The following kFreeBSD command line was extracted from /etc/default/grub "
+#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
+#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-"correct, and modify it if necessary."
+"correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "შემდეგი kFreeBSD-ის ბრძანების სტრიქონი ამოღებულ იქნა /etc/default/grub-დან "
 "ან `kopt'  პარამეტრიდან ძველი GRUB-ის menu.lst-ში.  გადაამოწმეთ, რომ იგი "

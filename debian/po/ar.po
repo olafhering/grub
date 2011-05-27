@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub.ar\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 18:02-0400\n"
+"POT-Creation-Date: 2011-05-27 13:33+0100\n"
 "PO-Revision-Date: 2010-07-16 02:38+0300\n"
 "Last-Translator: Ossama M. Khayat <okhayat@yahoo.com>\n"
 "Language-Team: Arabic <support@arabeyes.org>\n"
@@ -313,10 +313,15 @@ msgstr "سطر أوامر لينكس:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from /etc/default/grub or "
+#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
+#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-"correct, and modify it if necessary."
+"correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "سطر أوامر لينكس التالي تم استخراجه من /etc/default/grub أو\n"
 "مُعطى `kopt' في ملف menu.lst الخاص بحزمة GRUB القديمة. رجاءً تحقق من\n"
@@ -347,10 +352,15 @@ msgstr "سطر أوامر KFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
+#, fuzzy
+#| msgid ""
+#| "The following kFreeBSD command line was extracted from /etc/default/grub "
+#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
+#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-"correct, and modify it if necessary."
+"correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "سطر أوامر KFreeBSD التالي تم استخراجه من /etc/default/grub أو\n"
 "مُعطى `kopt' في ملف menu.lst الخاص بحزمة GRUB القديمة. رجاءً تحقق من صحته وقم "

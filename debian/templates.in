@@ -3,7 +3,7 @@ Type: string
 _Description: Linux command line:
  The following Linux command line was extracted from /etc/default/grub or the
  `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is correct,
- and modify it if necessary.
+ and modify it if necessary. The command line is allowed to be empty.
 
 Template: grub2/linux_cmdline_default
 Type: string
@@ -18,7 +18,7 @@ Type: string
 _Description: kFreeBSD command line:
  The following kFreeBSD command line was extracted from /etc/default/grub or the
  `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is correct,
- and modify it if necessary.
+ and modify it if necessary. The command line is allowed to be empty.
 
 # still unused
 Template: grub2/kfreebsd_cmdline_default

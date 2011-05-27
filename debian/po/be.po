@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: be\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-08 21:22+0000\n"
+"POT-Creation-Date: 2011-05-27 13:33+0100\n"
 "PO-Revision-Date: 2010-12-12 17:08+0300\n"
 "Last-Translator: Viktar Siarheichyk <viсs@eq.by>\n"
 "Language-Team: Debian Belarusian (Official spelling) <debian-l10n-"
@@ -310,10 +310,15 @@ msgstr "Радок камандаў для ядра Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
+#, fuzzy
+#| msgid ""
+#| "The following Linux command line was extracted from /etc/default/grub or "
+#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
+#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-"correct, and modify it if necessary."
+"correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "Гэты радок камандаў для ядра Linux узяты з файлу /etc/default/grub або з "
 "параметру `kopt' у файле наладак (menu.lst) папярэдняй версіі GRUB. Калі "
@@ -345,10 +350,15 @@ msgstr "Радок камандаў для ядра kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
+#, fuzzy
+#| msgid ""
+#| "The following kFreeBSD command line was extracted from /etc/default/grub "
+#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
+#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-"correct, and modify it if necessary."
+"correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "Гэты радок камандаў для kFreeBSD узяты з файлу /etc/default/grub або з "
 "параметру `kopt' у файле наладак (menu.lst) папярэдняй версіі GRUB. Калі "
