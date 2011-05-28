@@ -7,6 +7,7 @@ grub2 (1.99-5) UNRELEASED; urgency=low
 
   [ Debconf translations ]
   * French (Christian Perrier)
+  * Russian (Yuri Kozlov).  Closes: #628196
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 27 May 2011 13:33:48 +0100
 

@@ -1,15 +1,15 @@
 # translation of ru.po to Russian
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the grub2 package.
 #
 # Yuri Kozlov <kozlov.y@gmail.com>, 2007, 2008.
-# Yuri Kozlov <yuray@komyakino.ru>, 2009, 2010.
+# Yuri Kozlov <yuray@komyakino.ru>, 2009, 2010, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.98+20100804-10\n"
+"Project-Id-Version: grub2 1.99-5\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-12-09 19:21+0300\n"
+"PO-Revision-Date: 2011-05-28 11:37+0400\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
 "Language: ru\n"
@@ -309,7 +309,6 @@ msgstr "Командная строка Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
 #| msgid ""
 #| "The following Linux command line was extracted from /etc/default/grub or "
 #| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -320,8 +319,9 @@ msgid ""
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "Представленная ниже строка команд Linux была извлечена из /etc/default/grub "
-"или параметра kopt старого файла GRUB menu.lst. Проверьте, что всё "
-"правильно, или измените её, если требуется."
+"или параметра «kopt» файла menu.lst старой версии GRUB. Проверьте, что всё "
+"правильно, или измените её, если требуется. Также командная строка может "
+"быть пустой."
 
 #. Type: string
 #. Description
@@ -348,7 +348,6 @@ msgstr "Командная строка kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
 #| msgid ""
 #| "The following kFreeBSD command line was extracted from /etc/default/grub "
 #| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
@@ -359,8 +358,9 @@ msgid ""
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "Представленная ниже строка команд kFreeBSD была извлечена из /etc/default/"
-"grub или параметра kopt старого файла GRUB menu.lst. Проверьте, что всё "
-"правильно, или измените её, если требуется."
+"grub или параметра «kopt» файла menu.lst старой версии GRUB. Проверьте, что "
+"всё правильно, или измените её, если требуется. Также командная строка может "
+"быть пустой."
 
 #. Type: string
 #. Description
