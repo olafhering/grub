@@ -1,13 +1,13 @@
 # Copyright (C) 2008-2010 GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
 # This file is distributed under the same license as the grub2 package.
-# Hideki Yamane <henrich@debian.or.jp>, <henrich@debian.org>, 2008-2010.
+# Hideki Yamane <henrich@debian.or.jp>, <henrich@debian.org>, 2008-2011.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.98+20100617-1\n"
+"Project-Id-Version: grub2 1.99-5\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-12-12 09:43+0900\n"
+"PO-Revision-Date: 2011-05-28 23:44+0900\n"
 "Last-Translator: Hideki Yamane <henrich@debian.org>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
 "Language: ja\n"
@@ -304,11 +304,6 @@ msgstr "Linux コマンドライン:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -316,7 +311,7 @@ msgid ""
 msgstr ""
 "以下の Linux のコマンドラインは /etc/default/grub か GRUB Legacy の menu.lst "
 "上の「kopt」パラメータから取得されています。これが正しいものであるかを確認し"
-"て、必要であれば修正してください。"
+"て、必要であれば修正してください。コマンドラインは空でも構いません。"
 
 #. Type: string
 #. Description
@@ -343,11 +338,6 @@ msgstr "kFreeBSD コマンドライン:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -355,7 +345,7 @@ msgid ""
 msgstr ""
 "以下の kFreeBSD のコマンドラインは、/etc/default/grub か GRUB Legacy の menu."
 "lst 上の「kopt」パラメータから取得されています。これが正しいものであるかを確"
-"認して、必要であれば修正してください。"
+"認して、必要であれば修正してください。コマンドラインは空でも構いません。"
 
 #. Type: string
 #. Description
