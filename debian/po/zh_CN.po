@@ -2,20 +2,20 @@
 # PACKAGE 软件包的简体中文翻译.
 # Copyright (C) 2010 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# YunQiang Su <wzssyqa@gmail.com>, 2010.
+# YunQiang Su <wzssyqa@gmail.com>, 2010, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2-po-debconf master\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-12-09 09:50+0800\n"
+"PO-Revision-Date: 2011-05-28 17:29+0800\n"
 "Last-Translator: YunQiang Su <wzssyqa@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bits\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. Type: boolean
@@ -286,18 +286,13 @@ msgstr "Linux 命令行："
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
-"如下 Linux 命令行已被从 /etc/default/grub 或 GRUB Legacy 的 menu.lst 中的 "
-"`kopt' 参数中提取。请确定那是正确的，并且根据需要修改它。"
+"已从 /etc/default/grub 或 GRUB Legacy 的 menu.lst 中的 `kopt' 参数中提取如下 "
+"Linux 命令行。请检查是否正确的，并且根据需要进行修改。此命令行可以为空。"
 
 #. Type: string
 #. Description
@@ -322,18 +317,14 @@ msgstr "kFreeBSD 参数："
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
-"如下 kFreeBSD 命令行参数已经从 /etc/default/grub 或者 GRUB Legacy 的 menu."
-"lst 中的 `kopt' 参数中提取。请确定那是正确的，并且根据需要修改它。"
+"已从 /etc/default/grub 或者 GRUB Legacy 的 menu.lst 中的 `kopt' 参数中提取如"
+"下 kFreeBSD 命令行参数。请请检查是否正确，并且根据需要进行修改。此命令行可以"
+"为空。"
 
 #. Type: string
 #. Description
