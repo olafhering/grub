@@ -5,7 +5,7 @@ grub2 (1.99-5) UNRELEASED; urgency=low
     indicate that the command line is allowed to be empty, since this is a
     common source of confusion (thanks, Jordan Uggla).
   * On non-Ubuntu-derived systems, add Breaks: udev (<< 168-1) to
-    grub-common, for the sake of systemd users without initrds (closes:
+    grub-common, for the sake of (some?) users without initrds (closes:
     #627587).
 
   [ Debconf translations ]
