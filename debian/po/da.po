@@ -1,7 +1,7 @@
 # Danish translation grub2.
-# Copyright (C) 2010 grub2 & nedenstående oversættere.
+# Copyright (C) 2011 grub2 & nedenstående oversættere.
 # This file is distributed under the same license as the grub2 package.
-# Joe Hansen <joedalton2@yahoo.dk>, 2010.
+# Joe Hansen <joedalton2@yahoo.dk>, 2010, 2011.
 # Korrekturlæst Kenneth Nielsen, Keld Jørn Simonsen, Torben Grøn Helligsø.
 #
 # Chain loading -> Chain loading is a method used by computer programs 
@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-12-12 17:30+01:00\n"
+"PO-Revision-Date: 2011-05-28 17:30+01:00\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <debian-l10n-danish@lists.debian.org> \n"
 "Language: \n"
@@ -319,11 +319,6 @@ msgstr "Kommandolinje til Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -331,7 +326,7 @@ msgid ""
 msgstr ""
 "Den følgende kommandolinje i Linux blev udtrukket fra /etc/default/grub "
 "eller parameteren `kopt' i GRUB Legacys menu.lst. Verificer venligst at den "
-"er korrekt, og ændre den om nødvendigt."
+"er korrekt, og ændre den om nødvendigt. Kommandolinjen må være tom."
 
 #. Type: string
 #. Description
@@ -358,11 +353,6 @@ msgstr "Kommandolinje for kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -370,7 +360,7 @@ msgid ""
 msgstr ""
 "Den følgende kommandolinje i kFreeBSD blev udtrukket fra /etc/default/grub "
 "eller fra parameteren `kopt' i GRUB Legacys menu.lst. Verificer venligst at "
-"den er korrekt, og ændre den om nødvendigt."
+"den er korrekt, og ændre den om nødvendigt. Kommandolinjen må være tom."
 
 #. Type: string
 #. Description
