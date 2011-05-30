@@ -36,9 +36,8 @@ Build-Depends: debhelper (>= 7.4.2~),
 Build-Conflicts: autoconf2.13 
 Standards-Version: 3.8.4
 Homepage: http://www.gnu.org/software/grub/
-Vcs-Bzr: https://alioth.debian.org/anonscm/bzr/pkg-grub/trunk/grub/
-Vcs-Browser: http://bzr.debian.org/loggerhead/pkg-grub/
-
+Vcs-Bzr: http://anonscm.debian.org/bzr/pkg-grub/trunk/grub/
+Vcs-Browser: http://anonscm.debian.org/loggerhead/pkg-grub/trunk/grub/
 
 Package: grub2
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
