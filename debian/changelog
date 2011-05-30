@@ -1,8 +1,12 @@
 grub2 (1.99-6) UNRELEASED; urgency=low
 
+  [ Colin Watson ]
   * Update Vcs-* fields for Alioth changes.
 
- -- Colin Watson <cjwatson@debian.org>  Mon, 30 May 2011 09:45:56 +0100
+  [ Debconf translations ]
+  * Catalan (Jordi Mallach).
+
+ -- Jordi Mallach <jordi@debian.org>  Mon, 30 May 2011 23:07:52 +0200
 
 grub2 (1.99-5) unstable; urgency=low
 

@@ -1,15 +1,15 @@
 # Catalan translation of grub2's debconf messages
-# Copyright © 2009, 2010 Free Software Foundation, Inc.
+# Copyright © 2009, 2010, 2011 Free Software Foundation, Inc.
 # This file is distributed under the same license as the grub2 package.
 #
-# Jordi Mallach <jordi@debian.org>, 2009, 2010.
+# Jordi Mallach <jordi@debian.org>, 2009, 2010, 2011.
 # Juan Andrés Gimeno Crespo <juagicre@gmail.com>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.98+20100804-11\n"
+"Project-Id-Version: grub2 1.99-5\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-12-10 19:54+0100\n"
+"PO-Revision-Date: 2011-05-30 22:57+0200\n"
 "Last-Translator: Jordi Mallach <jordi@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
 "Language: ca\n"
@@ -52,11 +52,7 @@ msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that the new GRUB 2 setup works before it is written to the MBR "
 "(Master Boot Record)."
-msgstr ""
-"És recomanable que accepteu la càrrega en cadena del GRUB 2 des del menu."
-"lst, per a verificar que la nova configuració del GRUB 2 funciona "
-"correctament, abans de que que s'escriga al registre mestre d'arrencada "
-"(MBR)."
+msgstr "És recomanable que accepteu la càrrega en cadena del GRUB 2 des del menu.lst, per a verificar que la nova configuració del GRUB 2 funciona correctament, abans de que s'escriga al registre mestre d'arrencada (MBR)."
 
 #. Type: boolean
 #. Description
@@ -197,10 +193,7 @@ msgid ""
 "You may be able to install GRUB to some other device, although you should "
 "check that your system will boot from that device. Otherwise, the upgrade "
 "from GRUB Legacy will be canceled."
-msgstr ""
-"És possible que pugueu instaŀlar el GRUB en un altre dispositiu, tot i que "
-"haurieu de comprovar que el sistema arrencarà des d'aquell dispositiu. En "
-"cas contrari, es canceŀlarà l'actualització des del GRUB Legacy."
+msgstr "És possible que pugueu instaŀlar el GRUB en un altre dispositiu, tot i que hauríeu de comprovar que el sistema arrencarà des d'aquell dispositiu. En cas contrari, es canceŀlarà l'actualització des del GRUB Legacy."
 
 #. Type: boolean
 #. Description
@@ -312,19 +305,11 @@ msgstr "Línia d'ordres de Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
-msgstr ""
-"La línia d'ordres de Linux següent ha sigut extreta de /etc/default/grub o "
-"del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Verifiqueu que és "
-"correcta, i modifiqueu-la si és necessari."
+msgstr "La línia d'ordres de Linux següent ha sigut extreta de /etc/default/grub o del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Verifiqueu que és correcta, i modifiqueu-la si és necessari. La línia d'ordres pot ser buida."
 
 #. Type: string
 #. Description
@@ -351,19 +336,11 @@ msgstr "Línia d'ordres de kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
-msgstr ""
-"La línia d'ordres de kFreeBSD següent ha sigut extreta de /etc/default/grub "
-"o del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Verifiqueu que "
-"és correcta, i modifiqueu-la si és necessari."
+msgstr "La línia d'ordres de kFreeBSD següent ha sigut extreta de /etc/default/grub o del paràmetre «kopt» del fitxer menu.lst del GRUB Legacy. Verifiqueu que és correcta, i modifiqueu-la si és necessari. La línia d'ordres pot ser buida."
 
 #. Type: string
 #. Description
