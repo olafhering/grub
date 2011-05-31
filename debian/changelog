@@ -2,6 +2,8 @@ grub2 (1.99-6) UNRELEASED; urgency=low
 
   [ Colin Watson ]
   * Update Vcs-* fields for Alioth changes.
+  * Backport from upstream, removing the need for Breaks: udev (<< 168-1):
+    - Don't stat devices unless we have to.
 
   [ Debconf translations ]
   * Catalan (Jordi Mallach).

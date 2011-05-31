@@ -253,14 +253,6 @@ override_dh_installdocs:
 override_dh_strip:
 	dh_strip -X/usr/bin/grub-emu
 
-override_dh_gencontrol:
-ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
-	echo 'udev-Breaks=' >>debian/grub-common.substvars
-else
-	echo 'udev-Breaks=udev (<< 168-1)' >>debian/grub-common.substvars
-endif
-	dh_gencontrol
-
 override_dh_auto_clean:
 	-rm -rf build
 	-rm -f contrib grub-core/contrib
