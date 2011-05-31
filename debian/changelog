@@ -1,4 +1,4 @@
-grub2 (1.99-6) UNRELEASED; urgency=low
+grub2 (1.99-6) unstable; urgency=low
 
   [ Colin Watson ]
   * Update Vcs-* fields for Alioth changes.
@@ -9,7 +9,7 @@ grub2 (1.99-6) UNRELEASED; urgency=low
   * Catalan (Jordi Mallach).
   * Farsi (Behrad Eslamifar).  Closes: #628648
 
- -- Jordi Mallach <jordi@debian.org>  Mon, 30 May 2011 23:07:52 +0200
+ -- Colin Watson <cjwatson@debian.org>  Tue, 31 May 2011 09:20:54 +0100
 
 grub2 (1.99-5) unstable; urgency=low
 
