@@ -7,6 +7,7 @@ grub2 (1.99-6) UNRELEASED; urgency=low
 
   [ Debconf translations ]
   * Catalan (Jordi Mallach).
+  * Farsi (Behrad Eslamifar).  Closes: #628648
 
  -- Jordi Mallach <jordi@debian.org>  Mon, 30 May 2011 23:07:52 +0200
 

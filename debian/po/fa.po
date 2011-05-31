@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Morteza Fakhraee <acr.i18n@gmail.com>\n"
+"Last-Translator: Behrad Eslamifar <behrad_es@yahoo.com>\n"
 "Language-Team: debian-l10n-persian <debian-l10n-persian@lists.debian.org>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
@@ -300,7 +300,6 @@ msgstr "خط فرمان لینوکس:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
 #| msgid ""
 #| "The following Linux command line was extracted from /etc/default/grub or "
 #| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -312,7 +311,7 @@ msgid ""
 msgstr ""
 "خط فرمان لینوکس ذیل از /etc/default/grub یا پارامتر های `kopt' در فایل menu."
 "lst از گراب قدیمی استخراج شده است. لطفاً صحت آن را بررسی کنید، و در صورت لزوم "
-"آن را تغییردهید."
+"آن را تغییردهید. این خط فرمان می‌تواند خالی باشد."
 
 #. Type: string
 #. Description
@@ -339,7 +338,6 @@ msgstr "خط فرمان kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
 #| msgid ""
 #| "The following kFreeBSD command line was extracted from /etc/default/grub "
 #| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
@@ -351,7 +349,7 @@ msgid ""
 msgstr ""
 "خط فرمان kFreeBSD ذیل از /etc/default/grub یا پارامتر های `kopt' در فایل "
 "menu.lst از گراب قدیمی استخراج شده است. لطفاً صحت آن را بررسی کنید، و در صورت "
-"لزوم آن را تغییردهید."
+"لزوم آن را تغییردهید. این خط فرمان می‌تواند خالی باشد."
 
 #. Type: string
 #. Description
