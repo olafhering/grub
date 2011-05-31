@@ -1,16 +1,17 @@
-# translation of grub2_1.98+20100804-10_eu.po to Basque
+# translation of grub2_1.99-5_eu.po to Basque
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Piarres Beobide <pi@beobide.net>, 2008.
 # Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2008, 2009, 2010.
+# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2_1.98+20100804-10_eu\n"
+"Project-Id-Version: grub2_1.99-5_eu\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-12-10 15:40+0100\n"
-"Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
+"PO-Revision-Date: 2011-05-31 18:21+0200\n"
+"Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
@@ -309,11 +310,6 @@ msgstr "Linux-eko komando-lerroa:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -321,7 +317,7 @@ msgid ""
 msgstr ""
 "Linux-eko komando-lerro hau /etc/default/grub edo GRUB zaharraren menu.lst "
 "fitxategiko 'kopt' parametrotik atera da. Egiaztatu zuzena dela, eta "
-"eraldatu behar izanez gero."
+"eraldatu behar izanez gero. Komando-lerroa hutsik egotea baimenduta dago."
 
 #. Type: string
 #. Description
@@ -348,11 +344,6 @@ msgstr "KFreeBSD-ko komando-lerroa:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -360,7 +351,7 @@ msgid ""
 msgstr ""
 "KFreeBSD-ko komando-lerro hau /etc/default/grub edo GRUB zaharraren menu.lst "
 "fitxategiko 'kopt' parametrotik atera da. Egiaztatu zuzena dela, eta "
-"eraldatu behar izanez gero."
+"eraldatu behar izanez gero. Komando-lerroa hutsik egotea baimenduta dago."
 
 #. Type: string
 #. Description
