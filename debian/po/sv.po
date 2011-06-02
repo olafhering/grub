@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: grub2_sv\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-12-09 12:48+0100\n"
+"PO-Revision-Date: 2011-06-02 03:22+0100\n"
 "Last-Translator: Martin Bagge / brother <brother@bsnet.se>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -311,19 +311,14 @@ msgstr "Kommandorad för Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
-"Följande Linux-kommandorad hämtades från /etc/default/grub eller 'kopt'-"
+"Följande Linux-kommandorad hämtades från /etc/default/grub eller \"kopt\"-"
 "parametern i gamla GRUB:s menu.lst. Verifiera att den är korrekt och "
-"modifiera den om nödvändigt."
+"modifiera den om nödvändigt. Kommandoraden kan vara tom."
 
 #. Type: string
 #. Description
@@ -350,19 +345,14 @@ msgstr "Kommandorad för kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
-"Följande kFreeBSD-kommandorad hämtades från /etc/default/grub eller 'kopt'-"
+"Följande kFreeBSD-kommandorad hämtades från /etc/default/grub eller \"kopt\"-"
 "parametern i gamla GRUB:s menu.lst. Verifiera att den är korrekt och "
-"modifiera den om nödvändigt."
+"modifiera den om nödvändigt. Kommandoraden kan vara tom."
 
 #. Type: string
 #. Description
