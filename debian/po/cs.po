@@ -1,14 +1,14 @@
 # Czech translation of grub2 debconf messages.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the grub2 package.
-# Miroslav Kure <kurem@debian.cz>, 2008 -- 2010
+# Miroslav Kure <kurem@debian.cz>, 2008 -- 2011
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-12-12 13:35+0100\n"
+"PO-Revision-Date: 2011-06-02 19:54+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "Language: cs\n"
@@ -301,11 +301,6 @@ msgstr "Parametry pro Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -314,7 +309,7 @@ msgstr ""
 "Následující řádka s parametry pro Linux byla získána ze starého souboru menu."
 "lst z parametru „kopt“ nebo ze souboru /etc/default/grub. Zkontrolujte "
 "prosím, zda jsou parametry v pořádku a případně je upravte do požadované "
-"podoby."
+"podoby. Řádka s parametry může být i prázdná."
 
 #. Type: string
 #. Description
@@ -341,11 +336,6 @@ msgstr "Parametry pro kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -354,7 +344,7 @@ msgstr ""
 "Následující řádka s parametry pro kFreeBSD byla získána ze starého souboru "
 "menu.lst z parametru „kopt“ nebo ze souboru /etc/default/grub. Zkontrolujte "
 "prosím, zda jsou parametry v pořádku a případně je upravte do požadované "
-"podoby."
+"podoby. Řádka s parametry může být i prázdná."
 
 #. Type: string
 #. Description
