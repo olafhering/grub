@@ -5,6 +5,9 @@ grub2 (1.99-7) UNRELEASED; urgency=low
   * Swedish (Martin Bagge / brother).  Closes: #628866
   * Czech (Miroslav Kure).  Closes: #628978
 
+  [ Christian Perrier ]
+  * Brazilian Portuguese (Flamarion Jorge).  Closes: #629135
+
  -- Christian Perrier <bubulle@debian.org>  Tue, 31 May 2011 20:10:47 +0200
 
 grub2 (1.99-6) unstable; urgency=low

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: grub2 1.98\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2011-01-15 10:59-0200\n"
+"PO-Revision-Date: 2011-05-29 17:13-0300\n"
 "Last-Translator: Flamarion Jorge <jorge.flamarion@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <debian-l10n-portuguese@lists.debian."
 "org>\n"
@@ -315,19 +315,14 @@ msgstr "Linha de comando Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "A linha de comando Linux a seguir foi extraída de /etc/default/grub ou do "
-"parâmetro 'kopt' do menu.lst do Grub Legado. Por favor, verifique se ela "
-"está correta, e modifique-a se necessário."
+"parâmetro 'kopt' do menu.lst do GRUB Legado. Por favor, verifique se ela "
+"está correta, e modifique-a se necessário. A linha de comando pode ser vazia."
 
 #. Type: string
 #. Description
@@ -354,19 +349,14 @@ msgstr "Linha de comando kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "A linha de comando kFreeBSD a seguir foi extraída de /etc/default/grub ou do "
-"parâmetro 'kopt' do menu.lst do Grub Legado. Por favor, verifique se ela "
-"está correta, e modifique-a se necessário."
+"parâmetro 'kopt' do menu.lst do GRUB Legado. Por favor, verifique se ela "
+"está correta, e modifique-a se necessário. A linha de comando pode ser vazia."
 
 #. Type: string
 #. Description
