@@ -1,5 +1,5 @@
 # grub2 po-debconf translation to Spanish
-# Copyright (C) 2007, 2009, 2010 Software in the Public Interest
+# Copyright (C) 2007, 2009, 2010, 2011 Software in the Public Interest
 # This file is distributed under the same license as the grub2 package.
 #
 # Changes:
@@ -8,7 +8,7 @@
 #
 #   - Updates
 #       Gary Ariel Sandi Vigabriel <gary.gsv@gmail.com>, 2009
-#       Francisco Javier Cuadrado <fcocuadrado@gmail.com>, 2009, 2010
+#       Francisco Javier Cuadrado <fcocuadrado@gmail.com>, 2009, 2010, 2011
 #
 #   - Revisions
 #       Innocent De Marchi <tangram.peces@gmail.com>, 2010
@@ -33,10 +33,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.98+20100804-10\n"
+"Project-Id-Version: grub2 1.99-5\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-12-10 19:35+0100\n"
+"PO-Revision-Date: 2011-05-28 14:04+0100\n"
 "Last-Translator: Francisco Javier Cuadrado <fcocuadrado@gmail.com>\n"
 "Language-Team: Debian l10n Spanish <debian-l10n-spanish@lists.debian.org>\n"
 "Language: es\n"
@@ -341,11 +341,6 @@ msgstr "Linea de órdenes de Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -353,8 +348,8 @@ msgid ""
 msgstr ""
 "La siguiente linea de órdenes de Linux se extrajo del archivo «/etc/default/"
 "grub» o del parámetro «kopt» en el archivo «menu.lst» de la versión anterior "
-"de GRUB. Por favor, compruebe que esto es correcto y modifíquelo si es "
-"necesario."
+"de GRUB. Por favor, compruebe que es correcta y modifíquela si es necesario. "
+"La línea de órdenes se puede dejar en blanco."
 
 #. Type: string
 #. Description
@@ -381,11 +376,6 @@ msgstr "Linea de órdenes de kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -393,8 +383,8 @@ msgid ""
 msgstr ""
 "La siguiente linea de órdenes de kFreeBSD se extrajo del archivo «/etc/"
 "default/grub» o del parámetro «kopt» en el archivo «menu.lst» de la versión "
-"anterior de GRUB. Por favor, compruebe que esto es correcto y modifíquelo si "
-"es necesario."
+"anterior de GRUB. Por favor, compruebe que es correcta y modifíquela si es "
+"necesario. La línea de órdenes se puede dejar en blanco."
 
 #. Type: string
 #. Description
