@@ -1,4 +1,4 @@
-grub2 (1.99-7) UNRELEASED; urgency=low
+grub2 (1.99-7) unstable; urgency=low
 
   [ Debconf translations ]
   * Basque (Iñaki Larrañaga Murgoitio).  Closes: #628716
@@ -14,7 +14,7 @@ grub2 (1.99-7) UNRELEASED; urgency=low
     - Give up scanning partitions after ten consecutive open failures
       (LP: #787461).
 
- -- Christian Perrier <bubulle@debian.org>  Tue, 31 May 2011 20:10:47 +0200
+ -- Colin Watson <cjwatson@debian.org>  Thu, 16 Jun 2011 00:13:14 +0100
 
 grub2 (1.99-6) unstable; urgency=low
 
