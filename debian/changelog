@@ -1,3 +1,9 @@
+grub2 (1.99-8) UNRELEASED; urgency=low
+
+  * Avoid buggy versions of libgeom-dev (see #630107).  Closes: #630197
+
+ -- Robert Millan <rmh@debian.org>  Fri, 17 Jun 2011 11:54:26 +0200
+
 grub2 (1.99-7) unstable; urgency=low
 
   [ Debconf translations ]
