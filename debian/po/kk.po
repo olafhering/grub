@@ -1,14 +1,14 @@
 # Kazakh translation for grub2.
-# Copyright (C) 2010 The Stardict team
+# Copyright (C) 2010 The Grub team
 # This file is distributed under the same license as the PACKAGE package.
-# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2010.
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2010-2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: master\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2011-01-05 21:06+0600\n"
+"PO-Revision-Date: 2011-06-18 23:22+0600\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -301,11 +301,6 @@ msgstr "Linux командалық жолы:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -313,7 +308,7 @@ msgid ""
 msgstr ""
 "Келесі Linux командасы /etc/default/grub ішінен не GRUB Legacy menu.lst "
 "ішіндегі `kopt' параметрінен алынды. Оның дұрыстығын тексеріп, керек болса, "
-"өзгертіңіз."
+"өзгертіңіз. Бұл командалық жол бос болса да болады."
 
 #. Type: string
 #. Description
@@ -340,11 +335,6 @@ msgstr "kFreeBSD командалық жолы:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -352,7 +342,7 @@ msgid ""
 msgstr ""
 "Келесі kFreeBSD командасы /etc/default/grub ішінен не GRUB Legacy menu.lst "
 "ішіндегі `kopt' параметрінен алынды. Оның дұрыстығын тексеріп, керек болса, "
-"өзгертіңіз."
+"өзгертіңіз. Бұл командалық жол бос болса да болады."
 
 #. Type: string
 #. Description

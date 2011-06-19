@@ -4,6 +4,9 @@ grub2 (1.99-8) UNRELEASED; urgency=low
   * Fix grub-probe detection for ATA devices using `ata' driver on kFreeBSD 9.
     - kfreebsd-9_ada_devices.patch
 
+  [ Debconf translations ]
+  * Kazakh (Baurzhan Muftakhidinov). Closes: #630915
+
  -- Robert Millan <rmh@debian.org>  Sat, 18 Jun 2011 15:23:45 +0200
 
 grub2 (1.99-7) unstable; urgency=low
