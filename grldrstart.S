@@ -2748,7 +2748,7 @@ msg_DiskReadError_ext2:
 
 	. = Entry_ext2 + 0x26
 
-	.word	0		/* reserved for future use */
+	.word	0x80		/* inode size */
 
 	. = Entry_ext2 + 0x28
 
@@ -2893,9 +2893,11 @@ msg_DiskReadError_ext2:
 				/* DS:[BX+SI+8] points to the starting block number of the group inode table */
 
 	popl	%eax		/* inode number in the group */
-	shll	$7, %eax	/* inode struct size = 0x80 */
-				/* EAX=relative displacement of the inode struct */
-				/* EDX=0 */
+//	shll	$7, %eax	/* inode struct size = 0x80 */
+//				/* EAX=relative displacement of the inode struct */
+//				/* EDX=0 */
+	movw	0x26(%bp), %dx	/* EDX=inode size */
+	mull	%edx		/* EDX:EAX=relative displacement of the inode struct */
 
 	divl	0x0e(%bp)	/* bytes per block */
 				/* EAX=relative block number for the inode struct */
@@ -3960,11 +3962,38 @@ helper_start:
 	movl	0x418, %ecx		/* s_log_block_size */
 	cmpl	$4, %ecx		/* max size of block is 16K */
 	ja	1f
-	negw	%cx			/* CF clear for 1K block, set otherwise */
+	negw	%cx			/* CF=0 for 1K block, CF=1 otherwise */
 	adcw	%ax, %bx		/* EAX=0 */
 	decw	%bx
 	jnz	1f
 
+	/* BX = 0 */
+	/* EAX= 0 */
+
+	movw	$0x80, %ax		/* EXT2_GOOD_OLD_INODE_SIZE */
+	movw	%ax, %cs:0x826		/* inode size */
+	movl	0x44C, %ecx		/* ECX=s_rev_level */
+	jecxz	3f			/* EXT2_GOOD_OLD_REV */
+	movw	0x458, %ax		/* AX=s_inode_size */
+	testw	%ax, %ax
+	jz	1f			/* invalid inode size */
+	pushw	%ax
+	pushw	%dx
+	movb	0x418, %cl		/* s_log_block_size */
+	addb	$10, %cl
+	xorw	%dx, %dx		/* DX=0 */
+	incw	%dx			/* DX=1 */
+	shlw	%cl, %dx		/* DX=block size in bytes */
+	xchgw	%ax, %cx		/* CX=s_inode_size */
+	xchgw	%ax, %dx		/* AX=block size in bytes */
+	xorw	%dx, %dx		/* DX:AX=block size in bytes */
+	divw	%cx			/* quo=AX, rem=DX */
+	testw	%dx, %dx
+	popw	%dx
+	popw	%ax
+	jnz	1f			/* invalid inode size */
+	movw	%ax, %cs:0x826		/* inode size */
+3:
 	/* BX = 0 */
 
 	/* super block is sane */
@@ -3999,6 +4028,8 @@ helper_start:
 	movl	%cs:4(%si), %eax
 	addl	%cs:8(%si), %eax
 3:
+	/* BX = 0 */
+
 	movl	%eax, %es:0x1c(%bx)	/* adjust hidden_sectors for EXT2 */
 
 	/* fix for ext2 partition: EBIOS indicator, offset 0x02 */
