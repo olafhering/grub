@@ -1,8 +1,13 @@
 grub2 (1.99-8) UNRELEASED; urgency=low
 
+  [ Robert Millan ]
   * Avoid buggy versions of libgeom-dev (see #630107).  Closes: #630197
   * Fix grub-probe detection for ATA devices using `ata' driver on kFreeBSD 9.
     - kfreebsd-9_ada_devices.patch
+
+  [ Colin Watson ]
+  * Update ntldr-img from grub-extras:
+    - Handle ext3 inode sizes other than 128.
 
   [ Debconf translations ]
   * Kazakh (Baurzhan Muftakhidinov). Closes: #630915
