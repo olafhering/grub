@@ -5707,8 +5707,10 @@ extended_message:
 	.ascii	"Extended: \0"
 invalid_message:
 	.ascii	"invalid or null \0"
+#if 0
 NTFS_no_boot_record_message:
 	.ascii	"This partition is NTFS but with unknown boot record. Please\r\ninstall Microsoft NTFS boot sectors to this partition correctly, or create an\r\nFAT12/16/32 partition and place the same copy of GRLDR and MENU.LST there.\0"
+#endif
 
 #if (! defined(GRLDR_MBR)) && (! defined(GRLDR_INSTALL))
 	. = _start1 + 0x1ffa
