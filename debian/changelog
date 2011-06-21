@@ -1,4 +1,4 @@
-grub2 (1.99-8) UNRELEASED; urgency=low
+grub2 (1.99-8) unstable; urgency=low
 
   [ Robert Millan ]
   * Avoid buggy versions of libgeom-dev (see #630107).  Closes: #630197
@@ -12,7 +12,7 @@ grub2 (1.99-8) UNRELEASED; urgency=low
   [ Debconf translations ]
   * Kazakh (Baurzhan Muftakhidinov). Closes: #630915
 
- -- Robert Millan <rmh@debian.org>  Sat, 18 Jun 2011 15:23:45 +0200
+ -- Colin Watson <cjwatson@debian.org>  Tue, 21 Jun 2011 02:10:10 +0100
 
 grub2 (1.99-7) unstable; urgency=low
 
