@@ -36,6 +36,7 @@ def add_info(report):
         # To detect if root fs is a loop device
         attach_file(report, '/proc/cmdline','ProcCmdLine')
         _attach_file_filtered(report, '/etc/default/grub','EtcDefaultGrub')
+        attach_file_if_exists(report, '/boot/grub/device.map', 'DeviceMap')
 
         invalid_grub_script = []
         if not check_shell_syntax('/etc/default/grub'):
