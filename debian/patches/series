@@ -21,3 +21,4 @@ lazy_stat.patch
 btrfs_stat.patch
 partition_performance.patch
 kfreebsd-9_ada_devices.patch
+gfxterm_background.patch

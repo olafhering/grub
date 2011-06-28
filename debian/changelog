@@ -1,6 +1,7 @@
 grub2 (1.99-9) UNRELEASED; urgency=low
 
   * Adjust apport hook to attach /boot/grub/device.map if it exists.
+  * Fix regression in gfxterm background_color handling.
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 22 Jun 2011 16:55:06 +0100
 
