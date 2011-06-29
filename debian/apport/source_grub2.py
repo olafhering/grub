@@ -10,11 +10,29 @@ the full text of the license.
 '''
 from apport.hookutils import *
 import os
+import subprocess
+import re
 
 def check_shell_syntax(path):
     ''' Check the syntax of a shell script '''
     try:
-        subprocess.check_call(['/bin/sh','-n', path], stderr=open(os.devnull,'w'))
+        # sh -n is tempting, but not good enough.  Consider this case:
+        #
+        #   GRUB_CMDLINE_LINUX_DEFAULT=”quiet splash nomodeset”
+        #
+        # The quotes are Unicode quotes, not valid in the shell and probably
+        # caused by copying a line out of a web page.  This is parsed as an
+        # instruction to run the 'splash' command with argument 'nomodeset”'
+        # and with the GRUB_CMDLINE_LINUX_DEFAULT environment variable set
+        # to '”quiet'.  'sh -n' allows this because this is a valid parse
+        # and it's possible that the command 'splash' might exist, but what
+        # we need to know is whether sourcing the file will fail.
+        #
+        # Unfortunately this test may involve executing code.  However, this
+        # file is already sourced as root when running update-grub, so it
+        # seems unlikely that this could do any further harm.
+        subprocess.check_call(['/bin/sh', '-ec', '. %s' % re.escape(path)],
+                              stderr=open(os.devnull,'w'))
     except subprocess.CalledProcessError:
         return False
     return True
