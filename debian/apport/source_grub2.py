@@ -16,6 +16,15 @@ import re
 def check_shell_syntax(path):
     ''' Check the syntax of a shell script '''
     try:
+        subprocess.check_call(['/bin/sh', '-n', path],
+                              stderr=open(os.devnull,'w'))
+    except subprocess.CalledProcessError:
+        return False
+    return True
+
+def check_shell_syntax_harder(path):
+    ''' Check the syntax of a shell script '''
+    try:
         # sh -n is tempting, but not good enough.  Consider this case:
         #
         #   GRUB_CMDLINE_LINUX_DEFAULT=”quiet splash nomodeset”
@@ -57,7 +66,7 @@ def add_info(report):
         attach_file_if_exists(report, '/boot/grub/device.map', 'DeviceMap')
 
         invalid_grub_script = []
-        if not check_shell_syntax('/etc/default/grub'):
+        if not check_shell_syntax_harder('/etc/default/grub'):
             invalid_grub_script.append('/etc/default/grub')
 
         # Check scripts in /etc/grub.d since some users directly change
