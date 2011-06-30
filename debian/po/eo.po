@@ -1,14 +1,14 @@
 # grub2 po-debconf translation to Esperanto
-# Copyright (C) 2010 Software in the Public Interest
+# Copyright (C) 2010, 2011 Software in the Public Interest
 # This file is distributed under the same license as the grub2 package.
-# Felipe Castro <fefcas@gmail.com>, 2010.
+# Felipe Castro <fefcas@gmail.com>, 2010, 2011.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.98+20100710-2\n"
+"Project-Id-Version: grub2 1.99-5\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-12-09 20:24-0300\n"
+"PO-Revision-Date: 2011-06-29 21:08-0300\n"
 "Last-Translator: Felipe Castro <fefcas@gmail.com>\n"
 "Language-Team: Esperanto <debian-l10n-esperanto@lists.debian.org>\n"
 "Language: eo\n"
@@ -297,30 +297,25 @@ msgstr ""
 #. Description
 #: ../templates.in:1001
 msgid "Linux command line:"
-msgstr "Linuksa ordono-linio:"
+msgstr "Linuksa komand-linio:"
 
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
-"La jena linuksa ordono-linio estas elprenita el /etc/default/grub aŭ el la "
-"parametro 'kopt' en la menu.lst de malaktuala GRUB. Bonvolu kontroli ĉu tio "
-"estas korekte, kaj modifu ĝin laŭ neceso."
+"La jena linuksa komand-linio estas elprenita el /etc/default/grub aŭ el la "
+"parametro 'kopt' en la menu.lst de malaktuala GRUB. Bonvolu kontroli ĉu ĝi "
+"estas korekta, kaj modifu ĝin laŭ neceso. Estas permesate ke la komand-linio "
 
 #. Type: string
 #. Description
 #: ../templates.in:2001
 msgid "Linux default command line:"
-msgstr "Linuksa implicita ordon-linio:"
+msgstr "Linuksa implicita komand-linio:"
 
 #. Type: string
 #. Description
@@ -341,25 +336,21 @@ msgstr "Ordon-linio de kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
-"La jena linuksa ordono-linio de kFreeBSD estas elprenita el /etc/default/"
+"La jena linuksa komand-linio de kFreeBSD estas elprenita el /etc/default/"
 "grub aŭ el la parametro 'kopt' en la menu.lst de malaktuala GRUB. Bonvolu "
-"kontroli ĉu tio estas korekte, kaj modifu ĝin laŭ neceso."
+"kontroli ĉu ĝi estas korekta, kaj modifu ĝin laŭ neceso. Estas permesate ke "
+"la komand-linio estu malplena."
 
 #. Type: string
 #. Description
 #: ../templates.in:4001
 msgid "kFreeBSD default command line:"
-msgstr "Implicita ordon-linio de kFreeBSD:"
+msgstr "Implicita komand-linio de kFreeBSD:"
 
 #. Type: string
 #. Description
@@ -419,7 +410,7 @@ msgstr ""
 #~ "you can do so by issuing (as root) the following command:"
 #~ msgstr ""
 #~ "Ĉiukondiĉe, kiam vi volos ke GRUB 2 estu rekte ŝargata el MBR, vi povos "
-#~ "fari tion per lanĉado (kie root) de la jena ordono:"
+#~ "fari tion per lanĉado (kie root) de la jena komando:"
 
 #~ msgid "GRUB installation failed. Continue?"
 #~ msgstr "La instalado de GRUB malsukcesis. Ĉu daŭrigi?"

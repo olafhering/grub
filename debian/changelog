@@ -1,8 +1,12 @@
 grub2 (1.99-9) UNRELEASED; urgency=low
 
+  [ Colin Watson ]
   * Adjust apport hook to attach /boot/grub/device.map if it exists.
   * Fix regression in gfxterm background_color handling.
   * Improve detection of invalid shell syntax in apport hook.
+
+  [ Debconf translations ]
+  * Esperanto (Felipe E. F. de Castro).  Closes: #632157
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 22 Jun 2011 16:55:06 +0100
 
