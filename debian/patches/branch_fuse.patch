@@ -2,10 +2,8 @@ Description: Add grub-mount utility
 Author: Vladimir Serbinenko <phcoder@gmail.com>
 Origin: upstream, http://bzr.sv.gnu.org/r/grub/branches/fuse/
 Forwarded: http://lists.gnu.org/archive/html/grub-devel/2011-01/msg00056.html
-Last-Update: 2011-04-08
+Last-Update: 2011-07-10
 
-Index: b/Makefile.util.def
-===================================================================
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
 @@ -216,6 +216,21 @@
@@ -22,7 +20,7 @@ Index: b/Makefile.util.def
 +  ldadd = libgrubmods.a;
 +  ldadd = libgrubkern.a;
 +  ldadd = grub-core/gnulib/libgnu.a;
-+  ldadd = '$(LIBINTL) $(LIBDEVMAPPER) $(LIBZFS) $(LIBNVPAIR)' '-lfuse';
++  ldadd = '$(LIBINTL) $(LIBDEVMAPPER) $(LIBZFS) $(LIBNVPAIR) -lfuse';
 +  condition = COND_GRUB_MOUNT;
 +};
 +
@@ -30,8 +28,6 @@ Index: b/Makefile.util.def
    name = grub-mkfont;
    mansection = 1;
    common = util/grub-mkfont.c;
-Index: b/configure.ac
-===================================================================
 --- a/configure.ac
 +++ b/configure.ac
 @@ -856,6 +856,37 @@
@@ -53,7 +49,7 @@ Index: b/configure.ac
 +if test x"$grub_mount_excuse" = x ; then
 +  # Check for fuse headers.
 +  SAVED_CPPFLAGS="$CPPFLAGS"
-+  CPPFLAGS="$CPPFLAGS -D_FILE_OFFSET_BITS=64"
++  CPPFLAGS="$CPPFLAGS -D_FILE_OFFSET_BITS=64 -DFUSE_USE_VERSION=26"
 +  AC_CHECK_HEADERS([fuse/fuse.h], [],
 +  	[grub_mount_excuse=["need FUSE headers"]])
 +  CPPFLAGS="$SAVED_CPPFLAGS"
@@ -91,15 +87,11 @@ Index: b/configure.ac
 +fi
  echo "*******************************************************"
  ]
-Index: b/docs/man/grub-mount.h2m
-===================================================================
 --- /dev/null
 +++ b/docs/man/grub-mount.h2m
 @@ -0,0 +1,2 @@
 +[NAME]
 +grub-mount \- export GRUB filesystem with FUSE
-Index: b/util/grub-mount.c
-===================================================================
 --- /dev/null
 +++ b/util/grub-mount.c
 @@ -0,0 +1,508 @@
