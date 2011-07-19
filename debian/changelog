@@ -7,6 +7,7 @@ grub2 (1.99-9) UNRELEASED; urgency=low
 
   [ Debconf translations ]
   * Esperanto (Felipe E. F. de Castro).  Closes: #632157
+  * Slovak (Slavko).
 
   [ Robert Millan ]
   * Enable grub-mount on kfreebsd-any.

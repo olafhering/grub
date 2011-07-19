@@ -1,14 +1,14 @@
 # Slovak translations for grub2 package.
 # Copyright (C) 2010 THE grub2'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the grub2 package.
-# Slavko <linux@slavino.sk>, 2010.
+# Slavko <linux@slavino.sk>, 2010, 2011.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub 2\n"
+"Project-Id-Version: grub2 1.99-5\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-12-09 17:47+0100\n"
+"PO-Revision-Date: 2011-07-19 07:49+0200\n"
 "Last-Translator: Slavko <linux@slavino.sk>\n"
 "Language-Team: Slovak <nomail>\n"
 "Language: sk\n"
@@ -306,19 +306,14 @@ msgstr "Linuxový príkazový riadok:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "Nasledujúci príkazový riadok Linuxu bol získaný z /etc/default/grub alebo z "
-"parametra 'kopt' z menu.lst starého GRUB (Legacy). Skontrolujte prosím ich "
-"správnosť a prípadne ich upravte."
+"parametra 'kopt' z menu.lst starého GRUB (Legacy). Skontrolujte prosím jeho "
+"správnosť a prípadne ho upravte. Príkazový riadok môže byť aj prázdny."
 
 #. Type: string
 #. Description
@@ -345,19 +340,14 @@ msgstr "Príkazový riadok kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "Nasledujúci príkazový riadok kFreeBSD bol získaný z /etc/default/grub alebo "
-"z parametra 'kopt' z menu.lst starého GRUB (Legacy). Skontrolujte prosím ich "
-"správnosť a prípadne ich upravte."
+"z parametra 'kopt' z menu.lst starého GRUB (Legacy). Skontrolujte prosím "
+"jeho správnosť a prípadne ho upravte. Príkazový riadok môže byť aj prázdny."
 
 #. Type: string
 #. Description
