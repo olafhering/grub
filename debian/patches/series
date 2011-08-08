@@ -23,3 +23,4 @@ partition_performance.patch
 kfreebsd-9_ada_devices.patch
 gfxterm_background.patch
 zfs_packed_la_array.patch
+xen_replace.patch

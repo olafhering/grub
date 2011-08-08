@@ -1,3 +1,13 @@
+grub2 (1.99-11) UNRELEASED; urgency=low
+
+  * Backport from upstream:
+    - Honour GRUB_CMDLINE_LINUX_XEN_REPLACE and
+      GRUB_CMDLINE_LINUX_XEN_REPLACE_DEFAULT, which replace
+      GRUB_CMDLINE_LINUX and GRUB_CMDLINE_LINUX_DEFAULT (complementing the
+      existing options which append; closes: #617538).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 08 Aug 2011 17:51:20 +0100
+
 grub2 (1.99-10) unstable; urgency=high
 
   * Mark la_array as packed.
