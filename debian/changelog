@@ -1,4 +1,4 @@
-grub2 (1.99-11) UNRELEASED; urgency=low
+grub2 (1.99-11) unstable; urgency=low
 
   * Backport from upstream:
     - Honour GRUB_CMDLINE_LINUX_XEN_REPLACE and
@@ -6,7 +6,7 @@ grub2 (1.99-11) UNRELEASED; urgency=low
       GRUB_CMDLINE_LINUX and GRUB_CMDLINE_LINUX_DEFAULT (complementing the
       existing options which append; closes: #617538).
 
- -- Colin Watson <cjwatson@debian.org>  Mon, 08 Aug 2011 17:51:20 +0100
+ -- Colin Watson <cjwatson@debian.org>  Mon, 08 Aug 2011 17:55:21 +0100
 
 grub2 (1.99-10) unstable; urgency=high
 
