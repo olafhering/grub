@@ -1,7 +1,12 @@
 grub2 (1.99-12) UNRELEASED; urgency=low
 
+  [ Robert Millan ]
   * Fix grub-probe detection for LSI MegaRAID SAS devices on kFreeBSD.
     - kfreebsd_mfi_devices.diff
+
+  [ Colin Watson ]
+  * Backport from upstream:
+    - Canonicalise the path argument to grub-probe (closes: #637768).
 
  -- Robert Millan <rmh@debian.org>  Wed, 10 Aug 2011 22:34:10 +0200
 
