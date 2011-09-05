@@ -1,4 +1,4 @@
-grub2 (1.99-12) UNRELEASED; urgency=low
+grub2 (1.99-12) unstable; urgency=low
 
   [ Robert Millan ]
   * Fix grub-probe detection for LSI MegaRAID SAS devices on kFreeBSD.
@@ -9,7 +9,7 @@ grub2 (1.99-12) UNRELEASED; urgency=low
     - Canonicalise the path argument to grub-probe (closes: #637768).
     - Skip */README* as well as README* (LP: #537123).
 
- -- Robert Millan <rmh@debian.org>  Wed, 10 Aug 2011 22:34:10 +0200
+ -- Colin Watson <cjwatson@debian.org>  Mon, 05 Sep 2011 15:17:20 +0100
 
 grub2 (1.99-11) unstable; urgency=low
 
