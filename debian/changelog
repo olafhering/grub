@@ -7,6 +7,7 @@ grub2 (1.99-12) UNRELEASED; urgency=low
   [ Colin Watson ]
   * Backport from upstream:
     - Canonicalise the path argument to grub-probe (closes: #637768).
+    - Skip */README* as well as README* (LP: #537123).
 
  -- Robert Millan <rmh@debian.org>  Wed, 10 Aug 2011 22:34:10 +0200
 

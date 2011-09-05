@@ -26,3 +26,4 @@ zfs_packed_la_array.patch
 xen_replace.patch
 kfreebsd_mfi_devices.diff
 probe_canonicalise.patch
+mkconfig_skip_readme.patch
