@@ -1,6 +1,6 @@
 # Translation of GRUB 2 debconf templates to German
 # Copyright (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2009.
-#               Martin Eberhard Schauer <Martin.E.Schauer@gmx.de>, 2010.
+#               Martin Eberhard Schauer <Martin.E.Schauer@gmx.de>, 2010, 2011.
 # This file is distributed under the same license as the grub2 package.
 #
 msgid ""
@@ -8,14 +8,13 @@ msgstr ""
 "Project-Id-Version: grub2 1.98+20100710-2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-12-11 11:07+0100\n"
+"PO-Revision-Date: 2011-07-13 00:10+0100\n"
 "Last-Translator: Martin Eberhard Schauer <Martin.E.Schauer@gmx.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
 
 #. Type: boolean
 #. Description
@@ -208,7 +207,7 @@ msgstr ""
 msgid "Continue without installing GRUB?"
 msgstr "Fortsetzen, ohne Grub zu installieren?"
 
-# (mes) Seht Ihr einen Unterschied zwischen der alten und der neuen Version.
+# (mes) Seht Ihr einen Unterschied zwischen der alten und der neuen Version?
 # Ich habe jetzt nur das fuzzy rausgenommen.
 #. Type: boolean
 #. Description
@@ -316,11 +315,6 @@ msgstr "Linux-Befehlszeile:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -329,7 +323,7 @@ msgstr ""
 "Die folgende Linux-Befehlszeile wurde aus /etc/default/grub oder dem "
 "Parameter »kopt« in der Datei menu.lst von GRUB Legacy extrahiert. Bitte "
 "überprüfen Sie, ob die Befehlszeile korrekt ist und ändern Sie diese, wenn "
-"es notwendig ist."
+"es notwendig ist. Diese Befehlszeile darf leer sein."
 
 #. Type: string
 #. Description
@@ -356,11 +350,6 @@ msgstr "Befehlszeile für kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -369,7 +358,7 @@ msgstr ""
 "Die folgende kFreeBSD-Befehlszeile wurde aus /etc/default/grub oder dem "
 "Parameter »kopt« in der Datei menu.lst von GRUB Legacy extrahiert. Bitte "
 "überprüfen Sie, ob diese korrekt ist und passen Sie sie an, wenn das "
-"erforderlich ist. "
+"erforderlich ist. Diese Befehlszeile darf leer sein."
 
 #. Type: string
 #. Description
