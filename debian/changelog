@@ -5,7 +5,11 @@ grub2 (1.99-13) UNRELEASED; urgency=low
   * German (Martin Eberhard Schauer).  Closes: #641630
   * Sinhala (Danishka Navin).  Closes: #644080
 
- -- Colin Watson <cjwatson@debian.org>  Mon, 12 Sep 2011 01:25:43 +0100
+  [ Robert Millan ]
+  * LVM support for GNU/kFreeBSD.
+    - kfreebsd_lvm.patch
+
+ -- Robert Millan <rmh@debian.org>  Sun, 09 Oct 2011 21:16:35 +0200
 
 grub2 (1.99-12) unstable; urgency=low
 
