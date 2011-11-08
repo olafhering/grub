@@ -5,6 +5,7 @@ Revisions:
 3474: Fix 2G limit on ZFS
 3486: ZFS fixes
 3488: ZFS multi-device and version 33 support
+3494: Fix memory leak
 
 --- a/grub-core/fs/zfs/zfs.c
 +++ b/grub-core/fs/zfs/zfs.c
@@ -563,7 +564,7 @@ Revisions:
 +      }
 +    case DEVICE_MIRROR:
 +      {
-+	grub_err_t err = 0;
++	grub_err_t err = GRUB_ERR_NONE;
 +	unsigned i;
 +	if (desc->n_children <= 0)
 +	  return grub_error (GRUB_ERR_BAD_FS,
@@ -1013,7 +1014,7 @@ Revisions:
  {
    char *nvpair;
    char *ret;
-@@ -1753,199 +2391,113 @@
+@@ -1753,199 +2391,114 @@
  }
  
  int
@@ -1292,10 +1293,11 @@ Revisions:
 +  unsigned i;
 +  for (i = 0; i < data->n_devices_attached; i++)
 +    unmount_device (&data->devices_attached[i]);
++  grub_free (data->devices_attached);
    grub_free (data->dnode_buf);
    grub_free (data->dnode_mdn);
    grub_free (data->file_buf);
-@@ -1961,13 +2513,11 @@
+@@ -1961,13 +2514,11 @@
  zfs_mount (grub_device_t dev)
  {
    struct grub_zfs_data *data = 0;
@@ -1313,7 +1315,7 @@ Revisions:
  
    if (! dev->disk)
      {
-@@ -1975,119 +2525,56 @@
+@@ -1975,119 +2526,56 @@
        return 0;
      }
  
@@ -1462,7 +1464,7 @@ Revisions:
  }
  
  grub_err_t
-@@ -2099,7 +2586,7 @@
+@@ -2099,7 +2587,7 @@
    zfs = zfs_mount (dev);
    if (!zfs)
      return grub_errno;
@@ -1471,7 +1473,7 @@ Revisions:
    zfs_unmount (zfs);
    return err;
  }
-@@ -2115,7 +2602,7 @@
+@@ -2115,7 +2603,7 @@
    if (! data)
      return grub_errno;
  
@@ -1480,7 +1482,7 @@ Revisions:
    if (err)      
      {
        zfs_unmount (data);
-@@ -2131,11 +2618,7 @@
+@@ -2131,11 +2619,7 @@
  static grub_err_t 
  zfs_uuid (grub_device_t device, char **uuid)
  {
@@ -1492,7 +1494,7 @@ Revisions:
  
    *uuid = 0;
  
-@@ -2143,24 +2626,36 @@
+@@ -2143,24 +2627,36 @@
    if (! data)
      return grub_errno;
  
@@ -1541,7 +1543,7 @@ Revisions:
  /*
   * zfs_open() locates a file in the rootpool by following the
   * MOS and places the dnode of the file in the memory address DNODE.
-@@ -2227,12 +2722,14 @@
+@@ -2227,12 +2723,14 @@
  	}
  
        hdrsize = SA_HDR_SIZE (((sa_hdr_phys_t *) sahdrp));
@@ -1558,7 +1560,7 @@ Revisions:
  
    file->data = data;
    file->offset = 0;
-@@ -2248,7 +2745,7 @@
+@@ -2248,7 +2746,7 @@
  grub_zfs_read (grub_file_t file, char *buf, grub_size_t len)
  {
    struct grub_zfs_data *data = (struct grub_zfs_data *) file->data;
@@ -1567,7 +1569,7 @@ Revisions:
    grub_size_t length;
    grub_size_t read;
    grub_err_t err;
-@@ -2302,7 +2799,7 @@
+@@ -2302,7 +2800,7 @@
        data->file_start = blkid * blksz;
        data->file_end = data->file_start + blksz;
  
@@ -1576,7 +1578,7 @@ Revisions:
  
        grub_memmove (buf, data->file_buf + file->offset + read
  		    - data->file_start, movesize);
-@@ -2391,8 +2888,39 @@
+@@ -2391,8 +2889,39 @@
        return;
      }
    
@@ -1618,7 +1620,7 @@ Revisions:
    return;
  }
  
-@@ -2416,10 +2944,47 @@
+@@ -2416,10 +2945,47 @@
      grub_memset (&info, 0, sizeof (info));
  
      dnode_get (&(data->mdn), val, 0, &dn, data);
@@ -1670,7 +1672,7 @@ Revisions:
  		  (int)dn.dn.dn_type, (char *)name);
      return hook (name, &info);
    }
-@@ -2532,12 +3097,13 @@
+@@ -2532,12 +3098,13 @@
    .close = grub_zfs_close,
    .label = zfs_label,
    .uuid = zfs_uuid,
