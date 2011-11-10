@@ -28,3 +28,4 @@ kfreebsd_mfi_devices.patch
 probe_canonicalise.patch
 mkconfig_skip_readme.patch
 kfreebsd_lvm.patch
+zfs_update.patch

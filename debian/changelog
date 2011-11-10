@@ -8,8 +8,10 @@ grub2 (1.99-13) UNRELEASED; urgency=low
   [ Robert Millan ]
   * LVM support for GNU/kFreeBSD.
     - kfreebsd_lvm.patch
+  * Cherry-pick several ZFS updates from upstream Bazaar.
+    - zfs_update.patch
 
- -- Robert Millan <rmh@debian.org>  Sun, 09 Oct 2011 21:16:35 +0200
+ -- Robert Millan <rmh@debian.org>  Thu, 10 Nov 2011 20:36:02 +0100
 
 grub2 (1.99-12) unstable; urgency=low
 
