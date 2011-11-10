@@ -12,6 +12,7 @@ Revisions:
 3521: Support raidz3
 3533: Support second redundancy strip on raidz(2,3)
 3534: Support case-insensitive ZFS subvolumes
+3535: Support third redundancy strip on raidz3
 
 --- a/grub-core/fs/zfs/zfs.c
 +++ b/grub-core/fs/zfs/zfs.c
@@ -146,7 +147,7 @@ Revisions:
  {
    grub_dprintf ("zfs", "dva=%llx, %llx\n", 
  		(unsigned long long) dva->dva_word[0], 
-@@ -401,6 +445,752 @@
+@@ -401,6 +445,842 @@
  			    endian) << SPA_MINBLOCKSHIFT;
  }
  
@@ -598,14 +599,15 @@ Revisions:
 +  return powx[powx_inv[a] + powx_inv[b]];
 +}
 +
-+static inline void
++static inline grub_err_t
 +recovery (grub_uint8_t *bufs[4], grub_size_t s, const int nbufs,
 +	  const unsigned *powers,
 +	  const int *idx)
 +{
++  grub_dprintf ("zfs", "recovering %u bufers\n", nbufs);
 +  /* Now we have */
 +  /* b_i = sum (r_j* (x ** (powers[i] * idx[j])))*/
-+  /* Since nbufs <= 3 let's be lazy. */
++  /* Let's invert the matrix in question. */
 +  switch (nbufs)
 +    {
 +      /* Easy: r_0 = bufs[0] / (x << (powers[i] * idx[j])).  */
@@ -614,39 +616,126 @@ Revisions:
 +	int add;
 +	grub_uint8_t *a;
 +	if (powers[0] == 0 || idx[0] == 0)
-+	  return;
++	  return GRUB_ERR_NONE;
 +	add = 255 - ((powers[0] * idx[0]) % 255);
 +	for (a = bufs[0]; s--; a++)
 +	  if (*a)
 +	    *a = powx[powx_inv[*a] + add];
-+	return;
++	return GRUB_ERR_NONE;
 +      }
-+      /* b_0 = r_0 * (x ** (powers[0] * idx[0])) + r_1 * (x ** (powers[0] * idx[1]))
-+	 b_1 = r_0 * (x ** (powers[1] * idx[0])) + r_1 * (x ** (powers[1] * idx[1]))
-+       */
++      /* Case 2x2: Let's use the determinant formula.  */
 +    case 2:
 +      {
 +	grub_uint8_t det, det_inv;
-+	grub_uint8_t det0, det1;
++	grub_uint8_t matrixinv[2][2];
 +	unsigned i;
 +	/* The determinant is: */
 +	det = (powx[(powers[0] * idx[0] + powers[1] * idx[1]) % 255]
 +	       ^ powx[(powers[0] * idx[1] + powers[1] * idx[0]) % 255]);
++	if (det == 0)
++	  return grub_error (GRUB_ERR_BAD_FS, "singular recovery matrix");
 +	det_inv = powx[255 - powx_inv[det]];
++	matrixinv[0][0] = gf_mul (powx[(powers[1] * idx[1]) % 255], det_inv);
++	matrixinv[1][1] = gf_mul (powx[(powers[0] * idx[0]) % 255], det_inv);
++	matrixinv[0][1] = gf_mul (powx[(powers[0] * idx[1]) % 255], det_inv);
++	matrixinv[1][0] = gf_mul (powx[(powers[1] * idx[0]) % 255], det_inv);
 +	for (i = 0; i < s; i++)
 +	  {
-+	    det0 = (gf_mul (bufs[0][i], powx[(powers[1] * idx[1]) % 255])
-+		    ^ gf_mul (bufs[1][i], powx[(powers[0] * idx[1]) % 255]));
-+	    det1 = (gf_mul (bufs[0][i], powx[(powers[1] * idx[0]) % 255])
-+		    ^ gf_mul (bufs[1][i], powx[(powers[0] * idx[0]) % 255]));
++	    grub_uint8_t b0, b1;
++	    b0 = bufs[0][i];
++	    b1 = bufs[1][i];
 +
-+	    bufs[0][i] = gf_mul (det0, det_inv);
-+	    bufs[1][i] = gf_mul (det1, det_inv);
++	    bufs[0][i] = (gf_mul (b0, matrixinv[0][0])
++			  ^ gf_mul (b1, matrixinv[0][1]));
++	    bufs[1][i] = (gf_mul (b0, matrixinv[1][0])
++			  ^ gf_mul (b1, matrixinv[1][1]));
 +	  }
-+	break;
++	return GRUB_ERR_NONE;
 +      }
-+    }
-+      
++      /* Otherwise use Gauss.  */
++    default:
++      {
++	grub_uint8_t matrix1[nbufs][nbufs], matrix2[nbufs][nbufs];
++	int i, j, k;
++
++	for (i = 0; i < nbufs; i++)
++	  for (j = 0; j < nbufs; j++)
++	    matrix1[i][j] = powx[(powers[i] * idx[j]) % 255];
++	for (i = 0; i < nbufs; i++)
++	  for (j = 0; j < nbufs; j++)
++	    matrix2[i][j] = 0;
++	for (i = 0; i < nbufs; i++)
++	    matrix2[i][i] = 1;
++
++	for (i = 0; i < nbufs; i++)
++	  {
++	    grub_uint8_t mul;
++	    for (j = i; j < nbufs; j++)	    
++	      if (matrix1[i][j])
++		break;
++	    if (j == nbufs)
++	      return grub_error (GRUB_ERR_BAD_FS, "singular recovery matrix");
++	    if (j != i)
++	      {
++		int xchng;
++		xchng = j;
++		for (j = 0; j < nbufs; j++)
++		  {
++		    grub_uint8_t t;
++		    t = matrix1[xchng][j];
++		    matrix1[xchng][j] = matrix1[i][j];
++		    matrix1[i][j] = t;
++		  }
++		for (j = 0; j < nbufs; j++)
++		  {
++		    grub_uint8_t t;
++		    t = matrix2[xchng][j];
++		    matrix2[xchng][j] = matrix2[i][j];
++		    matrix2[i][j] = t;
++		  }
++	      }
++	    mul = powx[255 - powx_inv[matrix1[i][i]]];
++	    for (j = 0; j < nbufs; j++)
++	      matrix1[i][j] = gf_mul (matrix1[i][j], mul);
++	    for (j = 0; j < nbufs; j++)
++	      matrix2[i][j] = gf_mul (matrix2[i][j], mul);
++	    for (j = i + 1; j < nbufs; j++)
++	      {
++		mul = matrix1[j][i];
++		for (k = 0; k < nbufs; k++)
++		  matrix1[j][k] ^= gf_mul (matrix1[i][k], mul);
++		for (k = 0; k < nbufs; k++)
++		  matrix2[j][k] ^= gf_mul (matrix2[i][k], mul);
++	      }
++	  }
++	for (i = nbufs - 1; i >= 0; i--)
++	  {
++	    for (j = 0; j < i; j++)
++	      {
++		grub_uint8_t mul;
++		mul = matrix1[j][i];
++		for (k = 0; k < nbufs; k++)
++		  matrix1[j][k] ^= gf_mul (matrix1[i][k], mul);
++		for (k = 0; k < nbufs; k++)
++		  matrix2[j][k] ^= gf_mul (matrix2[i][k], mul);
++	      }
++	  }
++
++	for (i = 0; i < (int) s; i++)
++	  {
++	    grub_uint8_t b[nbufs];
++	    for (j = 0; j < nbufs; j++)
++	      b[j] = bufs[j][i];
++	    for (j = 0; j < nbufs; j++)
++	      {
++		bufs[j][i] = 0;
++		for (k = 0; k < nbufs; k++)
++		  bufs[j][i] ^= gf_mul (matrix2[j][k], b[k]);
++	      }
++	  }
++	return GRUB_ERR_NONE;
++      }
++    }      
 +}
 +
 +static grub_err_t
@@ -745,10 +834,7 @@ Revisions:
 +			       | (offset & ((1 << desc->ashift) - 1)),
 +			       &desc->children[devn],
 +			       csize, buf);
-+	    /* No raidz3 recovery yet.  */
-+	    if (err
-+		&& failed_devices < desc->nparity
-+		&& failed_devices < 2)
++	    if (err && failed_devices < desc->nparity)
 +	      {
 +		recovery_buf[failed_devices] = buf;
 +		recovery_len[failed_devices] = csize;
@@ -771,6 +857,7 @@ Revisions:
 +	    unsigned cur_redundancy_pow = 0;
 +	    unsigned n_redundancy = 0;
 +	    unsigned i, j;
++	    grub_err_t err;
 +	    
 +	    /* Compute mul. x**s has a period of 255.  */
 +	    if (powx[0] == 0)
@@ -793,7 +880,6 @@ Revisions:
 +		 n_redundancy < failed_devices;
 +		 cur_redundancy_pow++)
 +	      {
-+		grub_err_t err;
 +		high = grub_divmod64_full ((offset >> desc->ashift)
 +					   + cur_redundancy_pow
 +					   + ((desc->nparity == 1)
@@ -856,10 +942,15 @@ Revisions:
 +		grub_uint8_t *tmp_recovery_buf[4];
 +		for (j = 0; j < i; j++)
 +		  tmp_recovery_buf[j] = recovery_buf[j] + recovery_len[j] - 1;
-+		recovery (tmp_recovery_buf, 1, i, redundancy_pow, recovery_idx);
++		err = recovery (tmp_recovery_buf, 1, i, redundancy_pow,
++				recovery_idx);
++		if (err)
++		  return err;
 +	      }
-+	    recovery (recovery_buf, recovery_len[failed_devices - 1],
-+		      failed_devices, redundancy_pow, recovery_idx);
++	    err = recovery (recovery_buf, recovery_len[failed_devices - 1],
++			    failed_devices, redundancy_pow, recovery_idx);
++	    if (err)
++	      return err;
 +	  }
 +	return GRUB_ERR_NONE;
 +      }
@@ -899,7 +990,7 @@ Revisions:
  
  /*
   * Read a block of data based on the gang block address dva,
-@@ -412,7 +1202,6 @@
+@@ -412,7 +1292,6 @@
  	       struct grub_zfs_data *data)
  {
    zio_gbh_phys_t *zio_gb;
@@ -907,7 +998,7 @@ Revisions:
    unsigned i;
    grub_err_t err;
    zio_cksum_t zc;
-@@ -424,13 +1213,8 @@
+@@ -424,13 +1303,8 @@
      return grub_errno;
    grub_dprintf ("zfs", endian == LITTLE_ENDIAN ? "little-endian gang\n"
  		:"big-endian gang\n");
@@ -922,7 +1013,7 @@ Revisions:
    if (err)
      {
        grub_free (zio_gb);
-@@ -483,20 +1267,13 @@
+@@ -483,20 +1357,13 @@
    /* pick a good dva from the block pointer */
    for (i = 0; i < SPA_DVAS_PER_BP; i++)
      {
@@ -944,7 +1035,7 @@ Revisions:
        if (!err)
  	return GRUB_ERR_NONE;
        grub_errno = GRUB_ERR_NONE;
-@@ -527,7 +1304,7 @@
+@@ -527,7 +1394,7 @@
    *buf = NULL;
  
    checksum = (grub_zfs_to_cpu64((bp)->blk_prop, endian) >> 40) & 0xff;
@@ -953,7 +1044,7 @@ Revisions:
    lsize = (BP_IS_HOLE(bp) ? 0 :
  	   (((grub_zfs_to_cpu64 ((bp)->blk_prop, endian) & 0xffff) + 1)
  	    << SPA_MINBLOCKSHIFT));
-@@ -602,7 +1379,8 @@
+@@ -602,7 +1469,8 @@
  dmu_read (dnode_end_t * dn, grub_uint64_t blkid, void **buf, 
  	  grub_zfs_endian_t *endian_out, struct grub_zfs_data *data)
  {
@@ -963,7 +1054,7 @@ Revisions:
    blkptr_t *bp_array = dn->dn.dn_blkptr;
    int epbs = dn->dn.dn_indblkshift - SPA_BLKPTRSHIFT;
    blkptr_t *bp;
-@@ -670,7 +1448,8 @@
+@@ -670,7 +1538,8 @@
   */
  static grub_err_t
  mzap_lookup (mzap_phys_t * zapobj, grub_zfs_endian_t endian,
@@ -973,7 +1064,7 @@ Revisions:
  {
    int i, chunks;
    mzap_ent_phys_t *mzap_ent = zapobj->mz_chunk;
-@@ -678,7 +1457,8 @@
+@@ -678,7 +1547,8 @@
    chunks = objsize / MZAP_ENT_LEN - 1;
    for (i = 0; i < chunks; i++)
      {
@@ -983,7 +1074,7 @@ Revisions:
  	{
  	  *value = grub_zfs_to_cpu64 (mzap_ent[i].mze_value, endian);
  	  return GRUB_ERR_NONE;
-@@ -711,7 +1491,8 @@
+@@ -711,7 +1581,8 @@
  }
  
  static grub_uint64_t
@@ -993,7 +1084,7 @@ Revisions:
  {
    static grub_uint64_t table[256];
    const grub_uint8_t *cp;
-@@ -729,8 +1510,12 @@
+@@ -729,8 +1600,12 @@
  	}
      }
  
@@ -1008,7 +1099,7 @@ Revisions:
  
    /*
     * Only use 28 bits, since we need 4 bits in the cookie for the
-@@ -748,10 +1533,34 @@
+@@ -748,10 +1623,34 @@
   * array_len is actual len in bytes (not encoded le_value_length).
   * buf is null-terminated.
   */
@@ -1044,7 +1135,7 @@ Revisions:
  {
    int bseen = 0;
  
-@@ -763,7 +1572,8 @@
+@@ -763,7 +1662,8 @@
        if (chunk >= ZAP_LEAF_NUMCHUNKS (blksft))
  	return (0);
  
@@ -1054,7 +1145,7 @@ Revisions:
  	break;
        chunk = grub_zfs_to_cpu16 (la->la_next, endian);
        bseen += toread;
-@@ -804,7 +1614,8 @@
+@@ -804,7 +1704,8 @@
  static grub_err_t
  zap_leaf_lookup (zap_leaf_phys_t * l, grub_zfs_endian_t endian,
  		 int blksft, grub_uint64_t h,
@@ -1064,7 +1155,7 @@ Revisions:
  {
    grub_uint16_t chunk;
    struct zap_leaf_entry *le;
-@@ -816,7 +1627,7 @@
+@@ -816,7 +1717,7 @@
      return grub_error (GRUB_ERR_BAD_FS, "invalid leaf magic");
  
    for (chunk = grub_zfs_to_cpu16 (l->l_hash[LEAF_HASH (blksft, h)], endian);
@@ -1073,7 +1164,7 @@ Revisions:
      {
  
        if (chunk >= ZAP_LEAF_NUMCHUNKS (blksft))
-@@ -836,11 +1647,12 @@
+@@ -836,11 +1737,12 @@
        if (zap_leaf_array_equal (l, endian, blksft, 
  				grub_zfs_to_cpu16 (le->le_name_chunk,endian),
  				grub_zfs_to_cpu16 (le->le_name_length, endian),
@@ -1088,7 +1179,7 @@ Revisions:
  	    return grub_error (GRUB_ERR_BAD_FS, "invalid leaf chunk entry");
  
  	  /* get the uint64_t property value */
-@@ -858,9 +1670,9 @@
+@@ -858,9 +1760,9 @@
  
  /* Verify if this is a fat zap header block */
  static grub_err_t
@@ -1100,7 +1191,7 @@ Revisions:
      return grub_error (GRUB_ERR_BAD_FS, "bad ZAP magic");
  
    if (zap->zap_flags != 0)
-@@ -879,7 +1691,8 @@
+@@ -879,7 +1781,8 @@
  /* XXX */
  static grub_err_t
  fzap_lookup (dnode_end_t * zap_dnode, zap_phys_t * zap,
@@ -1110,7 +1201,7 @@ Revisions:
  {
    void *l;
    grub_uint64_t hash, idx, blkid;
-@@ -888,18 +1701,18 @@
+@@ -888,18 +1791,18 @@
    grub_err_t err;
    grub_zfs_endian_t leafendian;
  
@@ -1132,7 +1223,7 @@ Revisions:
  
    /* Get the leaf block */
    if ((1U << blksft) < sizeof (zap_leaf_phys_t))
-@@ -908,7 +1721,8 @@
+@@ -908,7 +1811,8 @@
    if (err)
      return err;
  
@@ -1142,7 +1233,7 @@ Revisions:
    grub_free (l);
    return err;
  }
-@@ -922,14 +1736,14 @@
+@@ -922,14 +1826,14 @@
  {
    zap_leaf_phys_t *l;
    void *l_in;
@@ -1159,7 +1250,7 @@ Revisions:
      return 0;
  
    /* get block id from index */
-@@ -945,9 +1759,17 @@
+@@ -945,9 +1849,17 @@
        grub_error (GRUB_ERR_BAD_FS, "ZAP leaf is too small");
        return 0;
      }
@@ -1179,7 +1270,7 @@ Revisions:
  
        err = dmu_read (zap_dnode, blkid, &l_in, &endian, data);
        l = l_in;
-@@ -983,8 +1805,11 @@
+@@ -983,8 +1895,11 @@
  
  	    buf = grub_malloc (grub_zfs_to_cpu16 (le->le_name_length, endian) 
  			       + 1);
@@ -1193,7 +1284,7 @@ Revisions:
  	      {
  		grub_free (buf);
  		continue;
-@@ -996,7 +1821,9 @@
+@@ -996,7 +1911,9 @@
  	      continue;
  
  	    /* get the uint64_t property value */
@@ -1204,7 +1295,7 @@ Revisions:
  	    val = grub_be_to_cpu64 (la->la_array64);
  	    if (hook (buf, val))
  	      return 1;
-@@ -1014,7 +1841,7 @@
+@@ -1014,7 +1931,7 @@
   */
  static grub_err_t
  zap_lookup (dnode_end_t * zap_dnode, char *name, grub_uint64_t * val,
@@ -1213,7 +1304,7 @@ Revisions:
  {
    grub_uint64_t block_type;
    int size;
-@@ -1037,7 +1864,8 @@
+@@ -1037,7 +1954,8 @@
    if (block_type == ZBT_MICRO)
      {
        grub_dprintf ("zfs", "micro zap\n");
@@ -1223,7 +1314,7 @@ Revisions:
        grub_dprintf ("zfs", "returned %d\n", err);      
        grub_free (zapbuf);
        return err;
-@@ -1046,7 +1874,8 @@
+@@ -1046,7 +1964,8 @@
      {
        grub_dprintf ("zfs", "fat zap\n");
        /* this is a fat zap */
@@ -1233,7 +1324,7 @@ Revisions:
        grub_dprintf ("zfs", "returned %d\n", err);      
        grub_free (zapbuf);
        return err;
-@@ -1074,7 +1903,7 @@
+@@ -1074,7 +1993,7 @@
      return 0;
    block_type = grub_zfs_to_cpu64 (*((grub_uint64_t *) zapbuf), endian);
  
@@ -1242,7 +1333,7 @@ Revisions:
  
    if (block_type == ZBT_MICRO)
      {
-@@ -1172,9 +2001,9 @@
+@@ -1172,9 +2091,9 @@
   */
  static grub_err_t
  dnode_get_path (dnode_end_t * mdn, const char *path_in, dnode_end_t * dn,
@@ -1254,7 +1345,7 @@ Revisions:
    char *cname, ch;
    grub_err_t err = GRUB_ERR_NONE;
    char *path, *path_buf;
-@@ -1199,19 +2028,31 @@
+@@ -1199,19 +2118,31 @@
        return err;
      }
  
@@ -1289,7 +1380,7 @@ Revisions:
    if (err)
      {
        grub_free (dn_new);
-@@ -1272,7 +2113,7 @@
+@@ -1272,7 +2203,7 @@
  	  grub_free (path_buf);
  	  return grub_error (GRUB_ERR_BAD_FILE_TYPE, "not a directory");
  	}
@@ -1298,7 +1389,7 @@ Revisions:
        if (err)
  	break;
  
-@@ -1291,22 +2132,54 @@
+@@ -1291,22 +2222,54 @@
  	break;
  
        *path = ch;
@@ -1362,7 +1453,7 @@ Revisions:
  	  grub_memcpy (path + grub_strlen (path), oldpath, 
  		       grub_strlen (oldpath) + 1);
  	  
-@@ -1324,7 +2197,62 @@
+@@ -1324,7 +2287,62 @@
  	      grub_free (dn_new);
  	    }
  	}
@@ -1426,7 +1517,7 @@ Revisions:
      }
  
    if (!err)
-@@ -1417,7 +2345,7 @@
+@@ -1417,7 +2435,7 @@
  
    grub_dprintf ("zfs", "alive\n");
  
@@ -1435,7 +1526,7 @@ Revisions:
    if (err)
      return err;
  
-@@ -1452,7 +2380,7 @@
+@@ -1452,7 +2470,7 @@
        if (err)
  	return err;
  
@@ -1444,7 +1535,7 @@ Revisions:
        if (err)
  	return err;
  
-@@ -1495,7 +2423,7 @@
+@@ -1495,7 +2513,7 @@
  static grub_err_t
  dnode_get_fullpath (const char *fullpath, dnode_end_t * mdn,
  		    grub_uint64_t *mdnobj, dnode_end_t * dn, int *isfs,
@@ -1453,7 +1544,7 @@ Revisions:
  {
    char *fsname, *snapname;
    const char *ptr_at, *filename;
-@@ -1573,7 +2501,7 @@
+@@ -1573,7 +2591,7 @@
        err = dnode_get (&(data->mos), snapobj, 
  		       DMU_OT_DSL_DS_SNAP_MAP, mdn, data);
        if (!err)
@@ -1462,7 +1553,7 @@ Revisions:
        if (!err)
  	err = dnode_get (&(data->mos), headobj, DMU_OT_DSL_DATASET, mdn, data);
        if (err)
-@@ -1597,7 +2525,7 @@
+@@ -1597,7 +2615,7 @@
        grub_free (snapname);      
        return GRUB_ERR_NONE;
      }
@@ -1471,7 +1562,7 @@ Revisions:
    grub_free (fsname);
    grub_free (snapname);
    return err;
-@@ -1625,11 +2553,12 @@
+@@ -1625,11 +2643,12 @@
   */
  
  static int
@@ -1486,7 +1577,7 @@ Revisions:
  
    /* Verify if the 1st and 2nd byte in the nvlist are valid. */
    /* NOTE: independently of what endianness header announces all 
-@@ -1671,7 +2600,7 @@
+@@ -1671,7 +2690,7 @@
  
        if ((grub_strncmp (nvp_name, name, name_len) == 0) && type == valtype)
  	{
@@ -1495,7 +1586,7 @@ Revisions:
  	  *size_out = encode_size;
  	  if (nelm_out)
  	    *nelm_out = nelm;
-@@ -1684,7 +2613,8 @@
+@@ -1684,7 +2703,8 @@
  }
  
  int
@@ -1505,7 +1596,7 @@ Revisions:
  {
    char *nvpair;
    grub_size_t size;
-@@ -1704,7 +2634,7 @@
+@@ -1704,7 +2724,7 @@
  }
  
  char *
@@ -1514,7 +1605,7 @@ Revisions:
  {
    char *nvpair;
    char *ret;
-@@ -1732,7 +2662,7 @@
+@@ -1732,7 +2752,7 @@
  }
  
  char *
@@ -1523,7 +1614,7 @@ Revisions:
  {
    char *nvpair;
    char *ret;
-@@ -1753,199 +2683,114 @@
+@@ -1753,199 +2773,114 @@
  }
  
  int
@@ -1806,7 +1897,7 @@ Revisions:
    grub_free (data->dnode_buf);
    grub_free (data->dnode_mdn);
    grub_free (data->file_buf);
-@@ -1961,13 +2806,11 @@
+@@ -1961,13 +2896,11 @@
  zfs_mount (grub_device_t dev)
  {
    struct grub_zfs_data *data = 0;
@@ -1824,7 +1915,7 @@ Revisions:
  
    if (! dev->disk)
      {
-@@ -1975,119 +2818,56 @@
+@@ -1975,119 +2908,56 @@
        return 0;
      }
  
@@ -1973,7 +2064,7 @@ Revisions:
  }
  
  grub_err_t
-@@ -2099,7 +2879,7 @@
+@@ -2099,7 +2969,7 @@
    zfs = zfs_mount (dev);
    if (!zfs)
      return grub_errno;
@@ -1982,7 +2073,7 @@ Revisions:
    zfs_unmount (zfs);
    return err;
  }
-@@ -2115,7 +2895,7 @@
+@@ -2115,7 +2985,7 @@
    if (! data)
      return grub_errno;
  
@@ -1991,7 +2082,7 @@ Revisions:
    if (err)      
      {
        zfs_unmount (data);
-@@ -2131,11 +2911,7 @@
+@@ -2131,11 +3001,7 @@
  static grub_err_t 
  zfs_uuid (grub_device_t device, char **uuid)
  {
@@ -2003,7 +2094,7 @@ Revisions:
  
    *uuid = 0;
  
-@@ -2143,24 +2919,36 @@
+@@ -2143,24 +3009,36 @@
    if (! data)
      return grub_errno;
  
@@ -2052,7 +2143,7 @@ Revisions:
  /*
   * zfs_open() locates a file in the rootpool by following the
   * MOS and places the dnode of the file in the memory address DNODE.
-@@ -2177,7 +2965,7 @@
+@@ -2177,7 +3055,7 @@
      return grub_errno;
  
    err = dnode_get_fullpath (fsfilename, &(data->mdn), 0,
@@ -2061,7 +2152,7 @@ Revisions:
    if (err)
      {
        zfs_unmount (data);
-@@ -2227,12 +3015,14 @@
+@@ -2227,12 +3105,14 @@
  	}
  
        hdrsize = SA_HDR_SIZE (((sa_hdr_phys_t *) sahdrp));
@@ -2078,7 +2169,7 @@ Revisions:
  
    file->data = data;
    file->offset = 0;
-@@ -2248,7 +3038,7 @@
+@@ -2248,7 +3128,7 @@
  grub_zfs_read (grub_file_t file, char *buf, grub_size_t len)
  {
    struct grub_zfs_data *data = (struct grub_zfs_data *) file->data;
@@ -2087,7 +2178,7 @@ Revisions:
    grub_size_t length;
    grub_size_t read;
    grub_err_t err;
-@@ -2302,7 +3092,7 @@
+@@ -2302,7 +3182,7 @@
        data->file_start = blkid * blksz;
        data->file_end = data->file_start + blksz;
  
@@ -2096,7 +2187,7 @@ Revisions:
  
        grub_memmove (buf, data->file_buf + file->offset + read
  		    - data->file_start, movesize);
-@@ -2339,7 +3129,7 @@
+@@ -2339,7 +3219,7 @@
      return grub_errno;
  
    err = dnode_get_fullpath (fsfilename, &(data->mdn), mdnobj,
@@ -2105,7 +2196,7 @@ Revisions:
    zfs_unmount (data);
    return err;
  }
-@@ -2377,7 +3167,7 @@
+@@ -2377,7 +3257,7 @@
        return;
      }
    
@@ -2114,7 +2205,7 @@ Revisions:
    if (err)
      {
        grub_dprintf ("zfs", "failed here\n");
-@@ -2391,8 +3181,39 @@
+@@ -2391,8 +3271,39 @@
        return;
      }
    
@@ -2156,7 +2247,7 @@ Revisions:
    return;
  }
  
-@@ -2403,6 +3224,7 @@
+@@ -2403,6 +3314,7 @@
    struct grub_zfs_data *data;
    grub_err_t err;
    int isfs;
@@ -2164,7 +2255,7 @@ Revisions:
    auto int NESTED_FUNC_ATTR iterate_zap (const char *name, grub_uint64_t val);
    auto int NESTED_FUNC_ATTR iterate_zap_fs (const char *name, 
  					    grub_uint64_t val);
-@@ -2416,10 +3238,48 @@
+@@ -2416,10 +3328,48 @@
      grub_memset (&info, 0, sizeof (info));
  
      dnode_get (&(data->mdn), val, 0, &dn, data);
@@ -2217,7 +2308,7 @@ Revisions:
  		  (int)dn.dn.dn_type, (char *)name);
      return hook (name, &info);
    }
-@@ -2464,7 +3324,8 @@
+@@ -2464,7 +3414,8 @@
    data = zfs_mount (device);
    if (! data)
      return grub_errno;
@@ -2227,7 +2318,7 @@ Revisions:
    if (err)
      {
        zfs_unmount (data);
-@@ -2532,12 +3393,13 @@
+@@ -2532,12 +3483,13 @@
    .close = grub_zfs_close,
    .label = zfs_label,
    .uuid = zfs_uuid,
