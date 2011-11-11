@@ -4,6 +4,7 @@ grub2 (1.99-13) UNRELEASED; urgency=low
   * Portuguese (Miguel Figueiredo).  Closes: #641226
   * German (Martin Eberhard Schauer).  Closes: #641630
   * Sinhala (Danishka Navin).  Closes: #644080
+  * Uyghur (Gheyret Tohti).  Closes: #627011
 
   [ Robert Millan ]
   * LVM support for GNU/kFreeBSD.
