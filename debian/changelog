@@ -10,8 +10,9 @@ grub2 (1.99-13) UNRELEASED; urgency=low
     - kfreebsd_lvm.patch
   * Cherry-pick several ZFS updates from upstream Bazaar.
     - zfs_update.patch
+  * Build without libzfs.
 
- -- Robert Millan <rmh@debian.org>  Thu, 10 Nov 2011 20:36:02 +0100
+ -- Robert Millan <rmh@debian.org>  Fri, 11 Nov 2011 23:04:58 +0100
 
 grub2 (1.99-12) unstable; urgency=low
 

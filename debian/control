@@ -24,8 +24,6 @@ Build-Depends: debhelper (>= 7.4.2~),
  gettext,
  libusb-dev [!hurd-any],
  libdevmapper-dev (>= 2:1.02.34) [linux-any],
- libzfs-dev [kfreebsd-any],
- libnvpair-dev [kfreebsd-any],
  libgeom-dev (>= 8.2+ds1-1) [kfreebsd-any] | libgeom-dev (<< 8.2) [kfreebsd-any],
  libsdl1.2-dev [!hurd-any],
  xorriso (>= 0.5.6.pl00),
@@ -33,7 +31,7 @@ Build-Depends: debhelper (>= 7.4.2~),
  qemu-utils [!hurd-any],
  parted [!hurd-any],
  libfuse-dev (>= 2.8.4-1.4) [linux-any kfreebsd-any],
-Build-Conflicts: autoconf2.13 
+Build-Conflicts: autoconf2.13, libzfs-dev, libnvpair-dev
 Standards-Version: 3.8.4
 Homepage: http://www.gnu.org/software/grub/
 Vcs-Bzr: http://anonscm.debian.org/bzr/pkg-grub/trunk/grub/
