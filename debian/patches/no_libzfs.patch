@@ -258,6 +258,55 @@
  
  /* This function never prints trailing slashes (so that its output
     can be appended a slash unconditionally).  */
+@@ -361,22 +359,18 @@
+   dev_t num;
+   size_t len;
+ 
+-#if defined(HAVE_LIBZFS) && defined(HAVE_LIBNVPAIR)
+   char *poolfs = NULL;
+-#endif
+ 
+   /* canonicalize.  */
+   p = canonicalize_file_name (path);
+   if (p == NULL)
+     grub_util_error ("failed to get canonical path of %s", path);
+ 
+-#if defined(HAVE_LIBZFS) && defined(HAVE_LIBNVPAIR)
+   /* For ZFS sub-pool filesystems, could be extended to others (btrfs?).  */
+   {
+     char *dummy;
+     grub_find_zpool_from_dir (p, &dummy, &poolfs);
+   }
+-#endif
+ 
+   len = strlen (p) + 1;
+   buf = xstrdup (p);
+@@ -428,10 +422,8 @@
+ 	      }
+ #endif
+ 	      free (buf2);
+-#if defined(HAVE_LIBZFS) && defined(HAVE_LIBNVPAIR)
+ 	      if (poolfs)
+ 		return xasprintf ("/%s/@", poolfs);
+-#endif
+ 	      return xstrdup ("");
+ 	    }
+ 	  else
+@@ -488,14 +480,12 @@
+       len--;
+     }
+ 
+-#if defined(HAVE_LIBZFS) && defined(HAVE_LIBNVPAIR)
+   if (poolfs)
+     {
+       ret = xasprintf ("/%s/@%s", poolfs, buf3);
+       free (buf3);
+     }
+   else
+-#endif
+     ret = buf3;
+ 
+   return ret;
 --- a/include/grub/disk.h
 +++ b/include/grub/disk.h
 @@ -42,7 +42,8 @@
