@@ -1,3 +1,9 @@
+grub2 (1.99-14) unstable; urgency=low
+
+  * Rewrite no_libzfs.patch using a different approach.  (Closes: #648539)
+
+ -- Robert Millan <rmh@debian.org>  Sun, 13 Nov 2011 00:14:38 +0100
+
 grub2 (1.99-13) unstable; urgency=low
 
   [ Debconf translations ]
