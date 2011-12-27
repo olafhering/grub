@@ -6,6 +6,7 @@ grub2 (1.99-15) UNRELEASED; urgency=low
   [ Debconf translations ]
   * Dutch (Jeroen Schot).  Closes: #651275
   * Bulgarian (Damyan Ivanov).  Closes: #653356
+  * Icelandic (Sveinn í Felli). 
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Nov 2011 01:13:00 +0000
 
