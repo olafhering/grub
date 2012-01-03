@@ -9,6 +9,9 @@ grub2 (1.99-15) UNRELEASED; urgency=low
   * Icelandic (Sveinn í Felli). 
   * Ukrainian (Yatsenko Alexandr).  Closes: #654294
 
+  [ Christian Perrier ]
+  * Italian (Luca Monducci).  Closes: #654304
+
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Nov 2011 01:13:00 +0000
 
 grub2 (1.99-14) unstable; urgency=low

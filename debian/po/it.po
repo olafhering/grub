@@ -1,13 +1,13 @@
 # Italian (it) translation of debconf templates for grub2
 # This file is distributed under the same license as the grub2 package.
-# Luca Monducci <luca.mo@tiscali.it>, 2007-2010.
+# Luca Monducci <luca.mo@tiscali.it>, 2007-2012.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.98+20100804-10 italian debconf templates\n"
+"Project-Id-Version: grub2 1.99-14 italian debconf templates\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-12-12 20:02+0100\n"
+"PO-Revision-Date: 2012-01-02 21:52+0100\n"
 "Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
 "Language: it\n"
@@ -306,19 +306,15 @@ msgstr "Riga di comando Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "La seguente riga di comando Linux è stata estratta da /etc/default/grub "
-"oppure dal parametro \"kopt\" presente nel file menu.lst del vecchio GRUB. "
-"Controllare che sia corretta e modificarla se necessario."
+"oppure dal parametro \"kopt\" presente nel file menu.lst di GRUB Legacy. "
+"Controllare che sia corretta e modificarla se necessario. La riga di comando "
+"può essere vuota."
 
 #. Type: string
 #. Description
@@ -345,19 +341,15 @@ msgstr "Riga di comando kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "La seguente riga di comando kFreeBSD è stata estratta da /etc/default/grub "
-"oppure dal parametro \"kopt\" presente nel file menu.lst del vecchio GRUB. "
-"Controllare che sia corretta e modificarla se necessario."
+"oppure dal parametro \"kopt\" presente nel file menu.lst di GRUB Legacy. "
+"Controllare che sia corretta e modificarla se necessario. La riga di comando "
+"può essere vuota."
 
 #. Type: string
 #. Description
