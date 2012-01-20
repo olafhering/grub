@@ -8,9 +8,8 @@ grub2 (1.99-15) UNRELEASED; urgency=low
   * Bulgarian (Damyan Ivanov).  Closes: #653356
   * Icelandic (Sveinn í Felli). 
   * Ukrainian (Yatsenko Alexandr).  Closes: #654294
-
-  [ Christian Perrier ]
   * Italian (Luca Monducci).  Closes: #654304
+  * Thai (Theppitak Karoonboonyanan).  Closes: #656551
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Nov 2011 01:13:00 +0000
 
