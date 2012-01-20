@@ -1,14 +1,14 @@
 # translation of grub_debian_po_is.po to Icelandic
-# Copyright (C) Free Software Foundation
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) 2010 Free Software Foundation
+# This file is distributed under the same license as the GRUB package.
 #
-# Sveinn í Felli <sveinki@nett.is>, 2010, 2011.
+# Sveinn í Felli <sveinki@nett.is>, 2010, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: grub_debian_po_is\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2011-12-27 20:10+0000\n"
+"PO-Revision-Date: 2012-01-20 09:44+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
 "Language: \n"
@@ -55,7 +55,7 @@ msgid ""
 msgstr ""
 "Mælt með því að þú samþykkir að raðhlaða GRUB 2 úr menu.lst, auk þess að þú "
 "skoðir hvort nýja GRUB 2 uppsetningin virki fyrir þig, áður en þetta er "
-"skrifaðt á MBR ræsigeirann (Master Boot Record)."
+"skrifað á MBR ræsigeirann (Master Boot Record)."
 
 #. Type: boolean
 #. Description
@@ -64,6 +64,8 @@ msgid ""
 "Whatever your decision, you can replace the old MBR image with GRUB 2 later "
 "by issuing the following command as root:"
 msgstr ""
+"Hvað svosem þú ákveður, þá getur þú síðar skipt gömlu MBR myndinni út fyrir "
+"GRUB2 með því að gefa eftirfarandi skipun (sem kerfisstjóri/root):"
 
 #. Type: multiselect
 #. Description
@@ -80,6 +82,8 @@ msgid ""
 "The grub-pc package is being upgraded. This menu allows you to select which "
 "devices you'd like grub-install to be automatically run for, if any."
 msgstr ""
+"Verið er að uppfæra grub-pc pakkann. Þessi valmynd gerir þér kleift að velja "
+"af hvaða tækjum hægt er að keyra grub-install sjálfvirkt, ef þá nokkrum."
 
 #. Type: multiselect
 #. Description
@@ -89,6 +93,9 @@ msgid ""
 "prevent the installed GRUB core image from getting out of sync with GRUB "
 "modules or grub.cfg."
 msgstr ""
+"Mælt er með í flestum tilfellum að keyra grub-install sjálfvirkt, til þess "
+"að koma í veg fyrir að uppsetta GRUB aðalmyndin hætti að vera samstillt við "
+"GRUB-einingar eða grub.cfg stilliskrána."
 
 #. Type: multiselect
 #. Description
@@ -99,6 +106,8 @@ msgid ""
 "If you're unsure which drive is designated as boot drive by your BIOS, it is "
 "often a good idea to install GRUB to all of them."
 msgstr ""
+"Ef þú ert ekki viss um hvaða diskur er skilgreindur sem ræsidrif í BIOS, þá "
+"er oft góð hugmynd að setja GRUB upp á alla diskana."
 
 #. Type: multiselect
 #. Description
@@ -111,6 +120,10 @@ msgid ""
 "use the blocklist mechanism, which makes it less reliable, and therefore is "
 "not recommended."
 msgstr ""
+"Athugasemd: Það er líka hægt að setja GRUB upp á ræsigeira disksneiða, hér "
+"eru nokkrar viðeigandi disksneiðar í boði. Á móti kemur að þetta þvingar "
+"GRUB til að nota blokklista (blocklist mechanism), sem gerir GRUB ekki eins "
+"áreiðanlegt; því er ekki mælt með þessu."
 
 #. Type: multiselect
 #. Description
@@ -122,6 +135,11 @@ msgid ""
 "GRUB modules and grub.cfg. Please check again to make sure that GRUB is "
 "written to the appropriate boot devices."
 msgstr ""
+"GRUB ræsistjórinn vað áður uppsettur á disk sem ekki er lengur til staðar "
+"eða sem hefur af einhverjum ástæðum fengið nýtt auðkenni/tilvísun. Það er "
+"mikilvægt að ganga úr skugga um að uppsetta GRUB aðalmyndin sé samstillt við "
+"GRUB-einingar og grub.cfg stilliskrána.. Athugaðu aftur hvort GRUB sé "
+"skrifað á viðeigandi ræsitæki."
 
 #. Type: text
 #. Description
@@ -212,6 +230,10 @@ msgid ""
 "then you should continue anyway. Otherwise, you should install GRUB "
 "somewhere."
 msgstr ""
+"Ef þú ert þegar að nota einhvern annan ræsistjóra og ætlar að halda því "
+"áfram, eða ef þetta er eitthvað sérhannað kerfi sem ekki þarfnast "
+"ræsistjóra; þá ættirðu að halda samt áfram. Ef ekki, ættirðu að setja GRUB "
+"upp einhversstaðar."
 
 #. Type: boolean
 #. Description
@@ -259,6 +281,11 @@ msgid ""
 "GRUB 2 images, then they may be incompatible with the new packages and cause "
 "your system to stop booting properly."
 msgstr ""
+"Það lítur út fyrir að eldra GRUB sé ekki lengur í notkun og að þú ættir þá "
+"að uppfæra GRUB 2 myndirnar á þessum diskum og ljúka svo yfirfærslunni í "
+"GRUB 2 með því að fjarlægja gömlu GRUB skrárnar. Ef þú uppfærir ekki þessar "
+"GRUB 2 myndir gætu þær orðið ósamhæfðar við nýju pakkana og koma í veg fyrir "
+"að kerfið ræsist eðlilega."
 
 #. Type: boolean
 #. Description
@@ -267,6 +294,8 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
+"Almennt ættirðu að ljúka umbreytingu í GRUB 2 nema ef þessar ræsifærslur "
+"hafi verið útbúnar af GRUB 2 uppsetningu í einhverju öðru stýrikerfi."
 
 #. Type: string
 #. Description
@@ -282,6 +311,9 @@ msgid ""
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
+"Eftirfarandi Linux skipanalína fannst í /etc/default/grub eða í `kopt' "
+"viðfanginu í eldri GRUB menu.lst. Gakktu úr skugga um að þetta sé rétt og "
+"breyttu því ef það er nauðsynlegt. Skipanalínan má vera auð."
 
 #. Type: string
 #. Description
@@ -296,6 +328,8 @@ msgid ""
 "The following string will be used as Linux parameters for the default menu "
 "entry but not for the recovery mode."
 msgstr ""
+"Eftirfarandi strengur verður notaður sem Linux viðfang í sjálfgenu "
+"valmyndarfærslunni en ekki í viðgerðarham."
 
 #. Type: string
 #. Description
@@ -311,6 +345,9 @@ msgid ""
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
+"Eftirfarandi kFreeBSD skipanalína fannst í /etc/default/grub eða í `kopt' "
+"viðfanginu í eldri GRUB menu.lst. Gakktu úr skugga um að þetta sé rétt og "
+"breyttu því ef það er nauðsynlegt. Skipanalínan má vera auð."
 
 #. Type: string
 #. Description
@@ -325,6 +362,8 @@ msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
 msgstr ""
+"Eftirfarandi strengur verður notaður sem kFreeBSD viðfang í sjálfgenu "
+"valmyndarfærslunni en ekki í viðgerðarham."
 
 #. Type: note
 #. Description
@@ -340,6 +379,10 @@ msgid ""
 "names. In most cases, this should significantly reduce the need to change it "
 "in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
+"Skráin /boot/grub/device.map hefur verið endurskrifuð til að nota föst "
+"tækjaheiti. Í flestum tilfellum þýðir þetta að færri ástæður geta komið upp "
+"til að breyta þeim í framtíðinni og að færslur í GRUB ræsivalmyndinni ættu "
+"síður að verða fyrir breytingum."
 
 #. Type: note
 #. Description
@@ -350,6 +393,10 @@ msgid ""
 "there are any custom boot menu entries that rely on GRUB's (hdN) drive "
 "numbering, and update them if necessary."
 msgstr ""
+"Aftur á móti, þar sem fleiri en einn diskur eru til staðar í kerfinu, þá er "
+"alveg hugsanlegt að kerfið reiði sig á gömlu tækjaskrána (device map). "
+"Athugaðu hvort það séu einhverjar sérsniðnar ræsifærslur sem nota eldri GRUB "
+"(hdN) diskaskilgreiningar, og uppfærðu þær þá ef nauðsyn krefur."
 
 #. Type: note
 #. Description
