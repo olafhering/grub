@@ -2,14 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Sahran <sahran.ug@gmail.com>, 2010.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: grub_debian\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2011-02-15 20:03+0600\n"
-"Last-Translator: Sahran <Sahran.ug@gmail.com>\n"
+"PO-Revision-Date: 2012-01-20 11:29+0600\n"
+"Last-Translator: Sahran <sahran.ug@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "Language: Uyghur\n"
 "MIME-Version: 1.0\n"
@@ -146,8 +146,6 @@ msgstr ""
 #. Disk sizes are in decimal megabytes, to match how disk manufacturers
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
-#, fuzzy
-#| msgid "${DEVICE} (${SIZE} MB, ${MODEL})"
 msgid "${DEVICE} (${SIZE} MB; ${MODEL})"
 msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 
@@ -155,8 +153,6 @@ msgstr "${DEVICE} (${SIZE} MB, ${MODEL})"
 #. Description
 #. The "-" is used to indicate indentation. Leading spaces may not work.
 #: ../grub-pc.templates.in:6001
-#, fuzzy
-#| msgid "- ${DEVICE} (${SIZE} MB, ${PATH})"
 msgid "- ${DEVICE} (${SIZE} MB; ${PATH})"
 msgstr "- ${DEVICE} (${SIZE} MB, ${PATH})"
 
@@ -312,11 +308,6 @@ msgstr "Linux بۇيرۇق قۇرى:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -324,7 +315,7 @@ msgid ""
 msgstr ""
 "تۆۋەندىكى Linux بۇيرۇق قۇرى /etc/default/grub ياكى GRUB Legacy نىڭ menu.lst "
 "دىكى `kopt' پارامېتىرىدىن ئاجرىتىدۇ. ئۇنىڭ توغرىلىقىنى جەزملەپ، ئېھتىياجغا "
-"ئاساسەن ئۆزگەرتىڭ."
+"ئاساسەن ئۆزگەرتىڭ.بۇيرۇق قۇرىنىڭ بوش قالدۇرۇلۇشىغا يول قويۇلىدۇ."
 
 #. Type: string
 #. Description
@@ -351,11 +342,6 @@ msgstr "kFreeBSD بۇيرۇق قۇرى:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -363,7 +349,7 @@ msgid ""
 msgstr ""
 "تۆۋەندىكى kFreeBSD بۇيرۇق قۇرى /etc/default/grub ياكى GRUB Legacy نىڭ menu."
 "lst دىكى `kopt' پارامېتىرىدىن ئاجرىتىدۇ. ئۇنىڭ توغرىلىقىنى جەزملەپ، "
-"ئېھتىياجغا ئاساسەن ئۆزگەرتىڭ."
+"ئېھتىياجغا ئاساسەن ئۆزگەرتىڭ. بۇيرۇق قۇرىنىڭ بوش قالدۇرۇلۇشىغا يول قويۇلىدۇ."
 
 #. Type: string
 #. Description
