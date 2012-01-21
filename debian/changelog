@@ -11,6 +11,7 @@ grub2 (1.99-15) UNRELEASED; urgency=low
   * Italian (Luca Monducci).  Closes: #654304
   * Thai (Theppitak Karoonboonyanan).  Closes: #656551
   * Uyghur (Abduqadir Abliz)
+  * Indonesian (Mahyuddin Susanto).  Closes: #656705
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Nov 2011 01:13:00 +0000
 

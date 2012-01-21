@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-12-09 12:11+0700\n"
-"Last-Translator: Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>\n"
+"PO-Revision-Date: 2012-01-20 12:28+0700\n"
+"Last-Translator: Mahyuddin Susanto <udienz@ubuntu.com>\n"
 "Language-Team: Debian Indonesian Translation Team <debian-l10n-id@gurame."
 "fisika.ui.ac.id>\n"
 "Language: id\n"
@@ -307,11 +307,6 @@ msgstr "Baris perintah Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -319,7 +314,7 @@ msgid ""
 msgstr ""
 "Baris perintah Linux berikut ini disadur dari /etc/default/grub atau "
 "parameter 'kopt' di menu.lst pada GRUB jadul. Pastikan kebenarannya dan "
-"suntinglah bila perlu."
+"suntinglah bila perlu. Baris perintahnya diperbolehkan dikosongi."
 
 #. Type: string
 #. Description
@@ -346,11 +341,6 @@ msgstr "Baris perintah kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -358,7 +348,7 @@ msgid ""
 msgstr ""
 "Baris perintah kFreeBSD berikut ini disadur dari /etc/default/grub atau "
 "parameter 'kopt' di menu.lst pada GRUB jadul. Pastikan kebenarannya dan "
-"suntinglah bila perlu."
+"suntinglah bila perlu. Baris perintahnya diperbolehkan dikosongi."
 
 #. Type: string
 #. Description
