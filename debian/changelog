@@ -12,6 +12,7 @@ grub2 (1.99-15) UNRELEASED; urgency=low
   * Thai (Theppitak Karoonboonyanan).  Closes: #656551
   * Uyghur (Abduqadir Abliz)
   * Indonesian (Mahyuddin Susanto).  Closes: #656705
+  * Hebrew (Omer Zak).  Closes: #656852
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Nov 2011 01:13:00 +0000
 

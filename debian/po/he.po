@@ -1,24 +1,24 @@
-# translation of grub_debian_po.po to Hebrew
+# translation of grub_debian_po_he.po to Hebrew
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Omer Zak <w1@zak.co.il>, 2010.
-# Lior Kaplan <kaplan@debian.org>, 2010.
 #
+# Omer Zak <w1@zak.co.il>, 2010, 2012.
+# Lior Kaplan <kaplan@debian.org>, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: grub_debian_po\n"
+"Project-Id-Version: grub_debian_po_he\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-08-21 19:22+0300\n"
-"Last-Translator: Lior Kaplan <kaplan@debian.org>\n"
-"Language-Team: Hebrew <>\n"
+"PO-Revision-Date: 2012-01-21 00:52+0200\n"
+"Last-Translator: Omer Zak <w1@zak.co.il>\n"
+"Language-Team: Hebrew <debian-hebrew-common@lists.alioth.debian.org>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: \n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #. Type: boolean
 #. Description
@@ -35,38 +35,26 @@ msgstr "תסריטי העדכון של GRUB גילו הגדרות GRUB ישנו�
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#, fuzzy
-#| msgid ""
-#| "In order to replace the Legacy version of GRUB in your system, it is "
-#| "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
-#| "your existing GRUB Legacy setup. This step may be automaticaly performed "
-#| "now."
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
 "recommended that /boot/grub/menu.lst is adjusted to load a GRUB 2 boot image "
 "from your existing GRUB Legacy setup. This step can be automatically "
 "performed now."
 msgstr ""
-"כדי להחליף את הגדרות GRUB הישנות במערכת שלך, מומלץ לשנות את ‎/boot/grub/menu."
-"lst כך שיבצע הטענה משורשרת של GRUB 2 מהגדרות GRUB הישנות שלך. ניתן לבצע "
-"פעולה זו באופן אוטומטי עכשיו."
+"כדי להחליף את גירסת GRUB הישנה במערכת שלך, מומלץ לשנות את ‎/boot/grub/menu."
+"lst כך שיבצע הטענה משורשרת של קוד האיתחול של GRUB 2 מהגדרות GRUB הישנות שלך. "
+"ניתן לבצע פעולה זו באופן אוטומטי עכשיו."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#, fuzzy
-#| msgid ""
-#| "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
-#| "verify that your new GRUB 2 setup is functional for you, before you "
-#| "install it directly to your MBR (Master Boot Record)."
 msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that the new GRUB 2 setup works before it is written to the MBR "
 "(Master Boot Record)."
 msgstr ""
 "מומלץ שתסכים להטענה משורשרת של GRUB 2 מ-menu.lst ותוודא שהגדרות GRUB 2 "
-"החדשות עובדות עבורך, לפני שהינך מתקין אותו ישירות ל-MBR (Master Boot Record)‎ "
-"שלך."
+"החדשות עובדות עבורך, לפני שקוד האתחול נכתב ל-MBR (Master Boot Record)‎ שלך."
 
 #. Type: boolean
 #. Description
@@ -75,16 +63,16 @@ msgid ""
 "Whatever your decision, you can replace the old MBR image with GRUB 2 later "
 "by issuing the following command as root:"
 msgstr ""
+"לא משנה מהי החלטתך, ביכולתך להחליף יותר מאוחר את קוד האתחול הישן ב-MBR בקוד "
+"האתחול של  GRUB 2 ע\"י מתן הפקודה הבאה כמשתמש-על:"
 
 #. Type: multiselect
 #. Description
 #. Type: multiselect
 #. Description
 #: ../grub-pc.templates.in:3001 ../grub-pc.templates.in:4001
-#, fuzzy
-#| msgid "GRUB failed to install to the following devices:"
 msgid "GRUB install devices:"
-msgstr "כשלון בהתקנת GRUB בהתקנים הבאים:"
+msgstr "התקנים להתקנת GRUB:"
 
 #. Type: multiselect
 #. Description
@@ -93,6 +81,8 @@ msgid ""
 "The grub-pc package is being upgraded. This menu allows you to select which "
 "devices you'd like grub-install to be automatically run for, if any."
 msgstr ""
+"חבילת grub-pc משתדרגת כעת. תפריט זה מאפשר לך לבחור בהתקנים שברצונך ש-grub-"
+"install ירוץ עליהם אוטומטית, באם יש כאלה."
 
 #. Type: multiselect
 #. Description
@@ -102,6 +92,8 @@ msgid ""
 "prevent the installed GRUB core image from getting out of sync with GRUB "
 "modules or grub.cfg."
 msgstr ""
+"בדרך כלל מומלץ להריץ אוטומטית את grub-install כדי למנוע מליבת קוד האתחול "
+"המותקנת של GRUB מלהפסיק להיות מתואמת עם מודולי GRUB או עם grub.cfg."
 
 #. Type: multiselect
 #. Description
@@ -112,6 +104,8 @@ msgid ""
 "If you're unsure which drive is designated as boot drive by your BIOS, it is "
 "often a good idea to install GRUB to all of them."
 msgstr ""
+"אם אינך בטוח איזה התקן הוגדר כהתקן האתחול ע\"י ה-BIOS שלך, לעתים קרובות יהא "
+"זה רעיון טוב להתקין GRUB בכולם."
 
 #. Type: multiselect
 #. Description
@@ -124,6 +118,9 @@ msgid ""
 "use the blocklist mechanism, which makes it less reliable, and therefore is "
 "not recommended."
 msgstr ""
+"הערה: ניתן להתקין GRUB גם ברשומות האתחול של המחיצות, וכמה מחיצות מתאימות "
+"מוצעות להלן. עם זאת, התקנה כזו מכריחה את GRUB להשתמש בשיטת רשימת הבלוקים, "
+"שמורידה מאמינותו, ולכן לא מומלץ להתקין בשיטה זו."
 
 #. Type: multiselect
 #. Description
@@ -135,6 +132,9 @@ msgid ""
 "GRUB modules and grub.cfg. Please check again to make sure that GRUB is "
 "written to the appropriate boot devices."
 msgstr ""
+"המאתחל של GRUB הותקן מקודם בדיסק שכבר אינו קיים, או שהמזהה הייחודי שלו השתנה "
+"מסיבה כלשהי. חשוב לוודא שקוד האתחול של ליבת GRUB נשאר מתואם עם מודולי GRUB ו-"
+"grub.cfg. אנא בדוק שוב כדי לוודא ש-GRUB נכתב להתקני האתחול המתאימים."
 
 #. Type: text
 #. Description
@@ -148,16 +148,14 @@ msgstr "${DEVICE} (${SIZE} MB; ${MODEL})"
 #. Description
 #. The "-" is used to indicate indentation. Leading spaces may not work.
 #: ../grub-pc.templates.in:6001
-#, fuzzy
-#| msgid "${DEVICE} (${SIZE} MB; ${MODEL})"
 msgid "- ${DEVICE} (${SIZE} MB; ${PATH})"
-msgstr "${DEVICE} (${SIZE} MB; ${MODEL})"
+msgstr "- ${DEVICE} (${SIZE} MB; ${PATH})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "Writing GRUB to boot device failed - continue?"
-msgstr ""
+msgstr "כשלון בכתיבת GRUB להתקן האתחול - להמשיך?"
 
 #. Type: boolean
 #. Description
@@ -178,10 +176,8 @@ msgstr "האם ברצונך להמשיך בכל זאת? אם כן, מחשבך ע
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
-#, fuzzy
-#| msgid "GRUB installation failed. Try again?"
 msgid "Writing GRUB to boot device failed - try again?"
-msgstr "התקנת GRUB נכשלה. לנסות שוב?"
+msgstr "כשלון בכתיבת GRUB להתקן האתחול - לנסות שוב?"
 
 #. Type: boolean
 #. Description
@@ -203,13 +199,6 @@ msgstr "להמשיך בלי להתקין GRUB?"
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#, fuzzy
-#| msgid ""
-#| "You chose not to install GRUB to any devices. If you continue, the boot "
-#| "loader may not be properly configured, and when your computer next starts "
-#| "up it will use whatever was previously in the boot sector. If there is an "
-#| "earlier version of GRUB 2 in the boot sector, it may be unable to load "
-#| "modules or handle the current configuration file."
 msgid ""
 "You chose not to install GRUB to any devices. If you continue, the boot "
 "loader may not be properly configured, and when this computer next starts up "
@@ -225,12 +214,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#, fuzzy
-#| msgid ""
-#| "If you are already running a different boot loader and want to carry on "
-#| "doing so, or if this is a special environment where you do not need a "
-#| "boot loader, then you should continue anyway. Otherwise, you should "
-#| "install GRUB somewhere."
 msgid ""
 "If you are already using a different boot loader and want to carry on doing "
 "so, or if this is a special environment where you do not need a boot loader, "
@@ -245,20 +228,20 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:10001
 msgid "Remove GRUB 2 from /boot/grub?"
-msgstr ""
+msgstr "הסר GRUB 2 מ-/boot/grub?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:10001
 msgid "Do you want to have all GRUB 2 files removed from /boot/grub?"
-msgstr ""
+msgstr "האם ברצונך להסיר את כל קבצי GRUB 2 מ-/boot/grub?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:10001
 msgid ""
 "This will make the system unbootable unless another boot loader is installed."
-msgstr ""
+msgstr "פעולה זו תמנע מהמערכת מלאתחל אלא אם תתקין מנהל אתחול אחר."
 
 #. Type: boolean
 #. Description
@@ -310,18 +293,14 @@ msgstr "שורת הפקודה של Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "שורת פקודת Linux הבאה נשלפה מ-‎/etc/default/grub או מפרמטר 'kopt' ב-menu.lst "
-"הישן של GRUB. נא לוודא ששורת פקודה זו נכונה ועדכן אותה אם צריך."
+"הישן של GRUB. נא לוודא ששורת פקודה זו נכונה ועדכן אותה אם צריך. ניתן להשאיר "
+"שורת פקודה זו ריקה."
 
 #. Type: string
 #. Description
@@ -348,18 +327,14 @@ msgstr "שורת הפקודה של kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "שורת פקודת kFreeBSD הבאה נשלפה מ-‎/etc/default/grub או מפרמטר'kopt' ב-menu."
-"lst הישן של GRUB. בבקשה לוודא ששורת פקודה זו נכונה ועדכן אותה אם צריך."
+"lst הישן של GRUB. בבקשה לוודא ששורת פקודה זו נכונה ועדכן אותה אם צריך. ניתן "
+"להשאיר שורת פקודה זו ריקה."
 
 #. Type: string
 #. Description
@@ -398,42 +373,22 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
-#| msgid ""
-#| "However, since you have more than one disk in your system, it is possible "
-#| "that you were depending on the old device map. Please check whether you "
-#| "have any custom boot menu entries that rely on GRUB's (hdN) drive "
-#| "numbering, and update them if necessary."
 msgid ""
 "However, since more than one disk is present in the system, it is possible "
 "that the system is depending on the old device map. Please check whether "
 "there are any custom boot menu entries that rely on GRUB's (hdN) drive "
 "numbering, and update them if necessary."
 msgstr ""
-"אבל, מכיוון שיש במערכת שלך יותר מדיסק אחד, ייתכן שהסתמכת על קובץ מיפוי "
-"ההתקנים הישן. אנא בדוק אם יש לך בחירות מותאמות אישית בתפריט האתחול, שמשתמשות "
-"בשיטת מספור ההתקנים (hdN) של GRUB, ועדכן אותן אם צריך."
+"אבל, מכיוון שיש במערכת שלך יותר מדיסק אחד, ייתכן שהמערכת מסתמכת על קובץ "
+"מיפוי ההתקנים הישן. אנא בדוק אם יש לך בחירות מותאמות אישית בתפריט האתחול, "
+"שמשתמשות בשיטת מספור ההתקנים (hdN) של GRUB, ועדכן אותן אם צריך."
 
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
-#| msgid ""
-#| "If you do not understand this message, or if you do not have any custom "
-#| "boot menu entries, you can ignore this message."
 msgid ""
 "If you do not understand this message, or if there are no custom boot menu "
 "entries, you can ignore this message."
 msgstr ""
-"אם אינך מבין הודעה זו, או אם אין לך ברירות מותאמות אישית בתפריט האתחול, אז "
+"אם אינך מבין הודעה זו, או אם אין לך ברירות מותאמות אישית בתפריט האתחול, אזי "
 "ניתן להתעלם מהודעה זו."
-
-#~ msgid ""
-#~ "In either case, whenever you want GRUB 2 to be loaded directly from MBR, "
-#~ "you can do so by issuing (as root) the following command:"
-#~ msgstr ""
-#~ "בכל מקרה, מתי שתרצה ש-GRUB 2 יוטען ישירות מ-MBR, ביכולתך לעשות זאת על ידי "
-#~ "ביצוע (בתור משתמש-על) הפקודה הבאה:"
-
-#~ msgid "GRUB installation failed. Continue?"
-#~ msgstr "התקנת GRUB נכשלה.להמשיך?"
