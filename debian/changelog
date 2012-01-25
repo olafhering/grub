@@ -13,6 +13,7 @@ grub2 (1.99-15) UNRELEASED; urgency=low
   * Uyghur (Abduqadir Abliz)
   * Indonesian (Mahyuddin Susanto).  Closes: #656705
   * Hebrew (Omer Zak).  Closes: #656852
+  * Turkish (Atila KOÇ).  Closes: #656907
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Nov 2011 01:13:00 +0000
 
