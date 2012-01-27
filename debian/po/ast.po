@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2012-01-26 21:41+0100\n"
+"PO-Revision-Date: 2012-01-27 11:10+0100\n"
 "Last-Translator: Mikel González <mikelglez@softastur.org>\n"
 "Language-Team: Asturian <alministradores@softastur.org>\n"
 "Language: ast\n"
@@ -47,11 +47,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#, fuzzy
-#| msgid ""
-#| "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
-#| "verify that your new GRUB 2 setup is functional for you, before you "
-#| "install it directly to your MBR (Master Boot Record)."
 msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that the new GRUB 2 setup works before it is written to the MBR "
@@ -76,10 +71,8 @@ msgstr ""
 #. Type: multiselect
 #. Description
 #: ../grub-pc.templates.in:3001 ../grub-pc.templates.in:4001
-#, fuzzy
-#| msgid "GRUB failed to install to the following devices:"
 msgid "GRUB install devices:"
-msgstr "Falló GRUB al instalar nos siguientes preseos:"
+msgstr "GRUB falló al instalar nos siguientes preseos:"
 
 #. Type: multiselect
 #. Description
@@ -159,10 +152,8 @@ msgstr "${DEVICE} (${SIZE} MB; ${MODEL})"
 #. Description
 #. The "-" is used to indicate indentation. Leading spaces may not work.
 #: ../grub-pc.templates.in:6001
-#, fuzzy
-#| msgid "${DEVICE} (${SIZE} MB; ${MODEL})"
 msgid "- ${DEVICE} (${SIZE} MB; ${PATH})"
-msgstr "${DEVICE} (${SIZE} MB; ${MODEL})"
+msgstr "${DEVICE} (${SIZE} MB; ${PATH})"
 
 #. Type: boolean
 #. Description
@@ -190,10 +181,8 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
-#, fuzzy
-#| msgid "GRUB installation failed. Try again?"
 msgid "Writing GRUB to boot device failed - try again?"
-msgstr "Falló la instalación de GRUB. ¿Intentalo otra vegada?"
+msgstr "La instalación de GRUB falló. ¿Intentalo otra vegada?"
 
 #. Type: boolean
 #. Description
@@ -216,13 +205,6 @@ msgstr "¿Siguir ensin instalar GRUB?"
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#, fuzzy
-#| msgid ""
-#| "You chose not to install GRUB to any devices. If you continue, the boot "
-#| "loader may not be properly configured, and when your computer next starts "
-#| "up it will use whatever was previously in the boot sector. If there is an "
-#| "earlier version of GRUB 2 in the boot sector, it may be unable to load "
-#| "modules or handle the current configuration file."
 msgid ""
 "You chose not to install GRUB to any devices. If you continue, the boot "
 "loader may not be properly configured, and when this computer next starts up "
@@ -239,12 +221,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#, fuzzy
-#| msgid ""
-#| "If you are already running a different boot loader and want to carry on "
-#| "doing so, or if this is a special environment where you do not need a "
-#| "boot loader, then you should continue anyway. Otherwise, you should "
-#| "install GRUB somewhere."
 msgid ""
 "If you are already using a different boot loader and want to carry on doing "
 "so, or if this is a special environment where you do not need a boot loader, "
@@ -329,19 +305,14 @@ msgstr "Linia comandos Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
-"La siguiente llinia de comandu Linux fue estrayía dende /etc/default/grub o "
-"del parámetru `kopt' nel menú Legacy GRUB menu.lst. Por favor, comprueba que "
-"ye correuto, y modificalo si ye necesario."
+"La siguiente llinia de comandu Linux salió de /etc/default/grub o del "
+"parámetru `kopt' nel menú Legacy GRUB menu.lst. Por favor, comprueba que ye "
+"correuto, y modificalo si ye necesario. La llinia de comandu puede tar erma."
 
 #. Type: string
 #. Description
@@ -368,19 +339,14 @@ msgstr "Linia comandos kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
-"La siguiente llinia de comandu kFreeBSD fue estrayía dende /etc/default/grub "
-"o del parámetru `kopt' nel menú Legacy GRUB menu.lst. Por favor, comprueba "
-"que ye correuto, y modificalo si ye necesario."
+"La siguiente llinia de comandu kFreeBSD salió de /etc/default/grub o del "
+"parámetru `kopt' nel menú Legacy GRUB menu.lst. Por favor, comprueba que ye "
+"correuto, y modificalo si ye necesario. La lliniea de comandu puede tar erma."
 
 #. Type: string
 #. Description
@@ -420,36 +386,26 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
-#| msgid ""
-#| "However, since you have more than one disk in your system, it is possible "
-#| "that you were depending on the old device map. Please check whether you "
-#| "have any custom boot menu entries that rely on GRUB's (hdN) drive "
-#| "numbering, and update them if necessary."
 msgid ""
 "However, since more than one disk is present in the system, it is possible "
 "that the system is depending on the old device map. Please check whether "
 "there are any custom boot menu entries that rely on GRUB's (hdN) drive "
 "numbering, and update them if necessary."
 msgstr ""
-"En too casu, ya tienes más d'un discu nel to sistema, ye posible que "
-"dependieres del mapa antigüu del preséu. Por favor, comprueba si tienes o "
-"non entraes d'arranque del menú personalizaes que se basen na númberación de "
-"la unidá GRUB's (hdN), y anovalos si ye necesario."
+"Sicasí, ya tienes más d'un discu nel to sistema, ye posible que dependieres "
+"del mapa antigüu del preséu. Por favor, comprueba si tienes o non entraes "
+"d'arranque del menú personalizaes que se basen na númberación de la unidá "
+"GRUB's (hdN), y anovalos si ye necesario."
 
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
-#| msgid ""
-#| "If you do not understand this message, or if you do not have any custom "
-#| "boot menu entries, you can ignore this message."
 msgid ""
 "If you do not understand this message, or if there are no custom boot menu "
 "entries, you can ignore this message."
 msgstr ""
-"Si nun entiendes esti mensax, o si nun tienes nenguna entrada personalizada "
-"nel menú d'arranque, puedes ignorar esti mensax."
+"Si nun entiendes esti mensaxe, o si nun tienes nenguna entrada personalizada "
+"nel menú d'arranque, puedes ignorar esti mensaxe."
 
 #~ msgid ""
 #~ "In either case, whenever you want GRUB 2 to be loaded directly from MBR, "
