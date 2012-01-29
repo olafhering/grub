@@ -25,33 +25,17 @@
 #include <grub/misc.h>
 #include <grub/setjmp.h>
 
-#define INT_MAX		GRUB_LONG_MAX
-#define UCHAR_MAX	255
-#define SHRT_MAX	32767
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include <limits.h>
+#include <stdio.h>
 
 #undef UNUSED
 #define UNUSED		(void)
 
-#define memcpy		grub_memcpy
-#define memcmp		grub_memcmp
-#define strcpy		grub_strcpy
-#define strstr		grub_strstr
-#define strchr		grub_strchr
-#define strlen		grub_strlen
 #define strtoul		grub_strtoul
 #define strtod(s,e)	grub_strtoul(s,e,0)
-#define snprintf	grub_snprintf
-#define strncpy		grub_strncpy
-#define strcat		grub_strcat
-#define strncat		grub_strncat
-#define strcoll		grub_strcmp
-#define strcmp		grub_strcmp
-#define tolower		grub_tolower
-#define toupper		grub_toupper
-
-#define malloc		grub_malloc
-#define realloc		grub_realloc
-#define free		grub_free
 
 #define exit(a)		grub_exit()
 #define jmp_buf		grub_jmp_buf
@@ -59,53 +43,6 @@
 #define longjmp		grub_longjmp
 
 #define fputs(s,f)	grub_printf("%s", s)
-
-#define isdigit		grub_isdigit
-#define isalpha		grub_isalpha
-#define isspace		grub_isspace
-
-static inline int
-isalnum (int c)
-{
-  return (isalpha (c) || isdigit (c));
-}
-
-static inline int
-iscntrl (int c)
-{
-  return ((c <= 0x1f) || (c == 0x7f));
-}
-
-static inline int
-isupper (int c)
-{
-  return ((c >= 'A') && (c <= 'Z'));
-}
-
-static inline int
-islower (int c)
-{
-  return ((c >= 'a') && (c <= 'z'));
-}
-
-static inline int
-ispunct (int c)
-{
-  return ((! isspace (c)) && (! isalnum (c)));
-}
-
-static inline int
-isxdigit (int c)
-{
-  return (isdigit (c) || ((c >= 'a') && (c <= 'f')) ||
-	  ((c >= 'A') && (c <= 'F')));
-}
-
-static inline int
-abs (int c)
-{
-  return (c >= 0) ? : -c;
-}
 
 int strcspn (const char *s1, const char *s2);
 char *strpbrk (const char *s1, const char *s2);
