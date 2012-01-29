@@ -46,6 +46,5 @@
 
 int strcspn (const char *s1, const char *s2);
 char *strpbrk (const char *s1, const char *s2);
-void *memchr (const void *s, int c, size_t n);
 
 #endif
