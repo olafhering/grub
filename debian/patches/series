@@ -30,3 +30,4 @@ mkconfig_skip_readme.patch
 kfreebsd_lvm.patch
 zfs_update.patch
 no_libzfs.patch
+xfs_invalid_bmap.patch
