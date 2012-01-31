@@ -22,6 +22,7 @@ grub2 (1.99-15) UNRELEASED; urgency=low
   * Turkish (Atila KOÇ).  Closes: #656907
   * Polish (Michał Kułach).  Closes: #657265
   * Asturian (Mikel González).
+  * Dzongkha (Dawa Pemo)
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Nov 2011 01:13:00 +0000
 
