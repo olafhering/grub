@@ -20,6 +20,7 @@ endif
 
 unexport CFLAGS
 export HOST_CFLAGS
+export TARGET_CPPFLAGS := -Wno-unused-but-set-variable
 
 ifeq (,$(shell which qemu-system-i386 2>/dev/null))
 with_check := no
@@ -27,7 +28,7 @@ else
 with_check := yes
 endif
 
-CC := gcc-4.5
+CC := gcc-4.6
 
 # Enable external modules from grub-extras.
 export GRUB_CONTRIB := $(CURDIR)/debian/grub-extras
