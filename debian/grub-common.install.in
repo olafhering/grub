@@ -16,8 +16,6 @@ usr/bin/grub-mkpasswd-pbkdf2
 usr/bin/grub-mkrelpath
 usr/bin/grub-mount
 usr/bin/grub-script-check
-usr/lib/grub/grub-mkconfig_lib
-usr/lib/grub/update-grub_lib
 usr/sbin/grub-mkconfig
 usr/sbin/grub-mkdevicemap
 usr/sbin/grub-probe

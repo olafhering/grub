@@ -4,6 +4,9 @@ grub2 (1.99-15) UNRELEASED; urgency=low
   * no_libzfs.patch: Use xasprintf rather than asprintf.
   * Backport from upstream:
     - Rewrite XFS btree parsing; fixes invalid BMAP (closes: #657776).
+    - Handle newer autotools, and add some missing quotes in the process.
+      (Note that this moves grub-mkconfig_lib and update-grub_lib to
+      /usr/share/grub; I added links in /usr/lib/grub for compatibility.)
 
   [ Debconf translations ]
   * Dutch (Jeroen Schot).  Closes: #651275
