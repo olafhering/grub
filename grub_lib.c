@@ -28,6 +28,10 @@
 #include <grub/file.h>
 #include <grub/device.h>
 
+#ifdef ENABLE_LUA_PCI
+#include <grub/pci.h>
+#endif
+
 /* Updates the globals grub_errno and grub_msg, leaving their values on the 
    top of the stack, and clears grub_errno. When grub_errno is zero, grub_msg
    is not left on the stack. The value returned is the number of values left on
@@ -250,6 +254,40 @@ grub_lua_enum_file (lua_State *state)
   return push_result (state);
 }
 
+#ifdef ENABLE_LUA_PCI
+static int
+grub_lua_enum_pci (lua_State *state)
+{
+  auto int NESTED_FUNC_ATTR enum_pci (grub_pci_device_t dev, grub_pci_id_t pciid);
+  int NESTED_FUNC_ATTR enum_pci (grub_pci_device_t dev, grub_pci_id_t pciid)
+  {
+    int result;
+    grub_pci_address_t addr;
+    grub_uint32_t class;
+
+    lua_pushvalue (state, 1);
+    lua_pushinteger (state, grub_pci_get_bus (dev));
+    lua_pushinteger (state, grub_pci_get_device (dev));
+    lua_pushinteger (state, grub_pci_get_function (dev));
+    lua_pushinteger (state, pciid);
+
+    addr = grub_pci_make_address (dev, GRUB_PCI_REG_CLASS);
+    class = grub_pci_read (addr);
+    lua_pushinteger (state, class);
+
+    lua_call (state, 5, 1);
+    result = lua_tointeger (state, -1);
+    lua_pop (state, 1);
+
+    return result;
+  }
+
+  luaL_checktype (state, 1, LUA_TFUNCTION);
+  grub_pci_iterate (enum_pci);
+  return push_result (state);
+}
+#endif
+
 static int
 grub_lua_file_open (lua_State *state)
 {
@@ -446,6 +484,9 @@ luaL_Reg grub_lua_lib[] =
     {"setenv", grub_lua_setenv},
     {"enum_device", grub_lua_enum_device},
     {"enum_file", grub_lua_enum_file},
+#ifdef ENABLE_LUA_PCI
+    {"enum_pci", grub_lua_enum_pci},
+#endif
     {"file_open", grub_lua_file_open},
     {"file_close", grub_lua_file_close},
     {"file_seek", grub_lua_file_seek},
