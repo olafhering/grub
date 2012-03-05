@@ -1,6 +1,7 @@
 Description: Bump the values of GRUB_DISK_CACHE_SIZE and GRUB_DISK_CACHE_BITS
  on EFI systems (and only on EFI sytems) to dramatically reduce the load times
- for vmlinux and initrd
+ for vmlinux and initrd.  Forwarding this isn't required as upstream trunk
+ has completely rewritten how this all works.
 Author: Adam Conrad <adconrad@debian.org>
 Origin: other, http://blog.fpmurphy.com/2010/03/grub2-efi-support.html
 Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/944347
