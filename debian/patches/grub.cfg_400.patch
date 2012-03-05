@@ -6,7 +6,7 @@ Index: b/util/grub-mkconfig.in
    esac
  done
  
-+if [ "x${grub_cfg}" != "x" ] && ! grep -q "^password " ${grub_cfg}.new ; then
++if [ "x${grub_cfg}" != "x" ] && ! grep "^password " ${grub_cfg}.new >/dev/null; then
 +  chmod 444 ${grub_cfg}.new || true
 +fi
 +
