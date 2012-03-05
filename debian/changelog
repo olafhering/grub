@@ -24,6 +24,7 @@ grub2 (1.99-15) UNRELEASED; urgency=low
   * Asturian (Mikel González).
   * Dzongkha (Dawa Pemo)
   * Tamil (Dr.T.Vasudevan). 
+  * Belarusian (Viktar Siarhiejczyk).  Closes: #662615
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Nov 2011 01:13:00 +0000
 
