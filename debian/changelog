@@ -1,4 +1,4 @@
-grub2 (1.99-15) UNRELEASED; urgency=low
+grub2 (1.99-15) unstable; urgency=low
 
   [ Adam Conrad ]
   * grub.cfg_400.patch: Redirect grep stdout to /dev/null since
@@ -35,7 +35,7 @@ grub2 (1.99-15) UNRELEASED; urgency=low
   * Tamil (Dr.T.Vasudevan). 
   * Belarusian (Viktar Siarhiejczyk).  Closes: #662615
 
- -- Colin Watson <cjwatson@debian.org>  Mon, 28 Nov 2011 01:13:00 +0000
+ -- Colin Watson <cjwatson@debian.org>  Mon, 05 Mar 2012 16:58:01 +0000
 
 grub2 (1.99-14) unstable; urgency=low
 
