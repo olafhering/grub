@@ -14,7 +14,7 @@ grub2 (1.99-15) UNRELEASED; urgency=low
     - Handle newer autotools, and add some missing quotes in the process.
       (Note that this moves grub-mkconfig_lib and update-grub_lib to
       /usr/share/grub; I added links in /usr/lib/grub for compatibility.)
-  * Build with GCC 4.6.
+  * Build with GCC 4.6 (closes: #654727).
 
   [ Debconf translations ]
   * Dutch (Jeroen Schot).  Closes: #651275
