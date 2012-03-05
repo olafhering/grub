@@ -34,3 +34,4 @@ xfs_invalid_bmap.patch
 handle_new_autotools.patch
 efi_disk_cache.patch
 bash-completion_identifiers.patch
+mkconfig_gnumach.patch
