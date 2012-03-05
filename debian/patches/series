@@ -32,3 +32,4 @@ zfs_update.patch
 no_libzfs.patch
 xfs_invalid_bmap.patch
 handle_new_autotools.patch
+efi_disk_cache.patch

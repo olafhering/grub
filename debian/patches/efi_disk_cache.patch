@@ -1,0 +1,25 @@
+Description: Bump the values of GRUB_DISK_CACHE_SIZE and GRUB_DISK_CACHE_BITS
+ on EFI systems (and only on EFI sytems) to dramatically reduce the load times
+ for vmlinux and initrd
+Author: Adam Conrad <adconrad@debian.org>
+Origin: other, http://blog.fpmurphy.com/2010/03/grub2-efi-support.html
+Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/944347
+Forwarded: not-needed
+Last-Update: 2012-03-05
+
+--- include/grub/disk.h.orig	2012-03-05 07:30:03.558298000 -0700
++++ include/grub/disk.h	2012-03-05 07:38:24.781159744 -0700
+@@ -133,8 +133,13 @@
+ #define GRUB_DISK_CACHE_NUM	1021
+ 
+ /* The size of a disk cache in sector units.  */
++#ifdef GRUB_MACHINE_EFI
++#define GRUB_DISK_CACHE_SIZE	1024
++#define GRUB_DISK_CACHE_BITS	8
++#else
+ #define GRUB_DISK_CACHE_SIZE	8
+ #define GRUB_DISK_CACHE_BITS	3
++#endif
+ 
+ /* Return value of grub_disk_get_size() in case disk size is unknown. */
+ #define GRUB_DISK_SIZE_UNKNOWN	 0xffffffffffffffffULL
