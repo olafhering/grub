@@ -35,3 +35,4 @@ handle_new_autotools.patch
 efi_disk_cache.patch
 bash-completion_identifiers.patch
 mkconfig_gnumach.patch
+gcc_4_6_space.patch
