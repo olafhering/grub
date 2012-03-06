@@ -18,7 +18,7 @@ Index: b/include/grub/disk.h
  /* The size of a disk cache in sector units.  */
 +#ifdef GRUB_MACHINE_EFI
 +#define GRUB_DISK_CACHE_SIZE	1024
-+#define GRUB_DISK_CACHE_BITS	8
++#define GRUB_DISK_CACHE_BITS	10
 +#else
  #define GRUB_DISK_CACHE_SIZE	8
  #define GRUB_DISK_CACHE_BITS	3
