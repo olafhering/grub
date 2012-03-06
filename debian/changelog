@@ -1,8 +1,8 @@
-grub2 (1.99-17) UNRELEASED; urgency=low
+grub2 (1.99-17) unstable; urgency=low
 
   * efi_disk_cache.patch: Fix incorrect GRUB_DISK_CACHE_BITS (LP: #944347).
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 06 Mar 2012 17:42:31 +0000
+ -- Colin Watson <cjwatson@debian.org>  Tue, 06 Mar 2012 17:43:42 +0000
 
 grub2 (1.99-16) unstable; urgency=low
 
