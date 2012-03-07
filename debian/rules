@@ -117,7 +117,7 @@ build/stamps/build-grub-efi-ia32 build/stamps/build-grub-efi-amd64 build/stamps/
 build/stamps/build-grub-pc: build/stamps/configure-grub-pc
 	dh_auto_build
 ifeq ($(with_check), yes)
-	dh_auto_test
+	PATH="$$PATH:/sbin:/usr/sbin" dh_auto_test
 endif
 	touch $@
 
