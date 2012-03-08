@@ -2,6 +2,8 @@ grub2 (1.99-18) UNRELEASED; urgency=low
 
   * Ensure that /sbin and /usr/sbin are in $PATH when running tests (closes:
     #662916).
+  * mkconfig_loopback.patch: Use different GRUB loop devices for different
+    OS loop devices (thanks, bcbc; LP: #888281).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 07 Mar 2012 10:06:22 +0000
 

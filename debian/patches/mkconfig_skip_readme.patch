@@ -9,7 +9,7 @@ Index: b/util/grub-mkconfig_lib.in
 ===================================================================
 --- a/util/grub-mkconfig_lib.in
 +++ b/util/grub-mkconfig_lib.in
-@@ -170,7 +170,7 @@
+@@ -171,7 +171,7 @@
    if test -f "$1" ; then
      case "$1" in
        *.dpkg-*) return 1 ;; # debian dpkg
