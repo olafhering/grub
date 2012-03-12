@@ -5,6 +5,9 @@ grub2 (1.99-18) UNRELEASED; urgency=low
   * mkconfig_loopback.patch: Use different GRUB loop devices for different
     OS loop devices (thanks, bcbc; LP: #888281).
 
+  [ Debconf translations ]
+  * Gujarati (Kartik Mistry).  Closes: #663542
+
  -- Colin Watson <cjwatson@debian.org>  Wed, 07 Mar 2012 10:06:22 +0000
 
 grub2 (1.99-17) unstable; urgency=low
