@@ -5,6 +5,8 @@ grub2 (1.99-18) UNRELEASED; urgency=low
     #662916).
   * mkconfig_loopback.patch: Use different GRUB loop devices for different
     OS loop devices (thanks, bcbc; LP: #888281).
+  * Backport from upstream:
+    - Add support for LZO compression in btrfs (LP: #727535).
 
   [ Debconf translations ]
   * Norwegian Bokmål (Hans Fredrik Nordhaug). 
