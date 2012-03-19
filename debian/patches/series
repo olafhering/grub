@@ -37,3 +37,4 @@ bash-completion_identifiers.patch
 mkconfig_gnumach.patch
 gcc_4_6_space.patch
 lzo.patch
+fat_uuid.patch

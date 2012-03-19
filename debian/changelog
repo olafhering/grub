@@ -8,6 +8,10 @@ grub2 (1.99-18) UNRELEASED; urgency=low
   * Backport from upstream:
     - Add support for LZO compression in btrfs (LP: #727535).
 
+  [ Ilya Yanok ]
+  * Backport from upstream:
+    - Make FAT UUID uppercase to match Linux (LP: #948716).
+
   [ Debconf translations ]
   * Norwegian Bokmål (Hans Fredrik Nordhaug). 
   * Gujarati (Kartik Mistry).  Closes: #663542
