@@ -7,6 +7,7 @@ grub2 (1.99-18) UNRELEASED; urgency=low
     OS loop devices (thanks, bcbc; LP: #888281).
   * Backport from upstream:
     - Add support for LZO compression in btrfs (LP: #727535).
+    - Fix efiemu configure check.
 
   [ Ilya Yanok ]
   * Backport from upstream:
