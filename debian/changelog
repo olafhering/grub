@@ -1,3 +1,10 @@
+grub2 (1.99-19) UNRELEASED; urgency=low
+
+  [ Debconf translations ]
+  * Croatian (Tomislav Krznar).
+
+ -- Christian Perrier <bubulle@debian.org>  Sat, 24 Mar 2012 07:58:33 +0100
+
 grub2 (1.99-18) unstable; urgency=low
 
   [ Colin Watson ]
