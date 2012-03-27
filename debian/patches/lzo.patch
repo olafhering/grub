@@ -2,6 +2,7 @@ Description: Add support for LZO compression in btrfs
 Author: Szymon Janc <szymon@janc.net.pl>
 Author: Vladimir Serbinenko <phcoder@gmail.com>
 Origin: backport, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3436
+Origin: backport, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3446
 Origin: backport, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3459
 Origin: backport, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3551
 Origin: backport, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3804
@@ -61,6 +62,15 @@ Index: b/configure.ac
    TARGET_LDFLAGS="$TARGET_LDFLAGS -m64"
    TARGET_MODULE_FORMAT="elf64"
  fi
+@@ -607,7 +609,7 @@
+ fi
+ 
+ # Check for libgcc symbols
+-AC_CHECK_FUNCS(__bswapsi2 __bswapdi2 __ashldi3 __ashrdi3 __lshrdi3 __trampoline_setup __ucmpdi2 _restgpr_14_x)
++AC_CHECK_FUNCS(__bswapsi2 __bswapdi2 __ashldi3 __ashrdi3 __lshrdi3 __trampoline_setup __ucmpdi2 _restgpr_14_x __ctzdi2 __ctzsi2)
+ 
+ if test "x$TARGET_APPLE_CC" = x1 ; then
+ CFLAGS="$TARGET_CFLAGS -nostdlib"
 Index: b/grub-core/Makefile.core.def
 ===================================================================
 --- a/grub-core/Makefile.core.def
@@ -8554,6 +8564,23 @@ Index: b/include/grub/file.h
    } grub_file_filter_id_t;
  
  typedef grub_file_t (*grub_file_filter_t) (grub_file_t in);
+Index: b/include/grub/libgcc.h
+===================================================================
+--- a/include/grub/libgcc.h
++++ b/include/grub/libgcc.h
+@@ -39,6 +39,12 @@
+ # ifdef HAVE___BSWAPDI2
+ void EXPORT_FUNC (__bswapdi2) (void);
+ # endif
++# ifdef HAVE___CTZDI2
++void EXPORT_FUNC (__ctzdi2) (void);
++# endif
++# ifdef HAVE___CTZSI2
++void EXPORT_FUNC (__ctzsi2) (void);
++# endif
+ #endif
+ 
+ #ifdef HAVE___TRAMPOLINE_SETUP
 Index: b/include/grub/types.h
 ===================================================================
 --- a/include/grub/types.h

@@ -5,6 +5,8 @@ grub2 (1.99-19) UNRELEASED; urgency=low
   * Backport from upstream:
     - Avoid EFI boot services when loading Linux.
     - Restore CFLAGS after efiemu check (closes: #665772).
+    - Include __ctzdi2 and __ctzsi2 from libgcc if present (closes:
+      #665993).
 
   [ Debconf translations ]
   * Croatian (Tomislav Krznar).
