@@ -4,6 +4,7 @@ grub2 (1.99-19) UNRELEASED; urgency=low
   * Add grub-probe to grub-mount-udeb (LP: #963471).
   * Backport from upstream:
     - Avoid EFI boot services when loading Linux.
+    - Restore CFLAGS after efiemu check (closes: #665772).
 
   [ Debconf translations ]
   * Croatian (Tomislav Krznar).

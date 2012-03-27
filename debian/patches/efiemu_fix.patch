@@ -2,6 +2,7 @@ Description: Fix efiemu
  Without this, lzo.patch causes efiemu not to be built.
 Author: Vladimir Serbinenko <phcoder@gmail.com>
 Origin: upstream, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3740
+Origin: upstream, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/4066
 Forwarded: not-needed
 Applied-Upstream: http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3740
 Last-Update: 2012-03-19
@@ -10,7 +11,7 @@ Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -479,6 +479,40 @@
+@@ -479,6 +479,42 @@
  esac
  AC_MSG_RESULT([$TARGET_OBJ2ELF])
  
@@ -29,10 +30,12 @@ Index: b/configure.ac
 +fi
 +if test x"$efiemu_excuse" = x ; then
 +  AC_CACHE_CHECK([whether options required for efiemu work], grub_cv_cc_efiemu, [
++    SAVED_CFLAGS="$CFLAGS"
 +    CFLAGS="$CFLAGS -m64 -mcmodel=large -mno-red-zone -nostdlib"
 +    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
 +		      [grub_cv_cc_efiemu=yes],
 +		      [grub_cv_cc_efiemu=no])
++    CFLAGS="$SAVED_CFLAGS"
 +  ])
 +  if test x$grub_cv_cc_efiemu = xno; then
 +     efiemu_excuse="cannot compile with -m64 -mcmodel=large -mno-red-zone -nostdlib"
@@ -51,7 +54,7 @@ Index: b/configure.ac
  if test "x$target_m32" = x1; then
    # Force 32-bit mode.
    TARGET_CFLAGS="$TARGET_CFLAGS -m32"
-@@ -638,39 +672,6 @@
+@@ -638,39 +674,6 @@
    grub_I386_ASM_ADDR32
  fi
  
