@@ -1,5 +1,8 @@
 grub2 (1.99-19) UNRELEASED; urgency=low
 
+  [ Colin Watson ]
+  * Add grub-probe to grub-mount-udeb (LP: #963471).
+
   [ Debconf translations ]
   * Croatian (Tomislav Krznar).
 
