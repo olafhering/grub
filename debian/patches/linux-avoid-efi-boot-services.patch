@@ -1,0 +1,593 @@
+Description: Avoid EFI boot services when loading Linux
+Author: Matthew Garrett <mjg@redhat.com>
+Author: Vladimir Serbinenko <phcoder@gmail.com>
+Origin: backport, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/4105
+Forwarded: not-needed
+Applied-Upstream: http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/4105
+Last-Update: 2012-03-27
+
+Index: b/grub-core/lib/i386/relocator.c
+===================================================================
+--- a/grub-core/lib/i386/relocator.c
++++ b/grub-core/lib/i386/relocator.c
+@@ -148,7 +148,8 @@
+ 
+ grub_err_t
+ grub_relocator32_boot (struct grub_relocator *rel,
+-		       struct grub_relocator32_state state)
++		       struct grub_relocator32_state state,
++		       int avoid_efi_bootservices)
+ {
+   grub_err_t err;
+   void *relst;
+@@ -157,7 +158,8 @@
+   err = grub_relocator_alloc_chunk_align (rel, &ch, 0,
+ 					  (0xffffffff - RELOCATOR_SIZEOF (32))
+ 					  + 1, RELOCATOR_SIZEOF (32), 16,
+-					  GRUB_RELOCATOR_PREFERENCE_NONE);
++					  GRUB_RELOCATOR_PREFERENCE_NONE,
++					  avoid_efi_bootservices);
+   if (err)
+     return err;
+ 
+@@ -197,7 +199,8 @@
+   err = grub_relocator_alloc_chunk_align (rel, &ch, 0,
+ 					  0xa0000 - RELOCATOR_SIZEOF (16),
+ 					  RELOCATOR_SIZEOF (16), 16,
+-					  GRUB_RELOCATOR_PREFERENCE_NONE);
++					  GRUB_RELOCATOR_PREFERENCE_NONE,
++					  0);
+   if (err)
+     return err;
+ 
+@@ -241,7 +244,8 @@
+   err = grub_relocator_alloc_chunk_align (rel, &ch, min_addr,
+ 					  max_addr - RELOCATOR_SIZEOF (64),
+ 					  RELOCATOR_SIZEOF (64), 16,
+-					  GRUB_RELOCATOR_PREFERENCE_NONE);
++					  GRUB_RELOCATOR_PREFERENCE_NONE,
++					  0);
+   if (err)
+     return err;
+ 
+Index: b/grub-core/lib/mips/relocator.c
+===================================================================
+--- a/grub-core/lib/mips/relocator.c
++++ b/grub-core/lib/mips/relocator.c
+@@ -124,7 +124,7 @@
+ 					  (0xffffffff - stateset_size)
+ 					  + 1, stateset_size,
+ 					  sizeof (grub_uint32_t),
+-					  GRUB_RELOCATOR_PREFERENCE_NONE);
++					  GRUB_RELOCATOR_PREFERENCE_NONE, 0);
+   if (err)
+     return err;
+ 
+Index: b/grub-core/lib/powerpc/relocator.c
+===================================================================
+--- a/grub-core/lib/powerpc/relocator.c
++++ b/grub-core/lib/powerpc/relocator.c
+@@ -119,7 +119,7 @@
+ 					  (0xffffffff - stateset_size)
+ 					  + 1, stateset_size,
+ 					  sizeof (grub_uint32_t),
+-					  GRUB_RELOCATOR_PREFERENCE_NONE);
++					  GRUB_RELOCATOR_PREFERENCE_NONE, 0);
+   if (err)
+     return err;
+ 
+Index: b/grub-core/lib/relocator.c
+===================================================================
+--- a/grub-core/lib/relocator.c
++++ b/grub-core/lib/relocator.c
+@@ -1305,7 +1305,8 @@
+ 				  grub_phys_addr_t min_addr,
+ 				  grub_phys_addr_t max_addr,
+ 				  grub_size_t size, grub_size_t align,
+-				  int preference)
++				  int preference,
++				  int avoid_efi_boot_services)
+ {
+   grub_addr_t min_addr2 = 0, max_addr2;
+   struct grub_relocator_chunk *chunk;
+@@ -1392,7 +1393,15 @@
+       return 0;
+     }
+ 
++#ifdef GRUB_MACHINE_EFI
++    grub_efi_mmap_iterate (hook, avoid_efi_boot_services);
++#elif defined (__powerpc__)
++    (void) avoid_efi_boot_services;
+     grub_machine_mmap_iterate (hook);
++#else
++    (void) avoid_efi_boot_services;
++    grub_mmap_iterate (hook);
++#endif
+     if (!found)
+       return grub_error (GRUB_ERR_BAD_OS, "couldn't find suitable memory target");
+   }
+Index: b/grub-core/loader/i386/bsd.c
+===================================================================
+--- a/grub-core/loader/i386/bsd.c
++++ b/grub-core/loader/i386/bsd.c
+@@ -684,7 +684,8 @@
+ 						0x10000, 0x90000,
+ 						3 * sizeof (grub_uint32_t)
+ 						+ sizeof (bi), 4,
+-						GRUB_RELOCATOR_PREFERENCE_NONE);
++						GRUB_RELOCATOR_PREFERENCE_NONE,
++						0);
+ 	if (err)
+ 	  return err;
+ 	stack = get_virtual_current_address (ch);
+@@ -721,7 +722,8 @@
+ 						0x10000, 0x90000,
+ 						9 * sizeof (grub_uint32_t)
+ 						+ sizeof (bi), 4,
+-						GRUB_RELOCATOR_PREFERENCE_NONE);
++						GRUB_RELOCATOR_PREFERENCE_NONE,
++						0);
+ 	if (err)
+ 	  return err;
+ 	stack = get_virtual_current_address (ch);
+@@ -747,7 +749,7 @@
+       stack[6] = stack_target + 9 * sizeof (grub_uint32_t);
+       stack[7] = bi.tags;
+       stack[8] = kern_end;
+-      return grub_relocator32_boot (relocator, state);
++      return grub_relocator32_boot (relocator, state, 0);
+     }
+ 
+   /* Not reached.  */
+@@ -834,7 +836,7 @@
+   stack[7] = (grub_uint8_t *) curarg - (grub_uint8_t *) arg0;
+   stack[8] = ((grub_uint8_t *) arg0 - (grub_uint8_t *) buf0) + buf_target;
+ 
+-  return grub_relocator32_boot (relocator, state);
++  return grub_relocator32_boot (relocator, state, 0);
+ }
+ 
+ static grub_err_t
+@@ -1023,7 +1025,8 @@
+     grub_relocator_chunk_t ch;
+     err = grub_relocator_alloc_chunk_align (relocator, &ch, 0x10000, 0x90000,
+ 					    7 * sizeof (grub_uint32_t), 4,
+-					    GRUB_RELOCATOR_PREFERENCE_NONE);
++					    GRUB_RELOCATOR_PREFERENCE_NONE,
++					    0);
+     if (err)
+       return err;
+     stack = get_virtual_current_address (ch);
+@@ -1047,7 +1050,7 @@
+   stack[5] = grub_mmap_get_upper () >> 10;
+   stack[6] = grub_mmap_get_lower () >> 10;
+ 
+-  return grub_relocator32_boot (relocator, state);
++  return grub_relocator32_boot (relocator, state, 0);
+ }
+ 
+ static grub_err_t
+Index: b/grub-core/loader/i386/linux.c
+===================================================================
+--- a/grub-core/loader/i386/linux.c
++++ b/grub-core/loader/i386/linux.c
+@@ -183,7 +183,9 @@
+ /* Allocate pages for the real mode code and the protected mode code
+    for linux as well as a memory map buffer.  */
+ static grub_err_t
+-allocate_pages (grub_size_t prot_size)
++allocate_pages (grub_size_t prot_size, grub_size_t *align,
++		grub_size_t min_align, int relocatable,
++		grub_uint64_t prefered_address)
+ {
+   grub_size_t real_size, mmap_size;
+   grub_err_t err;
+@@ -246,7 +248,11 @@
+ 
+       return 0;
+     }
++#ifdef GRUB_MACHINE_EFI
++  grub_efi_mmap_iterate (hook, 1);
++#else
+   grub_mmap_iterate (hook);
++#endif
+   if (! real_mode_target)
+     {
+       err = grub_error (GRUB_ERR_OUT_OF_MEMORY, "cannot allocate real mode pages");
+@@ -265,15 +271,36 @@
+   }
+   efi_mmap_buf = (grub_uint8_t *) real_mode_mem + real_size + mmap_size;
+ 
+-  prot_mode_target = GRUB_LINUX_BZIMAGE_ADDR;
+-
+   {
+     grub_relocator_chunk_t ch;
+-    err = grub_relocator_alloc_chunk_addr (relocator, &ch,
+-					   prot_mode_target, prot_size);
++    if (relocatable)
++      {
++	err = grub_relocator_alloc_chunk_align (relocator, &ch,
++						prefered_address,
++						prefered_address,
++						prot_size, 1,
++						GRUB_RELOCATOR_PREFERENCE_LOW,
++						1);
++	for (; err && *align >= min_align; (*align)--)
++	  {
++	    grub_errno = GRUB_ERR_NONE;
++	    err = grub_relocator_alloc_chunk_align (relocator, &ch,
++						    0x1000000, 0xffffffff,
++						    prot_size, 1 << *align,
++						    GRUB_RELOCATOR_PREFERENCE_LOW,
++						    1);
++	  }
++	if (err)
++	  goto fail;
++      }
++    else
++      err = grub_relocator_alloc_chunk_addr (relocator, &ch,
++					     prefered_address,
++					     prot_size);
+     if (err)
+       goto fail;
+     prot_mode_mem = get_virtual_current_address (ch);
++    prot_mode_target = get_physical_target_address (ch);
+   }
+ 
+   grub_dprintf ("linux", "real_mode_mem = %lx, real_mode_pages = %x, "
+@@ -586,7 +613,7 @@
+   state.esi = real_mode_target;
+   state.esp = real_mode_target;
+   state.eip = params->code32_start;
+-  return grub_relocator32_boot (relocator, state);
++  return grub_relocator32_boot (relocator, state, 0);
+ }
+ 
+ static grub_err_t
+@@ -608,6 +635,9 @@
+   grub_size_t real_size, prot_size;
+   grub_ssize_t len;
+   int i;
++  grub_size_t align, min_align;
++  int relocatable;
++  grub_uint64_t preffered_address = GRUB_LINUX_BZIMAGE_ADDR;
+ 
+   grub_dl_ref (my_mod);
+ 
+@@ -679,7 +709,37 @@
+   real_size = setup_sects << GRUB_DISK_SECTOR_BITS;
+   prot_size = grub_file_size (file) - real_size - GRUB_DISK_SECTOR_SIZE;
+ 
+-  if (allocate_pages (prot_size))
++  if (grub_le_to_cpu16 (lh.version) >= 0x205
++      && lh.kernel_alignment != 0
++      && ((lh.kernel_alignment - 1) & lh.kernel_alignment) == 0)
++    {
++      for (align = 0; align < 32; align++)
++	if (grub_le_to_cpu32 (lh.kernel_alignment) & (1 << align))
++	  break;
++      relocatable = grub_le_to_cpu32 (lh.relocatable);
++    }
++  else
++    {
++      align = 0;
++      relocatable = 0;
++    }
++    
++  if (grub_le_to_cpu16 (lh.version) >= 0x020a)
++    {
++      min_align = lh.min_alignment;
++      prot_size = grub_le_to_cpu32 (lh.init_size);
++      preffered_address = grub_le_to_cpu64 (lh.pref_address);
++    }
++  else
++    {
++      min_align = 0;
++      prot_size = grub_file_size (file) - real_size - GRUB_DISK_SECTOR_SIZE;
++      preffered_address = grub_le_to_cpu32 (lh.code32_start);
++    }
++
++  if (allocate_pages (prot_size, &align,
++		      min_align, relocatable,
++		      preffered_address))
+     goto fail;
+ 
+   params = (struct linux_kernel_params *) real_mode_mem;
+@@ -979,7 +1039,8 @@
+     grub_relocator_chunk_t ch;
+     err = grub_relocator_alloc_chunk_align (relocator, &ch,
+ 					    addr_min, addr, size, 0x1000,
+-					    GRUB_RELOCATOR_PREFERENCE_HIGH);
++					    GRUB_RELOCATOR_PREFERENCE_HIGH,
++					    1);
+     if (err)
+       return err;
+     initrd_mem = get_virtual_current_address (ch);
+Index: b/grub-core/loader/i386/multiboot_mbi.c
+===================================================================
+--- a/grub-core/loader/i386/multiboot_mbi.c
++++ b/grub-core/loader/i386/multiboot_mbi.c
+@@ -437,7 +437,7 @@
+   err = grub_relocator_alloc_chunk_align (grub_multiboot_relocator, &ch,
+ 					  0x10000, 0x100000 - bufsize,
+ 					  bufsize, 4,
+-					  GRUB_RELOCATOR_PREFERENCE_NONE);
++					  GRUB_RELOCATOR_PREFERENCE_NONE, 0);
+   if (err)
+     return err;
+   ptrorig = get_virtual_current_address (ch);
+Index: b/grub-core/loader/i386/pc/linux.c
+===================================================================
+--- a/grub-core/loader/i386/pc/linux.c
++++ b/grub-core/loader/i386/pc/linux.c
+@@ -415,7 +415,7 @@
+     err = grub_relocator_alloc_chunk_align (relocator, &ch,
+ 					    addr_min, addr_max - size,
+ 					    size, 0x1000,
+-					    GRUB_RELOCATOR_PREFERENCE_HIGH);
++					    GRUB_RELOCATOR_PREFERENCE_HIGH, 0);
+     if (err)
+       return err;
+     initrd_chunk = get_virtual_current_address (ch);
+Index: b/grub-core/loader/i386/xnu.c
+===================================================================
+--- a/grub-core/loader/i386/xnu.c
++++ b/grub-core/loader/i386/xnu.c
+@@ -839,7 +839,7 @@
+   state.eip = grub_xnu_entry_point;
+   state.eax = grub_xnu_arg1;
+ 
+-  return grub_relocator32_boot (grub_xnu_relocator, state); 
++  return grub_relocator32_boot (grub_xnu_relocator, state, 0); 
+ }
+ 
+ /* Setup video for xnu. */
+@@ -1117,7 +1117,7 @@
+   state.eax = grub_xnu_arg1;
+   state.esp = grub_xnu_stack;
+   state.ebp = grub_xnu_stack;
+-  return grub_relocator32_boot (grub_xnu_relocator, state);
++  return grub_relocator32_boot (grub_xnu_relocator, state, 0);
+ }
+ 
+ static grub_command_t cmd_devprop_load;
+Index: b/grub-core/loader/mips/linux.c
+===================================================================
+--- a/grub-core/loader/mips/linux.c
++++ b/grub-core/loader/mips/linux.c
+@@ -385,7 +385,7 @@
+ 					    + linux_size + 0x10000,
+ 					    (0x10000000 - size),
+ 					    size, 0x10000,
+-					    GRUB_RELOCATOR_PREFERENCE_NONE);
++					    GRUB_RELOCATOR_PREFERENCE_NONE, 0);
+ 
+     if (err)
+       {
+Index: b/grub-core/loader/multiboot.c
+===================================================================
+--- a/grub-core/loader/multiboot.c
++++ b/grub-core/loader/multiboot.c
+@@ -130,7 +130,11 @@
+     return err;
+ #endif
+ 
++#if defined (__i386__) || defined (__x86_64__)
++  grub_relocator32_boot (grub_multiboot_relocator, state, 0);
++#else
+   grub_relocator32_boot (grub_multiboot_relocator, state);
++#endif
+ 
+   /* Not reached.  */
+   return GRUB_ERR_NONE;
+@@ -302,7 +306,7 @@
+     err = grub_relocator_alloc_chunk_align (grub_multiboot_relocator, &ch,
+ 					    0, (0xffffffff - size) + 1,
+ 					    size, MULTIBOOT_MOD_ALIGN,
+-					    GRUB_RELOCATOR_PREFERENCE_NONE);
++					    GRUB_RELOCATOR_PREFERENCE_NONE, 0);
+     if (err)
+       {
+ 	grub_file_close (file);
+Index: b/grub-core/loader/multiboot_elfxx.c
+===================================================================
+--- a/grub-core/loader/multiboot_elfxx.c
++++ b/grub-core/loader/multiboot_elfxx.c
+@@ -189,7 +189,8 @@
+ 						    (0xffffffff - sh->sh_size)
+ 						    + 1, sh->sh_size,
+ 						    sh->sh_addralign,
+-						    GRUB_RELOCATOR_PREFERENCE_NONE);
++						    GRUB_RELOCATOR_PREFERENCE_NONE,
++						    0);
+ 	    if (err)
+ 	      {
+ 		grub_dprintf ("multiboot_loader", "Error loading shdr %d\n", i);
+Index: b/grub-core/loader/multiboot_mbi2.c
+===================================================================
+--- a/grub-core/loader/multiboot_mbi2.c
++++ b/grub-core/loader/multiboot_mbi2.c
+@@ -578,7 +578,7 @@
+   err = grub_relocator_alloc_chunk_align (grub_multiboot_relocator, &ch,
+ 					  0, 0xffffffff - bufsize,
+ 					  bufsize, MULTIBOOT_TAG_ALIGN,
+-					  GRUB_RELOCATOR_PREFERENCE_NONE);
++					  GRUB_RELOCATOR_PREFERENCE_NONE, 0);
+   if (err)
+     return err;
+ 
+Index: b/grub-core/loader/xnu_resume.c
+===================================================================
+--- a/grub-core/loader/xnu_resume.c
++++ b/grub-core/loader/xnu_resume.c
+@@ -122,7 +122,7 @@
+ 					    (0xffffffff - hibhead.image_size) + 1,
+ 					    hibhead.image_size,
+ 					    GRUB_XNU_PAGESIZE,
+-					    GRUB_RELOCATOR_PREFERENCE_NONE);
++					    GRUB_RELOCATOR_PREFERENCE_NONE, 0);
+     if (err)
+       {
+ 	grub_file_close (file);
+Index: b/grub-core/mmap/efi/mmap.c
+===================================================================
+--- a/grub-core/mmap/efi/mmap.c
++++ b/grub-core/mmap/efi/mmap.c
+@@ -29,7 +29,7 @@
+   ((grub_efi_memory_descriptor_t *) ((char *) (desc) + (size)))
+ 
+ grub_err_t
+-grub_machine_mmap_iterate (grub_memory_hook_t hook)
++grub_efi_mmap_iterate (grub_memory_hook_t hook, int avoid_efi_boot_services)
+ {
+   grub_efi_uintn_t mmap_size = 0;
+   grub_efi_memory_descriptor_t *map_buf = 0;
+@@ -65,6 +65,13 @@
+ 		    + desc->num_pages * 4096, desc->type);
+       switch (desc->type)
+ 	{
++	case GRUB_EFI_BOOT_SERVICES_CODE:
++	  if (!avoid_efi_boot_services)
++	    {
++	      hook (desc->physical_start, desc->num_pages * 4096,
++		    GRUB_MEMORY_AVAILABLE);
++	      break;
++	    }
+ 	case GRUB_EFI_RUNTIME_SERVICES_CODE:
+ 	  hook (desc->physical_start, desc->num_pages * 4096,
+ 		GRUB_MEMORY_CODE);
+@@ -79,6 +86,13 @@
+ 	  grub_printf ("Unknown memory type %d, considering reserved\n",
+ 		       desc->type);
+ 
++	case GRUB_EFI_BOOT_SERVICES_DATA:
++	  if (!avoid_efi_boot_services)
++	    {
++	      hook (desc->physical_start, desc->num_pages * 4096,
++		    GRUB_MEMORY_AVAILABLE);
++	      break;
++	    }
+ 	case GRUB_EFI_RESERVED_MEMORY_TYPE:
+ 	case GRUB_EFI_RUNTIME_SERVICES_DATA:
+ 	case GRUB_EFI_MEMORY_MAPPED_IO:
+@@ -90,8 +104,6 @@
+ 
+ 	case GRUB_EFI_LOADER_CODE:
+ 	case GRUB_EFI_LOADER_DATA:
+-	case GRUB_EFI_BOOT_SERVICES_CODE:
+-	case GRUB_EFI_BOOT_SERVICES_DATA:
+ 	case GRUB_EFI_CONVENTIONAL_MEMORY:
+ 	  hook (desc->physical_start, desc->num_pages * 4096,
+ 		GRUB_MEMORY_AVAILABLE);
+@@ -112,6 +124,12 @@
+   return GRUB_ERR_NONE;
+ }
+ 
++grub_err_t
++grub_machine_mmap_iterate (grub_memory_hook_t hook)
++{
++  return grub_efi_mmap_iterate (hook, 0);
++}
++
+ static inline grub_efi_memory_type_t
+ make_efi_memtype (int type)
+ {
+Index: b/include/grub/i386/linux.h
+===================================================================
+--- a/include/grub/i386/linux.h
++++ b/include/grub/i386/linux.h
+@@ -86,7 +86,7 @@
+     GRUB_VIDEO_LINUX_TYPE_SIMPLE = 0x70    /* Linear framebuffer without any additional functions.  */
+   };
+ 
+-/* For the Linux/i386 boot protocol version 2.03.  */
++/* For the Linux/i386 boot protocol version 2.10.  */
+ struct linux_kernel_header
+ {
+   grub_uint8_t code1[0x0020];
+@@ -131,8 +131,16 @@
+   grub_uint32_t initrd_addr_max;        /* Highest address for initrd */
+   grub_uint32_t kernel_alignment;
+   grub_uint8_t relocatable;
+-  grub_uint8_t pad[3];
++  grub_uint8_t min_alignment;
++  grub_uint8_t pad[2];
+   grub_uint32_t cmdline_size;
++  grub_uint32_t hardware_subarch;
++  grub_uint64_t hardware_subarch_data;
++  grub_uint32_t payload_offset;
++  grub_uint32_t payload_length;
++  grub_uint64_t setup_data;
++  grub_uint64_t pref_address;
++  grub_uint64_t init_size;
+ } __attribute__ ((packed));
+ 
+ /* Boot parameters for Linux based on 2.6.12. This is used by the setup
+@@ -276,10 +284,20 @@
+   grub_uint32_t ramdisk_size;		/* initrd size */
+   grub_uint32_t bootsect_kludge;	/* obsolete */
+   grub_uint16_t heap_end_ptr;		/* Free memory after setup end */
+-  grub_uint16_t pad1;			/* Unused */
++  grub_uint8_t ext_loader_ver;		/* Extended loader version */
++  grub_uint8_t ext_loader_type;		/* Extended loader type */  
+   grub_uint32_t cmd_line_ptr;		/* Points to the kernel command line */
+-
+-  grub_uint8_t pad2[164];		/* 22c */
++  grub_uint32_t initrd_addr_max;	/* Maximum initrd address */
++  grub_uint32_t kernel_alignment;	/* Alignment of the kernel */
++  grub_uint8_t relocatable_kernel;	/* Is the kernel relocatable */
++  grub_uint8_t pad1[3];
++  grub_uint32_t cmdline_size;		/* Size of the kernel command line */
++  grub_uint32_t hardware_subarch;
++  grub_uint64_t hardware_subarch_data;
++  grub_uint32_t payload_offset;
++  grub_uint32_t payload_length;
++  grub_uint64_t setup_data;
++  grub_uint8_t pad2[120];		/* 258 */
+   struct grub_e820_mmap e820_map[GRUB_E820_MAX_ENTRY];	/* 2d0 */
+ 
+ } __attribute__ ((packed));
+Index: b/include/grub/i386/relocator.h
+===================================================================
+--- a/include/grub/i386/relocator.h
++++ b/include/grub/i386/relocator.h
+@@ -65,7 +65,8 @@
+ 				  struct grub_relocator16_state state);
+ 
+ grub_err_t grub_relocator32_boot (struct grub_relocator *rel,
+-				  struct grub_relocator32_state state);
++				  struct grub_relocator32_state state,
++				  int avoid_efi_bootservices);
+ 
+ grub_err_t grub_relocator64_boot (struct grub_relocator *rel,
+ 				  struct grub_relocator64_state state,
+Index: b/include/grub/memory.h
+===================================================================
+--- a/include/grub/memory.h
++++ b/include/grub/memory.h
+@@ -42,6 +42,11 @@
+ 
+ grub_err_t grub_mmap_iterate (grub_memory_hook_t hook);
+ 
++#ifdef GRUB_MACHINE_EFI
++grub_err_t
++grub_efi_mmap_iterate (grub_memory_hook_t hook, int avoid_efi_boot_services);
++#endif
++
+ #if !defined (GRUB_MACHINE_EMU) && !defined (GRUB_MACHINE_EFI)
+ grub_err_t EXPORT_FUNC(grub_machine_mmap_iterate) (grub_memory_hook_t hook);
+ #else
+Index: b/include/grub/relocator.h
+===================================================================
+--- a/include/grub/relocator.h
++++ b/include/grub/relocator.h
+@@ -46,7 +46,8 @@
+ 				  grub_phys_addr_t min_addr,
+ 				  grub_phys_addr_t max_addr,
+ 				  grub_size_t size, grub_size_t align,
+-				  int preference);
++				  int preference,
++				  int avoid_efi_boot_services);
+ 
+ #define GRUB_RELOCATOR_PREFERENCE_NONE 0
+ #define GRUB_RELOCATOR_PREFERENCE_LOW 1

@@ -39,3 +39,4 @@ gcc_4_6_space.patch
 lzo.patch
 fat_uuid.patch
 efiemu_fix.patch
+linux-avoid-efi-boot-services.patch
