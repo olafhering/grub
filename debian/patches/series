@@ -32,10 +32,11 @@ zfs_update.patch
 no_libzfs.patch
 xfs_invalid_bmap.patch
 handle_new_autotools.patch
-efi_disk_cache.patch
 bash-completion_identifiers.patch
 mkconfig_gnumach.patch
 gcc_4_6_space.patch
 lzo.patch
 fat_uuid.patch
 efiemu_fix.patch
+4k_sectors.patch
+efi_disk_cache.patch

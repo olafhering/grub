@@ -12,17 +12,15 @@ Index: b/include/grub/disk.h
 ===================================================================
 --- a/include/grub/disk.h
 +++ b/include/grub/disk.h
-@@ -133,8 +133,13 @@
- #define GRUB_DISK_CACHE_NUM	1021
+@@ -137,7 +137,11 @@
  
- /* The size of a disk cache in sector units.  */
+ /* The size of a disk cache in 512B units. Must be at least as big as the
+    largest supported sector size, currently 16K.  */
 +#ifdef GRUB_MACHINE_EFI
-+#define GRUB_DISK_CACHE_SIZE	1024
 +#define GRUB_DISK_CACHE_BITS	10
 +#else
- #define GRUB_DISK_CACHE_SIZE	8
- #define GRUB_DISK_CACHE_BITS	3
+ #define GRUB_DISK_CACHE_BITS	6
 +#endif
+ #define GRUB_DISK_CACHE_SIZE	(1 << GRUB_DISK_CACHE_BITS)
  
  /* Return value of grub_disk_get_size() in case disk size is unknown. */
- #define GRUB_DISK_SIZE_UNKNOWN	 0xffffffffffffffffULL
