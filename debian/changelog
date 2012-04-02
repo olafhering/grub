@@ -1,3 +1,9 @@
+grub2 (1.99-20) UNRELEASED; urgency=low
+
+  * Backport kFreeBSD support from upstream to 4k_sectors.patch.
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 02 Apr 2012 21:52:00 +0100
+
 grub2 (1.99-19) unstable; urgency=low
 
   [ Colin Watson ]

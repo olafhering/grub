@@ -3,7 +3,7 @@ Author: Vladimir Serbinenko <phcoder@gmail.com>
 Origin: backport, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3325
 Forwarded: not-needed
 Applied-Upstream: http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3325
-Last-Update: 2012-03-28
+Last-Update: 2012-04-02
 
 Index: b/Makefile.util.def
 ===================================================================
@@ -807,11 +807,15 @@ Index: b/grub-core/kern/emu/hostdisk.c
      int fd;
  
      fd = open (map[drive].device, O_RDONLY);
-@@ -299,16 +301,28 @@
+@@ -299,16 +301,32 @@
  	goto fail;
        }
  
++# if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
++    if (ioctl (fd, DIOCGSECTORSIZE, &sector_size))
++# else
 +    if (ioctl (fd, BLKSSZGET, &sector_size))
++# endif
 +       {
 +         close (fd);
 +	 goto fail;
@@ -838,7 +842,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
        grub_util_error ("unaligned device size");
  # endif
  
-@@ -325,7 +339,7 @@
+@@ -325,7 +343,7 @@
    if (stat (map[drive].device, &st) < 0)
      return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "cannot stat `%s'", map[drive].device);
  
@@ -847,7 +851,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
  
    grub_util_info ("the size of %s is %lu", name, disk->total_sectors);
  
-@@ -798,7 +812,7 @@
+@@ -798,7 +816,7 @@
      _syscall5 (int, _llseek, uint, filedes, ulong, hi, ulong, lo,
                 loff_t *, res, uint, wh);
  
@@ -856,7 +860,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
      if (_llseek (fd, offset >> 32, offset & 0xffffffff, &result, SEEK_SET))
        {
  	grub_error (GRUB_ERR_BAD_DEVICE, "cannot seek `%s'", map[disk->id].device);
-@@ -808,7 +822,7 @@
+@@ -808,7 +826,7 @@
    }
  #else
    {
@@ -865,7 +869,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
  
      if (lseek (fd, offset, SEEK_SET) != offset)
        {
-@@ -908,19 +922,20 @@
+@@ -908,19 +926,20 @@
  	 sectors that are read together with the MBR in one read.  It
  	 should only remap the MBR, so we split the read in two
  	 parts. -jochen  */
@@ -890,7 +894,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
      grub_error (GRUB_ERR_READ_ERROR, "cannot read from `%s'", map[disk->id].device);
  
    return grub_errno;
-@@ -953,8 +968,8 @@
+@@ -953,8 +972,8 @@
    if (fd < 0)
      return grub_errno;
  
