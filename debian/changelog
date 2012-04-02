@@ -1,4 +1,4 @@
-grub2 (1.99-19) UNRELEASED; urgency=low
+grub2 (1.99-19) unstable; urgency=low
 
   [ Colin Watson ]
   * Add grub-probe to grub-mount-udeb (LP: #963471).
@@ -11,7 +11,7 @@ grub2 (1.99-19) UNRELEASED; urgency=low
   [ Debconf translations ]
   * Croatian (Tomislav Krznar).
 
- -- Christian Perrier <bubulle@debian.org>  Sat, 24 Mar 2012 07:58:33 +0100
+ -- Colin Watson <cjwatson@debian.org>  Mon, 02 Apr 2012 18:26:09 +0100
 
 grub2 (1.99-18) unstable; urgency=low
 
