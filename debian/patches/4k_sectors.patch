@@ -1,6 +1,7 @@
 Description: Support non-512B sectors and agglomerate reads
 Author: Vladimir Serbinenko <phcoder@gmail.com>
 Origin: backport, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3325
+Origin: upstream, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3709
 Forwarded: not-needed
 Applied-Upstream: http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3325
 Last-Update: 2012-04-02
@@ -491,7 +492,7 @@ Index: b/grub-core/kern/disk.c
  
    /* First of all, check if the region is within the disk.  */
    if (grub_disk_adjust_range (disk, &sector, &offset, size) != GRUB_ERR_NONE)
-@@ -399,126 +496,125 @@
+@@ -399,126 +496,126 @@
        return grub_errno;
      }
  
@@ -700,19 +701,20 @@ Index: b/grub-core/kern/disk.c
 -  grub_free (tmp_buf);
 +      while (l)
 +	{
-+	  (disk->read_hook) (s, o,
-+			     ((l > GRUB_DISK_SECTOR_SIZE)
-+			      ? GRUB_DISK_SECTOR_SIZE
-+			      : l));
++	  grub_size_t cl;
++	  cl = GRUB_DISK_SECTOR_SIZE - o;
++	  if (cl > l)
++	    cl = l;
++	  (disk->read_hook) (s, o, cl);
 +	  s++;
-+	  l -= GRUB_DISK_SECTOR_SIZE - o;
++	  l -= cl;
 +	  o = 0;
 +	}
 +    }
  
    return grub_errno;
  }
-@@ -528,25 +624,31 @@
+@@ -528,25 +625,31 @@
  		 grub_off_t offset, grub_size_t size, const void *buf)
  {
    unsigned real_offset;
@@ -748,7 +750,7 @@ Index: b/grub-core/kern/disk.c
  	      != GRUB_ERR_NONE)
  	    {
  	      disk->partition = part;
-@@ -554,7 +656,7 @@
+@@ -554,7 +657,7 @@
  	    }
  	  disk->partition = part;
  
@@ -757,7 +759,7 @@ Index: b/grub-core/kern/disk.c
  	  if (len > size)
  	    len = size;
  
-@@ -565,7 +667,7 @@
+@@ -565,7 +668,7 @@
  	  if ((disk->dev->write) (disk, sector, 1, tmp_buf) != GRUB_ERR_NONE)
  	    goto finish;
  
@@ -766,7 +768,7 @@ Index: b/grub-core/kern/disk.c
  	  buf = (char *) buf + len;
  	  size -= len;
  	  real_offset = 0;
-@@ -575,8 +677,8 @@
+@@ -575,8 +678,8 @@
  	  grub_size_t len;
  	  grub_size_t n;
  
@@ -777,7 +779,7 @@ Index: b/grub-core/kern/disk.c
  
  	  if ((disk->dev->write) (disk, sector, n, buf) != GRUB_ERR_NONE)
  	    goto finish;
-@@ -599,6 +701,8 @@
+@@ -599,6 +702,8 @@
  {
    if (disk->partition)
      return grub_partition_get_len (disk->partition);
