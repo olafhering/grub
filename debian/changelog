@@ -1,10 +1,10 @@
-grub2 (1.99-21) UNRELEASED; urgency=low
+grub2 (1.99-21) unstable; urgency=low
 
   * Backport from upstream:
     - Fix hook calling for unaligned segments (closes: #666992,
       LP: #972250).
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 03 Apr 2012 14:14:42 +0100
+ -- Colin Watson <cjwatson@debian.org>  Tue, 03 Apr 2012 14:19:18 +0100
 
 grub2 (1.99-20) unstable; urgency=low
 
