@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-12-09 10:50+0100\n"
+"PO-Revision-Date: 2012-04-27 12:42+0100\n"
 "Last-Translator: Vanja Cvelbar <cvelbar@gmail.com>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "Language: sl\n"
@@ -307,11 +307,6 @@ msgstr "Ukazna vrstica Linux:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -319,7 +314,7 @@ msgid ""
 msgstr ""
 "Sledeči ukaz za Linux je vzet iz datoteke /etc/default/grub ali iz parametra "
 "`kopt' v datoteki  menu.lst sistema GRUB Legacy.  Preverite prosim, da je "
-"točen in ga po potrebi popravite."
+"točen in ga po potrebi popravite. Ukazna vrstica je lahko tudi prazna."
 
 #. Type: string
 #. Description
@@ -346,11 +341,6 @@ msgstr "Ukazna vrstica kFreeBSD:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -358,7 +348,8 @@ msgid ""
 msgstr ""
 "Sledeči ukaz za kFreeBSD je vzet iz datoteke /etc/default/grub ali iz "
 "parametra `kopt' v datoteki  menu.lst sistema GRUB Legacy.  Preverite "
-"prosim, da je točen in ga po potrebi popravite."
+"prosim, da je točen in ga po potrebi popravite. Ukazna vrstica je lahko tudi "
+"prazna."
 
 #. Type: string
 #. Description
