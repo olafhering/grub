@@ -2,9 +2,8 @@ grub2 (1.99-22) UNRELEASED; urgency=low
 
   [ Debconf translations ]
   * Khmer added (Khoem Sokhem)
-
-  [ Christian Perrier ]
   * Slovenian (Vanja Cvelbar).  Closes: #670616
+  * Traditional Chinese (Vincent Chen).
 
  -- Christian Perrier <bubulle@debian.org>  Fri, 06 Apr 2012 20:29:25 +0200
 
