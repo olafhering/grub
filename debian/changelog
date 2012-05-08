@@ -4,6 +4,7 @@ grub2 (1.99-22) UNRELEASED; urgency=low
   * Khmer added (Khoem Sokhem)
   * Slovenian (Vanja Cvelbar).  Closes: #670616
   * Traditional Chinese (Vincent Chen).
+  * Vietnamese (Hai Lang).
 
  -- Christian Perrier <bubulle@debian.org>  Fri, 06 Apr 2012 20:29:25 +0200
 
