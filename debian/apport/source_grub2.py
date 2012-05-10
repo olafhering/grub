@@ -8,6 +8,9 @@ Free Software Foundation; either version 3 of the License, or (at your
 option) any later version.  See http://www.gnu.org/copyleft/gpl.html for
 the full text of the license.
 '''
+
+from __future__ import print_function
+
 from apport.hookutils import *
 import os
 import subprocess
@@ -88,6 +91,6 @@ if __name__ == '__main__':
     r = {}
     r['ProblemType'] = 'Package'
     add_info(r)
-    for k, v in r.iteritems():
-        print '%s: "%s"' % (k, v)
-        print "========================================"
+    for k, v in r.items():
+        print('%s: "%s"' % (k, v))
+        print("========================================")

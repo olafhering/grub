@@ -6,6 +6,9 @@ grub2 (1.99-22) UNRELEASED; urgency=low
   * Traditional Chinese (Vincent Chen).
   * Vietnamese (Hai Lang).
 
+  [ Colin Watson ]
+  * Make apport hook compatible with Python 3.
+
  -- Christian Perrier <bubulle@debian.org>  Fri, 06 Apr 2012 20:29:25 +0200
 
 grub2 (1.99-21) unstable; urgency=low
