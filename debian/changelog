@@ -5,6 +5,7 @@ grub2 (1.99-22) UNRELEASED; urgency=low
   * Slovenian (Vanja Cvelbar).  Closes: #670616
   * Traditional Chinese (Vincent Chen).
   * Vietnamese (Hai Lang).
+  * Marathi (Sampada Nakhare)
 
   [ Colin Watson ]
   * Make apport hook compatible with Python 3.
