@@ -4,8 +4,8 @@ msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2010-08-22 13:43+0300\n"
-"Last-Translator: Esko Arajärvi <edu@iki.fi>\n"
+"PO-Revision-Date: 2012-05-22 13:49+0300\n"
+"Last-Translator: Timo Jyrinki <timo.jyrinki@iki.fi>\n"
 "Language-Team: Finnish <debian-l10n-finnish@lists.debian.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
@@ -33,12 +33,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#, fuzzy
-#| msgid ""
-#| "In order to replace the Legacy version of GRUB in your system, it is "
-#| "recommended that /boot/grub/menu.lst is adjusted to chainload GRUB 2 from "
-#| "your existing GRUB Legacy setup. This step may be automaticaly performed "
-#| "now."
 msgid ""
 "In order to replace the Legacy version of GRUB in your system, it is "
 "recommended that /boot/grub/menu.lst is adjusted to load a GRUB 2 boot image "
@@ -52,11 +46,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
-#, fuzzy
-#| msgid ""
-#| "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
-#| "verify that your new GRUB 2 setup is functional for you, before you "
-#| "install it directly to your MBR (Master Boot Record)."
 msgid ""
 "It's recommended that you accept chainloading GRUB 2 from menu.lst, and "
 "verify that the new GRUB 2 setup works before it is written to the MBR "
@@ -73,16 +62,16 @@ msgid ""
 "Whatever your decision, you can replace the old MBR image with GRUB 2 later "
 "by issuing the following command as root:"
 msgstr ""
+"Riippumatta valinnasta vanha MBR voidaan korvata GRUB 2:lla myöhemmin "
+"suorittamalla seuraava komento pääkäyttäjänä:"
 
 #. Type: multiselect
 #. Description
 #. Type: multiselect
 #. Description
 #: ../grub-pc.templates.in:3001 ../grub-pc.templates.in:4001
-#, fuzzy
-#| msgid "GRUB failed to install to the following devices:"
 msgid "GRUB install devices:"
-msgstr "GRUBia ei voitu asentaa seuraaville laitteille:"
+msgstr "Laitteet joille GRUB asennetaan:"
 
 #. Type: multiselect
 #. Description
@@ -91,6 +80,8 @@ msgid ""
 "The grub-pc package is being upgraded. This menu allows you to select which "
 "devices you'd like grub-install to be automatically run for, if any."
 msgstr ""
+"grub-pc-pakettia päivitetään. Tästä valikosta voit valita, mille laitteille "
+"grub-install suoritetaan automaattisesti."
 
 #. Type: multiselect
 #. Description
@@ -100,6 +91,9 @@ msgid ""
 "prevent the installed GRUB core image from getting out of sync with GRUB "
 "modules or grub.cfg."
 msgstr ""
+"grub-install:n suorittaminen automaattisesti on suositeltavaa useimmissa "
+"tilanteissa, jotta asennettu GRUB-ydin ei tulisi epäyhteensopivaksi GRUB-"
+"moduulien tai grub.cfg:n kanssa."
 
 #. Type: multiselect
 #. Description
@@ -110,6 +104,8 @@ msgid ""
 "If you're unsure which drive is designated as boot drive by your BIOS, it is "
 "often a good idea to install GRUB to all of them."
 msgstr ""
+"Jos et ole varma, mikä asema on määritelty käynnistysasemaksi koneen BIOS-"
+"asetuksissa, on usein hyvä ajatus asentaa GRUB kaikille asemille."
 
 #. Type: multiselect
 #. Description
@@ -140,22 +136,20 @@ msgstr ""
 #. usually describe them.
 #: ../grub-pc.templates.in:5001
 msgid "${DEVICE} (${SIZE} MB; ${MODEL})"
-msgstr "${DEVICE} (${SIZE} Mt; ${MODEL})"
+msgstr "${DEVICE} (${SIZE} MB; ${MODEL})"
 
 #. Type: text
 #. Description
 #. The "-" is used to indicate indentation. Leading spaces may not work.
 #: ../grub-pc.templates.in:6001
-#, fuzzy
-#| msgid "${DEVICE} (${SIZE} MB; ${MODEL})"
 msgid "- ${DEVICE} (${SIZE} MB; ${PATH})"
-msgstr "${DEVICE} (${SIZE} Mt; ${MODEL})"
+msgstr "- ${DEVICE} (${SIZE} MB; ${PATH})"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:7001
 msgid "Writing GRUB to boot device failed - continue?"
-msgstr ""
+msgstr "GRUBin kirjoittaminen käynnistyslaitteelle epäonnistui. Jatketaanko?"
 
 #. Type: boolean
 #. Description
@@ -178,10 +172,10 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
-#, fuzzy
-#| msgid "GRUB installation failed. Try again?"
 msgid "Writing GRUB to boot device failed - try again?"
-msgstr "GRUBin asennus epäonnistui. Yritetäänkö uudelleen?"
+msgstr ""
+"GRUBin kirjoittaminen käynnistyslaitteelle epäonnistui. Yritetäänkö "
+"uudelleen?"
 
 #. Type: boolean
 #. Description
@@ -204,13 +198,6 @@ msgstr "Jatketaanko asentamatta GRUBia?"
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#, fuzzy
-#| msgid ""
-#| "You chose not to install GRUB to any devices. If you continue, the boot "
-#| "loader may not be properly configured, and when your computer next starts "
-#| "up it will use whatever was previously in the boot sector. If there is an "
-#| "earlier version of GRUB 2 in the boot sector, it may be unable to load "
-#| "modules or handle the current configuration file."
 msgid ""
 "You chose not to install GRUB to any devices. If you continue, the boot "
 "loader may not be properly configured, and when this computer next starts up "
@@ -218,7 +205,7 @@ msgid ""
 "earlier version of GRUB 2 in the boot sector, it may be unable to load "
 "modules or handle the current configuration file."
 msgstr ""
-"Päätit olla asentamatta GRUBia millekään levylle. Jos jatkat, "
+"Päätit olla asentamatta GRUBia millekään laitteelle. Jos jatkat, "
 "alkulatausohjelman asetukset saattavat olla väärät ja kun kone käynnistetään "
 "uudelleen seuraavan kerran, se käyttää käynnistyslohkon aiempia asetuksia. "
 "Jos käynnistyslohkossa on GRUB 2:n aiempi versio, se ei välttämättä pysty "
@@ -227,12 +214,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
-#, fuzzy
-#| msgid ""
-#| "If you are already running a different boot loader and want to carry on "
-#| "doing so, or if this is a special environment where you do not need a "
-#| "boot loader, then you should continue anyway. Otherwise, you should "
-#| "install GRUB somewhere."
 msgid ""
 "If you are already using a different boot loader and want to carry on doing "
 "so, or if this is a special environment where you do not need a boot loader, "
@@ -247,13 +228,13 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:10001
 msgid "Remove GRUB 2 from /boot/grub?"
-msgstr ""
+msgstr "Poistetaanko GRUB 2 kohteesta /boot/grub?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:10001
 msgid "Do you want to have all GRUB 2 files removed from /boot/grub?"
-msgstr ""
+msgstr "Haluat poistaa kaikki GRUB 2 -tiedostot kohteesta /boot/grub?"
 
 #. Type: boolean
 #. Description
@@ -261,6 +242,8 @@ msgstr ""
 msgid ""
 "This will make the system unbootable unless another boot loader is installed."
 msgstr ""
+"Tämä tekee järjestelmästä käynnistyskelvottoman, ellei toista "
+"käynnistyslatainta ole asennettu."
 
 #. Type: boolean
 #. Description
@@ -314,11 +297,6 @@ msgstr "Linuxin komentorivi:"
 #. Type: string
 #. Description
 #: ../templates.in:1001
-#, fuzzy
-#| msgid ""
-#| "The following Linux command line was extracted from /etc/default/grub or "
-#| "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
-#| "correct, and modify it if necessary."
 msgid ""
 "The following Linux command line was extracted from /etc/default/grub or the "
 "`kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -326,7 +304,8 @@ msgid ""
 msgstr ""
 "GRUBin aiemman version tiedostosta menu.lst parametrista ”kopt” tai "
 "tiedostosta /etc/default/grub löydettiin seuraava Linuxin komentorivi. "
-"Varmista, että se on kunnossa ja muuta sitä tarvittaessa."
+"Varmista, että se on kunnossa ja muuta sitä tarvittaessa. Komentorivin on "
+"sallittua myös olla tyhjä."
 
 #. Type: string
 #. Description
@@ -353,11 +332,6 @@ msgstr "kFreeBSD:n komentorivi:"
 #. Type: string
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "The following kFreeBSD command line was extracted from /etc/default/grub "
-#| "or the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it "
-#| "is correct, and modify it if necessary."
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -365,7 +339,8 @@ msgid ""
 msgstr ""
 "GRUBin aiemman version tiedostosta menu.lst parametrista ”kopt” tai "
 "tiedostosta /etc/default/grub löydettiin seuraava kFreeBSD:n komentorivi. "
-"Varmista, että se on kunnossa ja muuta sitä tarvittaessa."
+"Varmista, että se on kunnossa ja muuta sitä tarvittaessa. Komentorivin on "
+"sallittua myös olla tyhjä."
 
 #. Type: string
 #. Description
@@ -405,12 +380,6 @@ msgstr ""
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
-#| msgid ""
-#| "However, since you have more than one disk in your system, it is possible "
-#| "that you were depending on the old device map. Please check whether you "
-#| "have any custom boot menu entries that rely on GRUB's (hdN) drive "
-#| "numbering, and update them if necessary."
 msgid ""
 "However, since more than one disk is present in the system, it is possible "
 "that the system is depending on the old device map. Please check whether "
@@ -418,17 +387,13 @@ msgid ""
 "numbering, and update them if necessary."
 msgstr ""
 "Koska järjestelmässä kuitenkin on useampia levyjä, on mahdollista, että "
-"jotkin asetukset viittaavat vanhaan laitetiedostoon. Tarkista onko "
+"järjestelmä on riippuvainen vanhasta laitekartasta. Tarkista onko "
 "käynnistysvalikossa rivejä, joissa käytetään GRUBin laitenumerointia (hdN), "
 "ja päivitä ne tarvittaessa."
 
 #. Type: note
 #. Description
 #: ../templates.in:5001
-#, fuzzy
-#| msgid ""
-#| "If you do not understand this message, or if you do not have any custom "
-#| "boot menu entries, you can ignore this message."
 msgid ""
 "If you do not understand this message, or if there are no custom boot menu "
 "entries, you can ignore this message."
