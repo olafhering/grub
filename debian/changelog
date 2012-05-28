@@ -7,6 +7,7 @@ grub2 (1.99-22) UNRELEASED; urgency=low
   * Vietnamese (Hai Lang).
   * Marathi (Sampada Nakhare)
   * Finnish (Timo Jyrinki).  Closes: #673976
+  * Latvian (Rūdolfs Mazurs).  Closes: #674697
 
   [ Colin Watson ]
   * Make apport hook compatible with Python 3.
