@@ -11,6 +11,9 @@ grub2 (1.99-22) UNRELEASED; urgency=low
 
   [ Colin Watson ]
   * Make apport hook compatible with Python 3.
+  * Add upstream r3476 (fix memory leak in grub_disk_read_small) to
+    4k_sectors.patch, otherwise the larger disk cache due to
+    efi_disk_cache.patch can cause EFI systems to run out of memory.
 
  -- Christian Perrier <bubulle@debian.org>  Fri, 06 Apr 2012 20:29:25 +0200
 

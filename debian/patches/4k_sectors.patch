@@ -1,6 +1,7 @@
 Description: Support non-512B sectors and agglomerate reads
 Author: Vladimir Serbinenko <phcoder@gmail.com>
 Origin: backport, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3325
+Origin: upstream, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3476
 Origin: upstream, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3709
 Forwarded: not-needed
 Applied-Upstream: http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3325
@@ -376,7 +377,7 @@ Index: b/grub-core/kern/disk.c
  
    disk->dev = dev;
  
-@@ -373,21 +381,110 @@
+@@ -373,21 +381,113 @@
        *sector += start;
      }
  
@@ -446,6 +447,7 @@ Index: b/grub-core/kern/disk.c
 +	}
 +    }
 +
++  grub_free (tmp_buf);
 +  grub_errno = GRUB_ERR_NONE;
 +
 +  {
@@ -472,9 +474,11 @@ Index: b/grub-core/kern/disk.c
 +	grub_error_push ();
 +	grub_dprintf ("disk", "%s read failed\n", disk->name);
 +	grub_error_pop ();
++	grub_free (tmp_buf);
 +	return grub_errno;
 +      }
 +    grub_memcpy (buf, tmp_buf + offset, size);
++    grub_free (tmp_buf);
 +    return GRUB_ERR_NONE;
 +  }
 +}
@@ -492,7 +496,7 @@ Index: b/grub-core/kern/disk.c
  
    /* First of all, check if the region is within the disk.  */
    if (grub_disk_adjust_range (disk, &sector, &offset, size) != GRUB_ERR_NONE)
-@@ -399,126 +496,126 @@
+@@ -399,126 +499,126 @@
        return grub_errno;
      }
  
@@ -714,7 +718,7 @@ Index: b/grub-core/kern/disk.c
  
    return grub_errno;
  }
-@@ -528,25 +625,31 @@
+@@ -528,25 +628,31 @@
  		 grub_off_t offset, grub_size_t size, const void *buf)
  {
    unsigned real_offset;
@@ -750,7 +754,7 @@ Index: b/grub-core/kern/disk.c
  	      != GRUB_ERR_NONE)
  	    {
  	      disk->partition = part;
-@@ -554,7 +657,7 @@
+@@ -554,7 +660,7 @@
  	    }
  	  disk->partition = part;
  
@@ -759,7 +763,7 @@ Index: b/grub-core/kern/disk.c
  	  if (len > size)
  	    len = size;
  
-@@ -565,7 +668,7 @@
+@@ -565,7 +671,7 @@
  	  if ((disk->dev->write) (disk, sector, 1, tmp_buf) != GRUB_ERR_NONE)
  	    goto finish;
  
@@ -768,7 +772,7 @@ Index: b/grub-core/kern/disk.c
  	  buf = (char *) buf + len;
  	  size -= len;
  	  real_offset = 0;
-@@ -575,8 +678,8 @@
+@@ -575,8 +681,8 @@
  	  grub_size_t len;
  	  grub_size_t n;
  
@@ -779,7 +783,7 @@ Index: b/grub-core/kern/disk.c
  
  	  if ((disk->dev->write) (disk, sector, n, buf) != GRUB_ERR_NONE)
  	    goto finish;
-@@ -599,6 +702,8 @@
+@@ -599,6 +705,8 @@
  {
    if (disk->partition)
      return grub_partition_get_len (disk->partition);
