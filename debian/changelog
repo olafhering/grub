@@ -1,3 +1,14 @@
+grub2 (1.99-22.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Apply upstream patches for hurd-i386:
+    - Test inode number (Closes: #634799).
+    - Disable zfs code on GNU/Hurd (Closes: #670069).
+    - Add userland partition support (Closes: #670186).
+  * Fix packages build without libfuse (Closes: #670189).
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 08 Jun 2012 01:19:00 +0200
+
 grub2 (1.99-22) unstable; urgency=low
 
   [ Debconf translations ]
