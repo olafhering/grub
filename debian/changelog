@@ -2,6 +2,7 @@ grub2 (1.99-23) UNRELEASED; urgency=low
 
   [ Debconf translations ]
   * Lithuanian (Rimas Kudelis).  Closes: #675628
+  * Galician (Jorge Barreiro).  Closes: #677389
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 
