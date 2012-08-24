@@ -6,6 +6,7 @@ grub2 (1.99-23) UNRELEASED; urgency=low
   * Welsh (Daffyd Tomos).
   * Greek (galaxico).  Closes: #685201
   * Romanian (Andrei POPESCU).  Closes: #685477
+  * Finnish (Timo Jyrinki).
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 

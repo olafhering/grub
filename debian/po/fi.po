@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2011-05-27 13:33+0100\n"
-"PO-Revision-Date: 2012-05-22 13:49+0300\n"
+"PO-Revision-Date: 2012-08-24 19:21+0300\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@iki.fi>\n"
 "Language-Team: Finnish <debian-l10n-finnish@lists.debian.org>\n"
 "Language: fi\n"
@@ -118,6 +118,10 @@ msgid ""
 "use the blocklist mechanism, which makes it less reliable, and therefore is "
 "not recommended."
 msgstr ""
+"Huomaa: GRUB voidaan asentaa myöt osion käynnistystietoihin, ja joitain "
+"sopivia osioita on ohessa tarjolla. Tämä kuitenkin pakottaa GRUBin "
+"käyttämään lohkoluettelomekanisia, mikä tekee siitä vähemmän luotettavan "
+"eikä ole suositeltavaa."
 
 #. Type: multiselect
 #. Description
@@ -129,6 +133,11 @@ msgid ""
 "GRUB modules and grub.cfg. Please check again to make sure that GRUB is "
 "written to the appropriate boot devices."
 msgstr ""
+"GRUB-käynnistyslatain oli aiemmin asennettuna levylle, jota ei ole enää "
+"käytössä tai jonka yksilöllinen tunniste on muuttunut jostain syystä. On "
+"tärkeää varmistaa, että asennettu GRUB-ydinkuva pysyy ajan tasalla GRUB-"
+"moduulien ja grub-cfg:n kanssa. Tarkista vielä uudelleen varmistaaksesi, "
+"että GRUB kirjoitetaan oikeille käynnistyslaitteille."
 
 #. Type: text
 #. Description
