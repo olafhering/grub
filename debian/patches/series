@@ -40,3 +40,6 @@ fat_uuid.patch
 efiemu_fix.patch
 4k_sectors.patch
 efi_disk_cache.patch
+dirlen.patch
+hurd.patch
+userland-part.patch
