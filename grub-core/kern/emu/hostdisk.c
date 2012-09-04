@@ -1331,6 +1331,18 @@ read_device_map (const char *dev_map)
 	  continue;
 	}
 
+      if (! strncmp (p, "/dev/fd", sizeof ("/dev/fd") - 1))
+	{
+	  char *q = p + sizeof ("/dev/fd") - 1;
+	  if (*q >= '0' && *q <= '9')
+	    {
+	      free (map[drive].drive);
+	      map[drive].drive = NULL;
+	      grub_util_info ("`%s' looks like a floppy drive, skipping", p);
+	      continue;
+	    }
+	}
+
 #ifdef __linux__
       /* On Linux, the devfs uses symbolic links horribly, and that
 	 confuses the interface very much, so use realpath to expand

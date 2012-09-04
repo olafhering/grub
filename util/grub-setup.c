@@ -85,6 +85,7 @@
 
 #define DEFAULT_BOOT_FILE	"boot.img"
 #define DEFAULT_CORE_FILE	"core.img"
+#define CORE_IMG_IN_FS		"setup_left_core_image_in_filesystem"
 
 #ifdef GRUB_SETUP_SPARC64
 #define grub_target_to_host16(x)	grub_be_to_cpu16(x)
@@ -556,6 +557,8 @@ setup (const char *dir,
 
     grub_free (sectors);
 
+    unlink (DEFAULT_DIRECTORY "/" CORE_IMG_IN_FS);
+
     goto finish;
   }
 
@@ -597,6 +600,9 @@ unable_to_embed:
 
   /* The core image must be put on a filesystem unfortunately.  */
   grub_util_info ("will leave the core image on the filesystem");
+
+  fp = fopen (DEFAULT_DIRECTORY "/" CORE_IMG_IN_FS, "w");
+  fclose (fp);
 
   /* Make sure that GRUB reads the identical image as the OS.  */
   tmp_img = xmalloc (core_size);

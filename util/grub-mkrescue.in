@@ -52,6 +52,7 @@ override_dir=
 grub_mkimage="${bindir}/`echo grub-mkimage | sed ${transform}`"
 
 xorriso=xorriso
+diet=no
 
 export TEXTDOMAIN=@PACKAGE@
 export TEXTDOMAINDIR="@localedir@"
@@ -76,6 +77,7 @@ usage () {
     # TRANSLATORS: xorriso is a program for creating ISOs and burning CDs
     print_option_help "--xorriso=$filetrans" "$(gettext "use FILE as xorriso [optional]")"
     print_option_help "--grub-mkimage=$filetrans" "$(gettext "use FILE as grub-mkimage")"
+    print_option_help "--diet" "$(gettext "apply size reducing measures [optional]")"
     echo
     gettext_printf "%s generates a bootable rescue image with specified source files, source directories, or mkisofs options listed by the output of \`%s'\n" "xorriso -as mkisofs -help" "$self" | grub_fmt
     echo
@@ -147,6 +149,9 @@ do
 	xorriso=`argument $option "$@"`; shift ;;
     --xorriso=*)
         xorriso=`echo "${option}" | sed 's/--xorriso=//'` ;;
+
+    --diet)
+	diet=yes ;;
 
     *)
 	source="${source} ${option} $@"; break ;;
@@ -321,9 +326,9 @@ if test -e "${efi64_dir}" || test -e "${efi32_dir}" || test -e "${ia64_dir}"; th
     # build bootia64.efi
     make_image "${ia64_dir}" ia64-efi "${efi_dir}"/efi/boot/bootia64.efi ""
     # build bootx64.efi
-    make_image "${efi64_dir}" x86_64-efi "${efi_dir}"/efi/boot/bootx64.efi ""
+    make_image "${efi64_dir}" x86_64-efi "${efi_dir}"/efi/boot/bootx64.efi "part_msdos fat"
     # build bootia32.efi
-    make_image "${efi32_dir}" i386-efi "${efi_dir}"/efi/boot/bootia32.efi ""
+    make_image "${efi32_dir}" i386-efi "${efi_dir}"/efi/boot/bootia32.efi "part_msdos fat"
     if [ -e "${efi_dir}"/efi/boot/bootia32.efi ]; then
         # For old macs. Suggested by Peter Jones.
 	cp "${efi_dir}"/efi/boot/bootia32.efi "${efi_dir}"/efi/boot/boot.efi
@@ -368,7 +373,14 @@ if [ -e "${iso9660_dir}/boot/coreboot.elf" ] && [ -d "${rom_directory}" ]; then
 fi
 
 # build iso image
-"${xorriso}" -as mkisofs -graft-points ${grub_mkisofs_arguments} --protective-msdos-label -o "${output_image}" -r "${iso9660_dir}" --sort-weight 0 / --sort-weight 1 /boot ${source}
+if [ "${diet}" = yes ]; then
+    if [ -e "${output_image}" ]; then
+        rm "${output_image}" || exit 1
+    fi
+    "${xorriso}" -report_about HINT -as mkisofs -graft-points -no-pad ${grub_mkisofs_arguments} --protective-msdos-label -r "${iso9660_dir}" --sort-weight 0 / --sort-weight 1 /boot ${source} | cat >"${output_image}"
+else
+    "${xorriso}" -report_about HINT -as mkisofs -graft-points ${grub_mkisofs_arguments} --protective-msdos-label -o "${output_image}" -r "${iso9660_dir}" --sort-weight 0 / --sort-weight 1 /boot ${source}
+fi
 rm -rf "${iso9660_dir}"
 
 rm -f "${embed_img}"

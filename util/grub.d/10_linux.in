@@ -40,6 +40,11 @@ fi
 case ${GRUB_DEVICE} in
   /dev/loop/*|/dev/loop[0-9])
     GRUB_DEVICE=`losetup ${GRUB_DEVICE} | sed -e "s/^[^(]*(\([^)]\+\)).*/\1/"`
+    # We can't cope with devices loop-mounted from files here.
+    case ${GRUB_DEVICE} in
+      /dev/*) ;;
+      *) exit 0 ;;
+    esac
   ;;
 esac
 
@@ -106,13 +111,7 @@ linux_entry ()
 
   # Use ELILO's generic "efifb" when it's known to be available.
   # FIXME: We need an interface to select vesafb in case efifb can't be used.
-  if [ "x$GRUB_GFXPAYLOAD_LINUX" = x ]; then
-      echo "	load_video" | sed "s/^/$submenu_indentation/"
-      if grep -qx "CONFIG_FB_EFI=y" "${config}" 2> /dev/null \
-	  && grep -qx "CONFIG_VT_HW_CONSOLE_BINDING=y" "${config}" 2> /dev/null; then
-	  echo "	set gfxpayload=keep" | sed "s/^/$submenu_indentation/"
-      fi
-  else
+  if [ "x$GRUB_GFXPAYLOAD_LINUX" != x ]; then
       if [ "x$GRUB_GFXPAYLOAD_LINUX" != xtext ]; then
 	  echo "	load_video" | sed "s/^/$submenu_indentation/"
       fi

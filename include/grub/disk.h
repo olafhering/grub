@@ -146,7 +146,11 @@ typedef struct grub_disk_memberlist *grub_disk_memberlist_t;
 
 /* The size of a disk cache in 512B units. Must be at least as big as the
    largest supported sector size, currently 16K.  */
+#ifdef GRUB_MACHINE_EFI
+#define GRUB_DISK_CACHE_BITS	10
+#else
 #define GRUB_DISK_CACHE_BITS	6
+#endif
 #define GRUB_DISK_CACHE_SIZE	(1 << GRUB_DISK_CACHE_BITS)
 
 /* Return value of grub_disk_get_size() in case disk size is unknown. */

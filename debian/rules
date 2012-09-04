@@ -51,7 +51,7 @@ $(error COMMON_PLATFORM not set for $(DEB_HOST_ARCH_CPU))
 endif
 
 %:
-	dh $@ --with quilt
+	dh $@
 
 override_dh_auto_configure: $(patsubst %,configure/%,$(BUILD_PACKAGES))
 
@@ -72,14 +72,6 @@ install/%: package = $(subst install/,,$@)
 install/%: package_bin = $(package)-bin
 install/grub-emu: package_bin = grub-emu
 install/%: export DH_OPTIONS = -p$(package) -Bbuild/$(patsubst grub-common,grub-$(COMMON_PLATFORM),$(package))
-
-override_dh_quilt_patch:
-	dh_quilt_patch
-	rm -f build/stamps/autogen
-
-override_dh_quilt_unpatch:
-	dh_quilt_unpatch
-	rm -f build/stamps/autogen
 
 build/stamps/autogen: autogen.sh configure.ac Makefile.util.def grub-core/Makefile.core.def
 	mkdir -p build/stamps
