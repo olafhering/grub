@@ -28,9 +28,6 @@
 #include <grub/command.h>
 #include <grub/file.h>
 
-/* The maximum size of a command-line.  */
-#define GRUB_MAX_CMDLINE	1600
-
 /* The standard left and right margin for some messages.  */
 #define STANDARD_MARGIN 6
 
@@ -123,6 +120,7 @@ extern int grub_extractor_level;
 
 grub_err_t
 grub_normal_add_menu_entry (int argc, const char **args, char **classes,
+			    const char *id,
 			    const char *users, const char *hotkey,
 			    const char *prefix, const char *sourcecode,
 			    int submenu);
@@ -134,5 +132,11 @@ void grub_normal_free_menu (grub_menu_t menu);
 
 void grub_normal_auth_init (void);
 void grub_normal_auth_fini (void);
+
+grub_command_t
+grub_dyncmd_get_cmd (grub_command_t cmd);
+
+void
+grub_gettext_reread_prefix (const char *val);
 
 #endif /* ! GRUB_NORMAL_HEADER */

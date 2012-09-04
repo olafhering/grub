@@ -20,6 +20,7 @@
 #include <grub/dl.h>
 #include <grub/pci.h>
 #include <grub/mm.h>
+#include <grub/misc.h>
 #include <grub/mm_private.h>
 #include <grub/cache.h>
 
@@ -30,7 +31,21 @@ GRUB_MOD_LICENSE ("GPLv3+");
 struct grub_pci_dma_chunk *
 grub_memalign_dma32 (grub_size_t align, grub_size_t size)
 {
-  void *ret = grub_memalign (align, size);
+  void *ret;
+  if (align < 64)
+    align = 64;
+  size = ALIGN_UP (size, align);
+  ret = grub_memalign (align, size);
+#if GRUB_CPU_SIZEOF_VOID_P == 8
+  if ((grub_addr_t) ret >> 32)
+    {
+      /* Shouldn't happend since the only platform in this case is
+	 x86_64-efi and it skips any regions > 4GiB because
+	 of EFI bugs anyway.  */
+      grub_error (GRUB_ERR_BUG, "allocation outside 32-bit range");
+      return 0;
+    }
+#endif
   if (!ret)
     return 0;
   grub_arch_sync_dma_caches (ret, size);
@@ -47,7 +62,7 @@ grub_dma_free (struct grub_pci_dma_chunk *ch)
 }
 /* #endif */
 
-#ifdef GRUB_MACHINE_MIPS_YEELOONG
+#ifdef GRUB_MACHINE_MIPS_LOONGSON
 volatile void *
 grub_dma_get_virt (struct grub_pci_dma_chunk *ch)
 {
@@ -110,16 +125,6 @@ grub_pci_iterate (grub_pci_iteratefunc_t hook)
 		    continue;
 		}
 
-#ifdef GRUB_MACHINE_MIPS_YEELOONG
-	      /* Skip ghosts.  */
-	      if (id == GRUB_YEELOONG_OHCI_PCIID
-		  && dev.function == GRUB_YEELOONG_OHCI_GHOST_FUNCTION)
-		continue;
-	      if (id == GRUB_YEELOONG_EHCI_PCIID
-		  && dev.function == GRUB_YEELOONG_EHCI_GHOST_FUNCTION)
-		continue;
-#endif
-
 	      if (hook (dev, id))
 		return;
 
@@ -134,4 +139,35 @@ grub_pci_iterate (grub_pci_iteratefunc_t hook)
 	    }
 	}
     }
+}
+
+grub_uint8_t
+grub_pci_find_capability (grub_pci_device_t dev, grub_uint8_t cap)
+{
+  grub_uint8_t pos = 0x34;
+  int ttl = 48;
+
+  while (ttl--)
+    {
+      grub_uint8_t id;
+      grub_pci_address_t addr;
+
+      addr = grub_pci_make_address (dev, pos);
+      pos = grub_pci_read_byte (addr);
+      if (pos < 0x40)
+	break;
+
+      pos &= ~3;
+
+      addr = grub_pci_make_address (dev, pos);      
+      id = grub_pci_read_byte (addr);
+
+      if (id == 0xff)
+	break;
+      
+      if (id == cap)
+	return pos;
+      pos++;
+    }
+  return 0;
 }

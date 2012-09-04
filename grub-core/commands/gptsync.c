@@ -67,6 +67,7 @@ grub_cmd_gptsync (grub_command_t cmd __attribute__ ((unused)),
   struct grub_partition *partition;
   grub_disk_addr_t first_sector;
   int numactive = 0;
+  int i;
 
   if (argc < 1)
     return grub_error (GRUB_ERR_BAD_ARGUMENT, "device name required");
@@ -107,13 +108,15 @@ grub_cmd_gptsync (grub_command_t cmd __attribute__ ((unused)),
     }
 
   /* Make sure the MBR is a protective MBR and not a normal MBR.  */
-  if (mbr.entries[0].type != GRUB_PC_PARTITION_TYPE_GPT_DISK)
+  for (i = 0; i < 4; i++)
+    if (mbr.entries[i].type == GRUB_PC_PARTITION_TYPE_GPT_DISK)
+      break;
+  if (i == 4)
     {
       grub_device_close (dev);
       return grub_error (GRUB_ERR_BAD_PART_TABLE, "no GPT partition map found");
     }
 
-  int i;
   first_sector = dev->disk->total_sectors;
   for (i = 1; i < argc; i++)
     {
@@ -133,7 +136,8 @@ grub_cmd_gptsync (grub_command_t cmd __attribute__ ((unused)),
       if (! partition)
 	{
 	  grub_device_close (dev);
-	  return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "no such partition");
+	  return grub_error (GRUB_ERR_UNKNOWN_DEVICE,
+			     N_("no such partition"));
 	}
 
       if (partition->start + partition->len > 0xffffffff)
@@ -231,7 +235,7 @@ grub_cmd_gptsync (grub_command_t cmd __attribute__ ((unused)),
       return grub_errno;
     }
 
-  grub_printf ("New MBR is written to '%s'\n", args[0]);
+  grub_printf_ (N_("New MBR is written to `%s'\n"), args[0]);
 
   return GRUB_ERR_NONE;
 }
@@ -244,6 +248,8 @@ GRUB_MOD_INIT(gptsync)
   (void) mod;			/* To stop warning. */
   cmd = grub_register_command ("gptsync", grub_cmd_gptsync,
 			       N_("DEVICE [PARTITION[+/-[TYPE]]] ..."),
+			       /* TRANSLATORS: MBR type is one-byte partition
+				  type id.  */
 			       N_("Fill hybrid MBR of GPT drive DEVICE. "
 			       "Specified partitions will be a part "
 			       "of hybrid MBR. Up to 3 partitions are "

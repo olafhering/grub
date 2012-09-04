@@ -31,7 +31,7 @@ grub_cmd_suspend (grub_command_t cmd __attribute__ ((unused)),
 		  int argc __attribute__ ((unused)),
 		  char **args __attribute__ ((unused)))
 {
-  grub_printf ("Run 'go' to resume GRUB.\n");
+  grub_puts_ (N_("Run `go' to resume GRUB."));
   grub_ieee1275_enter ();
   grub_cls ();
   return 0;
@@ -42,7 +42,7 @@ static grub_command_t cmd;
 GRUB_MOD_INIT(ieee1275_suspend)
 {
   cmd = grub_register_command ("suspend", grub_cmd_suspend,
-			       0, N_("Return to Open Firmware prompt."));
+			       0, N_("Return to IEEE1275 prompt."));
 }
 
 GRUB_MOD_FINI(ieee1275_suspend)

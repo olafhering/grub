@@ -1,4 +1,4 @@
-grub2 (1.99-23) UNRELEASED; urgency=low
+grub2 (2.00-1) UNRELEASED; urgency=low
 
   [ Debconf translations ]
   * Lithuanian (Rimas Kudelis).  Closes: #675628
@@ -7,6 +7,9 @@ grub2 (1.99-23) UNRELEASED; urgency=low
   * Greek (galaxico).  Closes: #685201
   * Romanian (Andrei POPESCU).  Closes: #685477
   * Finnish (Timo Jyrinki).
+
+  [ Jordi Mallach, Colin Watson ]
+  * New upstream release.
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 

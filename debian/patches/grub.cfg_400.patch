@@ -2,7 +2,7 @@ Index: b/util/grub-mkconfig.in
 ===================================================================
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -293,6 +293,10 @@
+@@ -253,6 +253,10 @@
    esac
  done
  
@@ -12,4 +12,4 @@ Index: b/util/grub-mkconfig.in
 +
  if test "x${grub_cfg}" != "x" ; then
    if ! ${grub_script_check} ${grub_cfg}.new; then
-     echo "Syntax errors are detected in generated GRUB config file." >&2
+     # TRANSLATORS: %s is replaced by filename

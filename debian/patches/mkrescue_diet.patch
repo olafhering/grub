@@ -10,25 +10,25 @@ Index: b/util/grub-mkrescue.in
 ===================================================================
 --- a/util/grub-mkrescue.in
 +++ b/util/grub-mkrescue.in
-@@ -44,6 +44,7 @@
- grub_mkimage=${bindir}/`echo grub-mkimage | sed ${transform}`
+@@ -52,6 +52,7 @@
+ grub_mkimage="${bindir}/`echo grub-mkimage | sed ${transform}`"
  
  xorriso=xorriso
 +diet=no
  
- # Usage: usage
- # Print the usage.
-@@ -59,6 +60,7 @@
-   --rom-directory=DIR     save rom images in DIR [optional]
-   --xorriso=FILE          use FILE as xorriso [optional]
-   --grub-mkimage=FILE     use FILE as grub-mkimage
-+  --diet                  apply size reducing measures [optional]
- 
- $self generates a bootable rescue image with specified source files, source
- directories, or mkisofs options listed by: xorriso -as mkisofs -help
-@@ -133,6 +135,9 @@
+ export TEXTDOMAIN=@PACKAGE@
+ export TEXTDOMAINDIR="@localedir@"
+@@ -76,6 +77,7 @@
+     # TRANSLATORS: xorriso is a program for creating ISOs and burning CDs
+     print_option_help "--xorriso=$filetrans" "$(gettext "use FILE as xorriso [optional]")"
+     print_option_help "--grub-mkimage=$filetrans" "$(gettext "use FILE as grub-mkimage")"
++    print_option_help "--diet" "$(gettext "apply size reducing measures [optional]")"
+     echo
+     gettext_printf "%s generates a bootable rescue image with specified source files, source directories, or mkisofs options listed by the output of \`%s'\n" "xorriso -as mkisofs -help" "$self" | grub_fmt
+     echo
+@@ -148,6 +150,9 @@
      --xorriso=*)
-         xorriso=`echo "${option}/" | sed 's/--xorriso=//'` ;;
+         xorriso=`echo "${option}" | sed 's/--xorriso=//'` ;;
  
 +    --diet)
 +	diet=yes ;;
@@ -36,19 +36,19 @@ Index: b/util/grub-mkrescue.in
      *)
  	source="${source} ${option} $@"; break ;;
      esac
-@@ -307,7 +312,14 @@
+@@ -368,7 +373,14 @@
  fi
  
  # build iso image
--"${xorriso}" -as mkisofs -graft-points ${grub_mkisofs_arguments} --protective-msdos-label -o ${output_image} -r ${iso9660_dir} --sort-weight 0 / --sort-weight 1 /boot ${source}
+-"${xorriso}" -as mkisofs -graft-points ${grub_mkisofs_arguments} --protective-msdos-label -o "${output_image}" -r "${iso9660_dir}" --sort-weight 0 / --sort-weight 1 /boot ${source}
 +if [ "${diet}" = yes ]; then
 +    if [ -e "${output_image}" ]; then
 +        rm "${output_image}" || exit 1
 +    fi
-+    "${xorriso}" -report_about HINT -as mkisofs -graft-points -no-pad ${grub_mkisofs_arguments} --protective-msdos-label -r ${iso9660_dir} --sort-weight 0 / --sort-weight 1 /boot ${source} | cat >"${output_image}"
++    "${xorriso}" -report_about HINT -as mkisofs -graft-points -no-pad ${grub_mkisofs_arguments} --protective-msdos-label -r "${iso9660_dir}" --sort-weight 0 / --sort-weight 1 /boot ${source} | cat >"${output_image}"
 +else
-+    "${xorriso}" -report_about HINT -as mkisofs -graft-points ${grub_mkisofs_arguments} --protective-msdos-label -o ${output_image} -r ${iso9660_dir} --sort-weight 0 / --sort-weight 1 /boot ${source}
++    "${xorriso}" -report_about HINT -as mkisofs -graft-points ${grub_mkisofs_arguments} --protective-msdos-label -o "${output_image}" -r "${iso9660_dir}" --sort-weight 0 / --sort-weight 1 /boot ${source}
 +fi
- rm -rf ${iso9660_dir}
+ rm -rf "${iso9660_dir}"
  
- rm -f ${embed_img}
+ rm -f "${embed_img}"

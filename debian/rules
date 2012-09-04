@@ -149,13 +149,15 @@ build/stamps/build-grub-rescue-pc: build/stamps/build-grub-pc
 	mkdir -p build/grub-rescue-pc/lib/grub
 	rm -rf build/grub-rescue-pc/lib/grub/i386-pc
 	cp -a build/grub-pc/grub-core build/grub-rescue-pc/lib/grub/i386-pc
-	$(CURDIR)/build/grub-rescue-pc/grub-mkrescue \
+	pkgdatadir=$(CURDIR)/build/grub-rescue-pc \
+		$(CURDIR)/build/grub-rescue-pc/grub-mkrescue \
 		--grub-mkimage=$(CURDIR)/build/grub-pc/grub-mkimage \
 		--output=$(CURDIR)/build/grub-rescue-pc/grub-rescue-cdrom.iso \
 		$(CURDIR)/build/grub-rescue-pc/rescue-disk
 	# save space for floppy image
 	rm -rf build/grub-rescue-pc/lib/grub/i386-pc/po
-	$(CURDIR)/build/grub-rescue-pc/grub-mkrescue \
+	pkgdatadir=$(CURDIR)/build/grub-rescue-pc \
+		$(CURDIR)/build/grub-rescue-pc/grub-mkrescue \
 		--grub-mkimage=$(CURDIR)/build/grub-pc/grub-mkimage \
 		--output=$(CURDIR)/build/grub-rescue-pc/grub-rescue-floppy.img \
 		--diet \

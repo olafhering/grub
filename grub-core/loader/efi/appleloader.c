@@ -124,9 +124,12 @@ static struct piwg_full_device_path devpath_5 = MAKE_PIWG_PATH (0xffcb4000,
 static struct piwg_full_device_path devpath_6 = MAKE_PIWG_PATH (0xffcc4000,
 								0xffffbfff);
 
+static struct piwg_full_device_path devpath_7 = MAKE_PIWG_PATH (0xff981000,
+								0xffc8ffff);
+
 struct devdata
 {
-  char *model;
+  const char *model;
   grub_efi_device_path_t *devpath;
 };
 
@@ -138,6 +141,7 @@ struct devdata devs[] =
   {"MBA", (grub_efi_device_path_t *) &devpath_4},
   {"MB NV", (grub_efi_device_path_t *) &devpath_5},
   {"MB NV2", (grub_efi_device_path_t *) &devpath_6},
+  {"MBP2011", (grub_efi_device_path_t *) &devpath_7},
   {NULL, NULL},
 };
 
@@ -167,7 +171,7 @@ grub_cmd_appleloader (grub_command_t cmd __attribute__ ((unused)),
       goto fail;
     }
 
-  grub_printf ("Model : %s\n", pdev->model);
+  grub_dprintf ("appleload", "Model: %s\n", pdev->model);
 
   loaded_image = grub_efi_get_loaded_image (image_handle);
   if (! loaded_image)
@@ -220,7 +224,11 @@ static grub_command_t cmd;
 GRUB_MOD_INIT(appleloader)
 {
   cmd = grub_register_command ("appleloader", grub_cmd_appleloader,
-			       "[OPTS]", N_("Boot legacy system."));
+			       N_("[OPTS]"),
+			       /* TRANSLATORS: This command is used on EFI to
+				switch to BIOS mode and boot the OS requiring
+				BIOS.  */
+			       N_("Boot BIOS-based system."));
   my_mod = mod;
 }
 

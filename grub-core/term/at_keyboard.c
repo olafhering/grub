@@ -259,7 +259,7 @@ grub_keyboard_controller_write (grub_uint8_t c)
   grub_outb (c, KEYBOARD_REG_DATA);
 }
 
-#if !defined (GRUB_MACHINE_MIPS_YEELOONG) && !defined (GRUB_MACHINE_QEMU)
+#if !defined (GRUB_MACHINE_MIPS_LOONGSON) && !defined (GRUB_MACHINE_QEMU) && !defined (GRUB_MACHINE_MIPS_QEMU_MIPS)
 
 static grub_uint8_t
 grub_keyboard_controller_read (void)
@@ -332,10 +332,10 @@ set_scancodes (void)
       return;
     }
 
-#if !(defined (GRUB_MACHINE_MIPS_YEELOONG) || defined (GRUB_MACHINE_QEMU))
+#if !(defined (GRUB_MACHINE_MIPS_LOONGSON) || defined (GRUB_MACHINE_QEMU) || defined (GRUB_MACHINE_MIPS_QEMU_MIPS))
   current_set = 1;
   return;
-#endif
+#else
 
   grub_keyboard_controller_write (grub_keyboard_controller_orig
 				  & ~KEYBOARD_AT_TRANSLATE);
@@ -352,6 +352,7 @@ set_scancodes (void)
   if (current_set == 1)
     return;
   grub_printf ("No supported scancode set found\n");
+#endif
 }
 
 static void
@@ -569,7 +570,7 @@ grub_keyboard_controller_init (struct grub_term_input *term __attribute__ ((unus
       keyboard_controller_wait_until_ready ();
       grub_inb (KEYBOARD_REG_DATA);
     }
-#if defined (GRUB_MACHINE_MIPS_YEELOONG) || defined (GRUB_MACHINE_QEMU)
+#if defined (GRUB_MACHINE_MIPS_LOONGSON) || defined (GRUB_MACHINE_QEMU) || defined (GRUB_MACHINE_MIPS_QEMU_MIPS)
   grub_keyboard_controller_orig = 0;
   grub_keyboard_orig_set = 2;
 #else
@@ -624,14 +625,22 @@ static struct grub_term_input grub_at_keyboard_term =
     .getkey = grub_at_keyboard_getkey
   };
 
+#if defined (GRUB_MACHINE_MIPS_LOONGSON) || defined (GRUB_MACHINE_MIPS_QEMU_MIPS)
+void grub_at_keyboard_init (void)
+#else
 GRUB_MOD_INIT(at_keyboard)
+#endif
 {
   grub_term_register_input ("at_keyboard", &grub_at_keyboard_term);
   grub_loader_register_preboot_hook (grub_at_fini_hw, grub_at_restore_hw,
 				     GRUB_LOADER_PREBOOT_HOOK_PRIO_CONSOLE);
 }
 
+#if defined (GRUB_MACHINE_MIPS_LOONGSON) || defined (GRUB_MACHINE_MIPS_QEMU_MIPS)
+void grub_at_keyboard_fini (void)
+#else
 GRUB_MOD_FINI(at_keyboard)
+#endif
 {
   grub_keyboard_controller_fini (NULL);
   grub_term_unregister_input (&grub_at_keyboard_term);
