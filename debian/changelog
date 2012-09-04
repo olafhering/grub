@@ -11,6 +11,9 @@ grub2 (2.00-1) UNRELEASED; urgency=low
   [ Jordi Mallach, Colin Watson ]
   * New upstream release.
 
+  [ Colin Watson ]
+  * Adjust debian/watch to point to xz-compressed tarballs.
+
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 
 grub2 (1.99-22.1) unstable; urgency=low
