@@ -131,7 +131,8 @@ build/stamps/build-grub-firmware-qemu: build/stamps/configure-grub-firmware-qemu
 
 build/stamps/build-grub-rescue-pc: build/stamps/build-grub-pc
 	mkdir -p build/grub-rescue-pc
-	cp -a build/grub-pc/grub-mkrescue build/grub-rescue-pc/grub-mkrescue
+	cp -a build/grub-pc/grub-mkrescue build/grub-pc/grub-mkconfig_lib \
+		build/grub-rescue-pc/
 	mkdir -p build/grub-rescue-pc/rescue-disk/boot/grub
 	cp docs/grub.cfg build/grub-rescue-pc/rescue-disk/boot/grub/
 	sed -i 's,^prefix=.*,prefix=$(CURDIR)/build/grub-rescue-pc,' \
