@@ -13,6 +13,8 @@ grub2 (2.00-1) UNRELEASED; urgency=low
 
   [ Colin Watson ]
   * Adjust debian/watch to point to xz-compressed tarballs.
+  * debian/grub.d/05_debian_theme: Source grub-mkconfig_lib from
+    /usr/share/grub, not the /usr/lib/grub compatibility link.
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 

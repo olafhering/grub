@@ -18,7 +18,7 @@ set -e
 # along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
 
 # Include the GRUB helper library for grub-mkconfig.
-. /usr/lib/grub/grub-mkconfig_lib
+. /usr/share/grub/grub-mkconfig_lib
 
 # We want to work in /boot/grub/ only.
 test -d "${GRUB_PREFIX}"; cd "${GRUB_PREFIX}"
