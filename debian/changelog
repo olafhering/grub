@@ -22,6 +22,10 @@ grub2 (2.00-1) UNRELEASED; urgency=low
     grub-mount-udeb is not built on the Hurd.
   * Refactor debian/grub-common.install.hurd-i386 into .in files so that it
     imposes less of a maintenance burden.
+  * Restore grub-mkdevicemap for now.  While it's kind of a mess, requiring
+    lots of OS-specific code to iterate over all possible devices, we use it
+    in a number of scripts to discover devices and reimplementing those in
+    terms of something else would be very complicated.
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 
