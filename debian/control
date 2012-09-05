@@ -101,7 +101,7 @@ Description: GRand Unified Bootloader, version 2 (emulated version)
 Package: grub-emu-dbg
 Section: debug
 Architecture: any-i386 any-amd64 any-powerpc
-Depends: grub-emu (= ${binary:Version}), grub-common (= ${binary:Version})
+Depends: ${misc:Depends}, grub-emu (= ${binary:Version}), grub-common (= ${binary:Version})
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (emulated debug files)
  This package contains debugging files for grub-emu.  You only need these if
@@ -136,7 +136,7 @@ Description: GRand Unified Bootloader, version 2 (PC/BIOS binaries)
 Package: grub-pc-dbg
 Section: debug
 Architecture: any-i386 any-amd64
-Depends: grub-pc-bin (= ${binary:Version}), grub-common (= ${binary:Version})
+Depends: ${misc:Depends}, grub-pc-bin (= ${binary:Version}), grub-common (= ${binary:Version})
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (PC/BIOS debug files)
  This package contains debugging files for grub-pc-bin.  You only need these
@@ -202,7 +202,7 @@ Description: GRand Unified Bootloader, version 2 (Coreboot binaries)
 Package: grub-coreboot-dbg
 Section: debug
 Architecture: any-i386 any-amd64
-Depends: grub-coreboot-bin (= ${binary:Version}), grub-common (= ${binary:Version})
+Depends: ${misc:Depends}, grub-coreboot-bin (= ${binary:Version}), grub-common (= ${binary:Version})
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (Coreboot debug files)
  This package contains debugging files for grub-coreboot-bin.  You only need
@@ -251,7 +251,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-IA32 binaries)
 Package: grub-efi-ia32-dbg
 Section: debug
 Architecture: any-i386 any-amd64
-Depends: grub-efi-ia32-bin (= ${binary:Version}), grub-common (= ${binary:Version})
+Depends: ${misc:Depends}, grub-efi-ia32-bin (= ${binary:Version}), grub-common (= ${binary:Version})
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (EFI-IA32 debug files)
  This package contains debugging files for grub-efi-ia32-bin.  You only need
@@ -301,7 +301,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-AMD64 binaries)
 Package: grub-efi-amd64-dbg
 Section: debug
 Architecture: i386 kopensolaris-i386 any-amd64
-Depends: grub-efi-amd64-bin (= ${binary:Version}), grub-common (= ${binary:Version})
+Depends: ${misc:Depends}, grub-efi-amd64-bin (= ${binary:Version}), grub-common (= ${binary:Version})
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (EFI-AMD64 debug files)
  This package contains debugging files for grub-efi-amd64-bin.  You only
@@ -349,7 +349,7 @@ Description: GRand Unified Bootloader, version 2 (IA64 binaries)
 Package: grub-efi-ia64-dbg
 Section: debug
 Architecture: any-ia64
-Depends: grub-efi-ia64-bin (= ${binary:Version}), grub-common (= ${binary:Version})
+Depends: ${misc:Depends}, grub-efi-ia64-bin (= ${binary:Version}), grub-common (= ${binary:Version})
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (IA64 debug files)
  This package contains debugging files for grub-efi-ia64-bin.  You only need
@@ -397,7 +397,7 @@ Description: GRand Unified Bootloader, version 2 (Open Firmware binaries)
 Package: grub-ieee1275-dbg
 Section: debug
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
-Depends: grub-ieee1275-bin (= ${binary:Version}), grub-common (= ${binary:Version})
+Depends: ${misc:Depends}, grub-ieee1275-bin (= ${binary:Version}), grub-common (= ${binary:Version})
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (Open Firmware debug files)
  This package contains debugging files for grub-ieee1275-bin.  You only
@@ -464,7 +464,7 @@ Description: GRand Unified Bootloader, version 2 (Yeeloong binaries)
 Package: grub-yeeloong-dbg
 Section: debug
 Architecture: any-mipsel
-Depends: grub-yeeloong-bin (= ${binary:Version}), grub-common (= ${binary:Version})
+Depends: ${misc:Depends}, grub-yeeloong-bin (= ${binary:Version}), grub-common (= ${binary:Version})
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (Yeeloong debug files)
  This package contains debugging files for grub-yeeloong-bin.  You only
