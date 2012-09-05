@@ -26,6 +26,8 @@ grub2 (2.00-1) UNRELEASED; urgency=low
     lots of OS-specific code to iterate over all possible devices, we use it
     in a number of scripts to discover devices and reimplementing those in
     terms of something else would be very complicated.
+  * Add grub-ia64-bin and grub-ia64 packages.  These are currently
+    experimental, and grub-ia64 does not automatically run grub-install.
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 

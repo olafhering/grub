@@ -62,7 +62,7 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
 
 Package: grub-common
 Priority: optional
-Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc any-mipsel
+Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc any-mipsel any-ia64
 Depends: ${shlibs:Depends}, ${misc:Depends}, gettext-base
 Replaces: grub-pc (<< 1.99-1), grub-ieee1275 (<< 1.99-1), grub-efi (<< 1.99-1), grub-coreboot (<< 1.99-1), grub-linuxbios (<< 1.96+20080831-1), grub-efi-ia32 (<< 1.99-1), grub-efi-amd64 (<< 1.99-1), grub-yeeloong (<< 1.99-1)
 Recommends: os-prober (>= 1.33)
@@ -78,7 +78,7 @@ Description: GRand Unified Bootloader (common files)
 
 Package: grub2-common
 Priority: optional
-Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc any-mipsel
+Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc any-mipsel any-ia64
 Depends: grub-common (= ${binary:Version}), dpkg (>= 1.15.4) | install-info, ${shlibs:Depends}, ${misc:Depends}
 Replaces: grub, grub-legacy, grub-common (<< 1.99-1), grub-pc (<< 1.99-1), grub-ieee1275 (<< 1.99-1), grub-efi (<< 1.99-1), grub-coreboot (<< 1.99-1), grub-linuxbios (<< 1.99-1), grub-efi-ia32 (<< 1.99-1), grub-efi-amd64 (<< 1.99-1), grub-yeeloong (<< 1.99-1)
 Conflicts: grub (<< 0.97-54), grub-legacy, grub-doc (<< 0.97-32), grub-legacy-doc (<< 0.97-59)
@@ -379,9 +379,45 @@ Description: GRand Unified Bootloader, version 2 (Yeeloong version)
  This package contains a version of GRUB that has been built for use with
  the Lemote Yeeloong laptop.
 
+Package: grub-ia64-bin
+Architecture: any-ia64
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
+Multi-Arch: foreign
+Description: GRand Unified Bootloader, version 2 (IA64 binaries)
+ GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
+ cleaner design than its predecessors, and provides the following new features:
+ .
+  - Scripting in grub.cfg using BASH-like syntax.
+  - Support for modern partition maps such as GPT.
+  - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
+    add-ons can plug in their own script rules and trigger updates by invoking
+    update-grub2.
+ .
+ This package contains a version of GRUB that has been built for use on
+ IA64.  It will not automatically install GRUB as the active boot loader,
+ nor will it automatically update grub.cfg on upgrade, so most people should
+ install grub-ia64 instead.
+
+Package: grub-ia64
+Architecture: any-ia64
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-ia64-bin (= ${binary:Version}), ucf
+Multi-Arch: foreign
+Description: GRand Unified Bootloader, version 2 (IA64 version)
+ GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
+ cleaner design than its predecessors, and provides the following new features:
+ .
+  - Scripting in grub.cfg using BASH-like syntax.
+  - Support for modern partition maps such as GPT.
+  - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
+    add-ons can plug in their own script rules and trigger updates by invoking
+    update-grub2.
+ .
+ This package contains a version of GRUB that has been built for use on
+ IA64.
+
 Package: grub-mount-udeb
 XC-Package-Type: udeb
 Section: debian-installer
-Architecture: i386 amd64 powerpc ppc64 sparc mipsel kfreebsd-i386 kfreebsd-amd64
+Architecture: i386 amd64 powerpc ppc64 sparc mipsel ia64 kfreebsd-i386 kfreebsd-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: export GRUB filesystems using FUSE
