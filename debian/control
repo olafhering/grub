@@ -97,6 +97,15 @@ Description: GRand Unified Bootloader, version 2 (emulated version)
  This package contains grub-emu, an emulated version of GRUB.  It is only
  provided for debugging purposes.
 
+Package: grub-emu-dbg
+Section: debug
+Architecture: any-i386 any-amd64 any-powerpc
+Depends: grub-emu (= ${binary:Version}), grub-common (= ${binary:Version})
+Multi-Arch: foreign
+Description: GRand Unified Bootloader, version 2 (emulated debug files)
+ This package contains debugging files for grub-emu.  You only need these if
+ you are trying to debug GRUB using its GDB stub.
+
 Package: grub-pc-bin
 Priority: optional
 Architecture: any-i386 any-amd64
@@ -122,6 +131,15 @@ Description: GRand Unified Bootloader, version 2 (PC/BIOS binaries)
  traditional PC/BIOS architecture.  It will not automatically install GRUB
  as the active boot loader, nor will it automatically update grub.cfg on
  upgrade, so most people should install grub-pc instead.
+
+Package: grub-pc-dbg
+Section: debug
+Architecture: any-i386 any-amd64
+Depends: grub-pc-bin (= ${binary:Version}), grub-common (= ${binary:Version})
+Multi-Arch: foreign
+Description: GRand Unified Bootloader, version 2 (PC/BIOS debug files)
+ This package contains debugging files for grub-pc-bin.  You only need these
+ if you are trying to debug GRUB using its GDB stub.
 
 Package: grub-pc
 Priority: optional
@@ -180,6 +198,15 @@ Description: GRand Unified Bootloader, version 2 (Coreboot binaries)
  GRUB as the active boot loader, nor will it automatically update grub.cfg
  on upgrade, so most people should install grub-coreboot instead.
 
+Package: grub-coreboot-dbg
+Section: debug
+Architecture: any-i386 any-amd64
+Depends: grub-coreboot-bin (= ${binary:Version}), grub-common (= ${binary:Version})
+Multi-Arch: foreign
+Description: GRand Unified Bootloader, version 2 (Coreboot debug files)
+ This package contains debugging files for grub-coreboot-bin.  You only need
+ these if you are trying to debug GRUB using its GDB stub.
+
 Package: grub-coreboot
 Architecture: any-i386 any-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-coreboot-bin (= ${binary:Version}), ucf
@@ -219,6 +246,15 @@ Description: GRand Unified Bootloader, version 2 (EFI-IA32 binaries)
  a BIOS interface has been activated).  It will not automatically install
  GRUB as the active boot loader, nor will it automatically update grub.cfg
  on upgrade, so most people should install grub-efi-ia32 instead.
+
+Package: grub-efi-ia32-dbg
+Section: debug
+Architecture: any-i386 any-amd64
+Depends: grub-efi-ia32-bin (= ${binary:Version}), grub-common (= ${binary:Version})
+Multi-Arch: foreign
+Description: GRand Unified Bootloader, version 2 (EFI-IA32 debug files)
+ This package contains debugging files for grub-efi-ia32-bin.  You only need
+ these if you are trying to debug GRUB using its GDB stub.
 
 Package: grub-efi-ia32
 Architecture: any-i386 any-amd64
@@ -261,6 +297,15 @@ Description: GRand Unified Bootloader, version 2 (EFI-AMD64 binaries)
  GRUB as the active boot loader, nor will it automatically update grub.cfg
  on upgrade, so most people should install grub-efi-amd64 instead.
 
+Package: grub-efi-amd64-dbg
+Section: debug
+Architecture: i386 kopensolaris-i386 any-amd64
+Depends: grub-efi-amd64-bin (= ${binary:Version}), grub-common (= ${binary:Version})
+Multi-Arch: foreign
+Description: GRand Unified Bootloader, version 2 (EFI-AMD64 debug files)
+ This package contains debugging files for grub-efi-amd64-bin.  You only
+ need these if you are trying to debug GRUB using its GDB stub.
+
 Package: grub-efi-amd64
 Architecture: i386 kopensolaris-i386 any-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-efi-amd64-bin (= ${binary:Version}), ucf
@@ -300,6 +345,15 @@ Description: GRand Unified Bootloader, version 2 (IA64 binaries)
  nor will it automatically update grub.cfg on upgrade, so most people should
  install grub-efi-ia64 instead.
 
+Package: grub-efi-ia64-dbg
+Section: debug
+Architecture: any-ia64
+Depends: grub-efi-ia64-bin (= ${binary:Version}), grub-common (= ${binary:Version})
+Multi-Arch: foreign
+Description: GRand Unified Bootloader, version 2 (IA64 debug files)
+ This package contains debugging files for grub-efi-ia64-bin.  You only need
+ these if you are trying to debug GRUB using its GDB stub.
+
 Package: grub-efi-ia64
 Architecture: any-ia64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-efi-ia64-bin (= ${binary:Version}), ucf
@@ -338,6 +392,15 @@ Description: GRand Unified Bootloader, version 2 (Open Firmware binaries)
  Open Firmware implementations.  It will not automatically install GRUB as
  the active boot loader, nor will it automatically update grub.cfg on
  upgrade, so most people should install grub-ieee1275 instead.
+
+Package: grub-ieee1275-dbg
+Section: debug
+Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
+Depends: grub-ieee1275-bin (= ${binary:Version}), grub-common (= ${binary:Version})
+Multi-Arch: foreign
+Description: GRand Unified Bootloader, version 2 (Open Firmware debug files)
+ This package contains debugging files for grub-ieee1275-bin.  You only
+ need these if you are trying to debug GRUB using its GDB stub.
 
 Package: grub-ieee1275
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
@@ -396,6 +459,15 @@ Description: GRand Unified Bootloader, version 2 (Yeeloong binaries)
  the Lemote Yeeloong laptop.  It will not automatically install GRUB as the
  active boot loader, nor will it automatically update grub.cfg on upgrade,
  so most people should install grub-yeeloong instead.
+
+Package: grub-yeeloong-dbg
+Section: debug
+Architecture: any-mipsel
+Depends: grub-yeeloong-bin (= ${binary:Version}), grub-common (= ${binary:Version})
+Multi-Arch: foreign
+Description: GRand Unified Bootloader, version 2 (Yeeloong debug files)
+ This package contains debugging files for grub-yeeloong-bin.  You only
+ need these if you are trying to debug GRUB using its GDB stub.
 
 Package: grub-yeeloong
 Architecture: any-mipsel

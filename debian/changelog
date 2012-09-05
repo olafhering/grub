@@ -31,6 +31,8 @@ grub2 (2.00-1) UNRELEASED; urgency=low
   * Build-depend on gcc-4.6-multilib on kfreebsd-i386 and hurd-i386 as well
     as the other i386 architectures, since we need it to build efiemu32.o
     and efiemu64.o.
+  * Add per-platform *-dbg packages containing files needed to use GRUB's
+    GDB stub.  These are relatively large and thus worth splitting out.
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 
