@@ -13,7 +13,6 @@ usr/bin/grub-mkimage
 usr/bin/grub-mklayout
 usr/bin/grub-mkpasswd-pbkdf2
 usr/bin/grub-mkrelpath
-usr/bin/grub-mount
 usr/bin/grub-script-check
 usr/sbin/grub-mkconfig
 usr/sbin/grub-mkdevicemap
@@ -28,7 +27,6 @@ usr/share/man/man1/grub-mkimage.1
 usr/share/man/man1/grub-mklayout.1
 usr/share/man/man1/grub-mkpasswd-pbkdf2.1
 usr/share/man/man1/grub-mkrelpath.1
-usr/share/man/man1/grub-mount.1
 usr/share/man/man1/grub-script-check.1
 usr/share/man/man8/grub-mkconfig.8
 usr/share/man/man8/grub-mkdevicemap.8
