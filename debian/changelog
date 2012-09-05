@@ -18,6 +18,8 @@ grub2 (2.00-1) UNRELEASED; urgency=low
   * Convert to source format 3.0 (quilt).  Developers, note that patches are
     stored applied in bzr; you may want to 'quilt pop -a' / 'quilt push -a'
     around merges.
+  * Remove pointless debian/grub-mount-udeb.install.hurd-i386;
+    grub-mount-udeb is not built on the Hurd.
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 
