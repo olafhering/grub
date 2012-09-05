@@ -81,18 +81,21 @@ grub_translate_ieee1275_path (char *filepath)
 void (*grub_ieee1275_net_config) (const char *dev,
 				  char **device,
 				  char **path);
+#ifdef __i386__
+void
+grub_machine_get_bootlocation (char **device __attribute__ ((unused)),
+			       char **path __attribute__ ((unused)))
+{
+  grub_env_set ("prefix", "(sd,1)/");
+}
+#else
 void
 grub_machine_get_bootlocation (char **device, char **path)
 {
-#ifndef __i386__
   char bootpath[64]; /* XXX check length */
   char *filename;
   char *type;
-#endif
    
-#ifdef __i386__
-  grub_env_set ("prefix", "(sd,1)/");
-#else
   if (grub_ieee1275_get_property (grub_ieee1275_chosen, "bootpath", &bootpath,
 				  sizeof (bootpath), 0))
     {
@@ -139,8 +142,8 @@ grub_machine_get_bootlocation (char **device, char **path)
 	  *path = filename;
 	}
     }
-#endif
 }
+#endif
 
 /* Claim some available memory in the first /memory node. */
 #ifdef __sparc__
