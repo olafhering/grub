@@ -34,6 +34,7 @@ grub2 (2.00-1) UNRELEASED; urgency=low
   * Add per-platform *-dbg packages containing files needed to use GRUB's
     GDB stub.  These are relatively large and thus worth splitting out.
   * Build-depend on ttf-dejavu-core for the starfield theme.
+  * Add a grub-theme-starfield package containing the starfield theme.
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 

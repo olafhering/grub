@@ -262,7 +262,7 @@ install/grub-common:
 
 override_dh_install:
 	dh_install -pgrub2 -pgrub-linuxbios -pgrub-efi -pgrub-rescue-pc -pgrub-firmware-qemu
-	set -e; for package in grub-common grub2-common grub-mount-udeb; do \
+	set -e; for package in grub-common grub2-common grub-theme-starfield grub-mount-udeb; do \
 		dh_install -p$$package --sourcedir=debian/tmp-grub-$(COMMON_PLATFORM); \
 	done
 	rm -f debian/grub2-common/usr/share/info/dir*

@@ -18,7 +18,9 @@ usr/bin/grub-script-check
 usr/sbin/grub-mkconfig
 usr/sbin/grub-mkdevicemap
 usr/sbin/grub-probe
-usr/share/grub
+usr/share/grub/*.h
+usr/share/grub/*.pf2
+usr/share/grub/grub-mkconfig_lib
 usr/share/locale
 usr/share/man/man1/grub-editenv.1
 usr/share/man/man1/grub-fstest.1

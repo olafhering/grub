@@ -488,6 +488,13 @@ Description: GRand Unified Bootloader, version 2 (Yeeloong version)
  This package contains a version of GRUB that has been built for use with
  the Lemote Yeeloong laptop.
 
+Package: grub-theme-starfield
+Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc any-mipsel any-ia64
+Depends: ${misc:Depends}, grub-common (= ${binary:Version})
+Multi-Arch: foreign
+Description: GRand Unified Bootloader, version 2 (starfield theme)
+ This is the default theme for GRUB's graphical menu.
+
 Package: grub-mount-udeb
 XC-Package-Type: udeb
 Section: debian-installer
