@@ -82,6 +82,7 @@ struct hd_geometry
 
 #ifdef HAVE_DEVICE_MAPPER
 # include <libdevmapper.h>
+# pragma GCC diagnostic ignored "-Wcast-align"
 #endif
 #endif /* __linux__ */
 

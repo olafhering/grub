@@ -45,7 +45,7 @@ Index: b/util/deviceiter.c
 ===================================================================
 --- /dev/null
 +++ b/util/deviceiter.c
-@@ -0,0 +1,954 @@
+@@ -0,0 +1,955 @@
 +/* deviceiter.c - iterate over system devices */
 +/*
 + *  GRUB  --  GRand Unified Bootloader
@@ -130,6 +130,7 @@ Index: b/util/deviceiter.c
 +
 +#ifdef HAVE_DEVICE_MAPPER
 +# include <libdevmapper.h>
++# pragma GCC diagnostic ignored "-Wcast-align"
 +#endif
 +#endif /* __linux__ */
 +
