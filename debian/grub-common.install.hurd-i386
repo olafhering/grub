@@ -4,7 +4,6 @@
 
 etc/bash_completion.d
 etc/grub.d
-usr/bin/grub-bin2h
 usr/bin/grub-editenv
 usr/bin/grub-fstest
 usr/bin/grub-kbdcomp
@@ -20,7 +19,6 @@ usr/sbin/grub-mkdevicemap
 usr/sbin/grub-probe
 usr/share/grub
 usr/share/locale
-usr/share/man/man1/grub-bin2h.1
 usr/share/man/man1/grub-editenv.1
 usr/share/man/man1/grub-fstest.1
 usr/share/man/man1/grub-menulst2cfg.1
