@@ -26,8 +26,8 @@ grub2 (2.00-1) UNRELEASED; urgency=low
     lots of OS-specific code to iterate over all possible devices, we use it
     in a number of scripts to discover devices and reimplementing those in
     terms of something else would be very complicated.
-  * Add grub-ia64-bin and grub-ia64 packages.  These are currently
-    experimental, and grub-ia64 does not automatically run grub-install.
+  * Add grub-efi-ia64-bin and grub-efi-ia64 packages.  These are currently
+    experimental, and grub-efi-ia64 does not automatically run grub-install.
   * Build-depend on gcc-4.6-multilib on kfreebsd-i386 and hurd-i386 as well
     as the other i386 architectures, since we need it to build efiemu32.o
     and efiemu64.o.
