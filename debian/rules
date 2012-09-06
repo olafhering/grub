@@ -200,11 +200,11 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 		done ; \
 	fi
 
-	find -print0 debian/$(package_bin)/usr/lib/grub -name modinfo.sh | \
+	find debian/$(package_bin)/usr/lib/grub -name modinfo.sh -print0 | \
 		xargs -0r chmod +x
-	find -print0 debian/$(package_dbg)/usr/lib/grub -name gdb_grub | \
+	find debian/$(package_dbg)/usr/lib/grub -name gdb_grub -print0 | \
 		xargs -0r chmod +x
-	find -print0 debian/$(package_dbg)/usr/lib/grub -name gmodule.pl | \
+	find debian/$(package_dbg)/usr/lib/grub -name gmodule.pl -print0 | \
 		xargs -0r chmod +x
 
 	mkdir -p debian/$(package_bin)/usr/share/lintian/overrides
