@@ -67,7 +67,7 @@ Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc any-mipsel any-
 Depends: ${shlibs:Depends}, ${misc:Depends}, gettext-base
 Replaces: grub-pc (<< 1.99-1), grub-ieee1275 (<< 1.99-1), grub-efi (<< 1.99-1), grub-coreboot (<< 1.99-1), grub-linuxbios (<< 1.96+20080831-1), grub-efi-ia32 (<< 1.99-1), grub-efi-amd64 (<< 1.99-1), grub-yeeloong (<< 1.99-1)
 Recommends: os-prober (>= 1.33)
-Suggests: multiboot-doc, grub-emu, xorriso (>= 0.5.6.pl00), desktop-base (>= 4.0.6)
+Suggests: multiboot-doc, grub-emu, xorriso (>= 0.5.6.pl00), desktop-base (>= 4.0.6), console-setup
 # See bugs #435983 and #455746
 Conflicts: mdadm (<< 2.6.7-2)
 Breaks: lupin-support (<< 0.30)
