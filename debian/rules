@@ -273,6 +273,7 @@ override_dh_install:
 		dh_install -p$$package --sourcedir=debian/tmp-grub-$(COMMON_PLATFORM); \
 	done
 	rm -f debian/grub2-common/usr/share/info/dir*
+	rm -f debian/grub-theme-starfield/usr/share/grub/themes/starfield/COPYING.CC-BY-SA-3.0
 	set -e; for package in grub-pc grub-efi-ia32 grub-efi-amd64 grub-efi-ia64 grub-ieee1275 grub-coreboot grub-yeeloong; do \
 		dh_install -p$$package --sourcedir=debian/tmp-$$package; \
 		dh_install -p$$package-bin --sourcedir=debian/tmp-$$package; \
