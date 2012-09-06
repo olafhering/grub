@@ -35,6 +35,8 @@ grub2 (2.00-1) UNRELEASED; urgency=low
     GDB stub.  These are relatively large and thus worth splitting out.
   * Build-depend on ttf-dejavu-core for the starfield theme.
   * Add a grub-theme-starfield package containing the starfield theme.
+  * Backport from upstream:
+    - Don't decrease efi_mmap_size (LP: #1046429).
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 
