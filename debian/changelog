@@ -1,13 +1,5 @@
 grub2 (2.00-1) UNRELEASED; urgency=low
 
-  [ Debconf translations ]
-  * Lithuanian (Rimas Kudelis).  Closes: #675628
-  * Galician (Jorge Barreiro).  Closes: #677389
-  * Welsh (Daffyd Tomos).
-  * Greek (galaxico).  Closes: #685201
-  * Romanian (Andrei POPESCU).  Closes: #685477
-  * Finnish (Timo Jyrinki).
-
   [ Jordi Mallach, Colin Watson ]
   * New upstream release.
     - Add LUKS and GELI encrypted disk support (closes: #463107).
@@ -71,6 +63,14 @@ grub2 (2.00-1) UNRELEASED; urgency=low
     warnings.
   * Move transitional package to Section: oldlibs.
   * Acknowledge NMU (closes: #676609).
+
+  [ Debconf translations ]
+  * Lithuanian (Rimas Kudelis).  Closes: #675628
+  * Galician (Jorge Barreiro).  Closes: #677389
+  * Welsh (Daffyd Tomos).
+  * Greek (galaxico).  Closes: #685201
+  * Romanian (Andrei POPESCU).  Closes: #685477
+  * Finnish (Timo Jyrinki).
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 
