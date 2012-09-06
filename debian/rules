@@ -129,7 +129,7 @@ build/stamps/build-grub-firmware-qemu: build/stamps/configure-grub-firmware-qemu
 	mkdir -p $${grub_dir}/boot/grub ; \
 	cp debian/grub-firmware-qemu_grub.cfg $${grub_dir}/boot/grub/grub.cfg ; \
 	tar -cf - -C $${grub_dir} boot > $${grub_memdisk} ; \
-	$(CURDIR)/build/$(package)/grub-mkimage \
+	build/$(package)/grub-mkimage \
 		-O i386-qemu \
 		-d $(CURDIR)/build/$(package)/grub-core \
 		$(CURDIR)/build/$(package)/grub-core/*.mod \
@@ -149,14 +149,14 @@ build/stamps/build-grub-rescue-pc: build/stamps/build-grub-pc
 	rm -rf build/grub-rescue-pc/lib/grub/i386-pc
 	cp -a build/grub-pc/grub-core build/grub-rescue-pc/lib/grub/i386-pc
 	pkgdatadir=$(CURDIR)/build/grub-rescue-pc \
-		$(CURDIR)/build/grub-rescue-pc/grub-mkrescue \
+		build/grub-rescue-pc/grub-mkrescue \
 		--grub-mkimage=$(CURDIR)/build/grub-pc/grub-mkimage \
 		--output=$(CURDIR)/build/grub-rescue-pc/grub-rescue-cdrom.iso \
 		$(CURDIR)/build/grub-rescue-pc/rescue-disk
 	# save space for floppy image
 	rm -rf build/grub-rescue-pc/lib/grub/i386-pc/po
 	pkgdatadir=$(CURDIR)/build/grub-rescue-pc \
-		$(CURDIR)/build/grub-rescue-pc/grub-mkrescue \
+		build/grub-rescue-pc/grub-mkrescue \
 		--grub-mkimage=$(CURDIR)/build/grub-pc/grub-mkimage \
 		--output=$(CURDIR)/build/grub-rescue-pc/grub-rescue-floppy.img \
 		--diet \
@@ -200,24 +200,24 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 		done ; \
 	fi
 
-	mkdir -p $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides
+	mkdir -p debian/$(package_bin)/usr/share/lintian/overrides
 	echo "$(package_bin): unstripped-binary-or-object *.mod" \
-		>> $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin)
+		>> debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin)
 	cd debian/tmp-$(package) && find usr/lib/grub -name kernel.img \
 		| sed -e "s%.*%$(package_bin): statically-linked-binary &%g" \
-	>> $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin)
+	>> debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin)
 	cd debian/tmp-$(package) && find ./usr/lib/grub -name kernel.img \
 		| sed -e "s%.*%$(package_bin): statically-linked-binary &%g" \
-	>> $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin)
+	>> debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin)
 	cd debian/tmp-$(package) && find usr/lib/grub -name kernel.img \
 		| sed -e "s%.*%$(package_bin): unstripped-binary-or-object &%g" \
-	>> $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin)
+	>> debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin)
 	if [ "$@" = "install/grub-efi-amd64" ] && [ "$(DEB_HOST_ARCH_CPU)" = "i386" ] ; then \
 		echo "$(package_bin): binary-from-other-architecture *.mod" \
-			>> $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin) ; \
+			>> debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin) ; \
 		cd debian/tmp-$(package) && find usr/lib/grub -name kernel.img \
 			| sed -e "s%.*%$(package_bin): binary-from-other-architecture &%g" \
-		>> $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin) ; \
+		>> debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin) ; \
 	fi
 	if ([ "$@" = "install/grub-pc" ] || \
 	    [ "$@" = "install/grub-ieee1275" ] || \
@@ -225,23 +225,23 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 	    [ "$@" = "install/grub-emu" ]) && \
 	   [ "$(DEB_HOST_ARCH_CPU)" = "i386" ] ; then \
 		echo "$(package_bin): binary-from-other-architecture *efiemu64.o" \
-			>> $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin) ; \
+			>> debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin) ; \
 	fi
 
-	mkdir -p $(CURDIR)/debian/$(package_dbg)/usr/share/lintian/overrides
+	mkdir -p debian/$(package_dbg)/usr/share/lintian/overrides
 	echo "$(package_dbg): unstripped-binary-or-object *.module" \
-		>> $(CURDIR)/debian/$(package_dbg)/usr/share/lintian/overrides/$(package_dbg)
+		>> debian/$(package_dbg)/usr/share/lintian/overrides/$(package_dbg)
 	echo "$(package_dbg): statically-linked-binary *.image" \
-		>> $(CURDIR)/debian/$(package_dbg)/usr/share/lintian/overrides/$(package_dbg)
+		>> debian/$(package_dbg)/usr/share/lintian/overrides/$(package_dbg)
 	cd debian/tmp-$(package) && find usr/lib/grub -name kernel.exec \
 		| sed -e "s%.*%$(package_dbg): statically-linked-binary &%g" \
-	>> $(CURDIR)/debian/$(package_dbg)/usr/share/lintian/overrides/$(package_dbg)
+	>> debian/$(package_dbg)/usr/share/lintian/overrides/$(package_dbg)
 	if [ "$@" = "install/grub-efi-amd64" ] && [ "$(DEB_HOST_ARCH_CPU)" = "i386" ] ; then \
 		echo "$(package_dbg): binary-from-other-architecture *.module" \
-			>> $(CURDIR)/debian/$(package_dbg)/usr/share/lintian/overrides/$(package_dbg) ; \
+			>> debian/$(package_dbg)/usr/share/lintian/overrides/$(package_dbg) ; \
 		cd debian/tmp-$(package) && find usr/lib/grub -name kernel.exec \
 			| sed -e "s%.*%$(package_dbg): binary-from-other-architecture &%g" \
-		>> $(CURDIR)/debian/$(package_dbg)/usr/share/lintian/overrides/$(package_dbg) ; \
+		>> debian/$(package_dbg)/usr/share/lintian/overrides/$(package_dbg) ; \
 	fi
 
 install/grub-common:
