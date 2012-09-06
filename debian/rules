@@ -200,6 +200,13 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 		done ; \
 	fi
 
+	find -print0 debian/$(package_bin)/usr/lib/grub -name modinfo.sh | \
+		xargs -0r chmod +x
+	find -print0 debian/$(package_dbg)/usr/lib/grub -name gdb_grub | \
+		xargs -0r chmod +x
+	find -print0 debian/$(package_dbg)/usr/lib/grub -name gmodule.pl | \
+		xargs -0r chmod +x
+
 	mkdir -p debian/$(package_bin)/usr/share/lintian/overrides
 	echo "$(package_bin): unstripped-binary-or-object *.mod" \
 		>> debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin)
