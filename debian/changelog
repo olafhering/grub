@@ -1,4 +1,4 @@
-grub2 (2.00-1) UNRELEASED; urgency=low
+grub2 (2.00-1) experimental; urgency=low
 
   [ Jordi Mallach, Colin Watson ]
   * New upstream release.
@@ -72,7 +72,7 @@ grub2 (2.00-1) UNRELEASED; urgency=low
   * Romanian (Andrei POPESCU).  Closes: #685477
   * Finnish (Timo Jyrinki).
 
- -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
+ -- Colin Watson <cjwatson@debian.org>  Thu, 06 Sep 2012 19:04:21 +0100
 
 grub2 (1.99-22.1) unstable; urgency=low
 
