@@ -10,6 +10,34 @@ grub2 (2.00-1) UNRELEASED; urgency=low
 
   [ Jordi Mallach, Colin Watson ]
   * New upstream release.
+    - Add LUKS and GELI encrypted disk support (closes: #463107).
+    - Lazy scanning to avoid accessing devices which aren't really used.
+      This avoids boot delay due to slow device scanning (closes: #549905,
+      #550015, #550083, #564252, #595059, #632408).
+    - Don't override more informative errors when loading kernel/initrd
+      (closes: #551630).
+    - Support 4K-sector NTFS (closes: #567728).
+    - Unify grub-mkrescue interface on powerpc with that on other
+      architectures (closes: #570119).
+    - Fix infinite recursion in gettext when translation fails (closes:
+      #611537, #612454, #616487, #619618, #626853, #643608).
+    - Add more missing quotes to grub-mkconfig (closes: #612417).
+    - Import gnulib change to fix argp_help segfault with help filter
+      (closes: #612692).
+    - Support %1$d syntax in grub_printf (closes: #630647).
+    - Use write-combining MTRR to speed up video with buggy BIOSes (closes:
+      #630926).
+    - Remove multiboot header from PXE images to avoid confusing ipxe
+      (closes: #635877).
+    - Fix crash when attempting to install to a non-BIOS disk (closes:
+      #637208).
+    - Fix handling of grub-mkrescue --xorriso= option (closes: #646788).
+    - Use umask rather than chmod to create grub.cfg.new to avoid insecure
+      grub.cfg (closes: #654599).
+    - Improve font installation logic (closes: #654645).
+    - Add grub-probe info documentation (closes: #666031).
+    - Don't crash on canonicalize_file_name failure in grub-probe (closes:
+      #677211).
 
   [ Colin Watson ]
   * Adjust debian/watch to point to xz-compressed tarballs.
@@ -42,6 +70,7 @@ grub2 (2.00-1) UNRELEASED; urgency=low
   * Don't pass *.module to dpkg-shlibdeps, avoiding lots of build-time
     warnings.
   * Move transitional package to Section: oldlibs.
+  * Acknowledge NMU (closes: #676609).
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 
