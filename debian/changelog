@@ -41,6 +41,7 @@ grub2 (2.00-1) UNRELEASED; urgency=low
   * Silence error messages when translations are unavailable.
   * Don't pass *.module to dpkg-shlibdeps, avoiding lots of build-time
     warnings.
+  * Move transitional package to Section: oldlibs.
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 

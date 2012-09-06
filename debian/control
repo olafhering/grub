@@ -38,6 +38,7 @@ Vcs-Bzr: http://anonscm.debian.org/bzr/pkg-grub/trunk/grub/
 Vcs-Browser: http://anonscm.debian.org/loggerhead/pkg-grub/trunk/grub/
 
 Package: grub2
+Section: oldlibs
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
 Depends: grub-pc (= ${binary:Version}) [any-i386 any-amd64] | grub-ieee1275 (= ${binary:Version}) [any-powerpc any-ppc64 any-sparc], ${misc:Depends}
 Multi-Arch: foreign
@@ -46,6 +47,7 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
  safely removed.
 
 Package: grub-linuxbios
+Section: oldlibs
 Architecture: any-i386 any-amd64
 Depends: grub-coreboot (= ${binary:Version}), ${misc:Depends}
 Multi-Arch: foreign
@@ -53,6 +55,7 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
  This is a dummy transitional package that depends on grub-coreboot.
 
 Package: grub-efi
+Section: oldlibs
 Architecture: any-i386 any-amd64
 Depends: ${misc:Depends}, grub-efi-ia32 (= ${binary:Version}) [any-i386], grub-efi-amd64 (= ${binary:Version}) [any-amd64]
 Multi-Arch: foreign
