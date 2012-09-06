@@ -412,6 +412,14 @@ grub_gettext_init_ext (struct grub_gettext_context *ctx,
 
       grub_free (lang);
     }
+
+  /* If no translations are available, fall back to untranslated text. */
+  if (err == GRUB_ERR_FILE_NOT_FOUND)
+    {
+      grub_errno = GRUB_ERR_NONE;
+      return 0;
+    }
+
   return err;
 }
 
