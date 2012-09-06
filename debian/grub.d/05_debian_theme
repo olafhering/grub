@@ -21,7 +21,7 @@ set -e
 . /usr/share/grub/grub-mkconfig_lib
 
 # We want to work in /boot/grub/ only.
-test -d "${GRUB_PREFIX}"; cd "${GRUB_PREFIX}"
+test -d /boot/grub; cd /boot/grub
 
 # Set the location of a possibly necessary cache file for the background image.
 # NOTE: This MUST BE A DOTFILE to avoid confusing it with user-defined images.
