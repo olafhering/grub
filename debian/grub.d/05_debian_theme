@@ -33,6 +33,16 @@ set_default_theme(){
 	echo "${1}set menu_color_highlight=white/blue"
 }
 
+module_available(){
+	local module
+	for module in "${1}.mod" */"${1}.mod"; do
+		if [ -f "${module}" ]; then
+			return 0
+		fi
+	done
+	return 1
+}
+
 set_background_image(){
 	# Step #1: Search all available output modes ...
 	local output
@@ -62,7 +72,7 @@ set_background_image(){
 	esac
 
 	# Step #4: Check if the necessary GRUB module is available.
-	if ! [ -f "${reader}.mod" ]; then
+	if ! module_available "${reader}"; then
 		return 4
 	fi
 
