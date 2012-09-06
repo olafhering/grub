@@ -39,6 +39,8 @@ grub2 (2.00-1) UNRELEASED; urgency=low
     - Don't decrease efi_mmap_size (LP: #1046429).
   * grub-common Suggests: console-setup for grub-kbdcomp (closes: #686815).
   * Silence error messages when translations are unavailable.
+  * Don't pass *.module to dpkg-shlibdeps, avoiding lots of build-time
+    warnings.
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 

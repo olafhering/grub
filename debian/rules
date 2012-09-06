@@ -281,6 +281,9 @@ override_dh_installdocs:
 override_dh_strip:
 	dh_strip -X/usr/bin/grub-emu
 
+override_dh_shlibdeps:
+	dh_shlibdeps -X.module
+
 override_dh_auto_clean:
 	-rm -rf build
 	-rm -f contrib grub-core/contrib
