@@ -110,12 +110,14 @@ typedef unsigned int cardinal;
 
 typedef enum {
     CT_UNKWN, CT_830, CT_845G, CT_855GM, CT_865G, CT_915G, CT_915GM, CT_945G, CT_945GM, CT_945GME,
-    CT_946GZ, CT_G965, CT_Q965, CT_965GM, CT_G33, CT_Q33, CT_Q35, CT_500GMA
+    CT_946GZ, CT_G965, CT_Q965, CT_965GM, CT_G33, CT_Q33, CT_Q35, CT_500GMA,
+    CT_GM45,  CT_GMA3150, CT_HD3000
 } chipset_type;
 
 const char *const chipset_type_names[] = {
     "UNKNOWN", "830",  "845G", "855GM", "865G", "915G", "915GM", "945G", "945GM", "945GME",
-    "946GZ",   "G965", "Q965", "965GM", "G33", "Q33", "Q35", "500GMA"
+    "946GZ",   "G965", "Q965", "965GM", "G33", "Q33", "Q35", "500GMA",
+    "GM45",    "GMA3150", "HD3000"
 };
 
 typedef enum {
@@ -292,6 +294,30 @@ static chipset_type get_chipset(cardinal id) {
     case 0x81008086:
       type = CT_500GMA;
       break;
+
+    case 0xa0008086:
+        type = CT_GMA3150;
+        break;
+
+    case 0xa0108086:
+        type = CT_GMA3150;
+        break;
+
+    case 0x01048086:
+        type = CT_HD3000;
+        break;
+
+    case 0x2a408086:
+        type = CT_GM45;
+        break;
+
+    case 0x2a018086:
+        type = CT_965GM;
+        break;
+
+    case 0x2a028086:
+        type = CT_965GM;
+        break;
 
     default:
         type = CT_UNKWN;
@@ -531,6 +557,9 @@ static void unlock_vbios(vbios_map * map) {
     case CT_Q35:
     case CT_Q33:
     case CT_500GMA:
+    case CT_GM45:
+    case CT_GMA3150:
+    case CT_HD3000:
         outl(0x80000090, 0xcf8);
         map->b1 = inb(0xcfd);
         map->b2 = inb(0xcfe);
@@ -577,6 +606,9 @@ static void relock_vbios(vbios_map * map) {
     case CT_Q35:
     case CT_Q33:
     case CT_500GMA:
+    case CT_GM45:
+    case CT_GMA3150:
+    case CT_HD3000:
         outl(0x80000090, 0xcf8);
         outb(map->b1, 0xcfd);
         outb(map->b2, 0xcfe);
@@ -840,6 +872,15 @@ static int parse_args(cardinal argc, char *argv[], chipset_type *forced_chipset,
 	else if (!strcmp(argv[index], "500GMA")) {
 	    *forced_chipset = CT_500GMA;
 	}
+        else if (!strcmp(argv[index], "GM45")) {
+            *forced_chipset = CT_GM45;
+        }
+        else if (!strcmp(argv[index], "GMA3150")) {
+            *forced_chipset = CT_GMA3150;
+        }
+        else if (!strcmp(argv[index], "HD3000")) {
+            *forced_chipset = CT_HD3000;
+        }
         else {
             *forced_chipset = CT_UNKWN;
         }
