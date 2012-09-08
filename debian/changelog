@@ -3,6 +3,8 @@ grub2 (2.00-2) UNRELEASED; urgency=low
   * Add -Wno-error=unused-result to HOST_CFLAGS for the moment, since at
     least grub-core/lib/crypto.c fails to compile on Ubuntu otherwise.
   * Update default/grub.md5sum to include Ubuntu maverick's default md5sum.
+  * Autogenerate packaging files for grub-emu, in order that its postinst
+    does not contain unexpanded @PACKAGE@ symbols.
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 08 Sep 2012 10:10:37 +0100
 
