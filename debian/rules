@@ -10,7 +10,7 @@ DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH 2>/dev/null)
 DEB_HOST_ARCH_OS ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS 2>/dev/null)
 DEB_HOST_ARCH_CPU ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU 2>/dev/null)
 
-HOST_CFLAGS := -g -Wall
+HOST_CFLAGS := -g -Wall -Wno-error=unused-result
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 	HOST_CFLAGS += -O0
