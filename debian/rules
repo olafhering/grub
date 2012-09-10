@@ -79,7 +79,7 @@ install/%: export DH_OPTIONS = -p$(package) -Bbuild/$(patsubst grub-common,grub-
 
 build/stamps/autogen: autogen.sh configure.ac Makefile.util.def grub-core/Makefile.core.def
 	mkdir -p build/stamps
-	./autogen.sh
+	dh_autoreconf -- ./autogen.sh
 	touch $@
 
 build/stamps/configure-grub-common: build/stamps/configure-grub-$(COMMON_PLATFORM)
@@ -311,6 +311,7 @@ override_dh_auto_clean:
 	-rm -f contrib grub-core/contrib
 
 override_dh_clean: debian/legacy/update-grub debian/grub-extras
+	dh_autoreconf_clean
 	dh_clean
 
 	chmod +x debian/{script,grub.d/*,legacy/*,kernel/*}

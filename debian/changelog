@@ -1,3 +1,9 @@
+grub2 (2.00-3) UNRELEASED; urgency=low
+
+  * Use dh-autoreconf.
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 10 Sep 2012 00:23:08 +0100
+
 grub2 (2.00-2) experimental; urgency=low
 
   * Add -Wno-error=unused-result to HOST_CFLAGS for the moment, since at
