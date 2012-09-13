@@ -79,7 +79,7 @@ install/%: export DH_OPTIONS = -p$(package) -Bbuild/$(patsubst grub-common,grub-
 
 build/stamps/autogen: autogen.sh configure.ac Makefile.util.def grub-core/Makefile.core.def
 	mkdir -p build/stamps
-	dh_autoreconf -- ./autogen.sh
+	env -u DH_OPTIONS dh_autoreconf -- ./autogen.sh
 	touch $@
 
 build/stamps/configure-grub-common: build/stamps/configure-grub-$(COMMON_PLATFORM)
