@@ -1,6 +1,9 @@
 grub2 (2.00-3) UNRELEASED; urgency=low
 
   * Use dh-autoreconf.
+  * Bail out if trying to run grub-mkconfig during upgrade to 2.00 (e.g.
+    while configuring a kernel image), since the old /etc/grub.d/00_header
+    conffile breaks until such time as grub-common is configured.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 10 Sep 2012 00:23:08 +0100
 

@@ -15,3 +15,4 @@ efi_disk_cache.patch
 restore_mkdevicemap.patch
 efi_mmap_size.patch
 gettext_quiet.patch
+mkconfig_mid_upgrade.patch
