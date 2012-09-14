@@ -6,4 +6,3 @@ usr/lib/grub/@CPU_PLATFORM@/*.lst
 usr/lib/grub/@CPU_PLATFORM@/*.mod
 usr/lib/grub/@CPU_PLATFORM@/config.h
 usr/lib/grub/@CPU_PLATFORM@/modinfo.sh
-usr/sbin/grub-mknetdir			usr/lib/grub/@CPU_PLATFORM@

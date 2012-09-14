@@ -5,6 +5,8 @@ grub2 (2.00-4) UNRELEASED; urgency=low
     compilation.
   * Move grub-install to grub2-common, since it's now common across
     platforms but clashes with grub-legacy.
+  * Move grub-mknetdir to grub-common, since it's now common across
+    platforms.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 14 Sep 2012 10:28:00 +0100
 
