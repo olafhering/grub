@@ -17,3 +17,4 @@ efi_mmap_size.patch
 gettext_quiet.patch
 mkconfig_mid_upgrade.patch
 fix_powerpc_emu.patch
+install_efi_fallback.patch
