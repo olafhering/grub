@@ -69,7 +69,7 @@ Package: grub-common
 Priority: optional
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc any-mipsel any-ia64
 Depends: ${shlibs:Depends}, ${misc:Depends}, gettext-base
-Replaces: grub-pc (<< 1.99-1), grub-ieee1275 (<< 1.99-1), grub-efi (<< 1.99-1), grub-coreboot (<< 1.99-1), grub-linuxbios (<< 1.96+20080831-1), grub-efi-ia32 (<< 1.99-1), grub-efi-amd64 (<< 1.99-1), grub-yeeloong (<< 1.99-1)
+Replaces: grub-pc (<< 2.00-4), grub-ieee1275 (<< 2.00-4), grub-efi (<< 1.99-1), grub-coreboot (<< 2.00-4), grub-linuxbios (<< 1.96+20080831-1), grub-efi-ia32 (<< 2.00-4), grub-efi-amd64 (<< 2.00-4), grub-efi-ia64 (<< 2.00-4), grub-yeeloong (<< 2.00-4)
 Recommends: os-prober (>= 1.33)
 Suggests: multiboot-doc, grub-emu, xorriso (>= 0.5.6.pl00), desktop-base (>= 4.0.6), console-setup
 # See bugs #435983 and #455746
