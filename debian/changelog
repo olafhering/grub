@@ -1,3 +1,10 @@
+grub2 (2.00-5) UNRELEASED; urgency=low
+
+  * Backport from upstream:
+    - Remove extra layer of escaping from grub_probe.
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 17 Sep 2012 17:06:21 +0100
+
 grub2 (2.00-4) experimental; urgency=low
 
   * Fix platform postinsts to handle new core.img location.
