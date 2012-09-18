@@ -20,3 +20,4 @@ fix_powerpc_emu.patch
 install_efi_fallback.patch
 mkconfig_overescaping.patch
 efifwsetup.patch
+mkconfig_ubuntu_recovery.patch
