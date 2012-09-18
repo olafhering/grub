@@ -19,3 +19,4 @@ mkconfig_mid_upgrade.patch
 fix_powerpc_emu.patch
 install_efi_fallback.patch
 mkconfig_overescaping.patch
+efifwsetup.patch
