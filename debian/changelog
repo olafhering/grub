@@ -3,6 +3,7 @@ grub2 (2.00-5) UNRELEASED; urgency=low
   * Backport from upstream:
     - Remove extra layer of escaping from grub_probe.
     - Add efifwsetup module to reboot into firmware setup menu.
+    - Revert incorrect off-by-one fix when embedding in MBR (LP: #1051154).
   * Switch watch file to point to ftp.gnu.org.
   * Build-depend on liblzma-dev, enabling 'grub-mkimage -C xz'.
   * Adjust /etc/grub.d/30_os-prober to detect Ubuntu's use of "recovery"
