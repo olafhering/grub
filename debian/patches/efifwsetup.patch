@@ -1,9 +1,10 @@
 Description: Add efifwsetup module to reboot into firmware setup menu
 Author: Peter Jones <pjones@redhat.com>
 Origin: upstream, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/4575
+Origin: upstream, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/4579
 Forwarded: not-needed
 Applied-Upstream: http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/4575
-Last-Update: 2012-09-18
+Last-Update: 2012-09-19
 
 Index: b/grub-core/Makefile.core.def
 ===================================================================
@@ -117,6 +118,48 @@ Index: b/grub-core/commands/efi/efifwsetup.c
 +  if (cmd)
 +    grub_unregister_command (cmd);
 +}
+Index: b/grub-core/efiemu/runtime/efiemu.c
+===================================================================
+--- a/grub-core/efiemu/runtime/efiemu.c
++++ b/grub-core/efiemu/runtime/efiemu.c
+@@ -78,7 +78,7 @@
+ 
+ grub_efi_status_t
+ efiemu_set_variable (grub_efi_char16_t *variable_name,
+-		     grub_efi_guid_t *vendor_guid,
++		     const grub_efi_guid_t *vendor_guid,
+ 		     grub_efi_uint32_t attributes,
+ 		     grub_efi_uintn_t data_size,
+ 		     void *data);
+@@ -131,11 +131,11 @@
+ 
+ /* Some standard functions because we need to be standalone */
+ static void
+-efiemu_memcpy (void *to, void *from, int count)
++efiemu_memcpy (void *to, const void *from, int count)
+ {
+   int i;
+   for (i = 0; i < count; i++)
+-    ((grub_uint8_t *) to)[i] = ((grub_uint8_t *) from)[i];
++    ((grub_uint8_t *) to)[i] = ((const grub_uint8_t *) from)[i];
+ }
+ 
+ static int
+@@ -503,10 +503,10 @@
+ 
+ grub_efi_status_t
+ EFI_FUNC (efiemu_set_variable) (grub_efi_char16_t *variable_name,
+-				   grub_efi_guid_t *vendor_guid,
+-				   grub_efi_uint32_t attributes,
+-				   grub_efi_uintn_t data_size,
+-				   void *data)
++				const grub_efi_guid_t *vendor_guid,
++				grub_efi_uint32_t attributes,
++				grub_efi_uintn_t data_size,
++				void *data)
+ {
+   struct efi_variable *efivar;
+   grub_uint8_t *ptr;
 Index: b/grub-core/kern/efi/efi.c
 ===================================================================
 --- a/grub-core/kern/efi/efi.c
@@ -171,6 +214,15 @@ Index: b/include/grub/efi/api.h
  #define GRUB_EFI_VARIABLE_NON_VOLATILE		0x0000000000000001
  #define GRUB_EFI_VARIABLE_BOOTSERVICE_ACCESS	0x0000000000000002
  #define GRUB_EFI_VARIABLE_RUNTIME_ACCESS	0x0000000000000004
+@@ -1066,7 +1068,7 @@
+ 
+   grub_efi_status_t
+   (*set_variable) (grub_efi_char16_t *variable_name,
+-		   grub_efi_guid_t *vendor_guid,
++		   const grub_efi_guid_t *vendor_guid,
+ 		   grub_efi_uint32_t attributes,
+ 		   grub_efi_uintn_t data_size,
+ 		   void *data);
 Index: b/include/grub/efi/efi.h
 ===================================================================
 --- a/include/grub/efi/efi.h
