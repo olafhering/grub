@@ -127,7 +127,7 @@ Description: GRand Unified Bootloader, version 2 (PC/BIOS binaries)
   - Support for modern partition maps such as GPT.
   - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
     add-ons can plug in their own script rules and trigger updates by invoking
-    update-grub2.
+    update-grub.
   - VESA-based graphical mode with background image support and complete 24-bit
     color set.
   - Support for extended charsets.  Users can write UTF-8 text to their menu
@@ -162,7 +162,7 @@ Description: GRand Unified Bootloader, version 2 (PC/BIOS version)
   - Support for modern partition maps such as GPT.
   - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
     add-ons can plug in their own script rules and trigger updates by invoking
-    update-grub2.
+    update-grub.
   - VESA-based graphical mode with background image support and complete 24-bit
     color set.
   - Support for extended charsets.  Users can write UTF-8 text to their menu
@@ -197,7 +197,7 @@ Description: GRand Unified Bootloader, version 2 (Coreboot binaries)
   - Support for modern partition maps such as GPT.
   - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
     add-ons can plug in their own script rules and trigger updates by invoking
-    update-grub2.
+    update-grub.
  .
  This package contains a version of GRUB that has been built for use with
  platforms running the Coreboot firmware.  It will not automatically install
@@ -227,7 +227,7 @@ Description: GRand Unified Bootloader, version 2 (Coreboot version)
   - Support for modern partition maps such as GPT.
   - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
     add-ons can plug in their own script rules and trigger updates by invoking
-    update-grub2.
+    update-grub.
  .
  This package contains a version of GRUB that has been built for use with
  platforms running the Coreboot firmware.
@@ -245,7 +245,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-IA32 binaries)
   - Support for modern partition maps such as GPT.
   - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
     add-ons can plug in their own script rules and trigger updates by invoking
-    update-grub2.
+    update-grub.
  .
  This package contains a version of GRUB that has been built for use with
  EFI-IA32 architecture, such as the one provided by Intel Macs (that is, unless
@@ -276,7 +276,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-IA32 version)
   - Support for modern partition maps such as GPT.
   - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
     add-ons can plug in their own script rules and trigger updates by invoking
-    update-grub2.
+    update-grub.
  .
  This package contains a version of GRUB that has been built for use with
  EFI-IA32 architecture, such as the one provided by Intel Macs (that is, unless
@@ -295,7 +295,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-AMD64 binaries)
   - Support for modern partition maps such as GPT.
   - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
     add-ons can plug in their own script rules and trigger updates by invoking
-    update-grub2.
+    update-grub.
  .
  This package contains a version of GRUB that has been built for use with
  EFI-AMD64 architecture, such as the one provided by Intel Macs (that is, unless
@@ -326,7 +326,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-AMD64 version)
   - Support for modern partition maps such as GPT.
   - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
     add-ons can plug in their own script rules and trigger updates by invoking
-    update-grub2.
+    update-grub.
  .
  This package contains a version of GRUB that has been built for use with
  EFI-AMD64 architecture, such as the one provided by Intel Macs (that is, unless
@@ -344,7 +344,7 @@ Description: GRand Unified Bootloader, version 2 (IA64 binaries)
   - Support for modern partition maps such as GPT.
   - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
     add-ons can plug in their own script rules and trigger updates by invoking
-    update-grub2.
+    update-grub.
  .
  This package contains a version of GRUB that has been built for use on
  IA64.  It will not automatically install GRUB as the active boot loader,
@@ -372,7 +372,7 @@ Description: GRand Unified Bootloader, version 2 (IA64 version)
   - Support for modern partition maps such as GPT.
   - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
     add-ons can plug in their own script rules and trigger updates by invoking
-    update-grub2.
+    update-grub.
  .
  This package contains a version of GRUB that has been built for use on
  IA64.
@@ -392,7 +392,7 @@ Description: GRand Unified Bootloader, version 2 (Open Firmware binaries)
   - Support for modern partition maps such as GPT.
   - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
     add-ons can plug in their own script rules and trigger updates by invoking
-    update-grub2.
+    update-grub.
  .
  This package contains a version of GRUB that has been built for use with
  Open Firmware implementations.  It will not automatically install GRUB as
@@ -422,7 +422,7 @@ Description: GRand Unified Bootloader, version 2 (Open Firmware version)
   - Support for modern partition maps such as GPT.
   - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
     add-ons can plug in their own script rules and trigger updates by invoking
-    update-grub2.
+    update-grub.
  .
  This package contains a version of GRUB that has been built for use with
  Open Firmware implementations.
@@ -459,7 +459,7 @@ Description: GRand Unified Bootloader, version 2 (Yeeloong binaries)
   - Support for modern partition maps such as GPT.
   - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
     add-ons can plug in their own script rules and trigger updates by invoking
-    update-grub2.
+    update-grub.
  .
  This package contains a version of GRUB that has been built for use with
  the Lemote Yeeloong laptop.  It will not automatically install GRUB as the
@@ -488,7 +488,7 @@ Description: GRand Unified Bootloader, version 2 (Yeeloong version)
   - Support for modern partition maps such as GPT.
   - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
     add-ons can plug in their own script rules and trigger updates by invoking
-    update-grub2.
+    update-grub.
  .
  This package contains a version of GRUB that has been built for use with
  the Lemote Yeeloong laptop.
