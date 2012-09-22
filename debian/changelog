@@ -1,6 +1,8 @@
 grub2 (2.00-6) UNRELEASED; urgency=low
 
   * Adjust package descriptions to talk about update-grub, not update-grub2.
+  * Backport from upstream:
+    - Fix grub-emu build on FreeBSD.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 21 Sep 2012 17:20:21 +0100
 
