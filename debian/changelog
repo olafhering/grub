@@ -15,6 +15,9 @@ grub2 (1.99-23) UNRELEASED; urgency=low
   [ Colin Watson ]
   * Autogenerate packaging files for grub-emu (closes: #688727), in order
     that its postinst does not contain unexpanded @PACKAGE@ symbols.
+  * Manually expand @PACKAGE@ symbols in grub-efi.postinst (closes:
+    #688725), grub-linuxbios.postinst (closes: #688726), and grub2.postinst
+    (closes: #688724).
 
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 
