@@ -12,6 +12,10 @@ grub2 (1.99-23) UNRELEASED; urgency=low
   * Use xz compression for all binaries to save up some space on CD images
     (closes: #688773).
 
+  [ Colin Watson ]
+  * Autogenerate packaging files for grub-emu (closes: #688727), in order
+    that its postinst does not contain unexpanded @PACKAGE@ symbols.
+
  -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
 
 grub2 (1.99-22.1) unstable; urgency=low

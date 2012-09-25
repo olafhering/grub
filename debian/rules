@@ -173,7 +173,21 @@ platform_subst = \
 install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-ieee1275 install/grub-coreboot install/grub-emu install/grub-yeeloong:
 	dh_auto_install --destdir=debian/tmp-$(package)
 
-	if [ "$@" != "install/grub-emu" ] ; then \
+	if [ "$@" = "install/grub-emu" ] ; then \
+		set -e ; \
+		for i in $(AUTOGEN_DEB_FILES) ; do \
+			> debian/$(package).$$i; \
+			$(call platform_subst,$(package).$$i.in,$(package),$$i); \
+			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_CPU).in,$(package),$$i); \
+			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_OS).in,$(package),$$i); \
+			[ -s debian/$(package).$$i ] || rm -f debian/$(package).$$i; \
+			> debian/$(package_dbg).$$i; \
+			$(call platform_subst,$(package_dbg).$$i.in,$(package_dbg),$$i); \
+			$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_CPU).in,$(package_dbg),$$i); \
+			$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_OS).in,$(package_dbg),$$i); \
+			[ -s debian/$(package_dbg).$$i ] || rm -f debian/$(package_dbg).$$i; \
+		done ; \
+	else \
 		set -e ; \
 		cpu_platform=$$(find debian/tmp-$(package)/usr/lib/grub \
 			-mindepth 1 -maxdepth 1 -type d -printf '%P\n') ; \
@@ -269,7 +283,7 @@ override_dh_clean: debian/legacy/update-grub debian/grub-extras
 	chmod +x debian/{script,grub.d/*,legacy/*,kernel/*}
 
 	for i in $(AUTOGEN_DEB_FILES) ; do \
-		rm -f debian/grub-{pc,efi-*,ieee1275,coreboot,yeeloong}{,-bin}.$$i ; \
+		rm -f debian/grub-{pc,efi-*,ieee1275,coreboot,yeeloong,emu}{,-bin}.$$i ; \
 	done
 	rm -rf debian/tmp-*/
 
