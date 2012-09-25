@@ -181,11 +181,13 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 			$(call platform_subst,$(package).$$i.in,$(package),$$i); \
 			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_CPU).in,$(package),$$i); \
 			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_OS).in,$(package),$$i); \
+			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_OS)-$(DEB_HOST_ARCH_CPU).in,$(package),$$i); \
 			[ -s debian/$(package).$$i ] || rm -f debian/$(package).$$i; \
 			> debian/$(package_dbg).$$i; \
 			$(call platform_subst,$(package_dbg).$$i.in,$(package_dbg),$$i); \
 			$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_CPU).in,$(package_dbg),$$i); \
 			$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_OS).in,$(package_dbg),$$i); \
+			$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_OS)-$(DEB_HOST_ARCH_CPU).in,$(package_dbg),$$i); \
 			[ -s debian/$(package_dbg).$$i ] || rm -f debian/$(package_dbg).$$i; \
 		done ; \
 	else \
@@ -198,18 +200,21 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 			$(call platform_subst,$(package).$$i.in,$(package),$$i); \
 			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_CPU).in,$(package),$$i); \
 			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_OS).in,$(package),$$i); \
+			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_OS)-$(DEB_HOST_ARCH_CPU).in,$(package),$$i); \
 			[ -s debian/$(package).$$i ] || rm -f debian/$(package).$$i; \
 			> debian/$(package_bin).$$i; \
 			$(call platform_subst,$$i-bin.in,$(package_bin),$$i); \
 			$(call platform_subst,$(package_bin).$$i.in,$(package_bin),$$i); \
 			$(call platform_subst,$(package_bin).$$i.$(DEB_HOST_ARCH_CPU).in,$(package_bin),$$i); \
 			$(call platform_subst,$(package_bin).$$i.$(DEB_HOST_ARCH_OS).in,$(package_bin),$$i); \
+			$(call platform_subst,$(package_bin).$$i.$(DEB_HOST_ARCH_OS)-$(DEB_HOST_ARCH_CPU).in,$(package_bin),$$i); \
 			[ -s debian/$(package_bin).$$i ] || rm -f debian/$(package_bin).$$i; \
 			> debian/$(package_dbg).$$i; \
 			$(call platform_subst,$$i-dbg.in,$(package_dbg),$$i); \
 			$(call platform_subst,$(package_dbg).$$i.in,$(package_dbg),$$i); \
 			$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_CPU).in,$(package_dbg),$$i); \
 			$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_OS).in,$(package_dbg),$$i); \
+			$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_OS)-$(DEB_HOST_ARCH_CPU).in,$(package_dbg),$$i); \
 			[ -s debian/$(package_dbg).$$i ] || rm -f debian/$(package_dbg).$$i; \
 		done ; \
 	fi
@@ -244,6 +249,7 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 	    [ "$@" = "install/grub-ieee1275" ] || \
 	    [ "$@" = "install/grub-coreboot" ] || \
 	    [ "$@" = "install/grub-emu" ]) && \
+	   [ "$(DEB_HOST_ARCH_OS)" = "linux" ] && \
 	   [ "$(DEB_HOST_ARCH_CPU)" = "i386" ] ; then \
 		echo "$(package_bin): binary-from-other-architecture *efiemu64.o" \
 			>> debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin) ; \
