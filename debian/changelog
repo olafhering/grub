@@ -1,5 +1,6 @@
-grub2 (2.00-6) UNRELEASED; urgency=low
+grub2 (2.00-6) experimental; urgency=low
 
+  [ Colin Watson ]
   * Adjust package descriptions to talk about update-grub, not update-grub2.
   * Backport from upstream:
     - Fix grub-emu build on FreeBSD.
@@ -23,7 +24,7 @@ grub2 (2.00-6) UNRELEASED; urgency=low
   * Use xz compression for all binaries to save up some space on CD images
     (closes: #688773).
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 21 Sep 2012 17:20:21 +0100
+ -- Colin Watson <cjwatson@debian.org>  Tue, 25 Sep 2012 22:47:03 +0100
 
 grub2 (2.00-5) experimental; urgency=low
 
