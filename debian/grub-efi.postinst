@@ -3,11 +3,11 @@ set -e
 
 case "$1" in
   configure)
-    if dpkg --compare-versions "$2" lt-nl 1.99-1; then
+    if dpkg --compare-versions "$2" lt-nl 2.00-6; then
       # Force dpkg to replace this directory with a symlink.
-      if [ ! -L /usr/share/doc/@PACKAGE@ ] && [ -d /usr/share/doc/@PACKAGE@ ]; then
-        if rmdir /usr/share/doc/@PACKAGE@ 2>/dev/null; then
-          ln -sf grub-common /usr/share/doc/@PACKAGE@
+      if [ ! -L /usr/share/doc/grub-efi ] && [ -d /usr/share/doc/grub-efi ]; then
+        if rmdir /usr/share/doc/grub-efi 2>/dev/null; then
+          ln -sf grub-common /usr/share/doc/grub-efi
         fi
       fi
     fi
