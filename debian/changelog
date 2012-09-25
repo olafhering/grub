@@ -1,4 +1,4 @@
-grub2 (1.99-23) UNRELEASED; urgency=low
+grub2 (1.99-23) unstable; urgency=low
 
   [ Debconf translations ]
   * Lithuanian (Rimas Kudelis).  Closes: #675628
@@ -19,7 +19,7 @@ grub2 (1.99-23) UNRELEASED; urgency=low
     #688725), grub-linuxbios.postinst (closes: #688726), and grub2.postinst
     (closes: #688724).
 
- -- Christian Perrier <bubulle@debian.org>  Sat, 02 Jun 2012 19:51:35 +0200
+ -- Colin Watson <cjwatson@debian.org>  Tue, 25 Sep 2012 18:59:18 +0100
 
 grub2 (1.99-22.1) unstable; urgency=low
 
