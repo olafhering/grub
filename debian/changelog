@@ -3,6 +3,9 @@ grub2 (2.00-7) UNRELEASED; urgency=low
   * Backport from upstream:
     - Fix stderr leakage from grub-probe in is_path_readable_by_grub.
     - Fix tftp endianness problem.
+  * Merge from Ubuntu:
+    - Prefer translations from language packs.  (No-op for Debian, but
+      harmless.)
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 26 Sep 2012 13:16:52 +0100
 
