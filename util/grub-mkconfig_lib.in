@@ -138,7 +138,7 @@ prepare_grub_to_access_device ()
         /dev/*) ;;
         *)
           loop_device="${device}"
-          device=`"${grub_probe}" --target=device "${loop_file}"`
+          device=`"${grub_probe}" --target=device "${loop_file}"` || return 0
         ;;
       esac
     ;;
