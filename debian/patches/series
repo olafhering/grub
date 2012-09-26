@@ -23,3 +23,4 @@ efifwsetup.patch
 mkconfig_ubuntu_recovery.patch
 msdos_embed_off_by_one.patch
 emu_freebsd.patch
+mkconfig_stderr_handling.patch

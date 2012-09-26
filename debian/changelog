@@ -1,3 +1,9 @@
+grub2 (2.00-7) UNRELEASED; urgency=low
+
+  * Fix stderr leakage from grub-probe in is_path_readable_by_grub.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 26 Sep 2012 13:16:52 +0100
+
 grub2 (2.00-6) experimental; urgency=low
 
   [ Colin Watson ]
