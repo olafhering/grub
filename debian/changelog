@@ -1,4 +1,4 @@
-grub2 (2.00-7) UNRELEASED; urgency=low
+grub2 (2.00-7) experimental; urgency=low
 
   * Backport from upstream:
     - Fix stderr leakage from grub-probe in is_path_readable_by_grub.
@@ -9,7 +9,7 @@ grub2 (2.00-7) UNRELEASED; urgency=low
     - Avoid getting confused by inaccessible loop device backing paths
       (LP: #938724).
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 26 Sep 2012 13:16:52 +0100
+ -- Colin Watson <cjwatson@debian.org>  Wed, 26 Sep 2012 16:05:07 +0100
 
 grub2 (2.00-6) experimental; urgency=low
 
