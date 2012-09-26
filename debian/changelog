@@ -1,6 +1,7 @@
 grub2 (2.00-7) UNRELEASED; urgency=low
 
-  * Fix stderr leakage from grub-probe in is_path_readable_by_grub.
+  * Backport from upstream:
+    - Fix stderr leakage from grub-probe in is_path_readable_by_grub.
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 26 Sep 2012 13:16:52 +0100
 
