@@ -1,3 +1,4 @@
+# vim: set fileencoding=UTF-8 :
 '''apport package hook for grub2
 
 Author: Jean-Baptiste Lallement <jeanbaptiste.lallement@gmail.com>
