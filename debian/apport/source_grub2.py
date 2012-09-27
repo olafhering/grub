@@ -19,8 +19,8 @@ import re
 def check_shell_syntax(path):
     ''' Check the syntax of a shell script '''
     try:
-        subprocess.check_call(['/bin/sh', '-n', path],
-                              stderr=open(os.devnull,'w'))
+        with open(os.devnull, 'w') as devnull:
+            subprocess.check_call(['/bin/sh', '-n', path], stderr=devnull)
     except subprocess.CalledProcessError:
         return False
     return True
@@ -43,8 +43,9 @@ def check_shell_syntax_harder(path):
         # Unfortunately this test may involve executing code.  However, this
         # file is already sourced as root when running update-grub, so it
         # seems unlikely that this could do any further harm.
-        subprocess.check_call(['/bin/sh', '-ec', '. %s' % re.escape(path)],
-                              stderr=open(os.devnull,'w'))
+        with open(os.devnull, 'w') as devnull:
+            subprocess.check_call(
+                ['/bin/sh', '-ec', '. %s' % re.escape(path)], stderr=devnull)
     except subprocess.CalledProcessError:
         return False
     return True

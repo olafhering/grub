@@ -1,3 +1,10 @@
+grub2 (2.00-8) UNRELEASED; urgency=low
+
+  * debian/apport/source_grub2.py:
+    - Use context managers to avoid (harmless) file descriptor leaks.
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 27 Sep 2012 13:25:46 +0100
+
 grub2 (2.00-7) experimental; urgency=low
 
   * Backport from upstream:
