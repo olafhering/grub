@@ -1,3 +1,11 @@
+grub2 (1.99-23.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Apply Ubuntu patch fixing some EFI boot failures (closes: #687320)
+    - Thanks to Colin Watson.
+
+ -- Michael Gilbert <mgilbert@debian.org>  Sun, 14 Oct 2012 04:09:51 -0400
+
 grub2 (1.99-23) unstable; urgency=low
 
   [ Debconf translations ]
