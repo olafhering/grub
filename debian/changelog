@@ -3,6 +3,8 @@ grub2 (2.00-8) UNRELEASED; urgency=low
   * debian/apport/source_grub2.py:
     - Use context managers to avoid (harmless) file descriptor leaks.
     - Set a file encoding, per PEP 0263.
+  * Drop grub-ieee1275-bin's dependency on bc in favour of powerpc-ibm-utils
+    (>= 1.2.12-1) (cf. #625728).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 27 Sep 2012 13:25:46 +0100
 
