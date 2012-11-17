@@ -379,8 +379,7 @@ Description: GRand Unified Bootloader, version 2 (IA64 version)
 
 Package: grub-ieee1275-bin
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}),
- powerpc-ibm-utils (>= 1.2.12-1) [any-powerpc any-ppc64], powerpc-utils [any-powerpc any-ppc64]
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
 Replaces: grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-ieee1275 (<< 1.99-1)
 Suggests: genisoimage [any-powerpc any-ppc64]
 Multi-Arch: foreign
@@ -410,7 +409,7 @@ Description: GRand Unified Bootloader, version 2 (Open Firmware debug files)
 
 Package: grub-ieee1275
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-ieee1275-bin (= ${binary:Version}), ucf
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-ieee1275-bin (= ${binary:Version}), ucf, powerpc-ibm-utils (>= 1.2.12-1) [any-powerpc any-ppc64], powerpc-utils [any-powerpc any-ppc64]
 Replaces: grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-pc
 Conflicts: grub (<< 0.97-54), grub-legacy, grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-pc
 Multi-Arch: foreign

@@ -5,6 +5,8 @@ grub2 (2.00-8) UNRELEASED; urgency=low
     - Set a file encoding, per PEP 0263.
   * Drop grub-ieee1275-bin's dependency on bc in favour of powerpc-ibm-utils
     (>= 1.2.12-1) (cf. #625728).
+  * Move powerpc-ibm-utils and powerpc-utils dependencies from
+    grub-ieee1275-bin to grub-ieee1275 (closes: #693400).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 27 Sep 2012 13:25:46 +0100
 
