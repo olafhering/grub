@@ -11,6 +11,7 @@ grub2 (2.00-8) UNRELEASED; urgency=low
     - Ignore symlink traversal failures in grub-mount readdir
       (LP: #1051306).
     - Fix incorrect initrd minimum address calculation (LP: #1055686).
+    - Avoid assuming that gets is declared.
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 27 Sep 2012 13:25:46 +0100
 
