@@ -27,3 +27,4 @@ mkconfig_stderr_handling.patch
 tftp_endianness.patch
 install_locale_langpack.patch
 mkconfig_nonexistent_loopback.patch
+mount_readdir_symlink_failures.patch

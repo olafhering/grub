@@ -7,6 +7,9 @@ grub2 (2.00-8) UNRELEASED; urgency=low
     (>= 1.2.12-1) (cf. #625728).
   * Move powerpc-ibm-utils and powerpc-utils dependencies from
     grub-ieee1275-bin to grub-ieee1275 (closes: #693400).
+  * Merge from Ubuntu:
+    - Ignore symlink traversal failures in grub-mount readdir
+      (LP: #1051306).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 27 Sep 2012 13:25:46 +0100
 

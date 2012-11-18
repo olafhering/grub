@@ -292,7 +292,20 @@ fuse_readdir (const char *path, void *buf,
 	file = grub_file_open (tmp);
 	free (tmp);
 	if (! file)
-	  return translate_error ();
+	  {
+	    /* We cannot handle symlinks properly yet, and symlinks to
+	       directories will cause us to reach here.  Symlink loops or
+	       dangling symlinks will also cause an error.  For the
+	       meantime, while treating these as zero-length files is wrong,
+	       it's better than failing the whole readdir call by returning
+	       translate_error ().
+
+	       Ultimately, we should be able to tell from the
+	       grub_dirhook_info that this is a symlink, and fill in the
+	       attributes of the symlink rather than its target.  */
+	    grub_errno = GRUB_ERR_NONE;
+	    return 0;
+	  }
 	st.st_size = file->size;
 	grub_file_close (file);
       }
