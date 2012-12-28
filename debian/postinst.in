@@ -659,6 +659,13 @@ case "$1" in
         if [ "$bootloader_id" ] && [ -d "/boot/efi/EFI/$bootloader_id" ]; then
           grub-install
         fi
+
+        # /boot/grub/ has more chances of being accessible by GRUB
+        for i in /usr/share/grub/unicode.pf2 ; do
+          if test -e $i ; then
+            cp $i /boot/grub/
+          fi
+        done
       ;;
 
       grub-yeeloong)

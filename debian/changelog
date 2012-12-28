@@ -12,6 +12,8 @@ grub2 (2.00-8) UNRELEASED; urgency=low
       (LP: #1051306).
     - Fix incorrect initrd minimum address calculation (LP: #1055686).
     - Avoid assuming that gets is declared.
+  * Copy unicode.pf2 to /boot/grub/ for EFI installs so that it is more
+    likely to be readable by GRUB (closes: #661789).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 27 Sep 2012 13:25:46 +0100
 
