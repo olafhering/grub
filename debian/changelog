@@ -1,3 +1,10 @@
+grub2 (1.99-24) UNRELEASED; urgency=low
+
+  * Acknowledge NMU with thanks.
+  * Fix namespace of EFI boot failure patch file added in NMU.
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 28 Dec 2012 05:17:38 +0000
+
 grub2 (1.99-23.1) unstable; urgency=low
 
   * Non-maintainer upload.
