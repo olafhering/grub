@@ -1,0 +1,54 @@
+Description: Avoid infinite recursion in gettext
+Author: Vladimir Serbinenko <phcoder@gmail.com>
+Origin: backport, http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3847
+Bug-Debian: http://bugs.debian.org/611537
+Forwarded: not-needed
+Last-Update: 2012-12-28
+
+Index: b/grub-core/gettext/gettext.c
+===================================================================
+--- a/grub-core/gettext/gettext.c
++++ b/grub-core/gettext/gettext.c
+@@ -149,6 +149,17 @@
+ 
+   struct grub_gettext_msg *cur;
+ 
++  static int depth = 0;
++
++  if (!grub_gettext_msg_list || !fd_mo)
++    return orig;
++
++  /* Shouldn't happen. Just a precaution if our own code
++     calls gettext somehow.  */
++  if (depth > 2)
++    return orig;
++  depth++;
++
+   /* Make sure we can use grub_gettext_translate for error messages.  Push
+      active error message to error stack and reset error message.  */
+   grub_error_push ();
+@@ -159,15 +170,10 @@
+   if (cur)
+     {
+       grub_error_pop ();
++      depth--;
+       return cur->translated;
+     }
+ 
+-  if (fd_mo == 0)
+-    {
+-      grub_error_pop ();
+-      return orig;
+-    }
+-
+   min = 0;
+   max = grub_gettext_max;
+ 
+@@ -217,6 +223,7 @@
+     }
+ 
+   grub_error_pop ();
++  depth--;
+   return ret;
+ }
+ 

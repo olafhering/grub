@@ -4,6 +4,8 @@ grub2 (1.99-24) UNRELEASED; urgency=low
   * Fix namespace of EFI boot failure patch file added in NMU.
   * Copy unicode.pf2 to /boot/grub/ for EFI installs so that it is more
     likely to be readable by GRUB (closes: #661789).
+  * Fix infinite recursion in gettext when translation fails (closes:
+    #611537, #612454, #616487, #619618, #626853, #643608).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 28 Dec 2012 05:17:38 +0000
 
