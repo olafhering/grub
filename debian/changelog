@@ -6,6 +6,7 @@ grub2 (1.99-24) UNRELEASED; urgency=low
     likely to be readable by GRUB (closes: #661789).
   * Fix infinite recursion in gettext when translation fails (closes:
     #611537, #612454, #616487, #619618, #626853, #643608).
+  * Fix grammar in Finnish translation (closes: #687681).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 28 Dec 2012 05:17:38 +0000
 

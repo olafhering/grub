@@ -1,0 +1,30 @@
+Description: Fix grammar in Finnish translation
+ Backported from 2.00.
+Bug-Debian: http://bugs.debian.org/687681
+Forwarded: not-needed
+Last-Update: 2012-12-28
+
+Index: b/po/fi.po
+===================================================================
+--- a/po/fi.po
++++ b/po/fi.po
+@@ -2154,9 +2154,8 @@
+ msgstr "Ladataan Linux %s käyttöjärjestelmäydin ..."
+ 
+ #: util/grub.d/10_hurd.in:91 util/grub.d/10_hurd.in:114
+-#, fuzzy
+ msgid "Loading the Hurd ..."
+-msgstr "Ladataa alustava ram-levy ..."
++msgstr "Ladataan Hurd ..."
+ 
+ #: util/grub.d/10_kfreebsd.in:74
+ #, fuzzy
+@@ -2185,7 +2184,7 @@
+ 
+ #: util/grub.d/10_linux.in:122 util/grub.d/20_linux_xen.in:93
+ msgid "Loading initial ramdisk ..."
+-msgstr "Ladataa alustava ram-levy ..."
++msgstr "Ladataan alustavaa ramlevyä ..."
+ 
+ #: util/grub.d/10_netbsd.in:98
+ #, fuzzy
