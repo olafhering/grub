@@ -1,4 +1,4 @@
-grub2 (2.00-8) UNRELEASED; urgency=low
+grub2 (2.00-8) experimental; urgency=low
 
   * debian/apport/source_grub2.py:
     - Use context managers to avoid (harmless) file descriptor leaks.
@@ -15,7 +15,7 @@ grub2 (2.00-8) UNRELEASED; urgency=low
   * Copy unicode.pf2 to /boot/grub/ for EFI installs so that it is more
     likely to be readable by GRUB (closes: #661789).
 
- -- Colin Watson <cjwatson@debian.org>  Thu, 27 Sep 2012 13:25:46 +0100
+ -- Colin Watson <cjwatson@debian.org>  Fri, 28 Dec 2012 17:34:32 +0000
 
 grub2 (2.00-7) experimental; urgency=low
 
