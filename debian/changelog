@@ -1,3 +1,10 @@
+grub2 (2.00-9) UNRELEASED; urgency=low
+
+  * Ensure /boot/grub exists before copying files to it for EFI installs
+    (closes: #696962).
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 29 Dec 2012 23:43:03 +0000
+
 grub2 (2.00-8) experimental; urgency=low
 
   * debian/apport/source_grub2.py:
