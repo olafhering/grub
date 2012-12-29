@@ -661,6 +661,7 @@ case "$1" in
         # /boot/grub/ has more chances of being accessible by GRUB
         for i in /usr/share/grub/unicode.pf2 ; do
           if test -e $i ; then
+            mkdir -p /boot/grub
             cp $i /boot/grub/
           fi
         done
