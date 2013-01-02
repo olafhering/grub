@@ -1,3 +1,9 @@
+grub2 (2.00-10) UNRELEASED; urgency=low
+
+  * Support parallel builds.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 02 Jan 2013 08:58:20 +0000
+
 grub2 (2.00-9) experimental; urgency=low
 
   * Ensure /boot/grub exists before copying files to it for EFI installs

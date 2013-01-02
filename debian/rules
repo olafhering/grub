@@ -53,7 +53,7 @@ $(error COMMON_PLATFORM not set for $(DEB_HOST_ARCH_CPU))
 endif
 
 %:
-	dh $@
+	dh $@ --parallel
 
 override_dh_auto_configure: $(patsubst %,configure/%,$(BUILD_PACKAGES))
 
