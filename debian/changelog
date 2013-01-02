@@ -4,6 +4,10 @@ grub2 (2.00-10) UNRELEASED; urgency=low
   * Remove /boot/grub/unicode.pf2 on purge of grub-efi-{amd64,i386} (closes:
     #697183).
   * Build with GCC 4.7.
+  * Merge from Ubuntu:
+    - Don't permit loading modules on UEFI Secure Boot (since in such a
+      setup the GRUB core image must be signed but it has no provision for
+      verifying module signatures).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 02 Jan 2013 08:58:20 +0000
 
