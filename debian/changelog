@@ -8,6 +8,7 @@ grub2 (2.00-10) UNRELEASED; urgency=low
     - Don't permit loading modules on UEFI Secure Boot (since in such a
       setup the GRUB core image must be signed but it has no provision for
       verifying module signatures).
+    - Read /etc/default/grub.d/*.cfg after /etc/default/grub (LP: #901600).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 02 Jan 2013 08:58:20 +0000
 

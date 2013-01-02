@@ -68,6 +68,11 @@ efi_quiet=
 if test -f "${sysconfdir}/default/grub" ; then
     . "${sysconfdir}/default/grub"
 fi
+for x in "${sysconfdir}/default/grub.d"/*.cfg ; do
+  if [ -e "${x}" ]; then
+    . "${x}"
+  fi
+done
 
 bootloader_id="$(echo "$GRUB_DISTRIBUTOR" | tr 'A-Z' 'a-z' | cut -d' ' -f1)"
 if test -z "$bootloader_id"; then
