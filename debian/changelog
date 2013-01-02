@@ -1,9 +1,9 @@
-grub2 (1.99-26) UNRELEASED; urgency=low
+grub2 (1.99-26) unstable; urgency=low
 
   * Remove /boot/grub/unicode.pf2 on purge of grub-efi-{amd64,i386} (closes:
     #697183).
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 02 Jan 2013 11:53:42 +0000
+ -- Colin Watson <cjwatson@debian.org>  Wed, 02 Jan 2013 11:54:50 +0000
 
 grub2 (1.99-25) unstable; urgency=low
 
