@@ -32,3 +32,4 @@ initrd_addr_min.patch
 gnulib_gets.patch
 no_insmod_on_sb.patch
 default_grub_d.patch
+blacklist_1440x900x32.patch

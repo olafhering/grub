@@ -9,6 +9,8 @@ grub2 (2.00-10) UNRELEASED; urgency=low
       setup the GRUB core image must be signed but it has no provision for
       verifying module signatures).
     - Read /etc/default/grub.d/*.cfg after /etc/default/grub (LP: #901600).
+    - Blacklist 1440x900x32 from VBE preferred mode handling until a better
+      solution is available (LP: #701111).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 02 Jan 2013 08:58:20 +0000
 
