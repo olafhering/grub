@@ -1,4 +1,4 @@
-grub2 (2.00-10) UNRELEASED; urgency=low
+grub2 (2.00-10) experimental; urgency=low
 
   * Support parallel builds.
   * Remove /boot/grub/unicode.pf2 on purge of grub-efi-{amd64,i386} (closes:
@@ -12,7 +12,7 @@ grub2 (2.00-10) UNRELEASED; urgency=low
     - Blacklist 1440x900x32 from VBE preferred mode handling until a better
       solution is available (LP: #701111).
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 02 Jan 2013 08:58:20 +0000
+ -- Colin Watson <cjwatson@debian.org>  Thu, 03 Jan 2013 09:38:25 +0000
 
 grub2 (2.00-9) experimental; urgency=low
 
