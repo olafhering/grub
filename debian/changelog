@@ -1,3 +1,10 @@
+grub2 (2.00-11) UNRELEASED; urgency=low
+
+  * debian/{postinst,config}.in: Don't fail if /etc/default/grub.d
+    configuration snippets exist, but /etc/default/grub does not.
+
+ -- Adam Conrad <adconrad@debian.org>  Fri, 04 Jan 2013 13:11:42 -0700
+
 grub2 (2.00-10) experimental; urgency=low
 
   * Support parallel builds.

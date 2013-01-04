@@ -36,14 +36,14 @@ case @PACKAGE@ in
   ;;
 esac
 
-if test -e /etc/default/grub ; then
-  . /etc/default/grub
-  for x in /etc/default/grub.d/*.cfg ; do
-    if [ -e "$x" ]; then
-      . "$x"
-    fi
-  done
+for x in /etc/default/grub /etc/default/grub.d/*.cfg ; do
+  if [ -e "$x" ]; then
+    DEFAULT_FOUND="yes"
+    . "$x"
+  fi
+done
 
+if [ "$DEFAULT_FOUND" = "yes" ]; then
   db_set grub2/linux_cmdline "$GRUB_CMDLINE_LINUX"
   db_set grub2/linux_cmdline_default "$GRUB_CMDLINE_LINUX_DEFAULT"
 fi
