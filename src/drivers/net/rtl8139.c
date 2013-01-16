@@ -593,6 +593,8 @@ struct pci_driver rtl8139_driver __pci_driver = {
 	.remove = rtl_remove,
 };
 
+GRUB_MOD_LICENSE("GPLv2+");
+
 GRUB_MOD_INIT(gpxe_rtl8139)
 {
   grub_gpxe_register_pci_nic (&rtl8139_driver);
