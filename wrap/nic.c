@@ -33,102 +33,101 @@ FILE_LICENCE ( BSD2 );
 #include <gpxe/pci.h>
 #include <grub/misc.h>
 
+static int
+grub_gpxe_pci_nic_init (grub_pci_device_t dev, grub_pci_id_t pciid, void *data)
+{
+  struct pci_driver *nic = data;
+  unsigned i;
+
+  for (i = 0; i < nic->id_count; i++)
+    {
+      int err;
+      if (nic->ids[i].devid == pciid)
+	{
+	  struct pci_device *pci;
+	  struct pci_device_id *id;
+	  int reg;
+
+	  grub_dprintf ("gpxe", "Attaching NIC %d:%d.%d\n",
+			grub_pci_get_bus (dev),
+			grub_pci_get_device (dev),
+			grub_pci_get_function (dev));
+	  pci = grub_malloc (sizeof (*pci));
+	  if (!pci)
+	    {
+	      grub_print_error ();
+	      grub_errno = GRUB_ERR_NONE;
+	      return 0;
+	    }
+	  id = grub_malloc (sizeof (*id));
+	  if (!id)
+	    {
+	      grub_free (pci);
+	      grub_print_error ();
+	      grub_errno = GRUB_ERR_NONE;
+	      return 0;
+	    }
+	  id->devid = pciid;
+	  pci->dev.desc.bus_type = BUS_TYPE_PCI;
+	  pci->dev.desc.bus = grub_pci_get_bus (dev);
+	  pci->dev.desc.location = (grub_pci_get_device (dev) << 3)
+	    | grub_pci_get_function (dev);
+	  pci->dev.desc.vendor = pciid & 0xffff;
+	  pci->dev.desc.device = pciid >> 16;
+	  pci->vendor = pciid & 0xffff;
+	  pci->device = pciid >> 16;
+	  pci->dev.name = grub_xasprintf ("PCI:%02x:%02x.%x",
+					  grub_pci_get_bus (dev),
+					  grub_pci_get_device (dev),
+					  grub_pci_get_function (dev));
+	  pci->dev.pci_dev = dev;
+	  pci->priv = 0;
+	  pci->drvdata = 0;
+
+	  reg = GRUB_PCI_REG_ADDRESSES;
+	  while (reg < GRUB_PCI_REG_CIS_POINTER)
+	    {
+	      grub_uint64_t space;
+	      grub_pci_address_t addr;
+
+	      addr = grub_pci_make_address (dev, reg);
+	      space = grub_pci_read (addr);
+
+	      reg += sizeof (grub_uint32_t);
+	      
+	      if (space == 0)
+		continue;
+	      
+	      if ((space & GRUB_PCI_ADDR_SPACE_MASK) 
+		  == GRUB_PCI_ADDR_SPACE_IO)
+		{
+		  pci->ioaddr = space & GRUB_PCI_ADDR_IO_MASK;
+		  break;
+		}
+
+	      if ((space & GRUB_PCI_ADDR_MEM_TYPE_MASK)
+		  == GRUB_PCI_ADDR_MEM_TYPE_64)
+		reg += sizeof (grub_uint32_t);
+	    }
+
+	  /* No IRQ support yet.  */
+	  pci->irq = 0;
+	  grub_dprintf ("gpxe", "Probing NIC %d:%d.%d\n",
+			grub_pci_get_bus (dev),
+			grub_pci_get_device (dev),
+			grub_pci_get_function (dev));
+	  err = nic->probe (pci, id);
+	  grub_dprintf ("gpxe", "Nic probe finished with status %d\n", err);
+	}
+    }
+  return 0;
+}
+
 void
 grub_gpxe_register_pci_nic (struct pci_driver *nic)
 {
-  auto int NESTED_FUNC_ATTR grub_gpxe_pci_nic_init (grub_pci_device_t dev,
-						    grub_pci_id_t pciid);
-
-  int NESTED_FUNC_ATTR grub_gpxe_pci_nic_init (grub_pci_device_t dev,
-					       grub_pci_id_t pciid)
-  {
-    unsigned i;
-    for (i = 0; i < nic->id_count; i++)
-      {
-	int err;
-	if (nic->ids[i].devid == pciid)
-	  {
-	    struct pci_device *pci;
-	    struct pci_device_id *id;
-	    int reg;
-
-	    grub_dprintf ("gpxe", "Attaching NIC %d:%d.%d\n",
-			  grub_pci_get_bus (dev),
-			  grub_pci_get_device (dev),
-			  grub_pci_get_function (dev));
-	    pci = grub_malloc (sizeof (*pci));
-	    if (!pci)
-	      {
-		grub_print_error ();
-		grub_errno = GRUB_ERR_NONE;
-		return 0;
-	      }
-	    id = grub_malloc (sizeof (*id));
-	    if (!id)
-	      {
-		grub_free (pci);
-		grub_print_error ();
-		grub_errno = GRUB_ERR_NONE;
-		return 0;
-	      }
-	    id->devid = pciid;
-	    pci->dev.desc.bus_type = BUS_TYPE_PCI;
-	    pci->dev.desc.bus = grub_pci_get_bus (dev);
-	    pci->dev.desc.location = (grub_pci_get_device (dev) << 3)
-	      | grub_pci_get_function (dev);
-	    pci->dev.desc.vendor = pciid & 0xffff;
-	    pci->dev.desc.device = pciid >> 16;
-	    pci->vendor = pciid & 0xffff;
-	    pci->device = pciid >> 16;
-	    pci->dev.name = grub_xasprintf ("PCI:%02x:%02x.%x",
-					    grub_pci_get_bus (dev),
-					    grub_pci_get_device (dev),
-					    grub_pci_get_function (dev));
-	    pci->dev.pci_dev = dev;
-	    pci->priv = 0;
-	    pci->drvdata = 0;
-
-	    reg = GRUB_PCI_REG_ADDRESSES;
-	    while (reg < GRUB_PCI_REG_CIS_POINTER)
-	      {
-		grub_uint64_t space;
-		grub_pci_address_t addr;
-
-		addr = grub_pci_make_address (dev, reg);
-		space = grub_pci_read (addr);
-
-		reg += sizeof (grub_uint32_t);
-		
-		if (space == 0)
-		  continue;
-		
-		if ((space & GRUB_PCI_ADDR_SPACE_MASK) 
-		    == GRUB_PCI_ADDR_SPACE_IO)
-		  {
-		    pci->ioaddr = space & GRUB_PCI_ADDR_IO_MASK;
-		    break;
-		  }
-
-		if ((space & GRUB_PCI_ADDR_MEM_TYPE_MASK)
-		    == GRUB_PCI_ADDR_MEM_TYPE_64)
-		  reg += sizeof (grub_uint32_t);
-	      }
-
-	    /* No IRQ support yet.  */
-	    pci->irq = 0;
-	    grub_dprintf ("gpxe", "Probing NIC %d:%d.%d\n",
-			  grub_pci_get_bus (dev),
-			  grub_pci_get_device (dev),
-			  grub_pci_get_function (dev));
-	    err = nic->probe (pci, id);
-	    grub_dprintf ("gpxe", "Nic probe finished with status %d\n", err);
-	  }
-      }
-    return 0;
-  }
-
   grub_dprintf ("gpxe", "Registering nic\n");
-  grub_pci_iterate (grub_gpxe_pci_nic_init);
+  grub_pci_iterate (grub_gpxe_pci_nic_init, nic);
 }
 
 /* FIXME: free all resources associated with driver and detach devices.  */
