@@ -33,6 +33,7 @@ FILE_LICENCE ( BSD2 );
 #include <gpxe/pci.h>
 #include <grub/misc.h>
 
+/* Helper for grub_gpxe_register_pci_nic.  */
 static int
 grub_gpxe_pci_nic_init (grub_pci_device_t dev, grub_pci_id_t pciid, void *data)
 {
