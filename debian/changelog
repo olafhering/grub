@@ -1,7 +1,12 @@
 grub2 (2.00-11) UNRELEASED; urgency=low
 
+  [ Adam Conrad ]
   * debian/{postinst,config}.in: Don't fail if /etc/default/grub.d
     configuration snippets exist, but /etc/default/grub does not.
+
+  [ Colin Watson ]
+  * Merge wheezy branch up to 1.99-27, fixing overzealous removal of
+    load_video call when GRUB_GFXPAYLOAD_LINUX is empty (closes: #661789).
 
  -- Adam Conrad <adconrad@debian.org>  Fri, 04 Jan 2013 13:11:42 -0700
 
@@ -211,6 +216,47 @@ grub2 (2.00-1) experimental; urgency=low
   * Finnish (Timo Jyrinki).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 06 Sep 2012 19:04:21 +0100
+
+grub2 (1.99-27) unstable; urgency=low
+
+  * Amend gfxpayload_keep_default.patch to no longer remove the call to
+    load_video when GRUB_GFXPAYLOAD_LINUX is empty (closes: #661789).
+
+ -- Colin Watson <cjwatson@debian.org>  Sun, 20 Jan 2013 16:37:52 +0000
+
+grub2 (1.99-26) unstable; urgency=low
+
+  * Remove /boot/grub/unicode.pf2 on purge of grub-efi-{amd64,i386} (closes:
+    #697183).
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 02 Jan 2013 11:54:50 +0000
+
+grub2 (1.99-25) unstable; urgency=low
+
+  * Ensure /boot/grub exists before copying files to it for EFI installs
+    (closes: #696962).
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 29 Dec 2012 23:45:01 +0000
+
+grub2 (1.99-24) unstable; urgency=low
+
+  * Acknowledge NMU with thanks.
+  * Fix namespace of EFI boot failure patch file added in NMU.
+  * Copy unicode.pf2 to /boot/grub/ for EFI installs so that it is more
+    likely to be readable by GRUB (closes: #661789).
+  * Fix infinite recursion in gettext when translation fails (closes:
+    #611537, #612454, #616487, #619618, #626853, #643608).
+  * Fix grammar in Finnish translation (closes: #687681).
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 28 Dec 2012 13:01:38 +0000
+
+grub2 (1.99-23.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Apply Ubuntu patch fixing some EFI boot failures (closes: #687320)
+    - Thanks to Colin Watson.
+
+ -- Michael Gilbert <mgilbert@debian.org>  Sun, 14 Oct 2012 04:09:51 -0400
 
 grub2 (1.99-23) unstable; urgency=low
 

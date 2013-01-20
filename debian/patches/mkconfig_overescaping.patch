@@ -86,7 +86,7 @@ Index: b/util/grub.d/10_linux.in
 ===================================================================
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -133,14 +133,14 @@
+@@ -135,14 +135,14 @@
    fi
    message="$(gettext_printf "Loading Linux %s ..." ${version})"
    sed "s/^/$submenu_indentation/" << EOF

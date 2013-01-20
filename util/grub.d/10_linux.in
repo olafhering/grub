@@ -111,7 +111,9 @@ linux_entry ()
 
   # Use ELILO's generic "efifb" when it's known to be available.
   # FIXME: We need an interface to select vesafb in case efifb can't be used.
-  if [ "x$GRUB_GFXPAYLOAD_LINUX" != x ]; then
+  if [ "x$GRUB_GFXPAYLOAD_LINUX" = x ]; then
+      echo "	load_video" | sed "s/^/$submenu_indentation/"
+  else
       if [ "x$GRUB_GFXPAYLOAD_LINUX" != xtext ]; then
 	  echo "	load_video" | sed "s/^/$submenu_indentation/"
       fi
