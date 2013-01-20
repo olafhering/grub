@@ -1,3 +1,10 @@
+grub2 (1.99-27) UNRELEASED; urgency=low
+
+  * Amend gfxpayload_keep_default.patch to no longer remove the call to
+    load_video when GRUB_GFXPAYLOAD_LINUX is empty (closes: #661789).
+
+ -- Colin Watson <cjwatson@debian.org>  Sun, 20 Jan 2013 16:35:19 +0000
+
 grub2 (1.99-26) unstable; urgency=low
 
   * Remove /boot/grub/unicode.pf2 on purge of grub-efi-{amd64,i386} (closes:
