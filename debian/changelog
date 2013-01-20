@@ -7,6 +7,9 @@ grub2 (2.00-11) UNRELEASED; urgency=low
   [ Colin Watson ]
   * Merge wheezy branch up to 1.99-27, fixing overzealous removal of
     load_video call when GRUB_GFXPAYLOAD_LINUX is empty (closes: #661789).
+  * Merge from Ubuntu:
+    - If the postinst is running in a container, skip grub-install and all
+      its associated questions (LP: #1060404).
 
  -- Adam Conrad <adconrad@debian.org>  Fri, 04 Jan 2013 13:11:42 -0700
 
