@@ -1,8 +1,29 @@
-Description: Detect Ubuntu's use of "recovery" rather than "single"
+Description: "single" -> "recovery" when friendly-recovery is installed
 Author: Colin Watson <cjwatson@ubuntu.com>
+Author: Stéphane Graber <stgraber@ubuntu.com>
 Forwarded: no
-Last-Update: 2012-09-18
+Last-Update: 2013-01-21
 
+Index: b/util/grub.d/10_linux.in
+===================================================================
+--- a/util/grub.d/10_linux.in
++++ b/util/grub.d/10_linux.in
+@@ -243,8 +243,13 @@
+   linux_entry "${OS}" "${version}" advanced \
+               "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
+   if [ "x${GRUB_DISABLE_RECOVERY}" != "xtrue" ]; then
+-    linux_entry "${OS}" "${version}" recovery \
+-                "single ${GRUB_CMDLINE_LINUX}"
++    if [ -x /lib/recovery-mode/recovery-menu ]; then
++      linux_entry "${OS}" "${version}" recovery \
++                  "recovery ${GRUB_CMDLINE_LINUX}"
++    else
++      linux_entry "${OS}" "${version}" recovery \
++                  "single ${GRUB_CMDLINE_LINUX}"
++    fi
+   fi
+ 
+   list=`echo $list | tr ' ' '\n' | grep -vx $linux | tr '\n' ' '`
 Index: b/util/grub.d/30_os-prober.in
 ===================================================================
 --- a/util/grub.d/30_os-prober.in

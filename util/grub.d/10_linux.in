@@ -243,8 +243,13 @@ while [ "x$list" != "x" ] ; do
   linux_entry "${OS}" "${version}" advanced \
               "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
   if [ "x${GRUB_DISABLE_RECOVERY}" != "xtrue" ]; then
-    linux_entry "${OS}" "${version}" recovery \
-                "single ${GRUB_CMDLINE_LINUX}"
+    if [ -x /lib/recovery-mode/recovery-menu ]; then
+      linux_entry "${OS}" "${version}" recovery \
+                  "recovery ${GRUB_CMDLINE_LINUX}"
+    else
+      linux_entry "${OS}" "${version}" recovery \
+                  "single ${GRUB_CMDLINE_LINUX}"
+    fi
   fi
 
   list=`echo $list | tr ' ' '\n' | grep -vx $linux | tr '\n' ' '`
