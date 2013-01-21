@@ -255,35 +255,37 @@ grub_lua_enum_file (lua_State *state)
 }
 
 #ifdef ENABLE_LUA_PCI
+/* Helper for grub_lua_enum_pci.  */
+static int
+grub_lua_enum_pci_iter (grub_pci_device_t dev, grub_pci_id_t pciid, void *data)
+{
+  lua_State *state = data;
+  int result;
+  grub_pci_address_t addr;
+  grub_uint32_t class;
+
+  lua_pushvalue (state, 1);
+  lua_pushinteger (state, grub_pci_get_bus (dev));
+  lua_pushinteger (state, grub_pci_get_device (dev));
+  lua_pushinteger (state, grub_pci_get_function (dev));
+  lua_pushinteger (state, pciid);
+
+  addr = grub_pci_make_address (dev, GRUB_PCI_REG_CLASS);
+  class = grub_pci_read (addr);
+  lua_pushinteger (state, class);
+
+  lua_call (state, 5, 1);
+  result = lua_tointeger (state, -1);
+  lua_pop (state, 1);
+
+  return result;
+}
+
 static int
 grub_lua_enum_pci (lua_State *state)
 {
-  auto int NESTED_FUNC_ATTR enum_pci (grub_pci_device_t dev, grub_pci_id_t pciid);
-  int NESTED_FUNC_ATTR enum_pci (grub_pci_device_t dev, grub_pci_id_t pciid)
-  {
-    int result;
-    grub_pci_address_t addr;
-    grub_uint32_t class;
-
-    lua_pushvalue (state, 1);
-    lua_pushinteger (state, grub_pci_get_bus (dev));
-    lua_pushinteger (state, grub_pci_get_device (dev));
-    lua_pushinteger (state, grub_pci_get_function (dev));
-    lua_pushinteger (state, pciid);
-
-    addr = grub_pci_make_address (dev, GRUB_PCI_REG_CLASS);
-    class = grub_pci_read (addr);
-    lua_pushinteger (state, class);
-
-    lua_call (state, 5, 1);
-    result = lua_tointeger (state, -1);
-    lua_pop (state, 1);
-
-    return result;
-  }
-
   luaL_checktype (state, 1, LUA_TFUNCTION);
-  grub_pci_iterate (enum_pci);
+  grub_pci_iterate (grub_lua_enum_pci_iter, state);
   return push_result (state);
 }
 #endif
