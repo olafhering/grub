@@ -312,6 +312,15 @@ override_dh_strip:
 override_dh_shlibdeps:
 	dh_shlibdeps -X.module
 
+ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
+LEGACY_DOC_CONFLICTS := grub-doc (<< 0.97-29ubuntu60), grub-legacy-doc (<< 0.97-29ubuntu60)
+else
+LEGACY_DOC_CONFLICTS := grub-doc (<< 0.97-32), grub-legacy-doc (<< 0.97-59)
+endif
+
+override_dh_gencontrol:
+	dh_gencontrol -- -Vlegacy-doc-conflicts="$(LEGACY_DOC_CONFLICTS)"
+
 override_dh_builddeb:
 	dh_builddeb -- -Zxz
 

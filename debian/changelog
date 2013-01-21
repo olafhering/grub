@@ -16,6 +16,8 @@ grub2 (2.00-11) UNRELEASED; urgency=low
       accidentally over-escaped when adding a new one.
     - Replace "single" with "recovery" when friendly-recovery is installed
       (LP: #575469).
+    - Adjust versions of grub-doc and grub-legacy-doc conflicts to tolerate
+      Ubuntu's backport of the grub-doc split (LP: #493968).
 
  -- Adam Conrad <adconrad@debian.org>  Fri, 04 Jan 2013 13:11:42 -0700
 

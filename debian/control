@@ -5,6 +5,7 @@ Maintainer: GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
 Uploaders: Robert Millan <rmh@debian.org>, Felix Zielcke <fzielcke@z-51.de>, Jordi Mallach <jordi@debian.org>, Colin Watson <cjwatson@debian.org>
 DM-Upload-Allowed: yes
 Build-Depends: debhelper (>= 7.4.2~),
+ dpkg-dev (>= 1.15.1~),
  patchutils,
  autoconf,
  automake,
@@ -87,7 +88,7 @@ Priority: optional
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc any-mipsel any-ia64
 Depends: grub-common (= ${binary:Version}), dpkg (>= 1.15.4) | install-info, ${shlibs:Depends}, ${misc:Depends}
 Replaces: grub, grub-legacy, grub-common (<< 1.99-1), grub-pc (<< 2.00-4), grub-ieee1275 (<< 2.00-4), grub-efi (<< 1.99-1), grub-coreboot (<< 2.00-4), grub-linuxbios (<< 1.99-1), grub-efi-ia32 (<< 2.00-4), grub-efi-amd64 (<< 2.00-4), grub-efi-ia64 (<< 2.00-4), grub-ieee1275 (<< 2.00-4), grub-yeeloong (<< 2.00-4)
-Conflicts: grub (<< 0.97-54), grub-legacy, grub-doc (<< 0.97-32), grub-legacy-doc (<< 0.97-59)
+Conflicts: grub (<< 0.97-54), grub-legacy, ${legacy-doc-conflicts}
 Multi-Arch: foreign
 Description: GRand Unified Bootloader (common files for version 2)
  This package contains common files shared by the distinct flavours of GRUB.
