@@ -10,6 +10,10 @@ grub2 (2.00-11) UNRELEASED; urgency=low
   * Merge from Ubuntu:
     - If the postinst is running in a container, skip grub-install and all
       its associated questions (LP: #1060404).
+    - Fix backslash-escaping in merge_debconf_into_conf (LP: #448413).  Note
+      that this differs slightly from the fix in Ubuntu, which corrected
+      behaviour when amending an existing configuration item but
+      accidentally over-escaped when adding a new one.
 
  -- Adam Conrad <adconrad@debian.org>  Fri, 04 Jan 2013 13:11:42 -0700
 

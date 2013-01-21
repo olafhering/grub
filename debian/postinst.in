@@ -8,8 +8,9 @@ merge_debconf_into_conf()
   local template; template="$3"
 
   db_get "$template"
-  local value; value="$(echo "$RET" | sed -e 's,[$`"\@],\\&,g')"
+  local value; value="$(echo "$RET" | sed -e 's,[$`"\],\\&,g')"
   if grep -q "^${setting}=" "$tmpfile"; then
+    value="$(echo "$value" | sed -e 's,[\@],\\&,g')"
     sed -i -re "s@^(${setting}=).*@\1\"${value}\"@" "$tmpfile"
   else
     echo >> "$tmpfile"
