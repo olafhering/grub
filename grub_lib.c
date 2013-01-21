@@ -143,63 +143,65 @@ grub_lua_setenv (lua_State *state)
   return 0;
 }
 
+/* Helper for grub_lua_enum_device.  */
+static int
+grub_lua_enum_device_iter (const char *name, void *data)
+{
+  lua_State *state = data;
+  int result;
+  grub_device_t dev;
+
+  result = 0;
+  dev = grub_device_open (name);
+  if (dev)
+    {
+      grub_fs_t fs;
+
+      fs = grub_fs_probe (dev);
+      if (fs)
+	{
+	  lua_pushvalue (state, 1);
+	  lua_pushstring (state, name);
+	  lua_pushstring (state, fs->name);
+	  if (! fs->uuid)
+	    lua_pushnil (state);
+	  else
+	    {
+	      int err;
+	      char *uuid;
+
+	      err = fs->uuid (dev, &uuid);
+	      if (err)
+		{
+		  grub_errno = 0;
+		  lua_pushnil (state);
+		}
+	      else
+		{
+		  lua_pushstring (state, uuid);
+		  grub_free (uuid);
+		}
+	    }
+
+	  lua_call (state, 3, 1);
+	  result = lua_tointeger (state, -1);
+	  lua_pop (state, 1);
+	}
+      else
+	grub_errno = 0;
+      grub_device_close (dev);
+    }
+  else
+    grub_errno = 0;
+
+  return result;
+}
+
 static int
 grub_lua_enum_device (lua_State *state)
 {
-  auto int enum_device (const char *name);
-  int enum_device (const char *name)
-  {
-    int result;
-    grub_device_t dev;
-
-    result = 0;
-    dev = grub_device_open (name);
-    if (dev)
-      {
-	grub_fs_t fs;
-
-	fs = grub_fs_probe (dev);
-	if (fs)
-	  {
-	    lua_pushvalue (state, 1);
-	    lua_pushstring (state, name);
-	    lua_pushstring (state, fs->name);
-	    if (! fs->uuid)
-	      lua_pushnil (state);
-	    else
-	      {
-		int err;
-		char *uuid;
-
-		err = fs->uuid (dev, &uuid);
-		if (err)
-		  {
-		    grub_errno = 0;
-		    lua_pushnil (state);
-		  }
-		else
-		  {
-		    lua_pushstring (state, uuid);
-		    grub_free (uuid);
-		  }
-	      }
-
-	    lua_call (state, 3, 1);
-	    result = lua_tointeger (state, -1);
-	    lua_pop (state, 1);
-	  }
-	else
-	  grub_errno = 0;
-	grub_device_close (dev);
-      }
-    else
-      grub_errno = 0;
-
-    return result;
-  }
-
   luaL_checktype (state, 1, LUA_TFUNCTION);
-  grub_device_iterate (enum_device);
+  grub_device_iterate (grub_lua_enum_device_iter, state);
   return push_result (state);
 }
 
