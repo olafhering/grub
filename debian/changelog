@@ -1,3 +1,9 @@
+grub2 (2.00-12) UNRELEASED; urgency=low
+
+  * Silence output from running-in-container.
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 22 Jan 2013 12:05:47 +0000
+
 grub2 (2.00-11) experimental; urgency=low
 
   [ Adam Conrad ]

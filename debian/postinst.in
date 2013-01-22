@@ -442,7 +442,7 @@ case "$1" in
             touch /boot/grub/grub.cfg
           fi
         elif type running-in-container >/dev/null 2>&1 && \
-             running-in-container; then
+             running-in-container >/dev/null; then
           # Skip grub-install in containers.
           :
         elif test -z "$2" || test -e /boot/grub/core.img || \
