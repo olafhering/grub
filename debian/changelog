@@ -1,6 +1,7 @@
 grub2 (2.00-12) UNRELEASED; urgency=low
 
   * Silence output from running-in-container.
+  * Also skip update-grub when running in a container (LP: #1060404).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 22 Jan 2013 12:05:47 +0000
 

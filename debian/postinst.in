@@ -295,6 +295,11 @@ config_item()
   fi
 }
 
+running_in_container()
+{
+  type running-in-container >/dev/null 2>&1 && running-in-container >/dev/null
+}
+
 case "$1" in
   configure)
     . /usr/share/debconf/confmodule
@@ -441,8 +446,7 @@ case "$1" in
             # We just hooked GRUB 2 in menu.lst; then also generate grub.cfg.
             touch /boot/grub/grub.cfg
           fi
-        elif type running-in-container >/dev/null 2>&1 && \
-             running-in-container >/dev/null; then
+        elif running_in_container; then
           # Skip grub-install in containers.
           :
         elif test -z "$2" || test -e /boot/grub/core.img || \
@@ -687,7 +691,7 @@ case "$1" in
     esac
 
     # If grub.cfg has been generated, update it.
-    if test -e /boot/grub/grub.cfg ; then
+    if test -e /boot/grub/grub.cfg && ! running_in_container; then
       update-grub 3>&-
     fi
   ;;
