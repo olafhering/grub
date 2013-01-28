@@ -33,3 +33,4 @@ gnulib_gets.patch
 no_insmod_on_sb.patch
 default_grub_d.patch
 blacklist_1440x900x32.patch
+kfreebsd_9.1.patch
