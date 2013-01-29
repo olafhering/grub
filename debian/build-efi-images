@@ -1,0 +1,80 @@
+#! /bin/sh
+set -e
+
+# Copyright (C) 2010, 2011, 2012 Canonical Ltd.
+# Author: Colin Watson <cjwatson@ubuntu.com>
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation; either version 2, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+# for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Make EFI boot images for signing.
+
+if [ $# -lt 5 ]; then
+	echo "usage: $0 GRUB-MKIMAGE GRUB-CORE OUTPUT-DIRECTORY PLATFORM EFI-NAME"
+fi
+
+grub_mkimage="$1"
+grub_core="$2"
+outdir="$3"
+platform="$4"
+efi_name="$5"
+
+workdir=
+
+cleanup () {
+	[ -z "$workdir" ] || rm -rf "$workdir"
+}
+trap cleanup EXIT HUP INT QUIT TERM
+
+rm -rf "$outdir"
+mkdir -p "$outdir"
+
+workdir="$(mktemp -d build-efi-images.XXXXXX)"
+
+# GRUB's rescue parser doesn't understand 'if'.
+echo 'normal (memdisk)/grub.cfg' >"$workdir/grub-bootstrap.cfg"
+
+# Skeleton configuration file which finds the real boot disk.
+cat >"$workdir/grub.cfg" <<EOF
+if ! search --file --set=root /.disk/info; then
+	search --file --set=root /.disk/mini-info
+fi
+set prefix=(\$root)/boot/grub
+if [ -e \$prefix/$platform/grub.cfg ]; then
+	source \$prefix/$platform/grub.cfg
+else
+	source \$prefix/grub.cfg
+fi
+EOF
+
+mkfs.msdos -C "$workdir/memdisk.fat" 64
+mcopy -i "$workdir/memdisk.fat" "$workdir/grub.cfg" ::grub.cfg
+
+CD_MODULES="
+	all_video boot btrfs cat chain configfile echo efifwsetup
+	efinet ext2 fat font gfxmenu gfxterm gzio halt hfsplus
+	iso9660 jpeg keystatus loadenv linux linuxefi memdisk minicmd
+	normal part_apple part_msdos part_gpt password_pbkdf2 png
+	reboot search search_fs_uuid search_fs_file search_label sleep
+	test video"
+GRUB_MODULES="$CD_MODULES lvm mdraid09 mdraid1x"
+
+"$grub_mkimage" -O "$platform" -o "$outdir/gcd$efi_name.efi" \
+	-d "$grub_core" -p /EFI/BOOT \
+	-c "$workdir/grub-bootstrap.cfg" -m "$workdir/memdisk.fat" \
+	$CD_MODULES
+"$grub_mkimage" -O "$platform" -o "$outdir/grub$efi_name.efi" \
+	-d "$grub_core" -p /EFI/ubuntu $GRUB_MODULES
+
+exit 0
