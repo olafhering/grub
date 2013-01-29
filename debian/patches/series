@@ -41,3 +41,4 @@ linuxefi_amd64_only.patch
 linuxefi_debug.patch
 linuxefi_require_shim.patch
 linuxefi_non_sb_fallback.patch
+mkconfig_signed_kernel.patch

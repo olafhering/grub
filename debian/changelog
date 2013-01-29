@@ -19,6 +19,7 @@ grub2 (2.00-13) UNRELEASED; urgency=low
       the kernel is signed, to hand over to the kernel without calling
       ExitBootServices.  Otherwise, linux will fall through to previous
       code, call ExitBootServices itself, and boot the kernel normally.
+    - Generate configuration for signed UEFI kernels if available.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Jan 2013 11:08:07 +0000
 
