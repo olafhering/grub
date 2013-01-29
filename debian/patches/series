@@ -42,3 +42,4 @@ linuxefi_debug.patch
 linuxefi_require_shim.patch
 linuxefi_non_sb_fallback.patch
 mkconfig_signed_kernel.patch
+install_signed.patch
