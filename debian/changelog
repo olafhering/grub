@@ -2,9 +2,10 @@ grub2 (2.00-13) UNRELEASED; urgency=low
 
   * Backport from upstream:
     - Fix booting FreeBSD >= 9.1 amd64 kernels (closes: #699002).
-  * Stop using the /usr/share/images/desktop-base/desktop-grub.png
-    alternative as the fallback background if GRUB_DISTRIBUTOR is "Ubuntu".
   * Merge from Ubuntu:
+    - Stop using the /usr/share/images/desktop-base/desktop-grub.png
+      alternative as the fallback background if GRUB_DISTRIBUTOR is
+      "Ubuntu".
     - source_grub2.py: Use attach_default_grub from apport's hookutils.
     - Output a menu entry for firmware setup on UEFI FastBoot systems.
 
