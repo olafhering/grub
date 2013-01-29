@@ -51,23 +51,12 @@ def check_shell_syntax_harder(path):
         return False
     return True
 
-def _attach_file_filtered(report, path, key=None):
-    '''filter out password from grub configuration'''
-    if not key:
-        key = path_to_key(path)
-
-    if os.path.exists(path):
-        with open(path,'r') as f:
-            filtered = [l if not l.startswith('password')
-                        else '### PASSWORD LINE REMOVED ###'
-                        for l in f.readlines()]
-            report[key] = ''.join(filtered)
 
 def add_info(report):
     if report['ProblemType'] == 'Package':
         # To detect if root fs is a loop device
         attach_file(report, '/proc/cmdline','ProcCmdLine')
-        _attach_file_filtered(report, '/etc/default/grub','EtcDefaultGrub')
+        attach_default_grub(report, 'EtcDefaultGrub')
         attach_file_if_exists(report, '/boot/grub/device.map', 'DeviceMap')
         try:
             grub_d = '/etc/default/grub.d'
