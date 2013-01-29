@@ -38,3 +38,4 @@ uefi_firmware_setup.patch
 mkconfig_ubuntu_distributor.patch
 linuxefi.patch
 linuxefi_amd64_only.patch
+linuxefi_debug.patch

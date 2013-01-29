@@ -1,0 +1,85 @@
+Description: Add more debugging to linuxefi
+Author: Colin Watson <cjwatson@ubuntu.com>
+Forwarded: no
+Last-Update: 2013-01-29
+
+Index: b/grub-core/loader/i386/efi/linux.c
+===================================================================
+--- a/grub-core/loader/i386/efi/linux.c
++++ b/grub-core/loader/i386/efi/linux.c
+@@ -19,6 +19,7 @@
+ #include <grub/loader.h>
+ #include <grub/file.h>
+ #include <grub/err.h>
++#include <grub/misc.h>
+ #include <grub/types.h>
+ #include <grub/mm.h>
+ #include <grub/cpu/linux.h>
+@@ -54,15 +55,27 @@
+ {
+   grub_efi_guid_t guid = SHIM_LOCK_GUID;
+   grub_efi_shim_lock_t *shim_lock;
++  grub_efi_status_t status;
+ 
++  grub_dprintf ("linuxefi", "Locating shim protocol\n");
+   shim_lock = grub_efi_locate_protocol(&guid, NULL);
+ 
+   if (!shim_lock)
+-    return 1;
++    {
++      grub_dprintf ("linuxefi", "shim not available\n");
++      return 1;
++    }
+ 
+-  if (shim_lock->verify(data, size) == GRUB_EFI_SUCCESS)
+-    return 1;
++  grub_dprintf ("linuxefi", "Asking shim to verify kernel signature\n");
++  status = shim_lock->verify(data, size);
++  if (status == GRUB_EFI_SUCCESS)
++    {
++      grub_dprintf ("linuxefi", "Kernel signature verification passed\n");
++      return 1;
++    }
+ 
++  grub_dprintf ("linuxefi", "Kernel signature verification failed (0x%lx)\n",
++		(unsigned long) status);
+   return 0;
+ }
+ 
+@@ -147,6 +160,8 @@
+       goto fail;
+     }
+ 
++  grub_dprintf ("linuxefi", "initrd_mem = %lx\n", (unsigned long) initrd_mem);
++
+   params->ramdisk_size = size;
+   params->ramdisk_image = (grub_uint32_t)(grub_uint64_t) initrd_mem;
+ 
+@@ -236,6 +251,8 @@
+       goto fail;
+     }
+ 
++  grub_dprintf ("linuxefi", "params = %lx\n", (unsigned long) params);
++
+   memset (params, 0, 16384);
+ 
+   if (grub_file_read (file, &lh, sizeof (lh)) != sizeof (lh))
+@@ -279,6 +296,9 @@
+       goto fail;
+     }
+ 
++  grub_dprintf ("linuxefi", "linux_cmdline = %lx\n",
++		(unsigned long) linux_cmdline);
++
+   grub_memcpy (linux_cmdline, LINUX_IMAGE, sizeof (LINUX_IMAGE));
+   grub_create_loader_cmdline (argc, argv,
+                               linux_cmdline + sizeof (LINUX_IMAGE) - 1,
+@@ -304,6 +324,8 @@
+       goto fail;
+     }
+ 
++  grub_dprintf ("linuxefi", "kernel_mem = %lx\n", (unsigned long) kernel_mem);
++
+   if (grub_file_seek (file, start) == (grub_off_t) -1)
+     {
+       grub_error (GRUB_ERR_BAD_OS, N_("premature end of file %s"),
