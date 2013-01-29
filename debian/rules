@@ -52,6 +52,12 @@ else
 $(error COMMON_PLATFORM not set for $(DEB_HOST_ARCH_CPU))
 endif
 
+ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
+DEFAULT_CMDLINE := quiet splash
+else
+DEFAULT_CMDLINE := quiet
+endif
+
 %:
 	dh $@ --parallel
 
@@ -168,6 +174,7 @@ platform_subst = \
 		sed debian/$(1) \
 			-e "s/@PACKAGE@/$(2)/g" \
 			-e "s/@CPU_PLATFORM@/$$cpu_platform/g" \
+			-e "s/@DEFAULT_CMDLINE@/$(DEFAULT_CMDLINE)/g" \
 			>> debian/$(2).$(3); \
 	fi
 
@@ -301,6 +308,8 @@ override_dh_install:
 	done
 	dh_install -pgrub-emu --sourcedir=debian/tmp-grub-emu
 	dh_install -pgrub-emu-dbg --sourcedir=debian/tmp-grub-emu
+	sed -i -e "s/@DEFAULT_CMDLINE@/$(DEFAULT_CMDLINE)/g" \
+		debian/grub2-common/usr/share/grub/default/grub
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 ifneq (,$(filter grub-pc,$(BUILD_PACKAGES)))
 	patch debian/grub-pc/usr/lib/grub-legacy/update-grub \

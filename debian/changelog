@@ -22,6 +22,7 @@ grub2 (2.00-13) UNRELEASED; urgency=low
     - Generate configuration for signed UEFI kernels if available.
     - On Ubuntu amd64, add a raw-uefi custom upload tarball for signing.
     - Install signed images if available and UEFI Secure Boot is enabled.
+    - Add "splash" to default boot options on Ubuntu.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Jan 2013 11:08:07 +0000
 
