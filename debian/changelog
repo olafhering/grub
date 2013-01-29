@@ -9,6 +9,7 @@ grub2 (2.00-13) UNRELEASED; urgency=low
     - source_grub2.py: Use attach_default_grub from apport's hookutils.
     - Output a menu entry for firmware setup on UEFI FastBoot systems.
     - Set a monochromatic theme and an appropriate background for Ubuntu.
+    - Remove "GNU/Linux" from default distributor string for Ubuntu.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Jan 2013 11:08:07 +0000
 

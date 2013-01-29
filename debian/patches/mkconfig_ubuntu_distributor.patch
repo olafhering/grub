@@ -1,0 +1,24 @@
+Description: Remove GNU/Linux from default distributor string for Ubuntu
+ Ubuntu is called "Ubuntu", not "Ubuntu GNU/Linux".
+Author: Mario Limonciello <Mario_Limonciello@dell.com>
+Author: Colin Watson <cjwatson@debian.org>
+Forwarded: not-needed
+Last-Update: 2013-01-29
+
+Index: b/util/grub.d/10_linux.in
+===================================================================
+--- a/util/grub.d/10_linux.in
++++ b/util/grub.d/10_linux.in
+@@ -31,7 +31,11 @@
+ if [ "x${GRUB_DISTRIBUTOR}" = "x" ] ; then
+   OS=GNU/Linux
+ else
+-  OS="${GRUB_DISTRIBUTOR} GNU/Linux"
++  if [ "${GRUB_DISTRIBUTOR}" = "Ubuntu" ] ; then
++    OS="${GRUB_DISTRIBUTOR}"
++  else
++    OS="${GRUB_DISTRIBUTOR} GNU/Linux"
++  fi
+   CLASS="--class $(echo ${GRUB_DISTRIBUTOR} | tr 'A-Z' 'a-z' | cut -d' ' -f1) ${CLASS}"
+ fi
+ 
