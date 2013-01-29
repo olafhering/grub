@@ -15,6 +15,10 @@ grub2 (2.00-13) UNRELEASED; urgency=low
       with EFI handover patches, avoiding ExitBootServices.
     - Temporarily make linuxefi refuse to validate kernels in the absence of
       a shim, until we get some other details worked out.
+    - Automatically call linuxefi from linux if secure boot is enabled and
+      the kernel is signed, to hand over to the kernel without calling
+      ExitBootServices.  Otherwise, linux will fall through to previous
+      code, call ExitBootServices itself, and boot the kernel normally.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Jan 2013 11:08:07 +0000
 
