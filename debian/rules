@@ -301,6 +301,12 @@ override_dh_install:
 	done
 	dh_install -pgrub-emu --sourcedir=debian/tmp-grub-emu
 	dh_install -pgrub-emu-dbg --sourcedir=debian/tmp-grub-emu
+ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
+ifneq (,$(filter grub-pc,$(BUILD_PACKAGES)))
+	patch debian/grub-pc/usr/lib/grub-legacy/update-grub \
+		< debian/legacy/update-grub.ubuntu.patch
+endif
+endif
 
 override_dh_installdocs:
 	dh_installdocs -pgrub-common -pgrub-rescue-pc -pgrub-firmware-qemu -A AUTHORS NEWS README THANKS TODO
