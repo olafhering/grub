@@ -13,6 +13,8 @@ grub2 (2.00-13) UNRELEASED; urgency=low
     - Apply Ubuntu GRUB Legacy changes to legacy update-grub script.
     - Apply patch from Fedora to add a "linuxefi" loader which boots kernels
       with EFI handover patches, avoiding ExitBootServices.
+    - Temporarily make linuxefi refuse to validate kernels in the absence of
+      a shim, until we get some other details worked out.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Jan 2013 11:08:07 +0000
 
