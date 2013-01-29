@@ -160,7 +160,8 @@ if set_background_image "${WALLPAPER}" "${COLOR_NORMAL}" "${COLOR_HIGHLIGHT}"; t
 fi
 
 # If we haven't found a background image yet, use the default from desktop-base.
-if set_background_image "/usr/share/images/desktop-base/desktop-grub.png"; then
+if [ "$GRUB_DISTRIBUTOR" != Ubuntu ] && \
+   set_background_image "/usr/share/images/desktop-base/desktop-grub.png"; then
 	exit 0
 fi
 
