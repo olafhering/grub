@@ -28,9 +28,19 @@ test -d /boot/grub; cd /boot/grub
 BACKGROUND_CACHE=".background_cache"
 
 set_default_theme(){
-	# Set the traditional Debian blue theme.
-	echo "${1}set menu_color_normal=cyan/blue"
-	echo "${1}set menu_color_highlight=white/blue"
+	if [ "$GRUB_DISTRIBUTOR" = Ubuntu ]; then
+		# Set a monochromatic theme for Ubuntu.
+		echo "${1}set menu_color_normal=white/black"
+		echo "${1}set menu_color_highlight=black/light-gray"
+
+		if [ -e /lib/plymouth/themes/default.grub ]; then
+			sed "s/^/${1}/" /lib/plymouth/themes/default.grub
+		fi
+	else
+		# Set the traditional Debian blue theme.
+		echo "${1}set menu_color_normal=cyan/blue"
+		echo "${1}set menu_color_highlight=white/blue"
+	fi
 }
 
 module_available(){
