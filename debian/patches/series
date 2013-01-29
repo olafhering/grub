@@ -36,3 +36,5 @@ blacklist_1440x900x32.patch
 kfreebsd_9.1.patch
 uefi_firmware_setup.patch
 mkconfig_ubuntu_distributor.patch
+linuxefi.patch
+linuxefi_amd64_only.patch
