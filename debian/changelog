@@ -6,6 +6,7 @@ grub2 (2.00-13) UNRELEASED; urgency=low
     alternative as the fallback background if GRUB_DISTRIBUTOR is "Ubuntu".
   * Merge from Ubuntu:
     - source_grub2.py: Use attach_default_grub from apport's hookutils.
+    - Output a menu entry for firmware setup on UEFI FastBoot systems.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 28 Jan 2013 11:08:07 +0000
 

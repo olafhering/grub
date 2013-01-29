@@ -7,6 +7,7 @@ util/grub.d/10_netbsd.in
 util/grub.d/10_windows.in
 util/grub.d/20_linux_xen.in
 util/grub.d/30_os-prober.in
+util/grub.d/30_uefi-firmware.in
 util/grub.d/40_custom.in
 util/grub.d/41_custom.in
 util/grub-install.in
