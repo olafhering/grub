@@ -90,7 +90,7 @@ grub_lua_run (lua_State *state)
   const char *s;
 
   s = luaL_checkstring (state, 1);
-  if ((! grub_parser_split_cmdline (s, 0, &n, &args))
+  if ((! grub_parser_split_cmdline (s, 0, 0, &n, &args))
       && (n >= 0))
     {
       grub_command_t cmd;
@@ -206,26 +206,28 @@ grub_lua_enum_device (lua_State *state)
 }
 
 static int
+enum_file (const char *name, const struct grub_dirhook_info *info,
+	   void *data)
+{
+  int result;
+  lua_State *state = data;
+
+  lua_pushvalue (state, 1);
+  lua_pushstring (state, name);
+  lua_pushinteger (state, info->dir != 0);
+  lua_call (state, 2, 1);
+  result = lua_tointeger (state, -1);
+  lua_pop (state, 1);
+
+  return result;
+}
+
+static int
 grub_lua_enum_file (lua_State *state)
 {
   char *device_name;
   const char *arg;
   grub_device_t dev;
-
-  auto int enum_file (const char *name, const struct grub_dirhook_info *info);
-  int enum_file (const char *name, const struct grub_dirhook_info *info)
-  {
-    int result;
-
-    lua_pushvalue (state, 1);
-    lua_pushstring (state, name);
-    lua_pushinteger (state, info->dir != 0);
-    lua_call (state, 2, 1);
-    result = lua_tointeger (state, -1);
-    lua_pop (state, 1);
-
-    return result;
-  }
 
   luaL_checktype (state, 1, LUA_TFUNCTION);
   arg = luaL_checkstring (state, 2);
@@ -245,7 +247,7 @@ grub_lua_enum_file (lua_State *state)
 
       if (fs)
 	{
-	  (fs->dir) (dev, path, enum_file);
+	  (fs->dir) (dev, path, enum_file, state);
 	}
 
       grub_device_close (dev);
