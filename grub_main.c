@@ -105,8 +105,8 @@ incomplete (lua_State * L, int status)
 static grub_err_t
 interactive (void)
 {
-  char *ps1 = "lua> ";
-  char *ps2 = "lua>> ";
+  const char *ps1 = "lua> ";
+  const char *ps2 = "lua>> ";
   char *prompt = ps1;
   char *line;
   char *chunk = NULL;
