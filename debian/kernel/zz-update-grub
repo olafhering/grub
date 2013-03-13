@@ -17,7 +17,9 @@ case $0:$mode in
     # Also run if we have no DEB_MAINT_PARAMS, in order to work with old
     # kernel packages.
     */postinst.d/*:|*/postinst.d/*:configure|*/postrm.d/*:|*/postrm.d/*:remove)
-	exec update-grub
+	if [ -e /boot/grub/grub.cfg ]; then
+		exec update-grub
+	fi
 	;;
 esac
 
