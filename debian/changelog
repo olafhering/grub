@@ -3,6 +3,9 @@ grub2 (2.00-14) UNRELEASED; urgency=low
   * Merge from Ubuntu:
     - Don't call update-grub in the zz-update-grub kernel hook if
       /boot/grub/grub.cfg doesn't exist.
+  * Remove kernel-specific grub.d conffiles that were dropped from packages
+    built for all but their corresponding kernel type in 1.96+20090307-1
+    (closes: #703539).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 13 Mar 2013 10:05:17 +0000
 

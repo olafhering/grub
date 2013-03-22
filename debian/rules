@@ -35,7 +35,7 @@ export GRUB_CONTRIB := $(CURDIR)/debian/grub-extras
 
 confflags = PACKAGE_VERSION="$(deb_version)" PACKAGE_STRING="GRUB $(deb_version)" CC=$(CC) TARGET_CC=$(CC) --enable-grub-mkfont
 
-AUTOGEN_DEB_FILES = config templates preinst postinst postrm dirs install links
+AUTOGEN_DEB_FILES = config templates preinst postinst postrm dirs install links maintscript
 
 BUILD_PACKAGES := $(strip $(shell dh_listpackages))
 REAL_PACKAGES = grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-efi-ia64 grub-ieee1275 grub-firmware-qemu grub-yeeloong
