@@ -368,6 +368,9 @@ fi
 
 if test "x$grub_setup" = x && [ "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" = "i386-pc" ]; then
     grub_setup="${sbindir}/`echo grub-bios-setup | sed ${transform}`"
+    if [ ! -e "$grub_setup" ]; then
+	grub_setup="${source_dir}/`echo grub-bios-setup | sed ${transform}`"
+    fi
 fi
 
 if test "x$grub_setup" = x && [ "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" = "sparc64-ieee1275" ]; then
