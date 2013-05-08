@@ -8,6 +8,9 @@ grub2 (2.00-14) UNRELEASED; urgency=low
     (closes: #703539).
   * Look for grub-bios-setup in /usr/lib/grub/i386-pc/ as well (closes:
     #705636).
+  * Merge 1.99-27.1 (thanks, Steve McIntyre):
+    - Add entries for Windows Boot Manager found via UEFI in os-prober
+      (closes: #698914).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 13 Mar 2013 10:05:17 +0000
 
@@ -275,6 +278,14 @@ grub2 (2.00-1) experimental; urgency=low
   * Finnish (Timo Jyrinki).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 06 Sep 2012 19:04:21 +0100
+
+grub2 (1.99-27.1) unstable; urgency=medium
+
+  * NMU
+  * Add entries for Windows Boot Manager found via UEFI in
+    os-prober. Closes: #698914 before the Wheezy release.
+
+ -- Steve McIntyre <93sam@debian.org>  Fri, 26 Apr 2013 23:53:34 +0100
 
 grub2 (1.99-27) unstable; urgency=low
 

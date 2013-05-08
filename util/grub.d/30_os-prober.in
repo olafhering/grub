@@ -35,6 +35,11 @@ if [ -z "`which os-prober 2> /dev/null`" -o -z "`which linux-boot-prober 2> /dev
   exit 0
 fi
 
+# Try to load the efivars module, in case it's needed for EFI support
+# to work below. Hide the errors in case it's not available, there is
+# no need to scare people here.
+modprobe efivars >/dev/null 2>&1 || true
+
 OSPROBED="`os-prober | tr ' ' '^' | paste -s -d ' '`"
 if [ -z "${OSPROBED}" ] ; then
   # empty os-prober output, nothing doing
@@ -141,6 +146,19 @@ EOF
 
       cat <<EOF
 	chainloader +1
+}
+EOF
+    ;;
+    efi)
+      EFIPATH=${DEVICE#*@}
+      DEVICE=${DEVICE%@*}
+      cat << EOF
+menuentry "${LONGNAME} (UEFI on ${DEVICE})" --class windows --class os {
+EOF
+      save_default_entry | sed -e "s/^/\t/"
+      prepare_grub_to_access_device ${DEVICE} | sed -e "s/^/\t/"
+      cat <<EOF
+	chainloader ${EFIPATH}
 }
 EOF
     ;;
