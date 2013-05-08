@@ -46,3 +46,4 @@ userland-part.patch
 efi_device_discovery.patch
 gettext_error_handling.patch
 l10n_fi.patch
+os_prober_efi.patch

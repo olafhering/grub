@@ -1,0 +1,34 @@
+--- a/util/grub.d/30_os-prober.in	2013-04-26 23:38:08.296883089 +0100
++++ b/util/grub.d/30_os-prober.in	2013-04-26 23:40:49.496886929 +0100
+@@ -32,6 +32,11 @@
+   exit 0
+ fi
+ 
++# Try to load the efivars module, in case it's needed for EFI support
++# to work below. Hide the errors in case it's not available, there is
++# no need to scare people here.
++modprobe efivars >/dev/null 2>&1 || true
++
+ OSPROBED="`os-prober | tr ' ' '^' | paste -s -d ' '`"
+ if [ -z "${OSPROBED}" ] ; then
+   # empty os-prober output, nothing doing
+@@ -125,6 +130,19 @@
+ }
+ EOF
+     ;;
++    efi)
++      EFIPATH=${DEVICE#*@}
++      DEVICE=${DEVICE%@*}
++      cat << EOF
++menuentry "${LONGNAME} (UEFI on ${DEVICE})" --class windows --class os {
++EOF
++      save_default_entry | sed -e "s/^/\t/"
++      prepare_grub_to_access_device ${DEVICE} | sed -e "s/^/\t/"
++      cat <<EOF
++	chainloader ${EFIPATH}
++}
++EOF
++    ;;
+     linux)
+       LINUXPROBED="`linux-boot-prober ${DEVICE} 2> /dev/null | tr ' ' '^' | paste -s -d ' '`"
+       prepare_boot_cache=

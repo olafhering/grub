@@ -1,3 +1,11 @@
+grub2 (1.99-27.1) unstable; urgency=medium
+
+  * NMU
+  * Add entries for Windows Boot Manager found via UEFI in
+    os-prober. Closes: #698914 before the Wheezy release.
+
+ -- Steve McIntyre <93sam@debian.org>  Fri, 26 Apr 2013 23:53:34 +0100
+
 grub2 (1.99-27) unstable; urgency=low
 
   * Amend gfxpayload_keep_default.patch to no longer remove the call to
