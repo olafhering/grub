@@ -3,6 +3,8 @@ grub2 (2.00-14) UNRELEASED; urgency=low
   * Merge from Ubuntu:
     - Don't call update-grub in the zz-update-grub kernel hook if
       /boot/grub/grub.cfg doesn't exist.
+    - acpihalt: expand parser to handle SSDTs and some more opcodes.  Fixes
+      test suite hang with current seabios.
   * Remove kernel-specific grub.d conffiles that were dropped from packages
     built for all but their corresponding kernel type in 1.96+20090307-1
     (closes: #703539).

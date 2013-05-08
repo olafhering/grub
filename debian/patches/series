@@ -45,3 +45,4 @@ mkconfig_signed_kernel.patch
 install_signed.patch
 install_bios_setup_path.patch
 os_prober_efi.patch
+acpihalt_improvements.patch
