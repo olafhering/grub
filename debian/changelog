@@ -1,4 +1,4 @@
-grub2 (2.00-14) UNRELEASED; urgency=low
+grub2 (2.00-14) unstable; urgency=low
 
   * Merge from Ubuntu:
     - Don't call update-grub in the zz-update-grub kernel hook if
@@ -14,7 +14,7 @@ grub2 (2.00-14) UNRELEASED; urgency=low
     - Add entries for Windows Boot Manager found via UEFI in os-prober
       (closes: #698914).
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 13 Mar 2013 10:05:17 +0000
+ -- Colin Watson <cjwatson@debian.org>  Thu, 09 May 2013 00:14:55 +0100
 
 grub2 (2.00-13) experimental; urgency=low
 
