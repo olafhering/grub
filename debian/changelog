@@ -1,6 +1,8 @@
 grub2 (2.00-15) UNRELEASED; urgency=low
 
   * Install reportbug presubj and script files in all binary packages.
+  * Make grub-yeeloong.postinst explicitly install with
+    --target=mipsel-loongson (closes: #708204).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 10 May 2013 01:08:20 +0100
 

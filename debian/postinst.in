@@ -686,7 +686,7 @@ case "$1" in
       ;;
 
       grub-yeeloong)
-        grub-install
+        grub-install --target=mipsel-loongson
       ;;
     esac
 
