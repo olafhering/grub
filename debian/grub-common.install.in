@@ -1,4 +1,3 @@
-../../debian/presubj			usr/share/bug/grub-common
 ../../debian/apport/source_grub2.py	usr/share/apport/package-hooks/
 ../../debian/grub.d			etc
 

@@ -1,3 +1,9 @@
+grub2 (2.00-15) UNRELEASED; urgency=low
+
+  * Install reportbug presubj and script files in all binary packages.
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 10 May 2013 01:08:20 +0100
+
 grub2 (2.00-14) unstable; urgency=low
 
   * Merge from Ubuntu:

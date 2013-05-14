@@ -321,6 +321,9 @@ override_dh_installdocs:
 	dh_installdocs -pgrub-common -pgrub-rescue-pc -pgrub-firmware-qemu -A AUTHORS NEWS README THANKS TODO
 	dh_installdocs -Ngrub-common -Ngrub-rescue-pc -Ngrub-firmware-qemu --link-doc=grub-common
 
+override_dh_bugfiles:
+	dh_bugfiles -A
+
 override_dh_strip:
 	dh_strip -X/usr/bin/grub-emu
 
@@ -362,7 +365,7 @@ override_dh_clean: debian/legacy/update-grub debian/grub-extras
 	dh_autoreconf_clean
 	dh_clean
 
-	chmod +x debian/{script,grub.d/*,legacy/*,kernel/*}
+	chmod +x debian/{bug-script,grub.d/*,legacy/*,kernel/*}
 
 	for i in $(AUTOGEN_DEB_FILES) ; do \
 		rm -f debian/grub-{pc,efi-*,ieee1275,coreboot,yeeloong,emu}{,-bin,-dbg}.$$i ; \
