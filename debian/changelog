@@ -4,6 +4,8 @@ grub2 (2.00-15) UNRELEASED; urgency=low
   * Install reportbug presubj and script files in all binary packages.
   * Make grub-yeeloong.postinst explicitly install with
     --target=mipsel-loongson (closes: #708204).
+  * Make grub-script-check fail on scripts containing no commands (closes:
+    #713886).
 
   [ Debconf translations ]
   * Hungarian (Dr. Nagy Elemér Károly).

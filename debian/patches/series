@@ -46,3 +46,4 @@ install_signed.patch
 install_bios_setup_path.patch
 os_prober_efi.patch
 acpihalt_improvements.patch
+script_check_no_commands.patch
