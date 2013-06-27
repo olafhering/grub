@@ -6,6 +6,9 @@ grub2 (2.00-15) UNRELEASED; urgency=low
     --target=mipsel-loongson (closes: #708204).
   * Make grub-script-check fail on scripts containing no commands (closes:
     #713886).
+  * Make the description of grub-firmware-qemu a little more generic, rather
+    than assuming that bochsbios provides qemu's default BIOS image (closes:
+    #714277).
 
   [ Debconf translations ]
   * Hungarian (Dr. Nagy Elemér Károly).

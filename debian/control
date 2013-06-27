@@ -437,8 +437,8 @@ Enhances: qemu
 Multi-Arch: foreign
 Description: GRUB firmware image for QEMU
  This package contains a binary of GRUB that has been built for use as
- firmware for QEMU.  It can be used as a replacement for the standard
- PC BIOS provided by the bochsbios package (bios.bin).
+ firmware for QEMU.  It can be used as a replacement for other PC BIOS
+ images provided by seabios, bochsbios, and so on.
  .
  In order to make QEMU use this firmware, simply add `-bios grub.bin' when
  invoking it.
