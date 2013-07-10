@@ -284,11 +284,10 @@ config_item()
 {
   for x in /etc/default/grub /etc/default/grub.d/*.cfg; do
     if [ -e "$x" ]; then
-      DEFAULT_FOUND="yes"
       . "$x"
     fi
   done
-  if [ "$DEFAULT_FOUND" = "yes" ]; then
+  if [ "$(eval echo "\${$1+set}")" = set ]; then
     eval echo "\$$1"
   else
     return

@@ -9,6 +9,9 @@ grub2 (2.00-15) UNRELEASED; urgency=low
   * Make the description of grub-firmware-qemu a little more generic, rather
     than assuming that bochsbios provides qemu's default BIOS image (closes:
     #714277).
+  * Don't assume that the presence of /etc/default/grub or
+    /etc/default/grub.d/*.cfg means that any particular item is set in it
+    (LP: #1199731).
 
   [ Debconf translations ]
   * Hungarian (Dr. Nagy Elemér Károly).
