@@ -196,7 +196,7 @@ main (int argc, char *argv[])
   if (! found_cmd)
     {
       fprintf (stderr, _("Script contains no commands and will do nothing\n"),
-	       ctx.arguments.filename);
+	       arguments.filename);
       return 1;
     }
 
