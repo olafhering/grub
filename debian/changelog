@@ -4,6 +4,7 @@ grub2 (2.00-16) UNRELEASED; urgency=low
     missing LVM commands.
   * Backport from upstream:
     - Move @itemize after @subsection to satisfy texinfo-5.1.
+    - grub-mkconfig: Fix detection of Emacs autosave files.
 
  -- Colin Watson <cjwatson@debian.org>  Sun, 11 Aug 2013 12:12:54 +0100
 
