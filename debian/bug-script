@@ -44,7 +44,7 @@ yesno "Do you want to provide LVM volume information?" nop
 if [ "$REPLY" = yep ]; then
   echo >&3
   echo "*********************** BEGIN LVM" >&3
-  su root -c "vgdisplay; pvdisplay; lvdisplay" >&3
+  su root -c "vgdisplay; pvdisplay; lvdisplay" >&3 || true
   echo "*********************** END LVM" >&3
 fi
 

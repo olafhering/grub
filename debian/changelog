@@ -1,3 +1,10 @@
+grub2 (2.00-16) UNRELEASED; urgency=low
+
+  * Make reportbug script file robust against su authentication failures and
+    missing LVM commands.
+
+ -- Colin Watson <cjwatson@debian.org>  Sun, 11 Aug 2013 12:12:54 +0100
+
 grub2 (2.00-15) unstable; urgency=low
 
   [ Colin Watson ]
