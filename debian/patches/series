@@ -49,3 +49,4 @@ acpihalt_improvements.patch
 script_check_no_commands.patch
 texinfo_ordering.patch
 mkconfig_emacs_autosave.patch
+sleep_shift.patch

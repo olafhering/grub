@@ -10,6 +10,7 @@ grub2 (2.00-16) UNRELEASED; urgency=low
       Sitter).
     - Make any EFI system boot into the shim (if installed) even if
       SecureBoot is disabled (Stéphane Graber).
+    - Allow Shift to interrupt 'sleep --interruptible'.
 
  -- Colin Watson <cjwatson@debian.org>  Sun, 11 Aug 2013 12:12:54 +0100
 
