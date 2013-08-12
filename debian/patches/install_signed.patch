@@ -1,26 +1,22 @@
 Description: Install signed images if UEFI Secure Boot is enabled
 Author: Colin Watson <cjwatson@ubuntu.com>
+Author: Stéphane Graber <stgraber@ubuntu.com>
 Forwarded: no
-Last-Update: 2012-12-10
+Last-Update: 2013-08-12
 
 Index: b/util/grub-install.in
 ===================================================================
 --- a/util/grub-install.in
 +++ b/util/grub-install.in
-@@ -63,6 +63,12 @@
+@@ -63,6 +63,7 @@
  
  removable=no
  efi_quiet=
-+sb_var=/sys/firmware/efi/vars/SecureBoot-8be4df61-93ca-11d2-aa0d-00e098032b8c/data
-+if [ -e "$sb_var" ] && [ "$(printf %x \'"$(cat "$sb_var")")" = 1 ]; then
-+  uefi_secure_boot=yes
-+else
-+  uefi_secure_boot=no
-+fi
++uefi_secure_boot=yes
  
  # Get GRUB_DISTRIBUTOR.
  if test -f "${sysconfdir}/default/grub" ; then
-@@ -117,6 +123,8 @@
+@@ -117,6 +118,8 @@
      print_option_help  "--removable" "$(gettext "the installation device is removable. This option is only available on EFI.")"
      print_option_help  "--bootloader-id=$(gettext "ID")" "$(gettext "the ID of bootloader. This option is only available on EFI.")"
      print_option_help "--efi-directory=$(gettext "DIR")" "$(gettext "use DIR as the EFI System Partition root.")"
@@ -29,7 +25,7 @@ Index: b/util/grub-install.in
  echo
  gettext "INSTALL_DEVICE must be system device filename.";echo
  echo
-@@ -258,6 +266,11 @@
+@@ -258,6 +261,11 @@
      -f | --force)
          setup_force="--force" ;;
  
@@ -41,7 +37,7 @@ Index: b/util/grub-install.in
      -*)
  	gettext_printf "Unrecognized option \`%s'\n" "$option" 1>&2
  	usage
-@@ -460,39 +473,32 @@
+@@ -460,39 +468,32 @@
          # not collide with other vendors.  To minimise collisions, we use the
          # name of our distributor if possible.
  	efi_distributor="$bootloader_id"
@@ -98,7 +94,7 @@ Index: b/util/grub-install.in
  	   # TODO: We should also use efibootmgr, if available, to add a Boot
  	   # entry for ourselves.
  	fi
-@@ -653,7 +659,7 @@
+@@ -653,7 +654,7 @@
  	install_drive="$grub_drive"
      fi
  
@@ -107,7 +103,7 @@ Index: b/util/grub-install.in
          # generic method (used on coreboot and ata mod)
  	uuid=
  	if [ x"$force_file_id" != xy ]; then
-@@ -828,10 +834,32 @@
+@@ -828,10 +829,32 @@
      gettext "You will have to set \`SystemPartition' and \`OSLoader' manually." 1>&2
      echo 1>&2
  elif [ x"$grub_modinfo_platform" = xefi ]; then
