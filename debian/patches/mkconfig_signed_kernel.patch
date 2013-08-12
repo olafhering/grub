@@ -7,7 +7,7 @@ Index: b/util/grub.d/10_linux.in
 ===================================================================
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -140,8 +140,16 @@
+@@ -143,8 +143,16 @@
    message="$(gettext_printf "Loading Linux %s ..." ${version})"
    sed "s/^/$submenu_indentation/" << EOF
  	echo	'$(echo "$message" | grub_quote)'
@@ -24,7 +24,7 @@ Index: b/util/grub.d/10_linux.in
    if test -n "${initrd}" ; then
      # TRANSLATORS: ramdisk isn't identifier. Should be translated.
      message="$(gettext_printf "Loading initial ramdisk ...")"
-@@ -187,6 +195,13 @@
+@@ -190,6 +198,13 @@
  is_first_entry=true
  while [ "x$list" != "x" ] ; do
    linux=`version_find_latest $list`

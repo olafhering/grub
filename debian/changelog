@@ -5,6 +5,9 @@ grub2 (2.00-16) UNRELEASED; urgency=low
   * Backport from upstream:
     - Move @itemize after @subsection to satisfy texinfo-5.1.
     - grub-mkconfig: Fix detection of Emacs autosave files.
+  * Merge from Ubuntu:
+    - Treat Kubuntu as an alias for Ubuntu in GRUB_DISTRIBUTOR (Harald
+      Sitter).
 
  -- Colin Watson <cjwatson@debian.org>  Sun, 11 Aug 2013 12:12:54 +0100
 

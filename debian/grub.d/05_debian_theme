@@ -28,19 +28,22 @@ test -d /boot/grub; cd /boot/grub
 BACKGROUND_CACHE=".background_cache"
 
 set_default_theme(){
-	if [ "$GRUB_DISTRIBUTOR" = Ubuntu ]; then
-		# Set a monochromatic theme for Ubuntu.
-		echo "${1}set menu_color_normal=white/black"
-		echo "${1}set menu_color_highlight=black/light-gray"
+	case $GRUB_DISTRIBUTOR in
+		Ubuntu|Kubuntu)
+			# Set a monochromatic theme for Ubuntu.
+			echo "${1}set menu_color_normal=white/black"
+			echo "${1}set menu_color_highlight=black/light-gray"
 
-		if [ -e /lib/plymouth/themes/default.grub ]; then
-			sed "s/^/${1}/" /lib/plymouth/themes/default.grub
-		fi
-	else
-		# Set the traditional Debian blue theme.
-		echo "${1}set menu_color_normal=cyan/blue"
-		echo "${1}set menu_color_highlight=white/blue"
-	fi
+			if [ -e /lib/plymouth/themes/default.grub ]; then
+				sed "s/^/${1}/" /lib/plymouth/themes/default.grub
+			fi
+			;;
+		*)
+			# Set the traditional Debian blue theme.
+			echo "${1}set menu_color_normal=cyan/blue"
+			echo "${1}set menu_color_highlight=white/blue"
+			;;
+	esac
 }
 
 module_available(){
@@ -170,10 +173,15 @@ if set_background_image "${WALLPAPER}" "${COLOR_NORMAL}" "${COLOR_HIGHLIGHT}"; t
 fi
 
 # If we haven't found a background image yet, use the default from desktop-base.
-if [ "$GRUB_DISTRIBUTOR" != Ubuntu ] && \
-   set_background_image "/usr/share/images/desktop-base/desktop-grub.png"; then
-	exit 0
-fi
+case $GRUB_DISTRIBUTOR in
+	Ubuntu|Kubuntu)
+		;;
+	*)
+		if set_background_image "/usr/share/images/desktop-base/desktop-grub.png"; then
+			exit 0
+		fi
+		;;
+esac
 
 # Finally, if all of the above fails, use the default theme.
 set_default_theme
