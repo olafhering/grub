@@ -58,6 +58,15 @@ else
 DEFAULT_CMDLINE := quiet
 endif
 
+SB_PACKAGE :=
+ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
+ifeq ($(DEB_HOST_ARCH),amd64)
+SB_PACKAGE := grub-efi-amd64
+SB_PLATFORM := x86_64-efi
+SB_EFI_NAME := x64
+endif
+endif
+
 %:
 	dh $@ --parallel
 
@@ -343,18 +352,16 @@ TARNAME := grub2_$(deb_version)_$(DEB_HOST_ARCH).tar.gz
 
 override_dh_builddeb:
 	dh_builddeb -- -Zxz
-ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
-ifeq ($(DEB_HOST_ARCH),amd64)
+ifneq (,$(SB_PACKAGE))
 	debian/build-efi-images \
 		build/grub-$(COMMON_PLATFORM)/grub-mkimage \
-		build/grub-efi-amd64/grub-core \
+		build/$(SB_PACKAGE)/grub-core \
 		debian/grub2-images/$(deb_version) \
-		x86_64-efi x64
+		$(SB_PLATFORM) $(SB_EFI_NAME)
 	echo $(deb_version) \
 		> debian/grub2-images/$(deb_version)/version
 	cd debian/grub2-images && tar czvf ../../../$(TARNAME) .
 	dpkg-distaddfile $(TARNAME) raw-uefi -
-endif
 endif
 
 override_dh_auto_clean:
@@ -371,10 +378,8 @@ override_dh_clean: debian/legacy/update-grub debian/grub-extras
 		rm -f debian/grub-{pc,efi-*,ieee1275,coreboot,yeeloong,emu}{,-bin,-dbg}.$$i ; \
 	done
 	rm -rf debian/tmp-*/
-ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
-ifeq ($(DEB_HOST_ARCH),amd64)
+ifneq (,$(SB_PACKAGE))
 	rm -rf debian/grub2-images
-endif
 endif
 
 	# make sure PO files are always up-to-date
