@@ -18,6 +18,7 @@ grub2 (2.00-16) UNRELEASED; urgency=low
       + Remove verbose messages printed before reading configuration.
       + Suppress kernel/initrd progress messages, except in recovery mode.
       + Suppress "GRUB loading" message unless Shift is held down.
+    - Skip Windows os-prober entries on Wubi systems.
   * Consolidate debian/rules logic for when to build signed images.
 
  -- Colin Watson <cjwatson@debian.org>  Sun, 11 Aug 2013 12:12:54 +0100

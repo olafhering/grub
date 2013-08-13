@@ -1,0 +1,47 @@
+Description: Skip Windows os-prober entries on Wubi systems
+ Since we're already being booted from the Windows boot loader, including
+ entries that take us back to it mostly just causes confusion, and stops us
+ from being able to hide the menu if there are no other OSes installed.
+ .
+ https://blueprints.launchpad.net/ubuntu/+spec/foundations-o-wubi
+Author: Colin Watson <cjwatson@ubuntu.com>
+Forwarded: not-needed
+Last-Update: 2013-08-13
+
+Index: b/util/grub.d/30_os-prober.in
+===================================================================
+--- a/util/grub.d/30_os-prober.in
++++ b/util/grub.d/30_os-prober.in
+@@ -112,6 +112,8 @@
+ 
+ used_osprober_linux_ids=
+ 
++wubi=
++
+ for OS in ${OSPROBED} ; do
+   DEVICE="`echo ${OS} | cut -d ':' -f 1`"
+   LONGNAME="`echo ${OS} | cut -d ':' -f 2 | tr '^' ' '`"
+@@ -127,6 +129,23 @@
+   case ${BOOT} in
+     chain)
+ 
++      case ${LONGNAME} in
++	Windows*)
++	  if [ -z "$wubi" ]; then
++	    if [ -x /usr/share/lupin-support/grub-mkimage ] && \
++	       /usr/share/lupin-support/grub-mkimage --test; then
++	      wubi=yes
++	    else
++	      wubi=no
++	    fi
++	  fi
++	  if [ "$wubi" = yes ]; then
++	    echo "Skipping ${LONGNAME} on Wubi system" >&2
++	    continue
++	  fi
++	  ;;
++      esac
++
+ 	  onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
+       cat << EOF
+ menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' --class windows --class os \$menuentry_id_option 'osprober-chain-$(grub_get_device_id "${DEVICE}")' {

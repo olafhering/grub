@@ -51,4 +51,5 @@ texinfo_ordering.patch
 mkconfig_emacs_autosave.patch
 sleep_shift.patch
 probe_error_handling.patch
+wubi_no_windows.patch
 maybe_quiet.patch
