@@ -19,6 +19,9 @@
 
 #include <grub/symbol.h>
 #include <grub/machine/boot.h>
+#ifdef GRUB_QUIET_BOOT
+#include <grub/machine/memory.h>
+#endif
 
 /*
  *  defines for the code go here
@@ -150,9 +153,17 @@ real_start:
 	/* save drive reference first thing! */
 	pushw	%dx
 
+#ifdef GRUB_QUIET_BOOT
+	/* is either shift key held down? */
+	movw	$(GRUB_MEMORY_MACHINE_BIOS_DATA_AREA_ADDR + 0x17), %bx
+	andb	$3, (%bx)
+	jz	2f
+#endif
+
 	/* print a notification message on the screen */
 	MSG(notification_string)
 
+2:
 	/* set %si to the disk address packet */
 	movw	$disk_address_packet, %si
 

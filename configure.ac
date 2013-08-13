@@ -1076,6 +1076,16 @@ fi
 AC_SUBST([LIBZFS])
 AC_SUBST([LIBNVPAIR])
 
+AC_ARG_ENABLE([quiet-boot],
+              [AS_HELP_STRING([--enable-quiet-boot],
+                              [emit fewer messages at boot time (default=no)])],
+              [], [enable_quiet_boot=no])
+if test x"$enable_quiet_boot" = xyes ; then
+  AC_DEFINE([GRUB_QUIET_BOOT], [1],
+            [Define to 1 to make GRUB quieter at boot time.])
+fi
+AC_SUBST([enable_quiet_boot])
+
 LIBS=""
 
 AC_SUBST([FONT_SOURCE])
@@ -1231,6 +1241,11 @@ if [ x"$libzfs_excuse" = x ]; then
 echo With libzfs support: Yes
 else
 echo With libzfs support: No "($libzfs_excuse)"
+fi
+if [ x"$enable_quiet_boot" = xyes ]; then
+echo With quiet boot: Yes
+else
+echo With quiet boot: No
 fi
 echo "*******************************************************"
 ]

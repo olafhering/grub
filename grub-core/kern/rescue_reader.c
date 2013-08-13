@@ -77,7 +77,9 @@ grub_rescue_read_line (char **line, int cont)
 void __attribute__ ((noreturn))
 grub_rescue_run (void)
 {
+#ifdef GRUB_QUIET_BOOT
   grub_printf ("Entering rescue mode...\n");
+#endif
 
   while (1)
     {
