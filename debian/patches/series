@@ -50,4 +50,5 @@ script_check_no_commands.patch
 texinfo_ordering.patch
 mkconfig_emacs_autosave.patch
 sleep_shift.patch
+probe_error_handling.patch
 maybe_quiet.patch
