@@ -1,4 +1,4 @@
-grub2 (2.00-16) UNRELEASED; urgency=low
+grub2 (2.00-16) unstable; urgency=low
 
   * Make reportbug script file robust against su authentication failures and
     missing LVM commands.
@@ -21,7 +21,7 @@ grub2 (2.00-16) UNRELEASED; urgency=low
     - Skip Windows os-prober entries on Wubi systems.
   * Consolidate debian/rules logic for when to build signed images.
 
- -- Colin Watson <cjwatson@debian.org>  Sun, 11 Aug 2013 12:12:54 +0100
+ -- Colin Watson <cjwatson@debian.org>  Thu, 15 Aug 2013 08:35:53 +0100
 
 grub2 (2.00-15) unstable; urgency=low
 
