@@ -399,6 +399,15 @@ static grub_err_t
 grub_normal_read_line_real (char **line, int cont, int nested)
 {
   const char *prompt;
+#ifdef GRUB_QUIET_BOOT
+  static int displayed_intro;
+
+  if (! displayed_intro)
+    {
+      grub_normal_reader_init (nested);
+      displayed_intro = 1;
+    }
+#endif
 
   if (cont)
     /* TRANSLATORS: it's command line prompt.  */
@@ -446,7 +455,9 @@ grub_cmdline_run (int nested)
       return;
     }
 
+#ifndef GRUB_QUIET_BOOT
   grub_normal_reader_init (nested);
+#endif
 
   while (1)
     {

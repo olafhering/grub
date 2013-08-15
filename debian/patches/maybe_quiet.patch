@@ -25,7 +25,7 @@ Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/386922
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/861048
 Forwarded: (partial) http://lists.gnu.org/archive/html/grub-devel/2009-09/msg00056.html
-Last-Update: 2013-08-13
+Last-Update: 2013-08-15
 
 Index: b/configure.ac
 ===================================================================
@@ -250,6 +250,29 @@ Index: b/grub-core/normal/menu.c
  }
  
  /* Callback invoked when a default menu entry executed because of a timeout
+@@ -722,6 +728,9 @@
+       int boot_entry;
+       grub_menu_entry_t e;
+       int auto_boot;
++#ifdef GRUB_QUIET_BOOT
++      int initial_timeout = grub_menu_get_timeout ();
++#endif
+ 
+       boot_entry = run_menu (menu, nested, &auto_boot);
+       if (boot_entry < 0)
+@@ -731,7 +740,11 @@
+       if (! e)
+ 	continue; /* Menu is empty.  */
+ 
+-      grub_cls ();
++#ifdef GRUB_QUIET_BOOT
++      /* Only clear the screen if we drew the menu in the first place.  */
++      if (initial_timeout != 0)
++#endif
++	grub_cls ();
+ 
+       if (auto_boot)
+ 	grub_menu_execute_with_fallback (menu, e, autobooted,
 Index: b/util/grub.d/10_linux.in
 ===================================================================
 --- a/util/grub.d/10_linux.in
@@ -293,3 +316,33 @@ Index: b/util/grub.d/10_linux.in
  	initrd	${rel_dirname}/${initrd}
  EOF
    fi
+Index: b/grub-core/normal/main.c
+===================================================================
+--- a/grub-core/normal/main.c
++++ b/grub-core/normal/main.c
+@@ -399,6 +399,15 @@
+ grub_normal_read_line_real (char **line, int cont, int nested)
+ {
+   const char *prompt;
++#ifdef GRUB_QUIET_BOOT
++  static int displayed_intro;
++
++  if (! displayed_intro)
++    {
++      grub_normal_reader_init (nested);
++      displayed_intro = 1;
++    }
++#endif
+ 
+   if (cont)
+     /* TRANSLATORS: it's command line prompt.  */
+@@ -446,7 +455,9 @@
+       return;
+     }
+ 
++#ifndef GRUB_QUIET_BOOT
+   grub_normal_reader_init (nested);
++#endif
+ 
+   while (1)
+     {
