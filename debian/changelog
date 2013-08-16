@@ -1,3 +1,9 @@
+grub2 (2.00-18) UNRELEASED; urgency=low
+
+  * Add gettext module to signed UEFI images (LP: #1104627).
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 16 Aug 2013 08:56:52 +0100
+
 grub2 (2.00-17) unstable; urgency=low
 
   * Really include patches to reduce visual clutter in normal mode when
