@@ -41,6 +41,8 @@
 #define NEED_REGISTER_FRAME_INFO @NEED_REGISTER_FRAME_INFO@
 /* Define to 1 to enable disk cache statistics.  */
 #define DISK_CACHE_STATS @DISK_CACHE_STATS@
+/* Define to 1 to make GRUB quieter at boot time.  */
+#define QUIET_BOOT @QUIET_BOOT@
 
 #define GRUB_TARGET_CPU "@GRUB_TARGET_CPU@"
 #define GRUB_PLATFORM "@GRUB_PLATFORM@"

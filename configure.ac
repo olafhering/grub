@@ -1081,10 +1081,11 @@ AC_ARG_ENABLE([quiet-boot],
                               [emit fewer messages at boot time (default=no)])],
               [], [enable_quiet_boot=no])
 if test x"$enable_quiet_boot" = xyes ; then
-  AC_DEFINE([GRUB_QUIET_BOOT], [1],
-            [Define to 1 to make GRUB quieter at boot time.])
+  QUIET_BOOT=1
+else
+  QUIET_BOOT=0
 fi
-AC_SUBST([enable_quiet_boot])
+AC_SUBST([QUIET_BOOT])
 
 LIBS=""
 

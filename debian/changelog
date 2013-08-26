@@ -1,6 +1,8 @@
 grub2 (2.00-18) UNRELEASED; urgency=low
 
   * Add gettext module to signed UEFI images (LP: #1104627).
+  * Put the preprocessor definition for quiet-boot in the right place so
+    that it actually takes effect.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 16 Aug 2013 08:56:52 +0100
 

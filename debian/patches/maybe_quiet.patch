@@ -25,13 +25,26 @@ Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/386922
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/861048
 Forwarded: (partial) http://lists.gnu.org/archive/html/grub-devel/2009-09/msg00056.html
-Last-Update: 2013-08-15
+Last-Update: 2013-08-26
 
+Index: b/config.h.in
+===================================================================
+--- a/config.h.in
++++ b/config.h.in
+@@ -41,6 +41,8 @@
+ #define NEED_REGISTER_FRAME_INFO @NEED_REGISTER_FRAME_INFO@
+ /* Define to 1 to enable disk cache statistics.  */
+ #define DISK_CACHE_STATS @DISK_CACHE_STATS@
++/* Define to 1 to make GRUB quieter at boot time.  */
++#define QUIET_BOOT @QUIET_BOOT@
+ 
+ #define GRUB_TARGET_CPU "@GRUB_TARGET_CPU@"
+ #define GRUB_PLATFORM "@GRUB_PLATFORM@"
 Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1076,6 +1076,16 @@
+@@ -1076,6 +1076,17 @@
  AC_SUBST([LIBZFS])
  AC_SUBST([LIBNVPAIR])
  
@@ -40,15 +53,16 @@ Index: b/configure.ac
 +                              [emit fewer messages at boot time (default=no)])],
 +              [], [enable_quiet_boot=no])
 +if test x"$enable_quiet_boot" = xyes ; then
-+  AC_DEFINE([GRUB_QUIET_BOOT], [1],
-+            [Define to 1 to make GRUB quieter at boot time.])
++  QUIET_BOOT=1
++else
++  QUIET_BOOT=0
 +fi
-+AC_SUBST([enable_quiet_boot])
++AC_SUBST([QUIET_BOOT])
 +
  LIBS=""
  
  AC_SUBST([FONT_SOURCE])
-@@ -1232,5 +1242,10 @@
+@@ -1232,5 +1243,10 @@
  else
  echo With libzfs support: No "($libzfs_excuse)"
  fi
@@ -67,7 +81,7 @@ Index: b/grub-core/boot/i386/pc/boot.S
  
  #include <grub/symbol.h>
  #include <grub/machine/boot.h>
-+#ifdef GRUB_QUIET_BOOT
++#ifdef QUIET_BOOT
 +#include <grub/machine/memory.h>
 +#endif
  
@@ -77,7 +91,7 @@ Index: b/grub-core/boot/i386/pc/boot.S
  	/* save drive reference first thing! */
  	pushw	%dx
  
-+#ifdef GRUB_QUIET_BOOT
++#ifdef QUIET_BOOT
 +	/* is either shift key held down? */
 +	movw	$(GRUB_MEMORY_MACHINE_BIOS_DATA_AREA_ADDR + 0x17), %bx
 +	andb	$3, (%bx)
@@ -99,7 +113,7 @@ Index: b/grub-core/boot/i386/pc/diskboot.S
  
  #include <grub/symbol.h>
  #include <grub/machine/boot.h>
-+#ifdef GRUB_QUIET_BOOT
++#ifdef QUIET_BOOT
 +#include <grub/machine/memory.h>
 +#endif
  
@@ -109,7 +123,7 @@ Index: b/grub-core/boot/i386/pc/diskboot.S
  
  #define MSG(x)	movw $x, %si; call LOCAL(message)
  
-+#ifdef GRUB_QUIET_BOOT
++#ifdef QUIET_BOOT
 +#define SILENT(x)	call LOCAL(check_silent); jz LOCAL(x)
 +#else
 +#define SILENT(x)
@@ -160,7 +174,7 @@ Index: b/grub-core/boot/i386/pc/diskboot.S
  /* go here when you need to stop the machine hard after an error condition */
  LOCAL(stop):	jmp	LOCAL(stop)
  
-+#ifdef GRUB_QUIET_BOOT
++#ifdef QUIET_BOOT
 +LOCAL(check_silent):
 +	/* is either shift key held down? */
 +	movw	$(GRUB_MEMORY_MACHINE_BIOS_DATA_AREA_ADDR + 0x17), %bx
@@ -179,14 +193,14 @@ Index: b/grub-core/kern/main.c
  void __attribute__ ((noreturn))
  grub_main (void)
  {
-+#ifdef GRUB_QUIET_BOOT
++#ifdef QUIET_BOOT
 +  struct grub_term_output *term;
 +#endif
 +
    /* First of all, initialize the machine.  */
    grub_machine_init ();
  
-+#ifdef GRUB_QUIET_BOOT
++#ifdef QUIET_BOOT
 +  /* Disable the cursor until we need it.  */
 +  FOR_ACTIVE_TERM_OUTPUTS(term)
 +    grub_term_setcursor (term, 0);
@@ -204,7 +218,7 @@ Index: b/grub-core/kern/main.c
    grub_load_config ();
    grub_load_normal_mode ();
 +
-+#ifdef GRUB_QUIET_BOOT
++#ifdef QUIET_BOOT
 +  /* If we have to enter rescue mode, enable the cursor again.  */
 +  FOR_ACTIVE_TERM_OUTPUTS(term)
 +    grub_term_setcursor (term, 1);
@@ -220,7 +234,7 @@ Index: b/grub-core/kern/rescue_reader.c
  void __attribute__ ((noreturn))
  grub_rescue_run (void)
  {
-+#ifdef GRUB_QUIET_BOOT
++#ifdef QUIET_BOOT
    grub_printf ("Entering rescue mode...\n");
 +#endif
  
@@ -234,7 +248,7 @@ Index: b/grub-core/normal/main.c
  grub_normal_read_line_real (char **line, int cont, int nested)
  {
    const char *prompt;
-+#ifdef GRUB_QUIET_BOOT
++#ifdef QUIET_BOOT
 +  static int displayed_intro;
 +
 +  if (! displayed_intro)
@@ -250,7 +264,7 @@ Index: b/grub-core/normal/main.c
        return;
      }
  
-+#ifndef GRUB_QUIET_BOOT
++#ifndef QUIET_BOOT
    grub_normal_reader_init (nested);
 +#endif
  
@@ -266,13 +280,13 @@ Index: b/grub-core/normal/menu.c
  static void
 -notify_booting (grub_menu_entry_t entry,
 +notify_booting (grub_menu_entry_t entry
-+#ifdef GRUB_QUIET_BOOT
++#ifdef QUIET_BOOT
 +		__attribute__((unused))
 +#endif
 +		,
  		void *userdata __attribute__((unused)))
  {
-+#ifndef GRUB_QUIET_BOOT
++#ifndef QUIET_BOOT
    grub_printf ("  ");
    grub_printf_ (N_("Booting `%s'"), entry->title);
    grub_printf ("\n\n");
@@ -284,7 +298,7 @@ Index: b/grub-core/normal/menu.c
        int boot_entry;
        grub_menu_entry_t e;
        int auto_boot;
-+#ifdef GRUB_QUIET_BOOT
++#ifdef QUIET_BOOT
 +      int initial_timeout = grub_menu_get_timeout ();
 +#endif
  
@@ -295,7 +309,7 @@ Index: b/grub-core/normal/menu.c
  	continue; /* Menu is empty.  */
  
 -      grub_cls ();
-+#ifdef GRUB_QUIET_BOOT
++#ifdef QUIET_BOOT
 +      /* Only clear the screen if we drew the menu in the first place.  */
 +      if (initial_timeout != 0)
 +#endif
@@ -311,7 +325,7 @@ Index: b/util/grub.d/10_linux.in
  prefix="@prefix@"
  exec_prefix="@exec_prefix@"
  datarootdir="@datarootdir@"
-+enable_quiet_boot="@enable_quiet_boot@"
++quiet_boot="@QUIET_BOOT@"
  
  . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
  
@@ -321,7 +335,7 @@ Index: b/util/grub.d/10_linux.in
    fi
 -  message="$(gettext_printf "Loading Linux %s ..." ${version})"
 -  sed "s/^/$submenu_indentation/" << EOF
-+  if [ x"$enable_quiet_boot" = xno ] || [ x"$type" != xsimple ]; then
++  if [ x"$quiet_boot" = x0 ] || [ x"$type" != xsimple ]; then
 +    message="$(gettext_printf "Loading Linux %s ..." ${version})"
 +    sed "s/^/$submenu_indentation/" << EOF
  	echo	'$(echo "$message" | grub_quote)'
@@ -336,7 +350,7 @@ Index: b/util/grub.d/10_linux.in
      # TRANSLATORS: ramdisk isn't identifier. Should be translated.
 -    message="$(gettext_printf "Loading initial ramdisk ...")"
 -    sed "s/^/$submenu_indentation/" << EOF
-+    if [ x"$enable_quiet_boot" = xno ] || [ x"$type" != xsimple ]; then
++    if [ x"$quiet_boot" = x0 ] || [ x"$type" != xsimple ]; then
 +      message="$(gettext_printf "Loading initial ramdisk ...")"
 +      sed "s/^/$submenu_indentation/" << EOF
  	echo	'$(echo "$message" | grub_quote)'

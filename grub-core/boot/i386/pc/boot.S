@@ -19,7 +19,7 @@
 
 #include <grub/symbol.h>
 #include <grub/machine/boot.h>
-#ifdef GRUB_QUIET_BOOT
+#ifdef QUIET_BOOT
 #include <grub/machine/memory.h>
 #endif
 
@@ -153,7 +153,7 @@ real_start:
 	/* save drive reference first thing! */
 	pushw	%dx
 
-#ifdef GRUB_QUIET_BOOT
+#ifdef QUIET_BOOT
 	/* is either shift key held down? */
 	movw	$(GRUB_MEMORY_MACHINE_BIOS_DATA_AREA_ADDR + 0x17), %bx
 	andb	$3, (%bx)

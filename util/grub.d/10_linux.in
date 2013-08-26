@@ -20,7 +20,7 @@ set -e
 prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 datarootdir="@datarootdir@"
-enable_quiet_boot="@enable_quiet_boot@"
+quiet_boot="@QUIET_BOOT@"
 
 . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
 
@@ -141,7 +141,7 @@ linux_entry ()
     fi
     printf '%s\n' "${prepare_boot_cache}" | sed "s/^/$submenu_indentation/"
   fi
-  if [ x"$enable_quiet_boot" = xno ] || [ x"$type" != xsimple ]; then
+  if [ x"$quiet_boot" = x0 ] || [ x"$type" != xsimple ]; then
     message="$(gettext_printf "Loading Linux %s ..." ${version})"
     sed "s/^/$submenu_indentation/" << EOF
 	echo	'$(echo "$message" | grub_quote)'
@@ -158,7 +158,7 @@ EOF
   fi
   if test -n "${initrd}" ; then
     # TRANSLATORS: ramdisk isn't identifier. Should be translated.
-    if [ x"$enable_quiet_boot" = xno ] || [ x"$type" != xsimple ]; then
+    if [ x"$quiet_boot" = x0 ] || [ x"$type" != xsimple ]; then
       message="$(gettext_printf "Loading initial ramdisk ...")"
       sed "s/^/$submenu_indentation/" << EOF
 	echo	'$(echo "$message" | grub_quote)'

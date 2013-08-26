@@ -207,14 +207,14 @@ grub_load_normal_mode (void)
 void __attribute__ ((noreturn))
 grub_main (void)
 {
-#ifdef GRUB_QUIET_BOOT
+#ifdef QUIET_BOOT
   struct grub_term_output *term;
 #endif
 
   /* First of all, initialize the machine.  */
   grub_machine_init ();
 
-#ifdef GRUB_QUIET_BOOT
+#ifdef QUIET_BOOT
   /* Disable the cursor until we need it.  */
   FOR_ACTIVE_TERM_OUTPUTS(term)
     grub_term_setcursor (term, 0);
@@ -243,7 +243,7 @@ grub_main (void)
   grub_load_config ();
   grub_load_normal_mode ();
 
-#ifdef GRUB_QUIET_BOOT
+#ifdef QUIET_BOOT
   /* If we have to enter rescue mode, enable the cursor again.  */
   FOR_ACTIVE_TERM_OUTPUTS(term)
     grub_term_setcursor (term, 1);
