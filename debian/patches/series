@@ -53,3 +53,4 @@ sleep_shift.patch
 probe_error_handling.patch
 wubi_no_windows.patch
 maybe_quiet.patch
+efidisk_non_512_sectors.patch

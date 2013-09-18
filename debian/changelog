@@ -6,6 +6,8 @@ grub2 (2.00-19) UNRELEASED; urgency=low
       (LP: #1097570).
     - debian/build-efi-images: Add a netboot image target to our set of
       prebuilt EFI images (thanks, Steve Langasek).
+  * Backport from upstream:
+    - Handle partitions on non-512B EFI disks (LP: #1065281).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 18 Sep 2013 17:00:27 +0100
 
