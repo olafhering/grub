@@ -4,6 +4,8 @@ grub2 (2.00-19) UNRELEASED; urgency=low
     - debian/build-efi-images: Where possible, make use of the device path
       derived from the EFI Loaded Image Protocol to compute the prefix
       (LP: #1097570).
+    - debian/build-efi-images: Add a netboot image target to our set of
+      prebuilt EFI images (thanks, Steve Langasek).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 18 Sep 2013 17:00:27 +0100
 
