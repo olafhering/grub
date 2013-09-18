@@ -47,10 +47,12 @@ echo 'normal (memdisk)/grub.cfg' >"$workdir/grub-bootstrap.cfg"
 
 # Skeleton configuration file which finds the real boot disk.
 cat >"$workdir/grub.cfg" <<EOF
-if ! search --file --set=root /.disk/info; then
-	search --file --set=root /.disk/mini-info
+if [ -z "\$prefix" -o ! -e "\$prefix" ]; then
+	if ! search --file --set=root /.disk/info; then
+		search --file --set=root /.disk/mini-info
+	fi
+	set prefix=(\$root)/boot/grub
 fi
-set prefix=(\$root)/boot/grub
 if [ -e \$prefix/$platform/grub.cfg ]; then
 	source \$prefix/$platform/grub.cfg
 else
@@ -71,8 +73,9 @@ CD_MODULES="
 GRUB_MODULES="$CD_MODULES lvm mdraid09 mdraid1x"
 
 "$grub_mkimage" -O "$platform" -o "$outdir/gcd$efi_name.efi" \
-	-d "$grub_core" -p /EFI/BOOT \
+	-d "$grub_core" \
 	-c "$workdir/grub-bootstrap.cfg" -m "$workdir/memdisk.fat" \
+	-p /boot/grub \
 	$CD_MODULES
 "$grub_mkimage" -O "$platform" -o "$outdir/grub$efi_name.efi" \
 	-d "$grub_core" -p /EFI/ubuntu $GRUB_MODULES

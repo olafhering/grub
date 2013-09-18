@@ -1,3 +1,12 @@
+grub2 (2.00-19) UNRELEASED; urgency=low
+
+  * Merge from Ubuntu:
+    - debian/build-efi-images: Where possible, make use of the device path
+      derived from the EFI Loaded Image Protocol to compute the prefix
+      (LP: #1097570).
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 18 Sep 2013 17:00:27 +0100
+
 grub2 (2.00-18) unstable; urgency=low
 
   * Add gettext module to signed UEFI images (LP: #1104627).
