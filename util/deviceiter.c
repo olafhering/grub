@@ -913,7 +913,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
 	      dmraid_check (node_name, "dm_tree_node_get_name failed\n");
 	      node_uuid = dm_tree_node_get_uuid (second);
 	      dmraid_check (node_uuid, "dm_tree_node_get_uuid failed\n");
-	      if (strncmp (node_uuid, "DMRAID-", 7) != 0)
+	      if (strstr (node_uuid, "DMRAID-") == 0)
 		{
 		  grub_dprintf ("deviceiter", "%s is not DM-RAID\n", node_name);
 		  goto dmraid_next_child;

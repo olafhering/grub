@@ -1,5 +1,6 @@
 grub2 (2.00-19) UNRELEASED; urgency=low
 
+  [ Colin Watson ]
   * Merge from Ubuntu:
     - debian/build-efi-images: Where possible, make use of the device path
       derived from the EFI Loaded Image Protocol to compute the prefix
@@ -8,6 +9,11 @@ grub2 (2.00-19) UNRELEASED; urgency=low
       prebuilt EFI images (thanks, Steve Langasek).
   * Backport from upstream:
     - Handle partitions on non-512B EFI disks (LP: #1065281).
+
+  [ Phillip Susi ]
+  * restore_mkdevicemap.patch: Fix dmraid uuid check to look for "DMRAID-"
+    anywhere instead of only at the start, since kpartx prefixes it with
+    "partN-" (LP: #1183915).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 18 Sep 2013 17:00:27 +0100
 
