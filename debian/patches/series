@@ -54,3 +54,4 @@ probe_error_handling.patch
 wubi_no_windows.patch
 maybe_quiet.patch
 efidisk_non_512_sectors.patch
+mkconfig_hurd_sort.patch
