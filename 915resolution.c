@@ -808,14 +808,26 @@ static void display_map_info(vbios_map * map) {
 }
 
 
-static int parse_args(cardinal argc, char *argv[], chipset_type *forced_chipset, cardinal *list, cardinal *mode, cardinal *x, cardinal *y, cardinal *bp, cardinal *raw, cardinal *htotal, cardinal *vtotal) {
+static int parse_args(cardinal argc, char *argv[], chipset_type *forced_chipset,
+		      cardinal *list, cardinal *mode, cardinal *x, cardinal *y,
+		      cardinal *bp, cardinal *raw, cardinal *htotal,
+		      cardinal *vtotal, cardinal *quiet) {
     cardinal index = 0;
 
     *list = *mode = *x = *y = *raw = *htotal = *vtotal = 0;
     *bp = 0;
+    *quiet = 0;
 
     *forced_chipset = CT_UNKWN;
-    
+
+    if ((argc > index) && !strcmp(argv[index], "-q")) {
+        *quiet = 1;
+        index++;
+
+        if(argc<=index) {
+            return 0;
+        }
+    }    
 
     if ((argc > index) && !strcmp(argv[index], "-c")) {
         index++;
@@ -944,10 +956,11 @@ static int parse_args(cardinal argc, char *argv[], chipset_type *forced_chipset,
 }
 
 static void usage(void) {
-    printf("Usage: 915resolution [-c chipset] [-l] [mode X Y] [bits/pixel] [htotal] [vtotal]\n");
+    printf("Usage: 915resolution [-q] [-c chipset] [-l] [mode X Y] [bits/pixel] [htotal] [vtotal]\n");
     printf("  Set the resolution to XxY for a video mode\n");
     printf("  Bits per pixel are optional.  htotal/vtotal settings are additionally optional.\n");
     printf("  Options:\n");
+    printf("    -q don't show any normal messages\n");
     printf("    -c force chipset type (THIS IS USED FOR DEBUG PURPOSES)\n");
     printf("    -l display the modes found in the video BIOS\n");
     printf("    -r display the modes found in the video BIOS in raw mode (THIS IS USED FOR DEBUG PURPOSES)\n");
@@ -957,19 +970,27 @@ static int main_915 (int argc, char *argv[])
 {
     vbios_map * map;
     cardinal list, mode, x, y, bp, raw, htotal, vtotal;
+    cardinal quiet;
     chipset_type forced_chipset;
     
-    printf("Intel 800/900 Series VBIOS Hack : version %s\n\n", RES915_VERSION);
-
-    if (parse_args(argc, argv, &forced_chipset, &list, &mode, &x, &y, &bp, &raw, &htotal, &vtotal) == -1) {
+    if (parse_args(argc, argv, &forced_chipset, &list, &mode,
+		   &x, &y, &bp, &raw, &htotal, &vtotal, &quiet) == -1) {
+        printf("Intel 800/900 Series VBIOS Hack : version %s\n\n",
+	       RES915_VERSION);
         usage();
         return 2;
     }
 
-    map = open_vbios(forced_chipset);
-    display_map_info(map);
+    if (!quiet)
+      printf("Intel 800/900 Series VBIOS Hack : version %s\n\n",
+	     RES915_VERSION);
 
-    printf("\n");
+    map = open_vbios(forced_chipset);
+    if (!quiet)
+      {
+	display_map_info(map);
+	printf("\n");
+      }
 
     if (list) {
         list_modes(map, raw);
