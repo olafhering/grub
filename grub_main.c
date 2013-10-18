@@ -107,7 +107,7 @@ interactive (void)
 {
   const char *ps1 = "lua> ";
   const char *ps2 = "lua>> ";
-  char *prompt = ps1;
+  const char *prompt = ps1;
   char *line;
   char *chunk = NULL;
   size_t len;

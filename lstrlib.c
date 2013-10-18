@@ -788,11 +788,13 @@ static int str_format (lua_State *L) {
 		  (unsigned LUA_INTFRM_T)luaL_checknumber(L, arg));
           break;
         }
+#if 0
         case 'e':  case 'E': case 'f':
         case 'g': case 'G': {
           snprintf(buff, sizeof (buff), form, (double)luaL_checknumber(L, arg));
           break;
         }
+#endif
         case 'q': {
           addquoted(L, &b, arg);
           continue;  /* skip the 'addsize' at the end */
