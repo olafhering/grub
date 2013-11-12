@@ -1929,6 +1929,12 @@ convert_system_partition_to_system_disk (const char *os_dev, struct stat *st,
 	      grub_util_info ("%s child has no DM name", path);
 	      goto devmapper_out;
 	    }
+	  if (strstr (child_name, "-") != 0)
+	    {
+	      grub_util_info ("%s child %s looks like a sub-layer\n",
+			      path, child_name);
+	      goto devmapper_out;
+	    }
 	  mapper_name = child_name;
 
 devmapper_out:

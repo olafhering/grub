@@ -1,0 +1,24 @@
+Description: Handle probing striped DM-RAID devices
+Author: Robert Collins <robertc@robertcollins.net>
+Author: Colin Watson <cjwatson@ubuntu.com>
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/803658
+Forwarded: no
+Last-Update: 2013-11-12
+
+Index: b/util/getroot.c
+===================================================================
+--- a/util/getroot.c
++++ b/util/getroot.c
+@@ -1929,6 +1929,12 @@
+ 	      grub_util_info ("%s child has no DM name", path);
+ 	      goto devmapper_out;
+ 	    }
++	  if (strstr (child_name, "-") != 0)
++	    {
++	      grub_util_info ("%s child %s looks like a sub-layer\n",
++			      path, child_name);
++	      goto devmapper_out;
++	    }
+ 	  mapper_name = child_name;
+ 
+ devmapper_out:
