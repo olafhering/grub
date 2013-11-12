@@ -54,7 +54,7 @@ endif
 
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 DEFAULT_CMDLINE := quiet splash
-confflags += --enable-quiet-boot
+confflags += --enable-quiet-boot --enable-quick-boot
 else
 DEFAULT_CMDLINE := quiet
 endif

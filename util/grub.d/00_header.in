@@ -23,6 +23,7 @@ prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 datarootdir="@datarootdir@"
 grub_lang=`echo $LANG | cut -d . -f 1`
+quick_boot="@QUICK_BOOT@"
 
 export TEXTDOMAIN=@PACKAGE@
 export TEXTDOMAINDIR="@localedir@"
@@ -272,7 +273,7 @@ fi
 
 make_timeout ()
 {
-    if [ "x${1}" != "x" ] ; then
+    if [ "$quick_boot" = 0 ] && [ "x${1}" != "x" ] ; then
 	if [ "x${GRUB_HIDDEN_TIMEOUT_QUIET}" = "xtrue" ] ; then
 	    verbose=
 	else
