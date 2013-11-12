@@ -1,8 +1,9 @@
 Description: Install signed images if UEFI Secure Boot is enabled
 Author: Colin Watson <cjwatson@ubuntu.com>
 Author: Stéphane Graber <stgraber@ubuntu.com>
+Author: Steve Langasek <steve.langasek@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-08-12
+Last-Update: 2013-11-12
 
 Index: b/util/grub-install.in
 ===================================================================
@@ -94,7 +95,24 @@ Index: b/util/grub-install.in
  	   # TODO: We should also use efibootmgr, if available, to add a Boot
  	   # entry for ourselves.
  	fi
-@@ -653,7 +654,7 @@
+@@ -634,7 +635,15 @@
+     config_opt_file="${grubdir}/${grub_modinfo_target_cpu}-$grub_modinfo_platform/load.cfg"
+ fi
+ 
+-if [ "x${devabstraction_module}" = "x" ] ; then
++if [ x"$grub_modinfo_platform" = xefi ]; then
++    if [ $removable = yes ]; then
++	efi_signed="${source_dir}-signed/gcd$efi_suffix.efi.signed"
++    else
++	efi_signed="${source_dir}-signed/grub$efi_suffix.efi.signed"
++    fi
++fi
++
++if [ "x${devabstraction_module}" = "x" ] || ([ x"$grub_modinfo_platform" = xefi ] && [ "$uefi_secure_boot" = yes ] && [ -e "$efi_signed" ]); then
+     if [ x"${install_device}" != x ]; then
+       if echo "${install_device}" | grep -qx "(.*)" ; then
+         install_drive="${install_device}"
+@@ -653,7 +662,7 @@
  	install_drive="$grub_drive"
      fi
  
@@ -103,7 +121,7 @@ Index: b/util/grub-install.in
          # generic method (used on coreboot and ata mod)
  	uuid=
  	if [ x"$force_file_id" != xy ]; then
-@@ -828,10 +829,32 @@
+@@ -828,10 +837,25 @@
      gettext "You will have to set \`SystemPartition' and \`OSLoader' manually." 1>&2
      echo 1>&2
  elif [ x"$grub_modinfo_platform" = xefi ]; then
@@ -111,11 +129,6 @@ Index: b/util/grub-install.in
 -    # For old macs. Suggested by Peter Jones.
 -    if [ x$grub_modinfo_target_cpu = xi386 ]; then
 -	cp "${grubdir}/${grub_modinfo_target_cpu}-$grub_modinfo_platform/core.${imgext}" "${efidir}/boot.efi"
-+    if [ $removable = yes ]; then
-+	efi_signed="${source_dir}-signed/gcd$efi_suffix.efi.signed"
-+    else
-+	efi_signed="${source_dir}-signed/grub$efi_suffix.efi.signed"
-+    fi
 +    if [ "$uefi_secure_boot" = yes ] && [ -e "$efi_signed" ]; then
 +	shim_signed=/usr/lib/shim/shim.efi.signed
 +	if [ -e "$shim_signed" ]; then
@@ -127,10 +140,8 @@ Index: b/util/grub-install.in
 +	else
 +	    cp "$efi_signed" "${efidir}/${efi_file}"
 +	fi
-+	if [ x"$config_opt_file" != x ]; then
-+	    cp "${config_opt_file}" "${efidir}/grub.cfg"
-+	    echo 'configfile $prefix/grub.cfg' >> "${efidir}/grub.cfg"
-+	fi
++	cp "${config_opt_file}" "${efidir}/grub.cfg"
++	echo 'configfile $prefix/grub.cfg' >> "${efidir}/grub.cfg"
 +    else
 +	cp "${grubdir}/${grub_modinfo_target_cpu}-$grub_modinfo_platform/core.${imgext}" "${efidir}/${efi_file}"
 +	# For old macs. Suggested by Peter Jones.

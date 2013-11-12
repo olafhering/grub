@@ -638,7 +638,15 @@ if [ "x${debug_image}" != x ]; then
     config_opt_file="${grubdir}/${grub_modinfo_target_cpu}-$grub_modinfo_platform/load.cfg"
 fi
 
-if [ "x${devabstraction_module}" = "x" ] ; then
+if [ x"$grub_modinfo_platform" = xefi ]; then
+    if [ $removable = yes ]; then
+	efi_signed="${source_dir}-signed/gcd$efi_suffix.efi.signed"
+    else
+	efi_signed="${source_dir}-signed/grub$efi_suffix.efi.signed"
+    fi
+fi
+
+if [ "x${devabstraction_module}" = "x" ] || ([ x"$grub_modinfo_platform" = xefi ] && [ "$uefi_secure_boot" = yes ] && [ -e "$efi_signed" ]); then
     if [ x"${install_device}" != x ]; then
       if echo "${install_device}" | grep -qx "(.*)" ; then
         install_drive="${install_device}"
@@ -832,11 +840,6 @@ elif [ x"${grub_modinfo_target_cpu}-${grub_modinfo_platform}" = xmips-arc ]; the
     gettext "You will have to set \`SystemPartition' and \`OSLoader' manually." 1>&2
     echo 1>&2
 elif [ x"$grub_modinfo_platform" = xefi ]; then
-    if [ $removable = yes ]; then
-	efi_signed="${source_dir}-signed/gcd$efi_suffix.efi.signed"
-    else
-	efi_signed="${source_dir}-signed/grub$efi_suffix.efi.signed"
-    fi
     if [ "$uefi_secure_boot" = yes ] && [ -e "$efi_signed" ]; then
 	shim_signed=/usr/lib/shim/shim.efi.signed
 	if [ -e "$shim_signed" ]; then
@@ -848,10 +851,8 @@ elif [ x"$grub_modinfo_platform" = xefi ]; then
 	else
 	    cp "$efi_signed" "${efidir}/${efi_file}"
 	fi
-	if [ x"$config_opt_file" != x ]; then
-	    cp "${config_opt_file}" "${efidir}/grub.cfg"
-	    echo 'configfile $prefix/grub.cfg' >> "${efidir}/grub.cfg"
-	fi
+	cp "${config_opt_file}" "${efidir}/grub.cfg"
+	echo 'configfile $prefix/grub.cfg' >> "${efidir}/grub.cfg"
     else
 	cp "${grubdir}/${grub_modinfo_target_cpu}-$grub_modinfo_platform/core.${imgext}" "${efidir}/${efi_file}"
 	# For old macs. Suggested by Peter Jones.

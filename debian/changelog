@@ -7,6 +7,10 @@ grub2 (2.00-20) UNRELEASED; urgency=low
   * Merge from Ubuntu:
     - Handle probing striped DM-RAID devices (thanks, Robert Collins;
       LP: #803658).
+    - Unconditionally create grub.cfg on our EFI boot partition in Secure
+      Boot mode; GRUB always needs some configuration in this case to find
+      /boot/grub, since we can't modify the signed image at install time
+      (Steve Langasek, LP: #1236625).
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 07 Oct 2013 09:48:53 +0100
 
