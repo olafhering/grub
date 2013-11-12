@@ -3,6 +3,7 @@ grub2 (2.00-20) UNRELEASED; urgency=low
   * Backport from upstream:
     - Sort gnumach kernels in version order (closes: #725451).
   * Move packaging to git, following upstream.  Adjust Vcs-* fields.
+  * Remove obsolete DM-Upload-Allowed field.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 07 Oct 2013 09:48:53 +0100
 
