@@ -848,6 +848,12 @@ elif [ x"$grub_modinfo_platform" = xefi ]; then
 	    fi
 	    cp "$shim_signed" "${efidir}/${efi_file}"
 	    cp "$efi_signed" "${efidir}/grub$efi_suffix.efi"
+	    # Not critical, so not an error if it's not present (as it won't
+	    # be for older releases); but if we have it, make sure it's
+	    # installed.
+	    if [ -e /usr/lib/shim/MokManager.efi.signed ]; then
+		cp /usr/lib/shim/MokManager.efi.signed "${efidir}/MokManager.efi"
+	    fi
 	else
 	    cp "$efi_signed" "${efidir}/${efi_file}"
 	fi

@@ -121,7 +121,7 @@ Index: b/util/grub-install.in
          # generic method (used on coreboot and ata mod)
  	uuid=
  	if [ x"$force_file_id" != xy ]; then
-@@ -828,10 +837,25 @@
+@@ -828,10 +837,31 @@
      gettext "You will have to set \`SystemPartition' and \`OSLoader' manually." 1>&2
      echo 1>&2
  elif [ x"$grub_modinfo_platform" = xefi ]; then
@@ -137,6 +137,12 @@ Index: b/util/grub-install.in
 +	    fi
 +	    cp "$shim_signed" "${efidir}/${efi_file}"
 +	    cp "$efi_signed" "${efidir}/grub$efi_suffix.efi"
++	    # Not critical, so not an error if it's not present (as it won't
++	    # be for older releases); but if we have it, make sure it's
++	    # installed.
++	    if [ -e /usr/lib/shim/MokManager.efi.signed ]; then
++		cp /usr/lib/shim/MokManager.efi.signed "${efidir}/MokManager.efi"
++	    fi
 +	else
 +	    cp "$efi_signed" "${efidir}/${efi_file}"
 +	fi
