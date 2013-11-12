@@ -671,6 +671,9 @@ case "$1" in
       grub-efi-ia32|grub-efi-amd64)
         bootloader_id="$(config_item GRUB_DISTRIBUTOR | tr A-Z a-z | \
                          cut -d' ' -f1)"
+        case $bootloader_id in
+          kubuntu) bootloader_id=ubuntu ;;
+        esac
         if [ "$bootloader_id" ] && [ -d "/boot/efi/EFI/$bootloader_id" ]; then
           grub-install
         fi

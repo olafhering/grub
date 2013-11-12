@@ -471,6 +471,10 @@ if [ x"$grub_modinfo_platform" = xefi ]; then
         # not collide with other vendors.  To minimise collisions, we use the
         # name of our distributor if possible.
 	efi_distributor="$bootloader_id"
+	case $efi_distributor in
+	    kubuntu)
+		efi_distributor=ubuntu ;;
+	esac
 	# It is convenient for each architecture to have a different
 	# efi_file, so that different versions can be installed in parallel.
 	case "$grub_modinfo_target_cpu" in
