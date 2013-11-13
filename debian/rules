@@ -57,7 +57,8 @@ DEFAULT_CMDLINE := quiet splash
 confflags += \
 	--enable-quiet-boot \
 	--enable-quick-boot \
-	--enable-gfxpayload-dynamic
+	--enable-gfxpayload-dynamic \
+	--enable-vt-handoff
 substvars := \
 	-Vlsb-base-depends="lsb-base (>= 3.0-6)" \
 	-Vgfxpayload-depends="grub-gfxpayload-lists [any-i386 any-amd64]"

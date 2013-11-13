@@ -1,0 +1,90 @@
+Description: Add configure option to use vt.handoff=7
+ This is used for non-recovery Linux entries only; it enables flicker-free
+ booting if gfxpayload=keep is in use and a suitable kernel is present.
+Author: Colin Watson <cjwatson@ubuntu.com>
+Author: Andy Whitcroft <apw@canonical.com>
+Forwarded: not-needed
+Last-Update: 2013-11-13
+
+Index: b/configure.ac
+===================================================================
+--- a/configure.ac
++++ b/configure.ac
+@@ -1109,6 +1109,17 @@
+ fi
+ AC_SUBST([GFXPAYLOAD_DYNAMIC])
+ 
++AC_ARG_ENABLE([vt-handoff],
++              [AS_HELP_STRING([--enable-vt-handoff],
++                              [use Linux vt.handoff option for flicker-free booting (default=no)])],
++              [], [enable_vt_handoff=no])
++if test x"$enable_vt_handoff" = xyes ; then
++  VT_HANDOFF=1
++else
++  VT_HANDOFF=0
++fi
++AC_SUBST([VT_HANDOFF])
++
+ LIBS=""
+ 
+ AC_SUBST([FONT_SOURCE])
+Index: b/util/grub.d/10_linux.in
+===================================================================
+--- a/util/grub.d/10_linux.in
++++ b/util/grub.d/10_linux.in
+@@ -23,6 +23,7 @@
+ quiet_boot="@QUIET_BOOT@"
+ quick_boot="@QUICK_BOOT@"
+ gfxpayload_dynamic="@GFXPAYLOAD_DYNAMIC@"
++vt_handoff="@VT_HANDOFF@"
+ 
+ . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
+ 
+@@ -88,6 +89,14 @@
+ 
+ title_correction_code=
+ 
++if [ "$vt_handoff" = 1 ]; then
++  for word in $GRUB_CMDLINE_LINUX_DEFAULT; do
++    if [ "$word" = splash ]; then
++      GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT \$vt_handoff"
++    fi
++  done
++fi
++
+ linux_entry ()
+ {
+   os="$1"
+@@ -132,7 +141,7 @@
+       fi
+   fi
+   if [ "x$GRUB_GFXPAYLOAD_LINUX" != x ] || [ "$gfxpayload_dynamic" = 1 ]; then
+-      echo "	set gfxpayload=\$linux_gfx_mode" | sed "s/^/$submenu_indentation/"
++      echo "	gfxmode \$linux_gfx_mode" | sed "s/^/$submenu_indentation/"
+   fi
+ 
+   echo "	insmod gzio" | sed "s/^/$submenu_indentation/"
+@@ -205,6 +214,23 @@
+ boot_device_id=
+ title_correction_code=
+ 
++cat << 'EOF'
++function gfxmode {
++	set gfxpayload="${1}"
++EOF
++if [ "$vt_handoff" = 1 ]; then
++  cat << 'EOF'
++	if [ "${1}" = "keep" ]; then
++		set vt_handoff=vt.handoff=7
++	else
++		set vt_handoff=
++	fi
++EOF
++fi
++cat << EOF
++}
++EOF
++
+ # Use ELILO's generic "efifb" when it's known to be available.
+ # FIXME: We need an interface to select vesafb in case efifb can't be used.
+ if [ "x$GRUB_GFXPAYLOAD_LINUX" != x ] || [ "$gfxpayload_dynamic" = 0 ]; then

@@ -23,6 +23,7 @@ datarootdir="@datarootdir@"
 quiet_boot="@QUIET_BOOT@"
 quick_boot="@QUICK_BOOT@"
 gfxpayload_dynamic="@GFXPAYLOAD_DYNAMIC@"
+vt_handoff="@VT_HANDOFF@"
 
 . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
 
@@ -88,6 +89,14 @@ esac
 
 title_correction_code=
 
+if [ "$vt_handoff" = 1 ]; then
+  for word in $GRUB_CMDLINE_LINUX_DEFAULT; do
+    if [ "$word" = splash ]; then
+      GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT \$vt_handoff"
+    fi
+  done
+fi
+
 linux_entry ()
 {
   os="$1"
@@ -132,7 +141,7 @@ linux_entry ()
       fi
   fi
   if [ "x$GRUB_GFXPAYLOAD_LINUX" != x ] || [ "$gfxpayload_dynamic" = 1 ]; then
-      echo "	set gfxpayload=\$linux_gfx_mode" | sed "s/^/$submenu_indentation/"
+      echo "	gfxmode \$linux_gfx_mode" | sed "s/^/$submenu_indentation/"
   fi
 
   echo "	insmod gzio" | sed "s/^/$submenu_indentation/"
@@ -204,6 +213,23 @@ prepare_boot_cache=
 prepare_root_cache=
 boot_device_id=
 title_correction_code=
+
+cat << 'EOF'
+function gfxmode {
+	set gfxpayload="${1}"
+EOF
+if [ "$vt_handoff" = 1 ]; then
+  cat << 'EOF'
+	if [ "${1}" = "keep" ]; then
+		set vt_handoff=vt.handoff=7
+	else
+		set vt_handoff=
+	fi
+EOF
+fi
+cat << EOF
+}
+EOF
 
 # Use ELILO's generic "efifb" when it's known to be available.
 # FIXME: We need an interface to select vesafb in case efifb can't be used.

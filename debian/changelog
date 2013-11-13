@@ -20,6 +20,7 @@ grub2 (2.00-20) UNRELEASED; urgency=low
       + Show the boot menu if the previous boot failed.
       + Set GRUB_GFXPAYLOAD_LINUX=keep unless it's known to be unsupported
         on the current hardware.
+      + Set vt.handoff=7 for smooth handoff to kernel graphical mode.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 07 Oct 2013 09:48:53 +0100
 
