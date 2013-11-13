@@ -1825,6 +1825,19 @@ convert_system_partition_to_system_disk (const char *os_dev, struct stat *st,
 	  return path;
 	}
 
+      /* If this is a FusionIO disk.  */
+      if ((strncmp ("fio", p, 3) == 0) && p[3] >= 'a' && p[3] <= 'z')
+	{
+	  char *pp = p + 3;
+	  while (*pp >= 'a' && *pp <= 'z')
+	    pp++;
+	  if (*pp)
+	    *is_part = 1;
+	  /* /dev/fio[a-z]+[0-9]* */
+	  *pp = '\0';
+	  return path;
+	}
+
 #ifdef HAVE_DEVICE_MAPPER
       if ((strncmp ("/dev/mapper/", path, sizeof ("/dev/mapper/") - 1) == 0)
 	  || (strncmp ("/dev/dm-", path, sizeof ("/dev/dm-") - 1) == 0))

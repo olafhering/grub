@@ -26,6 +26,7 @@ grub2 (2.00-20) UNRELEASED; urgency=low
       + Set default timeout to 10 seconds.
       + Enable hidden timeout support by default.
     - Migrate timeout settings from menu.lst.
+    - Probe FusionIO devices (LP: #1237519).
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 07 Oct 2013 09:48:53 +0100
 
