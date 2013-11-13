@@ -55,6 +55,7 @@ endif
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 DEFAULT_CMDLINE := quiet splash
 DEFAULT_TIMEOUT := 10
+DEFAULT_HIDDEN_TIMEOUT := 0
 confflags += \
 	--enable-ubuntu-recovery \
 	--enable-quiet-boot \
@@ -67,6 +68,7 @@ substvars := \
 else
 DEFAULT_CMDLINE := quiet
 DEFAULT_TIMEOUT := 5
+DEFAULT_HIDDEN_TIMEOUT :=
 substvars :=
 endif
 
@@ -337,6 +339,10 @@ override_dh_install:
 		-e "s/@DEFAULT_CMDLINE@/$(DEFAULT_CMDLINE)/g" \
 		-e "s/@DEFAULT_TIMEOUT@/$(DEFAULT_TIMEOUT)/g" \
 		debian/grub2-common/usr/share/grub/default/grub
+ifneq (,$(DEFAULT_HIDDEN_TIMEOUT))
+	perl -pi -e 's/^GRUB_TIMEOUT=.*/GRUB_HIDDEN_TIMEOUT=0\nGRUB_HIDDEN_TIMEOUT_QUIET=true\n$$&/' \
+		debian/grub2-common/usr/share/grub/default/grub
+endif
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 ifneq (,$(filter grub-pc,$(BUILD_PACKAGES)))
 	patch debian/grub-pc/usr/lib/grub-legacy/update-grub \
