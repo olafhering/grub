@@ -58,3 +58,4 @@ mkconfig_hurd_sort.patch
 probe_dmraid.patch
 install_efi_ubuntu_flavours.patch
 quick_boot.patch
+gfxpayload_dynamic.patch

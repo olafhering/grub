@@ -54,8 +54,13 @@ endif
 
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 DEFAULT_CMDLINE := quiet splash
-confflags += --enable-quiet-boot --enable-quick-boot
-substvars := -Vlsb-base-depends="lsb-base (>= 3.0-6)"
+confflags += \
+	--enable-quiet-boot \
+	--enable-quick-boot \
+	--enable-gfxpayload-dynamic
+substvars := \
+	-Vlsb-base-depends="lsb-base (>= 3.0-6)" \
+	-Vgfxpayload-depends="grub-gfxpayload-lists [any-i386 any-amd64]"
 else
 DEFAULT_CMDLINE := quiet
 substvars :=

@@ -18,6 +18,8 @@ grub2 (2.00-20) UNRELEASED; urgency=low
     - If building for Ubuntu:
       + Bypass menu unless other OSes are installed or Shift is pressed.
       + Show the boot menu if the previous boot failed.
+      + Set GRUB_GFXPAYLOAD_LINUX=keep unless it's known to be unsupported
+        on the current hardware.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 07 Oct 2013 09:48:53 +0100
 
