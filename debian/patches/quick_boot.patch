@@ -8,9 +8,13 @@ Description: Add configure option to bypass boot menu if possible
  This may or may not remain Ubuntu-specific, although it's not obviously
  wanted upstream.  It implements a requirement of
  https://wiki.ubuntu.com/DesktopExperienceTeam/KarmicBootExperienceDesignSpec#Bootloader.
+ .
+ If the previous boot failed (defined as failing to get to the end of one of
+ the normal runlevels), then show the boot menu regardless.
 Author: Colin Watson <cjwatson@ubuntu.com>
+Author: Richard Laager <rlaager@wiktel.com>
 Forwarded: no
-Last-Update: 2013-11-12
+Last-Update: 2013-11-13
 
 Index: b/configure.ac
 ===================================================================
@@ -34,27 +38,132 @@ Index: b/configure.ac
  LIBS=""
  
  AC_SUBST([FONT_SOURCE])
+Index: b/docs/grub.texi
+===================================================================
+--- a/docs/grub.texi
++++ b/docs/grub.texi
+@@ -1289,6 +1289,15 @@
+ Each module will be loaded as early as possible, at the start of
+ @file{grub.cfg}.
+ 
++@item GRUB_RECORDFAIL_TIMEOUT
++If this option is set, it overrides the default recordfail setting. The
++default setting is -1, which causes GRUB to wait for user input. This option
++should be set on headless and appliance systems where access to a console is
++restricted or limited.
++
++This option is only effective when GRUB was configured with the
++@option{--enable-quick-boot} option.
++
+ @end table
+ 
+ For more detailed customisation of @command{grub-mkconfig}'s output, you may
+Index: b/util/grub-mkconfig.in
+===================================================================
+--- a/util/grub-mkconfig.in
++++ b/util/grub-mkconfig.in
+@@ -228,7 +228,8 @@
+   GRUB_INIT_TUNE \
+   GRUB_SAVEDEFAULT \
+   GRUB_ENABLE_CRYPTODISK \
+-  GRUB_BADRAM
++  GRUB_BADRAM \
++  GRUB_RECORDFAIL_TIMEOUT
+ 
+ if test "x${grub_cfg}" != "x"; then
+   rm -f "${grub_cfg}.new"
 Index: b/util/grub.d/00_header.in
 ===================================================================
 --- a/util/grub.d/00_header.in
 +++ b/util/grub.d/00_header.in
-@@ -23,6 +23,7 @@
+@@ -23,6 +23,8 @@
  exec_prefix="@exec_prefix@"
  datarootdir="@datarootdir@"
  grub_lang=`echo $LANG | cut -d . -f 1`
++grubdir="`echo "/@bootdirname@/@grubdirname@" | sed 's,//*,/,g'`"
 +quick_boot="@QUICK_BOOT@"
  
  export TEXTDOMAIN=@PACKAGE@
  export TEXTDOMAINDIR="@localedir@"
-@@ -272,7 +273,7 @@
+@@ -46,6 +48,7 @@
+ 
+ cat << EOF
+ if [ -s \$prefix/grubenv ]; then
++  set have_grubenv=true
+   load_env
+ fi
+ EOF
+@@ -86,7 +89,31 @@
+     save_env saved_entry
+   fi
+ }
++EOF
++
++if [ "$quick_boot" = 1 ]; then
++    cat <<EOF
++function recordfail {
++  set recordfail=1
++EOF
++    FS="$(grub-probe --target=fs "${grubdir}")"
++    case "$FS" in
++      btrfs | cpiofs | newc | odc | romfs | squash4 | tarfs | zfs)
++	cat <<EOF
++  # GRUB lacks write support for $FS, so recordfail support is disabled.
++EOF
++	;;
++      *)
++	cat <<EOF
++  if [ -n "\${have_grubenv}" ]; then if [ -z "\${boot_once}" ]; then save_env recordfail; fi; fi
++EOF
++    esac
++    cat <<EOF
++}
++EOF
++fi
+ 
++cat <<EOF
+ function load_video {
+ EOF
+ if [ -n "${GRUB_VIDEO_BACKEND}" ]; then
+@@ -272,7 +299,15 @@
  
  make_timeout ()
  {
 -    if [ "x${1}" != "x" ] ; then
-+    if [ "$quick_boot" = 0 ] && [ "x${1}" != "x" ] ; then
++    if [ "$quick_boot" = 1 ] ; then
++	cat << EOF
++if [ "\${recordfail}" = 1 ]; then
++  set timeout=${GRUB_RECORDFAIL_TIMEOUT:--1}
++else
++  set timeout=${2}
++fi
++EOF
++    elif [ "x${1}" != "x" ] ; then
  	if [ "x${GRUB_HIDDEN_TIMEOUT_QUIET}" = "xtrue" ] ; then
  	    verbose=
  	else
+Index: b/util/grub.d/10_linux.in
+===================================================================
+--- a/util/grub.d/10_linux.in
++++ b/util/grub.d/10_linux.in
+@@ -21,6 +21,7 @@
+ exec_prefix="@exec_prefix@"
+ datarootdir="@datarootdir@"
+ quiet_boot="@QUIET_BOOT@"
++quick_boot="@QUICK_BOOT@"
+ 
+ . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
+ 
+@@ -113,6 +114,9 @@
+   else
+       echo "menuentry '$(echo "$os" | grub_quote)' ${CLASS} \$menuentry_id_option 'gnulinux-simple-$boot_device_id' {" | sed "s/^/$submenu_indentation/"
+   fi      
++  if [ "$quick_boot" = 1 ]; then
++      echo "recordfail" | sed "s/^/$submenu_indentation/"
++  fi
+   if [ x$type != xrecovery ] ; then
+       save_default_entry | sed -e "s/^/\t/"
+   fi
 Index: b/util/grub.d/30_os-prober.in
 ===================================================================
 --- a/util/grub.d/30_os-prober.in

@@ -17,6 +17,7 @@ grub2 (2.00-20) UNRELEASED; urgency=low
       (LP: #1242417).
     - If building for Ubuntu:
       + Bypass menu unless other OSes are installed or Shift is pressed.
+      + Show the boot menu if the previous boot failed.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 07 Oct 2013 09:48:53 +0100
 

@@ -21,6 +21,7 @@ prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 datarootdir="@datarootdir@"
 quiet_boot="@QUIET_BOOT@"
+quick_boot="@QUICK_BOOT@"
 
 . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
 
@@ -113,6 +114,9 @@ linux_entry ()
   else
       echo "menuentry '$(echo "$os" | grub_quote)' ${CLASS} \$menuentry_id_option 'gnulinux-simple-$boot_device_id' {" | sed "s/^/$submenu_indentation/"
   fi      
+  if [ "$quick_boot" = 1 ]; then
+      echo "recordfail" | sed "s/^/$submenu_indentation/"
+  fi
   if [ x$type != xrecovery ] ; then
       save_default_entry | sed -e "s/^/\t/"
   fi

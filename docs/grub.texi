@@ -1289,6 +1289,15 @@ This option may be set to a list of GRUB module names separated by spaces.
 Each module will be loaded as early as possible, at the start of
 @file{grub.cfg}.
 
+@item GRUB_RECORDFAIL_TIMEOUT
+If this option is set, it overrides the default recordfail setting. The
+default setting is -1, which causes GRUB to wait for user input. This option
+should be set on headless and appliance systems where access to a console is
+restricted or limited.
+
+This option is only effective when GRUB was configured with the
+@option{--enable-quick-boot} option.
+
 @end table
 
 For more detailed customisation of @command{grub-mkconfig}'s output, you may

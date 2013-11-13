@@ -55,8 +55,10 @@ endif
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 DEFAULT_CMDLINE := quiet splash
 confflags += --enable-quiet-boot --enable-quick-boot
+substvars := -Vlsb-base-depends="lsb-base (>= 3.0-6)"
 else
 DEFAULT_CMDLINE := quiet
+substvars :=
 endif
 
 SB_PACKAGE :=
@@ -303,6 +305,10 @@ install/grub-common:
 				>> debian/grub-common.$$i ; \
 		fi ; \
 	done
+ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
+	install -D -m 0755 debian/grub-common.pm-sleep \
+		$(CURDIR)/debian/$(package)/etc/pm/sleep.d/10_grub-common
+endif
 
 override_dh_install:
 	dh_install -pgrub2 -pgrub-linuxbios -pgrub-efi -pgrub-rescue-pc -pgrub-firmware-qemu
@@ -331,6 +337,14 @@ override_dh_installdocs:
 	dh_installdocs -pgrub-common -pgrub-rescue-pc -pgrub-firmware-qemu -A AUTHORS NEWS README THANKS TODO
 	dh_installdocs -Ngrub-common -Ngrub-rescue-pc -Ngrub-firmware-qemu --link-doc=grub-common
 
+ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
+override_dh_installinit:
+	dh_installinit -- start 99 2 3 4 5 .
+else
+override_dh_installinit:
+	:
+endif
+
 override_dh_bugfiles:
 	dh_bugfiles -A
 
@@ -347,7 +361,8 @@ LEGACY_DOC_CONFLICTS := grub-doc (<< 0.97-32), grub-legacy-doc (<< 0.97-59)
 endif
 
 override_dh_gencontrol:
-	dh_gencontrol -- -Vlegacy-doc-conflicts="$(LEGACY_DOC_CONFLICTS)"
+	dh_gencontrol -- \
+		-Vlegacy-doc-conflicts="$(LEGACY_DOC_CONFLICTS)" $(substvars)
 
 TARNAME := grub2_$(deb_version)_$(DEB_HOST_ARCH).tar.gz
 

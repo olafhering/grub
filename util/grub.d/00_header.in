@@ -23,6 +23,7 @@ prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 datarootdir="@datarootdir@"
 grub_lang=`echo $LANG | cut -d . -f 1`
+grubdir="`echo "/@bootdirname@/@grubdirname@" | sed 's,//*,/,g'`"
 quick_boot="@QUICK_BOOT@"
 
 export TEXTDOMAIN=@PACKAGE@
@@ -47,6 +48,7 @@ if [ "x${GRUB_TIMEOUT_BUTTON}" = "x" ] ; then GRUB_TIMEOUT_BUTTON="$GRUB_TIMEOUT
 
 cat << EOF
 if [ -s \$prefix/grubenv ]; then
+  set have_grubenv=true
   load_env
 fi
 EOF
@@ -87,7 +89,31 @@ function savedefault {
     save_env saved_entry
   fi
 }
+EOF
 
+if [ "$quick_boot" = 1 ]; then
+    cat <<EOF
+function recordfail {
+  set recordfail=1
+EOF
+    FS="$(grub-probe --target=fs "${grubdir}")"
+    case "$FS" in
+      btrfs | cpiofs | newc | odc | romfs | squash4 | tarfs | zfs)
+	cat <<EOF
+  # GRUB lacks write support for $FS, so recordfail support is disabled.
+EOF
+	;;
+      *)
+	cat <<EOF
+  if [ -n "\${have_grubenv}" ]; then if [ -z "\${boot_once}" ]; then save_env recordfail; fi; fi
+EOF
+    esac
+    cat <<EOF
+}
+EOF
+fi
+
+cat <<EOF
 function load_video {
 EOF
 if [ -n "${GRUB_VIDEO_BACKEND}" ]; then
@@ -273,7 +299,15 @@ fi
 
 make_timeout ()
 {
-    if [ "$quick_boot" = 0 ] && [ "x${1}" != "x" ] ; then
+    if [ "$quick_boot" = 1 ] ; then
+	cat << EOF
+if [ "\${recordfail}" = 1 ]; then
+  set timeout=${GRUB_RECORDFAIL_TIMEOUT:--1}
+else
+  set timeout=${2}
+fi
+EOF
+    elif [ "x${1}" != "x" ] ; then
 	if [ "x${GRUB_HIDDEN_TIMEOUT_QUIET}" = "xtrue" ] ; then
 	    verbose=
 	else
