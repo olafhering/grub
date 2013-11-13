@@ -20,6 +20,7 @@ set -e
 prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 datarootdir="@datarootdir@"
+ubuntu_recovery="@UBUNTU_RECOVERY@"
 quiet_boot="@QUIET_BOOT@"
 quick_boot="@QUICK_BOOT@"
 gfxpayload_dynamic="@GFXPAYLOAD_DYNAMIC@"
@@ -89,6 +90,15 @@ esac
 
 title_correction_code=
 
+if [ -x /lib/recovery-mode/recovery-menu ]; then
+    GRUB_CMDLINE_LINUX_RECOVERY=recovery
+else
+    GRUB_CMDLINE_LINUX_RECOVERY=single
+fi
+if [ "$ubuntu_recovery" = 1 ]; then
+    GRUB_CMDLINE_LINUX_RECOVERY="$GRUB_CMDLINE_LINUX_RECOVERY nomodeset"
+fi
+
 if [ "$vt_handoff" = 1 ]; then
   for word in $GRUB_CMDLINE_LINUX_DEFAULT; do
     if [ "$word" = splash ]; then
@@ -140,7 +150,8 @@ linux_entry ()
 	  echo "	load_video" | sed "s/^/$submenu_indentation/"
       fi
   fi
-  if [ "x$GRUB_GFXPAYLOAD_LINUX" != x ] || [ "$gfxpayload_dynamic" = 1 ]; then
+  if ([ "$ubuntu_recovery" = 0 ] || [ x$type != xrecovery ]) && \
+     ([ "x$GRUB_GFXPAYLOAD_LINUX" != x ] || [ "$gfxpayload_dynamic" = 1 ]); then
       echo "	gfxmode \$linux_gfx_mode" | sed "s/^/$submenu_indentation/"
   fi
 
@@ -334,13 +345,8 @@ while [ "x$list" != "x" ] ; do
   linux_entry "${OS}" "${version}" advanced \
               "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
   if [ "x${GRUB_DISABLE_RECOVERY}" != "xtrue" ]; then
-    if [ -x /lib/recovery-mode/recovery-menu ]; then
-      linux_entry "${OS}" "${version}" recovery \
-                  "recovery ${GRUB_CMDLINE_LINUX}"
-    else
-      linux_entry "${OS}" "${version}" recovery \
-                  "single ${GRUB_CMDLINE_LINUX}"
-    fi
+    linux_entry "${OS}" "${version}" recovery \
+                "${GRUB_CMDLINE_LINUX_RECOVERY} ${GRUB_CMDLINE_LINUX}"
   fi
 
   list=`echo $list | tr ' ' '\n' | grep -vx $linux | tr '\n' ' '`

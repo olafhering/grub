@@ -10,7 +10,7 @@ Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1109,6 +1109,17 @@
+@@ -1120,6 +1120,17 @@
  fi
  AC_SUBST([GFXPAYLOAD_DYNAMIC])
  
@@ -32,7 +32,7 @@ Index: b/util/grub.d/10_linux.in
 ===================================================================
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -23,6 +23,7 @@
+@@ -24,6 +24,7 @@
  quiet_boot="@QUIET_BOOT@"
  quick_boot="@QUICK_BOOT@"
  gfxpayload_dynamic="@GFXPAYLOAD_DYNAMIC@"
@@ -40,9 +40,9 @@ Index: b/util/grub.d/10_linux.in
  
  . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
  
-@@ -88,6 +89,14 @@
- 
- title_correction_code=
+@@ -98,6 +99,14 @@
+     GRUB_CMDLINE_LINUX_RECOVERY="$GRUB_CMDLINE_LINUX_RECOVERY nomodeset"
+ fi
  
 +if [ "$vt_handoff" = 1 ]; then
 +  for word in $GRUB_CMDLINE_LINUX_DEFAULT; do
@@ -55,16 +55,16 @@ Index: b/util/grub.d/10_linux.in
  linux_entry ()
  {
    os="$1"
-@@ -132,7 +141,7 @@
-       fi
+@@ -143,7 +152,7 @@
    fi
-   if [ "x$GRUB_GFXPAYLOAD_LINUX" != x ] || [ "$gfxpayload_dynamic" = 1 ]; then
+   if ([ "$ubuntu_recovery" = 0 ] || [ x$type != xrecovery ]) && \
+      ([ "x$GRUB_GFXPAYLOAD_LINUX" != x ] || [ "$gfxpayload_dynamic" = 1 ]); then
 -      echo "	set gfxpayload=\$linux_gfx_mode" | sed "s/^/$submenu_indentation/"
 +      echo "	gfxmode \$linux_gfx_mode" | sed "s/^/$submenu_indentation/"
    fi
  
    echo "	insmod gzio" | sed "s/^/$submenu_indentation/"
-@@ -205,6 +214,23 @@
+@@ -216,6 +225,23 @@
  boot_device_id=
  title_correction_code=
  

@@ -1,13 +1,13 @@
 Description: Generate configuration for signed UEFI kernels if available
 Author: Colin Watson <cjwatson@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-01-29
+Last-Update: 2013-11-13
 
 Index: b/util/grub.d/10_linux.in
 ===================================================================
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -143,8 +143,16 @@
+@@ -155,8 +155,16 @@
    message="$(gettext_printf "Loading Linux %s ..." ${version})"
    sed "s/^/$submenu_indentation/" << EOF
  	echo	'$(echo "$message" | grub_quote)'
@@ -24,7 +24,7 @@ Index: b/util/grub.d/10_linux.in
    if test -n "${initrd}" ; then
      # TRANSLATORS: ramdisk isn't identifier. Should be translated.
      message="$(gettext_printf "Loading initial ramdisk ...")"
-@@ -190,6 +198,13 @@
+@@ -202,6 +210,13 @@
  is_first_entry=true
  while [ "x$list" != "x" ] ; do
    linux=`version_find_latest $list`
