@@ -54,6 +54,7 @@ endif
 
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 DEFAULT_CMDLINE := quiet splash
+DEFAULT_TIMEOUT := 10
 confflags += \
 	--enable-ubuntu-recovery \
 	--enable-quiet-boot \
@@ -65,6 +66,7 @@ substvars := \
 	-Vgfxpayload-depends="grub-gfxpayload-lists [any-i386 any-amd64]"
 else
 DEFAULT_CMDLINE := quiet
+DEFAULT_TIMEOUT := 5
 substvars :=
 endif
 
@@ -331,7 +333,9 @@ override_dh_install:
 	done
 	dh_install -pgrub-emu --sourcedir=debian/tmp-grub-emu
 	dh_install -pgrub-emu-dbg --sourcedir=debian/tmp-grub-emu
-	sed -i -e "s/@DEFAULT_CMDLINE@/$(DEFAULT_CMDLINE)/g" \
+	sed -i \
+		-e "s/@DEFAULT_CMDLINE@/$(DEFAULT_CMDLINE)/g" \
+		-e "s/@DEFAULT_TIMEOUT@/$(DEFAULT_TIMEOUT)/g" \
 		debian/grub2-common/usr/share/grub/default/grub
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 ifneq (,$(filter grub-pc,$(BUILD_PACKAGES)))
