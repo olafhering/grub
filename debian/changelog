@@ -4,7 +4,7 @@ grub2 (2.00-20) UNRELEASED; urgency=low
     - Sort gnumach kernels in version order (closes: #725451).
   * Move packaging to git, following upstream.  Adjust Vcs-* fields.
   * Remove obsolete DM-Upload-Allowed field.
-  * Merge from Ubuntu:
+  * Merge (completely!) from Ubuntu:
     - Handle probing striped DM-RAID devices (thanks, Robert Collins;
       LP: #803658).
     - Unconditionally create grub.cfg on our EFI boot partition in Secure
