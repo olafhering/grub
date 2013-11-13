@@ -365,6 +365,17 @@ case "$1" in
     merge_debconf_into_conf "$tmp_default_grub" GRUB_CMDLINE_LINUX grub2/linux_cmdline
     merge_debconf_into_conf "$tmp_default_grub" GRUB_CMDLINE_LINUX_DEFAULT grub2/linux_cmdline_default
 
+    case @PACKAGE@ in
+      grub-pc)
+        merge_debconf_into_conf "$tmp_default_grub" GRUB_TIMEOUT grub-pc/timeout
+        sed -i -e 's/^\(GRUB_TIMEOUT=\)"\([0-9][0-9]*\)"/\1\2/' "$tmp_default_grub"
+        db_get grub-pc/hidden_timeout
+        if [ "$RET" = false ]; then
+          sed -i -e 's/^GRUB_HIDDEN_TIMEOUT=/#&/' "$tmp_default_grub"
+        fi
+      ;;
+    esac
+
     ucf --three-way --debconf-ok --sum-file=/usr/share/grub/default/grub.md5sum ${tmp_default_grub} /etc/default/grub
     package="$(ucfq --with-colons /etc/default/grub | cut -d : -f 2)"
     if echo $package | grep -q "^grub-" ; then

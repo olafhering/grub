@@ -56,6 +56,7 @@ ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 DEFAULT_CMDLINE := quiet splash
 DEFAULT_TIMEOUT := 10
 DEFAULT_HIDDEN_TIMEOUT := 0
+DEFAULT_HIDDEN_TIMEOUT_BOOL := true
 confflags += \
 	--enable-ubuntu-recovery \
 	--enable-quiet-boot \
@@ -69,6 +70,7 @@ else
 DEFAULT_CMDLINE := quiet
 DEFAULT_TIMEOUT := 5
 DEFAULT_HIDDEN_TIMEOUT :=
+DEFAULT_HIDDEN_TIMEOUT_BOOL := false
 substvars :=
 endif
 
@@ -198,6 +200,8 @@ platform_subst = \
 			-e "s/@PACKAGE@/$(2)/g" \
 			-e "s/@CPU_PLATFORM@/$$cpu_platform/g" \
 			-e "s/@DEFAULT_CMDLINE@/$(DEFAULT_CMDLINE)/g" \
+			-e "s/@DEFAULT_TIMEOUT@/$(DEFAULT_TIMEOUT)/g" \
+			-e "s/@DEFAULT_HIDDEN_TIMEOUT_BOOL@/$(DEFAULT_HIDDEN_TIMEOUT_BOOL)/g" \
 			>> debian/$(2).$(3); \
 	fi
 

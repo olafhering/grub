@@ -145,3 +145,13 @@ Template: grub-pc/kopt_extracted
 Type: boolean
 Default: false
 Description: for internal use
+
+Template: grub-pc/timeout
+Type: string
+Default: @DEFAULT_TIMEOUT@
+Description: GRUB timeout
+
+Template: grub-pc/hidden_timeout
+Type: boolean
+Default: @DEFAULT_HIDDEN_TIMEOUT_BOOL@
+Description: Hide the GRUB timeout

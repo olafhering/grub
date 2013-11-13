@@ -31,6 +31,15 @@ case @PACKAGE@ in
           # if we got something from menu.lst, it must be correct?
           priority=medium
         fi
+        timeout=`sed -ne "s/^timeout[[:space:]][[:space:]]*//p" /boot/grub/menu.lst` || true
+        if [ "${timeout}" != "" ]; then
+          db_set grub-pc/timeout "${timeout}" || true
+        fi
+        if grep -q '^hiddenmenu\([[:space:]]\|$\)' /boot/grub/menu.lst; then
+          db_set grub-pc/hidden_timeout true || true
+        else
+          db_set grub-pc/hidden_timeout false || true
+        fi
       fi
     fi
   ;;
@@ -48,6 +57,19 @@ fi
 if [ "${GRUB_CMDLINE_LINUX_DEFAULT+set}" = set ]; then
   db_set grub2/linux_cmdline_default "$GRUB_CMDLINE_LINUX_DEFAULT"
 fi
+
+case @PACKAGE@ in
+  grub-pc)
+    if [ "${GRUB_TIMEOUT}" != "" ]; then
+      db_set grub-pc/timeout "$GRUB_TIMEOUT"
+    fi
+    if [ "${GRUB_HIDDEN_TIMEOUT}" != "" ]; then
+      db_set grub-pc/hidden_timeout true
+    elif egrep -q '^#?[[:space:]]*GRUB_HIDDEN_TIMEOUT=' /etc/default/grub; then
+      db_set grub-pc/hidden_timeout false
+    fi
+  ;;
+esac
 
 db_input ${priority} grub2/linux_cmdline || true
 db_input medium grub2/linux_cmdline_default || true
