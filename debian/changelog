@@ -1,6 +1,28 @@
 grub2 (2.00+20131114-1) UNRELEASED; urgency=low
 
   * New upstream snapshot.
+    - Skip issuing cursor on/off sequences on Macs (closes: #683068).
+    - Move grub-mknetdir to /usr/bin (closes: #688799).
+    - Apply program name transformations at build-time rather than at
+      run-time (closes: #696465).
+    - Add info documentation for grub-mount (closes: #666427).
+    - Clean up dangling references to grub-setup (LP: #1082045).
+    - Avoid installing to sectors matching the signature of an Acer
+      registration utility with several sightings in the wild (LP: #987022).
+    - Document the need for GRUB_DEFAULT=saved in grub-set-default(8)
+      (LP: #1102925).
+    - Fix missing PVs if they don't contain an "interesting" LV (probably
+      closes: #650724, #707613).
+    - Reimplement grub-reboot to not depend on saved_entry (closes: #707695,
+      LP: #704406).
+    - Fix Ctrl-u handling to copy the killed characters to the kill buffer
+      as UCS4 stored as grub_uint32_t rather than as 8-bit characters stored
+      as char (closes: #710076).
+    - Support GRUB_DISABLE_SUBMENU configuration, and document submenu usage
+      in grub-reboot(8) (closes: #690538).
+    - Don't decompress initrd when booting with Xen (closes: #700197).
+    - Document how to delete the whole environment block (closes: #726265).
+    - New ports to arm-uboot, arm-efi, i386-xen, and x86_64-xen.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 15 Nov 2013 10:18:57 +0000
 
