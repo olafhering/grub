@@ -526,7 +526,7 @@ compare_devices (const void *a, const void *b)
 #endif /* __linux__ */
 
 void
-grub_util_iterate_devices (int (*hook) (const char *, int), void *hook_data,
+grub_util_iterate_devices (int (*hook) (const char *, int, void *), void *hook_data,
 			   int floppy_disks)
 {
   int i;

@@ -76,7 +76,7 @@ make_device_map (const char *device_map, int floppy_disks)
   if (! ctx.fp)
     grub_util_error (_("cannot open %s"), device_map);
 
-  grub_util_iterate_devices (process_device, floppy_disks, &ctx);
+  grub_util_iterate_devices (process_device, &ctx, floppy_disks);
 
   if (ctx.fp != stdout)
     fclose (ctx.fp);

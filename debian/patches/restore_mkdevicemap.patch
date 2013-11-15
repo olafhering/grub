@@ -29,13 +29,16 @@ Index: b/include/grub/util/deviceiter.h
 ===================================================================
 --- /dev/null
 +++ b/include/grub/util/deviceiter.h
-@@ -0,0 +1,11 @@
+@@ -0,0 +1,14 @@
 +#ifndef GRUB_DEVICEITER_MACHINE_UTIL_HEADER
 +#define GRUB_DEVICEITER_MACHINE_UTIL_HEADER	1
 +
 +#include <config.h>
 +
-+void grub_util_iterate_devices (int (*hook) (const char *, int),
++typedef int (*grub_util_iterate_devices_hook_t) (const char *name,
++						 int is_floppy, void *data);
++
++void grub_util_iterate_devices (grub_util_iterate_devices_hook_t hook,
 +				void *hook_data, int floppy_disks);
 +void grub_util_emit_devicemap_entry (FILE *fp, char *name, int is_floppy,
 +				     int *num_fd, int *num_hd);
@@ -568,7 +571,7 @@ Index: b/util/deviceiter.c
 +#endif /* __linux__ */
 +
 +void
-+grub_util_iterate_devices (int (*hook) (const char *, int), void *hook_data,
++grub_util_iterate_devices (int (*hook) (const char *, int, void *), void *hook_data,
 +			   int floppy_disks)
 +{
 +  int i;
@@ -1102,7 +1105,7 @@ Index: b/util/grub-mkdevicemap.c
 +  if (! ctx.fp)
 +    grub_util_error (_("cannot open %s"), device_map);
 +
-+  grub_util_iterate_devices (process_device, floppy_disks, &ctx);
++  grub_util_iterate_devices (process_device, &ctx, floppy_disks);
 +
 +  if (ctx.fp != stdout)
 +    fclose (ctx.fp);
