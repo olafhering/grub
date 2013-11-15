@@ -38,7 +38,7 @@ confflags = PACKAGE_VERSION="$(deb_version)" PACKAGE_STRING="GRUB $(deb_version)
 AUTOGEN_DEB_FILES = config templates preinst postinst postrm dirs install links maintscript
 
 BUILD_PACKAGES := $(strip $(shell dh_listpackages))
-REAL_PACKAGES = grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-efi-ia64 grub-ieee1275 grub-firmware-qemu grub-yeeloong
+REAL_PACKAGES = grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-efi-ia64 grub-efi-arm grub-ieee1275 grub-firmware-qemu grub-uboot grub-yeeloong
 
 ifneq (,$(filter i386 amd64,$(DEB_HOST_ARCH_CPU)))
 COMMON_PLATFORM := pc
@@ -48,6 +48,8 @@ else ifeq (mipsel,$(DEB_HOST_ARCH_CPU))
 COMMON_PLATFORM := yeeloong
 else ifeq (ia64,$(DEB_HOST_ARCH_CPU))
 COMMON_PLATFORM := efi-ia64
+else ifeq (arm,$(DEB_HOST_ARCH_CPU))
+COMMON_PLATFORM := uboot
 else
 $(error COMMON_PLATFORM not set for $(DEB_HOST_ARCH_CPU))
 endif
@@ -117,7 +119,7 @@ build/stamps/configure-grub-common: build/stamps/configure-grub-$(COMMON_PLATFOR
 
 build/stamps/build-grub-common: build/stamps/build-grub-$(COMMON_PLATFORM)
 
-build/stamps/configure-grub-pc build/stamps/configure-grub-ieee1275 build/stamps/configure-grub-coreboot build/stamps/configure-grub-emu build/stamps/configure-grub-yeeloong: build/stamps/autogen
+build/stamps/configure-grub-pc build/stamps/configure-grub-ieee1275 build/stamps/configure-grub-coreboot build/stamps/configure-grub-emu build/stamps/configure-grub-uboot build/stamps/configure-grub-yeeloong: build/stamps/autogen
 	mkdir -p build/stamps build/$(package)
 	dh_auto_configure -- $(confflags) --with-platform=$(subst grub-,,$(package))
 	touch $@
@@ -135,13 +137,17 @@ build/stamps/configure-grub-efi-ia64: build/stamps/autogen
 	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=efi
 	touch $@
+build/stamps/configure-grub-efi-arm: build/stamps/autogen
+	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
+	dh_auto_configure -- $(confflags) --with-platform=efi
+	touch $@
 
 build/stamps/configure-grub-firmware-qemu: build/stamps/autogen
 	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=qemu
 	touch $@
 
-build/stamps/build-grub-efi-ia32 build/stamps/build-grub-efi-amd64 build/stamps/build-grub-efi-ia64 build/stamps/build-grub-ieee1275 build/stamps/build-grub-coreboot build/stamps/build-grub-emu build/stamps/build-grub-yeeloong: build/stamps/build-%: build/stamps/configure-%
+build/stamps/build-grub-efi-ia32 build/stamps/build-grub-efi-amd64 build/stamps/build-grub-efi-ia64 build/stamps/build-grub-efi-arm build/stamps/build-grub-ieee1275 build/stamps/build-grub-coreboot build/stamps/build-grub-emu build/stamps/build-grub-uboot build/stamps/build-grub-yeeloong: build/stamps/build-%: build/stamps/configure-%
 	dh_auto_build
 	touch $@
 
@@ -205,7 +211,7 @@ platform_subst = \
 			>> debian/$(2).$(3); \
 	fi
 
-install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia64 install/grub-ieee1275 install/grub-coreboot install/grub-emu install/grub-yeeloong:
+install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia64 install/grub-efi-arm install/grub-ieee1275 install/grub-coreboot install/grub-emu install/grub-uboot install/grub-yeeloong:
 	dh_auto_install --destdir=debian/tmp-$(package)
 
 	if [ "$@" = "install/grub-emu" ] ; then \
@@ -332,7 +338,7 @@ override_dh_install:
 	done
 	rm -f debian/grub2-common/usr/share/info/dir*
 	rm -f debian/grub-theme-starfield/usr/share/grub/themes/starfield/COPYING.CC-BY-SA-3.0
-	set -e; for package in grub-pc grub-efi-ia32 grub-efi-amd64 grub-efi-ia64 grub-ieee1275 grub-coreboot grub-yeeloong; do \
+	set -e; for package in grub-pc grub-efi-ia32 grub-efi-amd64 grub-efi-ia64 grub-efi-arm grub-ieee1275 grub-coreboot grub-uboot grub-yeeloong; do \
 		dh_install -p$$package --sourcedir=debian/tmp-$$package; \
 		dh_install -p$$package-bin --sourcedir=debian/tmp-$$package; \
 		dh_install -p$$package-dbg --sourcedir=debian/tmp-$$package; \
@@ -412,7 +418,7 @@ override_dh_clean: debian/legacy/update-grub debian/grub-extras
 	chmod +x debian/{bug-script,grub.d/*,legacy/*,kernel/*}
 
 	for i in $(AUTOGEN_DEB_FILES) ; do \
-		rm -f debian/grub-{pc,efi-*,ieee1275,coreboot,yeeloong,emu}{,-bin,-dbg}.$$i ; \
+		rm -f debian/grub-{pc,efi-*,ieee1275,coreboot,uboot,yeeloong,emu}{,-bin,-dbg}.$$i ; \
 	done
 	rm -rf debian/tmp-*/
 ifneq (,$(SB_PACKAGE))

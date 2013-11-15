@@ -23,6 +23,7 @@ grub2 (2.00+20131114-1) UNRELEASED; urgency=low
     - Don't decompress initrd when booting with Xen (closes: #700197).
     - Document how to delete the whole environment block (closes: #726265).
     - New ports to arm-uboot, arm-efi, i386-xen, and x86_64-xen.
+  * Add grub-uboot* and grub-efi-arm* binary packages.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 15 Nov 2013 10:18:57 +0000
 
