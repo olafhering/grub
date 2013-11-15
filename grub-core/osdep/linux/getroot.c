@@ -883,7 +883,6 @@ grub_util_part_to_disk (const char *os_dev, struct stat *st,
 	  *pp = '\0';
 	  return path;
 	}
-    }
 
       /* If this is a FusionIO disk.  */
       if ((strncmp ("fio", p, 3) == 0) && p[3] >= 'a' && p[3] <= 'z')
@@ -897,6 +896,7 @@ grub_util_part_to_disk (const char *os_dev, struct stat *st,
 	  *pp = '\0';
 	  return path;
 	}
+    }
 
   return path;
 }

@@ -8,10 +8,11 @@ Index: b/grub-core/osdep/linux/getroot.c
 ===================================================================
 --- a/grub-core/osdep/linux/getroot.c
 +++ b/grub-core/osdep/linux/getroot.c
-@@ -885,6 +885,19 @@
+@@ -883,6 +883,19 @@
+ 	  *pp = '\0';
+ 	  return path;
  	}
-     }
- 
++
 +      /* If this is a FusionIO disk.  */
 +      if ((strncmp ("fio", p, 3) == 0) && p[3] >= 'a' && p[3] <= 'z')
 +	{
@@ -24,10 +25,9 @@ Index: b/grub-core/osdep/linux/getroot.c
 +	  *pp = '\0';
 +	  return path;
 +	}
-+
-   return path;
- }
+     }
  
+   return path;
 Index: b/util/deviceiter.c
 ===================================================================
 --- a/util/deviceiter.c
