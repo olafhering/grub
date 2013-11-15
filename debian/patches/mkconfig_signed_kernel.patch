@@ -1,7 +1,7 @@
 Description: Generate configuration for signed UEFI kernels if available
 Author: Colin Watson <cjwatson@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-11-13
+Last-Update: 2013-11-14
 
 Index: b/util/grub.d/10_linux.in
 ===================================================================
@@ -25,7 +25,7 @@ Index: b/util/grub.d/10_linux.in
      # TRANSLATORS: ramdisk isn't identifier. Should be translated.
      message="$(gettext_printf "Loading initial ramdisk ...")"
 @@ -202,6 +210,13 @@
- is_first_entry=true
+ is_top_level=true
  while [ "x$list" != "x" ] ; do
    linux=`version_find_latest $list`
 +  case $linux in

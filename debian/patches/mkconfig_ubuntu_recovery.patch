@@ -12,7 +12,7 @@ Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1076,6 +1076,17 @@
+@@ -1343,6 +1343,17 @@
  AC_SUBST([LIBZFS])
  AC_SUBST([LIBNVPAIR])
  
@@ -69,7 +69,7 @@ Index: b/util/grub.d/10_linux.in
    fi
  
    echo "	insmod gzio" | sed "s/^/$submenu_indentation/"
-@@ -244,7 +256,7 @@
+@@ -245,7 +257,7 @@
                "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
    if [ "x${GRUB_DISABLE_RECOVERY}" != "xtrue" ]; then
      linux_entry "${OS}" "${version}" recovery \
@@ -82,7 +82,7 @@ Index: b/util/grub.d/30_os-prober.in
 ===================================================================
 --- a/util/grub.d/30_os-prober.in
 +++ b/util/grub.d/30_os-prober.in
-@@ -170,7 +170,7 @@
+@@ -201,7 +201,7 @@
  	fi
  
  	onstr="$(gettext_printf "(on %s)" "${DEVICE}")"

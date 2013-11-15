@@ -26,6 +26,7 @@
 #include <grub/cache.h>
 #include <grub/kernel.h>
 #include <grub/efi/efi.h>
+#include <grub/loader.h>
 
 static grub_uint64_t divisor = 1;
 
@@ -68,9 +69,10 @@ grub_machine_init (void)
 }
 
 void
-grub_machine_fini (void)
+grub_machine_fini (int flags)
 {
-  grub_efi_fini ();
+  if (flags & GRUB_LOADER_FLAG_NORETURN)
+    grub_efi_fini ();
 }
 
 void

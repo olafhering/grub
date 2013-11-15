@@ -135,15 +135,15 @@ fail:
 
 
 static int
-grub_loopback_iterate (int (*hook) (const char *name),
-		    grub_disk_pull_t pull)
+grub_loopback_iterate (grub_disk_dev_iterate_hook_t hook, void *hook_data,
+		       grub_disk_pull_t pull)
 {
   struct grub_loopback *d;
   if (pull != GRUB_DISK_PULL_NONE)
     return 0;
   for (d = loopback_list; d; d = d->next)
     {
-      if (hook (d->devname))
+      if (hook (d->devname, hook_data))
 	return 1;
     }
   return 0;
@@ -167,6 +167,10 @@ grub_loopback_open (const char *name, grub_disk_t disk)
 			   / GRUB_DISK_SECTOR_SIZE);
   else
     disk->total_sectors = GRUB_DISK_SIZE_UNKNOWN;
+  /* Avoid reading more than 512M.  */
+  disk->max_agglomerate = 1 << (29 - GRUB_DISK_SECTOR_BITS
+				- GRUB_DISK_CACHE_BITS);
+
   disk->id = (unsigned long) dev;
 
   disk->data = dev;
@@ -206,7 +210,8 @@ grub_loopback_write (grub_disk_t disk __attribute ((unused)),
 		     grub_size_t size __attribute ((unused)),
 		     const char *buf __attribute ((unused)))
 {
-  return GRUB_ERR_NOT_IMPLEMENTED_YET;
+  return grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET,
+		     "loopback write is not supported");
 }
 
 static struct grub_disk_dev grub_loopback_dev =

@@ -25,6 +25,7 @@
 #include <grub/loader.h>
 #include <grub/autoefi.h>
 #include <grub/i386/tsc.h>
+#include <grub/i386/cpuid.h>
 #include <grub/efi/api.h>
 #include <grub/i386/pit.h>
 #include <grub/misc.h>
@@ -125,80 +126,25 @@ guessfsb (void)
 {
   const grub_uint64_t sane_value = 100000000;
   grub_uint32_t manufacturer[3], max_cpuid, capabilities, msrlow;
-  grub_uint64_t start_tsc;
-  grub_uint64_t end_tsc;
-  grub_uint64_t tsc_ticks_per_ms;
+  grub_uint32_t a, b, d;
 
   if (! grub_cpu_is_cpuid_supported ())
     return sane_value;
 
-#ifdef __APPLE__
-  asm volatile ("movl $0, %%eax\n"
-#ifdef __x86_64__
-		"push %%rbx\n"
-#else
-		"push %%ebx\n"
-#endif
-		"cpuid\n"
-#ifdef __x86_64__
-		"pop %%rbx\n"
-#else
-		"pop %%ebx\n"
-#endif
-		: "=a" (max_cpuid),
-		  "=d" (manufacturer[1]), "=c" (manufacturer[2]));
-
-  /* Only Intel for now is done. */
-  if (grub_memcmp (manufacturer + 1, "ineIntel", 12) != 0)
-    return sane_value;
-
-#else
-  asm volatile ("movl $0, %%eax\n"
-		"cpuid"
-		: "=a" (max_cpuid), "=b" (manufacturer[0]),
-		  "=d" (manufacturer[1]), "=c" (manufacturer[2]));
+  grub_cpuid (0, max_cpuid, manufacturer[0], manufacturer[2], manufacturer[1]);
 
   /* Only Intel for now is done. */
   if (grub_memcmp (manufacturer, "GenuineIntel", 12) != 0)
     return sane_value;
-#endif
 
   /* Check Speedstep. */
   if (max_cpuid < 1)
     return sane_value;
 
-#ifdef __APPLE__
-  asm volatile ("movl $1, %%eax\n"
-#ifdef __x86_64__
-		"push %%rbx\n"
-#else
-		"push %%ebx\n"
-#endif
-		"cpuid\n"
-#ifdef __x86_64__
-		"pop %%rbx\n"
-#else
-		"pop %%ebx\n"
-#endif
-		: "=c" (capabilities):
-		: "%rax", "%rdx");
-#else
-  asm volatile ("movl $1, %%eax\n"
-		"cpuid"
-		: "=c" (capabilities):
-		: "%rax", "%rbx", "%rdx");
-#endif
+  grub_cpuid (1, a, b, capabilities, d);
 
   if (! (capabilities & (1 << 7)))
     return sane_value;
-
-  /* Calibrate the TSC rate. */
-
-  start_tsc = grub_get_tsc ();
-  grub_pit_wait (0xffff);
-  end_tsc = grub_get_tsc ();
-
-  tsc_ticks_per_ms = grub_divmod64 (end_tsc - start_tsc, 55, 0);
 
   /* Read the multiplier. */
   asm volatile ("movl $0x198, %%ecx\n"
@@ -207,8 +153,21 @@ guessfsb (void)
 		:
 		: "%ecx", "%eax");
 
-  return grub_divmod64 (2000 * tsc_ticks_per_ms,
-			((msrlow >> 7) & 0x3e) + ((msrlow >> 14) & 1), 0);
+  grub_uint64_t v;
+  grub_uint32_t r;
+
+  /* (2000ULL << 32) / grub_tsc_rate  */
+  /* Assumption: TSC frequency is over 2 MHz.  */
+  v = 0xffffffff / grub_tsc_rate;
+  v *= 2000;
+  /* v is at most 2000 off from (2000ULL << 32) / grub_tsc_rate.
+     Since grub_tsc_rate < 2^32/2^11=2^21, so no overflow.
+   */
+  r = (2000ULL << 32) - v * grub_tsc_rate;
+  v += r / grub_tsc_rate;
+
+  return grub_divmod64 (v, ((msrlow >> 7) & 0x3e) | ((msrlow >> 14) & 1),
+			 0);
 }
 
 struct property_descriptor
@@ -393,18 +352,6 @@ grub_xnu_devprop_add_property_utf16 (struct grub_xnu_devprop_device_descriptor *
     }
 
   return GRUB_ERR_NONE;
-}
-
-static inline int
-hextoval (char c)
-{
-  if (c >= '0' && c <= '9')
-    return c - '0';
-  if (c >= 'a' && c <= 'z')
-    return c - 'a' + 10;
-  if (c >= 'A' && c <= 'Z')
-    return c - 'A' + 10;
-  return 0;
 }
 
 void

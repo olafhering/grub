@@ -2,7 +2,7 @@ Index: b/Makefile.util.def
 ===================================================================
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
-@@ -289,6 +289,22 @@
+@@ -306,6 +306,22 @@
  };
  
  program = {
@@ -35,8 +35,8 @@ Index: b/include/grub/util/deviceiter.h
 +
 +#include <config.h>
 +
-+void grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
-+				int floppy_disks);
++void grub_util_iterate_devices (int (*hook) (const char *, int),
++				void *hook_data, int floppy_disks);
 +void grub_util_emit_devicemap_entry (FILE *fp, char *name, int is_floppy,
 +				     int *num_fd, int *num_hd);
 +
@@ -568,7 +568,7 @@ Index: b/util/deviceiter.c
 +#endif /* __linux__ */
 +
 +void
-+grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
++grub_util_iterate_devices (int (*hook) (const char *, int), void *hook_data,
 +			   int floppy_disks)
 +{
 +  int i;
@@ -586,7 +586,7 @@ Index: b/util/deviceiter.c
 +	break;
 +      /* In floppies, write the map, whether check_device_readable_unique
 +         succeeds or not, because the user just may not insert floppies.  */
-+      if (hook (name, 1))
++      if (hook (name, 1, hook_data))
 +	goto out;
 +    }
 +
@@ -641,7 +641,7 @@ Index: b/util/deviceiter.c
 +	  {
 +	    if (check_device_readable_unique (devs[dev].stable))
 +	      {
-+		if (hook (devs[dev].stable, 0))
++		if (hook (devs[dev].stable, 0, hook_data))
 +		  goto out;
 +	      }
 +	    free (devs[dev].stable);
@@ -669,7 +669,7 @@ Index: b/util/deviceiter.c
 +	  if (realpath (discn, name))
 +	    {
 +	      strcat (name, "/disc");
-+	      if (hook (name, 0))
++	      if (hook (name, 0, hook_data))
 +		goto out;
 +	    }
 +	}
@@ -685,7 +685,7 @@ Index: b/util/deviceiter.c
 +      get_ide_disk_name (name, i);
 +      if (check_device_readable_unique (name))
 +	{
-+	  if (hook (name, 0))
++	  if (hook (name, 0, hook_data))
 +	    goto out;
 +	}
 +    }
@@ -700,7 +700,7 @@ Index: b/util/deviceiter.c
 +	get_ada_disk_name (name, i);
 +	if (check_device_readable_unique (name))
 +	  {
-+	    if (hook (name, 0))
++	    if (hook (name, 0, hook_data))
 +	      goto out;
 +	  }
 +      }
@@ -713,7 +713,7 @@ Index: b/util/deviceiter.c
 +      get_ataraid_disk_name (name, i);
 +      if (check_device_readable_unique (name))
 +	{
-+	  if (hook (name, 0))
++	  if (hook (name, 0, hook_data))
 +	    goto out;
 +        }
 +    }
@@ -726,7 +726,7 @@ Index: b/util/deviceiter.c
 +      get_mfi_disk_name (name, i);
 +      if (check_device_readable_unique (name))
 +	{
-+	  if (hook (name, 0))
++	  if (hook (name, 0, hook_data))
 +	    goto out;
 +        }
 +    }
@@ -741,7 +741,7 @@ Index: b/util/deviceiter.c
 +      get_virtio_disk_name (name, i);
 +      if (check_device_readable_unique (name))
 +	{
-+	  if (hook (name, 0))
++	  if (hook (name, 0, hook_data))
 +	    goto out;
 +	}
 +    }
@@ -754,7 +754,7 @@ Index: b/util/deviceiter.c
 +      get_ataraid_disk_name (name, i);
 +      if (check_device_readable_unique (name))
 +	{
-+	  if (hook (name, 0))
++	  if (hook (name, 0, hook_data))
 +	    goto out;
 +        }
 +    }
@@ -767,7 +767,7 @@ Index: b/util/deviceiter.c
 +      get_xvd_disk_name (name, i);
 +      if (check_device_readable_unique (name))
 +	{
-+	  if (hook (name, 0))
++	  if (hook (name, 0, hook_data))
 +	    goto out;
 +	}
 +    }
@@ -781,7 +781,7 @@ Index: b/util/deviceiter.c
 +      get_scsi_disk_name (name, i);
 +      if (check_device_readable_unique (name))
 +	{
-+	  if (hook (name, 0))
++	  if (hook (name, 0, hook_data))
 +	    goto out;
 +	}
 +    }
@@ -804,7 +804,7 @@ Index: b/util/deviceiter.c
 +	    get_dac960_disk_name (name, controller, drive);
 +	    if (check_device_readable_unique (name))
 +	      {
-+		if (hook (name, 0))
++		if (hook (name, 0, hook_data))
 +		  goto out;
 +	      }
 +	  }
@@ -825,7 +825,7 @@ Index: b/util/deviceiter.c
 +	    get_acceleraid_disk_name (name, controller, drive);
 +	    if (check_device_readable_unique (name))
 +	      {
-+		if (hook (name, 0))
++		if (hook (name, 0, hook_data))
 +		  goto out;
 +	      }
 +	  }
@@ -846,7 +846,7 @@ Index: b/util/deviceiter.c
 +	    get_cciss_disk_name (name, controller, drive);
 +	    if (check_device_readable_unique (name))
 +	      {
-+		if (hook (name, 0))
++		if (hook (name, 0, hook_data))
 +		  goto out;
 +	      }
 +	  }
@@ -867,7 +867,7 @@ Index: b/util/deviceiter.c
 +	    get_ida_disk_name (name, controller, drive);
 +	    if (check_device_readable_unique (name))
 +	      {
-+		if (hook (name, 0))
++		if (hook (name, 0, hook_data))
 +		  goto out;
 +	      }
 +	  }
@@ -885,7 +885,7 @@ Index: b/util/deviceiter.c
 +	get_i2o_disk_name (name, unit);
 +	if (check_device_readable_unique (name))
 +	  {
-+	    if (hook (name, 0))
++	    if (hook (name, 0, hook_data))
 +	      goto out;
 +	  }
 +      }
@@ -899,7 +899,7 @@ Index: b/util/deviceiter.c
 +      get_mmc_disk_name (name, i);
 +      if (check_device_readable_unique (name))
 +	{
-+	  if (hook (name, 0))
++	  if (hook (name, 0, hook_data))
 +	    goto out;
 +	}
 +    }
@@ -970,7 +970,7 @@ Index: b/util/deviceiter.c
 +	      name = xasprintf ("/dev/mapper/%s", node_name);
 +	      if (check_device_readable_unique (name))
 +		{
-+		  if (hook (name, 0))
++		  if (hook (name, 0, hook_data))
 +		    {
 +		      free (name);
 +		      if (task)
@@ -1023,7 +1023,7 @@ Index: b/util/grub-mkdevicemap.c
 ===================================================================
 --- /dev/null
 +++ b/util/grub-mkdevicemap.c
-@@ -0,0 +1,171 @@
+@@ -0,0 +1,182 @@
 +/* grub-mkdevicemap.c - make a device map file automatically */
 +/*
 + *  GRUB  --  GRand Unified Bootloader
@@ -1066,34 +1066,45 @@ Index: b/util/grub-mkdevicemap.c
 +
 +#include "progname.h"
 +
++/* Context for make_device_map.  */
++struct make_device_map_ctx
++{
++  FILE *fp;
++  int *num_fd;
++  int *num_hd;
++};
++
++/* Helper for make_device_map.  */
++static int
++process_device (const char *name, int is_floppy, void *data)
++{
++  struct make_device_map_ctx *ctx = data;
++
++  grub_util_emit_devicemap_entry (ctx->fp, (char *) name,
++				  is_floppy, ctx->num_fd, ctx->num_hd);
++  return 0;
++}
++
 +static void
 +make_device_map (const char *device_map, int floppy_disks)
 +{
-+  int num_hd = 0;
-+  int num_fd = 0;
-+  FILE *fp;
-+
-+  auto int NESTED_FUNC_ATTR process_device (const char *name, int is_floppy);
-+
-+  int NESTED_FUNC_ATTR process_device (const char *name, int is_floppy)
-+  {
-+    grub_util_emit_devicemap_entry (fp, (char *) name,
-+				    is_floppy, &num_fd, &num_hd);
-+    return 0;
-+  }
++  struct make_device_map_ctx ctx = {
++    .num_fd = 0,
++    .num_hd = 0
++  };
 +
 +  if (strcmp (device_map, "-") == 0)
-+    fp = stdout;
++    ctx.fp = stdout;
 +  else
-+    fp = fopen (device_map, "w");
++    ctx.fp = fopen (device_map, "w");
 +
-+  if (! fp)
++  if (! ctx.fp)
 +    grub_util_error (_("cannot open %s"), device_map);
 +
-+  grub_util_iterate_devices (process_device, floppy_disks);
++  grub_util_iterate_devices (process_device, floppy_disks, &ctx);
 +
-+  if (fp != stdout)
-+    fclose (fp);
++  if (ctx.fp != stdout)
++    fclose (ctx.fp);
 +}
 +
 +static struct option options[] =

@@ -1,3 +1,9 @@
+grub2 (2.00+20131114-1) UNRELEASED; urgency=low
+
+  * New upstream snapshot.
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 15 Nov 2013 10:18:57 +0000
+
 grub2 (2.00-20) unstable; urgency=low
 
   * Backport from upstream:

@@ -2,23 +2,20 @@ Description: Silence error messages when translations are unavailable
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug: https://savannah.gnu.org/bugs/?35880
 Forwarded: https://savannah.gnu.org/bugs/?35880
-Last-Update: 2012-09-06
+Last-Update: 2013-11-14
 
 Index: b/grub-core/gettext/gettext.c
 ===================================================================
 --- a/grub-core/gettext/gettext.c
 +++ b/grub-core/gettext/gettext.c
-@@ -412,6 +412,14 @@
- 
-       grub_free (lang);
-     }
+@@ -427,6 +427,11 @@
+   if (locale[0] == 'e' && locale[1] == 'n'
+       && (locale[2] == '\0' || locale[2] == '_'))
+     grub_errno = err = GRUB_ERR_NONE;
 +
 +  /* If no translations are available, fall back to untranslated text. */
 +  if (err == GRUB_ERR_FILE_NOT_FOUND)
-+    {
-+      grub_errno = GRUB_ERR_NONE;
-+      return 0;
-+    }
++    grub_errno = err = GRUB_ERR_NONE;
 +
    return err;
  }

@@ -7,7 +7,7 @@ Index: b/util/grub-mkconfig_lib.in
 ===================================================================
 --- a/util/grub-mkconfig_lib.in
 +++ b/util/grub-mkconfig_lib.in
-@@ -229,8 +229,9 @@
+@@ -235,8 +235,9 @@
  
  version_test_gt ()
  {
@@ -19,7 +19,7 @@ Index: b/util/grub-mkconfig_lib.in
    version_test_gt_cmp=gt
    if [ "x$version_test_gt_b" = "x" ] ; then
      return 0
-@@ -240,7 +241,7 @@
+@@ -246,7 +247,7 @@
      *.old:*) version_test_gt_a="`echo -n "$version_test_gt_a" | sed -e 's/\.old$//'`" ; version_test_gt_cmp=gt ;;
      *:*.old) version_test_gt_b="`echo -n "$version_test_gt_b" | sed -e 's/\.old$//'`" ; version_test_gt_cmp=ge ;;
    esac

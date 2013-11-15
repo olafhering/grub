@@ -5,7 +5,7 @@ Index: b/grub-core/kern/ieee1275/init.c
 ===================================================================
 --- a/grub-core/kern/ieee1275/init.c
 +++ b/grub-core/kern/ieee1275/init.c
-@@ -61,6 +61,7 @@
+@@ -65,6 +65,7 @@
    grub_ieee1275_exit ();
  }
  
@@ -13,7 +13,7 @@ Index: b/grub-core/kern/ieee1275/init.c
  /* Translate an OF filesystem path (separated by backslashes), into a GRUB
     path (separated by forward slashes).  */
  static void
-@@ -75,10 +76,19 @@
+@@ -79,10 +80,19 @@
        backslash = grub_strchr (filepath, '\\');
      }
  }
@@ -33,9 +33,9 @@ Index: b/grub-core/kern/ieee1275/init.c
  void
  grub_machine_get_bootlocation (char **device, char **path)
  {
-@@ -133,6 +143,7 @@
- 	}
+@@ -150,6 +160,7 @@
      }
+   grub_free (bootpath);
  }
 +#endif
  

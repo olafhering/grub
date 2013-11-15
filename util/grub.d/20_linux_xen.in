@@ -32,7 +32,7 @@ if [ "x${GRUB_DISTRIBUTOR}" = "x" ] ; then
   OS=GNU/Linux
 else
   OS="${GRUB_DISTRIBUTOR} GNU/Linux"
-  CLASS="--class $(echo ${GRUB_DISTRIBUTOR} | tr 'A-Z' 'a-z' | cut -d' ' -f1) ${CLASS}"
+  CLASS="--class $(echo ${GRUB_DISTRIBUTOR} | tr 'A-Z' 'a-z' | cut -d' ' -f1|LC_ALL=C sed 's,[^[:alnum:]_],_,g') ${CLASS}"
 fi
 
 # loop-AES arranges things so that /dev/loop/X can be our root device, but
@@ -115,18 +115,23 @@ linux_entry ()
       echo "menuentry '$(echo "$title" | grub_quote)' ${CLASS} \$menuentry_id_option 'xen-gnulinux-simple-$boot_device_id' {" | sed "s/^/$submenu_indentation/"
   fi
   if [ x$type != xrecovery ] ; then
-      save_default_entry | sed -e "s/^/\t/" | sed "s/^/$submenu_indentation/"
+      save_default_entry | grub_add_tab | sed "s/^/$submenu_indentation/"
   fi
 
   if [ -z "${prepare_boot_cache}" ]; then
-    prepare_boot_cache="$(prepare_grub_to_access_device ${GRUB_DEVICE_BOOT} | sed -e "s/^/\t/")"
+    prepare_boot_cache="$(prepare_grub_to_access_device ${GRUB_DEVICE_BOOT} | grub_add_tab)"
   fi
   printf '%s\n' "${prepare_boot_cache}" | sed "s/^/$submenu_indentation/"
   xmessage="$(gettext_printf "Loading Xen %s ..." ${xen_version})"
   lmessage="$(gettext_printf "Loading Linux %s ..." ${version})"
   sed "s/^/$submenu_indentation/" << EOF
 	echo	'$(echo "$xmessage" | grub_quote)'
-	multiboot	${rel_xen_dirname}/${xen_basename} placeholder ${xen_args}
+        if [ "\$grub_platform" = "pc" -o "\$grub_platform" = "" ]; then
+            xen_rm_opts=
+        else
+            xen_rm_opts="no-real-mode edd=off"
+        fi
+	multiboot	${rel_xen_dirname}/${xen_basename} placeholder ${xen_args} \${xen_rm_opts}
 	echo	'$(echo "$lmessage" | grub_quote)'
 	module	${rel_dirname}/${basename} placeholder root=${linux_root_device_thisversion} ro ${args}
 EOF
@@ -135,7 +140,7 @@ EOF
     message="$(gettext_printf "Loading initial ramdisk ...")"
     sed "s/^/$submenu_indentation/" << EOF
 	echo	'$(echo "$message" | grub_quote)'
-	module	${rel_dirname}/${initrd}
+	module	--nounzip   ${rel_dirname}/${initrd}
 EOF
   fi
   sed "s/^/$submenu_indentation/" << EOF
@@ -179,6 +184,8 @@ boot_device_id=
 
 title_correction_code=
 
+machine=`uname -m`
+
 case "$machine" in
     i?86) GENKERNEL_ARCH="x86" ;;
     mips|mips64) GENKERNEL_ARCH="mips" ;;
@@ -191,7 +198,7 @@ esac
 # yet, so it's empty. In a submenu it will be equal to '\t' (one tab).
 submenu_indentation=""
 
-is_first_entry=true
+is_top_level=true
 
 while [ "x${xen_list}" != "x" ] ; do
     list="${linux_list}"
@@ -203,7 +210,7 @@ while [ "x${xen_list}" != "x" ] ; do
     if [ -z "$boot_device_id" ]; then
 	boot_device_id="$(grub_get_device_id "${GRUB_DEVICE}")"
     fi
-    if [ "x$is_first_entry" != xtrue ]; then
+    if [ "x$is_top_level" != xtrue ]; then
 	echo "	submenu '$(gettext_printf "Xen hypervisor, version %s" "${xen_version}" | grub_quote)' \$menuentry_id_option 'xen-hypervisor-$xen_version-$boot_device_id' {"
     fi
     while [ "x$list" != "x" ] ; do
@@ -237,11 +244,11 @@ while [ "x${xen_list}" != "x" ] ; do
 	    linux_root_device_thisversion=${GRUB_DEVICE}
 	fi
 
-	if [ "x$is_first_entry" = xtrue ]; then
+	if [ "x$is_top_level" = xtrue ] && [ "x${GRUB_DISABLE_SUBMENU}" != xy ]; then
 	    linux_entry "${OS}" "${version}" "${xen_version}" simple \
 		"${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}" "${GRUB_CMDLINE_XEN} ${GRUB_CMDLINE_XEN_DEFAULT}"
 
-	    submenu_indentation="\t\t"
+	    submenu_indentation="$grub_tab$grub_tab"
     
 	    if [ -z "$boot_device_id" ]; then
 		boot_device_id="$(grub_get_device_id "${GRUB_DEVICE}")"
@@ -249,8 +256,8 @@ while [ "x${xen_list}" != "x" ] ; do
             # TRANSLATORS: %s is replaced with an OS name
 	    echo "submenu '$(gettext_printf "Advanced options for %s (with Xen hypervisor)" "${OS}" | grub_quote)' \$menuentry_id_option 'gnulinux-advanced-$boot_device_id' {"
 	echo "	submenu '$(gettext_printf "Xen hypervisor, version %s" "${xen_version}" | grub_quote)' \$menuentry_id_option 'xen-hypervisor-$xen_version-$boot_device_id' {"
+	   is_top_level=false
 	fi
-	is_first_entry=false
 
 	linux_entry "${OS}" "${version}" "${xen_version}" advanced \
 	    "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}" "${GRUB_CMDLINE_XEN} ${GRUB_CMDLINE_XEN_DEFAULT}"
@@ -261,7 +268,7 @@ while [ "x${xen_list}" != "x" ] ; do
 
 	list=`echo $list | tr ' ' '\n' | grep -vx $linux | tr '\n' ' '`
     done
-    if [ x"$is_first_entry" != xtrue ]; then
+    if [ x"$is_top_level" != xtrue ]; then
 	echo '	}'
     fi
     xen_list=`echo $xen_list | tr ' ' '\n' | grep -vx $current_xen | tr '\n' ' '`
@@ -269,7 +276,7 @@ done
 
 # If at least one kernel was found, then we need to
 # add a closing '}' for the submenu command.
-if [ x"$is_first_entry" != xtrue ]; then
+if [ x"$is_top_level" != xtrue ]; then
   echo '}'
 fi
 

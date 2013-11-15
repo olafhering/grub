@@ -132,6 +132,9 @@ map_key_core (int code, int status, int *alt_gr_consumed)
 {
   *alt_gr_consumed = 0;
 
+  if (code >= GRUB_KEYBOARD_LAYOUTS_ARRAY_SIZE)
+    return 0;
+
   if (status & GRUB_TERM_STATUS_RALT)
     {
       if (status & (GRUB_TERM_STATUS_LSHIFT | GRUB_TERM_STATUS_RSHIFT))
@@ -242,7 +245,7 @@ grub_cmd_keymap (struct grub_command *cmd __attribute__ ((unused)),
       goto fail;
     }
 
-  if (grub_le_to_cpu32 (version) != GRUB_KEYBOARD_LAYOUTS_VERSION)
+  if (version != grub_cpu_to_le32_compile_time (GRUB_KEYBOARD_LAYOUTS_VERSION))
     {
       grub_error (GRUB_ERR_BAD_ARGUMENT, "invalid version");
       goto fail;
@@ -290,21 +293,13 @@ grub_cmd_keymap (struct grub_command *cmd __attribute__ ((unused)),
 
 static grub_command_t cmd;
 
-#if defined (GRUB_MACHINE_MIPS_LOONGSON) || defined (GRUB_MACHINE_MIPS_QEMU_MIPS)
-void grub_keylayouts_init (void)
-#else
 GRUB_MOD_INIT(keylayouts)
-#endif
 {
   cmd = grub_register_command ("keymap", grub_cmd_keymap,
 			       0, N_("Load a keyboard layout."));
 }
 
-#if defined (GRUB_MACHINE_MIPS_LOONGSON) || defined (GRUB_MACHINE_MIPS_QEMU_MIPS)
-void grub_keylayouts_fini (void)
-#else
 GRUB_MOD_FINI(keylayouts)
-#endif
 {
   grub_unregister_command (cmd);
 }

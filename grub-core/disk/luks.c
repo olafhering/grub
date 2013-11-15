@@ -82,7 +82,7 @@ configure_ciphers (grub_disk_t disk, const char *check_uuid,
   const gcry_md_spec_t *hash = NULL, *essiv_hash = NULL;
   const struct gcry_cipher_spec *ciph;
   grub_cryptodisk_mode_t mode;
-  grub_cryptodisk_mode_iv_t mode_iv;
+  grub_cryptodisk_mode_iv_t mode_iv = GRUB_CRYPTODISK_MODE_IV_PLAIN64;
   int benbi_log = 0;
   grub_err_t err;
 
@@ -290,9 +290,7 @@ configure_ciphers (grub_disk_t disk, const char *check_uuid,
   newdev->log_sector_size = 9;
   newdev->total_length = grub_disk_get_size (disk) - newdev->offset;
   grub_memcpy (newdev->uuid, uuid, sizeof (newdev->uuid));
-#ifdef GRUB_UTIL
   newdev->modname = "luks";
-#endif
   COMPILE_TIME_ASSERT (sizeof (newdev->uuid) >= sizeof (uuid));
   return newdev;
 }
@@ -318,6 +316,8 @@ luks_recover_key (grub_disk_t source,
 
   grub_puts_ (N_("Attempting to decrypt master key..."));
   keysize = grub_be_to_cpu32 (header.keyBytes);
+  if (keysize > GRUB_CRYPTODISK_MAX_KEYLEN)
+    return grub_error (GRUB_ERR_BAD_FS, "key is too long");
 
   for (i = 0; i < ARRAY_SIZE (header.keyblock); i++)
     if (grub_be_to_cpu32 (header.keyblock[i].active) == LUKS_KEY_ENABLED
@@ -346,8 +346,8 @@ luks_recover_key (grub_disk_t source,
   for (i = 0; i < ARRAY_SIZE (header.keyblock); i++)
     {
       gcry_err_code_t gcry_err;
-      grub_uint8_t candidate_key[keysize];
-      grub_uint8_t digest[keysize];
+      grub_uint8_t candidate_key[GRUB_CRYPTODISK_MAX_KEYLEN];
+      grub_uint8_t digest[GRUB_CRYPTODISK_MAX_KEYLEN];
 
       /* Check if keyslot is enabled.  */
       if (grub_be_to_cpu32 (header.keyblock[i].active) != LUKS_KEY_ENABLED)

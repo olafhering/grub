@@ -2,13 +2,13 @@ Description: If GRUB Legacy is still around, tell packaging to ignore it
 Author: Colin Watson <cjwatson@debian.org>
 Bug-Debian: http://bugs.debian.org/586143
 Forwarded: not-needed
-Last-Update: 2010-06-18
+Last-Update: 2013-11-14
 
 Index: b/util/grub-install.in
 ===================================================================
 --- a/util/grub-install.in
 +++ b/util/grub-install.in
-@@ -863,6 +863,13 @@
+@@ -823,6 +823,13 @@
      echo 1>&2
  fi
  

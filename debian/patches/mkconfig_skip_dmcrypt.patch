@@ -12,7 +12,7 @@ Index: b/util/grub-mkconfig_lib.in
 ===================================================================
 --- a/util/grub-mkconfig_lib.in
 +++ b/util/grub-mkconfig_lib.in
-@@ -129,6 +129,15 @@
+@@ -130,6 +130,15 @@
      esac
    done
  
@@ -26,5 +26,5 @@ Index: b/util/grub-mkconfig_lib.in
 +  fi
 +
    # Abstraction modules aren't auto-loaded.
-   abstraction="`"${grub_probe}" --device "${device}" --target=abstraction`"
+   abstraction="`"${grub_probe}" --device $@ --target=abstraction`"
    for module in ${abstraction} ; do

@@ -24,7 +24,15 @@
 #include <grub/cpu/types.h>
 #endif
 
-#ifdef GRUB_UTIL
+#ifdef GRUB_BUILD
+# define GRUB_CPU_SIZEOF_VOID_P	BUILD_SIZEOF_VOID_P
+# define GRUB_CPU_SIZEOF_LONG	BUILD_SIZEOF_LONG
+# if BUILD_WORDS_BIGENDIAN
+#  define GRUB_CPU_WORDS_BIGENDIAN	1
+# else
+#  undef GRUB_CPU_WORDS_BIGENDIAN
+# endif
+#elif defined (GRUB_UTIL)
 # define GRUB_CPU_SIZEOF_VOID_P	SIZEOF_VOID_P
 # define GRUB_CPU_SIZEOF_LONG	SIZEOF_LONG
 # ifdef WORDS_BIGENDIAN
@@ -42,15 +50,15 @@
 # endif
 #endif /* ! GRUB_UTIL */
 
-#if GRUB_CPU_SIZEOF_VOID_P != GRUB_CPU_SIZEOF_LONG
-# error "This architecture is not supported because sizeof(void *) != sizeof(long)"
-#endif
-
 #if GRUB_CPU_SIZEOF_VOID_P != 4 && GRUB_CPU_SIZEOF_VOID_P != 8
 # error "This architecture is not supported because sizeof(void *) != 4 and sizeof(void *) != 8"
 #endif
 
-#if !defined (GRUB_UTIL) & !defined (GRUB_TARGET_WORDSIZE)
+#if GRUB_CPU_SIZEOF_LONG != 4 && GRUB_CPU_SIZEOF_LONG != 8
+# error "This architecture is not supported because sizeof(long) != 4 and sizeof(long) != 8"
+#endif
+
+#if !defined (GRUB_UTIL) && !defined (GRUB_TARGET_WORDSIZE)
 # if GRUB_TARGET_SIZEOF_VOID_P == 4
 #  define GRUB_TARGET_WORDSIZE 32
 # elif GRUB_TARGET_SIZEOF_VOID_P == 8
@@ -90,6 +98,8 @@ typedef grub_uint64_t	grub_addr_t;
 typedef grub_uint64_t	grub_size_t;
 typedef grub_int64_t	grub_ssize_t;
 
+# define GRUB_SIZE_MAX 18446744073709551615UL
+
 # if GRUB_CPU_SIZEOF_LONG == 8
 #  define PRIxGRUB_SIZE	 "lx"
 #  define PRIxGRUB_ADDR	 "lx"
@@ -106,6 +116,8 @@ typedef grub_uint32_t	grub_addr_t;
 typedef grub_uint32_t	grub_size_t;
 typedef grub_int32_t	grub_ssize_t;
 
+# define GRUB_SIZE_MAX 4294967295UL
+
 # define PRIxGRUB_SIZE	"x"
 # define PRIxGRUB_ADDR	"x"
 # define PRIuGRUB_SIZE	"u"
@@ -117,6 +129,8 @@ typedef grub_int32_t	grub_ssize_t;
 #define GRUB_SHRT_MAX 0x7fff
 #define GRUB_UINT_MAX 4294967295U
 #define GRUB_INT_MAX 0x7fffffff
+#define GRUB_INT32_MIN (-2147483647 - 1)
+#define GRUB_INT32_MAX 2147483647
 
 #if GRUB_CPU_SIZEOF_LONG == 8
 # define GRUB_ULONG_MAX 18446744073709551615UL
@@ -279,15 +293,18 @@ static inline void grub_set_unaligned32 (void *ptr, grub_uint32_t val)
   dd->d = val;
 }
 
+struct grub_unaligned_uint64
+{
+  grub_uint64_t val;
+} __attribute__ ((packed));
+
+typedef struct grub_unaligned_uint64 grub_unaligned_uint64_t;
+
 static inline grub_uint64_t grub_get_unaligned64 (const void *ptr)
 {
-  struct grub_unaligned_uint64_t
-  {
-    grub_uint64_t d;
-  } __attribute__ ((packed));
-  const struct grub_unaligned_uint64_t *dd
-    = (const struct grub_unaligned_uint64_t *)ptr;
-  return dd->d;
+  const struct grub_unaligned_uint64 *dd
+    = (const struct grub_unaligned_uint64 *) ptr;
+  return dd->val;
 }
 
 static inline void grub_set_unaligned64 (void *ptr, grub_uint64_t val)
@@ -299,5 +316,7 @@ static inline void grub_set_unaligned64 (void *ptr, grub_uint64_t val)
   struct grub_unaligned_uint64_t *dd = (struct grub_unaligned_uint64_t *) ptr;
   dd->d = val;
 }
+
+#define GRUB_CHAR_BIT 8
 
 #endif /* ! GRUB_TYPES_HEADER */

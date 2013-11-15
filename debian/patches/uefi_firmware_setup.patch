@@ -1,12 +1,13 @@
 Description: Output a menu entry for firmware setup on UEFI FastBoot systems
 Author: Steve Langasek <steve.langasek@ubuntu.com>
 Forwarded: no
+Last-Update: 2013-11-14
 
 Index: b/Makefile.util.def
 ===================================================================
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
-@@ -456,6 +456,12 @@
+@@ -484,6 +484,12 @@
  };
  
  script = {
@@ -19,18 +20,6 @@ Index: b/Makefile.util.def
    name = '40_custom';
    common = util/grub.d/40_custom.in;
    installdir = grubconf;
-Index: b/po/POTFILES-shell.in
-===================================================================
---- a/po/POTFILES-shell.in
-+++ b/po/POTFILES-shell.in
-@@ -7,6 +7,7 @@
- util/grub.d/10_windows.in
- util/grub.d/20_linux_xen.in
- util/grub.d/30_os-prober.in
-+util/grub.d/30_uefi-firmware.in
- util/grub.d/40_custom.in
- util/grub.d/41_custom.in
- util/grub-install.in
 Index: b/util/grub.d/30_uefi-firmware.in
 ===================================================================
 --- /dev/null

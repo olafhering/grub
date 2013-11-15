@@ -23,13 +23,7 @@
 #include <grub/term.h>
 #include <grub/dl.h>
 #include <grub/i18n.h>
-
-#ifdef GRUB_UTIL
-#include <termios.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#endif
+#include <grub/env.h>
 
 GRUB_MOD_LICENSE ("GPLv3+");
 
@@ -56,6 +50,38 @@ grub_burn_stack (grub_size_t size)
     grub_burn_stack (size - sizeof (buf));
 }
 
+void
+_gcry_burn_stack (int size)
+{
+  grub_burn_stack (size);
+}
+
+void __attribute__ ((noreturn))
+_gcry_assert_failed (const char *expr, const char *file, int line,
+		     const char *func)
+  
+{
+  grub_fatal ("assertion %s at %s:%d (%s) failed\n", expr, file, line, func);
+}
+
+
+void _gcry_log_error (const char *fmt, ...)
+{
+  va_list args;
+  const char *debug = grub_env_get ("debug");
+
+  if (! debug)
+    return;
+
+  if (grub_strword (debug, "all") || grub_strword (debug, "gcrypt"))
+    {
+      grub_printf ("gcrypt error: ");
+      va_start (args, fmt);
+      grub_vprintf (fmt, args);
+      va_end (args);
+      grub_refresh ();
+    }
+}
 
 void 
 grub_cipher_register (gcry_cipher_spec_t *cipher)
@@ -235,10 +261,12 @@ grub_crypto_cbc_decrypt (grub_crypto_cipher_handle_t cipher,
 {
   const grub_uint8_t *inptr;
   grub_uint8_t *outptr, *end;
-  grub_uint8_t ivt[cipher->cipher->blocksize];
+  grub_uint8_t ivt[GRUB_CRYPTO_MAX_CIPHER_BLOCKSIZE];
   if (!cipher->cipher->decrypt)
     return GPG_ERR_NOT_SUPPORTED;
   if (size % cipher->cipher->blocksize != 0)
+    return GPG_ERR_INV_ARG;
+  if (cipher->cipher->blocksize > GRUB_CRYPTO_MAX_CIPHER_BLOCKSIZE)
     return GPG_ERR_INV_ARG;
   end = (grub_uint8_t *) in + size;
   for (inptr = in, outptr = out; inptr < end;
@@ -404,43 +432,11 @@ grub_crypto_memcmp (const void *a, const void *b, grub_size_t n)
   return !!counter;
 }
 
+#ifndef GRUB_UTIL
+
 int
 grub_password_get (char buf[], unsigned buf_size)
 {
-#ifdef GRUB_UTIL
-  FILE *in;
-  struct termios s, t;
-  int tty_changed = 0;
-  char *ptr;
-
-  /* Disable echoing. Based on glibc.  */
-  in = fopen ("/dev/tty", "w+c");
-  if (in == NULL)
-    in = stdin;
-
-  if (tcgetattr (fileno (in), &t) == 0)
-    {
-      /* Save the old one. */
-      s = t;
-      /* Tricky, tricky. */
-      t.c_lflag &= ~(ECHO|ISIG);
-      tty_changed = (tcsetattr (fileno (in), TCSAFLUSH, &t) == 0);
-    }
-  else
-    tty_changed = 0;
-  fgets (buf, buf_size, stdin);
-  ptr = buf + strlen (buf) - 1;
-  while (buf <= ptr && (*ptr == '\n' || *ptr == '\r'))
-    *ptr-- = 0;
-  /* Restore the original setting.  */
-  if (tty_changed)
-    (void) tcsetattr (fileno (in), TCSAFLUSH, &s);
-
-  grub_xputs ("\n");
-  grub_refresh ();
-
-  return 1;
-#else
   unsigned cur_len = 0;
   int key;
 
@@ -475,5 +471,6 @@ grub_password_get (char buf[], unsigned buf_size)
   grub_refresh ();
 
   return (key != '\e');
-#endif
 }
+#endif
+

@@ -23,6 +23,8 @@
 #include <grub/util/misc.h>
 #include <grub/lib/envblk.h>
 #include <grub/i18n.h>
+#include <grub/emu/hostfile.h>
+#include <grub/util/install.h>
 
 #include <stdio.h>
 #include <unistd.h>
@@ -32,7 +34,6 @@
 
 #include "progname.h"
 
-#define DEFAULT_ENVBLK_SIZE	1024
 #define DEFAULT_ENVBLK_PATH DEFAULT_DIRECTORY "/" GRUB_ENVBLK_DEFCFG
 
 static struct argp_option options[] = {
@@ -92,7 +93,7 @@ help_filter (int key, const char *text, void *input __attribute__ ((unused)))
   switch (key)
     {
       case ARGP_KEY_HELP_POST_DOC:
-        return xasprintf(text, DEFAULT_ENVBLK_PATH);
+        return xasprintf (text, DEFAULT_ENVBLK_PATH, DEFAULT_ENVBLK_PATH);
 
       default:
         return (char *) text;
@@ -104,41 +105,11 @@ struct argp argp = {
   "\n"N_("\
 Tool to edit environment block.")
 "\v"N_("\
-If FILENAME is `-', the default value %s is used."),
+If FILENAME is `-', the default value %s is used.\n\n\
+There is no `delete' command; if you want to delete the whole environment\n\
+block, use `rm %s'."),
   NULL, help_filter, NULL
 };
-
-static void
-create_envblk_file (const char *name)
-{
-  FILE *fp;
-  char *buf;
-  char *namenew;
-
-  buf = xmalloc (DEFAULT_ENVBLK_SIZE);
-
-  namenew = xasprintf ("%s.new", name);
-  fp = fopen (namenew, "wb");
-  if (! fp)
-    grub_util_error (_("cannot open `%s': %s"), namenew,
-		     strerror (errno));
-
-  memcpy (buf, GRUB_ENVBLK_SIGNATURE, sizeof (GRUB_ENVBLK_SIGNATURE) - 1);
-  memset (buf + sizeof (GRUB_ENVBLK_SIGNATURE) - 1, '#',
-          DEFAULT_ENVBLK_SIZE - sizeof (GRUB_ENVBLK_SIGNATURE) + 1);
-
-  if (fwrite (buf, 1, DEFAULT_ENVBLK_SIZE, fp) != DEFAULT_ENVBLK_SIZE)
-    grub_util_error (_("cannot write to `%s': %s"), namenew,
-		     strerror (errno));
-
-  fsync (fileno (fp));
-  free (buf);
-  fclose (fp);
-
-  if (rename (namenew, name) < 0)
-    grub_util_error (_("cannot rename the file %s to %s"), namenew, name);
-  free (namenew);
-}
 
 static grub_envblk_t
 open_envblk_file (const char *name)
@@ -148,12 +119,12 @@ open_envblk_file (const char *name)
   size_t size;
   grub_envblk_t envblk;
 
-  fp = fopen (name, "rb");
+  fp = grub_util_fopen (name, "rb");
   if (! fp)
     {
       /* Create the file implicitly.  */
-      create_envblk_file (name);
-      fp = fopen (name, "rb");
+      grub_util_create_envblk_file (name);
+      fp = grub_util_fopen (name, "rb");
       if (! fp)
         grub_util_error (_("cannot open `%s': %s"), name,
 			 strerror (errno));
@@ -184,20 +155,21 @@ open_envblk_file (const char *name)
   return envblk;
 }
 
+static int
+print_var (const char *varname, const char *value,
+           void *hook_data __attribute__ ((unused)))
+{
+  printf ("%s=%s\n", varname, value);
+  return 0;
+}
+
 static void
 list_variables (const char *name)
 {
   grub_envblk_t envblk;
 
-  auto int print_var (const char *varname, const char *value);
-  int print_var (const char *varname, const char *value)
-    {
-      printf ("%s=%s\n", varname, value);
-      return 0;
-    }
-
   envblk = open_envblk_file (name);
-  grub_envblk_iterate (envblk, print_var);
+  grub_envblk_iterate (envblk, NULL, print_var);
   grub_envblk_close (envblk);
 }
 
@@ -206,7 +178,7 @@ write_envblk (const char *name, grub_envblk_t envblk)
 {
   FILE *fp;
 
-  fp = fopen (name, "wb");
+  fp = grub_util_fopen (name, "wb");
   if (! fp)
     grub_util_error (_("cannot open `%s': %s"), name,
 		     strerror (errno));
@@ -272,9 +244,7 @@ main (int argc, char *argv[])
   char *command;
   int curindex, arg_count;
 
-  set_program_name (argv[0]);
-
-  grub_util_init_nls ();
+  grub_util_host_init (&argc, &argv);
 
   /* Parse our arguments */
   if (argp_parse (&argp, argc, argv, 0, &curindex, 0) != 0)
@@ -299,7 +269,7 @@ main (int argc, char *argv[])
     }
 
   if (strcmp (command, "create") == 0)
-    create_envblk_file (filename);
+    grub_util_create_envblk_file (filename);
   else if (strcmp (command, "list") == 0)
     list_variables (filename);
   else if (strcmp (command, "set") == 0)

@@ -8,13 +8,13 @@ Description: Bail out if trying to run grub-mkconfig during upgrade to 2.00
  problem.
 Author: Colin Watson <cjwatson@ubuntu.com>
 Forwarded: no
-Last-Update: 2012-09-13
+Last-Update: 2013-11-14
 
 Index: b/util/grub-mkconfig.in
 ===================================================================
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -99,6 +99,13 @@
+@@ -98,6 +98,13 @@
      esac
  done
  

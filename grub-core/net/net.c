@@ -1,6 +1,6 @@
 /*
  *  GRUB  --  GRand Unified Bootloader
- *  Copyright (C) 2010,2011  Free Software Foundation, Inc.
+ *  Copyright (C) 2010,2011,2012,2013  Free Software Foundation, Inc.
  *
  *  GRUB is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -243,16 +243,67 @@ grub_net_ipv6_get_slaac (struct grub_net_card *card,
   return slaac;
 }
 
+static void
+grub_net_network_level_interface_register (struct grub_net_network_level_interface *inter);
+
+static struct grub_net_network_level_interface *
+grub_net_add_addr_real (char *name, 
+			struct grub_net_card *card,
+			const grub_net_network_level_address_t *addr,
+			const grub_net_link_level_address_t *hwaddress,
+			grub_net_interface_flags_t flags)
+{
+  struct grub_net_network_level_interface *inter;
+
+  inter = grub_zalloc (sizeof (*inter));
+  if (!inter)
+    return NULL;
+
+  inter->name = name;
+  grub_memcpy (&(inter->address), addr, sizeof (inter->address));
+  grub_memcpy (&(inter->hwaddress), hwaddress, sizeof (inter->hwaddress));
+  inter->flags = flags;
+  inter->card = card;
+  inter->dhcp_ack = NULL;
+  inter->dhcp_acklen = 0;
+
+  grub_net_network_level_interface_register (inter);
+
+  return inter;
+}
+
+struct grub_net_network_level_interface *
+grub_net_add_addr (const char *name, 
+		   struct grub_net_card *card,
+		   const grub_net_network_level_address_t *addr,
+		   const grub_net_link_level_address_t *hwaddress,
+		   grub_net_interface_flags_t flags)
+{
+  char *name_dup = grub_strdup (name);
+  struct grub_net_network_level_interface *ret;
+ 
+  if (!name_dup)
+    return NULL;
+  ret = grub_net_add_addr_real (name_dup, card, addr, hwaddress, flags);
+  if (!ret)
+    grub_free (name_dup);
+  return ret;
+}
+
 struct grub_net_network_level_interface *
 grub_net_ipv6_get_link_local (struct grub_net_card *card,
 			      const grub_net_link_level_address_t *hwaddr)
 {
   struct grub_net_network_level_interface *inf;
-  char name[grub_strlen (card->name)
-	    + GRUB_NET_MAX_STR_HWADDR_LEN
-	    + sizeof (":link")];
+  char *name;
   char *ptr;
   grub_net_network_level_address_t addr;
+
+  name = grub_malloc (grub_strlen (card->name)
+		      + GRUB_NET_MAX_STR_HWADDR_LEN
+		      + sizeof (":link"));
+  if (!name)
+    return NULL;
 
   addr.type = GRUB_NET_NETWORK_LEVEL_PROTOCOL_IPV6;
   addr.ipv6[0] = grub_cpu_to_be64 (0xfe80ULL << 48);
@@ -274,7 +325,7 @@ grub_net_ipv6_get_link_local (struct grub_net_card *card,
       ptr += grub_strlen (ptr);
     }
   ptr = grub_stpcpy (ptr, ":link");
-  return grub_net_add_addr (name, card, &addr, hwaddr, 0);
+  return grub_net_add_addr_real (name, card, &addr, hwaddr, 0);
 }
 
 /* FIXME: allow to specify mac address.  */
@@ -362,12 +413,6 @@ grub_net_route_register (struct grub_net_route *route)
 {
   grub_list_push (GRUB_AS_LIST_P (&grub_net_routes),
 		  GRUB_AS_LIST (route));
-}
-
-static inline void
-grub_net_route_unregister (struct grub_net_route *route)
-{
-  grub_list_remove (GRUB_AS_LIST (route));
 }
 
 #define FOR_NET_ROUTES(var) for (var = grub_net_routes; var; var = var->next)
@@ -683,8 +728,8 @@ grub_net_addr_to_str (const grub_net_network_level_address_t *target, char *buf)
   switch (target->type)
     {
     case GRUB_NET_NETWORK_LEVEL_PROTOCOL_DHCP_RECV:
-      /* TRANSLATORS: it refers to the network address.  */
-      grub_strncpy (buf, "temporary", GRUB_NET_MAX_STR_ADDR_LEN);
+      COMPILE_TIME_ASSERT (sizeof ("temporary") < GRUB_NET_MAX_STR_ADDR_LEN);
+      grub_strcpy (buf, "temporary");
       return;
     case GRUB_NET_NETWORK_LEVEL_PROTOCOL_IPV6:
       {
@@ -813,34 +858,105 @@ defserver_get_env (struct grub_env_var *var __attribute__ ((unused)),
   return grub_net_default_server ? : "";
 }
 
+static const char *
+defip_get_env (struct grub_env_var *var __attribute__ ((unused)),
+	       const char *val __attribute__ ((unused)))
+{
+  const char *intf = grub_env_get ("net_default_interface");
+  const char *ret = NULL;
+  if (intf)
+    {
+      char *buf = grub_xasprintf ("net_%s_ip", intf);
+      if (buf)
+	ret = grub_env_get (buf);
+      grub_free (buf);
+    }
+  return ret;
+}
+
+static char *
+defip_set_env (struct grub_env_var *var __attribute__ ((unused)),
+	       const char *val)
+{
+  const char *intf = grub_env_get ("net_default_interface");
+  if (intf)
+    {
+      char *buf = grub_xasprintf ("net_%s_ip", intf);
+      if (buf)
+	grub_env_set (buf, val);
+      grub_free (buf);
+    }
+  return NULL;
+}
+
+
+static const char *
+defmac_get_env (struct grub_env_var *var __attribute__ ((unused)),
+	       const char *val __attribute__ ((unused)))
+{
+  const char *intf = grub_env_get ("net_default_interface");
+  const char *ret = NULL;
+  if (intf)
+    {
+      char *buf = grub_xasprintf ("net_%s_mac", intf);
+      if (buf)
+	ret = grub_env_get (buf);
+      grub_free (buf);
+    }
+  return ret;
+}
+
+static char *
+defmac_set_env (struct grub_env_var *var __attribute__ ((unused)),
+	       const char *val)
+{
+  const char *intf = grub_env_get ("net_default_interface");
+  if (intf)
+    {
+      char *buf = grub_xasprintf ("net_%s_mac", intf);
+      if (buf)
+	grub_env_set (buf, val);
+      grub_free (buf);
+    }
+  return NULL;
+}
+
 
 static void
 grub_net_network_level_interface_register (struct grub_net_network_level_interface *inter)
 {
   {
     char buf[GRUB_NET_MAX_STR_HWADDR_LEN];
-    char name[grub_strlen (inter->name) + sizeof ("net__mac")];
+    char *name;
     char *ptr;
     grub_net_hwaddr_to_str (&inter->hwaddress, buf);
-    grub_snprintf (name, sizeof (name), "net_%s_mac", inter->name);
+    name = grub_xasprintf ("net_%s_mac", inter->name);
+    if (!name)
+      return;
     for (ptr = name; *ptr; ptr++)
       if (*ptr == ':')
 	*ptr = '_';    
     grub_env_set (name, buf);
     grub_register_variable_hook (name, 0, hwaddr_set_env);
+    grub_env_export (name);
+    grub_free (name);
   }
 
   {
     char buf[GRUB_NET_MAX_STR_ADDR_LEN];
-    char name[grub_strlen (inter->name) + sizeof ("net__ip")];
+    char *name;
     char *ptr;
     grub_net_addr_to_str (&inter->address, buf);
-    grub_snprintf (name, sizeof (name), "net_%s_ip", inter->name);
+    name = grub_xasprintf ("net_%s_ip", inter->name);
+    if (!name)
+      return;
     for (ptr = name; *ptr; ptr++)
       if (*ptr == ':')
 	*ptr = '_';    
     grub_env_set (name, buf);
     grub_register_variable_hook (name, 0, addr_set_env);
+    grub_env_export (name);
+    grub_free (name);
   }
 
   inter->card->num_ifaces++;
@@ -851,31 +967,6 @@ grub_net_network_level_interface_register (struct grub_net_network_level_interfa
   grub_net_network_level_interfaces = inter;
 }
 
-struct grub_net_network_level_interface *
-grub_net_add_addr (const char *name, 
-		   struct grub_net_card *card,
-		   const grub_net_network_level_address_t *addr,
-		   const grub_net_link_level_address_t *hwaddress,
-		   grub_net_interface_flags_t flags)
-{
-  struct grub_net_network_level_interface *inter;
-
-  inter = grub_zalloc (sizeof (*inter));
-  if (!inter)
-    return NULL;
-
-  inter->name = grub_strdup (name);
-  grub_memcpy (&(inter->address), addr, sizeof (inter->address));
-  grub_memcpy (&(inter->hwaddress), hwaddress, sizeof (inter->hwaddress));
-  inter->flags = flags;
-  inter->card = card;
-  inter->dhcp_ack = NULL;
-  inter->dhcp_acklen = 0;
-
-  grub_net_network_level_interface_register (inter);
-
-  return inter;
-}
 
 grub_err_t
 grub_net_add_ipv4_local (struct grub_net_network_level_interface *inter,
@@ -1180,6 +1271,7 @@ grub_net_open_real (const char *name)
   grub_net_app_level_t proto;
   const char *protname, *server;
   grub_size_t protnamelen;
+  int try;
 
   if (grub_strncmp (name, "pxe:", sizeof ("pxe:") - 1) == 0)
     {
@@ -1217,32 +1309,53 @@ grub_net_open_real (const char *name)
       return NULL;
     }  
 
-  FOR_NET_APP_LEVEL (proto)
-  {
-    if (grub_memcmp (proto->name, protname, protnamelen) == 0
-	&& proto->name[protnamelen] == 0)
+  for (try = 0; try < 2; try++)
+    {
+      FOR_NET_APP_LEVEL (proto)
       {
-	grub_net_t ret = grub_zalloc (sizeof (*ret));
-	if (!ret)
-	  return NULL;
-	ret->protocol = proto;
-	if (server)
+	if (grub_memcmp (proto->name, protname, protnamelen) == 0
+	    && proto->name[protnamelen] == 0)
 	  {
-	    ret->server = grub_strdup (server);
-	    if (!ret->server)
+	    grub_net_t ret = grub_zalloc (sizeof (*ret));
+	    if (!ret)
+	      return NULL;
+	    ret->protocol = proto;
+	    if (server)
 	      {
-		grub_free (ret);
-		return NULL;
+		ret->server = grub_strdup (server);
+		if (!ret->server)
+		  {
+		    grub_free (ret);
+		    return NULL;
+		  }
 	      }
+	    else
+	      ret->server = NULL;
+	    ret->fs = &grub_net_fs;
+	    ret->offset = 0;
+	    ret->eof = 0;
+	    return ret;
 	  }
-	else
-	  ret->server = NULL;
-	ret->fs = &grub_net_fs;
-	ret->offset = 0;
-	ret->eof = 0;
-	return ret;
       }
-  }
+      if (try == 0)
+	{
+	  if (sizeof ("http") - 1 == protnamelen
+	      && grub_memcmp ("http", protname, protnamelen) == 0)
+	    {
+	      grub_dl_load ("http");
+	      grub_errno = GRUB_ERR_NONE;
+	      continue;
+	    }
+	  if (sizeof ("tftp") - 1 == protnamelen
+	      && grub_memcmp ("tftp", protname, protnamelen) == 0)
+	    {
+	      grub_dl_load ("tftp");
+	      grub_errno = GRUB_ERR_NONE;
+	      continue;
+	    }
+	}
+      break;
+    }
 
   /* Restore original error.  */
   grub_error (GRUB_ERR_UNKNOWN_DEVICE, N_("disk `%s' not found"),
@@ -1253,8 +1366,8 @@ grub_net_open_real (const char *name)
 
 static grub_err_t
 grub_net_fs_dir (grub_device_t device, const char *path __attribute__ ((unused)),
-	       int (*hook) (const char *filename,
-			    const struct grub_dirhook_info *info) __attribute__ ((unused)))
+		 grub_fs_dir_hook_t hook __attribute__ ((unused)),
+		 void *hook_data __attribute__ ((unused)))
 {
   if (!device->net)
     return grub_error (GRUB_ERR_BUG, "invalid net device");
@@ -1417,6 +1530,8 @@ grub_net_fs_read_real (grub_file_t file, char *buf, grub_size_t len)
 	  len -= amount;
 	  total += amount;
 	  file->device->net->offset += amount;
+	  if (grub_file_progress_hook)
+	    grub_file_progress_hook (0, 0, amount, file);
 	  if (buf)
 	    {
 	      grub_memcpy (ptr, nb->data, amount);
@@ -1558,8 +1673,16 @@ GRUB_MOD_INIT(net)
 {
   grub_register_variable_hook ("net_default_server", defserver_get_env,
 			       defserver_set_env);
+  grub_env_export ("net_default_server");
   grub_register_variable_hook ("pxe_default_server", defserver_get_env,
 			       defserver_set_env);
+  grub_env_export ("pxe_default_server");
+  grub_register_variable_hook ("net_default_ip", defip_get_env,
+			       defip_set_env);
+  grub_env_export ("net_default_ip");
+  grub_register_variable_hook ("net_default_mac", defmac_get_env,
+			       defmac_set_env);
+  grub_env_export ("net_default_mac");
 
   cmd_addaddr = grub_register_command ("net_add_addr", grub_cmd_addaddr,
 					/* TRANSLATORS: HWADDRESS stands for

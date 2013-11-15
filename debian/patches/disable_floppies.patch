@@ -7,7 +7,7 @@ Index: b/grub-core/kern/emu/hostdisk.c
 ===================================================================
 --- a/grub-core/kern/emu/hostdisk.c
 +++ b/grub-core/kern/emu/hostdisk.c
-@@ -1331,6 +1331,18 @@
+@@ -532,6 +532,18 @@
  	  continue;
  	}
  
@@ -23,6 +23,6 @@ Index: b/grub-core/kern/emu/hostdisk.c
 +	    }
 +	}
 +
- #ifdef __linux__
        /* On Linux, the devfs uses symbolic links horribly, and that
  	 confuses the interface very much, so use realpath to expand
+ 	 symbolic links.  */

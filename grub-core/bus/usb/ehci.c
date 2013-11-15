@@ -28,6 +28,7 @@
 #include <grub/time.h>
 #include <grub/loader.h>
 #include <grub/cs5536.h>
+#include <grub/disk.h>
 
 GRUB_MOD_LICENSE ("GPLv3+");
 
@@ -454,9 +455,9 @@ grub_ehci_reset (struct grub_ehci *e)
 }
 
 /* PCI iteration function... */
-static int NESTED_FUNC_ATTR
-grub_ehci_pci_iter (grub_pci_device_t dev,
-		    grub_pci_id_t pciid __attribute__ ((unused)))
+static int
+grub_ehci_pci_iter (grub_pci_device_t dev, grub_pci_id_t pciid,
+		    void *data __attribute__ ((unused)))
 {
   grub_uint8_t release;
   grub_uint32_t class_code;
@@ -533,6 +534,11 @@ grub_ehci_pci_iter (grub_pci_device_t dev,
 			"EHCI grub_ehci_pci_iter: registers above 4G are not supported\n");
 	  return 0;
 	}
+
+      /* Set bus master - needed for coreboot, VMware, broken BIOSes etc. */
+      addr = grub_pci_make_address (dev, GRUB_PCI_REG_COMMAND);
+      grub_pci_write_word(addr,
+          GRUB_PCI_COMMAND_BUS_MASTER | grub_pci_read_word(addr));
       
       grub_dprintf ("ehci", "EHCI grub_ehci_pci_iter: 32-bit EHCI OK\n");
     }
@@ -664,7 +670,7 @@ grub_ehci_pci_iter (grub_pci_device_t dev,
     grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
   e->tdfree_virt = e->td_virt;
   /* Set Terminate in first QH, which is used in framelist */
-  e->qh_virt[0].qh_hptr = grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
+  e->qh_virt[0].qh_hptr = grub_cpu_to_le32 (GRUB_EHCI_TERMINATE | GRUB_EHCI_HPTR_TYPE_QH);
   e->qh_virt[0].td_overlay.next_td = grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
   e->qh_virt[0].td_overlay.alt_next_td =
     grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
@@ -710,6 +716,7 @@ grub_ehci_pci_iter (grub_pci_device_t dev,
       usblegsup = grub_pci_read (pciaddr_eecp);
       if (usblegsup & GRUB_EHCI_BIOS_OWNED)
 	{
+	  grub_boot_time ("Taking ownership of EHCI controller");
 	  grub_dprintf ("ehci",
 			"EHCI grub_ehci_pci_iter: EHCI owned by: BIOS\n");
 	  /* Ownership change - set OS_OWNED bit */
@@ -730,11 +737,6 @@ grub_ehci_pci_iter (grub_pci_device_t dev,
 	      grub_pci_write (pciaddr_eecp, GRUB_EHCI_OS_OWNED);
 	      /* Ensure PCI register is written */
 	      grub_pci_read (pciaddr_eecp);
-	      /* Disable SMI.  */
-	      pciaddr_eecp = grub_pci_make_address (dev, eecp_offset + 4);
-	      grub_pci_write (pciaddr_eecp, 0);
-	      /* Ensure PCI register is written */
-	      grub_pci_read (pciaddr_eecp);
 	    }
 	}
       else if (usblegsup & GRUB_EHCI_OS_OWNED)
@@ -750,12 +752,14 @@ grub_ehci_pci_iter (grub_pci_device_t dev,
 	  grub_pci_write (pciaddr_eecp, GRUB_EHCI_OS_OWNED);
 	  /* Ensure PCI register is written */
 	  grub_pci_read (pciaddr_eecp);
-	  /* Disable SMI, just to be sure.  */
-	  pciaddr_eecp = grub_pci_make_address (dev, eecp_offset + 4);
-	  grub_pci_write (pciaddr_eecp, 0);
-	  /* Ensure PCI register is written */
-	  grub_pci_read (pciaddr_eecp);
 	}
+
+    /* Disable SMI, just to be sure.  */
+    pciaddr_eecp = grub_pci_make_address (dev, eecp_offset + 4);
+    grub_pci_write (pciaddr_eecp, 0);
+    /* Ensure PCI register is written */
+    grub_pci_read (pciaddr_eecp);
+
     }
 
   grub_dprintf ("ehci", "inithw: EHCI grub_ehci_pci_iter: ownership OK\n");
@@ -791,7 +795,7 @@ grub_ehci_pci_iter (grub_pci_device_t dev,
   /* Set ownership of root hub ports to EHCI */
   grub_ehci_oper_write32 (e, GRUB_EHCI_CONFIG_FLAG, GRUB_EHCI_CF_EHCI_OWNER);
 
-  /* Enable asynchronous list */
+  /* Enable both lists */
   grub_ehci_oper_write32 (e, GRUB_EHCI_COMMAND,
 			  GRUB_EHCI_CMD_AS_ENABL
 			  | GRUB_EHCI_CMD_PS_ENABL
@@ -865,7 +869,7 @@ fail:
 }
 
 static int
-grub_ehci_iterate (int (*hook) (grub_usb_controller_t dev))
+grub_ehci_iterate (grub_usb_controller_iterate_hook_t hook, void *hook_data)
 {
   struct grub_ehci *e;
   struct grub_usb_controller dev;
@@ -873,7 +877,7 @@ grub_ehci_iterate (int (*hook) (grub_usb_controller_t dev))
   for (e = ehci; e; e = e->next)
     {
       dev.data = e;
-      if (hook (&dev))
+      if (hook (&dev, hook_data))
 	return 1;
     }
 
@@ -935,9 +939,9 @@ grub_ehci_setup_qh (grub_ehci_qh_t qh, grub_usb_transfer_t transfer)
    * SplitCompletionMask - AFAIK it is ignored in asynchronous list,
    * InterruptScheduleMask - AFAIK it should be zero in async. list */
   ep_cap |= GRUB_EHCI_MULT_THREE;
-  ep_cap |= (transfer->dev->port << GRUB_EHCI_DEVPORT_OFF)
+  ep_cap |= (transfer->dev->split_hubport << GRUB_EHCI_DEVPORT_OFF)
     & GRUB_EHCI_DEVPORT_MASK;
-  ep_cap |= (transfer->dev->hubaddr << GRUB_EHCI_HUBADDR_OFF)
+  ep_cap |= (transfer->dev->split_hubaddr << GRUB_EHCI_HUBADDR_OFF)
     & GRUB_EHCI_HUBADDR_MASK;
   if (transfer->dev->speed == GRUB_USB_SPEED_LOW
       && transfer->type != GRUB_USB_TRANSACTION_TYPE_CONTROL)
@@ -969,6 +973,10 @@ grub_ehci_find_qh (struct grub_ehci *e, grub_usb_transfer_t transfer)
   int i;
   grub_ehci_qh_t qh = e->qh_virt;
   grub_ehci_qh_t head;
+  grub_uint32_t qh_phys;
+  grub_uint32_t qh_terminate =
+    GRUB_EHCI_TERMINATE | GRUB_EHCI_HPTR_TYPE_QH;
+  grub_ehci_qh_t qh_iter;
 
   /* Prepare part of EP Characteristic to find existing QH */
   target = ((transfer->endpoint << GRUB_EHCI_EP_NUM_OFF) |
@@ -976,21 +984,58 @@ grub_ehci_find_qh (struct grub_ehci *e, grub_usb_transfer_t transfer)
   target = grub_cpu_to_le32 (target);
   mask = grub_cpu_to_le32 (GRUB_EHCI_TARGET_MASK);
 
-  /* First try to find existing QH with proper target */
-  for (i = 2; i < GRUB_EHCI_N_QH; i++)	/* We ignore zero and first QH */
+  /* low speed interrupt transfers are linked to the periodic */
+  /* schedule, everything else to the asynchronous schedule */
+  if (transfer->dev->speed == GRUB_USB_SPEED_LOW
+      && transfer->type != GRUB_USB_TRANSACTION_TYPE_CONTROL)
+    head = &qh[0];
+  else
+    head = &qh[1];
+
+  /* First try to find existing QH with proper target in proper list */
+  qh_phys = grub_le_to_cpu32( head->qh_hptr );
+  if (qh_phys != qh_terminate)
+    qh_iter = grub_dma_phys2virt ( qh_phys & GRUB_EHCI_QHTDPTR_MASK,
+      e->qh_chunk );
+  else
+    qh_iter = NULL;
+
+  for (
+    i = 0;
+    (qh_phys != qh_terminate) && (qh_iter != NULL) &&
+    (qh_iter != head) && (i < GRUB_EHCI_N_QH);
+    i++ )
     {
-      if (!qh[i].ep_char)
-	break;			/* Found first not-allocated QH, finish */
-      if (target == (qh[i].ep_char & mask))
+      if (target == (qh_iter->ep_char & mask))
 	{		
 	  /* Found proper existing (and linked) QH, do setup of QH */
-	  grub_dprintf ("ehci", "find_qh: found, i=%d, QH=%p\n",
-			i, &qh[i]);
-	  grub_ehci_setup_qh (&qh[i], transfer);
-	  return &qh[i];
+	  grub_dprintf ("ehci", "find_qh: found, QH=%p\n", qh_iter);
+	  grub_ehci_setup_qh (qh_iter, transfer);
+	  return qh_iter;
 	}
+
+      qh_phys = grub_le_to_cpu32( qh_iter->qh_hptr );
+      if (qh_phys != qh_terminate)
+        qh_iter = grub_dma_phys2virt ( qh_phys & GRUB_EHCI_QHTDPTR_MASK,
+	  e->qh_chunk );
+      else
+        qh_iter = NULL;
     }
-  /* QH with target_addr does not exist, we have to add it */
+
+  /* variable "i" should be never equal to GRUB_EHCI_N_QH here */
+  if (i >= GRUB_EHCI_N_QH)
+    { /* Something very bad happened in QH list(s) ! */
+      grub_dprintf ("ehci", "find_qh: Mismatch in QH list! head=%p\n",
+        head);
+    }
+
+  /* QH with target_addr does not exist, we have to find and add it */
+  for (i = 2; i < GRUB_EHCI_N_QH; i++) /* We ignore zero and first QH */
+    {
+      if (!qh[i].ep_char)
+	break;	             /* Found first not-allocated QH, finish */
+    }
+
   /* Have we any free QH in array ? */
   if (i >= GRUB_EHCI_N_QH)	/* No. */
     {
@@ -1004,14 +1049,6 @@ grub_ehci_find_qh (struct grub_ehci *e, grub_usb_transfer_t transfer)
    * de-allocate QHs of unplugged devices. */
   /* We should preset new QH and link it into AL */
   grub_ehci_setup_qh (&qh[i], transfer);
-
-  /* low speed interrupt transfers are linked to the periodic
-   * scheudle, everything else to the asynchronous schedule */
-  if (transfer->dev->speed == GRUB_USB_SPEED_LOW
-      && transfer->type != GRUB_USB_TRANSACTION_TYPE_CONTROL)
-    head = &qh[0];
-  else
-    head = &qh[1];
 
   /* Linking - this new (last) QH will copy the QH from the head QH */
   qh[i].qh_hptr = head->qh_hptr;
@@ -1253,16 +1290,6 @@ grub_ehci_setup_transfer (grub_usb_controller_t dev,
        & (GRUB_EHCI_ST_AS_STATUS | GRUB_EHCI_ST_PS_STATUS)) == 0)
     /* XXX: Fix it: Currently we don't do anything to restart EHCI */
     return GRUB_USB_ERR_INTERNAL;
-
-  /* Check if transfer is not high speed and connected to root hub.
-   * It should not happened but... */
-  if ((transfer->dev->speed != GRUB_USB_SPEED_HIGH)
-      && !transfer->dev->hubaddr)
-    {
-      grub_error (GRUB_USB_ERR_BADDEVICE,
-		  "FULL/LOW speed device on EHCI port!?!");
-      return GRUB_USB_ERR_BADDEVICE;
-    }
 
   /* Allocate memory for controller transfer data.  */
   cdata = grub_malloc (sizeof (*cdata));
@@ -1540,17 +1567,20 @@ grub_ehci_cancel_transfer (grub_usb_controller_t dev,
   int i;
   grub_uint64_t maxtime;
   grub_uint32_t qh_phys;
+  grub_uint32_t interrupt =
+    cdata->qh_virt->ep_cap & GRUB_EHCI_SMASK_MASK;
 
   /* QH can be active and should be de-activated and halted */
 
   grub_dprintf ("ehci", "cancel_transfer: begin\n");
 
-  /* First check if EHCI is running and AL is enabled and if not,
-   * there is no problem... */
-  if (((grub_ehci_oper_read32 (e, GRUB_EHCI_STATUS)
-	& GRUB_EHCI_ST_HC_HALTED) != 0) ||
-      ((grub_ehci_oper_read32 (e, GRUB_EHCI_STATUS)
-	& (GRUB_EHCI_ST_AS_STATUS | GRUB_EHCI_ST_PS_STATUS)) == 0))
+  /* First check if EHCI is running - if not, there is no problem */
+  /* to cancel any transfer. Or, if transfer is asynchronous, check */
+  /* if AL is enabled - if not, transfer can be canceled also. */
+  if (((grub_ehci_oper_read32 (e, GRUB_EHCI_STATUS) &
+      GRUB_EHCI_ST_HC_HALTED) != 0) ||
+    (!interrupt && ((grub_ehci_oper_read32 (e, GRUB_EHCI_STATUS) &
+      (GRUB_EHCI_ST_AS_STATUS | GRUB_EHCI_ST_PS_STATUS)) == 0)))
     {
       grub_ehci_pre_finish_transfer (transfer);
       grub_ehci_free_tds (e, cdata->td_first_virt, transfer, &actual);
@@ -1560,13 +1590,14 @@ grub_ehci_cancel_transfer (grub_usb_controller_t dev,
       return GRUB_USB_ERR_NONE;
     }
 
-  /* EHCI and AL are running. What to do?
-   * Try to Halt QH via de-scheduling QH. */
+  /* EHCI and (AL or SL) are running. What to do? */
+  /* Try to Halt QH via de-scheduling QH. */
   /* Find index of previous QH */
   qh_phys = grub_dma_virt2phys(cdata->qh_virt, e->qh_chunk);
   for (i = 0; i < GRUB_EHCI_N_QH; i++)
     {
-      if ((e->qh_virt[i].qh_hptr & GRUB_EHCI_QHTDPTR_MASK) == qh_phys)
+      if ((grub_le_to_cpu32(e->qh_virt[i].qh_hptr)
+        & GRUB_EHCI_QHTDPTR_MASK) == qh_phys)
         break;
     }
   if (i == GRUB_EHCI_N_QH)
@@ -1620,24 +1651,12 @@ grub_ehci_cancel_transfer (grub_usb_controller_t dev,
   grub_ehci_free_tds (e, cdata->td_first_virt, transfer, &actual);
   grub_ehci_free_td (e, cdata->td_alt_virt);
 
-  /* FIXME Putting the QH back on the list should work, but for some
-   * strange reason doing that will affect other QHs on the periodic
-   * list.  So free the QH instead of putting it back on the list
-   * which does seem to work, but I would like to know why. */
-
-#if 0
-  /* Finaly we should return QH back to the AL... */
-  e->qh_virt[i].qh_hptr =
-    grub_cpu_to_le32 (grub_dma_virt2phys
-		      (cdata->qh_virt, e->qh_chunk));
-#else
-  /* Free the QH */
+  /* "Free" the QH - link it to itself */
   cdata->qh_virt->ep_char = 0;
   cdata->qh_virt->qh_hptr =
     grub_cpu_to_le32 ((grub_dma_virt2phys (cdata->qh_virt,
                                            e->qh_chunk)
                        & GRUB_EHCI_POINTER_MASK) | GRUB_EHCI_HPTR_TYPE_QH);
-#endif
 
   grub_free (cdata);
 
@@ -1658,7 +1677,7 @@ grub_ehci_hubports (grub_usb_controller_t dev)
   return portinfo;
 }
 
-static grub_err_t
+static grub_usb_err_t
 grub_ehci_portstatus (grub_usb_controller_t dev,
 		      unsigned int port, unsigned int enable)
 {
@@ -1680,17 +1699,19 @@ grub_ehci_portstatus (grub_usb_controller_t dev,
   endtime = grub_get_time_ms () + 1000;
   while (grub_ehci_port_read (e, port) & GRUB_EHCI_PORT_ENABLED)
     if (grub_get_time_ms () > endtime)
-      return grub_error (GRUB_ERR_IO, "portstatus: EHCI Timed out - disable");
+      return GRUB_USB_ERR_TIMEOUT;
 
   if (!enable)			/* We don't need reset port */
     {
       grub_dprintf ("ehci", "portstatus: Disabled.\n");
       grub_dprintf ("ehci", "portstatus: end, status=0x%02x\n",
 		    grub_ehci_port_read (e, port));
-      return GRUB_ERR_NONE;
+      return GRUB_USB_ERR_NONE;
     }
 
   grub_dprintf ("ehci", "portstatus: enable\n");
+
+  grub_boot_time ("Resetting port %d", port);
 
   /* Now we will do reset - if HIGH speed device connected, it will
    * result in Enabled state, otherwise port remains disabled. */
@@ -1703,8 +1724,8 @@ grub_ehci_portstatus (grub_usb_controller_t dev,
   endtime = grub_get_time_ms () + 1000;
   while (grub_ehci_port_read (e, port) & GRUB_EHCI_PORT_RESET)
     if (grub_get_time_ms () > endtime)
-      return grub_error (GRUB_ERR_IO,
-			 "portstatus: EHCI Timed out - reset port");
+      return GRUB_USB_ERR_TIMEOUT;
+  grub_boot_time ("Port %d reset", port);
   /* Remember "we did the reset" - needed by detect_dev */
   e->reset |= (1 << port);
   /* Test if port enabled, i.e. HIGH speed device connected */
@@ -1731,7 +1752,7 @@ grub_ehci_portstatus (grub_usb_controller_t dev,
   grub_dprintf ("ehci", "portstatus: end, status=0x%02x\n",
 		grub_ehci_port_read (e, port));
 
-  return GRUB_ERR_NONE;
+  return GRUB_USB_ERR_NONE;
 }
 
 static grub_usb_speed_t
@@ -1810,7 +1831,7 @@ grub_ehci_detect_dev (grub_usb_controller_t dev, int port, int *changed)
 static void
 grub_ehci_inithw (void)
 {
-  grub_pci_iterate (grub_ehci_pci_iter);
+  grub_pci_iterate (grub_ehci_pci_iter, NULL);
 }
 
 static grub_err_t
@@ -1866,7 +1887,7 @@ grub_ehci_restore_hw (void)
 	}
     }
 
-  return GRUB_USB_ERR_NONE;
+  return GRUB_ERR_NONE;
 }
 
 static grub_err_t
@@ -1877,16 +1898,19 @@ grub_ehci_fini_hw (int noreturn __attribute__ ((unused)))
   /* We should disable all EHCI HW to prevent any DMA access etc. */
   for (e = ehci; e; e = e->next)
     {
+      /* Disable both lists */
+      grub_ehci_oper_write32 (e, GRUB_EHCI_COMMAND,
+        ~(GRUB_EHCI_CMD_AS_ENABL | GRUB_EHCI_CMD_PS_ENABL)
+        & grub_ehci_oper_read32 (e, GRUB_EHCI_COMMAND));
+
       /* Check if EHCI is halted and halt it if not */
-      if (grub_ehci_halt (e) != GRUB_USB_ERR_NONE)
-	grub_error (GRUB_ERR_TIMEOUT, "restore_hw: EHCI halt timeout");
+      grub_ehci_halt (e);
 
       /* Reset EHCI */
-      if (grub_ehci_reset (e) != GRUB_USB_ERR_NONE)
-	grub_error (GRUB_ERR_TIMEOUT, "restore_hw: EHCI reset timeout");
+      grub_ehci_reset (e);
     }
 
-  return GRUB_USB_ERR_NONE;
+  return GRUB_ERR_NONE;
 }
 
 static struct grub_usb_controller_dev usb_controller = {
@@ -1897,15 +1921,23 @@ static struct grub_usb_controller_dev usb_controller = {
   .cancel_transfer = grub_ehci_cancel_transfer,
   .hubports = grub_ehci_hubports,
   .portstatus = grub_ehci_portstatus,
-  .detect_dev = grub_ehci_detect_dev
+  .detect_dev = grub_ehci_detect_dev,
+  /* estimated max. count of TDs for one bulk transfer */
+  .max_bulk_tds = GRUB_EHCI_N_TD * 3 / 4 
 };
 
 GRUB_MOD_INIT (ehci)
 {
   COMPILE_TIME_ASSERT (sizeof (struct grub_ehci_td) == 64);
   COMPILE_TIME_ASSERT (sizeof (struct grub_ehci_qh) == 96);
+
+  grub_stop_disk_firmware ();
+
+  grub_boot_time ("Initing EHCI hardware");
   grub_ehci_inithw ();
+  grub_boot_time ("Registering EHCI driver");
   grub_usb_controller_dev_register (&usb_controller);
+  grub_boot_time ("EHCI driver registered");
   grub_loader_register_preboot_hook (grub_ehci_fini_hw, grub_ehci_restore_hw,
 				     GRUB_LOADER_PREBOOT_HOOK_PRIO_DISK);
 }

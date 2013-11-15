@@ -14,13 +14,13 @@ Description: Add configure option to bypass boot menu if possible
 Author: Colin Watson <cjwatson@ubuntu.com>
 Author: Richard Laager <rlaager@wiktel.com>
 Forwarded: no
-Last-Update: 2013-11-13
+Last-Update: 2013-11-15
 
 Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1098,6 +1098,17 @@
+@@ -1365,6 +1365,17 @@
  fi
  AC_SUBST([QUIET_BOOT])
  
@@ -42,7 +42,7 @@ Index: b/docs/grub.texi
 ===================================================================
 --- a/docs/grub.texi
 +++ b/docs/grub.texi
-@@ -1289,6 +1289,15 @@
+@@ -1483,6 +1483,15 @@
  Each module will be loaded as early as possible, at the start of
  @file{grub.cfg}.
  
@@ -63,11 +63,11 @@ Index: b/util/grub-mkconfig.in
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
 @@ -228,7 +228,8 @@
-   GRUB_INIT_TUNE \
    GRUB_SAVEDEFAULT \
    GRUB_ENABLE_CRYPTODISK \
--  GRUB_BADRAM
-+  GRUB_BADRAM \
+   GRUB_BADRAM \
+-  GRUB_DISABLE_SUBMENU
++  GRUB_DISABLE_SUBMENU \
 +  GRUB_RECORDFAIL_TIMEOUT
  
  if test "x${grub_cfg}" != "x"; then
@@ -76,7 +76,7 @@ Index: b/util/grub.d/00_header.in
 ===================================================================
 --- a/util/grub.d/00_header.in
 +++ b/util/grub.d/00_header.in
-@@ -23,6 +23,8 @@
+@@ -21,6 +21,8 @@
  exec_prefix="@exec_prefix@"
  datarootdir="@datarootdir@"
  grub_lang=`echo $LANG | cut -d . -f 1`
@@ -85,7 +85,7 @@ Index: b/util/grub.d/00_header.in
  
  export TEXTDOMAIN=@PACKAGE@
  export TEXTDOMAINDIR="@localedir@"
-@@ -46,6 +48,7 @@
+@@ -44,6 +46,7 @@
  
  cat << EOF
  if [ -s \$prefix/grubenv ]; then
@@ -93,7 +93,7 @@ Index: b/util/grub.d/00_header.in
    load_env
  fi
  EOF
-@@ -86,7 +89,31 @@
+@@ -96,7 +99,31 @@
      save_env saved_entry
    fi
  }
@@ -125,7 +125,7 @@ Index: b/util/grub.d/00_header.in
  function load_video {
  EOF
  if [ -n "${GRUB_VIDEO_BACKEND}" ]; then
-@@ -272,7 +299,15 @@
+@@ -282,7 +309,15 @@
  
  make_timeout ()
  {
@@ -162,13 +162,13 @@ Index: b/util/grub.d/10_linux.in
 +      echo "recordfail" | sed "s/^/$submenu_indentation/"
 +  fi
    if [ x$type != xrecovery ] ; then
-       save_default_entry | sed -e "s/^/\t/"
+       save_default_entry | grub_add_tab
    fi
 Index: b/util/grub.d/30_os-prober.in
 ===================================================================
 --- a/util/grub.d/30_os-prober.in
 +++ b/util/grub.d/30_os-prober.in
-@@ -20,18 +20,78 @@
+@@ -20,28 +20,90 @@
  prefix="@prefix@"
  exec_prefix="@exec_prefix@"
  datarootdir="@datarootdir@"
@@ -247,7 +247,6 @@ Index: b/util/grub.d/30_os-prober.in
    exit 0
  fi
  
-@@ -43,10 +103,12 @@
  OSPROBED="`os-prober | tr ' ' '^' | paste -s -d ' '`"
  if [ -z "${OSPROBED}" ] ; then
    # empty os-prober output, nothing doing
@@ -268,15 +267,15 @@ Index: b/util/grub.d/30_os-prober.in
  	  onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
        cat << EOF
  menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' --class windows --class os \$menuentry_id_option 'osprober-chain-$(grub_get_device_id "${DEVICE}")' {
-@@ -169,6 +232,7 @@
- EOF
+@@ -176,6 +239,7 @@
      ;;
      efi)
-+      found_other_os=1
-       EFIPATH=${DEVICE#*@}
-       DEVICE=${DEVICE%@*}
-       cat << EOF
-@@ -211,6 +275,7 @@
+ 
++	found_other_os=1
+ 	EFIPATH=${DEVICE#*@}
+ 	DEVICE=${DEVICE%@*}
+ 	onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
+@@ -224,6 +288,7 @@
  	  [ "${prepare_boot_cache}" ] || continue
  	fi
  
@@ -284,7 +283,7 @@ Index: b/util/grub.d/30_os-prober.in
  	onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
  	recovery_params="$(echo "${LPARAMS}" | grep 'single\|recovery')" || true
  	counter=1
-@@ -277,6 +342,7 @@
+@@ -290,6 +355,7 @@
        osx_entry xnu_kernel64 64
      ;;
      hurd)
@@ -292,7 +291,7 @@ Index: b/util/grub.d/30_os-prober.in
        onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
        cat << EOF
  menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' --class hurd --class gnu --class os \$menuentry_id_option 'osprober-gnuhurd-/boot/gnumach.gz-false-$(grub_get_device_id "${DEVICE}")' {
-@@ -309,3 +375,5 @@
+@@ -333,3 +399,5 @@
      ;;
    esac
  done

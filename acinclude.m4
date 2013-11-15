@@ -74,7 +74,7 @@ AC_MSG_RESULT([$grub_cv_asm_uscore])
 dnl Some versions of `objcopy -O binary' vary their output depending
 dnl on the link address.
 AC_DEFUN([grub_PROG_OBJCOPY_ABSOLUTE],
-[AC_MSG_CHECKING([whether ${OBJCOPY} works for absolute addresses])
+[AC_MSG_CHECKING([whether ${TARGET_OBJCOPY} works for absolute addresses])
 AC_CACHE_VAL(grub_cv_prog_objcopy_absolute,
 [cat > conftest.c <<\EOF
 void cmain (void);
@@ -95,9 +95,9 @@ for link_addr in 0x2000 0x8000 0x7C00; do
   else
     AC_MSG_ERROR([${CC-cc} cannot link at address $link_addr])
   fi
-  if AC_TRY_COMMAND([${OBJCOPY-objcopy} --only-section=.text -O binary conftest.exec conftest]); then :
+  if AC_TRY_COMMAND([${TARGET_OBJCOPY-objcopy} --only-section=.text -O binary conftest.exec conftest]); then :
   else
-    AC_MSG_ERROR([${OBJCOPY-objcopy} cannot create binary files])
+    AC_MSG_ERROR([${TARGET_OBJCOPY-objcopy} cannot create binary files])
   fi
   if test ! -f conftest.old || AC_TRY_COMMAND([cmp -s conftest.old conftest]); then
     mv -f conftest conftest.old
@@ -134,6 +134,54 @@ if test "x$grub_cv_prog_ld_build_id_none" = xyes; then
 fi
 ])
 
+dnl Supply -P to nm
+AC_DEFUN([grub_PROG_NM_MINUS_P],
+[AC_MSG_CHECKING([whether nm accepts -P])
+AC_CACHE_VAL(grub_cv_prog_nm_minus_p,
+[
+nm_minus_p_tmp_dir="$(mktemp -d "./confXXXXXX")"
+AC_LANG_CONFTEST([AC_LANG_PROGRAM([[]], [[]])])
+$TARGET_CC conftest.c -o "$nm_minus_p_tmp_dir/ef"
+if $TARGET_NM -P "$nm_minus_p_tmp_dir/ef" 2>&1 > /dev/null; then
+   grub_cv_prog_nm_minus_p=yes
+else
+   grub_cv_prog_nm_minus_p=no
+fi
+rm "$nm_minus_p_tmp_dir/ef"
+])
+AC_MSG_RESULT([$grub_cv_prog_nm_minus_p])
+
+if test "x$grub_cv_prog_nm_minus_p" = xyes; then
+  TARGET_NMFLAGS_MINUS_P="-P"
+else
+  TARGET_NMFLAGS_MINUS_P=
+fi
+])
+
+dnl Supply --defined-only to nm
+AC_DEFUN([grub_PROG_NM_DEFINED_ONLY],
+[AC_MSG_CHECKING([whether nm accepts --defined-only])
+AC_CACHE_VAL(grub_cv_prog_nm_defined_only,
+[
+nm_defined_only_tmp_dir="$(mktemp -d "./confXXXXXX")"
+AC_LANG_CONFTEST([AC_LANG_PROGRAM([[]], [[]])])
+$TARGET_CC conftest.c -o "$nm_defined_only_tmp_dir/ef"
+if $TARGET_NM --defined-only "$nm_defined_only_tmp_dir/ef" 2>&1 > /dev/null; then
+   grub_cv_prog_nm_defined_only=yes
+else
+   grub_cv_prog_nm_defined_only=no
+fi
+rm "$nm_defined_only_tmp_dir/ef"
+])
+AC_MSG_RESULT([$grub_cv_prog_nm_defined_only])
+
+if test "x$grub_cv_prog_nm_defined_only" = xyes; then
+  TARGET_NMFLAGS_DEFINED_ONLY=--defined-only
+else
+  TARGET_NMFLAGS_DEFINED_ONLY=
+fi
+])
+
 
 dnl Mass confusion!
 dnl Older versions of GAS interpret `.code16' to mean ``generate 32-bit
@@ -164,7 +212,7 @@ else
   sed -e s/@ADDR32@/addr32\;/ < conftest.s.in > conftest.s
 fi
 
-if AC_TRY_COMMAND([${CC-cc} ${CFLAGS} -c conftest.s]) && test -s conftest.o; then
+if AC_TRY_COMMAND([${CC-cc} ${TARGET_CCASFLAGS} ${CFLAGS} -c conftest.s]) && test -s conftest.o; then
   grub_cv_i386_asm_addr32=yes
 else
   grub_cv_i386_asm_addr32=no
@@ -173,21 +221,6 @@ fi
 rm -f conftest*])
 
 AC_MSG_RESULT([$grub_cv_i386_asm_addr32])])
-
-dnl check if our compiler is apple cc
-dnl because it requires numerous workarounds
-AC_DEFUN([grub_apple_cc],
-[AC_REQUIRE([AC_PROG_CC])
-AC_MSG_CHECKING([whether our compiler is apple cc])
-AC_CACHE_VAL(grub_cv_apple_cc,
-[if $CC -v 2>&1 | grep "Apple Inc." > /dev/null; then
-  grub_cv_apple_cc=yes
-else
-  grub_cv_apple_cc=no
-fi
-])
-
-AC_MSG_RESULT([$grub_cv_apple_cc])])
 
 dnl check if our target compiler is apple cc
 dnl because it requires numerous workarounds
@@ -218,7 +251,7 @@ AC_CACHE_VAL(grub_cv_i386_asm_prefix_requirement,
 l1:	addr32	movb	%al, l1
 EOF
 
-if AC_TRY_COMMAND([${CC-cc} ${CFLAGS} -c conftest.s]) && test -s conftest.o; then
+if AC_TRY_COMMAND([${CC-cc} ${TARGET_CCASFLAGS} ${CFLAGS} -c conftest.s]) && test -s conftest.o; then
   grub_cv_i386_asm_prefix_requirement=yes
 else
   grub_cv_i386_asm_prefix_requirement=no
@@ -313,32 +346,6 @@ else
 fi
 ])
 
-dnl Check if the C compiler generates calls to `__enable_execute_stack()'.
-AC_DEFUN([grub_CHECK_ENABLE_EXECUTE_STACK],[
-AC_MSG_CHECKING([whether `$CC' generates calls to `__enable_execute_stack()'])
-AC_LANG_CONFTEST([AC_LANG_SOURCE([[
-void f (int (*p) (void));
-void g (int i)
-{
-  int nestedfunc (void) { return i; }
-  f (nestedfunc);
-}
-]])])
-if AC_TRY_COMMAND([${CC-cc} ${CFLAGS} -S conftest.c]) && test -s conftest.s; then
-  true
-else
-  AC_MSG_ERROR([${CC-cc} failed to produce assembly code])
-fi
-if grep __enable_execute_stack conftest.s >/dev/null 2>&1; then
-  NEED_ENABLE_EXECUTE_STACK=1
-  AC_MSG_RESULT([yes])
-else
-  NEED_ENABLE_EXECUTE_STACK=0
-  AC_MSG_RESULT([no])
-fi
-rm -f conftest*
-])
-
 
 dnl Check if the C compiler supports `-fstack-protector'.
 AC_DEFUN([grub_CHECK_STACK_PROTECTOR],[
@@ -369,7 +376,7 @@ AC_MSG_CHECKING([whether `$CC' accepts `-mstack-arg-probe'])
 AC_LANG_CONFTEST([AC_LANG_SOURCE([[
 void foo (void) { volatile char a[8]; a[3]; }
 ]])])
-[if eval "$ac_compile -S -mstack-arg-probe -o conftest.s" 2> /dev/null; then]
+[if eval "$ac_compile -S -mstack-arg-probe -Werror -o conftest.s" 2> /dev/null; then]
   AC_MSG_RESULT([yes])
   [# Should we clear up other files as well, having called `AC_LANG_CONFTEST'?
   rm -f conftest.s
@@ -449,6 +456,32 @@ if eval "$ac_compile -S -o conftest.s" 2> /dev/null; then]
   rm -f conftest.s
 else
   pic_possible=no]
+  AC_MSG_RESULT([no])
+[fi]
+])
+
+dnl Create an output variable with the transformed name of a GRUB utility
+dnl program.
+AC_DEFUN([grub_TRANSFORM],[dnl
+AC_SUBST(AS_TR_SH([$1]), [`AS_ECHO([$1]) | sed "$program_transform_name"`])dnl
+])
+
+dnl Check if the C compiler supports `-mno-unaligned-access'.
+AC_DEFUN([grub_CHECK_NO_UNALIGNED_ACCESS],[
+[# foobar
+nua_possible=yes]
+AC_MSG_CHECKING([whether `$CC' supports `-mno-unaligned-access'])
+AC_LANG_CONFTEST([AC_LANG_SOURCE([[
+int main() {
+	return 0;
+}
+]])])
+
+[if eval "$ac_compile -S -mno-unaligned-access -o conftest.s" 2> /dev/null; then]
+  AC_MSG_RESULT([yes])
+  [rm -f conftest.s
+else
+  nua_possible=no]
   AC_MSG_RESULT([no])
 [fi]
 ])

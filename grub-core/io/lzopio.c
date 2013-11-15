@@ -166,15 +166,17 @@ read_block_data (struct grub_lzopio *lzopio)
 
   if (lzopio->ccheck_fun)
     {
-      grub_uint64_t context[(lzopio->ccheck_fun->contextsize + 7) / 8];
+      grub_uint8_t computed_hash[GRUB_CRYPTO_MAX_MDLEN];
 
-      lzopio->ccheck_fun->init (context);
-      lzopio->ccheck_fun->write (context, lzopio->block.cdata,
-				 lzopio->block.csize);
-      lzopio->ccheck_fun->final (context);
+      if (lzopio->ccheck_fun->mdlen > GRUB_CRYPTO_MAX_MDLEN)
+	return -1;
+
+      grub_crypto_hash (lzopio->ccheck_fun, computed_hash,
+			lzopio->block.cdata,
+			lzopio->block.csize);
 
       if (grub_memcmp
-	  (lzopio->ccheck_fun->read (context), &lzopio->block.ccheck,
+	  (computed_hash, &lzopio->block.ccheck,
 	   sizeof (lzopio->block.ccheck)) != 0)
 	return -1;
     }
@@ -212,15 +214,17 @@ uncompress_block (struct grub_lzopio *lzopio)
 
       if (lzopio->ucheck_fun)
 	{
-	  grub_uint64_t context[(lzopio->ucheck_fun->contextsize + 7) / 8];
+	  grub_uint8_t computed_hash[GRUB_CRYPTO_MAX_MDLEN];
 
-	  lzopio->ucheck_fun->init (context);
-	  lzopio->ucheck_fun->write (context, lzopio->block.udata,
-				     lzopio->block.usize);
-	  lzopio->ucheck_fun->final (context);
+	  if (lzopio->ucheck_fun->mdlen > GRUB_CRYPTO_MAX_MDLEN)
+	    return -1;
+
+	  grub_crypto_hash (lzopio->ucheck_fun, computed_hash,
+			    lzopio->block.udata,
+			    lzopio->block.usize);
 
 	  if (grub_memcmp
-	      (lzopio->ucheck_fun->read (context), &lzopio->block.ucheck,
+	      (computed_hash, &lzopio->block.ucheck,
 	       sizeof (lzopio->block.ucheck)) != 0)
 	    return -1;
 	}
@@ -380,12 +384,8 @@ test_header (grub_file_t file)
       sizeof (checksum))
     goto CORRUPTED;
 
-  if (hcheck)
-  {
-    checksum = checksum;
-    if (grub_memcmp (&checksum, hcheck->read(context), sizeof(checksum)) != 0)
-      goto CORRUPTED;
-  }
+  if (hcheck && grub_memcmp (&checksum, hcheck->read(context), sizeof(checksum)) != 0)
+    goto CORRUPTED;
 
   lzopio->start_block_off = grub_file_tell (lzopio->file);
 
@@ -409,7 +409,8 @@ CORRUPTED:
 }
 
 static grub_file_t
-grub_lzopio_open (grub_file_t io)
+grub_lzopio_open (grub_file_t io,
+		  const char *name __attribute__ ((unused)))
 {
   grub_file_t file;
   grub_lzopio_t lzopio;
@@ -428,9 +429,7 @@ grub_lzopio_open (grub_file_t io)
   lzopio->file = io;
 
   file->device = io->device;
-  file->offset = 0;
   file->data = lzopio;
-  file->read_hook = 0;
   file->fs = &grub_lzopio_fs;
   file->size = GRUB_FILE_SIZE_UNKNOWN;
   file->not_easily_seekable = 1;

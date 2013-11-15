@@ -35,6 +35,15 @@
 
 GRUB_MOD_LICENSE ("GPLv3+");
 
+/* Helper for legacy_file.  */
+static grub_err_t
+legacy_file_getline (char **line, int cont __attribute__ ((unused)),
+		     void *data __attribute__ ((unused)))
+{
+  *line = 0;
+  return GRUB_ERR_NONE;
+}
+
 static grub_err_t
 legacy_file (const char *filename)
 {
@@ -42,14 +51,6 @@ legacy_file (const char *filename)
   char *entryname = NULL, *entrysrc = NULL;
   grub_menu_t menu;
   char *suffix = grub_strdup ("");
-
-  auto grub_err_t getline (char **line, int cont);
-  grub_err_t getline (char **line, 
-		      int cont __attribute__ ((unused)))
-  {
-    *line = 0;
-    return GRUB_ERR_NONE;
-  }
 
   if (!suffix)
     return grub_errno;
@@ -134,7 +135,7 @@ legacy_file (const char *filename)
 
       if (parsed && !entryname)
 	{
-	  grub_normal_parse_line (parsed, getline);
+	  grub_normal_parse_line (parsed, legacy_file_getline, NULL);
 	  grub_print_error ();
 	  grub_free (parsed);
 	  parsed = NULL;
@@ -180,7 +181,7 @@ legacy_file (const char *filename)
       grub_free (args);
     }
 
-  grub_normal_parse_line (suffix, getline);
+  grub_normal_parse_line (suffix, legacy_file_getline, NULL);
   grub_print_error ();
   grub_free (suffix);
   grub_free (entrysrc);
@@ -357,7 +358,7 @@ grub_cmd_legacy_kernel (struct grub_command *mycmd __attribute__ ((unused)),
 	  dev = grub_device_open (0);
 	  if (dev && dev->disk
 	      && dev->disk->dev->id == GRUB_DISK_DEVICE_BIOSDISK_ID
-	      && dev->disk->dev->id >= 0x80 && dev->disk->dev->id <= 0x90)
+	      && dev->disk->id >= 0x80 && dev->disk->id <= 0x90)
 	    {
 	      struct grub_partition *part = dev->disk->partition;
 	      bsd_device = dev->disk->id - 0x80 - hdbias;
@@ -545,8 +546,6 @@ struct legacy_md5_password
   grub_uint8_t hash[MD5_HASHLEN];
 };
 
-#pragma GCC diagnostic ignored "-Wunsafe-loop-optimizations"
-
 static int
 check_password_md5_real (const char *entered,
 			 struct legacy_md5_password *pw)
@@ -554,8 +553,13 @@ check_password_md5_real (const char *entered,
   grub_size_t enteredlen = grub_strlen (entered);
   unsigned char alt_result[MD5_HASHLEN];
   unsigned char *digest;
-  grub_uint8_t ctx[GRUB_MD_MD5->contextsize];
+  grub_uint8_t *ctx;
   grub_size_t i;
+  int ret;
+
+  ctx = grub_zalloc (GRUB_MD_MD5->contextsize);
+  if (!ctx)
+    return 0;
 
   GRUB_MD_MD5->init (ctx);
   GRUB_MD_MD5->write (ctx, entered, enteredlen);
@@ -601,7 +605,9 @@ check_password_md5_real (const char *entered,
       GRUB_MD_MD5->final (ctx);
     }
 
-  return (grub_crypto_memcmp (digest, pw->hash, MD5_HASHLEN) == 0);
+  ret = (grub_crypto_memcmp (digest, pw->hash, MD5_HASHLEN) == 0);
+  grub_free (ctx);
+  return ret;
 }
 
 static grub_err_t
@@ -724,18 +730,11 @@ grub_cmd_legacy_password (struct grub_command *mycmd __attribute__ ((unused)),
 					      NULL);
 }
 
-static grub_err_t
-grub_cmd_legacy_check_password (struct grub_command *mycmd __attribute__ ((unused)),
-				int argc, char **args)
+int
+grub_legacy_check_md5_password (int argc, char **args,
+				char *entered)
 {
   struct legacy_md5_password *pw = NULL;
-  char entered[GRUB_AUTH_MAX_PASSLEN];
-
-  if (argc == 0)
-    return grub_error (GRUB_ERR_BAD_ARGUMENT, N_("one argument expected"));
-  grub_puts_ (N_("Enter password: "));
-  if (!grub_password_get (entered, GRUB_AUTH_MAX_PASSLEN))
-    return GRUB_ACCESS_DENIED;
 
   if (args[0][0] != '-' || args[0][1] != '-')
     {
@@ -744,17 +743,31 @@ grub_cmd_legacy_check_password (struct grub_command *mycmd __attribute__ ((unuse
       grub_memset (correct, 0, sizeof (correct));
       grub_strncpy (correct, args[0], sizeof (correct));
 
-      if (grub_crypto_memcmp (entered, correct, GRUB_AUTH_MAX_PASSLEN) != 0)
-	return GRUB_ACCESS_DENIED;
-      return GRUB_ERR_NONE;
+      return grub_crypto_memcmp (entered, correct, GRUB_AUTH_MAX_PASSLEN) == 0;
     }
 
   pw = parse_legacy_md5 (argc, args);
 
   if (!pw)
+    return 0;
+
+  return check_password_md5_real (entered, pw);
+}
+
+static grub_err_t
+grub_cmd_legacy_check_password (struct grub_command *mycmd __attribute__ ((unused)),
+				int argc, char **args)
+{
+  char entered[GRUB_AUTH_MAX_PASSLEN];
+
+  if (argc == 0)
+    return grub_error (GRUB_ERR_BAD_ARGUMENT, N_("one argument expected"));
+  grub_puts_ (N_("Enter password: "));
+  if (!grub_password_get (entered, GRUB_AUTH_MAX_PASSLEN))
     return GRUB_ACCESS_DENIED;
 
-  if (!check_password_md5_real (entered, pw))
+  if (!grub_legacy_check_md5_password (argc, args,
+				       entered))
     return GRUB_ACCESS_DENIED;
 
   return GRUB_ERR_NONE;

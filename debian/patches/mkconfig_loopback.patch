@@ -13,7 +13,7 @@ Index: b/util/grub-mkconfig_lib.in
 ===================================================================
 --- a/util/grub-mkconfig_lib.in
 +++ b/util/grub-mkconfig_lib.in
-@@ -129,6 +129,21 @@
+@@ -130,6 +130,21 @@
      esac
    done
  
@@ -35,9 +35,9 @@ Index: b/util/grub-mkconfig_lib.in
    if dmsetup status $device 2>/dev/null | grep -q 'crypt[[:space:]]$'; then
      grub_warn \
        "$device is a crypto device, which GRUB cannot read directly.  Some" \
-@@ -169,6 +184,14 @@
-     echo "  search --no-floppy --fs-uuid --set=root ${fs_uuid}"
-     echo "fi"
+@@ -240,6 +255,14 @@
+   else
+     return 1
    fi
 +
 +  if [ "x${loop_file}" != x ]; then
@@ -49,7 +49,7 @@ Index: b/util/grub-mkconfig_lib.in
 +  fi
  }
  
- grub_get_device_id ()
+ version_test_gt ()
 Index: b/util/grub.d/10_linux.in
 ===================================================================
 --- a/util/grub.d/10_linux.in

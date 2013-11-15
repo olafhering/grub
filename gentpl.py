@@ -21,9 +21,10 @@
 
 GRUB_PLATFORMS = [ "emu", "i386_pc", "i386_efi", "i386_qemu", "i386_coreboot",
                    "i386_multiboot", "i386_ieee1275", "x86_64_efi",
+                   "i386_xen", "x86_64_xen",
                    "mips_loongson", "sparc64_ieee1275",
                    "powerpc_ieee1275", "mips_arc", "ia64_efi",
-                   "mips_qemu_mips" ]
+                   "mips_qemu_mips", "arm_uboot", "arm_efi" ]
 
 GROUPS = {}
 
@@ -36,10 +37,13 @@ GROUPS["x86"]      = GROUPS["i386"] + GROUPS["x86_64"]
 GROUPS["mips"]     = [ "mips_loongson", "mips_qemu_mips", "mips_arc" ]
 GROUPS["sparc64"]  = [ "sparc64_ieee1275" ]
 GROUPS["powerpc"]  = [ "powerpc_ieee1275" ]
+GROUPS["arm"]      = [ "arm_uboot", "arm_efi" ]
 
 # Groups based on firmware
-GROUPS["efi"]  = [ "i386_efi", "x86_64_efi", "ia64_efi" ]
+GROUPS["efi"]  = [ "i386_efi", "x86_64_efi", "ia64_efi", "arm_efi" ]
 GROUPS["ieee1275"]   = [ "i386_ieee1275", "sparc64_ieee1275", "powerpc_ieee1275" ]
+GROUPS["uboot"] = [ "arm_uboot" ]
+GROUPS["xen"]  = [ "i386_xen", "x86_64_xen" ]
 
 # emu is a special case so many core functionality isn't needed on this platform
 GROUPS["noemu"]   = GRUB_PLATFORMS[:]; GROUPS["noemu"].remove("emu")
@@ -47,19 +51,22 @@ GROUPS["noemu"]   = GRUB_PLATFORMS[:]; GROUPS["noemu"].remove("emu")
 # Groups based on hardware features
 GROUPS["cmos"] = GROUPS["x86"][:] + ["mips_loongson", "mips_qemu_mips",
                                      "sparc64_ieee1275", "powerpc_ieee1275"]
-GROUPS["cmos"].remove("i386_efi"); GROUPS["cmos"].remove("x86_64_efi")
+GROUPS["cmos"].remove("i386_efi"); GROUPS["cmos"].remove("x86_64_efi");
 GROUPS["pci"]      = GROUPS["x86"] + ["mips_loongson"]
 GROUPS["usb"]      = GROUPS["pci"]
 
 # If gfxterm is main output console integrate it into kernel
-GROUPS["videoinkernel"] = ["mips_loongson", "mips_qemu_mips"]
+GROUPS["videoinkernel"] = ["mips_loongson", "i386_coreboot" ]
 GROUPS["videomodules"]   = GRUB_PLATFORMS[:];
 for i in GROUPS["videoinkernel"]: GROUPS["videomodules"].remove(i)
 
 # Similar for terminfo
-GROUPS["terminfoinkernel"] = ["mips_loongson", "mips_arc", "mips_qemu_mips" ] + GROUPS["ieee1275"];
+GROUPS["terminfoinkernel"] = [ "emu", "mips_loongson", "mips_arc", "mips_qemu_mips" ] + GROUPS["xen"] + GROUPS["ieee1275"] + GROUPS["uboot"];
 GROUPS["terminfomodule"]   = GRUB_PLATFORMS[:];
 for i in GROUPS["terminfoinkernel"]: GROUPS["terminfomodule"].remove(i)
+
+# Flattened Device Trees (FDT)
+GROUPS["fdt"] = [ "arm_uboot", "arm_efi" ]
 
 # Miscelaneous groups schedulded to disappear in future
 GROUPS["i386_coreboot_multiboot_qemu"] = ["i386_coreboot", "i386_multiboot", "i386_qemu"]
@@ -302,13 +309,8 @@ def define_macro_for_platform_nodist_sources(p):
     return define_autogen_macro(
         "get_" + p + "_nodist_sources",
         platform_values(p, "_nodist"))
-def define_macro_for_platform_dependencies(p):
-    return define_autogen_macro(
-        "get_" + p + "_dependencies",
-        platform_values(p, "dependencies", "_dependencies"))
 def platform_sources(p): return "[+ get_" + p + "_sources +]"
 def platform_nodist_sources(p): return "[+ get_" + p + "_nodist_sources +]"
-def platform_dependencies(p): return "[+ get_" + p + "_dependencies +]"
 
 #
 # Returns Autogen code which defines the autogen macros that collect
@@ -326,6 +328,10 @@ def define_macro_for_platform_ldadd(p):
     return define_autogen_macro(
         "get_" + p + "_ldadd",
         platform_specific_values(p, "_ldadd", "ldadd"))
+def define_macro_for_platform_dependencies(p):
+    return define_autogen_macro(
+        "get_" + p + "_dependencies",
+        platform_specific_values(p, "_dependencies", "dependencies"))
 def define_macro_for_platform_ldflags(p):
     return define_autogen_macro(
         "get_" + p + "_ldflags",
@@ -351,6 +357,7 @@ def define_macro_for_platform_objcopyflags(p):
 #
 def platform_startup(p): return "[+ get_" + p + "_startup +]"
 def platform_ldadd(p): return "[+ get_" + p + "_ldadd +]"
+def platform_dependencies(p): return "[+ get_" + p + "_dependencies +]"
 def platform_cflags(p): return "[+ get_" + p + "_cflags +]"
 def platform_ldflags(p): return "[+ get_" + p + "_ldflags +]"
 def platform_cppflags(p): return "[+ get_" + p + "_cppflags +]"
@@ -380,9 +387,9 @@ def module(platform):
     r += var_set(cname() + "_LDFLAGS", "$(AM_LDFLAGS) $(LDFLAGS_MODULE) " + platform_ldflags(platform))
     r += var_set(cname() + "_CPPFLAGS", "$(AM_CPPFLAGS) $(CPPFLAGS_MODULE) " + platform_cppflags(platform))
     r += var_set(cname() + "_CCASFLAGS", "$(AM_CCASFLAGS) $(CCASFLAGS_MODULE) " + platform_ccasflags(platform))
-    # r += var_set(cname() + "_DEPENDENCIES", platform_dependencies(platform) + " " + platform_ldadd(platform))
+    r += var_set(cname() + "_DEPENDENCIES", "$(TARGET_OBJ2ELF) " + platform_dependencies(platform))
 
-    r += gvar_add("EXTRA_DIST", extra_dist())
+    r += gvar_add("dist_noinst_DATA", extra_dist())
     r += gvar_add("BUILT_SOURCES", "$(nodist_" + cname() + "_SOURCES)")
     r += gvar_add("CLEANFILES", "$(nodist_" + cname() + "_SOURCES)")
 
@@ -408,9 +415,9 @@ def kernel(platform):
     r += var_set(cname() + "_CPPFLAGS", "$(AM_CPPFLAGS) $(CPPFLAGS_KERNEL) " + platform_cppflags(platform))
     r += var_set(cname() + "_CCASFLAGS", "$(AM_CCASFLAGS) $(CCASFLAGS_KERNEL) " + platform_ccasflags(platform))
     r += var_set(cname() + "_STRIPFLAGS", "$(AM_STRIPFLAGS) $(STRIPFLAGS_KERNEL) " + platform_stripflags(platform))
-    # r += var_set(cname() + "_DEPENDENCIES", platform_dependencies(platform) + " " + platform_ldadd(platform))
+    r += var_set(cname() + "_DEPENDENCIES", "$(TARGET_OBJ2ELF)")
 
-    r += gvar_add("EXTRA_DIST", extra_dist())
+    r += gvar_add("dist_noinst_DATA", extra_dist())
     r += gvar_add("BUILT_SOURCES", "$(nodist_" + cname() + "_SOURCES)")
     r += gvar_add("CLEANFILES", "$(nodist_" + cname() + "_SOURCES)")
 
@@ -419,14 +426,14 @@ def kernel(platform):
     r += rule("[+ name +].img", "[+ name +].exec$(EXEEXT)",
               if_platform_tagged(platform, "nostrip",
 """if test x$(USE_APPLE_CC_FIXES) = xyes; then \
-     $(OBJCONV) -f$(TARGET_MODULE_FORMAT) -nr:_grub_mod_init:grub_mod_init -nr:_grub_mod_fini:grub_mod_fini -ed2022 -wd1106 -nu -nd $< $@; \
+     $(TARGET_OBJCONV) -f$(TARGET_MODULE_FORMAT) -nr:_grub_mod_init:grub_mod_init -nr:_grub_mod_fini:grub_mod_fini -ed2022 -wd1106 -nu -nd $< $@; \
    elif test ! -z '$(TARGET_OBJ2ELF)'; then \
      cp $< $@.bin; $(TARGET_OBJ2ELF) $@.bin && cp $@.bin $@ || (rm -f $@.bin; exit 1); \
    else cp $< $@; fi""",
 """if test x$(USE_APPLE_CC_FIXES) = xyes; then \
-  $(STRIP) $(""" + cname() + """) -o $@.bin $<; \
-  $(OBJCONV) -f$(TARGET_MODULE_FORMAT) -nr:_grub_mod_init:grub_mod_init -nr:_grub_mod_fini:grub_mod_fini -ed2022 -wd1106 -nu -nd $@.bin $@; \
-else """  + "$(STRIP) $(" + cname() + "_STRIPFLAGS) -o $@ $<; \
+  $(TARGET_STRIP) $(""" + cname() + """) -o $@.bin $<; \
+  $(TARGET_OBJCONV) -f$(TARGET_MODULE_FORMAT) -nr:_grub_mod_init:grub_mod_init -nr:_grub_mod_fini:grub_mod_fini -ed2022 -wd1106 -nu -nd $@.bin $@; \
+else """  + "$(TARGET_STRIP) $(" + cname() + "_STRIPFLAGS) -o $@ $<; \
 fi"""))
     return r
 
@@ -443,7 +450,7 @@ def image(platform):
     r += var_set(cname() + "_OBJCOPYFLAGS", "$(OBJCOPYFLAGS_IMAGE) " + platform_objcopyflags(platform))
     # r += var_set(cname() + "_DEPENDENCIES", platform_dependencies(platform) + " " + platform_ldadd(platform))
 
-    r += gvar_add("EXTRA_DIST", extra_dist())
+    r += gvar_add("dist_noinst_DATA", extra_dist())
     r += gvar_add("BUILT_SOURCES", "$(nodist_" + cname() + "_SOURCES)")
     r += gvar_add("CLEANFILES", "$(nodist_" + cname() + "_SOURCES)")
 
@@ -453,7 +460,7 @@ def image(platform):
 if test x$(USE_APPLE_CC_FIXES) = xyes; then \
   $(MACHO2IMG) $< $@; \
 else \
-  $(OBJCOPY) $(""" + cname() + """_OBJCOPYFLAGS) --strip-unneeded -R .note -R .comment -R .note.gnu.build-id -R .reginfo -R .rel.dyn -R .note.gnu.gold-version $< $@; \
+  $(TARGET_OBJCOPY) $(""" + cname() + """_OBJCOPYFLAGS) --strip-unneeded -R .note -R .comment -R .note.gnu.build-id -R .reginfo -R .rel.dyn -R .note.gnu.gold-version $< $@; \
 fi
 """)
     return r
@@ -476,7 +483,7 @@ def library(platform):
     r += var_add(cname() + "_CCASFLAGS", first_time("$(AM_CCASFLAGS) $(CCASFLAGS_LIBRARY) ") + platform_ccasflags(platform))
     # r += var_add(cname() + "_DEPENDENCIES", platform_dependencies(platform) + " " + platform_ldadd(platform))
 
-    r += gvar_add("EXTRA_DIST", extra_dist())
+    r += gvar_add("dist_noinst_DATA", extra_dist())
     r += first_time(gvar_add("BUILT_SOURCES", "$(nodist_" + cname() + "_SOURCES)"))
     r += first_time(gvar_add("CLEANFILES", "$(nodist_" + cname() + "_SOURCES)"))
     return r
@@ -484,10 +491,10 @@ def library(platform):
 def installdir(default="bin"):
     return "[+ IF installdir +][+ installdir +][+ ELSE +]" + default + "[+ ENDIF +]"
 
-def manpage():
+def manpage(adddeps):
     r  = "if COND_MAN_PAGES\n"
     r += gvar_add("man_MANS", "[+ name +].[+ mansection +]\n")
-    r += rule("[+ name +].[+ mansection +]", "[+ name +]", """
+    r += rule("[+ name +].[+ mansection +]", "[+ name +] " + adddeps, """
 chmod a+x [+ name +]
 PATH=$(builddir):$$PATH pkgdatadir=$(builddir) $(HELP2MAN) --section=[+ mansection +] -i $(top_srcdir)/docs/man/[+ name +].h2m -o $@ [+ name +]
 """)
@@ -503,7 +510,7 @@ def program(platform, test=False):
     r += gvar_add("TESTS", "[+ name +]")
     r += "[+ ELSE +]"
     r += var_add(installdir() + "_PROGRAMS", "[+ name +]")
-    r += "[+ IF mansection +]" + manpage() + "[+ ENDIF +]"
+    r += "[+ IF mansection +]" + manpage("") + "[+ ENDIF +]"
     r += "[+ ENDIF +]"
 
     r += var_set(cname() + "_SOURCES", platform_sources(platform))
@@ -515,15 +522,14 @@ def program(platform, test=False):
     r += var_set(cname() + "_CCASFLAGS", "$(AM_CCASFLAGS) $(CCASFLAGS_PROGRAM) " + platform_ccasflags(platform))
     # r += var_set(cname() + "_DEPENDENCIES", platform_dependencies(platform) + " " + platform_ldadd(platform))
 
-    r += gvar_add("EXTRA_DIST", extra_dist())
+    r += gvar_add("dist_noinst_DATA", extra_dist())
     r += gvar_add("BUILT_SOURCES", "$(nodist_" + cname() + "_SOURCES)")
     r += gvar_add("CLEANFILES", "$(nodist_" + cname() + "_SOURCES)")
     return r
 
 def data(platform):
-    r  = gvar_add("EXTRA_DIST", platform_sources(platform))
-    r += gvar_add("EXTRA_DIST", extra_dist())
-    r += var_add(installdir() + "_DATA", platform_sources(platform))
+    r  = var_add("dist_" + installdir() + "_DATA", platform_sources(platform))
+    r += gvar_add("dist_noinst_DATA", extra_dist())
     return r
 
 def script(platform):
@@ -532,15 +538,16 @@ def script(platform):
     r += gvar_add ("TESTS", "[+ name +]")
     r += "[+ ELSE +]"
     r += var_add(installdir() + "_SCRIPTS", "[+ name +]")
-    r += "[+ IF mansection +]" + manpage() + "[+ ENDIF +]"
+    r += "[+ IF mansection +]" + manpage("grub-mkconfig_lib") + "[+ ENDIF +]"
     r += "[+ ENDIF +]"
 
-    r += rule("[+ name +]", platform_sources(platform) + " $(top_builddir)/config.status", """
-$(top_builddir)/config.status --file=$@:$<
+    r += rule("[+ name +]", "$(top_builddir)/config.status " + platform_sources(platform), """
+(skip=1; for x in $^; do if [ $$skip = 1 ]; then skip=0; else cat "$$x"; fi; done) | $(top_builddir)/config.status --file=$@:-
 chmod a+x [+ name +]
 """)
 
     r += gvar_add("CLEANFILES", "[+ name +]")
+    r += gvar_add("EXTRA_DIST", extra_dist())
     r += gvar_add("dist_noinst_DATA", platform_sources(platform))
     return r
 
@@ -595,11 +602,11 @@ print ("[+ AutoGen5 template +]\n")
 for p in GRUB_PLATFORMS:
     print (define_macro_for_platform_sources(p))
     print (define_macro_for_platform_nodist_sources(p))
-    # print define_macro_for_platform_dependencies(p)
 
     print (define_macro_for_platform_startup(p))
     print (define_macro_for_platform_cflags(p))
     print (define_macro_for_platform_ldadd(p))
+    print (define_macro_for_platform_dependencies(p))
     print (define_macro_for_platform_ldflags(p))
     print (define_macro_for_platform_cppflags(p))
     print (define_macro_for_platform_ccasflags(p))

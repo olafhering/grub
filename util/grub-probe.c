@@ -27,6 +27,7 @@
 #include <grub/fs.h>
 #include <grub/partition.h>
 #include <grub/msdos_partition.h>
+#include <grub/gpt_partition.h>
 #include <grub/emu/hostdisk.h>
 #include <grub/emu/getroot.h>
 #include <grub/term.h>
@@ -42,7 +43,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
-#include <sys/stat.h>
 #include <assert.h>
 
 #define _GNU_SOURCE	1
@@ -67,12 +67,19 @@ enum {
   PRINT_ARC_HINT,
   PRINT_COMPATIBILITY_HINT,
   PRINT_MSDOS_PARTTYPE,
+  PRINT_GPT_PARTTYPE,
   PRINT_ZERO_CHECK,
   PRINT_DISK
 };
 
 static int print = PRINT_FS;
 static unsigned int argument_is_device = 0;
+
+static void
+do_print (const char *x)
+{
+  grub_printf ("%s ", x);
+}
 
 static void
 probe_partmap (grub_disk_t disk)
@@ -89,7 +96,7 @@ probe_partmap (grub_disk_t disk)
     printf ("%s ", part->partmap->name);
 
   if (disk->dev->id == GRUB_DISK_DEVICE_DISKFILTER_ID)
-    grub_diskfilter_print_partmap (disk);
+    grub_diskfilter_get_partmap (disk, do_print);
 
   /* In case of LVM/RAID, check the member devices as well.  */
   if (disk->dev->memberlist)
@@ -123,7 +130,10 @@ probe_cryptodisk_uuid (grub_disk_t disk)
       list = tmp;
     }
   if (disk->dev->id == GRUB_DISK_DEVICE_CRYPTODISK_ID)
-    grub_util_cryptodisk_print_uuid (disk);
+    {
+      const char *uu = grub_util_cryptodisk_get_uuid (disk);
+      grub_printf ("%s ", uu);
+    }
 }
 
 static int
@@ -292,7 +302,8 @@ probe_abstraction (grub_disk_t disk)
     }
 
   if (disk->dev->id == GRUB_DISK_DEVICE_DISKFILTER_ID
-      && grub_memcmp (disk->name, "lvm/", sizeof ("lvm/") - 1) == 0)
+      && (grub_memcmp (disk->name, "lvm/", sizeof ("lvm/") - 1) == 0 ||
+	  grub_memcmp (disk->name, "lvmid/", sizeof ("lvmid/") - 1) == 0))
     printf ("lvm ");
 
   if (disk->dev->id == GRUB_DISK_DEVICE_DISKFILTER_ID
@@ -300,7 +311,7 @@ probe_abstraction (grub_disk_t disk)
     printf ("ldm ");
 
   if (disk->dev->id == GRUB_DISK_DEVICE_CRYPTODISK_ID)
-    grub_util_cryptodisk_print_abstraction (disk);
+    grub_util_cryptodisk_get_abstraction (disk, do_print);
 
   raid_level = probe_raid_level (disk);
   if (raid_level >= 0)
@@ -327,7 +338,7 @@ probe (const char *path, char **device_names, char delim)
     {
       grub_path = canonicalize_file_name (path);
       if (! grub_path)
-	grub_util_error (_("failed to get canonical path of %s"), path);
+	grub_util_error (_("failed to get canonical path of `%s'"), path);
       device_names = grub_guess_root_devices (grub_path);
       free (grub_path);
     }
@@ -474,6 +485,7 @@ probe (const char *path, char **device_names, char delim)
 	  printf ("%s", label);
 	  putchar (delim);
 	}
+      grub_device_close (dev);
       goto end;
     }
 
@@ -498,7 +510,7 @@ probe (const char *path, char **device_names, char delim)
 	    {
 	      char *tmp = xmalloc (strlen (ofpath) + sizeof ("ieee1275/"));
 	      char *p;
-	      p = stpcpy (tmp, "ieee1275/");
+	      p = grub_stpcpy (tmp, "ieee1275/");
 	      strcpy (p, ofpath);
 	      printf ("--hint-ieee1275='");
 	      print_full_name (tmp, dev);
@@ -542,7 +554,10 @@ probe (const char *path, char **device_names, char delim)
 	      print_full_name (map, dev);
 	      printf ("' ");
 	    }
-	  printf ("\n");
+	  if (curdrive[1])
+	    printf (" ");
+	  else
+	    printf ("\n");
 
 	  grub_device_close (dev);
 	  continue;
@@ -615,7 +630,7 @@ probe (const char *path, char **device_names, char delim)
 	    {
 	      char *tmp = xmalloc (strlen (ofpath) + sizeof ("ieee1275/"));
 	      char *p;
-	      p = stpcpy (tmp, "ieee1275/");
+	      p = grub_stpcpy (tmp, "ieee1275/");
 	      strcpy (p, ofpath);
 	      print_full_name (tmp, dev);
 	      free (tmp);
@@ -723,6 +738,39 @@ probe (const char *path, char **device_names, char delim)
 	  grub_device_close (dev);
 	  continue;
 	}
+
+      if (print == PRINT_GPT_PARTTYPE)
+	{
+          if (dev->disk->partition
+	      && strcmp (dev->disk->partition->partmap->name, "gpt") == 0)
+            {
+              struct grub_gpt_partentry gptdata;
+              grub_partition_t p = dev->disk->partition;
+              dev->disk->partition = dev->disk->partition->parent;
+
+              if (grub_disk_read (dev->disk, p->offset, p->index,
+                                  sizeof (gptdata), &gptdata) == 0)
+                {
+                  grub_gpt_part_type_t gpttype;
+                  gpttype.data1 = grub_le_to_cpu32 (gptdata.type.data1);
+                  gpttype.data2 = grub_le_to_cpu16 (gptdata.type.data2);
+                  gpttype.data3 = grub_le_to_cpu16 (gptdata.type.data3);
+                  grub_memcpy (gpttype.data4, gptdata.type.data4, 8);
+
+                  grub_printf ("%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+                               gpttype.data1, gpttype.data2,
+                               gpttype.data3, gpttype.data4[0], 
+                               gpttype.data4[1], gpttype.data4[2],
+                               gpttype.data4[3], gpttype.data4[4],
+                               gpttype.data4[5], gpttype.data4[6],
+                               gpttype.data4[7]);
+                }
+              dev->disk->partition = p;
+            }
+          putchar (delim);
+          grub_device_close (dev);
+          continue;
+        }
     }
 
  end:
@@ -803,6 +851,8 @@ argp_parser (int key, char *arg, struct argp_state *state)
 	print = PRINT_CRYPTODISK_UUID;
       else if (!strcmp (arg, "msdos_parttype"))
 	print = PRINT_MSDOS_PARTTYPE;
+      else if (!strcmp (arg, "gpt_parttype"))
+	print = PRINT_GPT_PARTTYPE;
       else if (!strcmp (arg, "hints_string"))
 	print = PRINT_HINT_STR;
       else if (!strcmp (arg, "bios_hints"))
@@ -862,9 +912,7 @@ main (int argc, char *argv[])
   char delim;
   struct arguments arguments;
 
-  set_program_name (argv[0]);
-
-  grub_util_init_nls ();
+  grub_util_host_init (&argc, &argv);
 
   memset (&arguments, 0, sizeof (struct arguments));
   arguments.device_max = argc + 1;

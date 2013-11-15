@@ -74,12 +74,11 @@ This edition documents version @value{VERSION}.
 
 @menu
 * Getting the source code::
-* Finding your way around::
 * Coding style::
+* Finding your way around::
 * Contributing Changes::
 * Porting::
 * Error Handling::
-* CIA::
 * BIOS port memory map::
 * Video Subsystem::
 * PFF2 Font File Format::
@@ -92,24 +91,36 @@ This edition documents version @value{VERSION}.
 @node Getting the source code
 @chapter Getting the source code
 
-GRUB is maintained using the @uref{http://bazaar-vcs.org/, Bazaar revision
-control system}.  To fetch the primary development branch:
+GRUB is maintained using the @uref{GIT revision
+control system}.  To fetch:
 
 @example
-bzr get http://bzr.savannah.gnu.org/r/grub/trunk/grub
+git clone git://git.sv.gnu.org/grub.git
 @end example
 
-The GRUB developers maintain several other branches with work in progress.
-Of these, the most interesting is the experimental branch, which is a
-staging area for new code which we expect to eventually merge into trunk but
-which is not yet ready:
-
+Web access is available under
 @example
-bzr get http://bzr.savannah.gnu.org/r/grub/branches/experimental
+http://git.savannah.gnu.org/cgit/grub.git/
 @end example
 
-Once you have used @kbd{bzr get} to fetch an initial copy of a branch, you
-can use @kbd{bzr pull} to keep it up to date.  If you have modified your
+The branches available are:
+
+@table @samp
+@item master
+      Main developpement branch.
+@item grub-legacy
+      GRUB 0.97 codebase. Kept for reference and legal reasons
+@item multiboot
+      Multiboot specfication
+@item multiboot2
+      Multiboot2 specfication
+@item developper branches
+      Prefixed with developper name. Every developper of a team manages his own branches.
+      Developper branches do not need changelog entries.
+@end table
+
+Once you have used @kbd{git clone} to fetch an initial copy of a branch, you
+can use @kbd{git pull} to keep it up to date.  If you have modified your
 local version, you may need to resolve conflicts when pulling.
 
 @node Coding style
@@ -286,13 +297,18 @@ live under @file{grub-core/term/}.
 
 @item
 The @samp{efiemu_*} commands live under @file{grub-core/efiemu/}.
+
+@item
+OS-dependent code should be under @file{grub-core/osdep/}
+
+@item
+Utility programs meant to be run from a full operating system
+(except OS-dependent code mentioned previously) are in @file{util/}.
+
 @end itemize
 
 There are a few other special-purpose exceptions; grep for them if they
 matter to you.
-
-Utility programs meant to be run from a full operating system are in
-@file{util/}.
 
 @node Contributing Changes
 @chapter Contributing changes
@@ -329,10 +345,10 @@ anymore.
 @itemize
 @item Always use latest GRUB 2 source code. So get that first.
 
-For developers it is recommended always to use the newest development version of GRUB 2. If development takes a long period of time, please remember to keep in sync with newest developments regularly so it is much easier to integrate your change in the future. GRUB 2 is being developed in a Bazaar (bzr) repository.
+For developers it is recommended always to use the newest development version of GRUB 2. If development takes a long period of time, please remember to keep in sync with newest developments regularly so it is much easier to integrate your change in the future. GRUB 2 is being developed in a GIT repository.
 
-Please check Savannah's GRUB project page for details how to get newest bzr:
-@uref{http://savannah.gnu.org/bzr/?group=grub, GRUB 2 bzr Repository}
+Please check Savannah's GRUB project page for details how to get newest git:
+@uref{https://savannah.gnu.org/git/?group=grub, GRUB 2 git Repository}
 
 @item Compile it and try it out.
 
@@ -890,34 +906,6 @@ if (grub_errno != GRUB_ERR_NONE)
 grub_error_pop ();
 @end example
 
-@node CIA
-@chapter CIA
-@c By Robert Millan and Carles Pina
-If you have commit access, please setup CIA in your Bazaar
-config so those in IRC receive notification of your commits.
-
-In @file{~/.bazaar/bazaar.conf}, add "cia_send_revno = true". 
-Optionally, you can also add "cia_user = myusername" if you'd
-like CIA service to use a specific account (for statistical purpose).
-
-In the @file{.bzr/branch/branch.conf} of your checkout branch,
-"set nickname = /path_to_this_branch" and "cia_project = GNU GRUB".
-
-Additionally, please set cia_send_revno in the [DEFAULT] section
-of your @file{~/.bazaar/bazaar.conf}. E.g.:
-
-@example
-[DEFAULT]
-cia_send_revno = true
-@end example
-
-Remember to install cia-clients (Debian/Ubuntu package) to be able to use CIA.
-
-Keep in mind Bazaar sends notifications for all commits to branches that have
-this setting, regardless of whether they're bound branches (checkouts) or not.
-So if you make local commits in a non-bound branch and it bothers you that
-others can read them, do not use this setting.
-
 @node BIOS port memory map
 @chapter BIOS port memory map
 @c By Yoshinori K Okuji
@@ -948,8 +936,8 @@ driver manager works are not included here.
 
 @menu
 * Video API::
-* Bitmap API::
 * Example usage of Video API::
+* Bitmap API::
 @end menu
 
 @node Video API
@@ -1108,6 +1096,47 @@ struct grub_video_palette_data
 Used to query indexed color palettes. If mode is RGB mode, colors will be copied from emulated palette data. In Indexed Color modes, palettes will be read from hardware. Color values will be converted to suit structure format. @code{start} will tell what hardware color index (or emulated color index) will be used as a source for first indice of @code{palette_data}, after that both hardware color index and @code{palette_data} index will be incremented until @code{count} number of colors have been read.
 @end itemize
 
+@subsection grub_video_set_area_status
+@itemize
+
+@item Prototype:
+@example
+grub_err_t
+grub_video_set_area_status (grub_video_area_status_t area_status);
+@end example
+@example
+enum grub_video_area_status_t
+  @{
+    GRUB_VIDEO_AREA_DISABLED,
+    GRUB_VIDEO_AREA_ENABLED
+  @};
+@end example
+
+@item Description:
+
+Used to set area drawing mode for redrawing the specified region. Draw commands
+are performed in the intersection of the viewport and the region called area.
+Coordinates remain related to the viewport. If draw commands try to draw over
+the area, they are clipped.
+Set status to DISABLED if you need to draw everything.
+Set status to ENABLED and region to the desired rectangle to redraw everything
+inside the region leaving everything else intact.
+Should be used for redrawing of active elements.
+@end itemize
+
+@subsection grub_video_get_area_status
+@itemize
+
+@item Prototype:
+@example
+grub_err_r
+grub_video_get_area_status (grub_video_area_status_t *area_status);
+@end example
+
+@item Description:
+Used to query the area status.
+@end itemize
+
 @subsection grub_video_set_viewport
 @itemize
 @item Prototype:
@@ -1132,6 +1161,37 @@ grub_video_get_viewport (unsigned int *x, unsigned int *y, unsigned int *width, 
 @item Description:
 
 Used to query current viewport dimensions. Software developer can use this to choose best way to render contents of the viewport.
+@end itemize
+
+@subsection grub_video_set_region
+@itemize
+@item Prototype:
+
+@example
+grub_err_t
+grub_video_set_region (unsigned int x, unsigned int y, unsigned int width, unsigned int height);
+@end example
+@item Description:
+
+Used to specify the region of the screen which should be redrawn. Use absolute
+values. When the region is set and area status is ENABLE all draw commands will
+be performed inside the interseption of region and viewport named area.
+If draw commands try to draw over viewport, they are clipped. If developer
+requests larger than possible region, width and height will be clamped to fit
+screen. Should be used for redrawing of active elements.
+@end itemize
+
+@subsection grub_video_get_region
+@itemize
+@item Prototype:
+
+@example
+grub_err_t
+grub_video_get_region (unsigned int *x, unsigned int *y, unsigned int *width, unsigned int *height);
+@end example
+@item Description:
+
+Used to query current region dimensions.
 @end itemize
 
 @subsection grub_video_map_color

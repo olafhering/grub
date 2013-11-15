@@ -117,68 +117,72 @@ is_valid_diskfilter_name (const char *name)
 {
   return (grub_memcmp (name, "md", sizeof ("md") - 1) == 0
 	  || grub_memcmp (name, "lvm/", sizeof ("lvm/") - 1) == 0
+	  || grub_memcmp (name, "lvmid/", sizeof ("lvmid/") - 1) == 0
 	  || grub_memcmp (name, "ldm/", sizeof ("ldm/") - 1) == 0);
+}
+
+/* Helper for scan_disk.  */
+static int
+scan_disk_partition_iter (grub_disk_t disk, grub_partition_t p, void *data)
+{
+  const char *name = data;
+  struct grub_diskfilter_vg *arr;
+  grub_disk_addr_t start_sector;
+  struct grub_diskfilter_pv_id id;
+  grub_diskfilter_t diskfilter;
+
+  grub_dprintf ("diskfilter", "Scanning for DISKFILTER devices on disk %s\n",
+		name);
+#ifdef GRUB_UTIL
+  grub_util_info ("Scanning for DISKFILTER devices on disk %s", name);
+#endif
+
+  disk->partition = p;
+  
+  for (arr = array_list; arr != NULL; arr = arr->next)
+    {
+      struct grub_diskfilter_pv *m;
+      for (m = arr->pvs; m; m = m->next)
+	if (m->disk && m->disk->id == disk->id
+	    && m->disk->dev->id == disk->dev->id
+	    && m->part_start == grub_partition_get_start (disk->partition)
+	    && m->part_size == grub_disk_get_size (disk))
+	  return 0;
+    }
+
+  for (diskfilter = grub_diskfilter_list; diskfilter; diskfilter = diskfilter->next)
+    {
+#ifdef GRUB_UTIL
+      grub_util_info ("Scanning for %s devices on disk %s", 
+		      diskfilter->name, name);
+#endif
+      id.uuid = 0;
+      id.uuidlen = 0;
+      arr = diskfilter->detect (disk, &id, &start_sector);
+      if (arr &&
+	  (! insert_array (disk, &id, arr, start_sector, diskfilter)))
+	{
+	  if (id.uuidlen)
+	    grub_free (id.uuid);
+	  return 0;
+	}
+      if (arr && id.uuidlen)
+	grub_free (id.uuid);
+
+      /* This error usually means it's not diskfilter, no need to display
+	 it.  */
+      if (grub_errno != GRUB_ERR_OUT_OF_RANGE)
+	grub_print_error ();
+
+      grub_errno = GRUB_ERR_NONE;
+    }
+
+  return 0;
 }
 
 static int
 scan_disk (const char *name, int accept_diskfilter)
 {
-  auto int hook (grub_disk_t disk, grub_partition_t p);
-  int hook (grub_disk_t disk, grub_partition_t p)
-    {
-      struct grub_diskfilter_vg *arr;
-      grub_disk_addr_t start_sector;
-      struct grub_diskfilter_pv_id id;
-      grub_diskfilter_t diskfilter;
-
-      grub_dprintf ("diskfilter", "Scanning for DISKFILTER devices on disk %s\n",
-		    name);
-#ifdef GRUB_UTIL
-      grub_util_info ("Scanning for DISKFILTER devices on disk %s", name);
-#endif
-
-      disk->partition = p;
-      
-      for (arr = array_list; arr != NULL; arr = arr->next)
-	{
-	  struct grub_diskfilter_pv *m;
-	  for (m = arr->pvs; m; m = m->next)
-	    if (m->disk && m->disk->id == disk->id
-		&& m->disk->dev->id == disk->dev->id
-		&& m->part_start == grub_partition_get_start (disk->partition)
-		&& m->part_size == grub_disk_get_size (disk))
-	      return 0;
-	}
-
-      for (diskfilter = grub_diskfilter_list; diskfilter; diskfilter = diskfilter->next)
-	{
-#ifdef GRUB_UTIL
-	  grub_util_info ("Scanning for %s devices on disk %s", 
-			  diskfilter->name, name);
-#endif
-	  id.uuid = 0;
-	  id.uuidlen = 0;
-	  arr = diskfilter->detect (disk, &id, &start_sector);
-	  if (arr &&
-	      (! insert_array (disk, &id, arr, start_sector, diskfilter)))
-	    {
-	      if (id.uuidlen)
-		grub_free (id.uuid);
-	      return 0;
-	    }
-	  if (arr && id.uuidlen)
-	    grub_free (id.uuid);
-
-	  /* This error usually means it's not diskfilter, no need to display
-	     it.  */
-	  if (grub_errno != GRUB_ERR_OUT_OF_RANGE)
-	    grub_print_error ();
-
-	  grub_errno = GRUB_ERR_NONE;
-	}
-
-      return 0;
-    }
   grub_disk_t disk;
   static int scan_depth = 0;
 
@@ -196,23 +200,15 @@ scan_disk (const char *name, int accept_diskfilter)
       scan_depth--;
       return 0;
     }
-  if (hook (disk, 0))
-    {
-      scan_depth--;
-      return 1;
-    }
-  if (grub_partition_iterate (disk, hook))
-    {
-      scan_depth--;
-      return 1;
-    }
+  scan_disk_partition_iter (disk, 0, (void *) name);
+  grub_partition_iterate (disk, scan_disk_partition_iter, (void *) name);
   grub_disk_close (disk);
   scan_depth--;
   return 0;
 }
 
 static int
-scan_disk_hook (const char *name)
+scan_disk_hook (const char *name, void *data __attribute__ ((unused)))
 {
   return scan_disk (name, 0);
 }
@@ -224,33 +220,45 @@ scan_devices (const char *arname)
   grub_disk_pull_t pull;
   struct grub_diskfilter_vg *vg;
   struct grub_diskfilter_lv *lv = NULL;
+  int scan_depth;
+  int need_rescan;
 
   for (pull = 0; pull < GRUB_DISK_PULL_MAX; pull++)
     for (p = grub_disk_dev_list; p; p = p->next)
       if (p->id != GRUB_DISK_DEVICE_DISKFILTER_ID
 	  && p->iterate)
 	{
-	  if ((p->iterate) (scan_disk_hook, pull))
+	  if ((p->iterate) (scan_disk_hook, NULL, pull))
 	    return;
 	  if (arname && is_lv_readable (find_lv (arname), 1))
 	    return;
 	}
 
-  for (vg = array_list; vg; vg = vg->next)
+  scan_depth = 0;
+  need_rescan = 1;
+  while (need_rescan && scan_depth++ < 100)
     {
-      if (vg->lvs)
-	for (lv = vg->lvs; lv; lv = lv->next)
-	  if (!lv->scanned && lv->fullname && lv->became_readable_at)
-	    {
-	      scan_disk (lv->fullname, 1);
-	      lv->scanned = 1;
-	    }
+      need_rescan = 0;
+      for (vg = array_list; vg; vg = vg->next)
+	{
+	  if (vg->lvs)
+	    for (lv = vg->lvs; lv; lv = lv->next)
+	      if (!lv->scanned && lv->fullname && lv->became_readable_at)
+		{
+		  scan_disk (lv->fullname, 1);
+		  lv->scanned = 1;
+		  need_rescan = 1;
+		}
+	}
     }
+
+  if (need_rescan)
+     grub_error (GRUB_ERR_UNKNOWN_DEVICE, "DISKFILTER scan depth exceeded");
 }
 
 static int
-grub_diskfilter_iterate (int (*hook) (const char *name),
-		   grub_disk_pull_t pull)
+grub_diskfilter_iterate (grub_disk_dev_iterate_hook_t hook, void *hook_data,
+			 grub_disk_pull_t pull)
 {
   struct grub_diskfilter_vg *array;
   int islcnt = 0;
@@ -271,7 +279,7 @@ grub_diskfilter_iterate (int (*hook) (const char *name),
 	for (lv = array->lvs; lv; lv = lv->next)
 	  if (lv->visible && lv->fullname && lv->became_readable_at >= islcnt)
 	    {
-	      if (hook (lv->fullname))
+	      if (hook (lv->fullname, hook_data))
 		return 1;
 	    }
     }
@@ -303,7 +311,7 @@ grub_diskfilter_memberlist (grub_disk_t disk)
       if (p->id != GRUB_DISK_DEVICE_DISKFILTER_ID
 	  && p->iterate)
 	{
-	  (p->iterate) (scan_disk_hook, pull);
+	  (p->iterate) (scan_disk_hook, NULL, pull);
 	  while (pv && pv->disk)
 	    pv = pv->next;
 	}
@@ -345,7 +353,8 @@ grub_diskfilter_memberlist (grub_disk_t disk)
 }
 
 void
-grub_diskfilter_print_partmap (grub_disk_t disk)
+grub_diskfilter_get_partmap (grub_disk_t disk,
+			     void (*cb) (const char *pm))
 {
   struct grub_diskfilter_lv *lv = disk->data;
   struct grub_diskfilter_pv *pv;
@@ -367,7 +376,7 @@ grub_diskfilter_print_partmap (grub_disk_t disk)
 	    continue;
 	  }
 	for (s = 0; pv->partmaps[s]; s++)
-	  grub_printf ("%s ", pv->partmaps[s]);
+	  cb (pv->partmaps[s]);
       }
 }
 
@@ -380,16 +389,12 @@ grub_diskfilter_getname (struct grub_disk *disk)
 }
 #endif
 
-static inline int
-ascii2hex (char c)
+static inline char
+hex2ascii (int c)
 {
-  if (c >= '0' && c <= '9')
-    return c - '0';
-  if (c >= 'a' && c <= 'f')
-    return c - 'a' + 10;
-  if (c >= 'A' && c <= 'F')
-    return c - 'A' + 10;
-  return 0;
+  if (c >= 10)
+    return 'a' + c - 10;
+  return c + '0';
 }
 
 static struct grub_diskfilter_lv *
@@ -398,30 +403,12 @@ find_lv (const char *name)
   struct grub_diskfilter_vg *vg;
   struct grub_diskfilter_lv *lv = NULL;
 
-  if (grub_memcmp (name, "mduuid/", sizeof ("mduuid/") - 1) == 0)
-    {
-      const char *uuidstr = name + sizeof ("mduuid/") - 1;
-      grub_size_t uuid_len = grub_strlen (uuidstr) / 2;
-      grub_uint8_t uuidbin[uuid_len];
-      unsigned i;
-      for (i = 0; i < uuid_len; i++)
-	uuidbin[i] = ascii2hex (uuidstr[2 * i + 1])
-	  | (ascii2hex (uuidstr[2 * i]) << 4);
-
-      for (vg = array_list; vg; vg = vg->next)      
-	{
-	  if (uuid_len == vg->uuid_len
-	      && grub_memcmp (uuidbin, vg->uuid, uuid_len) == 0)
-	    if (is_lv_readable (vg->lvs, 0))
-	      return vg->lvs;
-	}
-    }
-
   for (vg = array_list; vg; vg = vg->next)
     {
       if (vg->lvs)
 	for (lv = vg->lvs; lv; lv = lv->next)
-	  if (lv->fullname && grub_strcmp (lv->fullname, name) == 0
+	  if (((lv->fullname && grub_strcmp (lv->fullname, name) == 0)
+	       || (lv->idname && grub_strcmp (lv->idname, name) == 0))
 	      && is_lv_readable (lv, 0))
 	    return lv;
     }
@@ -433,9 +420,7 @@ grub_diskfilter_open (const char *name, grub_disk_t disk)
 {
   struct grub_diskfilter_lv *lv;
 
-  if (grub_memcmp (name, "md", sizeof ("md") - 1) != 0
-      && grub_memcmp (name, "lvm/", sizeof ("lvm/") - 1) != 0
-      && grub_memcmp (name, "ldm/", sizeof ("ldm/") - 1) != 0)
+  if (!is_valid_diskfilter_name (name))
      return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "unknown DISKFILTER device %s",
 			name);
 
@@ -460,6 +445,7 @@ grub_diskfilter_open (const char *name, grub_disk_t disk)
   disk->data = lv;
 
   disk->total_sectors = lv->size;
+  disk->max_agglomerate = GRUB_DISK_MAX_MAX_AGGLOMERATE;
   return 0;
 }
 
@@ -831,7 +817,8 @@ grub_diskfilter_write (grub_disk_t disk __attribute ((unused)),
 		 grub_size_t size __attribute ((unused)),
 		 const char *buf __attribute ((unused)))
 {
-  return GRUB_ERR_NOT_IMPLEMENTED_YET;
+  return grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET,
+		     "diskfilter writes are not supported");
 }
 
 struct grub_diskfilter_vg *
@@ -921,6 +908,7 @@ grub_diskfilter_make_raid (grub_size_t uuidlen, char *uuid, int nmemb,
 {
   struct grub_diskfilter_vg *array;
   int i;
+  grub_size_t j;
   grub_uint64_t totsize;
   struct grub_diskfilter_pv *pv;
   grub_err_t err;
@@ -946,7 +934,7 @@ grub_diskfilter_make_raid (grub_size_t uuidlen, char *uuid, int nmemb,
     case 4:
     case 5:
     case 6:
-      totsize = (nmemb - level / 3) * disk_size;
+      totsize = (nmemb - ((unsigned) level / 3U)) * disk_size;
       break;
 
     default:
@@ -987,6 +975,7 @@ grub_diskfilter_make_raid (grub_size_t uuidlen, char *uuid, int nmemb,
 
       array->name = new_name;
     }
+
   array->extent_size = 1;
   array->lvs = grub_zalloc (sizeof (*array->lvs));
   if (!array->lvs)
@@ -995,6 +984,20 @@ grub_diskfilter_make_raid (grub_size_t uuidlen, char *uuid, int nmemb,
   array->lvs->visible = 1;
   array->lvs->name = array->name;
   array->lvs->fullname = array->name;
+
+  array->lvs->idname = grub_malloc (sizeof ("mduuid/") + 2 * uuidlen);
+  if (!array->lvs->idname)
+    goto fail;
+
+  grub_memcpy (array->lvs->idname, "mduuid/", sizeof ("mduuid/") - 1);
+  for (j = 0; j < uuidlen; j++)
+    {
+      array->lvs->idname[sizeof ("mduuid/") - 1 + 2 * j]
+	= hex2ascii (((unsigned char) uuid[j] >> 4));
+      array->lvs->idname[sizeof ("mduuid/") - 1 + 2 * j + 1]
+	= hex2ascii (((unsigned char) uuid[j] & 0xf));
+    }
+  array->lvs->idname[sizeof ("mduuid/") - 1 + 2 * uuidlen] = '\0';
 
   array->lvs->size = totsize;
 
@@ -1049,10 +1052,14 @@ insert_array (grub_disk_t disk, const struct grub_diskfilter_pv_id *id,
 {
   struct grub_diskfilter_pv *pv;
 
-  grub_dprintf ("diskfilter", "Inserting %s into %s (%s)\n", disk->name,
+  grub_dprintf ("diskfilter", "Inserting %s (+%lld,%lld) into %s (%s)\n", disk->name,
+		(unsigned long long) grub_partition_get_start (disk->partition),
+		(unsigned long long) grub_disk_get_size (disk),
 		array->name, diskfilter->name);
 #ifdef GRUB_UTIL
-  grub_util_info ("Inserting %s into %s (%s)\n", disk->name,
+  grub_util_info ("Inserting %s (+%lld,%lld) into %s (%s)\n", disk->name,
+		  (unsigned long long) grub_partition_get_start (disk->partition),
+		  (unsigned long long) grub_disk_get_size (disk),
 		  array->name, diskfilter->name);
   array->driver = diskfilter;
 #endif
@@ -1096,14 +1103,7 @@ insert_array (grub_disk_t disk, const struct grub_diskfilter_pv_id *id,
 	/* Add the device to the array. */
 	for (lv = array->lvs; lv; lv = lv->next)
 	  if (!lv->became_readable_at && lv->fullname && is_lv_readable (lv, 0))
-	    {
-	      lv->became_readable_at = ++inscnt;
-	      if (is_lv_readable (lv, 1))
-		{
-		  scan_disk (lv->fullname, 1);
-		  lv->scanned = 1;
-		}
-	    }
+	    lv->became_readable_at = ++inscnt;
 	break;
       }
 
@@ -1130,6 +1130,9 @@ free_array (void)
 	    grub_disk_close (pv->disk);
 	  if (pv->id.uuidlen)
 	    grub_free (pv->id.uuid);
+#ifdef GRUB_UTIL
+	  grub_free (pv->partmaps);
+#endif
 	  grub_free (pv->internal_id);
 	  grub_free (pv);
 	}

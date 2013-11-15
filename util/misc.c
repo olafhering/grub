@@ -26,9 +26,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/time.h>
-#include <unistd.h>
 #include <time.h>
 
 #include <grub/kernel.h>
@@ -42,20 +40,13 @@
 #include <grub/time.h>
 #include <grub/i18n.h>
 #include <grub/script_sh.h>
+#include <grub/osdep/hostfile.h>
 
 #define ENABLE_RELOCATABLE 0
+#ifdef GRUB_BUILD
+const char *program_name = GRUB_BUILD_PROGRAM_NAME;
+#else
 #include "progname.h"
-
-/* Include malloc.h, only if memalign is available. It is known that
-   memalign is declared in malloc.h in all systems, if present.  */
-#ifdef HAVE_MEMALIGN
-# include <malloc.h>
-#endif
-
-#ifdef __MINGW32__
-#include <windows.h>
-#include <winioctl.h>
-#include "dirname.h"
 #endif
 
 #ifdef GRUB_UTIL
@@ -86,14 +77,21 @@ grub_util_get_path (const char *dir, const char *file)
 size_t
 grub_util_get_image_size (const char *path)
 {
-  struct stat st;
+  FILE *f;
+  size_t ret;
 
-  grub_util_info ("getting the size of %s", path);
+  f = grub_util_fopen (path, "rb");
 
-  if (stat (path, &st) == -1)
-    grub_util_error (_("cannot stat `%s': %s"), path, strerror (errno));
+  if (!f)
+    grub_util_error (_("cannot open `%s': %s"), path, strerror (errno));
 
-  return st.st_size;
+  fseeko (f, 0, SEEK_END);
+  
+  ret = ftello (f);
+
+  fclose (f);
+
+  return ret;
 }
 
 char *
@@ -108,7 +106,7 @@ grub_util_read_image (const char *path)
   size = grub_util_get_image_size (path);
   img = (char *) xmalloc (size);
 
-  fp = fopen (path, "rb");
+  fp = grub_util_fopen (path, "rb");
   if (! fp)
     grub_util_error (_("cannot open `%s': %s"), path,
 		     strerror (errno));
@@ -132,7 +130,7 @@ grub_util_load_image (const char *path, char *buf)
 
   size = grub_util_get_image_size (path);
 
-  fp = fopen (path, "rb");
+  fp = grub_util_fopen (path, "rb");
   if (! fp)
     grub_util_error (_("cannot open `%s': %s"), path,
 		     strerror (errno));
@@ -148,8 +146,8 @@ void
 grub_util_write_image_at (const void *img, size_t size, off_t offset, FILE *out,
 			  const char *name)
 {
-  grub_util_info ("writing 0x%" PRIxGRUB_SIZE " bytes at offset 0x%llx",
-		  size, (unsigned long long) offset);
+  grub_util_info ("writing 0x%llx bytes at offset 0x%llx",
+		  (unsigned long long) size, (unsigned long long) offset);
   if (fseeko (out, offset, SEEK_SET) == -1)
     grub_util_error (_("cannot seek `%s': %s"),
 		     name, strerror (errno));
@@ -162,7 +160,7 @@ void
 grub_util_write_image (const char *img, size_t size, FILE *out,
 		       const char *name)
 {
-  grub_util_info ("writing 0x%" PRIxGRUB_SIZE " bytes", size);
+  grub_util_info ("writing 0x%llx bytes", (unsigned long long) size);
   if (fwrite (img, 1, size, out) != size)
     {
       if (!name)
@@ -258,85 +256,6 @@ void
 grub_register_exported_symbols (void)
 {
 }
-
-#ifdef __MINGW32__
-
-void
-grub_millisleep (grub_uint32_t ms)
-{
-  Sleep (ms);
-}
-
-#else
-
-void
-grub_millisleep (grub_uint32_t ms)
-{
-  struct timespec ts;
-
-  ts.tv_sec = ms / 1000;
-  ts.tv_nsec = (ms % 1000) * 1000000;
-  nanosleep (&ts, NULL);
-}
-
-#endif
-
-#ifdef __MINGW32__
-
-void sync (void)
-{
-}
-
-int fsync (int fno __attribute__ ((unused)))
-{
-  return 0;
-}
-
-grub_int64_t
-grub_util_get_disk_size (char *name)
-{
-  HANDLE hd;
-  grub_int64_t size = -1LL;
-
-  strip_trailing_slashes(name);
-  hd = CreateFile (name, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE,
-                   0, OPEN_EXISTING, 0, 0);
-
-  if (hd == INVALID_HANDLE_VALUE)
-    return size;
-
-  if (((name[0] == '/') || (name[0] == '\\')) &&
-      ((name[1] == '/') || (name[1] == '\\')) &&
-      (name[2] == '.') &&
-      ((name[3] == '/') || (name[3] == '\\')) &&
-      (! strncasecmp (name + 4, "PHYSICALDRIVE", 13)))
-    {
-      DWORD nr;
-      DISK_GEOMETRY g;
-
-      if (! DeviceIoControl (hd, IOCTL_DISK_GET_DRIVE_GEOMETRY,
-                             0, 0, &g, sizeof (g), &nr, 0))
-        goto fail;
-
-      size = g.Cylinders.QuadPart;
-      size *= g.TracksPerCylinder * g.SectorsPerTrack * g.BytesPerSector;
-    }
-  else
-    {
-      LARGE_INTEGER s;
-
-      s.LowPart = GetFileSize (hd, &s.HighPart);
-      size = s.QuadPart;
-    }
-
-fail:
-
-  CloseHandle (hd);
-
-  return size;
-}
-
-#endif /* __MINGW32__ */
 
 #ifdef GRUB_UTIL
 void

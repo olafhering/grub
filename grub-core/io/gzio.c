@@ -363,8 +363,6 @@ static ush mask_bits[] =
   0x01ff, 0x03ff, 0x07ff, 0x0fff, 0x1fff, 0x3fff, 0x7fff, 0xffff
 };
 
-#pragma GCC diagnostic ignored "-Wunsafe-loop-optimizations"
-
 #define NEEDBITS(n) do {while(k<(n)){b|=((ulg)get_byte(gzio))<<k;k+=8;}} while (0)
 #define DUMPBITS(n) do {b>>=(n);k-=(n);} while (0)
 
@@ -544,7 +542,7 @@ huft_build (unsigned *b,	/* code lengths in bits (all assumed <= BMAX) */
 	      z = 1 << j;	/* table entries for j-bit table */
 
 	      /* allocate and link in new table */
-	      q = (struct huft *) grub_malloc ((z + 1) * sizeof (struct huft));
+	      q = (struct huft *) grub_zalloc ((z + 1) * sizeof (struct huft));
 	      if (! q)
 		{
 		  if (h)
@@ -1118,6 +1116,8 @@ initialize_tables (grub_gzio_t gzio)
   /* Reset memory allocation stuff.  */
   huft_free (gzio->tl);
   huft_free (gzio->td);
+  gzio->tl = NULL;
+  gzio->td = NULL;
 }
 
 
@@ -1125,12 +1125,12 @@ initialize_tables (grub_gzio_t gzio)
    even if IO does not contain data compressed by gzip, return a valid file
    object. Note that this function won't close IO, even if an error occurs.  */
 static grub_file_t
-grub_gzio_open (grub_file_t io)
+grub_gzio_open (grub_file_t io, const char *name __attribute__ ((unused)))
 {
   grub_file_t file;
   grub_gzio_t gzio = 0;
 
-  file = (grub_file_t) grub_malloc (sizeof (*file));
+  file = (grub_file_t) grub_zalloc (sizeof (*file));
   if (! file)
     return 0;
 
@@ -1144,9 +1144,7 @@ grub_gzio_open (grub_file_t io)
   gzio->file = io;
 
   file->device = io->device;
-  file->offset = 0;
   file->data = gzio;
-  file->read_hook = 0;
   file->fs = &grub_gzio_fs;
   file->not_easily_seekable = 1;
 
@@ -1180,7 +1178,7 @@ test_zlib_header (grub_gzio_t gzio)
       return 0;
     }
 
-  if ((cmf * 256 + flg) % 31)
+  if ((cmf * 256U + flg) % 31U)
     {
       grub_error (GRUB_ERR_BAD_COMPRESSED_DATA, N_("unsupported gzip format"));
       return 0;

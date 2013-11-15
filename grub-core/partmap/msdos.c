@@ -94,14 +94,21 @@ struct embed_signature embed_signatures[] =
       .signature = "ycgl",
       .signature_len = 4,
       .type = TYPE_RAID
+    },
+    {
+      /* https://bugs.launchpad.net/bugs/987022 */
+      .name = "Acer registration utility (?)",
+      .signature = "GREGRegDone.Tag\x00",
+      .signature_len = 16,
+      .type = TYPE_SOFTWARE
     }
   };
 #endif
 
 grub_err_t
 grub_partition_msdos_iterate (grub_disk_t disk,
-			      int (*hook) (grub_disk_t disk,
-					   const grub_partition_t partition))
+			      grub_partition_iterate_hook_t hook,
+			      void *hook_data)
 {
   struct grub_partition p;
   struct grub_msdos_partition_mbr mbr;
@@ -186,10 +193,10 @@ grub_partition_msdos_iterate (grub_disk_t disk,
 	    {
 	      p.number++;
 
-	      if (hook (disk, &p))
+	      if (hook (disk, &p, hook_data))
 		return grub_errno;
 	    }
-	  else if (p.number < 4)
+	  else if (p.number < 3)
 	    /* If this partition is a logical one, shouldn't increase the
 	       partition number.  */
 	    p.number++;

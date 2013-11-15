@@ -28,6 +28,7 @@
 #include <grub/time.h>
 #include <grub/cs5536.h>
 #include <grub/loader.h>
+#include <grub/disk.h>
 
 GRUB_MOD_LICENSE ("GPLv3+");
 
@@ -213,9 +214,9 @@ grub_ohci_writereg32 (struct grub_ohci *o,
 
 /* Iterate over all PCI devices.  Determine if a device is an OHCI
    controller.  If this is the case, initialize it.  */
-static int NESTED_FUNC_ATTR
-grub_ohci_pci_iter (grub_pci_device_t dev,
-		    grub_pci_id_t pciid)
+static int
+grub_ohci_pci_iter (grub_pci_device_t dev, grub_pci_id_t pciid,
+		    void *data __attribute__ ((unused)))
 {
   grub_uint32_t interf;
   grub_uint32_t base;
@@ -269,6 +270,11 @@ grub_ohci_pci_iter (grub_pci_device_t dev,
       if (! (base & 1))
 	return 0;
 #endif
+
+      /* Set bus master - needed for coreboot, VMware, broken BIOSes etc. */
+      addr = grub_pci_make_address (dev, GRUB_PCI_REG_COMMAND);
+      grub_pci_write_word(addr,
+          GRUB_PCI_COMMAND_BUS_MASTER | grub_pci_read_word(addr));
 
       grub_dprintf ("ohci", "class=0x%02x 0x%02x interface 0x%02x\n",
 		    class, subclass, interf);
@@ -472,13 +478,13 @@ grub_ohci_pci_iter (grub_pci_device_t dev,
 static void
 grub_ohci_inithw (void)
 {
-  grub_pci_iterate (grub_ohci_pci_iter);
+  grub_pci_iterate (grub_ohci_pci_iter, NULL);
 }
 
 
 
 static int
-grub_ohci_iterate (int (*hook) (grub_usb_controller_t dev))
+grub_ohci_iterate (grub_usb_controller_iterate_hook_t hook, void *hook_data)
 {
   struct grub_ohci *o;
   struct grub_usb_controller dev;
@@ -486,7 +492,7 @@ grub_ohci_iterate (int (*hook) (grub_usb_controller_t dev))
   for (o = ohci; o; o = o->next)
     {
       dev.data = o;
-      if (hook (&dev))
+      if (hook (&dev, hook_data))
 	return 1;
     }
 
@@ -1210,7 +1216,7 @@ grub_ohci_cancel_transfer (grub_usb_controller_t dev,
   return GRUB_USB_ERR_NONE;
 }
 
-static grub_err_t
+static grub_usb_err_t
 grub_ohci_portstatus (grub_usb_controller_t dev,
 		      unsigned int port, unsigned int enable)
 {
@@ -1230,11 +1236,11 @@ grub_ohci_portstatus (grub_usb_controller_t dev,
        while ((grub_ohci_readreg32 (o, GRUB_OHCI_REG_RHUBPORT + port)
                & (1 << 1)))
          if (grub_get_time_ms () > endtime)
-           return grub_error (GRUB_ERR_IO, "OHCI Timed out - disable");
+           return GRUB_USB_ERR_TIMEOUT;
 
        grub_dprintf ("ohci", "end of portstatus=0x%02x\n",
          grub_ohci_readreg32 (o, GRUB_OHCI_REG_RHUBPORT + port));
-       return GRUB_ERR_NONE;
+       return GRUB_USB_ERR_NONE;
      }
      
    /* OHCI does one reset signal 10ms long but USB spec.
@@ -1251,7 +1257,7 @@ grub_ohci_portstatus (grub_usb_controller_t dev,
        while (! (grub_ohci_readreg32 (o, GRUB_OHCI_REG_RHUBPORT + port)
                & GRUB_OHCI_SET_PORT_RESET_STATUS_CHANGE))
          if (grub_get_time_ms () > endtime)
-           return grub_error (GRUB_ERR_IO, "OHCI Timed out - reset");
+           return GRUB_USB_ERR_TIMEOUT;
 
        /* End the reset signaling - reset the reset status change */
        grub_ohci_writereg32 (o, GRUB_OHCI_REG_RHUBPORT + port,
@@ -1269,7 +1275,7 @@ grub_ohci_portstatus (grub_usb_controller_t dev,
    while (! (grub_ohci_readreg32 (o, GRUB_OHCI_REG_RHUBPORT + port)
            & (1 << 1)))
      if (grub_get_time_ms () > endtime)
-       return grub_error (GRUB_ERR_IO, "OHCI Timed out - enable");
+       return GRUB_USB_ERR_TIMEOUT;
 
    /* Reset bit Connect Status Change */
    grub_ohci_writereg32 (o, GRUB_OHCI_REG_RHUBPORT + port,
@@ -1281,7 +1287,7 @@ grub_ohci_portstatus (grub_usb_controller_t dev,
    grub_dprintf ("ohci", "end of portstatus=0x%02x\n",
 		 grub_ohci_readreg32 (o, GRUB_OHCI_REG_RHUBPORT + port));
  
-   return GRUB_ERR_NONE;
+   return GRUB_USB_ERR_NONE;
 }
 
 static grub_usb_speed_t
@@ -1426,7 +1432,9 @@ static struct grub_usb_controller_dev usb_controller =
   .cancel_transfer = grub_ohci_cancel_transfer,
   .hubports = grub_ohci_hubports,
   .portstatus = grub_ohci_portstatus,
-  .detect_dev = grub_ohci_detect_dev
+  .detect_dev = grub_ohci_detect_dev,
+  /* estimated max. count of TDs for one bulk transfer */
+  .max_bulk_tds = GRUB_OHCI_TDS * 3 / 4
 };
 
 static struct grub_preboot *fini_hnd;
@@ -1435,6 +1443,9 @@ GRUB_MOD_INIT(ohci)
 {
   COMPILE_TIME_ASSERT (sizeof (struct grub_ohci_td) == 32);
   COMPILE_TIME_ASSERT (sizeof (struct grub_ohci_ed) == 16);
+
+  grub_stop_disk_firmware ();
+
   grub_ohci_inithw ();
   grub_usb_controller_dev_register (&usb_controller);
   fini_hnd = grub_loader_register_preboot_hook (grub_ohci_fini_hw,

@@ -1,19 +1,28 @@
-Description: Prefer translations from language packs
+Description: Prefer translations from Ubuntu language packs if available
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/537998
 Forwarded: not-needed
-Last-Update: 2012-09-26
+Last-Update: 2013-11-14
 
-Index: b/util/grub-install.in
+Index: b/util/grub-install_header
 ===================================================================
---- a/util/grub-install.in
-+++ b/util/grub-install.in
-@@ -543,7 +543,7 @@
- 
- # Copy gettext files
- mkdir -p "${grubdir}"/locale/
--for dir in "${localedir}"/*; do
-+for dir in "${localedir}"/* "${localedir}-langpack"/*; do
-     if test -f "$dir/LC_MESSAGES/grub.mo"; then
-         cp -f "$dir/LC_MESSAGES/grub.mo" "${grubdir}/locale/${dir##*/}.mo"
-     fi
+--- a/util/grub-install_header
++++ b/util/grub-install_header
+@@ -118,7 +118,7 @@
+ 		grub_compress_file "$file" "${grub_install_files_target_directory}"/locale/"$(basename "$file")"
+ 	    fi
+ 	done
+-	for dir in "${localedir}"/*; do
++	for dir in "${localedir}"/* "${localedir}-langpack"/*; do
+ 	    if test -f "$dir/LC_MESSAGES/@PACKAGE@.mo" && ! test -f "${grub_install_files_target_directory}"/locale/"${dir##*/}.mo"; then
+ 		grub_compress_file "$dir/LC_MESSAGES/@PACKAGE@.mo" "${grub_install_files_target_directory}"/locale/"${dir##*/}.mo"
+ 	    fi
+@@ -127,6 +127,8 @@
+ 	for locale in $install_locales; do
+ 	    if test -f "${grub_install_files_source_directory}"/po/$locale.mo; then
+ 		grub_compress_file "${grub_install_files_source_directory}"/po/locale.mo "${grub_install_files_target_directory}"/locale/$locale.mo
++	    elif test -f "${localedir}-langpack/$locale/LC_MESSAGES/@PACKAGE@.mo"; then
++		grub_compress_file "${localedir}-langpack/$locale/LC_MESSAGES/@PACKAGE@.mo" "${grub_install_files_target_directory}"/locale/$locale.mo
+ 	    elif test -f "${localedir}/$locale/LC_MESSAGES/@PACKAGE@.mo"; then
+ 		grub_compress_file "${localedir}/$locale/LC_MESSAGES/@PACKAGE@.mo" "${grub_install_files_target_directory}"/locale/$locale.mo
+ 	    fi

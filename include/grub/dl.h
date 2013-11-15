@@ -25,6 +25,7 @@
 #include <grub/err.h>
 #include <grub/types.h>
 #include <grub/elf.h>
+#include <grub/list.h>
 #endif
 
 /*
@@ -34,25 +35,38 @@
  */
 #ifndef ASM_FILE
 
-#if !defined (GRUB_UTIL) && !defined (GRUB_MACHINE_EMU)
-
 #ifndef GRUB_MOD_INIT
+
+#if !defined (GRUB_UTIL) && !defined (GRUB_MACHINE_EMU) && !defined (GRUB_KERNEL)
+
 #define GRUB_MOD_INIT(name)	\
 static void grub_mod_init (grub_dl_t mod __attribute__ ((unused))) __attribute__ ((used)); \
 static void \
 grub_mod_init (grub_dl_t mod __attribute__ ((unused)))
-#endif
 
-#ifndef GRUB_MOD_FINI
 #define GRUB_MOD_FINI(name)	\
 static void grub_mod_fini (void) __attribute__ ((used)); \
 static void \
 grub_mod_fini (void)
-#endif
+
+#elif defined (GRUB_KERNEL)
+
+#define GRUB_MOD_INIT(name)	\
+static void grub_mod_init (grub_dl_t mod __attribute__ ((unused))) __attribute__ ((used)); \
+void \
+grub_##name##_init (void) { grub_mod_init (0); } \
+static void \
+grub_mod_init (grub_dl_t mod __attribute__ ((unused)))
+
+#define GRUB_MOD_FINI(name)	\
+static void grub_mod_fini (void) __attribute__ ((used)); \
+void \
+grub_##name##_fini (void) { grub_mod_fini (); } \
+static void \
+grub_mod_fini (void)
 
 #else
 
-#ifndef GRUB_MOD_INIT
 #define GRUB_MOD_INIT(name)	\
 static void grub_mod_init (grub_dl_t mod __attribute__ ((unused))) __attribute__ ((used)); \
 void grub_##name##_init (void); \
@@ -60,9 +74,7 @@ void \
 grub_##name##_init (void) { grub_mod_init (0); } \
 static void \
 grub_mod_init (grub_dl_t mod __attribute__ ((unused)))
-#endif
 
-#ifndef GRUB_MOD_FINI
 #define GRUB_MOD_FINI(name)	\
 static void grub_mod_fini (void) __attribute__ ((used)); \
 void grub_##name##_fini (void); \
@@ -70,6 +82,7 @@ void \
 grub_##name##_fini (void) { grub_mod_fini (); } \
 static void \
 grub_mod_fini (void)
+
 #endif
 
 #endif
@@ -90,15 +103,6 @@ grub_mod_fini (void)
 #endif
 #endif
 
-#ifndef ASM_FILE
-#define GRUB_MOD_DEP(name)	\
-static const char grub_module_depend_##name[] \
-  __attribute__((section(GRUB_MOD_SECTION(moddeps)), __used__)) = #name
-#define GRUB_MOD_NAME(name)	\
-static const char grub_module_name_##name[] \
- __attribute__((section(GRUB_MOD_SECTION(modname)), __used__)) = #name
-#endif
-
 /* Me, Vladimir Serbinenko, hereby I add this module check as per new
    GNU module policy. Note that this license check is informative only.
    Modules have to be licensed under GPLv3 or GPLv3+ (optionally
@@ -108,11 +112,19 @@ static const char grub_module_name_##name[] \
    Be sure to understand your license obligations.
 */
 #ifndef ASM_FILE
+#if GNUC_PREREQ (3,2)
+#define ATTRIBUTE_USED __used__
+#else
+#define ATTRIBUTE_USED __unused__
+#endif
 #define GRUB_MOD_LICENSE(license)	\
-  static char grub_module_license[] __attribute__ ((section (GRUB_MOD_SECTION (module_license)), used)) = "LICENSE=" license;
+  static char grub_module_license[] __attribute__ ((section (GRUB_MOD_SECTION (module_license)), ATTRIBUTE_USED)) = "LICENSE=" license;
 #define GRUB_MOD_DEP(name)	\
 static const char grub_module_depend_##name[] \
- __attribute__((section(GRUB_MOD_SECTION(moddeps)), __used__)) = #name
+ __attribute__((section(GRUB_MOD_SECTION(moddeps)), ATTRIBUTE_USED)) = #name
+#define GRUB_MOD_NAME(name)	\
+static const char grub_module_name_##name[] \
+ __attribute__((section(GRUB_MOD_SECTION(modname)), __used__)) = #name
 #else
 #ifdef __APPLE__
 .macro GRUB_MOD_LICENSE
@@ -181,15 +193,41 @@ typedef struct grub_dl *grub_dl_t;
 grub_dl_t grub_dl_load_file (const char *filename);
 grub_dl_t EXPORT_FUNC(grub_dl_load) (const char *name);
 grub_dl_t grub_dl_load_core (void *addr, grub_size_t size);
+grub_dl_t EXPORT_FUNC(grub_dl_load_core_noinit) (void *addr, grub_size_t size);
 int EXPORT_FUNC(grub_dl_unload) (grub_dl_t mod);
 void grub_dl_unload_unneeded (void);
 int EXPORT_FUNC(grub_dl_ref) (grub_dl_t mod);
 int EXPORT_FUNC(grub_dl_unref) (grub_dl_t mod);
 extern grub_dl_t EXPORT_VAR(grub_dl_head);
 
+#ifndef GRUB_UTIL
+
 #define FOR_DL_MODULES(var) FOR_LIST_ELEMENTS ((var), (grub_dl_head))
 
-grub_dl_t EXPORT_FUNC(grub_dl_get) (const char *name);
+static inline void
+grub_dl_init (grub_dl_t mod)
+{
+  if (mod->init)
+    (mod->init) (mod);
+
+  mod->next = grub_dl_head;
+  grub_dl_head = mod;
+}
+
+static inline grub_dl_t
+grub_dl_get (const char *name)
+{
+  grub_dl_t l;
+
+  FOR_DL_MODULES(l)
+    if (grub_strcmp (name, l->name) == 0)
+      return l;
+
+  return 0;
+}
+
+#endif
+
 grub_err_t grub_dl_register_symbol (const char *name, void *addr,
 				    int isfunc, grub_dl_t mod);
 

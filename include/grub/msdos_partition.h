@@ -43,6 +43,7 @@
 #define GRUB_PC_PARTITION_TYPE_FAT16_LBA	0xe
 #define GRUB_PC_PARTITION_TYPE_WIN95_EXTENDED	0xf
 #define GRUB_PC_PARTITION_TYPE_PLAN9            0x39
+#define GRUB_PC_PARTITION_TYPE_LDM		0x42
 #define GRUB_PC_PARTITION_TYPE_EZD		0x55
 #define GRUB_PC_PARTITION_TYPE_MINIX		0x80
 #define GRUB_PC_PARTITION_TYPE_LINUX_MINIX	0x81
@@ -120,7 +121,7 @@ grub_msdos_partition_is_extended (int type)
 
 grub_err_t
 grub_partition_msdos_iterate (grub_disk_t disk,
-			      int (*hook) (grub_disk_t disk,
-					   const grub_partition_t partition));
+			      grub_partition_iterate_hook_t hook,
+			      void *hook_data);
 
 #endif /* ! GRUB_PC_PARTITION_HEADER */

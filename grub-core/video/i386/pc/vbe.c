@@ -29,7 +29,7 @@
 #include <grub/video.h>
 #include <grub/i386/pc/int.h>
 #include <grub/i18n.h>
-#include <grub/cpu/tsc.h>
+#include <grub/cpu/cpuid.h>
 
 GRUB_MOD_LICENSE ("GPLv3+");
 
@@ -57,11 +57,6 @@ real2pm (grub_vbe_farptr_t ptr)
   return (void *) ((((unsigned long) ptr & 0xFFFF0000) >> 12UL)
                    + ((unsigned long) ptr & 0x0000FFFF));
 }
-
-#define cpuid(num,a,b,c,d) \
-  asm volatile ("xchgl %%ebx, %1; cpuid; xchgl %%ebx, %1" \
-                : "=a" (a), "=r" (b), "=c" (c), "=d" (d)  \
-                : "0" (num))
 
 #define rdmsr(num,a,d) \
   asm volatile ("rdmsr" : "=a" (a), "=d" (d) : "c" (num))
@@ -136,7 +131,7 @@ grub_vbe_enable_mtrr (grub_uint8_t *base, grub_size_t size)
   if (! grub_cpu_is_cpuid_supported ())
     return;
 
-  cpuid (1, eax, ebx, ecx, edx);
+  grub_cpuid (1, eax, ebx, ecx, edx);
   features = edx;
   if (! (features & 0x00001000)) /* MTRR */
     return;
@@ -147,11 +142,11 @@ grub_vbe_enable_mtrr (grub_uint8_t *base, grub_size_t size)
     return;
   var_mtrrs = (mtrrcap & 0xFF);
 
-  cpuid (0x80000000, eax, ebx, ecx, edx);
+  grub_cpuid (0x80000000, eax, ebx, ecx, edx);
   max_extended_cpuid = eax;
   if (max_extended_cpuid >= 0x80000008)
     {
-      cpuid (0x80000008, eax, ebx, ecx, edx);
+      grub_cpuid (0x80000008, eax, ebx, ecx, edx);
       maxphyaddr = (eax & 0xFF);
     }
   else
@@ -938,7 +933,10 @@ vbe2videoinfo (grub_uint32_t mode,
   else
     mode_info->pitch = vbeinfo->bytes_per_scan_line;
 
-  mode_info->number_of_colors = 256; /* TODO: fix me.  */
+  if (mode_info->mode_type & GRUB_VIDEO_MODE_TYPE_INDEX_COLOR)
+    mode_info->number_of_colors = 16;
+  else
+    mode_info->number_of_colors = 256;
   mode_info->red_mask_size = vbeinfo->red_mask_size;
   mode_info->red_field_pos = vbeinfo->red_field_position;
   mode_info->green_mask_size = vbeinfo->green_mask_size;
@@ -952,7 +950,7 @@ vbe2videoinfo (grub_uint32_t mode,
 }
 
 static int
-grub_video_vbe_iterate (int (*hook) (const struct grub_video_mode_info *info))
+grub_video_vbe_iterate (int (*hook) (const struct grub_video_mode_info *info, void *hook_arg), void *hook_arg)
 {
   grub_uint16_t *p;
   struct grub_vbe_mode_info_block vbe_mode_info;
@@ -969,7 +967,7 @@ grub_video_vbe_iterate (int (*hook) (const struct grub_video_mode_info *info))
         }
 
       vbe2videoinfo (*p, &vbe_mode_info, &mode_info);
-      if (hook (&mode_info))
+      if (hook (&mode_info, hook_arg))
 	return 1;
     }
   return 0;
@@ -1020,19 +1018,19 @@ grub_video_vbe_setup (unsigned int width, unsigned int height,
           break;
         }
 
-      if ((vbe_mode_info.mode_attributes & 0x001) == 0)
+      if ((vbe_mode_info.mode_attributes & GRUB_VBE_MODEATTR_SUPPORTED) == 0)
         /* If not available, skip it.  */
         continue;
 
-      if ((vbe_mode_info.mode_attributes & 0x008) == 0)
+      if ((vbe_mode_info.mode_attributes & GRUB_VBE_MODEATTR_COLOR) == 0)
         /* Monochrome is unusable.  */
         continue;
 
-      if ((vbe_mode_info.mode_attributes & 0x080) == 0)
+      if ((vbe_mode_info.mode_attributes & GRUB_VBE_MODEATTR_LFB_AVAIL) == 0)
         /* We support only linear frame buffer modes.  */
         continue;
 
-      if ((vbe_mode_info.mode_attributes & 0x010) == 0)
+      if ((vbe_mode_info.mode_attributes & GRUB_VBE_MODEATTR_GRAPHICS) == 0)
         /* We allow only graphical modes.  */
         continue;
 
@@ -1206,7 +1204,7 @@ grub_video_vbe_print_adapter_specific_info (void)
   
   /* The total_memory field is in 64 KiB units.  */
   grub_printf_ (N_("              total memory: %d KiB\n"),
-		(controller_info.total_memory << 16) / 1024);
+		(controller_info.total_memory << 6));
 }
 
 static struct grub_video_adapter grub_video_vbe_adapter =
@@ -1225,6 +1223,10 @@ static struct grub_video_adapter grub_video_vbe_adapter =
     .get_palette = grub_video_fb_get_palette,
     .set_viewport = grub_video_fb_set_viewport,
     .get_viewport = grub_video_fb_get_viewport,
+    .set_region = grub_video_fb_set_region,
+    .get_region = grub_video_fb_get_region,
+    .set_area_status = grub_video_fb_set_area_status,
+    .get_area_status = grub_video_fb_get_area_status,
     .map_color = grub_video_fb_map_color,
     .map_rgb = grub_video_fb_map_rgb,
     .map_rgba = grub_video_fb_map_rgba,

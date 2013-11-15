@@ -37,7 +37,7 @@ struct grub_gui_circular_progress
   int start;
   int end;
   int value;
-  int num_ticks;
+  unsigned num_ticks;
   int start_angle;
   int ticks_disappear;
   char *theme_dir;
@@ -138,29 +138,30 @@ circprog_paint (void *vself, const grub_video_rect_t *region)
                           (height - center_height) / 2, 0, 0,
                           center_width, center_height);
 
-  int radius = width / 2 - tick_width / 2 - 1;
-  int nticks;
-  int tick_begin;
-  int tick_end;
-  if (self->end == self->start)
+  int radius = grub_min (height, width) / 2 - grub_max (tick_height, tick_width) / 2 - 1;
+  unsigned nticks;
+  unsigned tick_begin;
+  unsigned tick_end;
+  if (self->end <= self->start
+      || self->value <= self->start)
     nticks = 0;
   else
-    nticks = (self->num_ticks
-	      * (self->value - self->start)
-	      / (self->end - self->start));
+    nticks = ((unsigned) (self->num_ticks
+			  * (self->value - self->start)))
+      / ((unsigned) (self->end - self->start));
   /* Do ticks appear or disappear as the value approached the end?  */
   if (self->ticks_disappear)
     {
       tick_begin = nticks;
-      tick_end = self->num_ticks - 1;
+      tick_end = self->num_ticks;
     }
   else
     {
       tick_begin = 0;
-      tick_end = nticks - 1;
+      tick_end = nticks;
     }
 
-  int i;
+  unsigned i;
   for (i = tick_begin; i < tick_end; i++)
     {
        int x;
@@ -168,7 +169,8 @@ circprog_paint (void *vself, const grub_video_rect_t *region)
        int angle;
 
        /* Calculate the location of the tick.  */
-       angle = self->start_angle + i * GRUB_TRIG_ANGLE_MAX / self->num_ticks;
+       angle = self->start_angle
+	 + i * GRUB_TRIG_ANGLE_MAX / self->num_ticks;
        x = width / 2 + (grub_cos (angle) * radius / GRUB_TRIG_FRACTION_SCALE);
        y = height / 2 + (grub_sin (angle) * radius / GRUB_TRIG_FRACTION_SCALE);
 
@@ -223,17 +225,36 @@ circprog_set_state (void *vself, int visible, int start,
   self->end = end;
 }
 
+static int
+parse_angle (const char *value)
+{
+  char *ptr;
+  int angle;
+
+  angle = grub_strtol (value, &ptr, 10);
+  if (grub_errno)
+    return 0;
+  while (grub_isspace (*ptr))
+    ptr++;
+  if (grub_strcmp (ptr, "deg") == 0
+      /* Unicode symbol of degrees (a circle, U+b0). Put here in UTF-8 to
+	 avoid potential problem with text file reesncoding  */
+      || grub_strcmp (ptr, "\xc2\xb0") == 0)
+    angle = grub_divide_round (angle * 64, 90);
+  return angle;
+}
+
 static grub_err_t
 circprog_set_property (void *vself, const char *name, const char *value)
 {
   circular_progress_t self = vself;
   if (grub_strcmp (name, "num_ticks") == 0)
     {
-      self->num_ticks = grub_strtol (value, 0, 10);
+      self->num_ticks = grub_strtoul (value, 0, 10);
     }
   else if (grub_strcmp (name, "start_angle") == 0)
     {
-      self->start_angle = grub_strtol (value, 0, 10);
+      self->start_angle = parse_angle (value);
     }
   else if (grub_strcmp (name, "ticks_disappear") == 0)
     {

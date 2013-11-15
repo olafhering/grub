@@ -52,8 +52,16 @@ typedef unsigned char grub_uint8_t;
 #include <grub/types.h>
 #include <grub/misc.h>
 #endif
+#ifdef __i386__
+#define REED_SOLOMON_ATTRIBUTE  __attribute__ ((regparm(3)))
+#else
+#define REED_SOLOMON_ATTRIBUTE
+#endif
 void
-grub_reed_solomon_recover (void *ptr_, grub_size_t s, grub_size_t rs);
+grub_reed_solomon_recover (void *ptr_, grub_size_t s, grub_size_t rs)
+  REED_SOLOMON_ATTRIBUTE;
+#else
+#define REED_SOLOMON_ATTRIBUTE
 #endif
 
 #define GF_SIZE 8
@@ -377,14 +385,21 @@ grub_reed_solomon_add_redundancy (void *buffer, grub_size_t data_size,
 }
 #endif
 
-void
+void REED_SOLOMON_ATTRIBUTE
 grub_reed_solomon_recover (void *ptr_, grub_size_t s, grub_size_t rs)
 {
   gf_single_t *ptr = ptr_;
   gf_single_t *rptr = ptr + s;
+  grub_uint8_t *cptr;
 
   /* Nothing to do.  */
   if (!rs)
+    return;
+
+  for (cptr = rptr + rs - 1; cptr >= rptr; cptr--)
+    if (*cptr)
+      break;
+  if (rptr + rs - 1 - cptr > (grub_ssize_t) rs / 2)
     return;
 
   init_powx ();
@@ -425,7 +440,7 @@ main (int argc, char **argv)
 #endif
 
 #ifndef STANDALONE
-  in = fopen ("tst.bin", "rb");
+  in = grub_util_fopen ("tst.bin", "rb");
   if (!in)
     return 1;
   fseek (in, 0, SEEK_END);
@@ -438,11 +453,11 @@ main (int argc, char **argv)
 
   grub_reed_solomon_add_redundancy (buf, s, rs);
 
-  out = fopen ("tst_rs.bin", "wb");
+  out = grub_util_fopen ("tst_rs.bin", "wb");
   fwrite (buf, 1, s + rs, out);
   fclose (out);
 #else
-  out = fopen ("tst_rs.bin", "rb");
+  out = grub_util_fopen ("tst_rs.bin", "rb");
   fseek (out, 0, SEEK_END);
   s = ftell (out);
   fseek (out, 0, SEEK_SET);
@@ -457,12 +472,12 @@ main (int argc, char **argv)
   grub_memset (buf + 512 * 15, 0, 512);
 #endif
 
-  out = fopen ("tst_dam.bin", "wb");
+  out = grub_util_fopen ("tst_dam.bin", "wb");
   fwrite (buf, 1, s + rs, out);
   fclose (out);
   grub_reed_solomon_recover (buf, s, rs);
 
-  out = fopen ("tst_rec.bin", "wb");
+  out = grub_util_fopen ("tst_rec.bin", "wb");
   fwrite (buf, 1, s, out);
   fclose (out);
 

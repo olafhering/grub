@@ -3,21 +3,21 @@ Author: Colin Watson <cjwatson@ubuntu.com>
 Author: Stéphane Graber <stgraber@ubuntu.com>
 Author: Steve Langasek <steve.langasek@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-11-12
+Last-Update: 2013-11-15
 
 Index: b/util/grub-install.in
 ===================================================================
 --- a/util/grub-install.in
 +++ b/util/grub-install.in
-@@ -63,6 +63,7 @@
+@@ -41,6 +41,7 @@
  
  removable=no
- efi_quiet=
+ efi_quiet=-q
 +uefi_secure_boot=yes
  
  # Get GRUB_DISTRIBUTOR.
  if test -f "${sysconfdir}/default/grub" ; then
-@@ -117,6 +118,8 @@
+@@ -92,6 +93,8 @@
      print_option_help  "--removable" "$(gettext "the installation device is removable. This option is only available on EFI.")"
      print_option_help  "--bootloader-id=$(gettext "ID")" "$(gettext "the ID of bootloader. This option is only available on EFI.")"
      print_option_help "--efi-directory=$(gettext "DIR")" "$(gettext "use DIR as the EFI System Partition root.")"
@@ -26,7 +26,7 @@ Index: b/util/grub-install.in
  echo
  gettext "INSTALL_DEVICE must be system device filename.";echo
  echo
-@@ -258,6 +261,11 @@
+@@ -215,6 +218,11 @@
      -f | --force)
          setup_force="--force" ;;
  
@@ -38,7 +38,7 @@ Index: b/util/grub-install.in
      -*)
  	gettext_printf "Unrecognized option \`%s'\n" "$option" 1>&2
  	usage
-@@ -460,39 +468,32 @@
+@@ -423,43 +431,34 @@
          # not collide with other vendors.  To minimise collisions, we use the
          # name of our distributor if possible.
  	efi_distributor="$bootloader_id"
@@ -54,6 +54,8 @@ Index: b/util/grub-install.in
 +	# expansion.
 +	    ia64)
 +		efi_suffix=ia64 ;;
++	    arm)
++		efi_suffix=arm ;;
 +	    *)
 +		efi_suffix= ;;
 +	esac
@@ -73,6 +75,8 @@ Index: b/util/grub-install.in
 -	    # expansion.
 -		ia64)
 -		    efi_file=BOOTIA64.EFI ;;
+-		arm)
+-		    efi_file=BOOTARM.EFI ;;
 -	    esac
 +	    efi_file="BOOT$(printf %s "$efi_suffix" | tr a-z A-Z).EFI"
  	else
@@ -88,14 +92,16 @@ Index: b/util/grub-install.in
 -	 # expansion.
 -		ia64)
 -		    efi_file=grubia64.efi ;;
+-		arm)
+-		    efi_file=grubarm.efi ;;
 -		*)
 -		    efi_file=grub.efi ;;
 -	    esac
 +	    efi_file="grub$efi_suffix.efi"
- 	   # TODO: We should also use efibootmgr, if available, to add a Boot
- 	   # entry for ourselves.
  	fi
-@@ -634,7 +635,15 @@
+ 	efidir="$efidir/EFI/$efi_distributor"
+ 	mkdir -p "$efidir" || exit 1
+@@ -575,7 +574,15 @@
      config_opt_file="${grubdir}/${grub_modinfo_target_cpu}-$grub_modinfo_platform/load.cfg"
  fi
  
@@ -112,7 +118,7 @@ Index: b/util/grub-install.in
      if [ x"${install_device}" != x ]; then
        if echo "${install_device}" | grep -qx "(.*)" ; then
          install_drive="${install_device}"
-@@ -653,7 +662,7 @@
+@@ -594,7 +601,7 @@
  	install_drive="$grub_drive"
      fi
  
@@ -121,7 +127,7 @@ Index: b/util/grub-install.in
          # generic method (used on coreboot and ata mod)
  	uuid=
  	if [ x"$force_file_id" != xy ]; then
-@@ -828,10 +837,31 @@
+@@ -776,10 +783,31 @@
      gettext "You will have to set \`SystemPartition' and \`OSLoader' manually." 1>&2
      echo 1>&2
  elif [ x"$grub_modinfo_platform" = xefi ]; then

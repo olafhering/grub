@@ -34,6 +34,7 @@
 #include <grub/video.h>
 #include <grub/i386/floppy.h>
 #include <grub/lib/cmdline.h>
+#include <grub/linux.h>
 
 GRUB_MOD_LICENSE ("GPLv3+");
 
@@ -77,6 +78,42 @@ grub_linux_unload (void)
   grub_relocator_unload (relocator);
   relocator = NULL;
   return GRUB_ERR_NONE;
+}
+
+static int
+target_hook (grub_uint64_t addr, grub_uint64_t size, grub_memory_type_t type,
+	    void *data)
+{
+  grub_uint64_t *result = data;
+  grub_uint64_t candidate;
+
+  if (type != GRUB_MEMORY_AVAILABLE)
+    return 0;
+  if (addr >= 0xa0000)
+    return 0;
+  if (addr + size >= 0xa0000)
+    size = 0xa0000 - addr;
+
+  /* Put the real mode part at as a high location as possible.  */
+  candidate = addr + size - (GRUB_LINUX_CL_OFFSET + maximal_cmdline_size);
+  /* But it must not exceed the traditional area.  */
+  if (candidate > GRUB_LINUX_OLD_REAL_MODE_ADDR)
+    candidate = GRUB_LINUX_OLD_REAL_MODE_ADDR;
+  if (candidate < addr)
+    return 0;
+
+  if (candidate > *result || *result == (grub_uint64_t) -1)
+    *result = candidate;
+  return 0;
+}
+
+static grub_addr_t
+grub_find_real_target (void)
+{
+  grub_uint64_t result = (grub_uint64_t) -1;
+
+  grub_mmap_iterate (target_hook, &result);
+  return result;
 }
 
 static grub_err_t
@@ -141,12 +178,13 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
       if (grub_le_to_cpu16 (lh.version) >= 0x0206)
 	maximal_cmdline_size = grub_le_to_cpu32 (lh.cmdline_size) + 1;
 
-      /* Put the real mode part at as a high location as possible.  */
-      grub_linux_real_target = grub_mmap_get_lower () 
-	- (GRUB_LINUX_CL_OFFSET + maximal_cmdline_size);
-      /* But it must not exceed the traditional area.  */
-      if (grub_linux_real_target > GRUB_LINUX_OLD_REAL_MODE_ADDR)
-	grub_linux_real_target = GRUB_LINUX_OLD_REAL_MODE_ADDR;
+      grub_linux_real_target = grub_find_real_target ();
+      if (grub_linux_real_target == (grub_addr_t)-1)
+	{
+	  grub_error (GRUB_ERR_OUT_OF_RANGE,
+		      "no appropriate low memory found");
+	  goto fail;
+	}
 
       if (grub_le_to_cpu16 (lh.version) >= 0x0201)
 	{
@@ -193,20 +231,10 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
       goto fail;
     }
 
-  if (grub_linux_real_target + GRUB_LINUX_CL_OFFSET + maximal_cmdline_size
-      > grub_mmap_get_lower ())
-    {
-      grub_error (GRUB_ERR_OUT_OF_RANGE,
-		 "too small lower memory (0x%x > 0x%x)",
-		  grub_linux_real_target + GRUB_LINUX_CL_OFFSET
-		  + maximal_cmdline_size,
-		  (int) grub_mmap_get_lower ());
-      goto fail;
-    }
-
   grub_dprintf ("linux", "[Linux-%s, setup=0x%x, size=0x%x]\n",
-		grub_linux_is_bzimage ? "bzImage" : "zImage", real_size,
-		grub_linux16_prot_size);
+		grub_linux_is_bzimage ? "bzImage" : "zImage",
+		(unsigned) real_size,
+		(unsigned) grub_linux16_prot_size);
 
   relocator = grub_relocator_new ();
   if (!relocator)
@@ -354,15 +382,13 @@ static grub_err_t
 grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
 		 int argc, char *argv[])
 {
-  grub_file_t *files = 0;
   grub_size_t size = 0;
   grub_addr_t addr_max, addr_min;
   struct linux_kernel_header *lh;
   grub_uint8_t *initrd_chunk;
   grub_addr_t initrd_addr;
   grub_err_t err;
-  int i, nfiles = 0;
-  grub_uint8_t *ptr;
+  struct grub_linux_initrd_context initrd_ctx;
 
   if (argc == 0)
     {
@@ -410,19 +436,10 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
 
   addr_min = GRUB_LINUX_BZIMAGE_ADDR + grub_linux16_prot_size;
 
-  files = grub_zalloc (argc * sizeof (files[0]));
-  if (!files)
+  if (grub_initrd_init (argc, argv, &initrd_ctx))
     goto fail;
 
-  for (i = 0; i < argc; i++)
-    {
-      grub_file_filter_disable_compression ();
-      files[i] = grub_file_open (argv[i]);
-      if (! files[i])
-	goto fail;
-      nfiles++;
-      size += ALIGN_UP (grub_file_size (files[i]), 4);
-    }
+  size = grub_get_initrd_size (&initrd_ctx);
 
   {
     grub_relocator_chunk_t ch;
@@ -436,30 +453,14 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
     initrd_addr = get_physical_target_address (ch);
   }
 
-  ptr = initrd_chunk;
-  
-  for (i = 0; i < nfiles; i++)
-    {
-      grub_ssize_t cursize = grub_file_size (files[i]);
-      if (grub_file_read (files[i], ptr, cursize) != cursize)
-	{
-	  if (!grub_errno)
-	    grub_error (GRUB_ERR_FILE_READ_ERROR, N_("premature end of file %s"),
-			argv[i]);
-	  goto fail;
-	}
-      ptr += cursize;
-      grub_memset (ptr, 0, ALIGN_UP_OVERHEAD (cursize, 4));
-      ptr += ALIGN_UP_OVERHEAD (cursize, 4);
-    }
+  if (grub_initrd_load (&initrd_ctx, argv, initrd_chunk))
+    goto fail;
 
   lh->ramdisk_image = initrd_addr;
   lh->ramdisk_size = size;
 
  fail:
-  for (i = 0; i < nfiles; i++)
-    grub_file_close (files[i]);
-  grub_free (files);
+  grub_initrd_close (&initrd_ctx);
 
   return grub_errno;
 }

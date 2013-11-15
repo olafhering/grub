@@ -2,7 +2,7 @@ Description: If running under UEFI secure boot, attempt to use linuxefi loader
 Author: Colin Watson <cjwatson@ubuntu.com>
 Author: Steve Langasek <steve.langasek@canonical.com>
 Forwarded: no
-Last-Update: 2012-10-05
+Last-Update: 2013-11-14
 
 Index: b/grub-core/loader/i386/efi/linux.c
 ===================================================================
@@ -21,7 +21,7 @@ Index: b/grub-core/loader/i386/linux.c
 ===================================================================
 --- a/grub-core/loader/i386/linux.c
 +++ b/grub-core/loader/i386/linux.c
-@@ -75,6 +75,8 @@
+@@ -76,6 +76,8 @@
  static struct linux_kernel_params linux_params;
  static char *linux_cmdline;
  #ifdef GRUB_MACHINE_EFI
@@ -30,7 +30,7 @@ Index: b/grub-core/loader/i386/linux.c
  static grub_efi_uintn_t efi_mmap_size;
  #else
  static const grub_size_t efi_mmap_size = 0;
-@@ -684,6 +686,41 @@
+@@ -688,6 +690,41 @@
  
    grub_dl_ref (my_mod);
  
@@ -73,8 +73,8 @@ Index: b/grub-core/loader/i386/linux.c
      {
        grub_error (GRUB_ERR_BAD_ARGUMENT, N_("filename expected"));
 @@ -1050,6 +1087,12 @@
-   int nfiles = 0;
-   grub_uint8_t *ptr;
+   grub_err_t err;
+   struct grub_linux_initrd_context initrd_ctx;
  
 +#ifdef GRUB_MACHINE_EFI
 +  /* If we're using linuxefi, just forward to initrdefi.  */

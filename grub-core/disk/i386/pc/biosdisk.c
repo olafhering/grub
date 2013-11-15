@@ -272,21 +272,22 @@ grub_biosdisk_get_drive (const char *name)
 }
 
 static int
-grub_biosdisk_call_hook (int (*hook) (const char *name), int drive)
+grub_biosdisk_call_hook (grub_disk_dev_iterate_hook_t hook, void *hook_data,
+			 int drive)
 {
   char name[10];
 
   if (cd_drive && drive == cd_drive)
-    return hook ("cd");
+    return hook ("cd", hook_data);
 
   grub_snprintf (name, sizeof (name),
 		 (drive & 0x80) ? "hd%d" : "fd%d", drive & (~0x80));
-  return hook (name);
+  return hook (name, hook_data);
 }
 
 static int
-grub_biosdisk_iterate (int (*hook) (const char *name),
-		       grub_disk_pull_t pull __attribute__ ((unused)))
+grub_biosdisk_iterate (grub_disk_dev_iterate_hook_t hook, void *hook_data,
+		       grub_disk_pull_t pull)
 {
   int num_floppies;
   int drive;
@@ -304,7 +305,7 @@ grub_biosdisk_iterate (int (*hook) (const char *name),
 	      break;
 	    }
 
-	  if (grub_biosdisk_call_hook (hook, drive))
+	  if (grub_biosdisk_call_hook (hook, hook_data, drive))
 	    return 1;
 	}
       return 0;
@@ -312,14 +313,14 @@ grub_biosdisk_iterate (int (*hook) (const char *name),
     case GRUB_DISK_PULL_REMOVABLE:
       if (cd_drive)
 	{
-	  if (grub_biosdisk_call_hook (hook, cd_drive))
+	  if (grub_biosdisk_call_hook (hook, hook_data, cd_drive))
 	    return 1;
 	}
 
       /* For floppy disks, we can get the number safely.  */
       num_floppies = grub_biosdisk_get_num_floppies ();
       for (drive = 0; drive < num_floppies; drive++)
-	if (grub_biosdisk_call_hook (hook, drive))
+	if (grub_biosdisk_call_hook (hook, hook_data, drive))
 	  return 1;
       return 0;
     default:
@@ -423,6 +424,9 @@ grub_biosdisk_open (const char *name, grub_disk_t disk)
     }
 
   disk->total_sectors = total_sectors;
+  /* Limit the max to 0x7f because of Phoenix EDD.  */
+  disk->max_agglomerate = 0x7f >> GRUB_DISK_CACHE_BITS;
+
   disk->data = data;
 
   return GRUB_ERR_NONE;
@@ -546,10 +550,6 @@ get_safe_sectors (grub_disk_t disk, grub_disk_addr_t sector)
   grub_divmod64 (sector, sectors, &offset);
 
   size = sectors - offset;
-
-  /* Limit the max to 0x7f because of Phoenix EDD.  */
-  if (size > ((0x7fU << GRUB_DISK_SECTOR_BITS) >> disk->log_sector_size))
-    size = ((0x7fU << GRUB_DISK_SECTOR_BITS) >> disk->log_sector_size);
 
   return size;
 }

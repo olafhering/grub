@@ -28,7 +28,8 @@
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wmissing-prototypes"
 #pragma GCC diagnostic ignored "-Wmissing-declarations"
-#pragma GCC diagnostic ignored "-Wunsafe-loop-optimizations"
+#pragma GCC diagnostic ignored "-Wunused-function"
+#pragma GCC diagnostic ignored "-Wsign-compare"
 
 #define yyfree    grub_lexer_yyfree
 #define yyalloc   grub_lexer_yyalloc
@@ -168,8 +169,8 @@ POS_MULTILINE   {WORD}?\\\n
  /* Reserved words */
 "{"             { RECORD; return GRUB_PARSER_TOKEN_LBR;       }
 "}"             { RECORD; return GRUB_PARSER_TOKEN_RBR;       }
-"[["            { RECORD; return GRUB_PARSER_TOKEN_RSQBR2;    }
-"]]"            { RECORD; return GRUB_PARSER_TOKEN_LSQBR2;    }
+"[["            { RECORD; return GRUB_PARSER_TOKEN_LSQBR2;    }
+"]]"            { RECORD; return GRUB_PARSER_TOKEN_RSQBR2;    }
 "case"          { RECORD; return GRUB_PARSER_TOKEN_CASE;      }
 "do"            { RECORD; return GRUB_PARSER_TOKEN_DO;        }
 "done"          { RECORD; return GRUB_PARSER_TOKEN_DONE;      }

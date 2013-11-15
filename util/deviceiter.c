@@ -526,7 +526,7 @@ compare_devices (const void *a, const void *b)
 #endif /* __linux__ */
 
 void
-grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
+grub_util_iterate_devices (int (*hook) (const char *, int), void *hook_data,
 			   int floppy_disks)
 {
   int i;
@@ -544,7 +544,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
 	break;
       /* In floppies, write the map, whether check_device_readable_unique
          succeeds or not, because the user just may not insert floppies.  */
-      if (hook (name, 1))
+      if (hook (name, 1, hook_data))
 	goto out;
     }
 
@@ -599,7 +599,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
 	  {
 	    if (check_device_readable_unique (devs[dev].stable))
 	      {
-		if (hook (devs[dev].stable, 0))
+		if (hook (devs[dev].stable, 0, hook_data))
 		  goto out;
 	      }
 	    free (devs[dev].stable);
@@ -627,7 +627,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
 	  if (realpath (discn, name))
 	    {
 	      strcat (name, "/disc");
-	      if (hook (name, 0))
+	      if (hook (name, 0, hook_data))
 		goto out;
 	    }
 	}
@@ -643,7 +643,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
       get_ide_disk_name (name, i);
       if (check_device_readable_unique (name))
 	{
-	  if (hook (name, 0))
+	  if (hook (name, 0, hook_data))
 	    goto out;
 	}
     }
@@ -658,7 +658,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
 	get_ada_disk_name (name, i);
 	if (check_device_readable_unique (name))
 	  {
-	    if (hook (name, 0))
+	    if (hook (name, 0, hook_data))
 	      goto out;
 	  }
       }
@@ -671,7 +671,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
       get_ataraid_disk_name (name, i);
       if (check_device_readable_unique (name))
 	{
-	  if (hook (name, 0))
+	  if (hook (name, 0, hook_data))
 	    goto out;
         }
     }
@@ -684,7 +684,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
       get_mfi_disk_name (name, i);
       if (check_device_readable_unique (name))
 	{
-	  if (hook (name, 0))
+	  if (hook (name, 0, hook_data))
 	    goto out;
         }
     }
@@ -699,7 +699,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
       get_virtio_disk_name (name, i);
       if (check_device_readable_unique (name))
 	{
-	  if (hook (name, 0))
+	  if (hook (name, 0, hook_data))
 	    goto out;
 	}
     }
@@ -712,7 +712,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
       get_ataraid_disk_name (name, i);
       if (check_device_readable_unique (name))
 	{
-	  if (hook (name, 0))
+	  if (hook (name, 0, hook_data))
 	    goto out;
         }
     }
@@ -725,7 +725,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
       get_xvd_disk_name (name, i);
       if (check_device_readable_unique (name))
 	{
-	  if (hook (name, 0))
+	  if (hook (name, 0, hook_data))
 	    goto out;
 	}
     }
@@ -739,7 +739,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
       get_scsi_disk_name (name, i);
       if (check_device_readable_unique (name))
 	{
-	  if (hook (name, 0))
+	  if (hook (name, 0, hook_data))
 	    goto out;
 	}
     }
@@ -762,7 +762,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
 	    get_dac960_disk_name (name, controller, drive);
 	    if (check_device_readable_unique (name))
 	      {
-		if (hook (name, 0))
+		if (hook (name, 0, hook_data))
 		  goto out;
 	      }
 	  }
@@ -783,7 +783,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
 	    get_acceleraid_disk_name (name, controller, drive);
 	    if (check_device_readable_unique (name))
 	      {
-		if (hook (name, 0))
+		if (hook (name, 0, hook_data))
 		  goto out;
 	      }
 	  }
@@ -804,7 +804,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
 	    get_cciss_disk_name (name, controller, drive);
 	    if (check_device_readable_unique (name))
 	      {
-		if (hook (name, 0))
+		if (hook (name, 0, hook_data))
 		  goto out;
 	      }
 	  }
@@ -825,7 +825,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
 	    get_ida_disk_name (name, controller, drive);
 	    if (check_device_readable_unique (name))
 	      {
-		if (hook (name, 0))
+		if (hook (name, 0, hook_data))
 		  goto out;
 	      }
 	  }
@@ -843,7 +843,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
 	get_i2o_disk_name (name, unit);
 	if (check_device_readable_unique (name))
 	  {
-	    if (hook (name, 0))
+	    if (hook (name, 0, hook_data))
 	      goto out;
 	  }
       }
@@ -857,7 +857,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
       get_mmc_disk_name (name, i);
       if (check_device_readable_unique (name))
 	{
-	  if (hook (name, 0))
+	  if (hook (name, 0, hook_data))
 	    goto out;
 	}
     }
@@ -870,7 +870,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
       get_fio_disk_name (name, i);
       if (check_device_readable_unique (name))
 	{
-	  if (hook (name, 0))
+	  if (hook (name, 0, hook_data))
 	    goto out;
 	}
     }
@@ -941,7 +941,7 @@ grub_util_iterate_devices (int NESTED_FUNC_ATTR (*hook) (const char *, int),
 	      name = xasprintf ("/dev/mapper/%s", node_name);
 	      if (check_device_readable_unique (name))
 		{
-		  if (hook (name, 0))
+		  if (hook (name, 0, hook_data))
 		    {
 		      free (name);
 		      if (task)

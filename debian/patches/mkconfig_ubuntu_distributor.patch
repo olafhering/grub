@@ -4,7 +4,7 @@ Author: Mario Limonciello <Mario_Limonciello@dell.com>
 Author: Colin Watson <cjwatson@debian.org>
 Author: Harald Sitter <apachelogger@kubuntu.org>
 Forwarded: not-needed
-Last-Update: 2013-11-13
+Last-Update: 2013-11-14
 
 Index: b/util/grub.d/10_linux.in
 ===================================================================
@@ -23,6 +23,6 @@ Index: b/util/grub.d/10_linux.in
 +      OS="${GRUB_DISTRIBUTOR} GNU/Linux"
 +      ;;
 +  esac
-   CLASS="--class $(echo ${GRUB_DISTRIBUTOR} | tr 'A-Z' 'a-z' | cut -d' ' -f1) ${CLASS}"
+   CLASS="--class $(echo ${GRUB_DISTRIBUTOR} | tr 'A-Z' 'a-z' | cut -d' ' -f1|LC_ALL=C sed 's,[^[:alnum:]_],_,g') ${CLASS}"
  fi
  

@@ -17,7 +17,6 @@ set -e
 # You should have received a copy of the GNU General Public License
 # along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
 
-transform="@program_transform_name@"
 prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 datarootdir="@datarootdir@"
@@ -39,9 +38,9 @@ grub_mkconfig_dir="${sysconfdir}"/grub.d
 
 self=`basename $0`
 
-grub_probe="${sbindir}/`echo grub-probe | sed "${transform}"`"
-grub_editenv="${bindir}/`echo grub-editenv | sed "${transform}"`"
-grub_script_check="${bindir}/`echo grub-script-check | sed "${transform}"`"
+grub_probe="${sbindir}/@grub_probe@"
+grub_editenv="${bindir}/@grub_editenv@"
+grub_script_check="${bindir}/@grub_script_check@"
 
 export TEXTDOMAIN=@PACKAGE@
 export TEXTDOMAINDIR="@localedir@"
@@ -66,7 +65,7 @@ argument () {
   shift
 
   if test $# -eq 0; then
-      gettext_printf "%s: option requires an argument -- \`%s'\n" "$0" "$opt" 1>&2
+      gettext_printf "%s: option requires an argument -- \`%s'\n" "$self" "$opt" 1>&2
       exit 1
   fi
   echo $1
@@ -171,7 +170,7 @@ fi
 for x in ${GRUB_TERMINAL_OUTPUT}; do
     case "x${x}" in
 	xgfxterm) ;;
-	xconsole | xserial | xofconsole)
+	xconsole | xserial | xofconsole | xvga_text)
             # make sure all our children behave in conformance with ascii..
 	    export LANG=C;;
 	*) echo "Invalid output terminal \"${GRUB_TERMINAL_OUTPUT}\"" >&2 ; exit 1 ;;
@@ -229,6 +228,7 @@ export GRUB_DEFAULT \
   GRUB_SAVEDEFAULT \
   GRUB_ENABLE_CRYPTODISK \
   GRUB_BADRAM \
+  GRUB_DISABLE_SUBMENU \
   GRUB_RECORDFAIL_TIMEOUT
 
 if test "x${grub_cfg}" != "x"; then

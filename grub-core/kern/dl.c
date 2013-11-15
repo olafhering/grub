@@ -55,15 +55,13 @@ grub_dl_t grub_dl_head = 0;
 grub_err_t
 grub_dl_add (grub_dl_t mod);
 
+/* Keep global so that GDB scripts work.  */
 grub_err_t
 grub_dl_add (grub_dl_t mod)
 {
   if (grub_dl_get (mod->name))
     return grub_error (GRUB_ERR_BAD_MODULE,
 		       "`%s' is already loaded", mod->name);
-
-  mod->next = grub_dl_head;
-  grub_dl_head = mod;
 
   return GRUB_ERR_NONE;
 }
@@ -79,18 +77,6 @@ grub_dl_remove (grub_dl_t mod)
 	*p = q->next;
 	return;
       }
-}
-
-grub_dl_t
-grub_dl_get (const char *name)
-{
-  grub_dl_t l;
-
-  for (l = grub_dl_head; l; l = l->next)
-    if (grub_strcmp (name, l->name) == 0)
-      return l;
-
-  return 0;
 }
 
 
@@ -363,6 +349,8 @@ grub_dl_resolve_symbols (grub_dl_t mod, Elf_Ehdr *e)
 
 #ifdef GRUB_MODULES_MACHINE_READONLY
   mod->symtab = grub_malloc (s->sh_size);
+  if (!mod->symtab)
+    return grub_errno;
   memcpy (mod->symtab, (char *) e + s->sh_offset, s->sh_size);
 #else
   mod->symtab = (Elf_Sym *) ((char *) e + s->sh_offset);
@@ -449,11 +437,22 @@ grub_dl_resolve_symbols (grub_dl_t mod, Elf_Ehdr *e)
   return GRUB_ERR_NONE;
 }
 
-static void
-grub_dl_call_init (grub_dl_t mod)
+static Elf_Shdr *
+grub_dl_find_section (Elf_Ehdr *e, const char *name)
 {
-  if (mod->init)
-    (mod->init) (mod);
+  Elf_Shdr *s;
+  const char *str;
+  unsigned i;
+
+  s = (Elf_Shdr *) ((char *) e + e->e_shoff + e->e_shstrndx * e->e_shentsize);
+  str = (char *) e + s->sh_offset;
+
+  for (i = 0, s = (Elf_Shdr *) ((char *) e + e->e_shoff);
+       i < e->e_shnum;
+       i++, s = (Elf_Shdr *) ((char *) s + e->e_shentsize))
+    if (grub_strcmp (str + s->sh_name, name) == 0)
+      return s;
+  return NULL;
 }
 
 /* Me, Vladimir Serbinenko, hereby I add this module check as per new
@@ -467,24 +466,11 @@ grub_dl_call_init (grub_dl_t mod)
 static grub_err_t
 grub_dl_check_license (Elf_Ehdr *e)
 {
-  Elf_Shdr *s;
-  const char *str;
-  unsigned i;
-
-  s = (Elf_Shdr *) ((char *) e + e->e_shoff + e->e_shstrndx * e->e_shentsize);
-  str = (char *) e + s->sh_offset;
-
-  for (i = 0, s = (Elf_Shdr *) ((char *) e + e->e_shoff);
-       i < e->e_shnum;
-       i++, s = (Elf_Shdr *) ((char *) s + e->e_shentsize))
-    if (grub_strcmp (str + s->sh_name, ".module_license") == 0)
-      {
-	if (grub_strcmp ((char *) e + s->sh_offset, "LICENSE=GPLv3") == 0
+  Elf_Shdr *s = grub_dl_find_section (e, ".module_license");
+  if (s && (grub_strcmp ((char *) e + s->sh_offset, "LICENSE=GPLv3") == 0
 	    || grub_strcmp ((char *) e + s->sh_offset, "LICENSE=GPLv3+") == 0
-	    || grub_strcmp ((char *) e + s->sh_offset, "LICENSE=GPLv2+") == 0)
-	  return GRUB_ERR_NONE;
-      }
-
+	    || grub_strcmp ((char *) e + s->sh_offset, "LICENSE=GPLv2+") == 0))
+    return GRUB_ERR_NONE;
   return grub_error (GRUB_ERR_BAD_MODULE, "incompatible license");
 }
 
@@ -492,25 +478,14 @@ static grub_err_t
 grub_dl_resolve_name (grub_dl_t mod, Elf_Ehdr *e)
 {
   Elf_Shdr *s;
-  const char *str;
-  unsigned i;
 
-  s = (Elf_Shdr *) ((char *) e + e->e_shoff + e->e_shstrndx * e->e_shentsize);
-  str = (char *) e + s->sh_offset;
-
-  for (i = 0, s = (Elf_Shdr *) ((char *) e + e->e_shoff);
-       i < e->e_shnum;
-       i++, s = (Elf_Shdr *) ((char *) s + e->e_shentsize))
-    if (grub_strcmp (str + s->sh_name, ".modname") == 0)
-      {
-	mod->name = grub_strdup ((char *) e + s->sh_offset);
-	if (! mod->name)
-	  return grub_errno;
-	break;
-      }
-
-  if (i == e->e_shnum)
+  s = grub_dl_find_section (e, ".modname");
+  if (!s)
     return grub_error (GRUB_ERR_BAD_MODULE, "no module name found");
+  
+  mod->name = grub_strdup ((char *) e + s->sh_offset);
+  if (! mod->name)
+    return grub_errno;
 
   return GRUB_ERR_NONE;
 }
@@ -519,42 +494,36 @@ static grub_err_t
 grub_dl_resolve_dependencies (grub_dl_t mod, Elf_Ehdr *e)
 {
   Elf_Shdr *s;
-  const char *str;
-  unsigned i;
 
-  s = (Elf_Shdr *) ((char *) e + e->e_shoff + e->e_shstrndx * e->e_shentsize);
-  str = (char *) e + s->sh_offset;
+  s = grub_dl_find_section (e, ".moddeps");
 
-  for (i = 0, s = (Elf_Shdr *) ((char *) e + e->e_shoff);
-       i < e->e_shnum;
-       i++, s = (Elf_Shdr *) ((char *) s + e->e_shentsize))
-    if (grub_strcmp (str + s->sh_name, ".moddeps") == 0)
-      {
-	const char *name = (char *) e + s->sh_offset;
-	const char *max = name + s->sh_size;
+  if (!s)
+    return GRUB_ERR_NONE;
 
-	while ((name < max) && (*name))
-	  {
-	    grub_dl_t m;
-	    grub_dl_dep_t dep;
+  const char *name = (char *) e + s->sh_offset;
+  const char *max = name + s->sh_size;
 
-	    m = grub_dl_load (name);
-	    if (! m)
-	      return grub_errno;
+  while ((name < max) && (*name))
+    {
+      grub_dl_t m;
+      grub_dl_dep_t dep;
 
-	    grub_dl_ref (m);
+      m = grub_dl_load (name);
+      if (! m)
+	return grub_errno;
 
-	    dep = (grub_dl_dep_t) grub_malloc (sizeof (*dep));
-	    if (! dep)
-	      return grub_errno;
+      grub_dl_ref (m);
 
-	    dep->mod = m;
-	    dep->next = mod->dep;
-	    mod->dep = dep;
+      dep = (grub_dl_dep_t) grub_malloc (sizeof (*dep));
+      if (! dep)
+	return grub_errno;
 
-	    name += grub_strlen (name) + 1;
-	  }
-      }
+      dep->mod = m;
+      dep->next = mod->dep;
+      mod->dep = dep;
+
+      name += grub_strlen (name) + 1;
+    }
 
   return GRUB_ERR_NONE;
 }
@@ -597,7 +566,7 @@ grub_dl_flush_cache (grub_dl_t mod)
 
 /* Load a module from core memory.  */
 grub_dl_t
-grub_dl_load_core (void *addr, grub_size_t size)
+grub_dl_load_core_noinit (void *addr, grub_size_t size)
 {
   Elf_Ehdr *e;
   grub_dl_t mod;
@@ -652,13 +621,29 @@ grub_dl_load_core (void *addr, grub_size_t size)
 
   grub_dprintf ("modules", "module name: %s\n", mod->name);
   grub_dprintf ("modules", "init function: %p\n", mod->init);
-  grub_dl_call_init (mod);
 
   if (grub_dl_add (mod))
     {
       grub_dl_unload (mod);
       return 0;
     }
+
+  return mod;
+}
+
+grub_dl_t
+grub_dl_load_core (void *addr, grub_size_t size)
+{
+  grub_dl_t mod;
+
+  mod = grub_dl_load_core_noinit (addr, size);
+
+  if (!mod)
+    return NULL;
+
+  grub_boot_time ("Initing module %s", mod->name);
+  grub_dl_init (mod);
+  grub_boot_time ("Module %s inited", mod->name);
 
   return mod;
 }
@@ -725,6 +710,9 @@ grub_dl_load (const char *name)
   mod = grub_dl_get (name);
   if (mod)
     return mod;
+
+  if (grub_no_modules)
+    return 0;
 
   if (! grub_dl_dir) {
     grub_error (GRUB_ERR_FILE_NOT_FOUND, N_("variable `%s' isn't set"), "prefix");

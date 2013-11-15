@@ -25,26 +25,26 @@ Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/386922
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/861048
 Forwarded: (partial) http://lists.gnu.org/archive/html/grub-devel/2009-09/msg00056.html
-Last-Update: 2013-08-26
+Last-Update: 2013-11-15
 
 Index: b/config.h.in
 ===================================================================
 --- a/config.h.in
 +++ b/config.h.in
-@@ -41,6 +41,8 @@
- #define NEED_REGISTER_FRAME_INFO @NEED_REGISTER_FRAME_INFO@
+@@ -11,6 +11,8 @@
  /* Define to 1 to enable disk cache statistics.  */
  #define DISK_CACHE_STATS @DISK_CACHE_STATS@
+ #define BOOT_TIME_STATS @BOOT_TIME_STATS@
 +/* Define to 1 to make GRUB quieter at boot time.  */
 +#define QUIET_BOOT @QUIET_BOOT@
  
- #define GRUB_TARGET_CPU "@GRUB_TARGET_CPU@"
- #define GRUB_PLATFORM "@GRUB_PLATFORM@"
+ #if defined (GRUB_BUILD)
+ #undef ENABLE_NLS
 Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1087,6 +1087,17 @@
+@@ -1354,6 +1354,17 @@
  fi
  AC_SUBST([UBUNTU_RECOVERY])
  
@@ -62,9 +62,9 @@ Index: b/configure.ac
  LIBS=""
  
  AC_SUBST([FONT_SOURCE])
-@@ -1243,5 +1254,10 @@
+@@ -1589,5 +1600,10 @@
  else
- echo With libzfs support: No "($libzfs_excuse)"
+ echo "With liblzma from $LIBLZMA (support for XZ-compressed mips images)"
  fi
 +if [ x"$enable_quiet_boot" = xyes ]; then
 +echo With quiet boot: Yes
@@ -87,7 +87,7 @@ Index: b/grub-core/boot/i386/pc/boot.S
  
  /*
   *  defines for the code go here
-@@ -150,9 +153,17 @@
+@@ -242,9 +245,17 @@
  	/* save drive reference first thing! */
  	pushw	%dx
  
@@ -189,7 +189,7 @@ Index: b/grub-core/kern/main.c
 ===================================================================
 --- a/grub-core/kern/main.c
 +++ b/grub-core/kern/main.c
-@@ -207,13 +207,23 @@
+@@ -251,15 +251,25 @@
  void __attribute__ ((noreturn))
  grub_main (void)
  {
@@ -199,6 +199,8 @@ Index: b/grub-core/kern/main.c
 +
    /* First of all, initialize the machine.  */
    grub_machine_init ();
+ 
+   grub_boot_time ("After machine init.");
  
 +#ifdef QUIET_BOOT
 +  /* Disable the cursor until we need it.  */
@@ -211,11 +213,11 @@ Index: b/grub-core/kern/main.c
    grub_setcolorstate (GRUB_TERM_COLOR_STANDARD);
 +#endif
  
-   /* Load pre-loaded modules and free the space.  */
-   grub_register_exported_symbols ();
-@@ -232,5 +242,12 @@
- 
    grub_load_config ();
+ 
+@@ -295,5 +305,12 @@
+   grub_boot_time ("After execution of embedded config. Attempt to go to normal mode");
+ 
    grub_load_normal_mode ();
 +
 +#ifdef QUIET_BOOT
@@ -230,7 +232,7 @@ Index: b/grub-core/kern/rescue_reader.c
 ===================================================================
 --- a/grub-core/kern/rescue_reader.c
 +++ b/grub-core/kern/rescue_reader.c
-@@ -77,7 +77,9 @@
+@@ -78,7 +78,9 @@
  void __attribute__ ((noreturn))
  grub_rescue_run (void)
  {
@@ -244,7 +246,7 @@ Index: b/grub-core/normal/main.c
 ===================================================================
 --- a/grub-core/normal/main.c
 +++ b/grub-core/normal/main.c
-@@ -399,6 +399,15 @@
+@@ -428,6 +428,15 @@
  grub_normal_read_line_real (char **line, int cont, int nested)
  {
    const char *prompt;
@@ -260,7 +262,7 @@ Index: b/grub-core/normal/main.c
  
    if (cont)
      /* TRANSLATORS: it's command line prompt.  */
-@@ -446,7 +455,9 @@
+@@ -476,7 +485,9 @@
        return;
      }
  
@@ -274,7 +276,7 @@ Index: b/grub-core/normal/menu.c
 ===================================================================
 --- a/grub-core/normal/menu.c
 +++ b/grub-core/normal/menu.c
-@@ -669,12 +669,18 @@
+@@ -674,12 +674,18 @@
  
  /* Callback invoked immediately before a menu entry is executed.  */
  static void
@@ -294,7 +296,7 @@ Index: b/grub-core/normal/menu.c
  }
  
  /* Callback invoked when a default menu entry executed because of a timeout
-@@ -722,6 +728,9 @@
+@@ -727,6 +733,9 @@
        int boot_entry;
        grub_menu_entry_t e;
        int auto_boot;
@@ -304,7 +306,7 @@ Index: b/grub-core/normal/menu.c
  
        boot_entry = run_menu (menu, nested, &auto_boot);
        if (boot_entry < 0)
-@@ -731,7 +740,11 @@
+@@ -736,7 +745,11 @@
        if (! e)
  	continue; /* Menu is empty.  */
  

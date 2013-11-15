@@ -2,18 +2,18 @@ Description: Look for grub-bios-setup in /usr/lib/grub/i386-pc/ as well
 Author: Colin Watson <cjwatson@debian.org>
 Bug-Debian: http://bugs.debian.org/705636
 Forwarded: no
-Last-Update: 2013-04-17
+Last-Update: 2013-11-15
 
 Index: b/util/grub-install.in
 ===================================================================
 --- a/util/grub-install.in
 +++ b/util/grub-install.in
-@@ -363,6 +363,9 @@
+@@ -322,6 +322,9 @@
  
  if test "x$grub_setup" = x && [ "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" = "i386-pc" ]; then
-     grub_setup="${sbindir}/`echo grub-bios-setup | sed ${transform}`"
+     grub_setup="${sbindir}/@grub_bios_setup@"
 +    if [ ! -e "$grub_setup" ]; then
-+	grub_setup="${source_dir}/`echo grub-bios-setup | sed ${transform}`"
++	grub_setup="${source_dir}/@grub_bios_setup@"
 +    fi
  fi
  

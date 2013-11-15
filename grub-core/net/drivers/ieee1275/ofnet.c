@@ -79,7 +79,7 @@ send_card_buffer (struct grub_net_card *dev, struct grub_net_buff *pack)
 
   grub_memcpy (dev->txbuf, pack->data, len);
   status = grub_ieee1275_write (data->handle, dev->txbuf,
-				pack->tail - pack->data, &actual);
+				len, &actual);
 
   if (status)
     return grub_error (GRUB_ERR_IO, N_("couldn't send network packet"));
@@ -97,10 +97,7 @@ get_card_packet (struct grub_net_card *dev)
 
   nb = grub_netbuff_alloc (dev->mtu + 64 + 2);
   if (!nb)
-    {
-      grub_netbuff_free (nb);
-      return NULL;
-    }
+    return NULL;
   /* Reserve 2 bytes so that 2 + 14/18 bytes of ethernet header is divisible
      by 4. So that IP header is aligned on 4 bytes. */
   grub_netbuff_reserve (nb, 2);
@@ -198,27 +195,6 @@ grub_ieee1275_net_config_real (const char *devpath, char **device, char **path)
   }
 }
 
-static char *
-find_alias (const char *fullname)
-{
-  char *ret = NULL;
-  auto int find_alias_hook (struct grub_ieee1275_devalias *alias);
-
-  int find_alias_hook (struct grub_ieee1275_devalias *alias)
-  {
-    if (grub_strcmp (alias->path, fullname) == 0)
-      {
-	ret = grub_strdup (alias->name);
-	return 1;
-      }
-    return 0;
-  }
-
-  grub_devalias_iterate (find_alias_hook);
-  grub_errno = GRUB_ERR_NONE;
-  return ret;
-}
-
 static int
 search_net_devices (struct grub_ieee1275_devalias *alias)
 {
@@ -226,6 +202,9 @@ search_net_devices (struct grub_ieee1275_devalias *alias)
   struct grub_net_card *card;
   grub_ieee1275_phandle_t devhandle;
   grub_net_link_level_address_t lla;
+  grub_ssize_t prop_size;
+  grub_uint64_t prop;
+  grub_uint8_t *pprop;
   char *shortname;
 
   if (grub_strcmp (alias->type, "network") != 0)
@@ -259,15 +238,21 @@ search_net_devices (struct grub_ieee1275_devalias *alias)
       card->mtu = t;
   }
 
+  pprop = (grub_uint8_t *) &prop;
   if (grub_ieee1275_get_property (devhandle, "mac-address",
-				  &(lla.mac), 6, 0)
+				  pprop, sizeof(prop), &prop_size)
       && grub_ieee1275_get_property (devhandle, "local-mac-address",
-				     &(lla.mac), 6, 0))
+				     pprop, sizeof(prop), &prop_size))
     {
       grub_error (GRUB_ERR_IO, "Couldn't retrieve mac address.");
       grub_print_error ();
       return 0;
     }
+
+  if (prop_size == 8)
+    grub_memcpy (&lla.mac, pprop+2, 6);
+  else
+    grub_memcpy (&lla.mac, pprop, 6);
 
   lla.type = GRUB_NET_LINK_LEVEL_PROTOCOL_ETHERNET;
   card->default_address = lla;
@@ -302,13 +287,16 @@ search_net_devices (struct grub_ieee1275_devalias *alias)
     card->txbuf = grub_zalloc (card->txbufsize);
   if (!card->txbuf)
     {
+      grub_free (ofdata->path);
+      grub_free (ofdata);
+      grub_free (card);
       grub_print_error ();
       return 0;
     }
   card->driver = NULL;
   card->data = ofdata;
   card->flags = 0;
-  shortname = find_alias (alias->path);
+  shortname = grub_ieee1275_get_devname (alias->path);
   card->name = grub_xasprintf ("ofnet_%s", shortname ? : alias->path);
   card->idle_poll_delay_ms = 10;
   grub_free (shortname);
