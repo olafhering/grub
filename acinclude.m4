@@ -134,6 +134,29 @@ if test "x$grub_cv_prog_ld_build_id_none" = xyes; then
 fi
 ])
 
+dnl Check nm
+AC_DEFUN([grub_PROG_NM_WORKS],
+[AC_MSG_CHECKING([whether nm works])
+AC_CACHE_VAL(grub_cv_prog_nm_works,
+[
+nm_works_tmp_dir="$(mktemp -d "./confXXXXXX")"
+AC_LANG_CONFTEST([AC_LANG_PROGRAM([[]], [[]])])
+$TARGET_CC $TARGET_CFLAGS -c conftest.c -o "$nm_works_tmp_dir/ef"
+if $TARGET_NM "$nm_works_tmp_dir/ef" > /dev/null; then
+   grub_cv_prog_nm_works=yes
+else
+   grub_cv_prog_nm_minus_p=no
+fi
+rm "$nm_works_tmp_dir/ef"
+rmdir "$nm_works_tmp_dir"
+])
+AC_MSG_RESULT([$grub_cv_prog_nm_works])
+
+if test "x$grub_cv_prog_nm_works" != xyes; then
+  AC_MSG_ERROR([nm does not work])
+fi
+])
+
 dnl Supply -P to nm
 AC_DEFUN([grub_PROG_NM_MINUS_P],
 [AC_MSG_CHECKING([whether nm accepts -P])
@@ -141,13 +164,14 @@ AC_CACHE_VAL(grub_cv_prog_nm_minus_p,
 [
 nm_minus_p_tmp_dir="$(mktemp -d "./confXXXXXX")"
 AC_LANG_CONFTEST([AC_LANG_PROGRAM([[]], [[]])])
-$TARGET_CC conftest.c -o "$nm_minus_p_tmp_dir/ef"
+$TARGET_CC $TARGET_CFLAGS -c conftest.c -o "$nm_minus_p_tmp_dir/ef"
 if $TARGET_NM -P "$nm_minus_p_tmp_dir/ef" 2>&1 > /dev/null; then
    grub_cv_prog_nm_minus_p=yes
 else
    grub_cv_prog_nm_minus_p=no
 fi
 rm "$nm_minus_p_tmp_dir/ef"
+rmdir "$nm_minus_p_tmp_dir"
 ])
 AC_MSG_RESULT([$grub_cv_prog_nm_minus_p])
 
@@ -165,13 +189,14 @@ AC_CACHE_VAL(grub_cv_prog_nm_defined_only,
 [
 nm_defined_only_tmp_dir="$(mktemp -d "./confXXXXXX")"
 AC_LANG_CONFTEST([AC_LANG_PROGRAM([[]], [[]])])
-$TARGET_CC conftest.c -o "$nm_defined_only_tmp_dir/ef"
+$TARGET_CC $TARGET_CFLAGS -c conftest.c -o "$nm_defined_only_tmp_dir/ef"
 if $TARGET_NM --defined-only "$nm_defined_only_tmp_dir/ef" 2>&1 > /dev/null; then
    grub_cv_prog_nm_defined_only=yes
 else
    grub_cv_prog_nm_defined_only=no
 fi
 rm "$nm_defined_only_tmp_dir/ef"
+rmdir "$nm_defined_only_tmp_dir"
 ])
 AC_MSG_RESULT([$grub_cv_prog_nm_defined_only])
 
@@ -221,22 +246,6 @@ fi
 rm -f conftest*])
 
 AC_MSG_RESULT([$grub_cv_i386_asm_addr32])])
-
-dnl check if our target compiler is apple cc
-dnl because it requires numerous workarounds
-AC_DEFUN([grub_apple_target_cc],
-[AC_REQUIRE([AC_PROG_CC])
-AC_MSG_CHECKING([whether our target compiler is apple cc])
-AC_CACHE_VAL(grub_cv_apple_target_cc,
-[if $CC -v 2>&1 | grep "Apple Inc." > /dev/null; then
-  grub_cv_apple_target_cc=yes
-else
-  grub_cv_apple_target_cc=no
-fi
-])
-
-AC_MSG_RESULT([$grub_cv_apple_target_cc])])
-
 
 dnl Later versions of GAS requires that addr32 and data32 prefixes
 dnl appear in the same lines as the instructions they modify, while

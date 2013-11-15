@@ -4,7 +4,7 @@ Description: Allow reducing size of xorriso-created rescue images
 Author: Thomas Schmitt <scdbackup@gmx.net>
 Origin: other, http://lists.gnu.org/archive/html/grub-devel/2010-05/msg00100.html
 Forwarded: yes
-Last-Update: 2013-11-14
+Last-Update: 2013-11-15
 
 Index: b/util/grub-mkrescue.in
 ===================================================================
@@ -16,9 +16,9 @@ Index: b/util/grub-mkrescue.in
  xorriso=xorriso
 +diet=no
  
- localedir="@datadir@/locale"
- 
-@@ -69,6 +70,7 @@
+ # Usage: usage
+ # Print the usage.
+@@ -67,6 +68,7 @@
      print_option_help "--product-version=$(gettext "STRING")" "$(gettext "use STRING as product version")"
      print_option_help "--sparc-boot" "$(gettext "enable sparc boot. Disables HFS+, APM, ARCS and boot as disk image for i386-pc")"
      print_option_help "--arcs-boot" "$(gettext "enable ARCS (big-endian mips machines, mostly SGI) boot. Disables HFS+, APM, sparc64 and boot as disk image for i386-pc")"
@@ -26,7 +26,7 @@ Index: b/util/grub-mkrescue.in
      echo
      gettext_printf "%s generates a bootable rescue image with specified source files, source directories, or mkisofs options listed by the output of \`%s'\n" "xorriso -as mkisofs -help" "$self" | grub_fmt
      echo
-@@ -160,6 +162,9 @@
+@@ -158,6 +160,9 @@
      --xorriso=*)
          xorriso=`echo "${option}" | sed 's/--xorriso=//'` ;;
  
@@ -36,7 +36,7 @@ Index: b/util/grub-mkrescue.in
      *)
  	source="${source} ${option} $@"; break ;;
      esac
-@@ -487,7 +492,14 @@
+@@ -485,7 +490,14 @@
  fi
  
  # build iso image

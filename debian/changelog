@@ -1,4 +1,4 @@
-grub2 (2.00+20131114-1) UNRELEASED; urgency=low
+grub2 (2.00+20131115-1) UNRELEASED; urgency=low
 
   * New upstream snapshot.
     - Skip issuing cursor on/off sequences on Macs (closes: #683068).

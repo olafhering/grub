@@ -2,13 +2,13 @@ Description: Read /etc/default/grub.d/*.cfg after /etc/default/grub
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/901600
 Forwarded: no
-Last-Update: 2013-11-14
+Last-Update: 2013-11-15
 
 Index: b/util/grub-install.in
 ===================================================================
 --- a/util/grub-install.in
 +++ b/util/grub-install.in
-@@ -46,6 +46,11 @@
+@@ -45,6 +45,11 @@
  if test -f "${sysconfdir}/default/grub" ; then
      . "${sysconfdir}/default/grub"
  fi

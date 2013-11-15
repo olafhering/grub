@@ -10,7 +10,7 @@ Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1387,6 +1387,17 @@
+@@ -1385,6 +1385,17 @@
  fi
  AC_SUBST([GFXPAYLOAD_DYNAMIC])
  

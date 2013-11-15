@@ -44,7 +44,7 @@ Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1354,6 +1354,17 @@
+@@ -1352,6 +1352,17 @@
  fi
  AC_SUBST([UBUNTU_RECOVERY])
  
@@ -62,7 +62,7 @@ Index: b/configure.ac
  LIBS=""
  
  AC_SUBST([FONT_SOURCE])
-@@ -1589,5 +1600,10 @@
+@@ -1585,5 +1596,10 @@
  else
  echo "With liblzma from $LIBLZMA (support for XZ-compressed mips images)"
  fi
@@ -189,7 +189,7 @@ Index: b/grub-core/kern/main.c
 ===================================================================
 --- a/grub-core/kern/main.c
 +++ b/grub-core/kern/main.c
-@@ -251,15 +251,25 @@
+@@ -264,15 +264,25 @@
  void __attribute__ ((noreturn))
  grub_main (void)
  {
@@ -215,7 +215,7 @@ Index: b/grub-core/kern/main.c
  
    grub_load_config ();
  
-@@ -295,5 +305,12 @@
+@@ -308,5 +318,12 @@
    grub_boot_time ("After execution of embedded config. Attempt to go to normal mode");
  
    grub_load_normal_mode ();

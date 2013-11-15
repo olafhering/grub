@@ -5,13 +5,13 @@ Description: Fall back to i386-pc if booted using EFI but -efi is missing
  better than returning a confusing error.
 Author: Colin Watson <cjwatson@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-11-14
+Last-Update: 2013-11-15
 
 Index: b/util/grub-install.in
 ===================================================================
 --- a/util/grub-install.in
 +++ b/util/grub-install.in
-@@ -249,7 +249,8 @@
+@@ -248,7 +248,8 @@
  		    linux*)
  			modprobe -q efivars 2>/dev/null || true ;;
  		esac
@@ -21,7 +21,7 @@ Index: b/util/grub-install.in
  		    target="x86_64-efi"
  		else
  		    target=i386-pc
-@@ -265,7 +266,8 @@
+@@ -264,7 +265,8 @@
  		    linux*)
  			modprobe -q efivars 2>/dev/null || true ;;
  		esac

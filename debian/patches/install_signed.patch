@@ -9,7 +9,7 @@ Index: b/util/grub-install.in
 ===================================================================
 --- a/util/grub-install.in
 +++ b/util/grub-install.in
-@@ -41,6 +41,7 @@
+@@ -40,6 +40,7 @@
  
  removable=no
  efi_quiet=-q
@@ -17,7 +17,7 @@ Index: b/util/grub-install.in
  
  # Get GRUB_DISTRIBUTOR.
  if test -f "${sysconfdir}/default/grub" ; then
-@@ -92,6 +93,8 @@
+@@ -91,6 +92,8 @@
      print_option_help  "--removable" "$(gettext "the installation device is removable. This option is only available on EFI.")"
      print_option_help  "--bootloader-id=$(gettext "ID")" "$(gettext "the ID of bootloader. This option is only available on EFI.")"
      print_option_help "--efi-directory=$(gettext "DIR")" "$(gettext "use DIR as the EFI System Partition root.")"
@@ -26,7 +26,7 @@ Index: b/util/grub-install.in
  echo
  gettext "INSTALL_DEVICE must be system device filename.";echo
  echo
-@@ -215,6 +218,11 @@
+@@ -214,6 +217,11 @@
      -f | --force)
          setup_force="--force" ;;
  
@@ -38,7 +38,7 @@ Index: b/util/grub-install.in
      -*)
  	gettext_printf "Unrecognized option \`%s'\n" "$option" 1>&2
  	usage
-@@ -423,43 +431,34 @@
+@@ -422,43 +430,34 @@
          # not collide with other vendors.  To minimise collisions, we use the
          # name of our distributor if possible.
  	efi_distributor="$bootloader_id"
@@ -101,7 +101,7 @@ Index: b/util/grub-install.in
  	fi
  	efidir="$efidir/EFI/$efi_distributor"
  	mkdir -p "$efidir" || exit 1
-@@ -575,7 +574,15 @@
+@@ -574,7 +573,15 @@
      config_opt_file="${grubdir}/${grub_modinfo_target_cpu}-$grub_modinfo_platform/load.cfg"
  fi
  
@@ -118,7 +118,7 @@ Index: b/util/grub-install.in
      if [ x"${install_device}" != x ]; then
        if echo "${install_device}" | grep -qx "(.*)" ; then
          install_drive="${install_device}"
-@@ -594,7 +601,7 @@
+@@ -593,7 +600,7 @@
  	install_drive="$grub_drive"
      fi
  
@@ -127,7 +127,7 @@ Index: b/util/grub-install.in
          # generic method (used on coreboot and ata mod)
  	uuid=
  	if [ x"$force_file_id" != xy ]; then
-@@ -776,10 +783,31 @@
+@@ -775,10 +782,31 @@
      gettext "You will have to set \`SystemPartition' and \`OSLoader' manually." 1>&2
      echo 1>&2
  elif [ x"$grub_modinfo_platform" = xefi ]; then

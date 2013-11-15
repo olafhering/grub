@@ -11,7 +11,7 @@ Index: b/util/grub-install.in
 ===================================================================
 --- a/util/grub-install.in
 +++ b/util/grub-install.in
-@@ -434,6 +434,10 @@
+@@ -433,6 +433,10 @@
          # not collide with other vendors.  To minimise collisions, we use the
          # name of our distributor if possible.
  	efi_distributor="$bootloader_id"
