@@ -1,0 +1,4 @@
+[NAME]
+grub-mkdevicemap \- make a device map file automatically
+[SEE ALSO]
+.BR grub-probe (8)

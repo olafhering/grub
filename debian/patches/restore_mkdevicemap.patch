@@ -25,6 +25,15 @@ Index: b/Makefile.util.def
    name = grub-probe;
    installdir = sbin;
    mansection = 8;
+Index: b/docs/man/grub-mkdevicemap.h2m
+===================================================================
+--- /dev/null
++++ b/docs/man/grub-mkdevicemap.h2m
+@@ -0,0 +1,4 @@
++[NAME]
++grub-mkdevicemap \- make a device map file automatically
++[SEE ALSO]
++.BR grub-probe (8)
 Index: b/include/grub/util/deviceiter.h
 ===================================================================
 --- /dev/null
