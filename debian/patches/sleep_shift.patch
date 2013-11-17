@@ -4,7 +4,7 @@ Description: Allow Shift to interrupt 'sleep --interruptible'
  rest of the thread for context.
 Author: Colin Watson <cjwatson@ubuntu.com>
 Forwarded: http://lists.gnu.org/archive/html/grub-devel/2009-08/msg00694.html
-Last-Update: 2012-09-06
+Last-Update: 2013-11-17
 
 Index: b/grub-core/commands/sleep.c
 ===================================================================
@@ -21,7 +21,7 @@ Index: b/grub-core/commands/sleep.c
 +  grub_term_input_t term;
 +
 +  if (grub_term_poll_usb)
-+    grub_term_poll_usb ();
++    grub_term_poll_usb (0);
 +
 +  FOR_ACTIVE_TERM_INPUTS(term)
 +  {
