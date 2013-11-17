@@ -29,99 +29,104 @@
 
 GRUB_MOD_LICENSE ("GPLv3+");
 
+/* Context for grub_cmd_hwmatch.  */
+struct hwmatch_ctx
+{
+  grub_file_t matches_file;
+  int class_match;
+  int match;
+};
+
+/* Helper for grub_cmd_hwmatch.  */
+static int
+hwmatch_iter (grub_pci_device_t dev, grub_pci_id_t pciid, void *data)
+{
+  struct hwmatch_ctx *ctx = data;
+  grub_pci_address_t addr;
+  grub_uint32_t class, baseclass, vendor, device;
+  grub_pci_id_t subpciid;
+  grub_uint32_t subvendor, subdevice, subclass;
+  char *id, *line;
+
+  addr = grub_pci_make_address (dev, GRUB_PCI_REG_CLASS);
+  class = grub_pci_read (addr);
+  baseclass = class >> 24;
+
+  if (ctx->class_match != baseclass)
+    return 0;
+
+  vendor = pciid & 0xffff;
+  device = pciid >> 16;
+
+  addr = grub_pci_make_address (dev, GRUB_PCI_REG_SUBVENDOR);
+  subpciid = grub_pci_read (addr);
+
+  subclass = (class >> 16) & 0xff;
+  subvendor = subpciid & 0xffff;
+  subdevice = subpciid >> 16;
+
+  id = grub_xasprintf ("v%04xd%04xsv%04xsd%04xbc%02xsc%02x",
+		       vendor, device, subvendor, subdevice,
+		       baseclass, subclass);
+
+  grub_file_seek (ctx->matches_file, 0);
+  while ((line = grub_file_getline (ctx->matches_file)) != NULL)
+    {
+      char *anchored_line;
+      regex_t regex;
+      int ret;
+
+      if (! *line || *line == '#')
+	{
+	  grub_free (line);
+	  continue;
+	}
+
+      anchored_line = grub_xasprintf ("^%s$", line);
+      ret = regcomp (&regex, anchored_line, REG_EXTENDED | REG_NOSUB);
+      grub_free (anchored_line);
+      if (ret)
+	{
+	  grub_free (line);
+	  continue;
+	}
+
+      ret = regexec (&regex, id, 0, NULL, 0);
+      regfree (&regex);
+      grub_free (line);
+      if (! ret)
+	{
+	  ctx->match = 1;
+	  return 1;
+	}
+    }
+
+  return 0;
+}
+
 static grub_err_t
 grub_cmd_hwmatch (grub_command_t cmd __attribute__ ((unused)),
 		  int argc, char **args)
 {
-  grub_file_t matches_file;
-  int class_match;
-  int match = 0;
+  struct hwmatch_ctx ctx = { .match = 0 };
   char *match_str;
-
-  auto int NESTED_FUNC_ATTR hwmatch_iter (grub_pci_device_t dev,
-					  grub_pci_id_t pciid);
-
-  int NESTED_FUNC_ATTR hwmatch_iter (grub_pci_device_t dev,
-				     grub_pci_id_t pciid)
-  {
-    grub_pci_address_t addr;
-    grub_uint32_t class, baseclass, vendor, device;
-    grub_pci_id_t subpciid;
-    grub_uint32_t subvendor, subdevice, subclass;
-    char *id, *line;
-
-    addr = grub_pci_make_address (dev, GRUB_PCI_REG_CLASS);
-    class = grub_pci_read (addr);
-    baseclass = class >> 24;
-
-    if (class_match != baseclass)
-      return 0;
-
-    vendor = pciid & 0xffff;
-    device = pciid >> 16;
-
-    addr = grub_pci_make_address (dev, GRUB_PCI_REG_SUBVENDOR);
-    subpciid = grub_pci_read (addr);
-
-    subclass = (class >> 16) & 0xff;
-    subvendor = subpciid & 0xffff;
-    subdevice = subpciid >> 16;
-
-    id = grub_xasprintf ("v%04xd%04xsv%04xsd%04xbc%02xsc%02x",
-			 vendor, device, subvendor, subdevice,
-			 baseclass, subclass);
-
-    grub_file_seek (matches_file, 0);
-    while ((line = grub_file_getline (matches_file)) != NULL)
-      {
-	char *anchored_line;
-	regex_t regex;
-	int ret;
-
-	if (! *line || *line == '#')
-	  {
-	    grub_free (line);
-	    continue;
-	  }
-
-	anchored_line = grub_xasprintf ("^%s$", line);
-	ret = regcomp (&regex, anchored_line, REG_EXTENDED | REG_NOSUB);
-	grub_free (anchored_line);
-	if (ret)
-	  {
-	    grub_free (line);
-	    continue;
-	  }
-
-	ret = regexec (&regex, id, 0, NULL, 0);
-	regfree (&regex);
-	grub_free (line);
-	if (! ret)
-	  {
-	    match = 1;
-	    return 1;
-	  }
-      }
-
-    return 0;
-  }
 
   if (argc < 2)
     return grub_error (GRUB_ERR_BAD_ARGUMENT, "list file and class required");
 
-  matches_file = grub_file_open (args[0]);
-  if (! matches_file)
+  ctx.matches_file = grub_file_open (args[0]);
+  if (! ctx.matches_file)
     return grub_errno;
 
-  class_match = grub_strtol (args[1], 0, 10);
+  ctx.class_match = grub_strtol (args[1], 0, 10);
 
-  grub_pci_iterate (hwmatch_iter);
+  grub_pci_iterate (hwmatch_iter, &ctx);
 
-  match_str = grub_xasprintf ("%d", match);
+  match_str = grub_xasprintf ("%d", ctx.match);
   grub_env_set ("match", match_str);
   grub_free (match_str);
 
-  grub_file_close (matches_file);
+  grub_file_close (ctx.matches_file);
 
   return GRUB_ERR_NONE;
 }
