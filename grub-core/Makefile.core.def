@@ -892,6 +892,7 @@ module = {
   i386_pc = commands/i386/pc/hwmatch.c;
   enable = i386_pc;
   ldadd = libgnulib.a;
+  dependencies = libgnulib.a;
   cflags = '$(CFLAGS_POSIX) $(CFLAGS_GNULIB)';
   cppflags = '$(CPPFLAGS_POSIX) $(CPPFLAGS_GNULIB)';
 };

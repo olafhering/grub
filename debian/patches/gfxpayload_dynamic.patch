@@ -33,7 +33,7 @@ Index: b/grub-core/Makefile.core.def
 ===================================================================
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -888,6 +888,15 @@
+@@ -888,6 +888,16 @@
  };
  
  module = {
@@ -41,6 +41,7 @@ Index: b/grub-core/Makefile.core.def
 +  i386_pc = commands/i386/pc/hwmatch.c;
 +  enable = i386_pc;
 +  ldadd = libgnulib.a;
++  dependencies = libgnulib.a;
 +  cflags = '$(CFLAGS_POSIX) $(CFLAGS_GNULIB)';
 +  cppflags = '$(CPPFLAGS_POSIX) $(CPPFLAGS_GNULIB)';
 +};
