@@ -424,6 +424,7 @@ override_dh_clean: debian/legacy/update-grub debian/grub-extras
 	for i in $(AUTOGEN_DEB_FILES) ; do \
 		rm -f debian/grub-{pc,efi-*,ieee1275,coreboot,uboot,yeeloong,emu}{,-bin,-dbg}.$$i ; \
 	done
+	rm -f debian/grub-common.maintscript
 	rm -rf debian/tmp-*/
 ifneq (,$(SB_PACKAGE))
 	rm -rf debian/grub2-images
