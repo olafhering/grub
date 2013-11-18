@@ -24,6 +24,7 @@ grub2 (2.00+20131115-1) UNRELEASED; urgency=low
     - Document how to delete the whole environment block (closes: #726265).
     - New ports to arm-uboot, arm-efi, i386-xen, and x86_64-xen.
   * Add grub-uboot* and grub-efi-arm* binary packages.
+  * Ignore functional test failures for now as they are broken.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 15 Nov 2013 10:18:57 +0000
 

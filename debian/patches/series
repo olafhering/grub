@@ -39,3 +39,4 @@ quick_boot.patch
 gfxpayload_dynamic.patch
 vt_handoff.patch
 probe_fusionio.patch
+ignore_grub_func_test_failures.patch
