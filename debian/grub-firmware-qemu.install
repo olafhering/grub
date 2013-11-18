@@ -1,1 +1,1 @@
-build/grub-firmware-qemu/grub.bin	usr/share/qemu
+obj/grub-firmware-qemu/grub.bin	usr/share/qemu

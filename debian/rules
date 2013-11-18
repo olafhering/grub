@@ -94,71 +94,71 @@ override_dh_auto_build: $(patsubst %,build/%,$(BUILD_PACKAGES))
 
 override_dh_auto_install: $(patsubst %,install/%,$(BUILD_PACKAGES))
 
-$(patsubst %,configure/%,$(REAL_PACKAGES)) :: configure/% : build/stamps/configure-%
-$(patsubst %,build/%,$(REAL_PACKAGES) grub-rescue-pc) :: build/% : build/stamps/build-%
+$(patsubst %,configure/%,$(REAL_PACKAGES)) :: configure/% : debian/stamps/configure-%
+$(patsubst %,build/%,$(REAL_PACKAGES) grub-rescue-pc) :: build/% : debian/stamps/build-%
 
-build/stamps/configure-%: package = $(subst build/stamps/configure-,,$@)
-build/stamps/configure-%: export DH_OPTIONS = -p$(package) -Bbuild/$(package)
+debian/stamps/configure-%: package = $(subst debian/stamps/configure-,,$@)
+debian/stamps/configure-%: export DH_OPTIONS = -p$(package) -Bobj/$(package)
 
-build/stamps/build-%: package = $(subst build/stamps/build-,,$@)
-build/stamps/build-%: export DH_OPTIONS = -p$(package) -Bbuild/$(package)
+debian/stamps/build-%: package = $(subst debian/stamps/build-,,$@)
+debian/stamps/build-%: export DH_OPTIONS = -p$(package) -Bobj/$(package)
 
 install/%: package = $(subst install/,,$@)
 install/%: package_bin = $(package)-bin
 install/%: package_dbg = $(package)-dbg
 install/grub-emu: package_bin = grub-emu
 install/grub-emu: package_dbg = grub-emu-dbg
-install/%: export DH_OPTIONS = -p$(package) -Bbuild/$(patsubst grub-common,grub-$(COMMON_PLATFORM),$(package))
+install/%: export DH_OPTIONS = -p$(package) -Bobj/$(patsubst grub-common,grub-$(COMMON_PLATFORM),$(package))
 
-build/stamps/autogen: autogen.sh configure.ac Makefile.util.def grub-core/Makefile.core.def
-	mkdir -p build/stamps
+debian/stamps/autogen: autogen.sh configure.ac Makefile.util.def grub-core/Makefile.core.def
+	mkdir -p debian/stamps
 	env -u DH_OPTIONS dh_autoreconf -- ./autogen.sh
 	touch $@
 
-build/stamps/configure-grub-common: build/stamps/configure-grub-$(COMMON_PLATFORM)
+debian/stamps/configure-grub-common: debian/stamps/configure-grub-$(COMMON_PLATFORM)
 
-build/stamps/build-grub-common: build/stamps/build-grub-$(COMMON_PLATFORM)
+debian/stamps/build-grub-common: debian/stamps/build-grub-$(COMMON_PLATFORM)
 
-build/stamps/configure-grub-pc build/stamps/configure-grub-ieee1275 build/stamps/configure-grub-coreboot build/stamps/configure-grub-emu build/stamps/configure-grub-uboot build/stamps/configure-grub-yeeloong: build/stamps/autogen
-	mkdir -p build/stamps build/$(package)
+debian/stamps/configure-grub-pc debian/stamps/configure-grub-ieee1275 debian/stamps/configure-grub-coreboot debian/stamps/configure-grub-emu debian/stamps/configure-grub-uboot debian/stamps/configure-grub-yeeloong: debian/stamps/autogen
+	mkdir -p debian/stamps obj/$(package)
 	dh_auto_configure -- $(confflags) --with-platform=$(subst grub-,,$(package))
 	touch $@
 
 # This name scheme leaves room for things like amd32 someday
-build/stamps/configure-grub-efi-ia32: build/stamps/autogen
-	mkdir -p build/stamps build/$(package)
+debian/stamps/configure-grub-efi-ia32: debian/stamps/autogen
+	mkdir -p debian/stamps obj/$(package)
 	dh_auto_configure -- $(confflags) --with-platform=efi --target=i386-pe --program-prefix=""
 	touch $@
-build/stamps/configure-grub-efi-amd64: build/stamps/autogen
-	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
+debian/stamps/configure-grub-efi-amd64: debian/stamps/autogen
+	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=efi --target=amd64-pe --program-prefix=""
 	touch $@
-build/stamps/configure-grub-efi-ia64: build/stamps/autogen
-	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
+debian/stamps/configure-grub-efi-ia64: debian/stamps/autogen
+	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=efi
 	touch $@
-build/stamps/configure-grub-efi-arm: build/stamps/autogen
-	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
+debian/stamps/configure-grub-efi-arm: debian/stamps/autogen
+	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=efi
 	touch $@
 
-build/stamps/configure-grub-firmware-qemu: build/stamps/autogen
-	mkdir -p build/stamps $(subst build/stamps/configure-,build/,$@)
+debian/stamps/configure-grub-firmware-qemu: debian/stamps/autogen
+	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=qemu
 	touch $@
 
-build/stamps/build-grub-efi-ia32 build/stamps/build-grub-efi-amd64 build/stamps/build-grub-efi-ia64 build/stamps/build-grub-efi-arm build/stamps/build-grub-ieee1275 build/stamps/build-grub-coreboot build/stamps/build-grub-emu build/stamps/build-grub-uboot build/stamps/build-grub-yeeloong: build/stamps/build-%: build/stamps/configure-%
+debian/stamps/build-grub-efi-ia32 debian/stamps/build-grub-efi-amd64 debian/stamps/build-grub-efi-ia64 debian/stamps/build-grub-efi-arm debian/stamps/build-grub-ieee1275 debian/stamps/build-grub-coreboot debian/stamps/build-grub-emu debian/stamps/build-grub-uboot debian/stamps/build-grub-yeeloong: debian/stamps/build-%: debian/stamps/configure-%
 	dh_auto_build
 	touch $@
 
-build/stamps/build-grub-pc: build/stamps/configure-grub-pc
+debian/stamps/build-grub-pc: debian/stamps/configure-grub-pc
 	dh_auto_build
 ifeq ($(with_check), yes)
 	PATH="$$PATH:/sbin:/usr/sbin" dh_auto_test
 endif
 	touch $@
 
-build/stamps/build-grub-firmware-qemu: build/stamps/configure-grub-firmware-qemu
+debian/stamps/build-grub-firmware-qemu: debian/stamps/configure-grub-firmware-qemu
 	dh_auto_build
 	grub_dir=`mktemp -d` ; \
 	grub_memdisk=`mktemp` ; \
@@ -166,38 +166,38 @@ build/stamps/build-grub-firmware-qemu: build/stamps/configure-grub-firmware-qemu
 	mkdir -p $${grub_dir}/boot/grub ; \
 	cp debian/grub-firmware-qemu_grub.cfg $${grub_dir}/boot/grub/grub.cfg ; \
 	tar -cf - -C $${grub_dir} boot > $${grub_memdisk} ; \
-	build/$(package)/grub-mkimage \
+	obj/$(package)/grub-mkimage \
 		-O i386-qemu \
-		-d $(CURDIR)/build/$(package)/grub-core \
-		$(CURDIR)/build/$(package)/grub-core/*.mod \
+		-d $(CURDIR)/obj/$(package)/grub-core \
+		$(CURDIR)/obj/$(package)/grub-core/*.mod \
 		-m $${grub_memdisk} \
-		-o $(CURDIR)/build/$(package)/grub.bin
+		-o $(CURDIR)/obj/$(package)/grub.bin
 	touch $@
 
-build/stamps/build-grub-rescue-pc: build/stamps/build-grub-pc
-	mkdir -p build/grub-rescue-pc
-	cp -a build/grub-pc/grub-mkrescue build/grub-pc/grub-mkconfig_lib \
-		build/grub-rescue-pc/
-	mkdir -p build/grub-rescue-pc/rescue-disk/boot/grub
-	cp docs/grub.cfg build/grub-rescue-pc/rescue-disk/boot/grub/
-	sed -i 's,^prefix=.*,prefix=$(CURDIR)/build/grub-rescue-pc,' \
-		build/grub-rescue-pc/grub-mkrescue
-	mkdir -p build/grub-rescue-pc/lib/grub
-	rm -rf build/grub-rescue-pc/lib/grub/i386-pc
-	cp -a build/grub-pc/grub-core build/grub-rescue-pc/lib/grub/i386-pc
-	pkgdatadir=$(CURDIR)/build/grub-rescue-pc \
-		build/grub-rescue-pc/grub-mkrescue \
-		--grub-mkimage=$(CURDIR)/build/grub-pc/grub-mkimage \
-		--output=$(CURDIR)/build/grub-rescue-pc/grub-rescue-cdrom.iso \
-		$(CURDIR)/build/grub-rescue-pc/rescue-disk
+debian/stamps/build-grub-rescue-pc: debian/stamps/build-grub-pc
+	mkdir -p obj/grub-rescue-pc
+	cp -a obj/grub-pc/grub-mkrescue obj/grub-pc/grub-mkconfig_lib \
+		obj/grub-rescue-pc/
+	mkdir -p obj/grub-rescue-pc/rescue-disk/boot/grub
+	cp docs/grub.cfg obj/grub-rescue-pc/rescue-disk/boot/grub/
+	sed -i 's,^prefix=.*,prefix=$(CURDIR)/obj/grub-rescue-pc,' \
+		obj/grub-rescue-pc/grub-mkrescue
+	mkdir -p obj/grub-rescue-pc/lib/grub
+	rm -rf obj/grub-rescue-pc/lib/grub/i386-pc
+	cp -a obj/grub-pc/grub-core obj/grub-rescue-pc/lib/grub/i386-pc
+	pkgdatadir=$(CURDIR)/obj/grub-rescue-pc \
+		obj/grub-rescue-pc/grub-mkrescue \
+		--grub-mkimage=$(CURDIR)/obj/grub-pc/grub-mkimage \
+		--output=$(CURDIR)/obj/grub-rescue-pc/grub-rescue-cdrom.iso \
+		$(CURDIR)/obj/grub-rescue-pc/rescue-disk
 	# save space for floppy image
-	rm -rf build/grub-rescue-pc/lib/grub/i386-pc/po
-	pkgdatadir=$(CURDIR)/build/grub-rescue-pc \
-		build/grub-rescue-pc/grub-mkrescue \
-		--grub-mkimage=$(CURDIR)/build/grub-pc/grub-mkimage \
-		--output=$(CURDIR)/build/grub-rescue-pc/grub-rescue-floppy.img \
+	rm -rf obj/grub-rescue-pc/lib/grub/i386-pc/po
+	pkgdatadir=$(CURDIR)/obj/grub-rescue-pc \
+		obj/grub-rescue-pc/grub-mkrescue \
+		--grub-mkimage=$(CURDIR)/obj/grub-pc/grub-mkimage \
+		--output=$(CURDIR)/obj/grub-rescue-pc/grub-rescue-floppy.img \
 		--diet \
-		$(CURDIR)/build/grub-rescue-pc/rescue-disk
+		$(CURDIR)/obj/grub-rescue-pc/rescue-disk
 	touch $@
 
 platform_subst = \
@@ -397,8 +397,8 @@ override_dh_builddeb:
 	dh_builddeb -- -Zxz
 ifneq (,$(SB_PACKAGE))
 	debian/build-efi-images \
-		build/grub-$(COMMON_PLATFORM)/grub-mkimage \
-		build/$(SB_PACKAGE)/grub-core \
+		obj/grub-$(COMMON_PLATFORM)/grub-mkimage \
+		obj/$(SB_PACKAGE)/grub-core \
 		debian/grub2-images/$(deb_version) \
 		$(SB_PLATFORM) $(SB_EFI_NAME)
 	echo $(deb_version) \
@@ -408,7 +408,7 @@ ifneq (,$(SB_PACKAGE))
 endif
 
 override_dh_auto_clean:
-	-rm -rf build
+	-rm -rf debian/stamps obj
 	-rm -f contrib grub-core/contrib
 
 override_dh_clean: debian/legacy/update-grub debian/grub-extras
