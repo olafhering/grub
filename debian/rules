@@ -311,6 +311,10 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 		>> $(CURDIR)/debian/$(package_dbg)/usr/share/lintian/overrides/$(package_dbg) ; \
 	fi
 
+	# Avoid failures later if we're building from a tree with no .po
+	# files.
+	mkdir -p debian/tmp-$(package)/usr/share/locale
+
 install/grub-common:
 	set -e ; for i in $(AUTOGEN_DEB_FILES) ; do \
 		if [ -e debian/grub-common.$$i.in ] ; then \
