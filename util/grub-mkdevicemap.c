@@ -125,9 +125,7 @@ main (int argc, char *argv[])
   char *dev_map = 0;
   int floppy_disks = 1;
 
-  set_program_name (argv[0]);
-
-  grub_util_init_nls ();
+  grub_util_host_init (&argc, &argv);
 
   /* Check for options.  */
   while (1)

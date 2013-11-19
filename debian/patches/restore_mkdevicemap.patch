@@ -1035,7 +1035,7 @@ Index: b/util/grub-mkdevicemap.c
 ===================================================================
 --- /dev/null
 +++ b/util/grub-mkdevicemap.c
-@@ -0,0 +1,183 @@
+@@ -0,0 +1,181 @@
 +/* grub-mkdevicemap.c - make a device map file automatically */
 +/*
 + *  GRUB  --  GRand Unified Bootloader
@@ -1163,9 +1163,7 @@ Index: b/util/grub-mkdevicemap.c
 +  char *dev_map = 0;
 +  int floppy_disks = 1;
 +
-+  set_program_name (argv[0]);
-+
-+  grub_util_init_nls ();
++  grub_util_host_init (&argc, &argv);
 +
 +  /* Check for options.  */
 +  while (1)
