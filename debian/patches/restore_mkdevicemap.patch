@@ -2,7 +2,7 @@ Index: b/Makefile.util.def
 ===================================================================
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
-@@ -310,6 +310,22 @@
+@@ -310,6 +310,23 @@
  };
  
  program = {
@@ -13,6 +13,7 @@ Index: b/Makefile.util.def
 +  common = util/grub-mkdevicemap.c;
 +  common = util/deviceiter.c;
 +  common = util/devicemap.c;
++  common = grub-core/osdep/init.c;
 +
 +  ldadd = libgrubmods.a;
 +  ldadd = libgrubgcry.a;

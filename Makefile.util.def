@@ -317,6 +317,7 @@ program = {
   common = util/grub-mkdevicemap.c;
   common = util/deviceiter.c;
   common = util/devicemap.c;
+  common = grub-core/osdep/init.c;
 
   ldadd = libgrubmods.a;
   ldadd = libgrubgcry.a;

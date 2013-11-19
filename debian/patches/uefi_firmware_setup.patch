@@ -7,7 +7,7 @@ Index: b/Makefile.util.def
 ===================================================================
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
-@@ -489,6 +489,12 @@
+@@ -490,6 +490,12 @@
  };
  
  script = {
