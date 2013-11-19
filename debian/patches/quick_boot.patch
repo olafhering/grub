@@ -14,13 +14,13 @@ Description: Add configure option to bypass boot menu if possible
 Author: Colin Watson <cjwatson@ubuntu.com>
 Author: Richard Laager <rlaager@wiktel.com>
 Forwarded: no
-Last-Update: 2013-11-15
+Last-Update: 2013-11-19
 
 Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1363,6 +1363,17 @@
+@@ -1365,6 +1365,17 @@
  fi
  AC_SUBST([QUIET_BOOT])
  

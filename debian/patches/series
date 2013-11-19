@@ -5,7 +5,6 @@ grub_legacy_0_based_partitions.patch
 disable_floppies.patch
 grub.cfg_400.patch
 gfxpayload_keep_default.patch
-mkrescue_diet.patch
 mkconfig_skip_dmcrypt.patch
 install_stage2_confusion.patch
 mkrescue_efi_modules.patch
@@ -29,7 +28,6 @@ linuxefi_require_shim.patch
 linuxefi_non_sb_fallback.patch
 mkconfig_signed_kernel.patch
 install_signed.patch
-install_bios_setup_path.patch
 sleep_shift.patch
 wubi_no_windows.patch
 maybe_quiet.patch

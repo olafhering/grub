@@ -246,6 +246,17 @@ grub_util_is_regular (const char *path)
   return S_ISREG (st.st_mode);
 }
 
+grub_uint32_t
+grub_util_get_mtime (const char *path)
+{
+  struct stat st;
+
+  if (stat (path, &st) == -1)
+    return 0;
+
+  return st.st_mtime;
+}
+
 int
 grub_util_is_special_file (const char *path)
 {
@@ -254,6 +265,44 @@ grub_util_is_special_file (const char *path)
   if (lstat (path, &st) == -1)
     return 1;
   return (!S_ISREG (st.st_mode) && !S_ISDIR (st.st_mode));
+}
+
+
+char *
+grub_util_make_temporary_file (void)
+{
+  const char *t = getenv ("TMPDIR");
+  size_t tl;
+  char *tmp;
+  if (!t)
+    t = "/tmp";
+  tl = strlen (t);
+  tmp = xmalloc (tl + sizeof ("/grub.XXXXXX"));
+  memcpy (tmp, t, tl);
+  memcpy (tmp + tl, "/grub.XXXXXX",
+	  sizeof ("/grub.XXXXXX"));
+  if (mkstemp (tmp) == -1)
+    grub_util_error (_("cannot make temporary file: %s"), strerror (errno));
+  return tmp;
+}
+
+char *
+grub_util_make_temporary_dir (void)
+{
+  const char *t = getenv ("TMPDIR");
+  size_t tl;
+  char *tmp;
+  if (!t)
+    t = "/tmp";
+  tl = strlen (t);
+  tmp = xmalloc (tl + sizeof ("/grub.XXXXXX"));
+  memcpy (tmp, t, tl);
+  memcpy (tmp + tl, "/grub.XXXXXX",
+	  sizeof ("/grub.XXXXXX"));
+  if (!mkdtemp (tmp))
+    grub_util_error (_("cannot make temporary directory: %s"),
+		     strerror (errno));
+  return tmp;
 }
 
 #endif

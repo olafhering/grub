@@ -5,20 +5,18 @@ Description: Cope with Kubuntu setting GRUB_DISTRIBUTOR
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/1242417
 Forwarded: not-needed
-Last-Update: 2013-11-15
+Last-Update: 2013-11-19
 
-Index: b/util/grub-install.in
+Index: b/util/grub-install.c
 ===================================================================
---- a/util/grub-install.in
-+++ b/util/grub-install.in
-@@ -433,6 +433,10 @@
-         # not collide with other vendors.  To minimise collisions, we use the
-         # name of our distributor if possible.
- 	efi_distributor="$bootloader_id"
-+	case $efi_distributor in
-+	    kubuntu)
-+		efi_distributor=ubuntu ;;
-+	esac
- 	# It is convenient for each architecture to have a different
- 	# efi_file, so that different versions can be installed in parallel.
- 	case "$grub_modinfo_target_cpu" in
+--- a/util/grub-install.c
++++ b/util/grub-install.c
+@@ -932,6 +932,8 @@
+       */
+       char *t;
+       efi_distributor = bootloader_id;
++      if (strcmp (efi_distributor, "kubuntu") == 0)
++	efi_distributor = "ubuntu";
+       switch (platform)
+ 	{
+ 	case GRUB_INSTALL_PLATFORM_I386_EFI:

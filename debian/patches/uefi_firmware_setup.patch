@@ -1,13 +1,13 @@
 Description: Output a menu entry for firmware setup on UEFI FastBoot systems
 Author: Steve Langasek <steve.langasek@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-11-14
+Last-Update: 2013-11-19
 
 Index: b/Makefile.util.def
 ===================================================================
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
-@@ -484,6 +484,12 @@
+@@ -489,6 +489,12 @@
  };
  
  script = {

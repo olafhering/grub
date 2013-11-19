@@ -2,23 +2,37 @@ Description: If GRUB Legacy is still around, tell packaging to ignore it
 Author: Colin Watson <cjwatson@debian.org>
 Bug-Debian: http://bugs.debian.org/586143
 Forwarded: not-needed
-Last-Update: 2013-11-15
+Last-Update: 2013-11-19
 
-Index: b/util/grub-install.in
+Index: b/util/grub-install.c
 ===================================================================
---- a/util/grub-install.in
-+++ b/util/grub-install.in
-@@ -822,6 +822,13 @@
-     echo 1>&2
- fi
+--- a/util/grub-install.c
++++ b/util/grub-install.c
+@@ -41,6 +41,7 @@
+ #include <grub/gpt_partition.h>
+ #include <grub/emu/config.h>
+ #include <grub/util/ofpath.h>
++#include <grub/emu/hostfile.h>
  
-+# If vestiges of GRUB Legacy still exist, tell the Debian packaging that
-+# they can ignore them.
-+if test -z "$rootdir" && \
-+   test -e /boot/grub/stage2 && test -e /boot/grub/menu.lst; then
-+    touch /boot/grub/grub2-installed
-+fi
+ #include <string.h>
+ 
+@@ -1414,6 +1415,19 @@
+ 	  grub_util_bios_setup (platdir, "boot.img", "core.img",
+ 				install_drive, force,
+ 				fs_probe, allow_floppy);
 +
- gettext "Installation finished. No error reported." 1>&2
- echo 1>&2
- 
++	/* If vestiges of GRUB Legacy still exist, tell the Debian packaging
++	   that they can ignore them.  */
++	if (!rootdir && grub_util_is_regular ("/boot/grub/stage2") &&
++	    grub_util_is_regular ("/boot/grub/menu.lst"))
++	  {
++	    grub_util_fd_t fd;
++
++	    fd = grub_util_fd_open ("/boot/grub/grub2-installed",
++				    GRUB_UTIL_FD_O_WRONLY);
++	    grub_util_fd_close (fd);
++	  }
++
+ 	break;
+       }
+     case GRUB_INSTALL_PLATFORM_SPARC64_IEEE1275:

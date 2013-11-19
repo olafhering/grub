@@ -20,6 +20,7 @@
 #include <config-util.h>
 
 #include <grub/util/misc.h>
+#include <grub/i18n.h>
 
 #include "progname.h"
 
@@ -29,7 +30,9 @@ grub_util_host_init (int *argc __attribute__ ((unused)),
 {
   set_program_name ((*argv)[0]);
 
-#ifdef GRUB_UTIL
-  grub_util_init_nls ();
-#endif
+#if (defined (GRUB_UTIL) && defined(ENABLE_NLS) && ENABLE_NLS)
+  setlocale (LC_ALL, "");
+  bindtextdomain (PACKAGE, LOCALEDIR);
+  textdomain (PACKAGE);
+#endif /* (defined(ENABLE_NLS) && ENABLE_NLS) */
 }

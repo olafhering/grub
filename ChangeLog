@@ -1,3 +1,317 @@
+2013-11-19  Josh Triplett  <josh@joshtriplett.org>
+
+	* grub-core/kern/x86_64/efi/startup.S (_start): Align the stack to a
+	16-byte boundary, as required by the x86-64 ABI, before calling
+	grub_main.  In some cases, GCC emits code that assumes this
+	alignment, which crashes if not aligned.  The EFI firmware is also
+	entitled to assume that stack alignment without checking.
+
+2013-11-18  Josh Triplett  <josh@joshtriplett.org>
+
+	* grub-core/mmap/efi/mmap.c (grub_mmap_register): Round up/down to
+	4k page boundaries as expected by firmware rather than 1k
+	boundaries.
+	(grub_mmap_malign_and_register): Likewise.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* tests/grub_func_test.in: Decrease RAM size to 512M. With less
+	fragmentation 512M is enough.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/mm.c (grub_real_malloc): Decrease cut-off of moving the
+	pointer to 32K. This is the size of cache element which is the most
+	common allocation >1K. This way the pointer is always around blocks
+	of 32K and so we keep performance while decreasing fragmentation.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/mm.c (grub_real_malloc): Don't update the pointer to
+	current memory when allocating large chunks. This significantly
+	decreases memory fragmentation.
+
+2013-11-18  Colin Watson  <cjwatson@ubuntu.com>
+
+	* tests/gzcompress_test.in: Skip if gzip is not installed (unlikely,
+	but for symmetry).
+	* tests/lzocompress_test.in: Skip if lzop is not installed.
+	* tests/xzcompress_test.in: Skip if xz is not installed.
+
+2013-11-18  Colin Watson  <cjwatson@ubuntu.com>
+
+	* util/grub-mkrescue.c (main): Fix typo.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/mips/qemu_mips/init.c (grub_machine_init): Update
+	clock frequency to 200 MHz,
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* tests/util/grub-shell.in: Increase console size to 1024x1024.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* Makefile.am (default_payload.elf): Add pata to loaded modules.
+	Load config file from (cbfsdisk)/etc/grub.cfg.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-install-common.c (grub_install_copy_files): Fix module
+	destination directory.
+
+2013-11-18  Colin Watson  <cjwatson@ubuntu.com>
+
+	* tests/util/grub-shell.in: Don't fail on emu platform if po/*.gmo
+	files have not been built.
+
+2013-11-18  Colin Watson  <cjwatson@ubuntu.com>
+
+	* grub-core/osdep/unix/hostdisk.c (grub_util_make_temporary_file):
+	Handle errors from mkstemp.
+	(grub_util_make_temporary_dir): Handle errors from mkdtemp.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* tests/util/grub-shell.in: Use -cdrom and don't force cdrom
+	on primary master on pseries.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/tests/videotest_checksum.c: Don't reload unifont if it's
+	already loaded. This saves memory needed for tests,
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-mkrescue.c (main): Fix a typo to make yeeloong part
+	work again.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/term/terminfo.c (grub_cmd_terminfo): Fix a typo to make -g
+	work again.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* tests/util/grub-shell.in: For powerpc tests put the CD-ROM as primary
+	master since with some combinations of qemu and firmware only primary
+	IDE channel is available.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/tests/gfxterm_menu.c: Skip high-resolution tests on
+	low-memory platforms where we don't have enough memory for them.
+	* grub-core/tests/videotest_checksum.c: Likewise.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/tests/cmdline_cat_test.c: Don't reload unifont if it's
+	already loaded. This saves memory needed for tests,
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Fix handling of install lists.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/lib/sparc64/setjmp.S: Force spilling of current window.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	On i386-ieee1275 we run in paged mode. So we need to explicitly map
+	the devices before accessing them.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/lib/relocator.c (grub_mm_check_real): Accept const char *
+	as file argument.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/normal/cmdline.c (grub_cmdline_get): Plug memory leak.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/file.c (grub_file_open): Free file->name on failure.
+	(grub_file_close): Free file->name.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/commands/verify.c (free_pk): Plug memory leak.
+	(grub_load_public_key): Likewise.
+	(grub_verify_signature_real): Likewise.
+	(grub_cmd_verify_signature): Likewise.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/commands/legacycfg.c (grub_legacy_check_md5_password): Plug
+	memory leak.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/lib/powerpc/setjmp.S (grub_setjmp): Save r31.
+	(grub_longjmp): Restore r31.
+	* include/grub/powerpc/setjmp.h (grub_jmp_buf): Reserve space for r31.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-mkrescue.c (make_image_fwdisk_abs): Insert all partmap
+	modules to be in line with make_image_abs.
+
+2013-11-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/mips/setjmp.h (grub_jmp_buf): Fix buffer size.
+
+	setjmp.S uses 12 entries but buffer is declared with only 11 entries.
+
+2013-11-17  Ian Campbell  <ijc@hellion.org.uk>
+
+        * grub-core/disk/uboot/ubootdisk.c: Include SCSI disks.
+
+2013-11-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* tests/grub_func_test.in: Increase memory reservation as on EFI we need
+	to leave some memory to firmware.
+
+2013-11-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/tests/cmdline_cat_test.c (cmdline_cat_test): Ignore errors
+	of loading gfxterm as gfxterm is embed in kernel on some platforms.
+	* grub-core/tests/gfxterm_menu.c (gfxterm_menu): Likewise.
+	Load gfxmenu.
+
+2013-11-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* tests/core_compress_test.in: Use full arguments as grub-mkimage-extra
+	now needs full arguments.
+
+2013-11-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-mkrescue.c (main): Add trailing \n in
+	.disk_label.contentDetails to be in line with previous shell script.
+
+2013-11-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-mkrescue.c (main): Use right source file for bootinfo.txt.
+
+2013-11-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-install-common.c (grub_install_parse): Recognize
+	--compress=none like shell script did.
+
+2013-11-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/misc.h: Replace check for __sparc64__ with one for
+	__sparc__ as __sparc64__ isn't actually defined.
+
+2013-11-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* tests/util/grub-shell.in: Use escc-ch-b on powerpc. This is missing
+	counterpart of fixing the naming of escc ports.
+
+2013-11-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-install-common.c (platforms): Fix the order of entries and
+	remove useless field val.
+
+2013-11-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-install.c: Add new option --no-bootsector to skip
+	installing of bootsector. Accept --grub-setup=/bin/true as
+	backwards-compatible synonym.
+
+2013-11-16  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* util/grub-install.c (device_map_check_duplicates): Fix incorrect
+	order of qsort arguments (number of elements vs. element size).
+
+2013-11-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Rewrite grub-install, grub-mkrescue, grub-mkstandalone and grub-mknetdir
+	the function of these files exceeds what can be sanely handled in shell
+	in posix-comaptible way. Also writing it in C extends the functionality
+	to non-UNIX-like OS and minimal environments.
+
+2013-11-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/arm/cache.S: Don't switch back to ARM mode when
+	compiling to thumb2.
+	* grub-core/kern/arm/cache_armv7.S: Likewise.
+	* grub-core/lib/arm/setjmp.S: Likewise.
+
+2013-11-16  Leif Lindholm <leif.lindholm@linaro.org>
+
+	* grub-core/kern/arm/uboot/startup.S: delete superflouous save of r8
+	in grub_uboot_syscall
+
+2013-11-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Decrease stack usage in lexer.
+
+	We have only 92K of stack and using over 4K per frame is wasteful
+
+	* grub-core/script/yylex.l (yyalloc), (yyfree), (yyrealloc): Declare
+	as macros so that compiler would remove useless structure on stack.
+	Better solution would be to fix flex not to put this structure on
+	the stack but flex is external program.
+
+2013-11-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Decrease stack usage in signature verification.
+
+	We have only 92K of stack and using over 4K per frame is wasteful
+
+	* grub-core/commands/verify.c (grub_load_public_key): Allocate on heap
+	rather than stack.
+	(grub_verify_signature_real): Likewise.
+
+2013-11-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Decrease stack usage in mdraid 0.9x.
+
+	We have only 92K of stack and using over 4K per frame is wasteful
+
+	* grub-core/disk/mdraid_linux.c (grub_mdraid_detect): Allocate on heap
+	rather than stack.
+
+2013-11-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Decrease stack usage in BtrFS.
+
+	We have only 92K of stack and using over 4K per frame is wasteful
+
+	* grub-core/fs/btrfs.c (grub_btrfs_lzo_decompress): Allocate on heap
+	rather than stack.
+
+2013-11-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Decrease stack usage in JFS.
+
+	We have only 92K of stack and using over 4K per frame is wasteful
+
+	* grub-core/fs/jfs.c (getblk): Allocate on heap rather than on
+	stack. Note: this function is recursive.
+	(grub_jfs_read_inode): Read only part we care about.
+
+2013-11-16  Leif Lindholm <leif.lindholm@linaro.org>
+
+	* grub-core/kern/arm/uboot/startup.S: fix grub_uboot_syscall va_arg
+	handling
+
+2013-11-16  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* configure.ac: Restore -nostdlib for libgcc symbols tests.
+
+2013-11-16  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* docs/grub.texi (Environment): Document cmdpath.
+
+2013-11-16  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* grub-core/kern/mips/arc/init.c (grub_machine_get_bootlocation):
+	Remove "unused" attribute from arguments, they are used.
+
 2013-11-15  Colin Watson  <cjwatson@debian.org>
 
 	* .gitignore: Only ignore grub-mk* at the top level.

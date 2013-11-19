@@ -2,27 +2,102 @@ Description: Prefer translations from Ubuntu language packs if available
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/537998
 Forwarded: not-needed
-Last-Update: 2013-11-15
+Last-Update: 2013-11-19
 
-Index: b/util/grub-install_header
+Index: b/util/grub-install-common.c
 ===================================================================
---- a/util/grub-install_header
-+++ b/util/grub-install_header
-@@ -119,7 +119,7 @@
- 		grub_compress_file "$file" "${grub_install_files_target_directory}"/locale/"$(basename "$file")"
- 	    fi
- 	done
--	for dir in "${localedir}"/*; do
-+	for dir in "${localedir}"/* "${localedir}-langpack"/*; do
- 	    if test -f "$dir/LC_MESSAGES/@PACKAGE@.mo" && ! test -f "${grub_install_files_target_directory}"/locale/"${dir##*/}.mo"; then
- 		grub_compress_file "$dir/LC_MESSAGES/@PACKAGE@.mo" "${grub_install_files_target_directory}"/locale/"${dir##*/}.mo"
- 	    fi
-@@ -128,6 +128,8 @@
- 	for locale in $install_locales; do
- 	    if test -f "${grub_install_files_source_directory}"/po/$locale.mo; then
- 		grub_compress_file "${grub_install_files_source_directory}"/po/locale.mo "${grub_install_files_target_directory}"/locale/$locale.mo
-+	    elif test -f "${localedir}-langpack/$locale/LC_MESSAGES/@PACKAGE@.mo"; then
-+		grub_compress_file "${localedir}-langpack/$locale/LC_MESSAGES/@PACKAGE@.mo" "${grub_install_files_target_directory}"/locale/$locale.mo
- 	    elif test -f "${localedir}/$locale/LC_MESSAGES/@PACKAGE@.mo"; then
- 		grub_compress_file "${localedir}/$locale/LC_MESSAGES/@PACKAGE@.mo" "${grub_install_files_target_directory}"/locale/$locale.mo
- 	    fi
+--- a/util/grub-install-common.c
++++ b/util/grub-install-common.c
+@@ -552,17 +552,24 @@
+ }
+ 
+ static void
+-copy_locales (const char *dstd)
++copy_locales (const char *dstd, int langpack)
+ {
+   grub_util_fd_dir_t d;
+   grub_util_fd_dirent_t de;
+   const char *locale_dir = grub_util_get_localedir ();
++  char *dir;
+ 
+-  d = grub_util_fd_opendir (LOCALEDIR);
++  if (langpack)
++    dir = xasprintf ("%s-langpack", locale_dir);
++  else
++    dir = xstrdup (locale_dir);
++
++  d = grub_util_fd_opendir (dir);
+   if (!d)
+     {
+       grub_util_warn (_("cannot open directory `%s': %s"),
+-		      locale_dir, grub_util_fd_strerror ());
++		      dir, grub_util_fd_strerror ());
++      free (dir);
+       return;
+     }
+ 
+@@ -574,7 +581,7 @@
+ 	continue;
+       if (strcmp (de->d_name, "..") == 0)
+ 	continue;
+-      srcf = grub_util_path_concat_ext (4, locale_dir, de->d_name,
++      srcf = grub_util_path_concat_ext (4, dir, de->d_name,
+ 					"LC_MESSAGES", PACKAGE, ".mo");
+       dstf = grub_util_path_concat_ext (2, dstd, de->d_name, ".mo");
+       grub_install_compress_file (srcf, dstf, 0);
+@@ -582,6 +589,7 @@
+       free (dstf);
+     }
+   grub_util_fd_closedir (d);
++  free (dir);
+ }
+ 
+ static struct
+@@ -701,11 +709,15 @@
+     {
+       char *srcd = grub_util_path_concat (2, src, "po");
+       copy_by_ext (srcd, dst_locale, ".mo", 0);
+-      copy_locales (dst_locale);
++      copy_locales (dst_locale, 0);
++      copy_locales (dst_locale, 1);
+       free (srcd);
+     }
+   else
+     {
++      const char *locale_dir = grub_util_get_localedir ();
++      char *locale_langpack_dir = xasprintf ("%s-langpack", locale_dir);
++
+       for (i = 0; i < install_locales.n_entries; i++)
+ 	{
+ 	  char *srcf = grub_util_path_concat_ext (3, src,
+@@ -723,7 +735,20 @@
+ 	    }
+ 	  free (srcf);
+ 	  srcf = grub_util_path_concat_ext (4,
+-						 LOCALEDIR,
++						 locale_langpack_dir,
++						 install_locales.entries[i],
++						 "LC_MESSAGES",
++						 PACKAGE,
++						 ".mo");
++	  if (grub_install_compress_file (srcf, dstf, 0))
++	    {
++	      free (srcf);
++	      free (dstf);
++	      continue;
++	    }
++	  free (srcf);
++	  srcf = grub_util_path_concat_ext (4,
++						 locale_dir,
+ 						 install_locales.entries[i],
+ 						 "LC_MESSAGES",
+ 						 PACKAGE,
+@@ -737,6 +762,8 @@
+ 	  grub_util_error (_("cannot find locale `%s'"),
+ 			   install_locales.entries[i]);
+ 	}
++
++      free (locale_langpack_dir);
+     }
+ 
+   if (install_themes.is_default)

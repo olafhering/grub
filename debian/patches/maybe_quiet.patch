@@ -25,7 +25,7 @@ Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/386922
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/861048
 Forwarded: (partial) http://lists.gnu.org/archive/html/grub-devel/2009-09/msg00056.html
-Last-Update: 2013-11-17
+Last-Update: 2013-11-19
 
 Index: b/config.h.in
 ===================================================================
@@ -44,7 +44,7 @@ Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1352,6 +1352,17 @@
+@@ -1354,6 +1354,17 @@
  fi
  AC_SUBST([UBUNTU_RECOVERY])
  
@@ -62,7 +62,7 @@ Index: b/configure.ac
  LIBS=""
  
  AC_SUBST([FONT_SOURCE])
-@@ -1585,5 +1596,10 @@
+@@ -1601,5 +1612,10 @@
  else
  echo "With liblzma from $LIBLZMA (support for XZ-compressed mips images)"
  fi

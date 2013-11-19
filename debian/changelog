@@ -1,4 +1,4 @@
-grub2 (2.00+20131115-1) UNRELEASED; urgency=low
+grub2 (2.00+20131119-1) UNRELEASED; urgency=low
 
   * New upstream snapshot.
     - Skip issuing cursor on/off sequences on Macs (closes: #683068).
@@ -28,6 +28,8 @@ grub2 (2.00+20131115-1) UNRELEASED; urgency=low
   * Move working directories around (build/<package> -> obj/<package>,
     build/stamps -> debian/stamps) so that "debian/rules build" still works
     after working directories have been created.
+  * Drop "grub-mkrescue --diet" option; never merged upstream and only
+    matters for floppies.  Please let me know if you were using this.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 15 Nov 2013 10:18:57 +0000
 
