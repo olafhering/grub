@@ -30,6 +30,7 @@ grub2 (2.00+20131119-1) UNRELEASED; urgency=low
     after working directories have been created.
   * Drop "grub-mkrescue --diet" option; never merged upstream and only
     matters for floppies.  Please let me know if you were using this.
+  * Break lupin-support (<< 0.54) due to the rewrite of grub-install in C.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 15 Nov 2013 10:18:57 +0000
 
