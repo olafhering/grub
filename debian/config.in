@@ -65,7 +65,7 @@ case @PACKAGE@ in
     fi
     if [ "${GRUB_HIDDEN_TIMEOUT}" != "" ]; then
       db_set grub-pc/hidden_timeout true
-    elif egrep -q '^#?[[:space:]]*GRUB_HIDDEN_TIMEOUT=' /etc/default/grub; then
+    elif egrep -qs '^#?[[:space:]]*GRUB_HIDDEN_TIMEOUT=' /etc/default/grub; then
       db_set grub-pc/hidden_timeout false
     fi
   ;;
