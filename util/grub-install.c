@@ -245,7 +245,7 @@ static struct argp_option options[] = {
       "This option is only available on BIOS target."), 2},
   {"no-nvram", OPTION_NO_NVRAM, 0, 0,
    N_("don't update the `boot-device' NVRAM variable. "
-      "This option is only available on IEEE1275 targets."), 2},
+      "This option is only available on EFI and IEEE1275 targets."), 2},
   {"skip-fs-probe",'s',0,      0,
    N_("do not probe for filesystems in DEVICE"), 0},
   {"no-bootsector", OPTION_NO_BOOTSECTOR, 0, 0,
@@ -435,6 +435,9 @@ have_bootdev (enum grub_install_plat pl)
 
     case GRUB_INSTALL_PLATFORM_MIPSEL_LOONGSON:
     case GRUB_INSTALL_PLATFORM_ARM_UBOOT:
+
+    case GRUB_INSTALL_PLATFORM_I386_XEN:
+    case GRUB_INSTALL_PLATFORM_X86_64_XEN:
       return 0;
 
       /* pacify warning.  */
@@ -775,6 +778,8 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_MIPSEL_ARC:
     case GRUB_INSTALL_PLATFORM_MIPS_ARC:
     case GRUB_INSTALL_PLATFORM_ARM_UBOOT:
+    case GRUB_INSTALL_PLATFORM_I386_XEN:
+    case GRUB_INSTALL_PLATFORM_X86_64_XEN:
       break;
 
     case GRUB_INSTALL_PLATFORM_I386_QEMU:
@@ -814,6 +819,8 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_MIPSEL_LOONGSON:
     case GRUB_INSTALL_PLATFORM_MIPSEL_QEMU_MIPS:
     case GRUB_INSTALL_PLATFORM_MIPS_QEMU_MIPS:
+    case GRUB_INSTALL_PLATFORM_I386_XEN:
+    case GRUB_INSTALL_PLATFORM_X86_64_XEN:
       free (install_device);
       install_device = NULL;
       break;
@@ -1242,6 +1249,8 @@ main (int argc, char *argv[])
 		  case GRUB_INSTALL_PLATFORM_MIPS_ARC:
 		  case GRUB_INSTALL_PLATFORM_MIPSEL_ARC:
 		  case GRUB_INSTALL_PLATFORM_ARM_UBOOT:
+		  case GRUB_INSTALL_PLATFORM_I386_XEN:
+		  case GRUB_INSTALL_PLATFORM_X86_64_XEN:
 		    grub_util_warn ("%s", _("no hints available for your platform. Expect reduced performance"));
 		    break;
 		    /* pacify warning.  */
@@ -1328,6 +1337,8 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_I386_MULTIBOOT:
     case GRUB_INSTALL_PLATFORM_I386_IEEE1275:
     case GRUB_INSTALL_PLATFORM_POWERPC_IEEE1275:
+    case GRUB_INSTALL_PLATFORM_I386_XEN:
+    case GRUB_INSTALL_PLATFORM_X86_64_XEN:
       core_name = "core.elf";
       snprintf (mkimage_target, sizeof (mkimage_target),
 		"%s-%s",
@@ -1418,6 +1429,8 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_ARM_UBOOT:
     case GRUB_INSTALL_PLATFORM_I386_QEMU:
     case GRUB_INSTALL_PLATFORM_SPARC64_IEEE1275:
+    case GRUB_INSTALL_PLATFORM_I386_XEN:
+    case GRUB_INSTALL_PLATFORM_X86_64_XEN:
       break;
       /* pacify warning.  */
     case GRUB_INSTALL_PLATFORM_MAX:
@@ -1437,7 +1450,7 @@ main (int argc, char *argv[])
 					      "boot.img");
 	grub_install_copy_file (boot_img_src, boot_img, 1);
 
-	grub_util_info ("%sgrub_bios_setup %s %s %s %s --directory='%s' --device-map='%s' '%s'",
+	grub_util_info ("%sgrub-bios-setup %s %s %s %s --directory='%s' --device-map='%s' '%s'",
 			install_bootsector ? "" : "NOT RUNNING: ",
 			allow_floppy ? "--allow-floppy " : "",
 			verbosity ? "--verbose " : "",
@@ -1476,7 +1489,7 @@ main (int argc, char *argv[])
 					      "boot.img");
 	grub_install_copy_file (boot_img_src, boot_img, 1);
 
-	grub_util_info ("%sgrub_sparc_setup %s %s %s %s --directory='%s' --device-map='%s' '%s'",
+	grub_util_info ("%sgrub-sparc64-setup %s %s %s %s --directory='%s' --device-map='%s' '%s'",
 			install_bootsector ? "" : "NOT RUNNING: ",
 			allow_floppy ? "--allow-floppy " : "",
 			verbosity ? "--verbose " : "",
@@ -1600,7 +1613,7 @@ main (int argc, char *argv[])
 	  grub_install_copy_file (imgfile, dst, 1);
 	free (dst);
       }
-      if (!removable)
+      if (!removable && update_nvram)
 	{
 	  char * efidir_disk;
 	  int efidir_part;
@@ -1627,6 +1640,8 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_MIPSEL_ARC:
     case GRUB_INSTALL_PLATFORM_ARM_UBOOT:
     case GRUB_INSTALL_PLATFORM_I386_QEMU:
+    case GRUB_INSTALL_PLATFORM_I386_XEN:
+    case GRUB_INSTALL_PLATFORM_X86_64_XEN:
       grub_util_warn ("%s",
 		      _("WARNING: no platform-specific install was performed"));
       break;

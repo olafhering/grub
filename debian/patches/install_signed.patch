@@ -3,7 +3,7 @@ Author: Colin Watson <cjwatson@ubuntu.com>
 Author: Stéphane Graber <stgraber@ubuntu.com>
 Author: Steve Langasek <steve.langasek@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-11-19
+Last-Update: 2013-11-26
 
 Index: b/util/grub-install.c
 ===================================================================
@@ -58,7 +58,7 @@ Index: b/util/grub-install.c
    {0, 0, 0, 0, 0, 0}
  };
  
-@@ -683,7 +702,8 @@
+@@ -686,7 +705,8 @@
  {
    int is_efi = 0;
    const char *efi_distributor = NULL;
@@ -68,7 +68,7 @@ Index: b/util/grub-install.c
    char **grub_devices;
    grub_fs_t grub_fs;
    grub_device_t grub_dev = NULL;
-@@ -912,6 +932,27 @@
+@@ -919,6 +939,27 @@
        */
        char *t;
        efi_distributor = bootloader_id;
@@ -96,7 +96,7 @@ Index: b/util/grub-install.c
        if (removable)
  	{
  	  /* The specification makes stricter requirements of removable
-@@ -920,48 +961,16 @@
+@@ -927,48 +968,16 @@
  	     must have a specific file name depending on the architecture.
  	  */
  	  efi_distributor = "BOOT";
@@ -149,7 +149,7 @@ Index: b/util/grub-install.c
  	}
        t = grub_util_path_concat (3, efidir, "EFI", efi_distributor);
        free (efidir);
-@@ -1091,6 +1100,31 @@
+@@ -1098,6 +1107,31 @@
  	}
      }
  
@@ -181,7 +181,7 @@ Index: b/util/grub-install.c
    if (!have_abstractions)
      {
        if ((disk_module && grub_strcmp (disk_module, "biosdisk") != 0)
-@@ -1098,7 +1132,8 @@
+@@ -1105,7 +1139,8 @@
  	  || (!install_drive
  	      && platform != GRUB_INSTALL_PLATFORM_POWERPC_IEEE1275)
  	  || (install_drive && !is_same_disk (grub_drives[0], install_drive))
@@ -191,7 +191,7 @@ Index: b/util/grub-install.c
  	{
  	  char *uuid = NULL;
  	  /*  generic method (used on coreboot and ata mod).  */
-@@ -1520,7 +1555,47 @@
+@@ -1533,7 +1568,47 @@
      case GRUB_INSTALL_PLATFORM_IA64_EFI:
        {
  	char *dst = grub_util_path_concat (2, efidir, efi_file);
@@ -239,4 +239,4 @@ Index: b/util/grub-install.c
 +	  grub_install_copy_file (imgfile, dst, 1);
  	free (dst);
        }
-       if (!removable)
+       if (!removable && update_nvram)

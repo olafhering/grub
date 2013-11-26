@@ -6,13 +6,13 @@ Description: "single" -> "recovery" when friendly-recovery is installed
 Author: Colin Watson <cjwatson@ubuntu.com>
 Author: Stéphane Graber <stgraber@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-11-19
+Last-Update: 2013-11-26
 
 Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1343,6 +1343,17 @@
+@@ -1392,6 +1392,17 @@
  AC_SUBST([LIBZFS])
  AC_SUBST([LIBNVPAIR])
  
@@ -82,7 +82,7 @@ Index: b/util/grub.d/30_os-prober.in
 ===================================================================
 --- a/util/grub.d/30_os-prober.in
 +++ b/util/grub.d/30_os-prober.in
-@@ -201,7 +201,7 @@
+@@ -213,7 +213,7 @@
  	fi
  
  	onstr="$(gettext_printf "(on %s)" "${DEVICE}")"

@@ -486,7 +486,11 @@ AC_CACHE_CHECK([if compiling with clang], [grub_cv_cc_target_clang]
 
 # on x86 clang doesn't support .code16
 # on arm clang doesn't support .arch directive
-if test "x$grub_cv_cc_target_clang" = xyes && ( test "x$target_cpu" = xi386 || test "x$target_cpu" = xx86_64 || test "x$target_cpu" = xarm ); then
+# on mips clang doesn't support privilegied instructions, doubleword store/load
+# and crashes with hand-written assembly
+if test "x$grub_cv_cc_target_clang" = xyes && ( test "x$target_cpu" = xi386 \
+   || test "x$target_cpu" = xx86_64 || test "x$target_cpu" = xarm \
+   || test "x$target_cpu" = xmips || test "x$target_cpu" = xmipsel ); then
    TARGET_CCASFLAGS="$TARGET_CCASFLAGS -no-integrated-as"
 fi
 
@@ -515,6 +519,21 @@ fi
 if test "x$grub_cv_cc_target_clang" = xno && test "x$target_cpu" = xi386 && test "x$platform" != xemu && test "x$platform" != xefi; then
    TARGET_CFLAGS="$TARGET_CFLAGS -mrtd -mregparm=3"
 fi
+
+# on mips redirect cache flushing function to non-existant one.
+if test "x$target_cpu" = xmips || test "x$target_cpu" = xmipsel ; then
+  AC_CACHE_CHECK([whether -mflush-func=grub_red_herring works], [grub_cv_cc_mflush_func], [
+    CFLAGS="$TARGET_CFLAGS -mflush-func=grub_red_herring -Werror"
+    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
+        [grub_cv_cc_mflush_func=yes],
+	[grub_cv_cc_mflush_func=no])
+  ])
+
+  if test "x$grub_cv_cc_mflush_func" = xyes; then
+    TARGET_CFLAGS="$TARGET_CFLAGS -mflush-func=grub_red_herring"
+  fi
+fi
+
 
 # Force no alignment to save space on i386.
 if test "x$target_cpu" = xi386; then
@@ -635,6 +654,30 @@ if test x"$efiemu_excuse" = x ; then
      efiemu_excuse="cannot compile with -m64 -mcmodel=large -mno-red-zone -nostdlib"
   fi
 fi
+if test x"$efiemu_excuse" = x ; then
+  AC_CACHE_CHECK([for efiemu64 linking format], [grub_cv_target_cc_efiemu64_link_format], [
+    grub_cv_target_cc_efiemu64_link_format=unknown
+    for format in -melf_x86_64 -melf_x86_64_fbsd -melf_x86_64_obsd -melf_x86_64_haiku -arch,x86_64; do
+      CFLAGS="-m64 -nostdlib -O2 -mcmodel=large -mno-red-zone"
+      LDFLAGS="-m64 -Wl,$format -nostdlib -static"
+      AC_LINK_IFELSE([AC_LANG_PROGRAM([[
+      asm (".globl start; start:");
+      asm (".globl _start; _start:");
+      asm (".globl __start; __start:");
+      void __main (void);
+      void __main (void) {}
+      ]], [[]])], [flag=1], [flag=0])
+      if test x"$flag" = x1; then
+        grub_cv_target_cc_efiemu64_link_format="$format"
+	break;
+      fi
+    done])
+  if test x"$grub_cv_target_cc_efiemu64_link_format" = xunknown; then
+    efiemu_excuse="no suitable link format for efiemu64 found"
+  else
+    EFIEMU64_LINK_FORMAT="-Wl,$grub_cv_target_cc_efiemu64_link_format"
+  fi
+fi
 if test x"$enable_efiemu" = xyes && test x"$efiemu_excuse" != x ; then
   AC_MSG_ERROR([efiemu runtime was explicitly requested but can't be compiled])
 fi
@@ -644,25 +687,26 @@ else
 enable_efiemu=no
 fi
 AC_SUBST([enable_efiemu])
+AC_SUBST([EFIEMU64_LINK_FORMAT])
 
 CFLAGS="$TARGET_CFLAGS"
 
 if test x"$target_cpu" = xi386 || test x"$target_cpu" = xx86_64; then
-  AC_CACHE_CHECK([for linking format], [grub_cv_target_cc_link_format], [
+  AC_CACHE_CHECK([for target linking format], [grub_cv_target_cc_link_format], [
     grub_cv_target_cc_link_format=unknown
     for format in -melf_${target_cpu} -melf_${target_cpu}_fbsd -melf_${target_cpu}_obsd -melf_${target_cpu}_haiku -m${target_cpu}pe -arch,${target_cpu}; do
       if test x${target_cpu} != xi386 && test x$format = x${target_cpu}pe; then
         continue
       fi
-      CFLAGS="$TARGET_CFLAGS -static"
-      LDFLAGS="$TARGET_LDFLAGS -Wl,$format -nostdlib"
+      CFLAGS="$TARGET_CFLAGS"
+      LDFLAGS="$TARGET_LDFLAGS -Wl,$format -nostdlib -static"
       AC_LINK_IFELSE([AC_LANG_PROGRAM([[
       asm (".globl start; start:");
       asm (".globl _start; _start:");
       asm (".globl __start; __start:");
       void __main (void);
       void __main (void) {}
-      ]], [[]])], [flag=1], [])
+      ]], [[]])], [flag=1], [flag=0])
       if test x"$flag" = x1; then
         grub_cv_target_cc_link_format="$format"
 	break;
@@ -723,9 +767,7 @@ if test "$target_cpu" = x86_64; then
 		      [grub_cv_cc_mcmodel=yes],
 		      [grub_cv_cc_mcmodel=no])
   ])
-  if test "x$grub_cv_cc_mcmodel" = xno; then
-    AC_MSG_ERROR([-mcmodel=large not supported. Upgrade your gcc.])
-  else
+  if test "x$grub_cv_cc_mcmodel" = xyes; then
     TARGET_CFLAGS="$TARGET_CFLAGS -mcmodel=large"
   fi
 fi
@@ -763,10 +805,17 @@ CFLAGS="$TARGET_CFLAGS"
 
 # Position independent executable.
 grub_CHECK_PIC
-[# Need that, because some distributions ship compilers that include
-# `-fPIC' in the default specs.
-if [ x"$pic_possible" = xyes ]; then
-  TARGET_CFLAGS="$TARGET_CFLAGS -fno-PIC"
+[# On most platforms we don't want PIC as it only makes relocations harder
+# and code less efficient. On mips we want to have one got table per module
+# and reload $gp in every function.
+# GCC implements it using symbol __gnu_local_gp in non-PIC as well.
+# However with clang we need PIC for this reloading to happen.
+# Since default varies across dictributions use either -fPIC or -fno-PIC
+# explicitly.
+if ( test x$target_cpu = xmips || test x$target_cpu = xmipsel ) && test "x$grub_cv_cc_target_clang" = xyes ; then
+   TARGET_CFLAGS="$TARGET_CFLAGS -fPIC"
+elif [ x"$pic_possible" = xyes ]; then
+   TARGET_CFLAGS="$TARGET_CFLAGS -fno-PIC"
 fi]
 
 CFLAGS="$TARGET_CFLAGS"
@@ -801,7 +850,7 @@ fi
 # Set them to their new values for the tests below.
 CC="$TARGET_CC"
 if test "x$TARGET_APPLE_LINKER" = x1 ; then
-CFLAGS="$TARGET_CFLAGS -nostdlib -Wno-error"
+CFLAGS="$TARGET_CFLAGS -nostdlib -static -Wno-error"
 else
 CFLAGS="$TARGET_CFLAGS -nostdlib -Wl,--defsym,___main=0x8100 -Wno-error"
 fi
@@ -827,7 +876,7 @@ fi
 AC_CHECK_FUNCS(__bswapsi2 __bswapdi2 __ashldi3 __ashrdi3 __lshrdi3 __ucmpdi2 _restgpr_14_x)
 
 if test "x$TARGET_APPLE_LINKER" = x1 ; then
-CFLAGS="$TARGET_CFLAGS -nostdlib"
+CFLAGS="$TARGET_CFLAGS -nostdlib -static"
 else
 CFLAGS="$TARGET_CFLAGS -nostdlib -Wl,--defsym,___main=0x8100"
 fi

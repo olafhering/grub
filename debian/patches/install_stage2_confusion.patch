@@ -2,7 +2,7 @@ Description: If GRUB Legacy is still around, tell packaging to ignore it
 Author: Colin Watson <cjwatson@debian.org>
 Bug-Debian: http://bugs.debian.org/586143
 Forwarded: not-needed
-Last-Update: 2013-11-19
+Last-Update: 2013-11-26
 
 Index: b/util/grub-install.c
 ===================================================================
@@ -16,7 +16,7 @@ Index: b/util/grub-install.c
  
  #include <string.h>
  
-@@ -1414,6 +1415,19 @@
+@@ -1427,6 +1428,19 @@
  	  grub_util_bios_setup (platdir, "boot.img", "core.img",
  				install_drive, force,
  				fs_probe, allow_floppy);

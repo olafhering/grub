@@ -14,13 +14,13 @@ Description: Add configure option to bypass boot menu if possible
 Author: Colin Watson <cjwatson@ubuntu.com>
 Author: Richard Laager <rlaager@wiktel.com>
 Forwarded: no
-Last-Update: 2013-11-19
+Last-Update: 2013-11-26
 
 Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1365,6 +1365,17 @@
+@@ -1414,6 +1414,17 @@
  fi
  AC_SUBST([QUIET_BOOT])
  
@@ -42,7 +42,7 @@ Index: b/docs/grub.texi
 ===================================================================
 --- a/docs/grub.texi
 +++ b/docs/grub.texi
-@@ -1483,6 +1483,15 @@
+@@ -1487,6 +1487,15 @@
  Each module will be loaded as early as possible, at the start of
  @file{grub.cfg}.
  
@@ -62,10 +62,10 @@ Index: b/util/grub-mkconfig.in
 ===================================================================
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -228,7 +228,8 @@
-   GRUB_SAVEDEFAULT \
+@@ -229,7 +229,8 @@
    GRUB_ENABLE_CRYPTODISK \
    GRUB_BADRAM \
+   GRUB_OS_PROBER_SKIP_LIST \
 -  GRUB_DISABLE_SUBMENU
 +  GRUB_DISABLE_SUBMENU \
 +  GRUB_RECORDFAIL_TIMEOUT
@@ -259,7 +259,7 @@ Index: b/util/grub.d/30_os-prober.in
      if [ x$2 = x32 ]; then
          # TRANSLATORS: it refers to kernel architecture (32-bit)
  	bitstr="$(gettext "(32-bit)")"
-@@ -146,6 +208,7 @@
+@@ -158,6 +220,7 @@
  	  ;;
        esac
  
@@ -267,7 +267,7 @@ Index: b/util/grub.d/30_os-prober.in
  	  onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
        cat << EOF
  menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' --class windows --class os \$menuentry_id_option 'osprober-chain-$(grub_get_device_id "${DEVICE}")' {
-@@ -176,6 +239,7 @@
+@@ -188,6 +251,7 @@
      ;;
      efi)
  
@@ -275,7 +275,7 @@ Index: b/util/grub.d/30_os-prober.in
  	EFIPATH=${DEVICE#*@}
  	DEVICE=${DEVICE%@*}
  	onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
-@@ -224,6 +288,7 @@
+@@ -236,6 +300,7 @@
  	  [ "${prepare_boot_cache}" ] || continue
  	fi
  
@@ -283,7 +283,7 @@ Index: b/util/grub.d/30_os-prober.in
  	onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
  	recovery_params="$(echo "${LPARAMS}" | grep 'single\|recovery')" || true
  	counter=1
-@@ -290,6 +355,7 @@
+@@ -302,6 +367,7 @@
        osx_entry xnu_kernel64 64
      ;;
      hurd)
@@ -291,7 +291,7 @@ Index: b/util/grub.d/30_os-prober.in
        onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
        cat << EOF
  menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' --class hurd --class gnu --class os \$menuentry_id_option 'osprober-gnuhurd-/boot/gnumach.gz-false-$(grub_get_device_id "${DEVICE}")' {
-@@ -333,3 +399,5 @@
+@@ -345,3 +411,5 @@
      ;;
    esac
  done

@@ -5,13 +5,13 @@ Description: Add configure option to enable gfxpayload=keep dynamically
 Author: Evan Broder <evan@ebroder.net>
 Author: Colin Watson <cjwatson@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-11-19
+Last-Update: 2013-11-26
 
 Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1376,6 +1376,17 @@
+@@ -1425,6 +1425,17 @@
  fi
  AC_SUBST([QUICK_BOOT])
  
