@@ -285,6 +285,7 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 	if ([ "$@" = "install/grub-pc" ] || \
 	    [ "$@" = "install/grub-ieee1275" ] || \
 	    [ "$@" = "install/grub-coreboot" ] || \
+	    [ "$@" = "install/grub-xen" ] || \
 	    [ "$@" = "install/grub-emu" ]) && \
 	   [ "$(DEB_HOST_ARCH_OS)" = "linux" ] && \
 	   [ "$(DEB_HOST_ARCH_CPU)" = "i386" ] ; then \
