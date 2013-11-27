@@ -33,6 +33,7 @@ Build-Depends: debhelper (>= 7.4.2~),
  liblzma-dev,
  dosfstools [amd64],
  mtools [amd64],
+ wamerican,
 Build-Conflicts: autoconf2.13, libzfs-dev, libnvpair-dev
 Standards-Version: 3.8.4
 Homepage: http://www.gnu.org/software/grub/
