@@ -34,6 +34,7 @@ grub2 (2.00+20131127-1) UNRELEASED; urgency=low
     equivalent effect on size.
   * Break lupin-support (<< 0.55) due to the rewrite of grub-install in C.
   * Remove build-dependency on autogen, no longer needed.
+  * Compress GRUB files on grub-rescue-floppy.img using xz.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 15 Nov 2013 10:18:57 +0000
 
