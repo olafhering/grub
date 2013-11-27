@@ -23,7 +23,7 @@ grub2 (2.00+20131127-1) UNRELEASED; urgency=low
     - Don't decompress initrd when booting with Xen (closes: #700197).
     - Document how to delete the whole environment block (closes: #726265).
     - New ports to arm-uboot, arm-efi, i386-xen, and x86_64-xen.
-  * Add grub-uboot* and grub-efi-arm* binary packages.
+  * Add grub-uboot*, grub-efi-arm*, and grub-xen* binary packages.
   * Ignore functional test failures for now as they are broken.
   * Move working directories around (build/<package> -> obj/<package>,
     build/stamps -> debian/stamps) so that "debian/rules build" still works
