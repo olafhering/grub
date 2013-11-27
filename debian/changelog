@@ -30,6 +30,8 @@ grub2 (2.00+20131127-1) UNRELEASED; urgency=low
     after working directories have been created.
   * Drop "grub-mkrescue --diet" option; never merged upstream and only
     matters for floppies.  Please let me know if you were using this.
+    Explicitly use -no-pad to build grub-rescue-floppy.img, which has an
+    equivalent effect on size.
   * Break lupin-support (<< 0.55) due to the rewrite of grub-install in C.
   * Remove build-dependency on autogen, no longer needed.
 
