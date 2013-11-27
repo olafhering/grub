@@ -461,10 +461,13 @@ grub_lua_add_menu (lua_State *state)
   n = lua_gettop (state) - 1;
   if (n > 0)
     {
-      const char *args[sizeof (char *) * n];
+      const char **args;
       char *p;
       int i;
 
+      args = grub_malloc (n * sizeof (args[0]));
+      if (!args)
+	return push_result (state);
       for (i = 0; i < n; i++)
 	args[i] = luaL_checkstring (state, 2 + i);
 

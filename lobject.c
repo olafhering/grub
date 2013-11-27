@@ -189,28 +189,33 @@ void luaO_chunkid (char *out, const char *source, size_t bufflen) {
   else {  /* out = "source", or "...source" */
     if (*source == '@') {
       size_t l;
+      char *ptr;
       source++;  /* skip the `@' */
       bufflen -= sizeof(" '...' ");
       l = strlen(source);
-      strcpy(out, "");
+      ptr = out;
       if (l > bufflen) {
         source += (l-bufflen);  /* get last part of file name */
-        strcat(out, "...");
+        ptr = grub_stpcpy (ptr, "...");
       }
-      strcat(out, source);
+      ptr = grub_stpcpy(ptr, source);
+      *ptr = '\0';
     }
     else {  /* out = [string "string"] */
       size_t len = strcspn(source, "\n\r");  /* stop at first newline */
+      char *ptr;
       bufflen -= sizeof(" [string \"...\"] ");
       if (len > bufflen) len = bufflen;
-      strcpy(out, "[string \"");
+      ptr = grub_stpcpy(out, "[string \"");
       if (source[len] != '\0') {  /* must truncate? */
-        strncat(out, source, len);
-        strcat(out, "...");
+        memcpy(ptr, source, len);
+	ptr += len;
+        ptr = grub_stpcpy(ptr, "...");
       }
       else
-        strcat(out, source);
-      strcat(out, "\"]");
+        ptr = grub_stpcpy(ptr, source);
+      ptr = grub_stpcpy(ptr, "\"]");
+      *ptr = '\0';
     }
   }
 }
