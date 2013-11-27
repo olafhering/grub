@@ -175,28 +175,24 @@ debian/stamps/build-grub-firmware-qemu: debian/stamps/configure-grub-firmware-qe
 	touch $@
 
 debian/stamps/build-grub-rescue-pc: debian/stamps/build-grub-pc
-	mkdir -p obj/grub-rescue-pc
-	cp -a obj/grub-pc/grub-mkrescue obj/grub-pc/grub-mkconfig_lib \
-		obj/grub-rescue-pc/
 	mkdir -p obj/grub-rescue-pc/rescue-disk/boot/grub
 	cp docs/grub.cfg obj/grub-rescue-pc/rescue-disk/boot/grub/
-	sed -i 's,^prefix=.*,prefix=$(CURDIR)/obj/grub-rescue-pc,' \
-		obj/grub-rescue-pc/grub-mkrescue
-	mkdir -p obj/grub-rescue-pc/lib/grub
-	rm -rf obj/grub-rescue-pc/lib/grub/i386-pc
-	cp -a obj/grub-pc/grub-core obj/grub-rescue-pc/lib/grub/i386-pc
+	rm -rf obj/grub-rescue-pc/grub-core
+	cp -a obj/grub-pc/grub-core obj/grub-rescue-pc/grub-core
+	cp -a obj/grub-pc/unicode.pf2 obj/grub-rescue-pc/
 	pkgdatadir=$(CURDIR)/obj/grub-rescue-pc \
-		obj/grub-rescue-pc/grub-mkrescue \
-		--grub-mkimage=$(CURDIR)/obj/grub-pc/grub-mkimage \
+		obj/grub-pc/grub-mkrescue \
+		--directory=$(CURDIR)/obj/grub-rescue-pc/grub-core \
+		--locale-directory=$(CURDIR)/obj/grub-rescue-pc/grub-core/po \
 		--output=$(CURDIR)/obj/grub-rescue-pc/grub-rescue-cdrom.iso \
 		$(CURDIR)/obj/grub-rescue-pc/rescue-disk
 	# save space for floppy image
-	rm -rf obj/grub-rescue-pc/lib/grub/i386-pc/po
+	rm -rf obj/grub-rescue-pc/grub-core/po obj/grub-rescue-pc/unicode.pf2
 	pkgdatadir=$(CURDIR)/obj/grub-rescue-pc \
-		obj/grub-rescue-pc/grub-mkrescue \
-		--grub-mkimage=$(CURDIR)/obj/grub-pc/grub-mkimage \
+		obj/grub-pc/grub-mkrescue \
+		--directory=$(CURDIR)/obj/grub-rescue-pc/grub-core \
+		--locale-directory=$(CURDIR)/obj/grub-rescue-pc/grub-core/po \
 		--output=$(CURDIR)/obj/grub-rescue-pc/grub-rescue-floppy.img \
-		--diet \
 		$(CURDIR)/obj/grub-rescue-pc/rescue-disk
 	touch $@
 
