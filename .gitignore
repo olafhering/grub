@@ -161,7 +161,6 @@ GPATH
 GRTAGS
 GSYMS
 GTAGS
-Makefile.tpl
 compile
 depcomp
 mdate-sh
