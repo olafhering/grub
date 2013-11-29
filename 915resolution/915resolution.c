@@ -70,7 +70,7 @@ GRUB_MOD_LICENSE ("GPLv3+");
 #define malloc					grub_malloc
 #define free					grub_free
 #define strcmp					grub_strcmp
-#define fprintf(stream,template,args...)	grub_printf(template, ## args)
+#define fprintf(stream, ...)			grub_printf(__VA_ARGS__)
 #define strtol(x,y,z)				grub_strtoul(x,y,z)
 #define atoi(x)					grub_strtoul(x,NULL,10)
 #define assert(x)				
