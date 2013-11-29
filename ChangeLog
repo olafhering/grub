@@ -1,3 +1,105 @@
+2013-11-29  Colin Watson  <cjwatson@ubuntu.com>
+
+	* util/grub-gen-asciih.c: Include FT_SYNTHESIS_H rather than
+	<freetype/ftsynth.h>, fixing build with FreeType 2.5.1.
+	* util/grub-gen-widthspec.c: Likewise.
+	* util/grub-mkfont.c: Likewise.
+
+2013-11-29  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* util/grub-setup.c (main): Move parsing of (hdX) syntax to ...
+	* util/setup.c (SETUP): ... here. Fixes regression: grub-install
+	failed to install on (hdX).
+	* util/grub-setup.c (get_device_name): Remove, not needed after
+	above change.
+
+2013-11-29  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/emu/hostfs.c (is_dir): Remove variable length arrays.
+
+2013-11-29  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-fstest.c: Remove variable length arrays.
+
+2013-11-29  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/osdep/linux/ofpath.c: Check return value of read.
+
+2013-11-29  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/mkimage.c (grub_install_generate_image): Use grub_crypto_hash for
+	computing crc32 rather than handling with md fundtions directly.
+
+2013-11-29  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/mkimage.c (grub_install_generate_image): Use grub_crypto_hash for
+	checking fwstart.img rather than md fundtions directly.
+
+2013-11-29  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-mkrescue.c (main): Check that fread succeeded.
+
+2013-11-29  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* conf/Makefile.common: Remove -mexplicit-relocs and
+	-DUSE_ASCII_FALLBACK on yeeloong.
+
+	-DUSE_ASCII_FALLBACK is already added by font snippets.
+	-mexplicit-relocs isn't needed is compiler/assemblera are
+	configured properly.
+	If they're not we shouldn't attempt to fix it by ourselves.
+	Binary compare between before and after shows no difference.
+
+2013-11-29  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/Makefile.core.def: Remove libgnulib.a and use its
+	sources in dependencies directly.
+
+	This was the only instance of "library" in core config. A bug was
+	reported that -fno-stack-protector wasn't passed to it. Instead of
+	figuring out why it failed just remove this construction used
+	needlessly.
+
+2013-11-29  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/osdep/unix/password.c (grub_password_get): Check that
+	fgets succeeded.
+
+2013-11-27  Francesco Lavra  <francescolavra.fl@gmail.com>
+
+	* docs/grub.texi (ls): Fix command description in case of a device name
+	passed as argument.
+
+2013-11-27  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Eliminate variable length arrays in grub_vsnprintf_real.
+
+	A bit tricky because this function has to continue to work without
+	heap for short strings. Fixing prealloc to 32 arguments is reasonable
+	but make all stack references use 32-bit offset rather than 8-bit one.
+	So split va_args preparsing to separate function and put the prealloc
+	into the caller.
+
+2013-11-27  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Introduce grub_util_file_sync and use it instead of fsync(fileno(f)).
+	Fixes build for windows.
+
+2013-11-27  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* gentpl.py: Don't generate platform-dependent conditionals for
+	platform-independent targets.
+
+2013-11-27  Colin Watson  <cjwatson@ubuntu.com>
+
+	* grub-core/osdep/unix/exec.c (grub_util_exec_redirect): Remove
+	references to mdadm from otherwise generic code.
+	(grub_util_exec_pipe): Likewise.
+	(grub_util_exec_pipe_stderr): Likewise.
+	* grub-core/osdep/unix/getroot.c (grub_util_pull_lvm_by_command):
+	This function calls vgs, not mdadm; adjust variable names
+	accordingly.
+
 2013-11-27  Colin Watson  <cjwatson@ubuntu.com>
 
 	Generate Makefile.*.am directly from gentpl.py, eliminating the use

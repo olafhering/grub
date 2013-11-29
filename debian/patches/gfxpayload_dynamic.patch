@@ -5,7 +5,7 @@ Description: Add configure option to enable gfxpayload=keep dynamically
 Author: Evan Broder <evan@ebroder.net>
 Author: Colin Watson <cjwatson@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-11-26
+Last-Update: 2013-11-29
 
 Index: b/configure.ac
 ===================================================================
@@ -33,15 +33,14 @@ Index: b/grub-core/Makefile.core.def
 ===================================================================
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -889,6 +889,16 @@
+@@ -881,6 +881,15 @@
  };
  
  module = {
 +  name = hwmatch;
 +  i386_pc = commands/i386/pc/hwmatch.c;
 +  enable = i386_pc;
-+  ldadd = libgnulib.a;
-+  dependencies = libgnulib.a;
++  common = gnulib/regex.c;
 +  cflags = '$(CFLAGS_POSIX) $(CFLAGS_GNULIB)';
 +  cppflags = '$(CPPFLAGS_POSIX) $(CPPFLAGS_GNULIB)';
 +};

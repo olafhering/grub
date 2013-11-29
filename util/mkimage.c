@@ -1565,7 +1565,6 @@ grub_install_generate_image (const char *dir, const char *prefix,
       size_t rom_size;
       char *boot_path, *boot_img;
       size_t boot_size;
-      grub_uint8_t context[GRUB_MD_SHA512->contextsize];
       /* fwstart.img is the only part which can't be tested by using *-elf
 	 target. Check it against the checksum. */
       const grub_uint8_t yeeloong_fwstart_good_hash[512 / 8] = 
@@ -1591,6 +1590,7 @@ grub_install_generate_image (const char *dir, const char *prefix,
 	  0x46, 0x50, 0xd6, 0x21, 0xce, 0x8e, 0x24, 0xa7
 	};
       const grub_uint8_t *fwstart_good_hash;
+      grub_uint8_t fwstart_hash[512 / 8];
             
       if (image_target->id == IMAGE_FULOONG2F_FLASH)
 	{
@@ -1606,11 +1606,9 @@ grub_install_generate_image (const char *dir, const char *prefix,
       boot_size = grub_util_get_image_size (boot_path);
       boot_img = grub_util_read_image (boot_path);
 
-      grub_memset (context, 0, sizeof (context));
-      GRUB_MD_SHA512->init (context);
-      GRUB_MD_SHA512->write (context, boot_img, boot_size);
-      GRUB_MD_SHA512->final (context);
-      if (grub_memcmp (GRUB_MD_SHA512->read (context), fwstart_good_hash,
+      grub_crypto_hash (GRUB_MD_SHA512, fwstart_hash, boot_img, boot_size);
+
+      if (grub_memcmp (fwstart_hash, fwstart_good_hash,
 		       GRUB_MD_SHA512->mdlen) != 0)
 	/* TRANSLATORS: fwstart.img may still be good, just it wasn't checked.  */
 	grub_util_warn ("%s",
@@ -1662,7 +1660,6 @@ grub_install_generate_image (const char *dir, const char *prefix,
     case IMAGE_UBOOT:
     {
       struct grub_uboot_image_header *hdr;
-      GRUB_PROPERLY_ALIGNED_ARRAY (crc32_context, GRUB_MD_CRC32->contextsize);
 
       hdr = xmalloc (core_size + sizeof (struct grub_uboot_image_header));
       memcpy (hdr + 1, core_img, core_size);
@@ -1678,15 +1675,8 @@ grub_install_generate_image (const char *dir, const char *prefix,
       hdr->ih_arch = GRUB_UBOOT_IH_ARCH_ARM;
       hdr->ih_comp = GRUB_UBOOT_IH_COMP_NONE;
 
-      GRUB_MD_CRC32->init(crc32_context);
-      GRUB_MD_CRC32->write(crc32_context, hdr + 1, core_size);
-      GRUB_MD_CRC32->final(crc32_context);
-      hdr->ih_dcrc = grub_get_unaligned32 (GRUB_MD_CRC32->read (crc32_context));
-
-      GRUB_MD_CRC32->init(crc32_context);
-      GRUB_MD_CRC32->write(crc32_context, hdr, sizeof (*hdr));
-      GRUB_MD_CRC32->final(crc32_context);
-      hdr->ih_hcrc = grub_get_unaligned32 (GRUB_MD_CRC32->read (crc32_context));
+      grub_crypto_hash (GRUB_MD_CRC32, &hdr->ih_dcrc, hdr + 1, core_size);
+      grub_crypto_hash (GRUB_MD_CRC32, &hdr->ih_hcrc, hdr, sizeof (*hdr));
 
       free (core_img);
       core_img = (char *) hdr;
