@@ -287,6 +287,8 @@ get_default_platform (void)
    return "ia64-efi";
 #elif defined (__arm__)
    return "arm-uboot";
+#elif defined (__aarch64__)
+   return "arm64-efi";
 #elif defined (__amd64__) || defined (__x86_64__) || defined (__i386__)
    return grub_install_get_default_x86_platform ();
 #else
@@ -420,6 +422,7 @@ have_bootdev (enum grub_install_plat pl)
     case GRUB_INSTALL_PLATFORM_X86_64_EFI:
     case GRUB_INSTALL_PLATFORM_IA64_EFI:
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
+    case GRUB_INSTALL_PLATFORM_ARM64_EFI:
     case GRUB_INSTALL_PLATFORM_I386_IEEE1275:
     case GRUB_INSTALL_PLATFORM_SPARC64_IEEE1275:
     case GRUB_INSTALL_PLATFORM_POWERPC_IEEE1275:
@@ -771,6 +774,7 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_I386_EFI:
     case GRUB_INSTALL_PLATFORM_X86_64_EFI:
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
+    case GRUB_INSTALL_PLATFORM_ARM64_EFI:
     case GRUB_INSTALL_PLATFORM_IA64_EFI:
     case GRUB_INSTALL_PLATFORM_I386_IEEE1275:
     case GRUB_INSTALL_PLATFORM_SPARC64_IEEE1275:
@@ -810,6 +814,7 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_I386_EFI:
     case GRUB_INSTALL_PLATFORM_X86_64_EFI:
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
+    case GRUB_INSTALL_PLATFORM_ARM64_EFI:
     case GRUB_INSTALL_PLATFORM_IA64_EFI:
     case GRUB_INSTALL_PLATFORM_I386_IEEE1275:
     case GRUB_INSTALL_PLATFORM_ARM_UBOOT:
@@ -857,6 +862,7 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_I386_EFI:
     case GRUB_INSTALL_PLATFORM_X86_64_EFI:
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
+    case GRUB_INSTALL_PLATFORM_ARM64_EFI:
     case GRUB_INSTALL_PLATFORM_IA64_EFI:
       is_efi = 1;
       break;
@@ -958,6 +964,10 @@ main (int argc, char *argv[])
 	case GRUB_INSTALL_PLATFORM_ARM_EFI:
 	  efi_suffix = "arm";
 	  efi_suffix_upper = "ARM";
+	  break;
+	case GRUB_INSTALL_PLATFORM_ARM64_EFI:
+	  efi_suffix = "arm64";
+	  efi_suffix_upper = "AARCH64";
 	  break;
 	default:
 	  break;
@@ -1227,6 +1237,7 @@ main (int argc, char *argv[])
 		  case GRUB_INSTALL_PLATFORM_I386_EFI:
 		  case GRUB_INSTALL_PLATFORM_X86_64_EFI:
 		  case GRUB_INSTALL_PLATFORM_ARM_EFI:
+		  case GRUB_INSTALL_PLATFORM_ARM64_EFI:
 		  case GRUB_INSTALL_PLATFORM_IA64_EFI:
 		    g = grub_util_guess_efi_drive (*curdev);
 		    break;
@@ -1316,6 +1327,7 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_I386_EFI:
     case GRUB_INSTALL_PLATFORM_X86_64_EFI:
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
+    case GRUB_INSTALL_PLATFORM_ARM64_EFI:
     case GRUB_INSTALL_PLATFORM_IA64_EFI:
       core_name = "core.efi";
       snprintf (mkimage_target, sizeof (mkimage_target),
@@ -1418,6 +1430,7 @@ main (int argc, char *argv[])
       }
       break;
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
+    case GRUB_INSTALL_PLATFORM_ARM64_EFI:
     case GRUB_INSTALL_PLATFORM_IA64_EFI:
     case GRUB_INSTALL_PLATFORM_MIPSEL_QEMU_MIPS:
     case GRUB_INSTALL_PLATFORM_MIPS_QEMU_MIPS:
@@ -1567,6 +1580,7 @@ main (int argc, char *argv[])
 
     case GRUB_INSTALL_PLATFORM_X86_64_EFI:
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
+    case GRUB_INSTALL_PLATFORM_ARM64_EFI:
     case GRUB_INSTALL_PLATFORM_IA64_EFI:
       {
 	char *dst = grub_util_path_concat (2, efidir, efi_file);

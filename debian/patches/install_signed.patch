@@ -3,7 +3,7 @@ Author: Colin Watson <cjwatson@ubuntu.com>
 Author: Stéphane Graber <stgraber@ubuntu.com>
 Author: Steve Langasek <steve.langasek@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-11-26
+Last-Update: 2013-12-03
 
 Index: b/util/grub-install.c
 ===================================================================
@@ -58,7 +58,7 @@ Index: b/util/grub-install.c
    {0, 0, 0, 0, 0, 0}
  };
  
-@@ -686,7 +705,8 @@
+@@ -689,7 +708,8 @@
  {
    int is_efi = 0;
    const char *efi_distributor = NULL;
@@ -68,7 +68,7 @@ Index: b/util/grub-install.c
    char **grub_devices;
    grub_fs_t grub_fs;
    grub_device_t grub_dev = NULL;
-@@ -919,6 +939,27 @@
+@@ -925,6 +945,31 @@
        */
        char *t;
        efi_distributor = bootloader_id;
@@ -90,13 +90,17 @@ Index: b/util/grub-install.c
 +	  efi_suffix = "arm";
 +	  efi_suffix_upper = "ARM";
 +	  break;
++	case GRUB_INSTALL_PLATFORM_ARM64_EFI:
++	  efi_suffix = "arm64";
++	  efi_suffix_upper = "AARCH64";
++	  break;
 +	default:
 +	  break;
 +	}
        if (removable)
  	{
  	  /* The specification makes stricter requirements of removable
-@@ -927,48 +968,16 @@
+@@ -933,54 +978,16 @@
  	     must have a specific file name depending on the architecture.
  	  */
  	  efi_distributor = "BOOT";
@@ -113,6 +117,9 @@ Index: b/util/grub-install.c
 -	      break;
 -	    case GRUB_INSTALL_PLATFORM_ARM_EFI:
 -	      efi_file = "BOOTARM.EFI";
+-	      break;
+-	    case GRUB_INSTALL_PLATFORM_ARM64_EFI:
+-	      efi_file = "BOOTAARCH64.EFI";
 -	      break;
 -	    default:
 -	      grub_util_error ("%s", _("You've found a bug"));
@@ -141,6 +148,9 @@ Index: b/util/grub-install.c
 -	    case GRUB_INSTALL_PLATFORM_ARM_EFI:
 -	      efi_file = "grubarm.efi";
 -	      break;
+-	    case GRUB_INSTALL_PLATFORM_ARM64_EFI:
+-	      efi_file = "grubarm64.efi";
+-	      break;
 -	    default:
 -	      efi_file = "grub.efi";
 -	      break;
@@ -149,7 +159,7 @@ Index: b/util/grub-install.c
  	}
        t = grub_util_path_concat (3, efidir, "EFI", efi_distributor);
        free (efidir);
-@@ -1098,6 +1107,31 @@
+@@ -1110,6 +1117,31 @@
  	}
      }
  
@@ -181,7 +191,7 @@ Index: b/util/grub-install.c
    if (!have_abstractions)
      {
        if ((disk_module && grub_strcmp (disk_module, "biosdisk") != 0)
-@@ -1105,7 +1139,8 @@
+@@ -1117,7 +1149,8 @@
  	  || (!install_drive
  	      && platform != GRUB_INSTALL_PLATFORM_POWERPC_IEEE1275)
  	  || (install_drive && !is_same_disk (grub_drives[0], install_drive))
@@ -191,7 +201,7 @@ Index: b/util/grub-install.c
  	{
  	  char *uuid = NULL;
  	  /*  generic method (used on coreboot and ata mod).  */
-@@ -1533,7 +1568,47 @@
+@@ -1549,7 +1582,47 @@
      case GRUB_INSTALL_PLATFORM_IA64_EFI:
        {
  	char *dst = grub_util_path_concat (2, efidir, efi_file);

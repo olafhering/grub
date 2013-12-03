@@ -1,3 +1,56 @@
+2013-12-03  Colin Watson  <cjwatson@ubuntu.com>
+
+	Add a new timeout_style environment variable and a corresponding
+	GRUB_TIMEOUT_STYLE configuration key for grub-mkconfig.  This
+	controls hidden-timeout handling more simply than the previous
+	arrangements, and pressing any hotkeys associated with menu entries
+	during the hidden timeout will now boot the corresponding menu entry
+	immediately.
+
+	GRUB_HIDDEN_TIMEOUT=<non-empty> + GRUB_TIMEOUT=<non-zero> now
+	generates a warning, and if it shows the menu it will do so as if
+	the second timeout were not present.  Other combinations are
+	translated into reasonable equivalents.
+
+	Based loosely on work by Franz Hsieh.  Fixes Ubuntu bug #1178618.
+
+2013-12-02  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/config.c: Add missing pointer adjustment.
+	Reported by: qwertial
+
+2013-11-30  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* grub-core/kern/arm64/dl_helper.c: Include grub/arm64/reloc.h
+	directly, not via `cpu' link, to fix libgrub.pp generation.
+
+2013-11-30  Leif Lindholm <leif.lindholm@linaro.org>
+
+	New port arm64-efi.
+
+2013-11-30  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* docs/grub.texi (sleep): Document exit codes.
+
+2013-11-30  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Ensure that -mno-unaligned-access or some equivalent option is used.
+
+2013-11-30  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/lib/libgcrypt/mpi/longlong.h: Fix compilation error with
+	-march=armv3.
+
+2013-11-30  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Remove leftover GRUB_IA64_DL_TRAMP_SIZE.
+
+2013-11-29  Colin Watson  <cjwatson@ubuntu.com>
+
+	* docs/grub-dev.texi (Font Metrics): Exclude @image command from DVI
+	builds, since we don't have an EPS version of font_char_metrics.png.
+	Add leading dot to image extension per the Texinfo documentation.
+
 2013-11-29  Colin Watson  <cjwatson@ubuntu.com>
 
 	* util/grub-gen-asciih.c: Include FT_SYNTHESIS_H rather than

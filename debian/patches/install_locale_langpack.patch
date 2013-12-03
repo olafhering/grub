@@ -2,7 +2,7 @@ Description: Prefer translations from Ubuntu language packs if available
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/537998
 Forwarded: not-needed
-Last-Update: 2013-11-29
+Last-Update: 2013-12-03
 
 Index: b/util/grub-install-common.c
 ===================================================================
@@ -61,7 +61,7 @@ Index: b/util/grub-install-common.c
  }
  
  static struct
-@@ -731,12 +739,14 @@
+@@ -732,12 +740,14 @@
      {
        char *srcd = grub_util_path_concat (2, src, "po");
        copy_by_ext (srcd, dst_locale, ".mo", 0);
@@ -77,7 +77,7 @@ Index: b/util/grub-install-common.c
  
        for (i = 0; i < install_locales.n_entries; i++)
  	{
-@@ -755,6 +765,19 @@
+@@ -756,6 +766,19 @@
  	    }
  	  free (srcf);
  	  srcf = grub_util_path_concat_ext (4,
@@ -97,7 +97,7 @@ Index: b/util/grub-install-common.c
  						 locale_dir,
  						 install_locales.entries[i],
  						 "LC_MESSAGES",
-@@ -769,6 +792,8 @@
+@@ -770,6 +793,8 @@
  	  grub_util_error (_("cannot find locale `%s'"),
  			   install_locales.entries[i]);
  	}

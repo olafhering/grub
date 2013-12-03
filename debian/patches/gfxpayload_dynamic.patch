@@ -5,13 +5,13 @@ Description: Add configure option to enable gfxpayload=keep dynamically
 Author: Evan Broder <evan@ebroder.net>
 Author: Colin Watson <cjwatson@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-11-29
+Last-Update: 2013-12-03
 
 Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1425,6 +1425,17 @@
+@@ -1446,6 +1446,17 @@
  fi
  AC_SUBST([QUICK_BOOT])
  
@@ -33,7 +33,7 @@ Index: b/grub-core/Makefile.core.def
 ===================================================================
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -881,6 +881,15 @@
+@@ -894,6 +894,15 @@
  };
  
  module = {
