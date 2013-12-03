@@ -429,7 +429,7 @@ override_dh_auto_clean:
 	-rm -rf debian/grub-extras-enabled debian/stamps obj
 	-rm -f contrib grub-core/contrib
 
-override_dh_clean: debian/legacy/update-grub
+override_dh_clean:
 	dh_autoreconf_clean
 	dh_clean
 
@@ -446,9 +446,5 @@ endif
 
 	# make sure PO files are always up-to-date
 	debconf-updatepo
-
-debian/legacy/update-grub:
-	@echo "Missing $@.  Try: \"bzr cat http://bzr.debian.org/bzr/pkg-grub/trunk/grub-legacy/debian/update-grub > $@\""
-	exit 1
 
 .PHONY: $(patsubst %,configure/%,$(BUILD_PACKAGES)) $(patsubst %,build/%,$(BUILD_PACKAGES)) $(patsubst %,install/%,$(BUILD_PACKAGES))
