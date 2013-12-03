@@ -8,7 +8,7 @@ Index: b/grub-core/Makefile.core.def
 ===================================================================
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -1687,6 +1687,14 @@
+@@ -1688,6 +1688,14 @@
  };
  
  module = {

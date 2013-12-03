@@ -7,7 +7,7 @@ Index: b/grub-core/Makefile.core.def
 ===================================================================
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -1690,7 +1690,6 @@
+@@ -1691,7 +1691,6 @@
    name = linuxefi;
    efi = loader/i386/efi/linux.c;
    efi = lib/cmdline.c;
