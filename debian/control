@@ -424,6 +424,51 @@ Description: GRand Unified Bootloader, version 2 (ARM UEFI version)
  This package contains a version of GRUB that has been built for use on ARM
  systems with UEFI.
 
+Package: grub-efi-arm64-bin
+Architecture: any-arm64
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
+Multi-Arch: foreign
+Description: GRand Unified Bootloader, version 2 (ARM64 UEFI binaries)
+ GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
+ cleaner design than its predecessors, and provides the following new features:
+ .
+  - Scripting in grub.cfg using BASH-like syntax.
+  - Support for modern partition maps such as GPT.
+  - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
+    add-ons can plug in their own script rules and trigger updates by invoking
+    update-grub.
+ .
+ This package contains a version of GRUB that has been built for use on
+ ARM64 systems with UEFI.  It will not automatically install GRUB as the
+ active boot loader, nor will it automatically update grub.cfg on upgrade,
+ so most people should install grub-efi-arm64 instead.
+
+Package: grub-efi-arm64-dbg
+Section: debug
+Architecture: any-arm64
+Depends: ${misc:Depends}, grub-efi-arm64-bin (= ${binary:Version}), grub-common (= ${binary:Version})
+Multi-Arch: foreign
+Description: GRand Unified Bootloader, version 2 (ARM64 UEFI debug files)
+ This package contains debugging files for grub-efi-arm64-bin.  You only
+ need these if you are trying to debug GRUB using its GDB stub.
+
+Package: grub-efi-arm64
+Architecture: any-arm64
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-efi-arm64-bin (= ${binary:Version}), ucf
+Multi-Arch: foreign
+Description: GRand Unified Bootloader, version 2 (ARM64 UEFI version)
+ GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
+ cleaner design than its predecessors, and provides the following new features:
+ .
+  - Scripting in grub.cfg using BASH-like syntax.
+  - Support for modern partition maps such as GPT.
+  - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
+    add-ons can plug in their own script rules and trigger updates by invoking
+    update-grub.
+ .
+ This package contains a version of GRUB that has been built for use on
+ ARM64 systems with UEFI.
+
 Package: grub-ieee1275-bin
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})

@@ -38,7 +38,7 @@ confflags = PACKAGE_VERSION="$(deb_version)" PACKAGE_STRING="GRUB $(deb_version)
 AUTOGEN_DEB_FILES = config templates preinst postinst postrm dirs install links maintscript
 
 BUILD_PACKAGES := $(strip $(shell dh_listpackages))
-REAL_PACKAGES = grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-efi-ia64 grub-efi-arm grub-ieee1275 grub-firmware-qemu grub-uboot grub-xen grub-yeeloong
+REAL_PACKAGES = grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-efi-ia64 grub-efi-arm grub-efi-arm64 grub-ieee1275 grub-firmware-qemu grub-uboot grub-xen grub-yeeloong
 
 ifneq (,$(filter i386 amd64,$(DEB_HOST_ARCH_CPU)))
 COMMON_PLATFORM := pc
@@ -50,6 +50,8 @@ else ifeq (ia64,$(DEB_HOST_ARCH_CPU))
 COMMON_PLATFORM := efi-ia64
 else ifeq (arm,$(DEB_HOST_ARCH_CPU))
 COMMON_PLATFORM := uboot
+else ifeq (arm64,$(DEB_HOST_ARCH_CPU))
+COMMON_PLATFORM := efi-arm64
 else
 $(error COMMON_PLATFORM not set for $(DEB_HOST_ARCH_CPU))
 endif
@@ -141,13 +143,17 @@ debian/stamps/configure-grub-efi-arm: debian/stamps/autogen
 	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=efi
 	touch $@
+debian/stamps/configure-grub-efi-arm64: debian/stamps/autogen
+	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
+	dh_auto_configure -- $(confflags) --with-platform=efi
+	touch $@
 
 debian/stamps/configure-grub-firmware-qemu: debian/stamps/autogen
 	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=qemu
 	touch $@
 
-debian/stamps/build-grub-efi-ia32 debian/stamps/build-grub-efi-amd64 debian/stamps/build-grub-efi-ia64 debian/stamps/build-grub-efi-arm debian/stamps/build-grub-ieee1275 debian/stamps/build-grub-coreboot debian/stamps/build-grub-emu debian/stamps/build-grub-uboot debian/stamps/build-grub-xen debian/stamps/build-grub-yeeloong: debian/stamps/build-%: debian/stamps/configure-%
+debian/stamps/build-grub-efi-ia32 debian/stamps/build-grub-efi-amd64 debian/stamps/build-grub-efi-ia64 debian/stamps/build-grub-efi-arm debian/stamps/build-grub-efi-arm64 debian/stamps/build-grub-ieee1275 debian/stamps/build-grub-coreboot debian/stamps/build-grub-emu debian/stamps/build-grub-uboot debian/stamps/build-grub-xen debian/stamps/build-grub-yeeloong: debian/stamps/build-%: debian/stamps/configure-%
 	dh_auto_build
 	touch $@
 
@@ -208,7 +214,7 @@ platform_subst = \
 			>> debian/$(2).$(3); \
 	fi
 
-install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia64 install/grub-efi-arm install/grub-ieee1275 install/grub-coreboot install/grub-emu install/grub-uboot install/grub-xen install/grub-yeeloong:
+install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia64 install/grub-efi-arm install/grub-efi-arm64 install/grub-ieee1275 install/grub-coreboot install/grub-emu install/grub-uboot install/grub-xen install/grub-yeeloong:
 	dh_auto_install --destdir=debian/tmp-$(package)
 
 	if [ "$@" = "install/grub-emu" ] ; then \
@@ -340,7 +346,7 @@ override_dh_install:
 	done
 	rm -f debian/grub2-common/usr/share/info/dir*
 	rm -f debian/grub-theme-starfield/usr/share/grub/themes/starfield/COPYING.CC-BY-SA-3.0
-	set -e; for package in grub-pc grub-efi-ia32 grub-efi-amd64 grub-efi-ia64 grub-efi-arm grub-ieee1275 grub-coreboot grub-uboot grub-xen grub-yeeloong; do \
+	set -e; for package in grub-pc grub-efi-ia32 grub-efi-amd64 grub-efi-ia64 grub-efi-arm grub-efi-arm64 grub-ieee1275 grub-coreboot grub-uboot grub-xen grub-yeeloong; do \
 		dh_install -p$$package --sourcedir=debian/tmp-$$package; \
 		dh_install -p$$package-bin --sourcedir=debian/tmp-$$package; \
 		dh_install -p$$package-dbg --sourcedir=debian/tmp-$$package; \

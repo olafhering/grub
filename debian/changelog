@@ -32,7 +32,7 @@ grub2 (2.00+20131129-1) UNRELEASED; urgency=low
       quick_boot.patch had made of /etc/grub.d/30_os-prober; if it finds
       other OSes it can now just set timeout_style=menu and make sure the
       timeout is non-zero.
-    - New ports to arm-uboot, arm-efi, i386-xen, and x86_64-xen.
+    - New ports to arm-uboot, arm-efi, arm64-efi, i386-xen, and x86_64-xen.
   * Add grub-uboot*, grub-efi-arm*, and grub-xen* binary packages.
   * Ignore functional test failures for now as they are broken.
   * Move working directories around (build/<package> -> obj/<package>,
