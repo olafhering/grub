@@ -1,0 +1,3 @@
+[submodule "debian/grub-extras"]
+	path = debian/grub-extras
+	url = git://git.sv.gnu.org/grub-extras.git

@@ -30,9 +30,6 @@ endif
 
 CC := gcc-4.7
 
-# Enable external modules from grub-extras.
-export GRUB_CONTRIB := $(CURDIR)/debian/grub-extras
-
 confflags = PACKAGE_VERSION="$(deb_version)" PACKAGE_STRING="GRUB $(deb_version)" CC=$(CC) TARGET_CC=$(CC) --enable-grub-mkfont
 
 AUTOGEN_DEB_FILES = config templates preinst postinst postrm dirs install links maintscript
@@ -114,7 +111,13 @@ install/%: export DH_OPTIONS = -p$(package) -Bobj/$(patsubst grub-common,grub-$(
 
 debian/stamps/autogen: autogen.sh configure.ac Makefile.util.def grub-core/Makefile.core.def
 	mkdir -p debian/stamps
-	env -u DH_OPTIONS dh_autoreconf -- ./autogen.sh
+	rm -rf debian/grub-extras-enabled
+	mkdir debian/grub-extras-enabled
+	set -e; for extra in 915resolution ntldr-img; do \
+		cp -a debian/grub-extras debian/grub-extras-enabled/; \
+	done
+	env -u DH_OPTIONS GRUB_CONTRIB=$(CURDIR)/debian/grub-extras-enabled \
+		dh_autoreconf -- ./autogen.sh
 	touch $@
 
 debian/stamps/configure-grub-common: debian/stamps/configure-grub-$(COMMON_PLATFORM)
@@ -423,10 +426,10 @@ ifneq (,$(SB_PACKAGE))
 endif
 
 override_dh_auto_clean:
-	-rm -rf debian/stamps obj
+	-rm -rf debian/grub-extras-enabled debian/stamps obj
 	-rm -f contrib grub-core/contrib
 
-override_dh_clean: debian/legacy/update-grub debian/grub-extras
+override_dh_clean: debian/legacy/update-grub
 	dh_autoreconf_clean
 	dh_clean
 
@@ -446,10 +449,6 @@ endif
 
 debian/legacy/update-grub:
 	@echo "Missing $@.  Try: \"bzr cat http://bzr.debian.org/bzr/pkg-grub/trunk/grub-legacy/debian/update-grub > $@\""
-	exit 1
-
-debian/grub-extras:
-	@echo "Missing $@.  Try: \"mkdir -p $@; for extra in 915resolution ntldr-img; do bzr export $@/\$$extra http://bzr.savannah.nongnu.org/r/grub-extras/\$$extra; done\""
 	exit 1
 
 .PHONY: $(patsubst %,configure/%,$(BUILD_PACKAGES)) $(patsubst %,build/%,$(BUILD_PACKAGES)) $(patsubst %,install/%,$(BUILD_PACKAGES))
