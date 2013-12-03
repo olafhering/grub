@@ -140,12 +140,18 @@ debian/stamps/configure-grub-efi-ia64 debian/stamps/configure-grub-efi-arm debia
 	dh_auto_configure -- $(confflags) --with-platform=efi
 	touch $@
 
+debian/stamps/configure-grub-xen-%s: debian/stamps/autogen
+	mkdir -p debian/stamps obj/$(package)
+	dh_auto_configure -- $(confflags) --with-platform=xen --target=$(subst debian/stamps/configure-grub-xen-,,$@) --program-prefix=""
+	touch $@
+debian/stamps/configure-grub-xen: debian/stamps/configure-grub-xen-i386 debian/stamps/configure-grub-xen-amd64
+
 debian/stamps/configure-grub-firmware-qemu: debian/stamps/autogen
 	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=qemu
 	touch $@
 
-debian/stamps/build-grub-efi-ia32 debian/stamps/build-grub-efi-amd64 debian/stamps/build-grub-efi-ia64 debian/stamps/build-grub-efi-arm debian/stamps/build-grub-efi-arm64 debian/stamps/build-grub-ieee1275 debian/stamps/build-grub-coreboot debian/stamps/build-grub-emu debian/stamps/build-grub-uboot debian/stamps/build-grub-xen debian/stamps/build-grub-yeeloong: debian/stamps/build-%: debian/stamps/configure-%
+debian/stamps/build-grub-efi-ia32 debian/stamps/build-grub-efi-amd64 debian/stamps/build-grub-efi-ia64 debian/stamps/build-grub-efi-arm debian/stamps/build-grub-efi-arm64 debian/stamps/build-grub-ieee1275 debian/stamps/build-grub-coreboot debian/stamps/build-grub-emu debian/stamps/build-grub-uboot debian/stamps/build-grub-xen-i386 debian/stamps/build-grub-xen-amd64 debian/stamps/build-grub-yeeloong: debian/stamps/build-%: debian/stamps/configure-%
 	dh_auto_build
 	touch $@
 
@@ -155,6 +161,8 @@ ifeq ($(with_check), yes)
 	LC_CTYPE=C.UTF-8 PATH="$$PATH:/sbin:/usr/sbin" dh_auto_test
 endif
 	touch $@
+
+debian/stamps/build-grub-xen: debian/stamps/build-grub-xen-i386 debian/stamps/build-grub-xen-amd64
 
 debian/stamps/build-grub-firmware-qemu: debian/stamps/configure-grub-firmware-qemu
 	dh_auto_build
@@ -207,7 +215,12 @@ platform_subst = \
 	fi
 
 install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia64 install/grub-efi-arm install/grub-efi-arm64 install/grub-ieee1275 install/grub-coreboot install/grub-emu install/grub-uboot install/grub-xen install/grub-yeeloong:
-	dh_auto_install --destdir=debian/tmp-$(package)
+	set -e ; if [ "$@" = "install/grub-xen" ] ; then \
+		dh_auto_install -Bobj/grub-xen-i386 --destdir=debian/tmp-$(package); \
+		dh_auto_install -Bobj/grub-xen-amd64 --destdir=debian/tmp-$(package); \
+	else \
+		dh_auto_install --destdir=debian/tmp-$(package); \
+	fi
 
 	if [ "$@" = "install/grub-emu" ] ; then \
 		set -e ; \
@@ -273,7 +286,8 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 	cd debian/tmp-$(package) && find usr/lib/grub -name kernel.img \
 		| sed -e "s%.*%$(package_bin): unstripped-binary-or-object &%g" \
 	>> $(CURDIR)/debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin)
-	if [ "$@" = "install/grub-efi-amd64" ] && [ "$(DEB_HOST_ARCH_CPU)" = "i386" ] ; then \
+	if ([ "$@" = "install/grub-efi-amd64" ] && [ "$(DEB_HOST_ARCH_CPU)" = "i386" ]) || \
+	   [ "$@" = "install/grub-xen" ] ; then \
 		echo "$(package_bin): binary-from-other-architecture *.mod" \
 			>> debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin) ; \
 		cd debian/tmp-$(package) && find usr/lib/grub -name kernel.img \
@@ -299,7 +313,8 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 	cd debian/tmp-$(package) && find usr/lib/grub -name kernel.exec \
 		| sed -e "s%.*%$(package_dbg): statically-linked-binary &%g" \
 	>> $(CURDIR)/debian/$(package_dbg)/usr/share/lintian/overrides/$(package_dbg)
-	if [ "$@" = "install/grub-efi-amd64" ] && [ "$(DEB_HOST_ARCH_CPU)" = "i386" ] ; then \
+	if ([ "$@" = "install/grub-efi-amd64" ] && [ "$(DEB_HOST_ARCH_CPU)" = "i386" ]) || \
+	   [ "$@" = "install/grub-xen" ] ; then \
 		echo "$(package_dbg): binary-from-other-architecture *.module" \
 			>> debian/$(package_dbg)/usr/share/lintian/overrides/$(package_dbg) ; \
 		cd debian/tmp-$(package) && find usr/lib/grub -name kernel.exec \
