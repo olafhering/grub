@@ -1,0 +1,115 @@
+Description: Add GRUB_RECOVERY_TITLE option
+ This allows the controversial "recovery mode" text to be customised.
+Author: Colin Watson <cjwatson@ubuntu.com>
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/1240360
+Forwarded: no
+Last-Update: 2013-12-03
+
+Index: b/docs/grub.texi
+===================================================================
+--- a/docs/grub.texi
++++ b/docs/grub.texi
+@@ -1499,6 +1499,11 @@
+ This option is only effective when GRUB was configured with the
+ @option{--enable-quick-boot} option.
+ 
++@item GRUB_RECOVERY_TITLE
++This option sets the English text of the string that will be displayed in
++parentheses to indicate that a boot option is provided to help users recover
++a broken system.  The default is "recovery mode".
++
+ @end table
+ 
+ The following options are still accepted for compatibility with existing
+Index: b/util/grub-mkconfig.in
+===================================================================
+--- a/util/grub-mkconfig.in
++++ b/util/grub-mkconfig.in
+@@ -181,6 +181,10 @@
+ 
+ if [ "x${GRUB_ACTUAL_DEFAULT}" = "xsaved" ] ; then GRUB_ACTUAL_DEFAULT="`"${grub_editenv}" - list | sed -n '/^saved_entry=/ s,^saved_entry=,,p'`" ; fi
+ 
++if [ "x${GRUB_RECOVERY_TITLE}" = "x" ]; then
++  GRUB_RECOVERY_TITLE="recovery mode"
++fi
++
+ 
+ # These are defined in this script, export them here so that user can
+ # override them.
+@@ -232,7 +236,8 @@
+   GRUB_BADRAM \
+   GRUB_OS_PROBER_SKIP_LIST \
+   GRUB_DISABLE_SUBMENU \
+-  GRUB_RECORDFAIL_TIMEOUT
++  GRUB_RECORDFAIL_TIMEOUT \
++  GRUB_RECOVERY_TITLE
+ 
+ if test "x${grub_cfg}" != "x"; then
+   rm -f "${grub_cfg}.new"
+Index: b/util/grub.d/10_hurd.in
+===================================================================
+--- a/util/grub.d/10_hurd.in
++++ b/util/grub.d/10_hurd.in
+@@ -88,8 +88,8 @@
+ 
+   if [ x$type != xsimple ] ; then
+       if [ x$type = xrecovery ] ; then
+-	  title="$(gettext_printf "%s, with Hurd %s (recovery mode)" "${OS}" "${kernel_base}")"
+-	  oldtitle="$OS using $kernel_base (recovery mode)"
++	  title="$(gettext_printf "%s, with Hurd %s (%s)" "${OS}" "${kernel_base}" "$(gettext "${GRUB_RECOVERY_TITLE}")")"
++	  oldtitle="$OS using $kernel_base ($GRUB_RECOVERY_TITLE)"
+       else
+ 	  title="$(gettext_printf "%s, with Hurd %s" "${OS}" "${kernel_base}")"
+ 	  oldtitle="$OS using $kernel_base"
+Index: b/util/grub.d/10_kfreebsd.in
+===================================================================
+--- a/util/grub.d/10_kfreebsd.in
++++ b/util/grub.d/10_kfreebsd.in
+@@ -76,7 +76,7 @@
+   fi
+   if [ x$type != xsimple ] ; then
+       if [ x$type = xrecovery ] ; then
+-	  title="$(gettext_printf "%s, with kFreeBSD %s (recovery mode)" "${os}" "${version}")"
++	  title="$(gettext_printf "%s, with kFreeBSD %s (%s)" "${os}" "${version}" "$(gettext "${GRUB_RECOVERY_TITLE}")")"
+       else
+ 	  title="$(gettext_printf "%s, with kFreeBSD %s" "${os}" "${version}")"
+       fi
+Index: b/util/grub.d/10_linux.in
+===================================================================
+--- a/util/grub.d/10_linux.in
++++ b/util/grub.d/10_linux.in
+@@ -120,7 +120,7 @@
+   if [ x$type != xsimple ] ; then
+       case $type in
+ 	  recovery)
+-	      title="$(gettext_printf "%s, with Linux %s (recovery mode)" "${os}" "${version}")" ;;
++	      title="$(gettext_printf "%s, with Linux %s (%s)" "${os}" "${version}" "$(gettext "${GRUB_RECOVERY_TITLE}")")" ;;
+ 	  *)
+ 	      title="$(gettext_printf "%s, with Linux %s" "${os}" "${version}")" ;;
+       esac
+Index: b/util/grub.d/10_netbsd.in
+===================================================================
+--- a/util/grub.d/10_netbsd.in
++++ b/util/grub.d/10_netbsd.in
+@@ -102,7 +102,7 @@
+ 
+   if [ x$type != xsimple ] ; then
+       if [ x$type = xrecovery ] ; then
+-	  title="$(gettext_printf "%s, with kernel %s (via %s, recovery mode)" "${OS}" "$(echo ${kernel} | sed -e 's,^.*/,,')" "${loader}")"
++	  title="$(gettext_printf "%s, with kernel %s (via %s, %s)" "${OS}" "$(echo ${kernel} | sed -e 's,^.*/,,')" "${loader}" "$(gettext "${GRUB_RECOVERY_TITLE}")")"
+       else
+ 	  title="$(gettext_printf "%s, with kernel %s (via %s)" "${OS}" "$(echo ${kernel} | sed -e 's,^.*/,,')" "${loader}")"
+       fi
+Index: b/util/grub.d/20_linux_xen.in
+===================================================================
+--- a/util/grub.d/20_linux_xen.in
++++ b/util/grub.d/20_linux_xen.in
+@@ -99,7 +99,7 @@
+   fi
+   if [ x$type != xsimple ] ; then
+       if [ x$type = xrecovery ] ; then
+-	  title="$(gettext_printf "%s, with Xen %s and Linux %s (recovery mode)" "${os}" "${xen_version}" "${version}")"
++	  title="$(gettext_printf "%s, with Xen %s and Linux %s (%s)" "${os}" "${xen_version}" "${version}" "$(gettext "${GRUB_RECOVERY_TITLE}")")"
+       else
+ 	  title="$(gettext_printf "%s, with Xen %s and Linux %s" "${os}" "${xen_version}" "${version}")"
+       fi
