@@ -124,7 +124,7 @@ debian/stamps/configure-grub-common: debian/stamps/configure-grub-$(COMMON_PLATF
 
 debian/stamps/build-grub-common: debian/stamps/build-grub-$(COMMON_PLATFORM)
 
-debian/stamps/configure-grub-pc debian/stamps/configure-grub-ieee1275 debian/stamps/configure-grub-coreboot debian/stamps/configure-grub-emu debian/stamps/configure-grub-uboot debian/stamps/configure-grub-xen debian/stamps/configure-grub-yeeloong: debian/stamps/autogen
+debian/stamps/configure-grub-pc debian/stamps/configure-grub-ieee1275 debian/stamps/configure-grub-coreboot debian/stamps/configure-grub-emu debian/stamps/configure-grub-uboot debian/stamps/configure-grub-yeeloong: debian/stamps/autogen
 	mkdir -p debian/stamps obj/$(package)
 	dh_auto_configure -- $(confflags) --with-platform=$(subst grub-,,$(package))
 	touch $@
@@ -143,11 +143,12 @@ debian/stamps/configure-grub-efi-ia64 debian/stamps/configure-grub-efi-arm debia
 	dh_auto_configure -- $(confflags) --with-platform=efi
 	touch $@
 
-debian/stamps/configure-grub-xen-%s: debian/stamps/autogen
+debian/stamps/configure-grub-xen-%: debian/stamps/autogen
 	mkdir -p debian/stamps obj/$(package)
 	dh_auto_configure -- $(confflags) --with-platform=xen --target=$(subst debian/stamps/configure-grub-xen-,,$@) --program-prefix=""
 	touch $@
 debian/stamps/configure-grub-xen: debian/stamps/configure-grub-xen-i386 debian/stamps/configure-grub-xen-amd64
+	touch $@
 
 debian/stamps/configure-grub-firmware-qemu: debian/stamps/autogen
 	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
@@ -166,6 +167,7 @@ endif
 	touch $@
 
 debian/stamps/build-grub-xen: debian/stamps/build-grub-xen-i386 debian/stamps/build-grub-xen-amd64
+	touch $@
 
 debian/stamps/build-grub-firmware-qemu: debian/stamps/configure-grub-firmware-qemu
 	dh_auto_build
@@ -218,7 +220,8 @@ platform_subst = \
 	fi
 
 install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia64 install/grub-efi-arm install/grub-efi-arm64 install/grub-ieee1275 install/grub-coreboot install/grub-emu install/grub-uboot install/grub-xen install/grub-yeeloong:
-	set -e ; if [ "$@" = "install/grub-xen" ] ; then \
+	set -e ; \
+	if [ "$@" = "install/grub-xen" ] ; then \
 		dh_auto_install -Bobj/grub-xen-i386 --destdir=debian/tmp-$(package); \
 		dh_auto_install -Bobj/grub-xen-amd64 --destdir=debian/tmp-$(package); \
 	else \
