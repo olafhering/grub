@@ -328,9 +328,9 @@ if [ -f "$default_file" ] ; then
 else
   echo "Generating $default_file file and setting the default boot entry to 0" >&2
   if [ -f /usr/lib/grub-legacy/grub-set-default ] ; then
-    /usr/lib/grub-legacy/grub-set-default $1
+    /usr/lib/grub-legacy/grub-set-default 0
   else
-    grub-set-default $1
+    grub-set-default 0
   fi
 fi
 

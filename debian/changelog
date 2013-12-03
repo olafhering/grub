@@ -48,6 +48,7 @@ grub2 (2.00+20131203-1) UNRELEASED; urgency=low
   * Build-depend on wamerican, newly required by the test suite.
   * Run tests with LC_CTYPE=C.UTF-8, so that grub-fs-tester can handle UTF-8
     data correctly.
+  * Update debian/legacy/update-grub to the version from grub 0.97-67.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 15 Nov 2013 10:18:57 +0000
 
