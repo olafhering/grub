@@ -22,6 +22,16 @@ grub2 (2.00+20131129-1) UNRELEASED; urgency=low
       in grub-reboot(8) (closes: #690538).
     - Don't decompress initrd when booting with Xen (closes: #700197).
     - Document how to delete the whole environment block (closes: #726265).
+    - Revamp hidden timeout handling by adding a new timeout_style
+      environment variable and a corresponding GRUB_TIMEOUT_STYLE
+      configuration key for grub-mkconfig.  This controls hidden-timeout
+      handling more simply than the previous arrangements, and pressing any
+      hotkeys associated with menu entries during the hidden timeout will
+      now boot the corresponding menu entry immediately (LP: #1178618).  As
+      part of merging this, radically simplify the mess that
+      quick_boot.patch had made of /etc/grub.d/30_os-prober; if it finds
+      other OSes it can now just set timeout_style=menu and make sure the
+      timeout is non-zero.
     - New ports to arm-uboot, arm-efi, i386-xen, and x86_64-xen.
   * Add grub-uboot*, grub-efi-arm*, and grub-xen* binary packages.
   * Ignore functional test failures for now as they are broken.
