@@ -135,15 +135,7 @@ debian/stamps/configure-grub-efi-amd64: debian/stamps/autogen
 	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=efi --target=amd64-pe --program-prefix=""
 	touch $@
-debian/stamps/configure-grub-efi-ia64: debian/stamps/autogen
-	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
-	dh_auto_configure -- $(confflags) --with-platform=efi
-	touch $@
-debian/stamps/configure-grub-efi-arm: debian/stamps/autogen
-	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
-	dh_auto_configure -- $(confflags) --with-platform=efi
-	touch $@
-debian/stamps/configure-grub-efi-arm64: debian/stamps/autogen
+debian/stamps/configure-grub-efi-ia64 debian/stamps/configure-grub-efi-arm debian/stamps/configure-grub-efi-arm64: debian/stamps/autogen
 	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=efi
 	touch $@
