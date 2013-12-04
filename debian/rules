@@ -114,7 +114,7 @@ debian/stamps/autogen: autogen.sh configure.ac Makefile.util.def grub-core/Makef
 	rm -rf debian/grub-extras-enabled
 	mkdir debian/grub-extras-enabled
 	set -e; for extra in 915resolution ntldr-img; do \
-		cp -a debian/grub-extras debian/grub-extras-enabled/; \
+		cp -a debian/grub-extras/$$extra debian/grub-extras-enabled/; \
 	done
 	env -u DH_OPTIONS GRUB_CONTRIB=$(CURDIR)/debian/grub-extras-enabled \
 		dh_autoreconf -- ./autogen.sh
