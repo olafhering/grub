@@ -16,6 +16,8 @@ opendir my $grub_dir, $grub_dir_path or die "can't opendir $grub_dir_path: $!";
 my @cpu_platforms = grep { !/^\./ } readdir $grub_dir;
 closedir $grub_dir;
 
+$subst{FIRST_CPU_PLATFORM} = $cpu_platforms[0];
+
 sub emit ($) {
 	my $line = shift;
 	while (my ($key, $value) = each %subst) {
