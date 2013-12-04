@@ -210,13 +210,12 @@ debian/stamps/build-grub-rescue-pc: debian/stamps/build-grub-pc
 
 platform_subst = \
 	if [ -e debian/$(1) ]; then \
-		sed debian/$(1) \
-			-e "s/@PACKAGE@/$(2)/g" \
-			-e "s/@CPU_PLATFORM@/$$cpu_platform/g" \
-			-e "s/@DEFAULT_CMDLINE@/$(DEFAULT_CMDLINE)/g" \
-			-e "s/@DEFAULT_TIMEOUT@/$(DEFAULT_TIMEOUT)/g" \
-			-e "s/@DEFAULT_HIDDEN_TIMEOUT_BOOL@/$(DEFAULT_HIDDEN_TIMEOUT_BOOL)/g" \
-			>> debian/$(2).$(3); \
+		debian/platform-subst \
+			PACKAGE="$(2)" \
+			DEFAULT_CMDLINE="$(DEFAULT_CMDLINE)" \
+			DEFAULT_TIMEOUT="$(DEFAULT_TIMEOUT)" \
+			DEFAULT_HIDDEN_TIMEOUT_BOOL="$(DEFAULT_HIDDEN_TIMEOUT_BOOL)" \
+			debian/$(1) >> debian/$(2).$(3); \
 	fi
 
 install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia64 install/grub-efi-arm install/grub-efi-arm64 install/grub-ieee1275 install/grub-coreboot install/grub-emu install/grub-uboot install/grub-xen install/grub-yeeloong:
@@ -228,34 +227,16 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 		dh_auto_install --destdir=debian/tmp-$(package); \
 	fi
 
-	if [ "$@" = "install/grub-emu" ] ; then \
-		set -e ; \
-		for i in $(AUTOGEN_DEB_FILES) ; do \
-			> debian/$(package).$$i; \
-			$(call platform_subst,$(package).$$i.in,$(package),$$i); \
-			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_CPU).in,$(package),$$i); \
-			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_OS).in,$(package),$$i); \
-			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_OS)-$(DEB_HOST_ARCH_CPU).in,$(package),$$i); \
-			[ -s debian/$(package).$$i ] || rm -f debian/$(package).$$i; \
-			> debian/$(package_dbg).$$i; \
-			$(call platform_subst,$(package_dbg).$$i.in,$(package_dbg),$$i); \
-			$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_CPU).in,$(package_dbg),$$i); \
-			$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_OS).in,$(package_dbg),$$i); \
-			$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_OS)-$(DEB_HOST_ARCH_CPU).in,$(package_dbg),$$i); \
-			[ -s debian/$(package_dbg).$$i ] || rm -f debian/$(package_dbg).$$i; \
-		done ; \
-	else \
-		set -e ; \
-		cpu_platform=$$(find debian/tmp-$(package)/usr/lib/grub \
-			-mindepth 1 -maxdepth 1 -type d -printf '%P\n') ; \
-		for i in $(AUTOGEN_DEB_FILES) ; do \
-			> debian/$(package).$$i; \
-			$(call platform_subst,$$i.in,$(package),$$i); \
-			$(call platform_subst,$(package).$$i.in,$(package),$$i); \
-			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_CPU).in,$(package),$$i); \
-			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_OS).in,$(package),$$i); \
-			$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_OS)-$(DEB_HOST_ARCH_CPU).in,$(package),$$i); \
-			[ -s debian/$(package).$$i ] || rm -f debian/$(package).$$i; \
+	set -e ; \
+	for i in $(AUTOGEN_DEB_FILES) ; do \
+		> debian/$(package).$$i; \
+		$(call platform_subst,$$i.in,$(package),$$i); \
+		$(call platform_subst,$(package).$$i.in,$(package),$$i); \
+		$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_CPU).in,$(package),$$i); \
+		$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_OS).in,$(package),$$i); \
+		$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_OS)-$(DEB_HOST_ARCH_CPU).in,$(package),$$i); \
+		[ -s debian/$(package).$$i ] || rm -f debian/$(package).$$i; \
+		if [ "$@" != "install/grub-emu" ] ; then \
 			> debian/$(package_bin).$$i; \
 			$(call platform_subst,$$i-bin.in,$(package_bin),$$i); \
 			$(call platform_subst,$(package_bin).$$i.in,$(package_bin),$$i); \
@@ -263,15 +244,15 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 			$(call platform_subst,$(package_bin).$$i.$(DEB_HOST_ARCH_OS).in,$(package_bin),$$i); \
 			$(call platform_subst,$(package_bin).$$i.$(DEB_HOST_ARCH_OS)-$(DEB_HOST_ARCH_CPU).in,$(package_bin),$$i); \
 			[ -s debian/$(package_bin).$$i ] || rm -f debian/$(package_bin).$$i; \
-			> debian/$(package_dbg).$$i; \
-			$(call platform_subst,$$i-dbg.in,$(package_dbg),$$i); \
-			$(call platform_subst,$(package_dbg).$$i.in,$(package_dbg),$$i); \
-			$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_CPU).in,$(package_dbg),$$i); \
-			$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_OS).in,$(package_dbg),$$i); \
-			$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_OS)-$(DEB_HOST_ARCH_CPU).in,$(package_dbg),$$i); \
-			[ -s debian/$(package_dbg).$$i ] || rm -f debian/$(package_dbg).$$i; \
-		done ; \
-	fi
+		fi ; \
+		> debian/$(package_dbg).$$i; \
+		$(call platform_subst,$$i-dbg.in,$(package_dbg),$$i); \
+		$(call platform_subst,$(package_dbg).$$i.in,$(package_dbg),$$i); \
+		$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_CPU).in,$(package_dbg),$$i); \
+		$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_OS).in,$(package_dbg),$$i); \
+		$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_OS)-$(DEB_HOST_ARCH_CPU).in,$(package_dbg),$$i); \
+		[ -s debian/$(package_dbg).$$i ] || rm -f debian/$(package_dbg).$$i; \
+	done
 
 	find debian/tmp-$(package)/usr/lib/grub -name modinfo.sh -print0 | \
 		xargs -0r chmod +x
