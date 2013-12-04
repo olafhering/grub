@@ -230,7 +230,9 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 	set -e ; \
 	for i in $(AUTOGEN_DEB_FILES) ; do \
 		> debian/$(package).$$i; \
-		$(call platform_subst,$$i.in,$(package),$$i); \
+		if [ "$@" != "install/grub-emu" ] ; then \
+			$(call platform_subst,$$i.in,$(package),$$i); \
+		fi ; \
 		$(call platform_subst,$(package).$$i.in,$(package),$$i); \
 		$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_CPU).in,$(package),$$i); \
 		$(call platform_subst,$(package).$$i.$(DEB_HOST_ARCH_OS).in,$(package),$$i); \
@@ -246,7 +248,9 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 			[ -s debian/$(package_bin).$$i ] || rm -f debian/$(package_bin).$$i; \
 		fi ; \
 		> debian/$(package_dbg).$$i; \
-		$(call platform_subst,$$i-dbg.in,$(package_dbg),$$i); \
+		if [ "$@" != "install/grub-emu" ] ; then \
+			$(call platform_subst,$$i-dbg.in,$(package_dbg),$$i); \
+		fi ; \
 		$(call platform_subst,$(package_dbg).$$i.in,$(package_dbg),$$i); \
 		$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_CPU).in,$(package_dbg),$$i); \
 		$(call platform_subst,$(package_dbg).$$i.$(DEB_HOST_ARCH_OS).in,$(package_dbg),$$i); \
