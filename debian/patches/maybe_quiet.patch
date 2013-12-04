@@ -25,7 +25,7 @@ Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/386922
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/861048
 Forwarded: (partial) http://lists.gnu.org/archive/html/grub-devel/2009-09/msg00056.html
-Last-Update: 2013-12-03
+Last-Update: 2013-12-04
 
 Index: b/config.h.in
 ===================================================================
@@ -276,7 +276,7 @@ Index: b/grub-core/normal/menu.c
 ===================================================================
 --- a/grub-core/normal/menu.c
 +++ b/grub-core/normal/menu.c
-@@ -807,12 +807,18 @@
+@@ -826,12 +826,18 @@
  
  /* Callback invoked immediately before a menu entry is executed.  */
  static void
@@ -296,7 +296,7 @@ Index: b/grub-core/normal/menu.c
  }
  
  /* Callback invoked when a default menu entry executed because of a timeout
-@@ -860,6 +866,9 @@
+@@ -879,6 +885,9 @@
        int boot_entry;
        grub_menu_entry_t e;
        int auto_boot;
@@ -306,7 +306,7 @@ Index: b/grub-core/normal/menu.c
  
        boot_entry = run_menu (menu, nested, &auto_boot);
        if (boot_entry < 0)
-@@ -869,7 +878,11 @@
+@@ -888,7 +897,11 @@
        if (! e)
  	continue; /* Menu is empty.  */
  
