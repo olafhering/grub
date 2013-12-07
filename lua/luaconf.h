@@ -554,13 +554,48 @@
 #define luai_numadd(a,b)	((a)+(b))
 #define luai_numsub(a,b)	((a)-(b))
 #define luai_nummul(a,b)	((a)*(b))
-#define luai_numdiv(a,b)	((a)/(b))
 #if 0
 #define luai_nummod(a,b)	((a) - floor((a)/(b))*(b))
 #define luai_numpow(a,b)	(pow(a,b))
 #else
 
-#define luai_nummod(a,b)	((a) % (b))
+static inline LUA_NUMBER
+luai_numdiv (LUA_NUMBER a, LUA_NUMBER b)
+{
+  int neg = 0;
+  unsigned res;
+  if (a < 0)
+    {
+      a = -a;
+      neg = !neg;
+    }
+  if (b < 0)
+    {
+      b = -b;
+      neg = !neg;
+    }
+  res = (unsigned) a / (unsigned) b;
+  return neg ? -res : res;
+}
+
+static inline LUA_NUMBER
+luai_nummod (LUA_NUMBER a, LUA_NUMBER b)
+{
+  int neg = 0;
+  unsigned res;
+  if (a < 0)
+    {
+      a = -a;
+      neg = !neg;
+    }
+  if (b < 0)
+    {
+      b = -b;
+      neg = !neg;
+    }
+  res = (unsigned) a % (unsigned) b;
+  return neg ? -res : res;
+}
 
 static inline LUA_NUMBER
 luai_numpow (LUA_NUMBER a, LUA_NUMBER b)
@@ -640,7 +675,7 @@ union luai_Cast { double l_d; long l_l; };
 ** aligned in 16-byte boundaries, then you should add long double in the
 ** union.) Probably you do not need to change this.
 */
-#define LUAI_USER_ALIGNMENT_T	union { void *s; long l; long long ll; }
+#define LUAI_USER_ALIGNMENT_T	grub_properly_aligned_t
 
 
 /*

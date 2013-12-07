@@ -834,8 +834,12 @@ int luaK_codeABx (FuncState *fs, OpCode o, int a, unsigned int bc) {
 
 
 void luaK_setlist (FuncState *fs, int base, int nelems, int tostore) {
-  int c =  (nelems - 1)/LFIELDS_PER_FLUSH + 1;
+  int c;
   int b = (tostore == LUA_MULTRET) ? 0 : tostore;
+  if (nelems == 0)
+    c = 1;
+  else
+    c = ((unsigned) nelems + LFIELDS_PER_FLUSH - 1)/LFIELDS_PER_FLUSH;
   lua_assert(tostore != 0);
   if (c <= MAXARG_C)
     luaK_codeABC(fs, OP_SETLIST, base, b, c);

@@ -21,11 +21,11 @@
 
 #define incr_top(L) {luaD_checkstack(L,1); L->top++;}
 
-#define savestack(L,p)		((char *)(p) - (char *)L->stack)
-#define restorestack(L,n)	((TValue *)((char *)L->stack + (n)))
+#define savestack(L,p)		((TValue *)(p) - (TValue *)L->stack)
+#define restorestack(L,n)	((TValue *)((TValue *)L->stack + (n)))
 
-#define saveci(L,p)		((char *)(p) - (char *)L->base_ci)
-#define restoreci(L,n)		((CallInfo *)((char *)L->base_ci + (n)))
+#define saveci(L,p)		((CallInfo *)(p) - (CallInfo *)L->base_ci)
+#define restoreci(L,n)		((CallInfo *)((CallInfo *)L->base_ci + (n)))
 
 
 /* results from luaD_precall */

@@ -598,12 +598,14 @@ LUALIB_API int luaL_loadfile (lua_State *L, const char *filename) {
   c = grub_getc(lf.f);
   if (c == '#') {  /* Unix exec. file? */
     lf.extraline = 1;
-    while ((c = grub_getc(lf.f)) != GRUB_EOF && c != '\n') ;  /* skip first line */
+    while ((c = grub_getc(lf.f)) != GRUB_EOF && c != '\n')
+      ;  /* skip first line */
     if (c == '\n') c = grub_getc(lf.f);
   }
   if (c == LUA_SIGNATURE[0] && filename) {  /* binary file? */
     /* skip eventual `#!...' */
-   while ((c = grub_getc(lf.f)) != GRUB_EOF && c != LUA_SIGNATURE[0]) ;
+   while ((c = grub_getc(lf.f)) != GRUB_EOF && c != LUA_SIGNATURE[0])
+     ;
     lf.extraline = 0;
   }
   lf.ungetc = c;

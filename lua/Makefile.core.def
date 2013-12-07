@@ -28,7 +28,6 @@ module = {
   common = contrib/lua/lstrlib.c;
   common = contrib/lua/grub_main.c;
   common = contrib/lua/grub_lib.c;
-  cflags = -Wno-error;
 
   cflags = '$(CFLAGS_POSIX)';
   cppflags = '$(CPPFLAGS_POSIX)';
