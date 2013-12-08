@@ -1,6 +1,6 @@
 /*
  *  GRUB  --  GRand Unified Bootloader
- *  Copyright (C) 2002,2003,2005,2006,2007,2008,2009,2010  Free Software Foundation, Inc.
+ *  Copyright (C) 2013  Free Software Foundation, Inc.
  *
  *  GRUB is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,49 +16,46 @@
  *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <config.h>
 #include <config-util.h>
 
-#include <grub/types.h>
-#include <grub/err.h>
+#include <grub/dl.h>
+#include <grub/misc.h>
 #include <grub/mm.h>
+#include <sys/mman.h>
 #include <stdlib.h>
 #include <string.h>
-#include <grub/i18n.h>
 
 void *
-grub_malloc (grub_size_t size)
+grub_osdep_dl_memalign (grub_size_t align, grub_size_t size)
 {
   void *ret;
-  ret = malloc (size);
-  if (!ret)
-    grub_error (GRUB_ERR_OUT_OF_MEMORY, N_("out of memory"));
-  return ret;
-}
+  if (align < 8192 * 16)
+    align = 8192 * 16;
+  size = ALIGN_UP (size, 8192 * 16);
 
-void *
-grub_zalloc (grub_size_t size)
-{
-  void *ret;
+#if defined(HAVE_POSIX_MEMALIGN)
+  if (posix_memalign (&ret, align, size) != 0)
+    ret = 0;
+#elif defined(HAVE_MEMALIGN)
+  ret = memalign (align, size);
+#else
+#error "Complete this"
+#endif
 
-  ret = grub_malloc (size);
   if (!ret)
-    return NULL;
-  memset (ret, 0, size);
+    {
+      grub_error (GRUB_ERR_OUT_OF_MEMORY, N_("out of memory"));
+      return NULL;
+    }
+
+  mprotect (ret, size, PROT_READ | PROT_WRITE | PROT_EXEC);
   return ret;
 }
 
 void
-grub_free (void *ptr)
+grub_dl_osdep_dl_free (void *ptr)
 {
-  free (ptr);
-}
-
-void *
-grub_realloc (void *ptr, grub_size_t size)
-{
-  void *ret;
-  ret = realloc (ptr, size);
-  if (!ret)
-    grub_error (GRUB_ERR_OUT_OF_MEMORY, N_("out of memory"));
-  return ret;
+  if (ptr)
+    free (ptr);
 }

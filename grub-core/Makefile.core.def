@@ -88,7 +88,6 @@ kernel = {
   mips_qemu_mips_ldflags    = '-Wl,-Ttext,0x80200000';
 
   mips_arc_cppflags = '-DGRUB_DECOMPRESSOR_LINK_ADDR=$(TARGET_DECOMPRESSOR_LINK_ADDR)';
-  mips_loongson_cppflags = '-DUSE_ASCII_FALLBACK';
   i386_qemu_cppflags     = '-DGRUB_BOOT_MACHINE_LINK_ADDR=$(GRUB_BOOT_MACHINE_LINK_ADDR)';
   emu_cflags = '$(CFLAGS_GNULIB)';
   emu_cppflags = '$(CPPFLAGS_GNULIB)';
@@ -194,6 +193,7 @@ kernel = {
   ia64_efi = kern/ia64/efi/init.c;
   ia64_efi = kern/ia64/dl.c;
   ia64_efi = kern/ia64/dl_helper.c;
+  ia64_efi = kern/ia64/cache.c;
 
   arm_efi = kern/arm/efi/init.c;
   arm_efi = kern/arm/efi/misc.c;
@@ -283,6 +283,9 @@ kernel = {
   emu = osdep/emuconsole.c;
   extra_dist = osdep/unix/emuconsole.c;
   extra_dist = osdep/windows/emuconsole.c;
+  emu = osdep/dl.c;
+  extra_dist = osdep/unix/dl.c;
+  extra_dist = osdep/windows/dl.c;
   emu = osdep/sleep.c;
   emu = osdep/init.c;
   emu = osdep/emunet.c;

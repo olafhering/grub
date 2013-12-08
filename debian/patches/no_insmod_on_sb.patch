@@ -3,14 +3,14 @@ Author: Matthew Garrett <mjg@redhat.com>
 Author: Colin Watson <cjwatson@ubuntu.com>
 Origin: vendor, http://pkgs.fedoraproject.org/cgit/grub2.git/tree/grub-2.00-no-insmod-on-sb.patch
 Forwarded: no
-Last-Update: 2013-11-26
+Last-Update: 2013-12-08
 
 Index: b/grub-core/kern/dl.c
 ===================================================================
 --- a/grub-core/kern/dl.c
 +++ b/grub-core/kern/dl.c
-@@ -42,6 +42,10 @@
- #include <sys/mman.h>
+@@ -38,6 +38,10 @@
+ #define GRUB_MODULES_MACHINE_READONLY
  #endif
  
 +#ifdef GRUB_MACHINE_EFI
@@ -20,7 +20,7 @@ Index: b/grub-core/kern/dl.c
  
  
  #pragma GCC diagnostic ignored "-Wcast-align"
-@@ -654,6 +658,15 @@
+@@ -678,6 +682,15 @@
    void *core = 0;
    grub_dl_t mod = 0;
  

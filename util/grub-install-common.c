@@ -60,6 +60,8 @@ grub_install_help_filter (int key, const char *text,
       return xasprintf(text, grub_util_get_pkglibdir ());      
     case GRUB_INSTALL_OPTIONS_LOCALE_DIRECTORY:
       return xasprintf(text, grub_util_get_localedir ());
+    case GRUB_INSTALL_OPTIONS_THEMES_DIRECTORY:
+      return grub_util_path_concat (2, grub_util_get_pkgdatadir (), "themes");
     default:
       return (char *) text;
     }
@@ -220,6 +222,7 @@ struct install_list install_fonts = { 1, 0, 0, 0 };
 struct install_list install_themes = { 1, 0, 0, 0 };
 char *grub_install_source_directory = NULL;
 char *grub_install_locale_directory = NULL;
+char *grub_install_themes_directory = NULL;
 
 void
 grub_install_push_module (const char *val)
@@ -294,12 +297,30 @@ handle_install_list (struct install_list *il, const char *val,
 
 static char **pubkeys;
 static size_t npubkeys;
+static grub_compression_t compression;
 
 int
 grub_install_parse (int key, char *arg)
 {
   switch (key)
     {
+    case 'C':
+      if (grub_strcmp (arg, "xz") == 0)
+	{
+#ifdef HAVE_LIBLZMA
+	  compression = GRUB_COMPRESSION_XZ;
+#else
+	  grub_util_error ("%s",
+			   _("grub-mkimage is compiled without XZ support"));
+#endif
+	}
+      else if (grub_strcmp (arg, "none") == 0)
+	compression = GRUB_COMPRESSION_NONE;
+      else if (grub_strcmp (arg, "auto") == 0)
+	compression = GRUB_COMPRESSION_AUTO;
+      else
+	grub_util_error (_("Unknown compression format %s"), arg);
+      return 1;
     case 'k':
       pubkeys = xrealloc (pubkeys,
 			  sizeof (pubkeys[0])
@@ -319,6 +340,10 @@ grub_install_parse (int key, char *arg)
     case GRUB_INSTALL_OPTIONS_LOCALE_DIRECTORY:
       free (grub_install_locale_directory);
       grub_install_locale_directory = xstrdup (arg);
+      return 1;
+    case GRUB_INSTALL_OPTIONS_THEMES_DIRECTORY:
+      free (grub_install_themes_directory);
+      grub_install_themes_directory = xstrdup (arg);
       return 1;
     case GRUB_INSTALL_OPTIONS_INSTALL_MODULES:
       handle_install_list (&install_modules, arg, 0);
@@ -394,8 +419,7 @@ grub_install_make_image_wrap_file (const char *dir, const char *prefix,
 				   FILE *fp, const char *outname,
 				   char *memdisk_path,
 				   char *config_path,
-				   const char *mkimage_target, int note,
-				   grub_compression_t comp)
+				   const char *mkimage_target, int note)
 {
   const struct grub_install_image_target_desc *tgt;
   const char *const compnames[] = 
@@ -461,7 +485,7 @@ grub_install_make_image_wrap_file (const char *dir, const char *prefix,
 		  "--format '%s' --compression '%s' %s %s\n",
 		  dir, prefix,
 		  outname, mkimage_target,
-		  compnames[comp], note ? "--note" : "", s);
+		  compnames[compression], note ? "--note" : "", s);
 
   tgt = grub_install_get_image_target (mkimage_target);
   if (!tgt)
@@ -470,7 +494,7 @@ grub_install_make_image_wrap_file (const char *dir, const char *prefix,
   grub_install_generate_image (dir, prefix, fp, outname,
 			       modules.entries, memdisk_path,
 			       pubkeys, npubkeys, config_path, tgt,
-			       note, comp);
+			       note, compression);
   while (dc--)
     grub_install_pop_module ();
 }
@@ -479,8 +503,7 @@ void
 grub_install_make_image_wrap (const char *dir, const char *prefix,
 			      const char *outname, char *memdisk_path,
 			      char *config_path,
-			      const char *mkimage_target, int note,
-			      grub_compression_t comp)
+			      const char *mkimage_target, int note)
 {
   FILE *fp;
 
@@ -490,7 +513,7 @@ grub_install_make_image_wrap (const char *dir, const char *prefix,
 		     strerror (errno));
   grub_install_make_image_wrap_file (dir, prefix, fp, outname,
 				     memdisk_path, config_path,
-				     mkimage_target, note, comp);
+				     mkimage_target, note);
   grub_util_file_sync (fp);
   fclose (fp);
 }
@@ -675,6 +698,7 @@ grub_install_copy_files (const char *src,
 {
   char *dst_platform, *dst_locale, *dst_fonts;
   const char *pkgdatadir = grub_util_get_pkgdatadir ();
+  char *themes_dir;
 
   {
     char *platform;
@@ -806,14 +830,20 @@ grub_install_copy_files (const char *src,
       install_themes.entries[1] = NULL;
     }
 
+  if (grub_install_themes_directory)
+    themes_dir = xstrdup (grub_install_themes_directory);
+  else
+    themes_dir = grub_util_path_concat (2, grub_util_get_pkgdatadir (),
+					"themes");
+
   for (i = 0; i < install_themes.n_entries; i++)
     {
-      char *srcf = grub_util_path_concat (4, pkgdatadir, "themes",
+      char *srcf = grub_util_path_concat (3, themes_dir,
 					install_themes.entries[i],
 					"theme.txt");
       if (grub_util_is_regular (srcf))
 	{
-	  char *srcd = grub_util_path_concat (3, pkgdatadir, "themes",
+	  char *srcd = grub_util_path_concat (2, themes_dir,
 					    install_themes.entries[i]);
 	  char *dstd = grub_util_path_concat (3, dst, "themes",
 					    install_themes.entries[i]);
@@ -824,6 +854,8 @@ grub_install_copy_files (const char *src,
 	}
       free (srcf);
     }
+
+  free (themes_dir);
 
   if (install_fonts.is_default)
     {

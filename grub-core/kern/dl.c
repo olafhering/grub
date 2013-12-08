@@ -38,10 +38,6 @@
 #define GRUB_MODULES_MACHINE_READONLY
 #endif
 
-#ifdef GRUB_MACHINE_EMU
-#include <sys/mman.h>
-#endif
-
 #ifdef GRUB_MACHINE_EFI
 #include <grub/efi/efi.h>
 #endif
@@ -233,7 +229,7 @@ grub_dl_load_segments (grub_dl_t mod, const Elf_Ehdr *e)
   unsigned i;
   Elf_Shdr *s;
   grub_size_t tsize = 0, talign = 1;
-#if defined (__ia64__) || defined (__powerpc__) || defined (__mips__)
+#if !defined (__i386__) && !defined (__x86_64__) && !defined (__sparc__)
   grub_size_t tramp;
   grub_size_t got;
   grub_err_t err;
@@ -249,7 +245,7 @@ grub_dl_load_segments (grub_dl_t mod, const Elf_Ehdr *e)
 	talign = s->sh_addralign;
     }
 
-#if defined (__ia64__) || defined (__powerpc__) || defined (__mips__)
+#if !defined (__i386__) && !defined (__x86_64__) && !defined (__sparc__)
   err = grub_arch_dl_get_tramp_got_size (e, &tramp, &got);
   if (err)
     return err;
@@ -262,20 +258,14 @@ grub_dl_load_segments (grub_dl_t mod, const Elf_Ehdr *e)
 #endif
 
 #ifdef GRUB_MACHINE_EMU
-  if (talign < 8192 * 16)
-    talign = 8192 * 16;
-  tsize = ALIGN_UP (tsize, 8192 * 16);
-#endif
-
+  mod->base = grub_osdep_dl_memalign (talign, tsize);
+#else
   mod->base = grub_memalign (talign, tsize);
+#endif
   if (!mod->base)
     return grub_errno;
   mod->sz = tsize;
   ptr = mod->base;
-
-#ifdef GRUB_MACHINE_EMU
-  mprotect (mod->base, tsize, PROT_READ | PROT_WRITE | PROT_EXEC);
-#endif
 
   for (i = 0, s = (Elf_Shdr *)((char *) e + e->e_shoff);
        i < e->e_shnum;
@@ -318,12 +308,14 @@ grub_dl_load_segments (grub_dl_t mod, const Elf_Ehdr *e)
 	  mod->segment = seg;
 	}
     }
-#if defined (__ia64__) || defined (__powerpc__) || defined (__mips__)
+#if !defined (__i386__) && !defined (__x86_64__) && !defined (__sparc__)
   ptr = (char *) ALIGN_UP ((grub_addr_t) ptr, GRUB_ARCH_DL_TRAMP_ALIGN);
   mod->tramp = ptr;
+  mod->trampptr = ptr;
   ptr += tramp;
   ptr = (char *) ALIGN_UP ((grub_addr_t) ptr, GRUB_ARCH_DL_GOT_ALIGN);
   mod->got = ptr;
+  mod->gotptr = ptr;
   ptr += got;
 #endif
 
@@ -356,6 +348,7 @@ grub_dl_resolve_symbols (grub_dl_t mod, Elf_Ehdr *e)
 #else
   mod->symtab = (Elf_Sym *) ((char *) e + s->sh_offset);
 #endif
+  mod->symsize = s->sh_entsize;
   sym = mod->symtab;
   size = s->sh_size;
   entsize = s->sh_entsize;
@@ -565,6 +558,37 @@ grub_dl_flush_cache (grub_dl_t mod)
   grub_arch_sync_caches (mod->base, mod->sz);
 }
 
+static grub_err_t
+grub_dl_relocate_symbols (grub_dl_t mod, void *ehdr)
+{
+  Elf_Ehdr *e = ehdr;
+  Elf_Shdr *s;
+  unsigned i;
+
+  for (i = 0, s = (Elf_Shdr *) ((char *) e + e->e_shoff);
+       i < e->e_shnum;
+       i++, s = (Elf_Shdr *) ((char *) s + e->e_shentsize))
+    if (s->sh_type == SHT_REL || s->sh_type == SHT_RELA)
+      {
+	grub_dl_segment_t seg;
+	grub_err_t err;
+
+	/* Find the target segment.  */
+	for (seg = mod->segment; seg; seg = seg->next)
+	  if (seg->section == s->sh_info)
+	    break;
+
+	if (seg)
+	  {
+	    err = grub_arch_dl_relocate_symbols (mod, ehdr, s, seg);
+	    if (err)
+	      return err;
+	  }
+      }
+
+  return GRUB_ERR_NONE;
+}
+
 /* Load a module from core memory.  */
 grub_dl_t
 grub_dl_load_core_noinit (void *addr, grub_size_t size)
@@ -611,7 +635,7 @@ grub_dl_load_core_noinit (void *addr, grub_size_t size)
       || grub_dl_resolve_dependencies (mod, e)
       || grub_dl_load_segments (mod, e)
       || grub_dl_resolve_symbols (mod, e)
-      || grub_arch_dl_relocate_symbols (mod, e))
+      || grub_dl_relocate_symbols (mod, e))
     {
       mod->fini = 0;
       grub_dl_unload (mod);
@@ -761,7 +785,11 @@ grub_dl_unload (grub_dl_t mod)
       grub_free (dep);
     }
 
+#ifdef GRUB_MACHINE_EMU
+  grub_dl_osdep_dl_free (mod->base);
+#else
   grub_free (mod->base);
+#endif
   grub_free (mod->name);
 #ifdef GRUB_MODULES_MACHINE_READONLY
   grub_free (mod->symtab);

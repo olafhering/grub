@@ -1,3 +1,254 @@
+2013-12-08  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/ia64/efi/init.c (grub_arch_sync_caches): Move to ...
+	* grub-core/kern/ia64/cache.c (grub_arch_sync_caches): ... here.
+
+2013-12-08  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/emu/main.c: Silence missing prototypes to allow emu
+	compilation with GCC <= 4.2.
+	* grub-core/kern/emu/argp_common.c: Likewise.
+
+2013-12-08  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/kernel.h [__sparc__]: Restrict sparc64-ieee1275 to
+	right platform rather than leaking to sparc64-emu.
+
+2013-12-08  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/osdep/windows/emuconsole.c: Remove unsigned comparison >= 0.
+	But ensure that the variables in question are indeed unsigned.
+
+2013-12-08  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/emu/lite.c: Add missing include of ../ia64/dl_helper.c.
+
+2013-12-08  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Remove grub_memalign on emu.
+
+2013-12-08  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/ia64/efi/init.c: Fix alignment code so it doesn't
+	truncate incomplete lines but instead flushes them.
+
+2013-12-08  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Move OS-dependent mprotect for module loading to grub-core/osdep/*/dl.c
+	and implement windows variant.
+
+2013-12-08  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Fix mips-emu compilation.
+
+2013-12-08  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Check for freetype library usability.
+
+2013-12-08  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Make arm-emu work.
+
+2013-12-07  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-mkfont.c: Replace stpcpy with grub_stpcpy.
+
+2013-12-07  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* docs/grub.texi (Environment): Update color_normal and color_highlight
+	defaults (light-gray instead of white).
+
+2013-12-07  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* grub-core/normal/main.c (INIT): Set default color to light-gray
+	to match GRUB_TERM_DEFAULT_NORMAL_COLOR (i.e. rescue mode), Linux
+	and apparently BIOS defaults.
+
+2013-12-07  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Transform -C option to grub-mkstandalone to --core-compress available
+	in all grub-install flavours.
+
+2013-12-07  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Merge GRUBFS and GRUB_FS variables.
+
+2013-12-07  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	Revert commit 69ca97c820, it caused failures when using OS device name
+	in grub-install. Instead just strip off parenthesis in grub-install
+	if (hdX) was passed.
+
+2013-12-07  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* util/grub-install.c (push_partmap_module): Add helper to convert
+	partmap names to module names and use it in probe_mods(). Fixes
+	failure to find partmap modules in diskfilter case.
+
+2013-12-07  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Make unifont mandatory on coreboot.
+
+2013-12-07  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Skip unifont 6.3 pcf and bdf.
+
+2013-12-07  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* Makefile.am: Remove partial font files if generation failed.
+
+2013-12-07  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* util/misc.c (grub_qsort_strcmp): Add qsort helper function to sort
+	strings.
+	* include/grub/util/misc.h: Define it ...
+	* util/grub-install.c (device_map_check_duplicates): ... and use it.
+
+2013-12-07  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* util/grub.d/30_os-prober.in: Fix use of grub-probe instead of
+	${grub_probe}.
+
+2013-12-06  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Don't add -mlong-calls when compiling with clang.
+
+2013-12-06  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Fix a typo.
+
+2013-12-06  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Revamp relocation handling.
+
+	Move more code to common dl.c. Add missing veneers for arm and arm64.
+	Decreases kernel size by 70 bytes on i386-pc (40-50 compressed)
+
+2013-12-05  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-mkimagexx.c: Fix reloc section generation for ia64.
+
+2013-12-05  Mike Gilbert  <floppym@gentoo.org>
+
+	* INSTALL: Raise minimum python version to 2.6.
+	* gentpl.py: Use python3-style print function.
+
+2013-12-05  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-install.c: Mention Boot* variable.
+
+2013-12-05  Colin Watson  <cjwatson@ubuntu.com>
+
+	* grub-core/osdep/linux/hostdisk.c
+	(grub_util_find_partition_start_os): Initialise start to avoid
+	spurious compiler warning.
+
+2013-12-05  Colin Watson  <cjwatson@ubuntu.com>
+
+	On Linux, read partition start offsets from sysfs if possible, to
+	cope with block device drivers that don't implement HDIO_GETGEO.
+	Fixes Ubuntu bug #1237519.
+
+	* grub-core/osdep/linux/hostdisk.c (sysfs_partition_path): New
+	function.
+	(sysfs_partition_start): Likewise.
+	(grub_util_find_partition_start_os): Try sysfs_partition_start
+	before HDIO_GETGEO.
+
+2013-12-05  Leif Lindholm  <leif.lindholm@linaro.org>
+
+	* grub-core/kern/fdt.c: Update struct size when adding node.
+
+2013-12-05  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Handle unaligned .bss on sparc64.
+
+	Current code improperly assumes that both __bss_start and _end are
+	aligned to 8-bytes. Eliminating this assumption and explicitly align
+	modules.
+
+2013-12-04  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/boot/sparc64/ieee1275/boot.S [CDBOOT]: Move scratchpad
+	so it doesn't land in the middle of loaded image.
+
+2013-12-04  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Move all warning options that may be absent in
+	gcc >= 3.1 to optional.
+
+	Note: while this allows to compile with older GCC, official requirements
+	remain the same and no support for older GCC.
+
+2013-12-04  Colin Watson  <cjwatson@ubuntu.com>
+
+	Copying the themes directory in grub-shell isn't
+	parallel-test-friendly and breaks on the second test when the source
+	directory is read-only (as in "make distcheck").  Instead, add a
+	hidden --themes-directory option to grub-mkrescue et al, and use it
+	in grub-shell.
+
+2013-12-04  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* conf/Makefile.common (CFLAGS_GNULIB): Remove -Wno-old-style-definition
+	as it's no longer necessarry.
+
+2013-12-04  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Allow compilation with older GCC for ARM.
+
+2013-12-04  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Add -no-integrated-as if {addme|ame} isn't supported.
+	* INSTALL: Note that GRUBwas successfully compiled with clang 3.2 for
+	ppc.
+
+2013-12-04  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/emu/main.c: Ignore missing prototype for main.
+
+2013-12-04  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Pass font config to config.h and not by TARGET_CFLAGS as adding
+	arguments doesn't work if TARGET_CFLAGS is specified on command
+	line.
+
+2013-12-04  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Add -Wvla if compiler supports it.
+
+2013-12-04  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/osdep/windows/emuconsole.c (grub_console_putchar):
+	Remove variable length arrays.
+	* grub-core/term/efi/console.c (grub_console_putchar): Likewise.
+
+2013-12-04  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/i386/qemu/init.c: Remove variable length arrays.
+
+2013-12-04  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/types.h: Declare all byteswaps as inline functions
+	except compile-time ones.
+
+	Solves variable shadowing in constructions like
+	cpu_to_le (le_to_cpu(x) + 1).
+
+2013-12-04  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/efi/efi.c: Remove variable length arrays.
+
+2013-12-04  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/uboot/init.c (uboot_timer_ms): Fix overflow after 71
+	minutes.
+
+2013-12-04  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/disk/ieee1275/ofdisk.c: Remove variable length arrays.
+	* grub-core/net/drivers/ieee1275/ofnet.c: Likewise.
+
 2013-12-03  Colin Watson  <cjwatson@ubuntu.com>
 
 	* grub-core/Makefile.core.def (setjmp): Distribute

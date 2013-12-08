@@ -422,6 +422,26 @@ esac
 # For gnulib.
 gl_INIT
 
+WARN_FLAGS="-Wall -W -Wshadow -Wpointer-arith -Wundef -Wchar-subscripts -Wcomment -Wdeprecated-declarations -Wdisabled-optimization -Wdiv-by-zero -Wfloat-equal -Wformat-extra-args -Wformat-security -Wformat-y2k -Wimplicit -Wimplicit-function-declaration -Wimplicit-int -Wmain -Wmissing-braces -Wmissing-format-attribute -Wmultichar -Wparentheses -Wpointer-arith -Wreturn-type -Wsequence-point -Wshadow -Wsign-compare -Wswitch -Wtrigraphs -Wundef -Wunknown-pragmas -Wunused -Wunused-function -Wunused-label -Wunused-parameter -Wunused-value  -Wunused-variable -Wwrite-strings -Wnested-externs -Wstrict-prototypes"
+EXTRA_WARN_FLAGS="-Wold-style-definition -Wextra -Wattributes -Wendif-labels -Winit-self -Wint-to-pointer-cast -Winvalid-pch -Wmissing-field-initializers -Wnonnull -Woverflow -Wvla -Wpointer-to-int-cast -Wstrict-aliasing -Wvariadic-macros -Wvolatile-register-var -Wpointer-sign"
+
+HOST_CFLAGS="$HOST_CFLAGS $WARN_FLAGS -Wcast-align"
+
+AC_CACHE_CHECK([which extra warnings work], [grub_cv_cc_w_extra_flags], [
+  SAVED_CFLAGS="$CFLAGS"
+  grub_cv_cc_w_extra_flags=
+  for x in $EXTRA_WARN_FLAGS; do
+      CFLAGS="$HOST_CFLAGS $x -Werror"
+      AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [flag=1], [flag=0])
+      if test x$flag = x1 ; then
+         grub_cv_cc_w_extra_flags="$grub_cv_cc_w_extra_flags $x"
+      fi
+  done
+  CFLAGS="$SAVED_CFLAGS"
+])
+
+HOST_CFLAGS="$HOST_CFLAGS $grub_cv_cc_w_extra_flags"
+
 #
 # Check for target programs.
 #
@@ -472,8 +492,6 @@ LDFLAGS="$TARGET_LDFLAGS"
 LIBS=""
 
 # debug flags.
-WARN_FLAGS="-Wall -W -Wshadow -Wold-style-definition -Wpointer-arith -Wundef -Wextra -Wattributes -Wchar-subscripts -Wcomment -Wdeprecated-declarations -Wdisabled-optimization -Wdiv-by-zero -Wendif-labels -Wfloat-equal -Wformat-extra-args -Wformat-security -Wformat-y2k -Wimplicit -Wimplicit-function-declaration -Wimplicit-int -Winit-self -Wint-to-pointer-cast -Winvalid-pch -Wmain -Wmissing-braces -Wmissing-field-initializers -Wmissing-format-attribute -Wmultichar -Wnonnull -Woverflow -Wparentheses -Wpointer-arith -Wpointer-to-int-cast -Wreturn-type -Wsequence-point -Wshadow -Wsign-compare -Wstrict-aliasing -Wswitch -Wtrigraphs -Wundef -Wunknown-pragmas -Wunused -Wunused-function -Wunused-label -Wunused-parameter -Wunused-value  -Wunused-variable -Wvariadic-macros -Wvolatile-register-var -Wwrite-strings -Wnested-externs -Wstrict-prototypes -Wpointer-sign"
-HOST_CFLAGS="$HOST_CFLAGS $WARN_FLAGS -Wcast-align"
 TARGET_CFLAGS="$TARGET_CFLAGS $WARN_FLAGS -g -Wredundant-decls -Wmissing-prototypes -Wmissing-declarations"
 TARGET_CCASFLAGS="$TARGET_CCASFLAGS -g"
 
@@ -481,8 +499,25 @@ if test "x$target_cpu" != xi386 && test "x$target_cpu" != xx86_64; then
 TARGET_CFLAGS="$TARGET_CFLAGS -Wcast-align"
 fi
 
+AC_CACHE_CHECK([which extra warnings work], [grub_cv_target_cc_w_extra_flags], [
+  LDFLAGS="$TARGET_LDFLAGS -nostdlib -static"
+
+  grub_cv_target_cc_w_extra_flags=
+  for x in $EXTRA_WARN_FLAGS; do
+      CFLAGS="$TARGET_CFLAGS $x -Werror"
+      AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [flag=1], [flag=0])
+      if test x$flag = x1 ; then
+         grub_cv_target_cc_w_extra_flags="$grub_cv_target_cc_w_extra_flags $x"
+      fi
+  done
+])
+
+TARGET_CFLAGS="$TARGET_CFLAGS $grub_cv_target_cc_w_extra_flags"
+
 AC_CACHE_CHECK([if compiling with clang], [grub_cv_cc_target_clang]
-[AC_COMPILE_IFELSE(
+[
+CFLAGS="$TARGET_CFLAGS"
+AC_COMPILE_IFELSE(
 [AC_LANG_PROGRAM([], [[
 #ifdef __clang__
 #error "is clang"
@@ -498,6 +533,26 @@ if test "x$grub_cv_cc_target_clang" = xyes && ( test "x$target_cpu" = xi386 \
    || test "x$target_cpu" = xx86_64 || test "x$target_cpu" = xarm \
    || test "x$target_cpu" = xmips || test "x$target_cpu" = xmipsel ); then
    TARGET_CCASFLAGS="$TARGET_CCASFLAGS -no-integrated-as"
+fi
+
+if test "x$grub_cv_cc_target_clang" = xyes && test "x$target_cpu" = xpowerpc; then
+AC_CACHE_CHECK([if clang can handle ame instruction], [grub_cv_cc_target_clang_ame]
+[
+CFLAGS="$TARGET_CFLAGS"
+AC_COMPILE_IFELSE(
+[AC_LANG_PROGRAM([], [[
+   unsigned int a = 0, b = 0;
+   asm volatile ("{ame|addme} %0,%1" : "=r" (a) : "r" (b));
+   if (a)
+     return 1;
+]])],
+[grub_cv_cc_target_clang_ame=yes], [grub_cv_cc_target_clang_ame=no])])
+   # clang <= 3.3 doesn't handle most of ppc assembly, not even inline assembly
+   # used by gcrypt
+   if test x$grub_cv_cc_target_clang_ame = xno ; then
+     TARGET_CCASFLAGS="$TARGET_CCASFLAGS -no-integrated-as"
+     TARGET_CFLAGS="$TARGET_CFLAGS -no-integrated-as"
+   fi
 fi
 
 if test "x$target_cpu" = xi386 && test "x$platform" != xemu; then
@@ -793,6 +848,18 @@ if test "$target_cpu"-"$platform" = x86_64-efi; then
   TARGET_CFLAGS="$TARGET_CFLAGS -mno-red-zone"
 fi
 
+if test "x$target_cpu" = xarm; then
+  AC_CACHE_CHECK([whether option -mlong-calls works], grub_cv_cc_mlong_calls, [
+    CFLAGS="$TARGET_CFLAGS -mlong-calls -Werror"
+    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
+		      [grub_cv_cc_mlong_calls=yes],
+		      [grub_cv_cc_mlong_calls=no])
+  ])
+  if test "x$grub_cv_cc_mlong_calls" = xyes; then
+    TARGET_CFLAGS="$TARGET_CFLAGS -mlong-calls"
+  fi
+fi
+
 #
 # Compiler features.
 #
@@ -848,7 +915,7 @@ CFLAGS="$TARGET_CFLAGS"
 # -mno-unaligned-access -mstrict-align
 if test "$target_cpu" = arm; then
   AC_CACHE_CHECK([for compile options to get strict alignment], [grub_cv_target_cc_strict_align], [
-    grub_cv_target_cc_strict_align=unknown
+    grub_cv_target_cc_strict_align=
     for arg in -mno-unaligned-access "-Xclang -mstrict-align" -mstrict-align; do
       CFLAGS="$TARGET_CFLAGS $arg -Werror"
       LDFLAGS="$TARGET_LDFLAGS"
@@ -859,12 +926,20 @@ if test "$target_cpu" = arm; then
       fi
     done])
 
-  if test x"$grub_cv_target_cc_strict_align" = xunknown; then
-    AC_MSG_ERROR([couldnt instruct compiler not to use unaligned access])
-  fi
   TARGET_CFLAGS="$TARGET_CFLAGS $grub_cv_target_cc_strict_align"
   if test x"$grub_cv_target_cc_strict_align" = x"-Xclang -mstrict-align"; then
     TARGET_LDFLAGS="$TARGET_LDFLAGS -Qunused-arguments"
+  fi
+  AC_CACHE_CHECK([if compiler generates unaligned accesses], [grub_cv_cc_target_emits_unaligned],
+  [CFLAGS="$TARGET_CFLAGS"
+   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([], [[
+#ifdef __ARM_FEATURE_UNALIGNED
+#error "unaligned"
+#endif
+     ]])],
+     [grub_cv_cc_target_emits_unaligned=no], [grub_cv_cc_target_emits_unaligned=yes])])
+  if test x$grub_cv_cc_target_emits_unaligned = xyes; then
+    AC_MSG_ERROR([compiler generates unaligned accesses])
   fi
 fi
 
@@ -1126,10 +1201,14 @@ if test x"$grub_mkfont_excuse" = x ; then
   freetype_cflags=`$FREETYPE --cflags`
   freetype_libs=`$FREETYPE --libs`
   SAVED_CPPFLAGS="$CPPFLAGS"
+  SAVED_LIBS="$LIBS"
   CPPFLAGS="$CPPFLAGS $freetype_cflags"
+  LIBS="$LIBS $freetype_libs"
   AC_CHECK_HEADERS([ft2build.h], [],
   	[grub_mkfont_excuse=["need freetype2 headers"]])
+  AC_LINK_IFELSE([AC_LANG_CALL([], [FT_Load_Glyph])], [], [grub_mkfont_excuse=["freetype2 library unusable"]])
   CPPFLAGS="$SAVED_CPPFLAGS"
+  LIBS="$SAVED_LIBS"
 fi
 
 if test x"$enable_grub_mkfont" = xyes && test x"$grub_mkfont_excuse" != x ; then
@@ -1181,9 +1260,13 @@ if test x"$grub_build_mkfont_excuse" = x ; then
   build_freetype_cflags=`$BUILD_FREETYPE --cflags`
   build_freetype_libs=`$BUILD_FREETYPE --libs`
   SAVED_CPPFLAGS_2="$CPPFLAGS"
+  SAVED_LIBS="$LIBS"
   CPPFLAGS="$CPPFLAGS $build_freetype_cflags"
+  LIBS="$LIBS $build_freetype_libs"
   AC_CHECK_HEADERS([ft2build.h], [],
   	[grub_build_mkfont_excuse=["need freetype2 headers"]])
+  AC_LINK_IFELSE([AC_LANG_CALL([], [FT_Load_Glyph])], [], [grub_build_mkfont_excuse=["freetype2 library unusable"]])
+  LIBS="$SAVED_LIBS"
   CPPFLAGS="$SAVED_CPPFLAGS_2"
 fi
 
@@ -1195,8 +1278,8 @@ if test x"$grub_build_mkfont_excuse" = x ; then
 else
   enable_build_grub_mkfont=no
 fi
-if test x"$enable_build_grub_mkfont" = xno && ( test "x$platform" = xqemu || test "x$platform" = xloongson || test "x$platform" = xqemu_mips || test "x$target_cpu"-"$platform" = xpowerpc-ieee1275 ); then
-  AC_MSG_ERROR([qemu, powerpc-ieee1275 and loongson ports needs build-time grub-mkfont])
+if test x"$enable_build_grub_mkfont" = xno && ( test "x$platform" = xqemu || test "x$platform" = xloongson || test "x$platform" = xqemu_mips || test "x$target_cpu"-"$platform" = xpowerpc-ieee1275 || test "x$platform" = xcoreboot ); then
+  AC_MSG_ERROR([qemu, powerpc-ieee1275, coreboot and loongson ports needs build-time grub-mkfont])
 fi
 
 AC_SUBST([build_freetype_cflags])
@@ -1249,6 +1332,11 @@ FONT_SOURCE=
 for ext in pcf pcf.gz bdf bdf.gz ttf ttf.gz; do
   for dir in . /usr/src /usr/share/fonts/X11/misc /usr/share/fonts/unifont /usr/share/fonts/uni /usr/share/fonts/truetype/unifont /usr/share/fonts/misc; do
     if test -f "$dir/unifont.$ext"; then
+      md5="$(md5sum "$dir/unifont.$ext"|awk '{ print $1; }')"
+      # PCF and BDF from version 6.3 isn't hanled properly by libfreetype.
+      if test "$md5" = 0a54834d2788c83886a3e1785a6a1e61 || test "$md5" = 28f2565c7a41d8d407e2551159385edb || test "$md5" = dae5e588461b3b92b87b6ffee734f936 || test "$md5" = 4a3d687aa5bb329ed05f4263a1016791 ; then
+        continue;
+      fi
       FONT_SOURCE="$dir/unifont.$ext"
       break 2
     fi
@@ -1259,8 +1347,8 @@ if test x"$enable_build_grub_mkfont" = xno ; then
   FONT_SOURCE=
 fi
 
-if test "x$FONT_SOURCE" = x && ( test "x$platform" = xqemu || test "x$platform" = xloongson || test "x$platform" = xqemu_mips || test "x$target_cpu"-"$platform" = xpowerpc-ieee1275 ); then
-   AC_MSG_ERROR([qemu, powerpc-ieee1275 and loongson ports need unifont])
+if test "x$FONT_SOURCE" = x && ( test "x$platform" = xqemu || test "x$platform" = xloongson || test "x$platform" = xqemu_mips || test "x$target_cpu"-"$platform" = xpowerpc-ieee1275 || test "x$platform" = xcoreboot ); then
+   AC_MSG_ERROR([qemu, powerpc-ieee1275, coreboot and loongson ports need unifont])
 fi
 
 AC_SUBST([FONT_SOURCE])
@@ -1577,6 +1665,12 @@ AM_CONDITIONAL([COND_GRUB_EMU_PCI], [test x$enable_grub_emu_pci = xyes])
 AM_CONDITIONAL([COND_GRUB_MKFONT], [test x$enable_grub_mkfont = xyes])
 AM_CONDITIONAL([COND_GRUB_MOUNT], [test x$enable_grub_mount = xyes])
 AM_CONDITIONAL([COND_HAVE_FONT_SOURCE], [test x$FONT_SOURCE != x])
+if test x$FONT_SOURCE != x ; then
+   HAVE_FONT_SOURCE=1
+else
+   HAVE_FONT_SOURCE=0
+fi
+AC_SUBST(HAVE_FONT_SOURCE)
 AM_CONDITIONAL([COND_APPLE_LINKER], [test x$TARGET_APPLE_LINKER = x1])
 AM_CONDITIONAL([COND_ENABLE_EFIEMU], [test x$enable_efiemu = xyes])
 AM_CONDITIONAL([COND_ENABLE_CACHE_STATS], [test x$DISK_CACHE_STATS = x1])

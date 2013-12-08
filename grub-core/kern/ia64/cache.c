@@ -1,7 +1,7 @@
-/* cache.h - Flush the processor's cache.  */
+/* init.c - initialize an ia64-based EFI system */
 /*
  *  GRUB  --  GRand Unified Bootloader
- *  Copyright (C) 2004,2007  Free Software Foundation, Inc.
+ *  Copyright (C) 2008  Free Software Foundation, Inc.
  *
  *  GRUB is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,11 +17,19 @@
  *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GRUB_CPU_CACHE_H
-#define GRUB_CPU_CACHE_H	1
-
-#include <grub/symbol.h>
 #include <grub/types.h>
+#include <grub/cache.h>
 
-void EXPORT_FUNC(grub_cpu_flush_cache) (void *start, grub_size_t size, int type);
-#endif 
+void
+grub_arch_sync_caches (void *address, grub_size_t len)
+{
+  /* Cache line length is at least 32.  */
+  len += (grub_uint64_t)address & 0x1f;
+  grub_uint64_t a = (grub_uint64_t)address & ~0x1f;
+
+  /* Flush data.  */
+  for (len = (len + 31) & ~0x1f; len > 0; len -= 0x20, a += 0x20)
+    asm volatile ("fc.i %0" : : "r" (a));
+  /* Sync and serialize.  Maybe extra.  */
+  asm volatile (";; sync.i;; srlz.i;;");
+}

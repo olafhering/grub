@@ -2,13 +2,13 @@ Description: Add "linuxefi" loader which avoids ExitBootServices
 Author: Matthew Garrett <mjg@redhat.com>
 Origin: vendor, http://pkgs.fedoraproject.org/cgit/grub2.git/tree/grub2-linuxefi.patch
 Forwarded: no
-Last-Update: 2013-12-03
+Last-Update: 2013-12-08
 
 Index: b/grub-core/Makefile.core.def
 ===================================================================
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -1688,6 +1688,14 @@
+@@ -1691,6 +1691,14 @@
  };
  
  module = {

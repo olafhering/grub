@@ -1,7 +1,6 @@
-/* grub-setup.c - make GRUB usable */
 /*
  *  GRUB  --  GRand Unified Bootloader
- *  Copyright (C) 1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012  Free Software Foundation, Inc.
+ *  Copyright (C) 2013  Free Software Foundation, Inc.
  *
  *  GRUB is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,21 +19,41 @@
 #include <config.h>
 #include <config-util.h>
 
-#pragma GCC diagnostic ignored "-Wmissing-prototypes"
-
-#define _GNU_SOURCE	1
+#include <grub/dl.h>
+#include <grub/misc.h>
+#include <grub/mm.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <progname.h>
-#include <argp.h>
+#include <string.h>
+#include <windows.h>
 
-/* Print the version information.  */
-static void
-print_version (FILE *stream, struct argp_state *state)
+void *
+grub_osdep_dl_memalign (grub_size_t align, grub_size_t size)
 {
-  fprintf (stream, "%s (%s) %s\n", program_name, PACKAGE_NAME, PACKAGE_VERSION);
-}
-void (*argp_program_version_hook) (FILE *, struct argp_state *) = print_version;
+  void *ret;
+  if (align > 4096)
+    {
+      grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET, N_("too large alignment"));
+      return NULL;
+    }
 
-/* Set the bug report address */
-const char *argp_program_bug_address = "<"PACKAGE_BUGREPORT">";
+  size = ALIGN_UP (size, 4096);
+
+  ret = VirtualAlloc (NULL, size, MEM_COMMIT | MEM_RESERVE,
+		      PAGE_EXECUTE_READWRITE);
+
+  if (!ret)
+    {
+      grub_error (GRUB_ERR_OUT_OF_MEMORY, N_("out of memory"));
+      return NULL;
+    }
+
+  return ret;
+}
+
+void
+grub_dl_osdep_dl_free (void *ptr)
+{
+  if (!ptr)
+    return;
+  VirtualFree (ptr, 0,  MEM_RELEASE);
+}

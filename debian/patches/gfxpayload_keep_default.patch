@@ -11,13 +11,13 @@ Description: Disable gfxpayload=keep by default
 Author: Colin Watson <cjwatson@debian.org>
 Bug-Debian: http://bugs.debian.org/567245
 Forwarded: no
-Last-Update: 2010-03-09
+Last-Update: 2013-12-08
 
 Index: b/util/grub.d/10_linux.in
 ===================================================================
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -108,10 +108,6 @@
+@@ -102,10 +102,6 @@
    # FIXME: We need an interface to select vesafb in case efifb can't be used.
    if [ "x$GRUB_GFXPAYLOAD_LINUX" = x ]; then
        echo "	load_video" | sed "s/^/$submenu_indentation/"

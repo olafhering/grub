@@ -10,10 +10,6 @@ CCAS=$(TARGET_CC)
 RANLIB=$(TARGET_RANLIB)
 STRIP=$(TARGET_STRIP)
 
-if COND_HAVE_FONT_SOURCE
-TARGET_CFLAGS += -DUSE_ASCII_FALLBACK=1 -DHAVE_UNIFONT_WIDTHSPEC=1
-endif
-
 MACHO2IMG=$(top_builddir)/grub-macho2img
 
 AM_CFLAGS = $(TARGET_CFLAGS)
@@ -173,7 +169,6 @@ endif
 if COND_mips_qemu_mips
 KERNEL_HEADER_FILES += $(top_builddir)/include/grub/keyboard_layouts.h
 KERNEL_HEADER_FILES += $(top_builddir)/include/grub/machine/kernel.h
-KERNEL_HEADER_FILES += $(top_builddir)/include/grub/cpu/cache.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/serial.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/loader.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/terminfo.h
@@ -185,7 +180,6 @@ if COND_mips_loongson
 KERNEL_HEADER_FILES += $(top_builddir)/include/grub/keyboard_layouts.h
 KERNEL_HEADER_FILES += $(top_builddir)/include/grub/machine/kernel.h
 KERNEL_HEADER_FILES += $(top_builddir)/include/grub/machine/time.h
-KERNEL_HEADER_FILES += $(top_builddir)/include/grub/cpu/cache.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/video.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/video_fb.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/gfxterm.h

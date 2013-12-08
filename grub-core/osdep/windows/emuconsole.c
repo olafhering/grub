@@ -37,7 +37,7 @@ static void
 grub_console_putchar (struct grub_term_output *term __attribute__ ((unused)),
 		      const struct grub_unicode_glyph *c)
 {
-  TCHAR str[2 + c->ncomb];
+  TCHAR str[2 + 30];
   unsigned i, j;
   DWORD written;
 
@@ -47,7 +47,7 @@ grub_console_putchar (struct grub_term_output *term __attribute__ ((unused)),
   else
     str[0] = (c->base & 0xffff);
   j = 1;
-  for (i = 0; i < c->ncomb; i++)
+  for (i = 0; i < c->ncomb && j+1 < ARRAY_SIZE (str); i++)
     if (c->base < 0xffff)
       str[j++] = grub_unicode_get_comb (c)[i].code;
   str[j] = 0;
@@ -108,11 +108,9 @@ grub_console_getkey (struct grub_term_input *term __attribute__ ((unused)))
       ret = ir.Event.KeyEvent.uChar.UnicodeChar;
       if (ret == 0)
 	{
-	  if (ir.Event.KeyEvent.wVirtualKeyCode >= 0
-	      && ir.Event.KeyEvent.wVirtualKeyCode
-	      < ARRAY_SIZE (windows_codes)
-	      && windows_codes[(int) ir.Event.KeyEvent.wVirtualKeyCode])
-	    ret = windows_codes[(int) ir.Event.KeyEvent.wVirtualKeyCode];
+	  unsigned kc = ir.Event.KeyEvent.wVirtualKeyCode;
+	  if (kc < ARRAY_SIZE (windows_codes) && windows_codes[kc])
+	    ret = windows_codes[kc];
 	  else
 	    continue;
 	  if (ir.Event.KeyEvent.dwControlKeyState & SHIFT_PRESSED)

@@ -11,9 +11,11 @@ if COND_sparc64_ieee1275
   LDFLAGS_PLATFORM = -Wl,-melf64_sparc -mno-relax
 endif
 if COND_arm
-  CFLAGS_PLATFORM += -mthumb-interwork -mlong-calls
+  CFLAGS_PLATFORM += -mthumb-interwork
   CCASFLAGS_PLATFORM = -mthumb-interwork
+if !COND_emu
   LDFLAGS_PLATFORM = -Wl,--wrap=__clear_cache
+endif
 endif
 if COND_arm64
   CFLAGS_PLATFORM += -mcmodel=large
@@ -73,7 +75,7 @@ grubconfdir = $(sysconfdir)/grub.d
 platformdir = $(pkglibdir)/$(target_cpu)-$(platform)
 starfielddir = $(pkgdatadir)/themes/starfield
 
-CFLAGS_GNULIB = -Wno-undef -Wno-sign-compare -Wno-unused -Wno-unused-parameter -Wno-redundant-decls -Wno-unreachable-code -Wno-conversion -Wno-old-style-definition
+CFLAGS_GNULIB = -Wno-undef -Wno-sign-compare -Wno-unused -Wno-unused-parameter -Wno-redundant-decls -Wno-unreachable-code -Wno-conversion
 CPPFLAGS_GNULIB = -I$(top_builddir)/grub-core/gnulib -I$(top_srcdir)/grub-core/gnulib
 
 CFLAGS_POSIX = -fno-builtin
