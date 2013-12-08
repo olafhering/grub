@@ -18,6 +18,8 @@ grub2 (2.00+20131208-1) UNRELEASED; urgency=low
     - Fix Ctrl-u handling to copy the killed characters to the kill buffer
       as UCS4 stored as grub_uint32_t rather than as 8-bit characters stored
       as char (closes: #710076).
+    - Fix inconsistent use of GRUB_CRYPTODISK_ENABLE and
+      GRUB_ENABLE_CRYPTODISK (LP: #1232237).
     - Support GRUB_DISABLE_SUBMENU configuration, and document submenu usage
       in grub-reboot(8) (closes: #690538).
     - Don't decompress initrd when booting with Xen (closes: #700197).
@@ -32,6 +34,8 @@ grub2 (2.00+20131208-1) UNRELEASED; urgency=low
       quick_boot.patch had made of /etc/grub.d/30_os-prober; if it finds
       other OSes it can now just set timeout_style=menu and make sure the
       timeout is non-zero.
+    - On Linux, read partition start offsets from sysfs if possible
+      (LP: #1237519).
     - New ports to arm-uboot, arm-efi, arm64-efi, i386-xen, and x86_64-xen.
   * Add grub-uboot*, grub-efi-arm*, and grub-xen* binary packages.
   * Ignore functional test failures for now as they are broken.
