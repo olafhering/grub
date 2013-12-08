@@ -149,9 +149,9 @@ Description: for internal use
 Template: grub-pc/timeout
 Type: string
 Default: @DEFAULT_TIMEOUT@
-Description: GRUB timeout
+Description: GRUB timeout; for internal use
 
 Template: grub-pc/hidden_timeout
 Type: boolean
 Default: @DEFAULT_HIDDEN_TIMEOUT_BOOL@
-Description: Hide the GRUB timeout
+Description: Hide the GRUB timeout; for internal use
