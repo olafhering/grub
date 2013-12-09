@@ -14,7 +14,7 @@ Description: Add configure option to bypass boot menu if possible
 Author: Colin Watson <cjwatson@ubuntu.com>
 Author: Richard Laager <rlaager@wiktel.com>
 Forwarded: no
-Last-Update: 2013-12-08
+Last-Update: 2013-12-09
 
 Index: b/configure.ac
 ===================================================================
@@ -160,20 +160,19 @@ Index: b/util/grub.d/00_header.in
  function load_video {
  EOF
  if [ -n "${GRUB_VIDEO_BACKEND}" ]; then
-@@ -282,6 +309,12 @@
+@@ -282,6 +309,11 @@
  
  make_timeout ()
  {
 +    cat << EOF
 +if [ "\${recordfail}" = 1 ] ; then
 +  set timeout=${GRUB_RECORDFAIL_TIMEOUT:--1}
-+fi
 +else
 +EOF
      if [ "x${1}${3}" != "x" ] ; then
  	if [ "x${3}" != "x" ] ; then
  	    timeout="${2}"
-@@ -304,26 +337,29 @@
+@@ -304,26 +336,29 @@
  	    verbose=
  	fi
  	cat << EOF
