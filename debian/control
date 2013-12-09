@@ -410,6 +410,7 @@ Description: GRand Unified Bootloader, version 2 (ARM UEFI debug files)
 Package: grub-efi-arm
 Architecture: any-arm
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-efi-arm-bin (= ${binary:Version}), ucf
+Conflicts: grub-uboot
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (ARM UEFI version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
@@ -568,6 +569,7 @@ Description: GRand Unified Bootloader, version 2 (ARM U-Boot debug files)
 Package: grub-uboot
 Architecture: any-arm
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-uboot-bin (= ${binary:Version}), ucf
+Conflicts: grub-efi-arm
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (ARM U-Boot version)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
