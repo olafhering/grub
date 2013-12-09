@@ -1,4 +1,4 @@
-grub2 (2.00+20131208-1) UNRELEASED; urgency=low
+grub2 (2.00+20131208-1) experimental; urgency=low
 
   * New upstream snapshot.
     - Skip issuing cursor on/off sequences on Macs (closes: #683068).
@@ -58,7 +58,7 @@ grub2 (2.00+20131208-1) UNRELEASED; urgency=low
   * Add GRUB_RECOVERY_TITLE option, to allow the controversial "recovery
     mode" text to be customised (LP: #1240360).
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 15 Nov 2013 10:18:57 +0000
+ -- Colin Watson <cjwatson@debian.org>  Mon, 09 Dec 2013 00:21:45 +0000
 
 grub2 (2.00-20) unstable; urgency=low
 
