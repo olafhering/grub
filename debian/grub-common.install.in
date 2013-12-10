@@ -13,6 +13,7 @@ usr/bin/grub-mklayout
 usr/bin/grub-mknetdir
 usr/bin/grub-mkpasswd-pbkdf2
 usr/bin/grub-mkrelpath
+usr/bin/grub-mkrescue
 usr/bin/grub-mkstandalone
 usr/bin/grub-script-check
 usr/sbin/grub-mkconfig
@@ -32,6 +33,7 @@ usr/share/man/man1/grub-mklayout.1
 usr/share/man/man1/grub-mknetdir.1
 usr/share/man/man1/grub-mkpasswd-pbkdf2.1
 usr/share/man/man1/grub-mkrelpath.1
+usr/share/man/man1/grub-mkrescue.1
 usr/share/man/man1/grub-mkstandalone.1
 usr/share/man/man1/grub-script-check.1
 usr/share/man/man8/grub-mkconfig.8

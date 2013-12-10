@@ -4,6 +4,7 @@ grub2 (2.00+20131208-2) UNRELEASED; urgency=low
     qemu-img.
   * Build grub-common, grub2-common, grub-themes-starfield, and grub-mount
     on ARM and ARM64 architectures.
+  * Install grub-mkrescue in grub-common on all architectures.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 10 Dec 2013 17:39:47 +0000
 
