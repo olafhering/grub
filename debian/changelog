@@ -1,3 +1,10 @@
+grub2 (2.00+20131208-2) UNRELEASED; urgency=low
+
+  * Drop qemu-utils build-dependency; the test suite no longer uses
+    qemu-img.
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 10 Dec 2013 17:39:47 +0000
+
 grub2 (2.00+20131208-1) experimental; urgency=low
 
   * New upstream snapshot.
