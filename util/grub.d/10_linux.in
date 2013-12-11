@@ -129,7 +129,7 @@ linux_entry ()
       echo "menuentry '$(echo "$os" | grub_quote)' ${CLASS} \$menuentry_id_option 'gnulinux-simple-$boot_device_id' {" | sed "s/^/$submenu_indentation/"
   fi      
   if [ "$quick_boot" = 1 ]; then
-      echo "recordfail" | sed "s/^/$submenu_indentation/"
+      echo "	recordfail" | sed "s/^/$submenu_indentation/"
   fi
   if [ x$type != xrecovery ] ; then
       save_default_entry | grub_add_tab

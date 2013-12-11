@@ -14,7 +14,7 @@ Description: Add configure option to bypass boot menu if possible
 Author: Colin Watson <cjwatson@ubuntu.com>
 Author: Richard Laager <rlaager@wiktel.com>
 Forwarded: no
-Last-Update: 2013-12-09
+Last-Update: 2013-12-11
 
 Index: b/configure.ac
 ===================================================================
@@ -228,7 +228,7 @@ Index: b/util/grub.d/10_linux.in
        echo "menuentry '$(echo "$os" | grub_quote)' ${CLASS} \$menuentry_id_option 'gnulinux-simple-$boot_device_id' {" | sed "s/^/$submenu_indentation/"
    fi      
 +  if [ "$quick_boot" = 1 ]; then
-+      echo "recordfail" | sed "s/^/$submenu_indentation/"
++      echo "	recordfail" | sed "s/^/$submenu_indentation/"
 +  fi
    if [ x$type != xrecovery ] ; then
        save_default_entry | grub_add_tab
