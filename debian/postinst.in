@@ -679,7 +679,7 @@ case "$1" in
         fi
       ;;
 
-      grub-efi-ia32|grub-efi-amd64)
+      grub-efi-ia32|grub-efi-amd64|grub-efi-ia64|grub-efi-arm|grub-efi-arm64)
         bootloader_id="$(config_item GRUB_DISTRIBUTOR | tr A-Z a-z | \
                          cut -d' ' -f1)"
         case $bootloader_id in

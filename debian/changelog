@@ -7,6 +7,9 @@ grub2 (2.00+20131208-2) UNRELEASED; urgency=low
   * Install grub-mkrescue in grub-common on all architectures.
   * Make grub-efi-ia32, grub-efi-amd64, and grub-efi-ia64 conflict with
     elilo.
+  * Adjust the postinst of grub-efi-ia64, grub-efi-arm, and grub-efi-arm64
+    to keep the EFI System Partition up to date with grub-install after it
+    has been run once, like grub-efi-ia32 and grub-efi-amd64 already do.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 10 Dec 2013 17:39:47 +0000
 
