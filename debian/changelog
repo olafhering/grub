@@ -5,6 +5,8 @@ grub2 (2.00+20131208-2) UNRELEASED; urgency=low
   * Build grub-common, grub2-common, grub-themes-starfield, and grub-mount
     on ARM and ARM64 architectures.
   * Install grub-mkrescue in grub-common on all architectures.
+  * Make grub-efi-ia32, grub-efi-amd64, and grub-efi-ia64 conflict with
+    elilo.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 10 Dec 2013 17:39:47 +0000
 
