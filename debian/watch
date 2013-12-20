@@ -1,2 +1,3 @@
 version=3
 ftp://ftp.gnu.org/gnu/grub/grub-([a-z0-9.~]+).tar.xz debian uupdate
+ftp://alpha.gnu.org/gnu/grub/grub-([a-z0-9.~]+).tar.xz debian uupdate

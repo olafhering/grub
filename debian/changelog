@@ -11,6 +11,7 @@ grub2 (2.00+20131208-2) UNRELEASED; urgency=low
     to keep the EFI System Partition up to date with grub-install after it
     has been run once, like grub-efi-ia32 and grub-efi-amd64 already do.
   * Regularise indentation of "recordfail" in /etc/grub.d/10_linux.
+  * Add alpha.gnu.org to debian/watch, for pre-releases.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 10 Dec 2013 17:39:47 +0000
 
