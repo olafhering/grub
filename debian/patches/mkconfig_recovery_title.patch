@@ -3,7 +3,7 @@ Description: Add GRUB_RECOVERY_TITLE option
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/1240360
 Forwarded: no
-Last-Update: 2013-12-08
+Last-Update: 2013-12-20
 
 Index: b/docs/grub.texi
 ===================================================================
@@ -25,7 +25,7 @@ Index: b/util/grub-mkconfig.in
 ===================================================================
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -185,6 +185,10 @@
+@@ -194,6 +194,10 @@
  
  if [ "x${GRUB_ACTUAL_DEFAULT}" = "xsaved" ] ; then GRUB_ACTUAL_DEFAULT="`"${grub_editenv}" - list | sed -n '/^saved_entry=/ s,^saved_entry=,,p'`" ; fi
  
@@ -36,7 +36,7 @@ Index: b/util/grub-mkconfig.in
  
  # These are defined in this script, export them here so that user can
  # override them.
-@@ -236,7 +240,8 @@
+@@ -246,7 +250,8 @@
    GRUB_BADRAM \
    GRUB_OS_PROBER_SKIP_LIST \
    GRUB_DISABLE_SUBMENU \
@@ -50,7 +50,7 @@ Index: b/util/grub.d/10_hurd.in
 ===================================================================
 --- a/util/grub.d/10_hurd.in
 +++ b/util/grub.d/10_hurd.in
-@@ -88,8 +88,8 @@
+@@ -98,8 +98,8 @@
  
    if [ x$type != xsimple ] ; then
        if [ x$type = xrecovery ] ; then
@@ -65,7 +65,7 @@ Index: b/util/grub.d/10_kfreebsd.in
 ===================================================================
 --- a/util/grub.d/10_kfreebsd.in
 +++ b/util/grub.d/10_kfreebsd.in
-@@ -76,7 +76,7 @@
+@@ -86,7 +86,7 @@
    fi
    if [ x$type != xsimple ] ; then
        if [ x$type = xrecovery ] ; then
@@ -78,7 +78,7 @@ Index: b/util/grub.d/10_linux.in
 ===================================================================
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -114,7 +114,7 @@
+@@ -139,7 +139,7 @@
    if [ x$type != xsimple ] ; then
        case $type in
  	  recovery)
@@ -91,7 +91,7 @@ Index: b/util/grub.d/10_netbsd.in
 ===================================================================
 --- a/util/grub.d/10_netbsd.in
 +++ b/util/grub.d/10_netbsd.in
-@@ -102,7 +102,7 @@
+@@ -110,7 +110,7 @@
  
    if [ x$type != xsimple ] ; then
        if [ x$type = xrecovery ] ; then
@@ -104,7 +104,7 @@ Index: b/util/grub.d/20_linux_xen.in
 ===================================================================
 --- a/util/grub.d/20_linux_xen.in
 +++ b/util/grub.d/20_linux_xen.in
-@@ -93,7 +93,7 @@
+@@ -97,7 +97,7 @@
    fi
    if [ x$type != xsimple ] ; then
        if [ x$type = xrecovery ] ; then

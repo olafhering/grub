@@ -42,7 +42,7 @@
     "no,xz,gz,lzo", OPTION_ARG_OPTIONAL,				  \
     N_("compress GRUB files [optional]"), 1 },			          \
   {"core-compress", GRUB_INSTALL_OPTIONS_INSTALL_CORE_COMPRESS,		\
-      N_("xz|none|auto"),						\
+      "xz|none|auto",						\
       0, N_("choose the compression to use for core image"), 2},	\
     /* TRANSLATORS: platform here isn't identifier. It can be translated. */ \
   { "directory", 'd', N_("DIR"), 0,					\
@@ -62,7 +62,7 @@
   { "pubkey",   'k', N_("FILE"), 0,					\
       N_("embed FILE as public key for signature checking"), 0},	\
   { "verbose", 'v', 0, 0,						\
-    N_("increase verbosity"), 1 }
+    N_("print verbose messages."), 1 }
 
 int
 grub_install_parse (int key, char *arg);
@@ -183,12 +183,14 @@ void
 grub_util_bios_setup (const char *dir,
 		      const char *boot_file, const char *core_file,
 		      const char *dest, int force,
-		      int fs_probe, int allow_floppy);
+		      int fs_probe, int allow_floppy,
+		      int add_rs_codes);
 void
 grub_util_sparc_setup (const char *dir,
 		       const char *boot_file, const char *core_file,
 		       const char *dest, int force,
-		       int fs_probe, int allow_floppy);
+		       int fs_probe, int allow_floppy,
+		       int add_rs_codes);
 
 char *
 grub_install_get_image_targets_string (void);
@@ -203,7 +205,7 @@ const char *
 grub_install_get_default_x86_platform (void);
 
 void
-grub_install_register_efi (const char *efidir_disk, int efidir_part,
+grub_install_register_efi (grub_device_t efidir_grub_dev,
 			   const char *efifile_path,
 			   const char *efi_distributor);
 

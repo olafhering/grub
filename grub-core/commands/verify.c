@@ -133,7 +133,7 @@ struct signature_v4_header
   grub_uint8_t pkeyalgo;
   grub_uint8_t hash;
   grub_uint16_t hashed_sub;
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 const char *hashes[] = {
   [0x01] = "md5",
@@ -885,6 +885,7 @@ grub_pubkey_open (grub_file_t io, const char *filename)
   if (err)
     return NULL;
   io->device = 0;
+  io->name = 0;
   grub_file_close (io);
   return ret;
 }

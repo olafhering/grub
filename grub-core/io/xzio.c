@@ -74,15 +74,15 @@ static grub_ssize_t
 read_vli (grub_file_t file, grub_uint64_t *num)
 {
   grub_uint8_t buf[VLI_MAX_DIGITS];
-  grub_ssize_t read;
+  grub_ssize_t read_bytes;
   grub_size_t dec;
 
-  read = grub_file_read (file, buf, VLI_MAX_DIGITS);
-  if (read < 0)
+  read_bytes = grub_file_read (file, buf, VLI_MAX_DIGITS);
+  if (read_bytes < 0)
     return -1;
 
-  dec = decode_vli (buf, read, num);
-  grub_file_seek (file, file->offset - (read - dec));
+  dec = decode_vli (buf, read_bytes, num);
+  grub_file_seek (file, file->offset - (read_bytes - dec));
   return dec;
 }
 
@@ -319,6 +319,7 @@ grub_xzio_close (grub_file_t file)
 
   /* Device must not be closed twice.  */
   file->device = 0;
+  file->name = 0;
   return grub_errno;
 }
 

@@ -859,7 +859,7 @@ grub_arm_reloc_thm_call (grub_uint16_t *target, Elf32_Addr sym_addr)
      somewhere else.  */
   if (offset < -0x200000 || offset >= 0x200000)
     return grub_error (GRUB_ERR_BAD_MODULE,
-		       N_("THM_CALL Relocation out of range."));
+		       "THM_CALL Relocation out of range.");
 
   grub_dprintf ("dl", "    relative destination = %p",
 		(char *) target + offset);
@@ -879,7 +879,7 @@ grub_arm_reloc_thm_jump19 (grub_uint16_t *target, Elf32_Addr sym_addr)
 
   if (!(sym_addr & 1))
     return grub_error (GRUB_ERR_BAD_MODULE,
-		       N_("Relocation targeting wrong execution state"));
+		       "Relocation targeting wrong execution state");
 
   offset = grub_arm_thm_jump19_get_offset (target);
 
@@ -888,7 +888,7 @@ grub_arm_reloc_thm_jump19 (grub_uint16_t *target, Elf32_Addr sym_addr)
 
   if (!grub_arm_thm_jump19_check_offset (offset))
     return grub_error (GRUB_ERR_BAD_MODULE,
-		       N_("THM_JUMP19 Relocation out of range."));
+		       "THM_JUMP19 Relocation out of range.");
 
   grub_arm_thm_jump19_set_offset (target, offset);
 
@@ -907,14 +907,14 @@ grub_arm_reloc_jump24 (grub_uint32_t *target, Elf32_Addr sym_addr)
 
   if (sym_addr & 1)
     return grub_error (GRUB_ERR_BAD_MODULE,
-		       N_("Relocation targeting wrong execution state"));
+		       "Relocation targeting wrong execution state");
 
   offset = grub_arm_jump24_get_offset (target);
   offset += sym_addr;
 
   if (!grub_arm_jump24_check_offset (offset))
     return grub_error (GRUB_ERR_BAD_MODULE,
-		       N_("JUMP24 Relocation out of range."));
+		       "JUMP24 Relocation out of range.");
 
 
   grub_arm_jump24_set_offset (target, offset);
@@ -1023,8 +1023,9 @@ grub_install_generate_image (const char *dir, const char *prefix,
       {
 	size_t curs;
 	curs = ALIGN_ADDR (grub_util_get_image_size (pubkey_paths[i]));
-	grub_util_info ("the size of public key %zd is 0x%llx",
-			i, (unsigned long long) curs);
+	grub_util_info ("the size of public key %u is 0x%"
+			GRUB_HOST_PRIxLONG_LONG,
+			(unsigned) i, (unsigned long long) curs);
 	total_module_size += curs + sizeof (struct grub_module_header);
       }
   }
@@ -1032,7 +1033,7 @@ grub_install_generate_image (const char *dir, const char *prefix,
   if (memdisk_path)
     {
       memdisk_size = ALIGN_UP(grub_util_get_image_size (memdisk_path), 512);
-      grub_util_info ("the size of memory disk is 0x%llx",
+      grub_util_info ("the size of memory disk is 0x%" GRUB_HOST_PRIxLONG_LONG,
 		      (unsigned long long) memdisk_size);
       total_module_size += memdisk_size + sizeof (struct grub_module_header);
     }
@@ -1041,7 +1042,7 @@ grub_install_generate_image (const char *dir, const char *prefix,
     {
       config_size_pure = grub_util_get_image_size (config_path) + 1;
       config_size = ALIGN_ADDR (config_size_pure);
-      grub_util_info ("the size of config file is 0x%llx",
+      grub_util_info ("the size of config file is 0x%" GRUB_HOST_PRIxLONG_LONG,
 		      (unsigned long long) config_size);
       total_module_size += config_size + sizeof (struct grub_module_header);
     }
@@ -1056,7 +1057,7 @@ grub_install_generate_image (const char *dir, const char *prefix,
     total_module_size += (ALIGN_ADDR (grub_util_get_image_size (p->name))
 			  + sizeof (struct grub_module_header));
 
-  grub_util_info ("the total module size is 0x%llx",
+  grub_util_info ("the total module size is 0x%" GRUB_HOST_PRIxLONG_LONG,
 		  (unsigned long long) total_module_size);
 
   if (image_target->voidp_sizeof == 4)
@@ -1196,13 +1197,15 @@ grub_install_generate_image (const char *dir, const char *prefix,
       offset += prefix_size;
     }
 
-  grub_util_info ("kernel_img=%p, kernel_size=0x%llx", kernel_img,
+  grub_util_info ("kernel_img=%p, kernel_size=0x%" GRUB_HOST_PRIxLONG_LONG,
+		  kernel_img,
 		  (unsigned long long) kernel_size);
   compress_kernel (image_target, kernel_img, kernel_size + total_module_size,
 		   &core_img, &core_size, comp);
   free (kernel_img);
 
-  grub_util_info ("the core size is 0x%llx", (unsigned long long) core_size);
+  grub_util_info ("the core size is 0x%" GRUB_HOST_PRIxLONG_LONG,
+		  (unsigned long long) core_size);
 
   if (!(image_target->flags & PLATFORM_FLAGS_DECOMPRESSORS) 
       && image_target->total_module_size != TARGET_NO_FIELD)

@@ -8,11 +8,13 @@ unexport LC_ALL
 # Platform specific options
 if COND_sparc64_ieee1275
   CFLAGS_PLATFORM += -mno-app-regs
-  LDFLAGS_PLATFORM = -Wl,-melf64_sparc -mno-relax
+  LDFLAGS_PLATFORM = -Wl,-melf64_sparc -Wl,--no-relax
+endif
+if COND_sparc64_emu
+  CFLAGS_PLATFORM += -mno-app-regs
+  LDFLAGS_PLATFORM = -Wl,--no-relax
 endif
 if COND_arm
-  CFLAGS_PLATFORM += -mthumb-interwork
-  CCASFLAGS_PLATFORM = -mthumb-interwork
 if !COND_emu
   LDFLAGS_PLATFORM = -Wl,--wrap=__clear_cache
 endif
@@ -44,11 +46,7 @@ CFLAGS_KERNEL = $(CFLAGS_CPU) $(CFLAGS_PLATFORM) -ffreestanding
 LDFLAGS_KERNEL = $(LDFLAGS_CPU) $(LDFLAGS_PLATFORM) -nostdlib $(TARGET_LDFLAGS_OLDMAGIC) $(TARGET_LDFLAGS_STATIC_LIBGCC)
 CPPFLAGS_KERNEL = $(CPPFLAGS_CPU) $(CPPFLAGS_PLATFORM) -DGRUB_KERNEL=1
 CCASFLAGS_KERNEL = $(CCASFLAGS_CPU) $(CCASFLAGS_PLATFORM)
-if COND_CYGWIN
-STRIPFLAGS_KERNEL = -F elf32-i386 -R .rel.dyn -R .reginfo -R .note -R .comment -R .drectve -R .note.gnu.gold-version
-else
-STRIPFLAGS_KERNEL = -R .rel.dyn -R .reginfo -R .note -R .comment -R .note.gnu.gold-version
-endif
+STRIPFLAGS_KERNEL = -R .rel.dyn -R .reginfo -R .note -R .comment -R .drectve -R .note.gnu.gold-version
 
 CFLAGS_MODULE = $(CFLAGS_CPU) $(CFLAGS_PLATFORM) -ffreestanding
 LDFLAGS_MODULE = $(LDFLAGS_CPU) $(LDFLAGS_PLATFORM) -nostdlib $(TARGET_LDFLAGS_OLDMAGIC) -Wl,-r,-d

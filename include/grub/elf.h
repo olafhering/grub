@@ -1132,6 +1132,7 @@ typedef struct
 #define R_X86_64_PC16		13
 #define R_X86_64_8		14
 #define R_X86_64_PC8		15
+#define R_X86_64_PC64		24
 
 /* Legal values for ST_TYPE subfield of st_info (symbol type).  */
 
@@ -2466,7 +2467,7 @@ typedef Elf32_Addr Elf32_Conflict;
 
 #define R_X86_64_NUM		24
 
-#ifndef GRUB_UTIL
+#ifdef GRUB_TARGET_WORDSIZE
 #if GRUB_TARGET_WORDSIZE == 32
 
 typedef Elf32_Addr Elf_Addr;

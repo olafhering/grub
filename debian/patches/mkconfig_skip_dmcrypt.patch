@@ -6,13 +6,13 @@ Author: Colin Watson <cjwatson@debian.org>
 Origin: other, http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=542165#25
 Bug-Debian: http://bugs.debian.org/542165
 Forwarded: no
-Last-Update: 2010-06-05
+Last-Update: 2013-12-20
 
 Index: b/util/grub-mkconfig_lib.in
 ===================================================================
 --- a/util/grub-mkconfig_lib.in
 +++ b/util/grub-mkconfig_lib.in
-@@ -130,6 +130,15 @@
+@@ -133,6 +133,15 @@
      esac
    done
  

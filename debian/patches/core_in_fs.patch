@@ -11,7 +11,7 @@ Index: b/util/setup.c
  /* On SPARC this program fills in various fields inside of the 'boot' and 'core'
   * image files.
   *
-@@ -577,6 +579,8 @@
+@@ -590,6 +592,8 @@
  
      grub_free (sectors);
  
@@ -20,7 +20,7 @@ Index: b/util/setup.c
      goto finish;
    }
  
-@@ -619,6 +623,10 @@
+@@ -632,6 +636,10 @@
    /* The core image must be put on a filesystem unfortunately.  */
    grub_util_info ("will leave the core image on the filesystem");
  

@@ -27,20 +27,20 @@ void
 grub_install_register_ieee1275 (int is_prep, const char *install_device,
 				int partno, const char *relpath)
 {
-  grub_util_error ("%s", "no IEEE1275 routines are available for your platform");
+  grub_util_error ("%s", _("no IEEE1275 routines are available for your platform"));
 }
 
 void
-grub_install_register_efi (const char *efidir_disk, int efidir_part,
+grub_install_register_efi (grub_device_t efidir_grub_dev,
 			   const char *efifile_path,
 			   const char *efi_distributor)
 {
-  grub_util_error ("%s", "no EFI routines are available for your platform");
+  grub_util_error ("%s", _("no EFI routines are available for your platform"));
 }
 
 void
 grub_install_sgi_setup (const char *install_device,
 			const char *imgfile, const char *destname)
 {
-  grub_util_error ("%s", "no SGI routines are available for your platform");
+  grub_util_error ("%s", _("no SGI routines are available for your platform"));
 }

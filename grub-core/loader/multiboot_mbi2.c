@@ -67,6 +67,7 @@ static grub_uint32_t biosdev, slice, part;
 static grub_size_t elf_sec_num, elf_sec_entsize;
 static unsigned elf_sec_shstrndx;
 static void *elf_sections;
+static int keep_bs = 0;
 
 void
 grub_multiboot_add_elfsyms (grub_size_t num, grub_size_t entsize,
@@ -127,6 +128,8 @@ grub_multiboot_load (grub_file_t file, const char *filename)
 
   COMPILE_TIME_ASSERT (MULTIBOOT_TAG_ALIGN % 4 == 0);
 
+  keep_bs = 0;
+
   for (tag = (struct multiboot_header_tag *) (header + 1);
        tag->type != MULTIBOOT_TAG_TYPE_END;
        tag = (struct multiboot_header_tag *) ((grub_uint32_t *) tag + ALIGN_UP (tag->size, MULTIBOOT_TAG_ALIGN) / 4))
@@ -160,6 +163,7 @@ grub_multiboot_load (grub_file_t file, const char *filename)
 	      case MULTIBOOT_TAG_TYPE_ACPI_NEW:
 	      case MULTIBOOT_TAG_TYPE_NETWORK:
 	      case MULTIBOOT_TAG_TYPE_EFI_MMAP:
+	      case MULTIBOOT_TAG_TYPE_EFI_BS:
 		break;
 
 	      default:
@@ -198,6 +202,10 @@ grub_multiboot_load (grub_file_t file, const char *filename)
       case MULTIBOOT_HEADER_TAG_MODULE_ALIGN:
 	break;
 
+      case MULTIBOOT_HEADER_TAG_EFI_BS:
+	keep_bs = 1;
+	break;
+
       default:
 	if (! (tag->flags & MULTIBOOT_HEADER_TAG_OPTIONAL))
 	  {
@@ -217,8 +225,11 @@ grub_multiboot_load (grub_file_t file, const char *filename)
  
   if (addr_tag)
     {
+      grub_uint64_t load_addr = (addr_tag->load_addr + 1)
+	? addr_tag->load_addr : (addr_tag->header_addr
+				 - ((char *) header - (char *) buffer));
       int offset = ((char *) header - (char *) buffer -
-		    (addr_tag->header_addr - addr_tag->load_addr));
+	   (addr_tag->header_addr - load_addr));
       int load_size = ((addr_tag->load_end_addr == 0) ? file->size - offset :
 		       addr_tag->load_end_addr - addr_tag->load_addr);
       grub_size_t code_size;
@@ -226,12 +237,12 @@ grub_multiboot_load (grub_file_t file, const char *filename)
       grub_relocator_chunk_t ch;
 
       if (addr_tag->bss_end_addr)
-	code_size = (addr_tag->bss_end_addr - addr_tag->load_addr);
+	code_size = (addr_tag->bss_end_addr - load_addr);
       else
 	code_size = load_size;
 
       err = grub_relocator_alloc_chunk_addr (grub_multiboot_relocator, 
-					     &ch, addr_tag->load_addr,
+					     &ch, load_addr,
 					     code_size);
       if (err)
 	{
@@ -256,7 +267,7 @@ grub_multiboot_load (grub_file_t file, const char *filename)
 
       if (addr_tag->bss_end_addr)
 	grub_memset ((grub_uint8_t *) source + load_size, 0,
-		     addr_tag->bss_end_addr - addr_tag->load_addr - load_size);
+		     addr_tag->bss_end_addr - load_addr - load_size);
     }
   else
     {
@@ -362,6 +373,7 @@ grub_multiboot_get_mbi_size (void)
     find_efi_mmap_size ();    
 #endif
   return 2 * sizeof (grub_uint32_t) + sizeof (struct multiboot_tag)
+    + sizeof (struct multiboot_tag)
     + (sizeof (struct multiboot_tag_string)
        + ALIGN_UP (cmdline_size, MULTIBOOT_TAG_ALIGN))
     + (sizeof (struct multiboot_tag_string)
@@ -637,7 +649,7 @@ grub_multiboot_make_mbi (grub_uint32_t *target)
   err = grub_relocator_alloc_chunk_align (grub_multiboot_relocator, &ch,
 					  0, 0xffffffff - bufsize,
 					  bufsize, MULTIBOOT_TAG_ALIGN,
-					  GRUB_RELOCATOR_PREFERENCE_NONE, 0);
+					  GRUB_RELOCATOR_PREFERENCE_NONE, 1);
   if (err)
     return err;
 
@@ -853,8 +865,16 @@ grub_multiboot_make_mbi (grub_uint32_t *target)
     tag->type = MULTIBOOT_TAG_TYPE_EFI_MMAP;
     tag->size = sizeof (*tag) + efi_mmap_size;
 
-    err = grub_efi_finish_boot_services (&efi_mmap_size, tag->efi_mmap, NULL,
-					 &efi_desc_size, &efi_desc_version);
+    if (!keep_bs)
+      err = grub_efi_finish_boot_services (&efi_mmap_size, tag->efi_mmap, NULL,
+					   &efi_desc_size, &efi_desc_version);
+    else
+      {
+	if (grub_efi_get_memory_map (&efi_mmap_size, (void *) tag->efi_mmap,
+				     NULL,
+				     &efi_desc_size, &efi_desc_version) <= 0)
+	  err = grub_error (GRUB_ERR_IO, "couldn't retrieve memory map");
+      }
     if (err)
       return err;
     tag->descr_size = efi_desc_size;
@@ -864,6 +884,15 @@ grub_multiboot_make_mbi (grub_uint32_t *target)
     ptrorig += ALIGN_UP (tag->size, MULTIBOOT_TAG_ALIGN)
       / sizeof (grub_properly_aligned_t);
   }
+
+  if (keep_bs)
+    {
+      struct multiboot_tag *tag = (struct multiboot_tag *) ptrorig;
+      tag->type = MULTIBOOT_TAG_TYPE_EFI_BS;
+      tag->size = sizeof (struct multiboot_tag);
+      ptrorig += ALIGN_UP (tag->size, MULTIBOOT_TAG_ALIGN)
+	/ sizeof (grub_properly_aligned_t);
+    }
 #endif
 
   {

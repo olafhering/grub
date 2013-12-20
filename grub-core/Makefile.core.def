@@ -59,9 +59,7 @@ kernel = {
   ia64_efi_ldflags = '-Wl,-r,-d';
   ia64_efi_stripflags = '--strip-unneeded -K start -R .note -R .comment -R .note.gnu.gold-version';
 
-  x86_64_xen_ldflags       = '-Wl,-Ttext=0';
   x86_64_xen_cppflags	   = '$(CPPFLAGS_XEN)';
-  i386_xen_ldflags       = '-Wl,-Ttext=0';
   i386_xen_cppflags	   = '$(CPPFLAGS_XEN)';
 
   arm_efi_ldflags          = '-Wl,-r,-d';
@@ -72,15 +70,21 @@ kernel = {
 
   i386_pc_ldflags          = '$(TARGET_IMG_LDFLAGS)';
   i386_pc_ldflags          = '$(TARGET_IMG_BASE_LDOPT),0x9000';
-
   i386_qemu_ldflags        = '$(TARGET_IMG_LDFLAGS)';
   i386_qemu_ldflags        = '$(TARGET_IMG_BASE_LDOPT),0x8200';
+  i386_coreboot_ldflags    = '$(TARGET_IMG_LDFLAGS)';
+  i386_coreboot_ldflags    = '$(TARGET_IMG_BASE_LDOPT),0x8200';
+  i386_multiboot_ldflags   = '$(TARGET_IMG_LDFLAGS)';
+  i386_multiboot_ldflags   = '$(TARGET_IMG_BASE_LDOPT),0x8200';
+  i386_ieee1275_ldflags    = '$(TARGET_IMG_LDFLAGS)';
+  i386_ieee1275_ldflags    = '$(TARGET_IMG_BASE_LDOPT),0x10000';
+  i386_xen_ldflags         = '$(TARGET_IMG_LDFLAGS)';
+  i386_xen_ldflags         = '$(TARGET_IMG_BASE_LDOPT),0';
+  x86_64_xen_ldflags       = '$(TARGET_IMG_LDFLAGS)';
+  x86_64_xen_ldflags       = '$(TARGET_IMG_BASE_LDOPT),0';
 
   ldadd = '$(LDADD_KERNEL)';
 
-  i386_coreboot_ldflags    = '-Wl,-Ttext=0x8200';
-  i386_multiboot_ldflags   = '-Wl,-Ttext=0x8200';
-  i386_ieee1275_ldflags    = '-Wl,-Ttext=0x10000';
   mips_loongson_ldflags    = '-Wl,-Ttext,0x80200000';
   powerpc_ieee1275_ldflags = '-Wl,-Ttext,0x200000';
   sparc64_ieee1275_ldflags = '-Wl,-Ttext,0x4400';
@@ -241,6 +245,7 @@ kernel = {
   mips_loongson = video/sm712.c;
   mips_loongson = video/sis315pro.c;
   mips_loongson = video/radeon_fuloong2e.c;
+  mips_loongson = video/radeon_yeeloong3a.c;
   extra_dist = video/sm712_init.c;
   extra_dist = video/sis315_init.c;
   mips_loongson = commands/keylayouts.c;
@@ -616,11 +621,6 @@ module = {
   cppflags = '$(CPPFLAGS_XEN)';
 
   enable = xen;
-};
-
-module = {
-  name = check_nt_hiberfil;
-  common = commands/i386/nthibr.c;
 };
 
 module = {
@@ -1453,6 +1453,11 @@ module = {
 };
 
 module = {
+  name = macbless;
+  common = commands/macbless.c;
+};
+
+module = {
   name = pxe;
   i386_pc = net/drivers/i386/pc/pxe.c;
   enable = i386_pc;
@@ -1625,6 +1630,14 @@ module = {
   enable = i386_pc;
 };
 
+
+module = {
+  name = truecrypt;
+  i386_pc = loader/i386/pc/truecrypt.c;
+  enable = i386_pc;
+};
+
+
 module = {
   name = freedos;
   i386_pc = loader/i386/pc/freedos.c;
@@ -1661,10 +1674,6 @@ module = {
   name = linux;
   x86 = loader/i386/linux.c;
   xen = loader/i386/xen.c;
-  xen = loader/i386/xen_file.c;
-  xen = loader/i386/xen_file32.c;
-  xen = loader/i386/xen_file64.c;
-  extra_dist = loader/i386/xen_fileXX.c;
   xen_cppflags	   = '$(CPPFLAGS_XEN)';
   i386_pc = lib/i386/pc/vesa_modes_table.c;
   mips = loader/mips/linux.c;
@@ -1682,14 +1691,19 @@ module = {
   name = xnu;
   x86 = loader/xnu_resume.c;
   x86 = loader/i386/xnu.c;
-  x86 = loader/macho32.c;
-  x86 = loader/macho64.c;
-  x86 = loader/macho.c;
   x86 = loader/xnu.c;
-  x86 = loader/lzss.c;
 
-  extra_dist = loader/machoXX.c;
   enable = x86;
+};
+
+module = {
+  name = macho;
+
+  common = loader/macho.c;
+  common = loader/macho32.c;
+  common = loader/macho64.c;
+  common = loader/lzss.c;
+  extra_dist = loader/machoXX.c;
 };
 
 module = {
@@ -1755,6 +1769,7 @@ module = {
   common = normal/term.c;
   common = normal/context.c;
   common = normal/charset.c;
+  common = lib/getline.c;
 
   common = script/main.c;
   common = script/script.c;
@@ -1945,6 +1960,11 @@ module = {
 };
 
 module = {
+  name = sleep_test;
+  common = tests/sleep_test.c;
+};
+
+module = {
   name = xnu_uuid_test;
   common = tests/xnu_uuid_test.c;
 };
@@ -2132,6 +2152,12 @@ module = {
 };
 
 module = {
+  name = syslinuxcfg;
+  common = lib/syslinux_parse.c;
+  common = commands/syslinuxcfg.c;
+};
+
+module = {
   name = test_blockarg;
   common = tests/test_blockarg.c;
 };
@@ -2272,4 +2298,16 @@ module = {
 module = {
   name = progress;
   common = lib/progress.c;
+};
+
+module = {
+  name = file;
+  common = commands/file.c;
+  common = commands/file32.c;
+  common = commands/file64.c;
+  extra_dist = commands/fileXX.c;
+  common = loader/i386/xen_file.c;
+  common = loader/i386/xen_file32.c;
+  common = loader/i386/xen_file64.c;
+  extra_dist = loader/i386/xen_fileXX.c;
 };

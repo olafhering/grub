@@ -24,6 +24,7 @@
 #include <grub/util/misc.h>
 #include <grub/emu/exec.h>
 #include <grub/emu/config.h>
+#include <grub/emu/hostdisk.h>
 #include <argp.h>
 
 #include <sys/types.h>
@@ -378,6 +379,10 @@ main (int argc, char *argv[])
   if (!output_image)
     grub_util_error ("%s", _("output file must be specified"));
 
+  grub_init_all ();
+  grub_hostfs_init ();
+  grub_host_init ();
+
   xorriso_push (xorriso);
   xorriso_push ("-as");
   xorriso_push ("mkisofs");
@@ -509,7 +514,7 @@ main (int argc, char *argv[])
 	      if (!sa)
 		grub_util_error (_("cannot open `%s': %s"), sysarea_img,
 				 strerror (errno));
-	      bi = grub_util_fopen (sysarea_img, "wb");
+	      bi = grub_util_fopen (bin, "rb");
 	      if (!bi)
 		grub_util_error (_("cannot open `%s': %s"), bin,
 				 strerror (errno));
@@ -519,10 +524,10 @@ main (int argc, char *argv[])
 	      fclose (bi);
 	      fwrite (buf, 1, 512, sa);
 	      
-	      grub_install_make_image_wrap (source_dirs[GRUB_INSTALL_PLATFORM_I386_PC],
-					    "/boot/grub", output,
-					    0, load_cfg,
-					    "i386-pc", 0);
+	      grub_install_make_image_wrap_file (source_dirs[GRUB_INSTALL_PLATFORM_I386_PC],
+						 "/boot/grub", sa, sysarea_img,
+						 0, load_cfg,
+						 "i386-pc", 0);
 	      sz = ftello (sa);
 	      fflush (sa);
 	      grub_util_fd_sync (fileno (sa));

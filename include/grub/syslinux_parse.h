@@ -16,24 +16,22 @@
  *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GRUB_EMU_EXEC_H
-#define GRUB_EMU_EXEC_H 1
+#ifndef GRUB_SYSLINUX_PARSE_HEADER
+#define GRUB_SYSLINUX_PARSE_HEADER 1
 
-#include <config.h>
-#include <stdarg.h>
+#include <grub/types.h>
 
-#include <sys/types.h>
-pid_t
-grub_util_exec_pipe (const char *const *argv, int *fd);
-pid_t
-grub_util_exec_pipe_stderr (const char *const *argv, int *fd);
+typedef enum
+  {
+    GRUB_SYSLINUX_UNKNOWN,
+    GRUB_SYSLINUX_ISOLINUX,
+    GRUB_SYSLINUX_PXELINUX,
+    GRUB_SYSLINUX_SYSLINUX,
+  } grub_syslinux_flavour_t;
 
-int
-grub_util_exec (const char *const *argv);
-int
-grub_util_exec_redirect (const char *const *argv, const char *stdin_file,
-			 const char *stdout_file);
-int
-grub_util_exec_redirect_null (const char *const *argv);
+char *
+grub_syslinux_config_file (const char *root, const char *target_root,
+			   const char *cwd, const char *target_cwd,
+			   const char *fname, grub_syslinux_flavour_t flav);
 
 #endif

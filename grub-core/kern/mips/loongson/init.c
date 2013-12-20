@@ -129,12 +129,19 @@ grub_machine_init (void)
       /* Loongson 2E.  */
     case 0x6302:
       grub_arch_machine = GRUB_ARCH_MACHINE_FULOONG2E;
+      grub_bonito_type = GRUB_BONITO_2F;
       break;
       /* Loongson 2F.  */
     case 0x6303:
       if (grub_arch_machine != GRUB_ARCH_MACHINE_FULOONG2F
 	  && grub_arch_machine != GRUB_ARCH_MACHINE_YEELOONG)
 	grub_arch_machine = GRUB_ARCH_MACHINE_YEELOONG;
+      grub_bonito_type = GRUB_BONITO_2F;
+      break;
+      /* Loongson 3A. */
+    case 0x6305:
+      grub_arch_machine = GRUB_ARCH_MACHINE_YEELOONG_3A;
+      grub_bonito_type = GRUB_BONITO_3A;
       break;
     }
 
@@ -203,11 +210,13 @@ grub_machine_init (void)
   grub_video_sm712_init ();
   grub_video_sis315pro_init ();
   grub_video_radeon_fuloong2e_init ();
+  grub_video_radeon_yeeloong3a_init ();
   grub_font_init ();
   grub_gfxterm_init ();
 
   grub_keylayouts_init ();
-  if (grub_arch_machine == GRUB_ARCH_MACHINE_YEELOONG)
+  if (grub_arch_machine == GRUB_ARCH_MACHINE_YEELOONG
+      || grub_arch_machine == GRUB_ARCH_MACHINE_YEELOONG_3A)
     grub_at_keyboard_init ();
 
   grub_terminfo_init ();
@@ -279,6 +288,13 @@ grub_halt (void)
       grub_outb (grub_inb (GRUB_CPU_LOONGSON_GPIOCFG)
 		 & ~GRUB_CPU_YEELOONG_SHUTDOWN_GPIO, GRUB_CPU_LOONGSON_GPIOCFG);
       grub_millisleep (1500);
+      break;
+    case GRUB_ARCH_MACHINE_YEELOONG_3A:
+      grub_millisleep (1);
+      grub_outb (0x4e, GRUB_MACHINE_PCI_IO_BASE_3A | 0x66);
+      grub_millisleep (1);
+      grub_outb (2, GRUB_MACHINE_PCI_IO_BASE_3A | 0x62);
+      grub_millisleep (5000);
       break;
     }
 

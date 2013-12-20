@@ -5,13 +5,13 @@ Description: Add configure option to enable gfxpayload=keep dynamically
 Author: Evan Broder <evan@ebroder.net>
 Author: Colin Watson <cjwatson@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-12-08
+Last-Update: 2013-12-20
 
 Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1534,6 +1534,17 @@
+@@ -1571,6 +1571,17 @@
  fi
  AC_SUBST([QUICK_BOOT])
  
@@ -212,7 +212,7 @@ Index: b/util/grub.d/10_linux.in
  
  . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
  
-@@ -133,9 +134,10 @@
+@@ -158,9 +159,10 @@
        if [ "x$GRUB_GFXPAYLOAD_LINUX" != xtext ]; then
  	  echo "	load_video" | sed "s/^/$submenu_indentation/"
        fi
@@ -226,7 +226,7 @@ Index: b/util/grub.d/10_linux.in
    fi
  
    echo "	insmod gzio" | sed "s/^/$submenu_indentation/"
-@@ -208,6 +210,35 @@
+@@ -221,6 +223,35 @@
  boot_device_id=
  title_correction_code=
  

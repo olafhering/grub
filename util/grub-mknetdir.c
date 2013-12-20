@@ -43,7 +43,7 @@ static struct argp_option options[] = {
   {"subdir", OPTION_SUBDIR, N_("DIR"),
    0, N_("relative subdirectory on network server"), 2},
   {"debug", OPTION_DEBUG, 0, OPTION_HIDDEN, 0, 2},
-  {"debug-image", OPTION_DEBUG_IMAGE, "DEBUG", OPTION_HIDDEN, 0, 2},
+  {"debug-image", OPTION_DEBUG_IMAGE, N_("STRING"), OPTION_HIDDEN, 0, 2},
   {0, 0, 0, 0, 0, 0}
 };
 
@@ -79,7 +79,7 @@ argp_parser (int key, char *arg, struct argp_state *state)
 
 
 struct argp argp = {
-  options, argp_parser, N_("[OPTION]"),
+  options, argp_parser, NULL,
   "\v"N_("copies GRUB images into net_directory/subdir/target_cpu-platform."), 
   NULL, grub_install_help_filter, NULL
 };
@@ -134,7 +134,7 @@ process_input_dir (const char *input_dir, enum grub_install_plat platform)
 
   prefix = xasprintf ("/%s", subdir);
   if (!targets[platform].mkimage_target)
-    grub_util_error ("unsupported platform %s\n", platsub);
+    grub_util_error (_("unsupported platform %s\n"), platsub);
 
   grub_cfg = grub_util_path_concat (2, grubdir, "grub.cfg");
   cfg = grub_util_fopen (grub_cfg, "wb");

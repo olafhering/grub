@@ -35,19 +35,19 @@ struct grub_hfsplus_compress_header1
   grub_uint32_t total_compressed_size_including_seek_blocks_and_header2;
   grub_uint32_t value_0x32;
   grub_uint8_t unused[0xf0];
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 /* big-endian.  */
 struct grub_hfsplus_compress_header2
 {
   grub_uint32_t total_compressed_size_including_seek_blocks;
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 /* little-endian.  */
 struct grub_hfsplus_compress_header3
 {
   grub_uint32_t num_chunks;
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 /* little-endian.  */
 struct grub_hfsplus_compress_block_descriptor
@@ -59,7 +59,7 @@ struct grub_hfsplus_compress_block_descriptor
 struct grub_hfsplus_compress_end_descriptor
 {
   grub_uint8_t always_the_same[50];
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 struct grub_hfsplus_attr_header
 {
@@ -67,7 +67,7 @@ struct grub_hfsplus_attr_header
   grub_uint8_t type;
   grub_uint32_t unknown[1];
   grub_uint64_t size;
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 struct grub_hfsplus_compress_attr
 {
@@ -75,7 +75,7 @@ struct grub_hfsplus_compress_attr
   grub_uint32_t type;
   grub_uint32_t uncompressed_inline_size;
   grub_uint32_t always_0;
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 enum
   {
@@ -156,8 +156,12 @@ hfsplus_read_compressed_real (struct grub_hfsplus_file *node,
 	  if (ts > node->size - (pos & ~(HFSPLUS_COMPRESS_BLOCK_SIZE)))
 	    ts = node->size - (pos & ~(HFSPLUS_COMPRESS_BLOCK_SIZE));
 	  if (grub_zlib_decompress (tmp_buf, sz, 0,
-				    node->cbuf, ts) < 0)
+				    node->cbuf, ts) != (grub_ssize_t) ts)
 	    {
+	      if (!grub_errno)
+		grub_error (GRUB_ERR_BAD_COMPRESSED_DATA,
+			    "premature end of compressed");
+
 	      grub_free (tmp_buf);
 	      return -1;
 	    }
@@ -288,8 +292,14 @@ hfsplus_open_compressed_real (struct grub_hfsplus_file *node)
   if (grub_zlib_decompress ((char *) (cmp_head + 1),
 			    grub_cpu_to_be64 (attr_head->size)
 			    - sizeof (*cmp_head), 0,
-			    node->cbuf, node->size) < 0)
-    return grub_errno;
+			    node->cbuf, node->size)
+      != (grub_ssize_t) node->size)
+    {
+      if (!grub_errno)
+	grub_error (GRUB_ERR_BAD_COMPRESSED_DATA,
+		    "premature end of compressed");
+      return grub_errno;
+    }
   node->compressed = 1;
   return 0;
 }

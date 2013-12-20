@@ -33,19 +33,20 @@
 #include <windows.h>
 #include <winioctl.h>
 
-#if SIZEOF_TCHAR == 1
-#define tclen strlen
-#elif SIZEOF_TCHAR == 2
-#define tclen wcslen
-#endif
+static size_t
+tclen (const TCHAR *s)
+{
+  const TCHAR *s0 = s;
+  while (*s)
+      s++;
+  return s - s0;
+}
 
 char *
 grub_make_system_path_relative_to_its_root (const char *path)
 {
   TCHAR *dirwindows, *mntpointwindows;
   TCHAR *ptr;
-  TCHAR volumename[100];
-  size_t mntpointwindows_sz;
   size_t offset, flen;
   TCHAR *ret;
   char *cret;
@@ -54,12 +55,9 @@ grub_make_system_path_relative_to_its_root (const char *path)
   if (!dirwindows)
     return xstrdup (path);
 
-  mntpointwindows_sz = strlen (path) * 2 + 1;
-  mntpointwindows = xmalloc ((mntpointwindows_sz + 1) * sizeof (mntpointwindows[0]));
+  mntpointwindows = grub_get_mount_point (dirwindows);
 
-  if (!GetVolumePathName (dirwindows,
-			  mntpointwindows,
-			  mntpointwindows_sz))
+  if (!mntpointwindows)
     {
       offset = 0;
       if (dirwindows[0] && dirwindows[1] == ':')

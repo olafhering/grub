@@ -290,7 +290,7 @@ struct lzop_header
   grub_uint32_t mtime_lo;
   grub_uint32_t mtime_hi;
   grub_uint8_t name_len;
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 static int
 test_header (grub_file_t file)
@@ -525,6 +525,7 @@ grub_lzopio_close (grub_file_t file)
 
   /* Device must not be closed twice.  */
   file->device = 0;
+  file->name = 0;
   return grub_errno;
 }
 

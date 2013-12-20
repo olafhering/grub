@@ -1,6 +1,27 @@
+/*
+ *  GRUB  --  GRand Unified Bootloader
+ *  Copyright (C) 2005,2006,2007,2008,2009,2012,2013  Free Software Foundation, Inc.
+ *
+ *  GRUB is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  GRUB is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include <grub/types.h>
 #include <grub/disk.h>
+
+#define GRUB_HFSPLUS_MAGIC 0x482B
+#define GRUB_HFSPLUSX_MAGIC 0x4858
+#define GRUB_HFSPLUS_SBLOCK 2
 
 /* A HFS+ extent.  */
 struct grub_hfsplus_extent
@@ -9,7 +30,7 @@ struct grub_hfsplus_extent
   grub_uint32_t start;
   /* The amount of blocks described by this extent.  */
   grub_uint32_t count;
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 /* The descriptor of a fork.  */
 struct grub_hfsplus_forkdata
@@ -18,7 +39,7 @@ struct grub_hfsplus_forkdata
   grub_uint32_t clumpsize;
   grub_uint32_t blocks;
   struct grub_hfsplus_extent extents[8];
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 /* The HFS+ Volume Header.  */
 struct grub_hfsplus_volheader
@@ -30,14 +51,23 @@ struct grub_hfsplus_volheader
   grub_uint32_t utime;
   grub_uint8_t unused2[16];
   grub_uint32_t blksize;
-  grub_uint8_t unused3[60];
+  grub_uint8_t unused3[36];
+
+  grub_uint32_t ppc_bootdir;
+  grub_uint32_t intel_bootfile;
+  /* Folder opened when disk is mounted. Unused by GRUB. */
+  grub_uint32_t showfolder;
+  grub_uint32_t os9folder;
+  grub_uint8_t unused4[4];
+  grub_uint32_t osxfolder;
+
   grub_uint64_t num_serial;
   struct grub_hfsplus_forkdata allocations_file;
   struct grub_hfsplus_forkdata extents_file;
   struct grub_hfsplus_forkdata catalog_file;
   struct grub_hfsplus_forkdata attr_file;
   struct grub_hfsplus_forkdata startup_file;
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 struct grub_hfsplus_compress_index
 {
@@ -116,7 +146,7 @@ struct grub_hfsplus_attrkey
   grub_uint16_t unknown2[2];
   grub_uint16_t namelen;
   grub_uint16_t name[0];
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 struct grub_hfsplus_attrkey_internal
 {
@@ -142,7 +172,7 @@ struct grub_hfsplus_catkey
   grub_uint32_t parent;
   grub_uint16_t namelen;
   grub_uint16_t name[30];
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 /* The on disk layout of an extent overflow file key.  */
 struct grub_hfsplus_extkey
@@ -152,7 +182,7 @@ struct grub_hfsplus_extkey
   grub_uint8_t unused;
   grub_uint32_t fileid;
   grub_uint32_t start;
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 struct grub_hfsplus_key
 {
@@ -163,7 +193,7 @@ struct grub_hfsplus_key
     struct grub_hfsplus_attrkey attrkey;
     grub_uint16_t keylen;
   };
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 struct grub_hfsplus_btnode
 {
@@ -173,7 +203,7 @@ struct grub_hfsplus_btnode
   grub_uint8_t height;
   grub_uint16_t count;
   grub_uint16_t unused;
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 /* Return the offset of the record with the index INDEX, in the node
    NODE which is part of the B+ tree BTREE.  */
@@ -216,3 +246,8 @@ grub_hfsplus_btree_search (struct grub_hfsplus_btree *btree,
 						struct grub_hfsplus_key_internal *keyb),
 			   struct grub_hfsplus_btnode **matchnode, 
 			   grub_off_t *keyoffset);
+grub_err_t
+grub_mac_bless_inode (grub_device_t dev, grub_uint64_t inode, int is_dir,
+		      int intel);
+grub_err_t
+grub_mac_bless_file (grub_device_t dev, const char *path_in, int intel);

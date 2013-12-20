@@ -434,7 +434,8 @@ SUFFIX (relocate_symbols) (Elf_Ehdr *e, Elf_Shdr *sections,
 	  *jptr = 0;
 	  jptr++;
 	}
-      grub_util_info ("locating %s at 0x%llx (0x%llx)", name,
+      grub_util_info ("locating %s at 0x%"  GRUB_HOST_PRIxLONG_LONG
+		      " (0x%"  GRUB_HOST_PRIxLONG_LONG ")", name,
 		      (unsigned long long) sym->st_value,
 		      (unsigned long long) section_addresses[cur_index]);
 
@@ -563,7 +564,8 @@ arm_get_trampoline_size (Elf_Ehdr *e,
 		break;
 
 	      default:
-		grub_util_error (_("relocation 0x%x is not implemented yet!"), ELF_R_TYPE (info));
+		grub_util_error (_("relocation 0x%x is not implemented yet"),
+				 (unsigned int) ELF_R_TYPE (info));
 		break;
 	      }
 	  }
@@ -660,7 +662,9 @@ SUFFIX (relocate_addresses) (Elf_Ehdr *e, Elf_Shdr *sections,
 		  /* This is absolute.  */
 		  *target = grub_host_to_target32 (grub_target_to_host32 (*target)
 						   + addend + sym_addr);
-		  grub_util_info ("relocating an R_386_32 entry to 0x%llx at the offset 0x%llx",
+		  grub_util_info ("relocating an R_386_32 entry to 0x%"
+				  GRUB_HOST_PRIxLONG_LONG " at the offset 0x%"
+				  GRUB_HOST_PRIxLONG_LONG,
 				  (unsigned long long) *target,
 				  (unsigned long long) offset);
 		  break;
@@ -671,13 +675,15 @@ SUFFIX (relocate_addresses) (Elf_Ehdr *e, Elf_Shdr *sections,
 						   + addend + sym_addr
 						   - target_section_addr - offset
 						   - image_target->vaddr_offset);
-		  grub_util_info ("relocating an R_386_PC32 entry to 0x%llx at the offset 0x%llx",
+		  grub_util_info ("relocating an R_386_PC32 entry to 0x%"
+				  GRUB_HOST_PRIxLONG_LONG " at the offset 0x%"
+				  GRUB_HOST_PRIxLONG_LONG,
 				  (unsigned long long) *target,
 				  (unsigned long long) offset);
 		  break;
 		default:
-		  grub_util_error (_("relocation 0x%llx is not implemented yet"),
-				   (unsigned long long) ELF_R_TYPE (info));
+		  grub_util_error (_("relocation 0x%x is not implemented yet"),
+				   (unsigned int) ELF_R_TYPE (info));
 		  break;
 		}
 	      break;
@@ -692,7 +698,9 @@ SUFFIX (relocate_addresses) (Elf_Ehdr *e, Elf_Shdr *sections,
 		case R_X86_64_64:
 		  *target = grub_host_to_target64 (grub_target_to_host64 (*target)
 						   + addend + sym_addr);
-		  grub_util_info ("relocating an R_X86_64_64 entry to 0x%llx at the offset 0x%llx",
+		  grub_util_info ("relocating an R_X86_64_64 entry to 0x%"
+				  GRUB_HOST_PRIxLONG_LONG " at the offset 0x%"
+				  GRUB_HOST_PRIxLONG_LONG,
 				  (unsigned long long) *target,
 				  (unsigned long long) offset);
 		  break;
@@ -704,8 +712,23 @@ SUFFIX (relocate_addresses) (Elf_Ehdr *e, Elf_Shdr *sections,
 						  + addend + sym_addr
 						  - target_section_addr - offset
 						  - image_target->vaddr_offset);
-		    grub_util_info ("relocating an R_X86_64_PC32 entry to 0x%x at the offset 0x%llx",
+		    grub_util_info ("relocating an R_X86_64_PC32 entry to 0x%x at the offset 0x%"
+				    GRUB_HOST_PRIxLONG_LONG,
 				    *t32, (unsigned long long) offset);
+		    break;
+		  }
+
+		case R_X86_64_PC64:
+		  {
+		    *target = grub_host_to_target64 (grub_target_to_host64 (*target)
+						     + addend + sym_addr
+						     - target_section_addr - offset
+						     - image_target->vaddr_offset);
+		    grub_util_info ("relocating an R_X86_64_PC64 entry to 0x%"
+				    GRUB_HOST_PRIxLONG_LONG " at the offset 0x%"
+				    GRUB_HOST_PRIxLONG_LONG,
+				    (unsigned long long) *target,
+				    (unsigned long long) offset);
 		    break;
 		  }
 
@@ -715,14 +738,15 @@ SUFFIX (relocate_addresses) (Elf_Ehdr *e, Elf_Shdr *sections,
 		    grub_uint32_t *t32 = (grub_uint32_t *) target;
 		    *t32 = grub_host_to_target64 (grub_target_to_host32 (*t32)
 						  + addend + sym_addr);
-		    grub_util_info ("relocating an R_X86_64_32(S) entry to 0x%x at the offset 0x%llx",
+		    grub_util_info ("relocating an R_X86_64_32(S) entry to 0x%x at the offset 0x%"
+				    GRUB_HOST_PRIxLONG_LONG,
 				    *t32, (unsigned long long) offset);
 		    break;
 		  }
 
 		default:
-		  grub_util_error (_("relocation 0x%llx is not implemented yet"),
-				   (unsigned long long) ELF_R_TYPE (info));
+		  grub_util_error (_("relocation 0x%x is not implemented yet"),
+				   (unsigned int) ELF_R_TYPE (info));
 		  break;
 		}
 	      break;
@@ -738,7 +762,8 @@ SUFFIX (relocate_addresses) (Elf_Ehdr *e, Elf_Shdr *sections,
 		    tr++;
 		    if (noff & ~MASK19)
 		      grub_util_error ("trampoline offset too big (%"
-				       PRIxGRUB_UINT64_T ")", noff);
+				       GRUB_HOST_PRIxLONG_LONG ")",
+				       (unsigned long long) noff);
 		    grub_ia64_add_value_to_slot_20b ((grub_addr_t) target, noff);
 		  }
 		  break;
@@ -784,7 +809,9 @@ SUFFIX (relocate_addresses) (Elf_Ehdr *e, Elf_Shdr *sections,
 		  *target = grub_host_to_target64 (grub_target_to_host64 (*target)
 						   + addend + sym_addr);
 		  grub_util_info ("relocating a direct entry to 0x%"
-				  PRIxGRUB_UINT64_T " at the offset 0x%llx",
+				  GRUB_HOST_PRIxLONG_LONG " at the offset 0x%"
+				  GRUB_HOST_PRIxLONG_LONG,
+				  (unsigned long long)
 				  grub_target_to_host64 (*target),
 				  (unsigned long long) offset);
 		  break;
@@ -794,8 +821,8 @@ SUFFIX (relocate_addresses) (Elf_Ehdr *e, Elf_Shdr *sections,
 		  break;
 
 		default:
-		  grub_util_error (_("relocation 0x%llx is not implemented yet"),
-		  		   (unsigned long long) ELF_R_TYPE (info));
+		  grub_util_error (_("relocation 0x%x is not implemented yet"),
+				   (unsigned int) ELF_R_TYPE (info));
 		  break;
 		}
 	       break;
@@ -815,15 +842,15 @@ SUFFIX (relocate_addresses) (Elf_Ehdr *e, Elf_Shdr *sections,
 		       sym_addr -= offset;
 		       sym_addr -= SUFFIX (entry_point);
 		       if (!grub_arm_64_check_xxxx26_offset (sym_addr))
-			 grub_util_error ("%s", _("CALL26 Relocation out of range"));
+			 grub_util_error ("%s", "CALL26 Relocation out of range");
 
 		       grub_arm64_set_xxxx26_offset((grub_uint32_t *)target,
 						     sym_addr);
 		     }
 		     break;
 		   default:
-		     grub_util_error (_("relocation %d is not implemented yet"),
-				      (unsigned long long) ELF_R_TYPE (info));
+		     grub_util_error (_("relocation 0x%x is not implemented yet"),
+				      (unsigned int) ELF_R_TYPE (info));
 		     break;
 		   }
 	       break;
@@ -855,7 +882,10 @@ SUFFIX (relocate_addresses) (Elf_Ehdr *e, Elf_Shdr *sections,
 		   case R_ARM_THM_JUMP19:
 		     {
 		       grub_err_t err;
-		       grub_util_info ("  THM_JUMP24:\ttarget=0x%08lx\toffset=(0x%08x)",	(unsigned long) target, sym_addr);
+		       grub_util_info ("  THM_JUMP24:\ttarget=0x%08lx\toffset=(0x%08x)",
+				       (unsigned long) ((char *) target
+							- (char *) e),
+				       sym_addr);
 		       if (!(sym_addr & 1))
 			 {
 			   grub_uint32_t tr_addr;
@@ -888,7 +918,7 @@ SUFFIX (relocate_addresses) (Elf_Ehdr *e, Elf_Shdr *sections,
 		   case R_ARM_JUMP24:
 		     {
 		       grub_err_t err;
-		       grub_util_info ("  JUMP24:\ttarget=0x%08lx\toffset=(0x%08x)",	(unsigned long) target, sym_addr);
+		       grub_util_info ("  JUMP24:\ttarget=0x%08lx\toffset=(0x%08x)",  (unsigned long) ((char *) target - (char *) e), sym_addr);
 		       if (sym_addr & 1)
 			 {
 			   grub_uint32_t tr_addr;
@@ -914,7 +944,8 @@ SUFFIX (relocate_addresses) (Elf_Ehdr *e, Elf_Shdr *sections,
 		     break;
 
 		   default:
-		     grub_util_error (_("relocation 0x%x is not implemented yet!"), ELF_R_TYPE (info));
+		     grub_util_error (_("relocation 0x%x is not implemented yet"),
+				      (unsigned int) ELF_R_TYPE (info));
 		     break;
 		   }
 		 break;
@@ -1080,7 +1111,8 @@ SUFFIX (make_reloc_section) (Elf_Ehdr *e, void **out,
 		    Elf_Addr addr;
 
 		    addr = section_address + offset;
-		    grub_util_info ("adding a relocation entry for 0x%llx",
+		    grub_util_info ("adding a relocation entry for 0x%"
+				    GRUB_HOST_PRIxLONG_LONG,
 				    (unsigned long long) addr);
 		    current_address
 		      = SUFFIX (add_fixup_entry) (&lst,
@@ -1100,7 +1132,8 @@ SUFFIX (make_reloc_section) (Elf_Ehdr *e, void **out,
 		    Elf_Addr addr;
 
 		    addr = section_address + offset;
-		    grub_util_info ("adding a relocation entry for 0x%llx",
+		    grub_util_info ("adding a relocation entry for 0x%"
+				    GRUB_HOST_PRIxLONG_LONG,
 				    (unsigned long long) addr);
 		    current_address
 		      = SUFFIX (add_fixup_entry) (&lst,
@@ -1130,7 +1163,8 @@ SUFFIX (make_reloc_section) (Elf_Ehdr *e, void **out,
 		    Elf_Addr addr;
 
 		    addr = section_address + offset;
-		    grub_util_info ("adding a relocation entry for 0x%llx",
+		    grub_util_info ("adding a relocation entry for 0x%"
+				    GRUB_HOST_PRIxLONG_LONG,
 				    (unsigned long long) addr);
 		    current_address
 		      = SUFFIX (add_fixup_entry) (&lst,
@@ -1142,8 +1176,8 @@ SUFFIX (make_reloc_section) (Elf_Ehdr *e, void **out,
 #endif
 		  break;
 		default:
-		  grub_util_error (_("relocation 0x%llx is not implemented yet"),
-		  		   (unsigned long long) ELF_R_TYPE (info));
+		  grub_util_error (_("relocation 0x%x is not implemented yet"),
+				   (unsigned int) ELF_R_TYPE (info));
 		  break;
 		}
 		break;
@@ -1167,8 +1201,8 @@ SUFFIX (make_reloc_section) (Elf_Ehdr *e, void **out,
 		  case R_AARCH64_JUMP26:
 		    break;
 		  default:
-		    grub_util_error (_("fixup for relocation %d is not implemented yet"),
-				     (unsigned long long) ELF_R_TYPE (info));
+		    grub_util_error (_("relocation 0x%x is not implemented yet"),
+				     (unsigned int) ELF_R_TYPE (info));
 		    break;
 		  }
 		break;
@@ -1205,7 +1239,8 @@ SUFFIX (make_reloc_section) (Elf_Ehdr *e, void **out,
 		    }
 		    break;
 		  default:
-		    grub_util_error (_("fixup for relocation 0x%x not implemented"), ELF_R_TYPE (info));
+		    grub_util_error (_("relocation 0x%x is not implemented yet"),
+				     (unsigned int) ELF_R_TYPE (info));
 		    break;
 		  }
 		break;
@@ -1333,7 +1368,8 @@ SUFFIX (locate_sections) (const char *kernel_path,
 	if (align)
 	  current_address = ALIGN_UP (current_address + image_target->vaddr_offset,
 				      align) - image_target->vaddr_offset;
-	grub_util_info ("locating the section %s at 0x%llx",
+	grub_util_info ("locating the section %s at 0x%"
+			GRUB_HOST_PRIxLONG_LONG,
 			name, (unsigned long long) current_address);
 	if (image_target->id != IMAGE_EFI)
 	  {
@@ -1341,11 +1377,15 @@ SUFFIX (locate_sections) (const char *kernel_path,
 	      - image_target->link_addr;
 	    if (grub_host_to_target_addr (s->sh_addr)
 		!= image_target->link_addr)
-	      grub_util_error ("`%s' is miscompiled: it's start address is 0x%llx"
-			       " instead of 0x%llx: ld.gold bug?",
-			       kernel_path,
-			       (unsigned long long) grub_host_to_target_addr (s->sh_addr),
-			       (unsigned long long) image_target->link_addr);
+	      {
+		char *msg
+		  = grub_xasprintf (_("`%s' is miscompiled: it's start address is 0x%llx"
+				      " instead of 0x%llx: ld.gold bug?"),
+				    kernel_path,
+				    (unsigned long long) grub_host_to_target_addr (s->sh_addr),
+				    (unsigned long long) image_target->link_addr);
+		grub_util_error ("%s", msg);
+	      }
 	  }
 	section_addresses[i] = current_address;
 	current_address += grub_host_to_target_addr (s->sh_size);
@@ -1370,7 +1410,8 @@ SUFFIX (locate_sections) (const char *kernel_path,
 				      align)
 	    - image_target->vaddr_offset;
 
-	grub_util_info ("locating the section %s at 0x%llx",
+	grub_util_info ("locating the section %s at 0x%"
+			GRUB_HOST_PRIxLONG_LONG,
 			name, (unsigned long long) current_address);
 	if (image_target->id != IMAGE_EFI)
 	  current_address = grub_host_to_target_addr (s->sh_addr)
@@ -1463,7 +1504,8 @@ SUFFIX (load_image) (const char *kernel_path, size_t *exec_size,
 					  sec_align)
 		- image_target->vaddr_offset;
 	
-	    grub_util_info ("locating the section %s at 0x%llx",
+	    grub_util_info ("locating the section %s at 0x%"
+			    GRUB_HOST_PRIxLONG_LONG,
 			    name, (unsigned long long) current_address);
 	    if (image_target->id != IMAGE_EFI)
 	      current_address = grub_host_to_target_addr (s->sh_addr)

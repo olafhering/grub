@@ -2,13 +2,13 @@ Description: Add "linuxefi" loader which avoids ExitBootServices
 Author: Matthew Garrett <mjg@redhat.com>
 Origin: vendor, http://pkgs.fedoraproject.org/cgit/grub2.git/tree/grub2-linuxefi.patch
 Forwarded: no
-Last-Update: 2013-12-08
+Last-Update: 2013-12-20
 
 Index: b/grub-core/Makefile.core.def
 ===================================================================
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -1691,6 +1691,14 @@
+@@ -1705,6 +1705,14 @@
  };
  
  module = {
@@ -27,7 +27,7 @@ Index: b/grub-core/kern/efi/mm.c
 ===================================================================
 --- a/grub-core/kern/efi/mm.c
 +++ b/grub-core/kern/efi/mm.c
-@@ -53,6 +53,38 @@
+@@ -49,6 +49,38 @@
  static grub_efi_uint32_t finish_desc_version;
  int grub_efi_is_finished = 0;
  
@@ -465,6 +465,6 @@ Index: b/include/grub/i386/linux.h
    grub_uint64_t pref_address;
    grub_uint32_t init_size;
 +  grub_uint32_t handover_offset;
- } __attribute__ ((packed));
+ } GRUB_PACKED;
  
  /* Boot parameters for Linux based on 2.6.12. This is used by the setup

@@ -2,7 +2,7 @@ Index: b/Makefile.util.def
 ===================================================================
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
-@@ -311,6 +311,23 @@
+@@ -313,6 +313,23 @@
  };
  
  program = {

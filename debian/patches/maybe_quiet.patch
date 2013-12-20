@@ -25,7 +25,7 @@ Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/386922
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/861048
 Forwarded: (partial) http://lists.gnu.org/archive/html/grub-devel/2009-09/msg00056.html
-Last-Update: 2013-12-08
+Last-Update: 2013-12-20
 
 Index: b/config.h.in
 ===================================================================
@@ -44,7 +44,7 @@ Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1512,6 +1512,17 @@
+@@ -1549,6 +1549,17 @@
  fi
  AC_SUBST([UBUNTU_RECOVERY])
  
@@ -62,7 +62,7 @@ Index: b/configure.ac
  LIBS=""
  
  AC_SUBST([FONT_SOURCE])
-@@ -1767,5 +1778,10 @@
+@@ -1797,5 +1808,10 @@
  else
  echo "With liblzma from $LIBLZMA (support for XZ-compressed mips images)"
  fi
@@ -246,7 +246,7 @@ Index: b/grub-core/normal/main.c
 ===================================================================
 --- a/grub-core/normal/main.c
 +++ b/grub-core/normal/main.c
-@@ -428,6 +428,15 @@
+@@ -382,6 +382,15 @@
  grub_normal_read_line_real (char **line, int cont, int nested)
  {
    const char *prompt;
@@ -262,7 +262,7 @@ Index: b/grub-core/normal/main.c
  
    if (cont)
      /* TRANSLATORS: it's command line prompt.  */
-@@ -476,7 +485,9 @@
+@@ -430,7 +439,9 @@
        return;
      }
  
@@ -331,7 +331,7 @@ Index: b/util/grub.d/10_linux.in
  
  . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
  
-@@ -146,10 +147,12 @@
+@@ -171,10 +172,12 @@
      fi
      printf '%s\n' "${prepare_boot_cache}" | sed "s/^/$submenu_indentation/"
    fi
@@ -346,7 +346,7 @@ Index: b/util/grub.d/10_linux.in
    if test -d /sys/firmware/efi && test -e "${linux}.efi.signed"; then
      sed "s/^/$submenu_indentation/" << EOF
  	linux	${rel_dirname}/${basename}.efi.signed root=${linux_root_device_thisversion} ro ${args}
-@@ -161,9 +164,13 @@
+@@ -186,9 +189,13 @@
    fi
    if test -n "${initrd}" ; then
      # TRANSLATORS: ramdisk isn't identifier. Should be translated.

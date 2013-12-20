@@ -1,3 +1,611 @@
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Set version to 2.02~beta1.
+
+2013-12-18  Allen Pais <allen.pais@oracle.com>
+2013-12-18  Bob Picco <bob.picco@oracle.com>
+
+	* grub-core/boot/sparc64/ieee1275/boot.S: Fix order of fields.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Make grub_zlib_decompress handle incomplete chunks.
+
+	Fixes squash4.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/Makefile.am: Don't attempt to export grub_bios_interrupt
+	on i386-multiboot.
+
+2013-12-18  Aleš Nesrsta  <starous@volny.cz>
+
+	* grub-core/disk/usbms.c: Retry on unknown errors.
+	Reuse the same tag on retries.
+
+2013-12-18  Aleš Nesrsta  <starous@volny.cz>
+
+	* grub-core/bus/usb/ehci.c: Fix handling of newborn transfers.
+
+	Avoid confusing them with already completed transfers.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Remove xen VFB.
+
+	Due to XEN bug it prevents Linux boot. Remove it at least, until
+	workaround is found.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* po/exclude.pot: Add 2 missing excludes.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add missing license section in macbless.mod and macho.mod.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Allow compilation without thumb-interwork as long as no thumb is
+	involved or only thumb2 is used.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Use -Wl,--no-relax rather than -mno-relax for uniformity.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* INSTALL: Update comment as to why sparc64 clang isn't usable.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add __attribute__ ((sysv_abi)) only if it's really needed.
+
+	Some compilers don't support it.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/lib/syslinux_parse.c: Declare timeout unsigned.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Remove -Wold-style-definition.
+
+	Not very useful and interaction of it with regexp depends on GCC
+	version.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Make grub_util_get_windows_path_real static.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/commands/fileXX.c: Silence cast-align.
+	* grub-core/loader/i386/xen_fileXX.c: Likewise.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/efi/api.h (GRUB_EFI_ERROR_CODE): Use explicit cast
+	rather than LL suffix.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/efi/api.h (PRIxGRUB_EFI_UINTN_T): Remove leftover.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/loader/arm/linux.c: Use common initrd functions.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Decrease number of strings to translate.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/arm/dl.c: Remove unnecessarry execution mode check.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Mark strings for translation and add remaining ones to exclude list.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-file.c (main): Fix sizeof usage.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Silence spurious warning.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Remove check_nt_hiberfil as it's been superseeded by file command.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* docs/osdetect.cfg: Add isolinux config to detected OSes.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Implement syslinux parser.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/commands/legacycfg.c: Use 32-bit Linux protocol on non-BIOS.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Support cpuid --pae.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Use AT keyboard on Yeeloong 3A.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add Yeeloong 3A reboot and halt.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add Radeon Yeeloong 3A support.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add bonito 3A support.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/loader/machoXX.c: Fix compilation on non-i386.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/loader/i386/xen_fileXX.c: Silence cast-align.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/loader/macho.c: Fix compilation on non-i386.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add missing format_arg attribute to check that printf with translated
+	messages has proper arguments.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Use grub_xasprintf to format translated error messages containing
+	64-bit quantity.
+
+2013-12-17  Jon McCune  <jonmccune@google.com>
+
+	Fix double-free introduced by commit 33d02a42d64cf06cada1c389
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Unify message for unsupported relocation.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Mark miscompile error for translation.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Use %I64 and not %ll when using OS printf if compiling for windows.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Update Mac code to match new register_efi prototype.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Implement better integration with Mac firmware.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/loader/multiboot_mbi2.c: Implement special value for
+	load_addr.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Include serial module in default_payload.elf.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add explicit thumb interwork bx in asm files.
+
+	Shouldn't matter for armv >= 5 but let's be safe.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Implement Truecrypt ISO loader.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/lib/arg.c: Ensure at least a single space between commands.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Implement grub_file tool and use it to implement generating of config
+	in separate root.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Change to v1 xen grants.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/lib/i386/xen/relocator.S: Fix hypercall ABI violation.
+
+	GRUB relied on %ebx being preserved across hypercall which isn't true.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/lib/x86_64/xen/relocator.S: Fix hypercall ABI violation.
+
+	GRUB relied on %rdi being preserved across hypercall which isn't true.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Implement XEN VFB support.
+
+2013-12-17  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Remove grub_bios_interrupt on coreboot.
+
+	It's not used currently and cannot be used safely currently.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Update exclude.pot and mark few strings for translation.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-mkrescue.c: Fix incorrect file usage in fallback code.
+
+	Reported by: Jon McCune
+
+2013-12-16  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* grub-core/osdep/linux/platform.c (grub_install_get_default_x86_platform):
+	Add verbose information which firmware directories were tried.
+
+2013-12-16  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* grub-core/osdep/unix/exec.c (grub_util_exec_redirect_all): New
+	function to optionally redirect all three standard descriptors.
+	Redefine grub_util_exec, grub_util_exec_redirect and
+	grub_util_exec_redirect_null to use it.
+	* include/grub/emu/exec.h: Define it.
+	* include/grub/osdep/exec_unix.h: Delete, it is unused.
+	* grub-core/osdep/linux/platform.c (grub_install_get_default_x86_platform):
+	Use grub_util_exec_redirect_all to redirect error to NULL.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/tests/sleep_test.c: Silence spurious warning.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Make grub_xen_hypercall on i386 cdecl rather than stdcall to avoid
+	linker trying to "fixup" the code.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/x86_64/xen/startup.S: Align stack.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add support for converting PE+ to Elf64.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/commands/minicmd.c (grub_mini_cmd_dump): Handle LLP case.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Remove practice of assigning random const pointers to device id.
+
+	This is not required as cache code already checks driver id as well.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/x86_64/types.h: Define sizeof (long) as 4 when compiling
+	with mingw.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/efi/api.h: Don't use call wrappers when compiled with
+	mingw or cygwin as API already matches.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/lib/posix_wrap/errno.h: Undefine errno before redefining.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/efi/api.h: Define (u)intn_t based on pointer size and
+	not on long.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Handle X86_64_PC64 relocation.
+
+	Those are generated by some cygwin compilers.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Determine the need for mingw-related stubs at compile time rather than
+	using not very significant $target_os.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/genmod.sh.in: Strip before converting to ELF as strip
+	may not work with ELF.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Use unix functions for temporary files and special files on cygwin.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Define functions explicitly rather than using --defsym in tests
+	whenever possible. Respect locality in remaining cases.
+
+2013-12-16  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/genmoddep.awk: Remove explicit getline < /dev/stdin.
+
+2013-12-15  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* grub-core/osdep/windows/platform.c (grub_install_register_efi): Handle
+	unlikely errors when getting EFI variables and make exhaustive search
+	for all BootNNNN variables to find matching one.
+
+2013-12-15  Ian Campbell  <ijc@hellion.org.uk>
+
+	* grub-core/kern/uboot/init.c: Fix units of uboot timer.
+
+2013-12-15  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	New functional test for sleep function.
+
+	This test allows to check sleep without qemu. Keep qemu version as
+	well as functional test won't notice if all clocks are going too fast
+	or too slow.
+
+2013-12-15  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add explicit sysv_abi on amd64 asm routines.
+
+2013-12-15  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/commands/efi/lsefisystab.c: Use %lld to show
+	num_table_entries.
+
+2013-12-15  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/test.h: Use gnu_printf rather than printf on GRUB
+	functions.
+
+2013-12-15  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/loader/i386/linux.c: Use grub_addr_t rather than long when
+	appropriate.
+
+2013-12-15  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/loader/i386/linux.c: Use %p rather than %lx for pointers.
+
+2013-12-15  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/elfXX.c: Use grub_addr_t rather than long when
+	appropriate.
+
+2013-12-15  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/disk/loopback.c: Use sequential IDs rather than pointer.
+
+	In case of quick removal of loopback and adding another one it may
+	get same ID, confusing the cache system.
+
+2013-12-15  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/commands/acpi.c: Use grub_addr_t rather than long when
+	appropriate.
+
+2013-12-15  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/i386/coreboot/cbtable.c: Use char * arithmetic rather
+	than converting to long.
+
+2013-12-15  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/disk/cryptodisk.c: Rename "n" to "last_cryptodisk_id".
+
+2013-12-15  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-mkimagexx.c (relocate_addresses): Display offset rather
+	than almost useless pointer.
+
+2013-12-15  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add gcc_struct to all packed structures when compiling with mingw.
+
+	Just "packed" doesn't always pack the way we expect.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/i386/coreboot/lbio.h: Add missing attribute (packed).
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-pe2elf.c: Fix handling of .bss.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Implement windows flavour of EFI install routines.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* conf/Makefile.extra-dist: Adjust path to conf/i386-cygwin-img-ld.sc.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Change grub_install_register_efi interface to pass GRUB device.
+
+	This allows grub_install_register_efi to request partition info
+	directly.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Workaround cygwin bug when using \\?\Volume{GUID} syntax.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Do not use TCHAR string functions as they are not available on cygwin.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Workaround windows bug when querying EFI system partition parameters.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/i386/qemu/init.c (resource): Decrease struct size
+	by using bitfields.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/boot/i386/qemu/boot.S: Add missing EXT_C.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Make i386-* other than i386-pc compileable under cygwin.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Fix definition of grub_efi_hard_drive_device_path. Take care that
+	existing code would work even if by some reason bogus definition is
+	used by EFI implementations.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/osdep/windows/hostdisk.c: Fix cygwin compilation.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/osdep/windows/blocklist.c: Add missing cast in printf
+	invocation.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/config.c: Remove trailing newline from distributor in simple
+	parsing.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/efi/api.h: Rename protocol and interface to avoid
+	conflict.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* .gitignore: Add .exe variants. Add missing files. Remove few outdated
+	entries.
+
+2013-12-14  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/osdep/exec.c: Use unix version on cygwin.
+
+2013-12-13  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Implement multiboot2 EFI BS specification.
+
+2013-12-11  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/normal/charset.c: Fix premature line wrap and crash.
+	Crash happened only in some cases like a string starting at the
+	half of the screen of same length.
+
+2013-12-11  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/efiemu/efiemu.h: Sync configuration table declaration
+	with EFI counterpart.
+
+2013-12-11  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Propagate the EFI commits to x86-efi specific parts.
+
+2013-12-11  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/commands/efi/lssal.c: Fix terminating condition.
+
+2013-12-11  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Introduce grub_efi_packed_guid and use it where alignment is not
+	guaranteed.
+
+2013-12-11  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/efi/api.h (grub_efi_device_path): Define length as
+	unaligned u16 rather than u8[2].
+
+2013-12-11  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/ia64/dl.c (grub_arch_dl_relocate_symbols): Add checks
+	for relocation range.
+
+2013-12-11  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/ia64/dl.c (grub_arch_dl_relocate_symbols): Handle
+	non-function pcrel21b relocation. It happens with .text.unlikely
+	section.
+
+2013-12-10  Leif Lindholm <leif.lindholm@linaro.org>
+
+	* make MAX_USABLE_ADDRESS platform-specific
+	* grub-core/kern/efi/mm.c: add Vladimir's new BYTES_TO_PAGES_DOWN macro.
+
+2013-12-10  Leif Lindholm <leif.lindholm@linaro.org>
+
+	* grub-core/lib/fdt.c: change memcpy => grub_memcpy
+
+2013-12-09  Jon McCune <jonmccune@google.com>
+
+	* Add --no-rs-codes flag to optionally disable reed-solomon codes
+	in grub-install and grub-bios-setup for x86 BIOS targets.
+
+2013-12-09  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add missing compile and link options for sparc64-emu.
+
+2013-12-09  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Implement sparc64 trampolines (needed for sparc64-emu).
+
+2013-12-09  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/sparc64/dl.c (grub_arch_dl_relocate_symbols): Check
+	range of R_SPARC_HI22.
+	Implement R_SPARC_LM22.
+
+2013-12-09  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/powerpc/dl_helper.c (grub_arch_dl_get_tramp_got_size):
+	Do not explicitly check for symbol table as it's already checked in
+	platform-independent layer.
+
+2013-12-09  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/emu/cache.c [__ia64__]: Use our cache cleaning routine
+	on ia64 as __clear_cache is a dummy on ia64.
+
+2013-12-09  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/ia64/dl_helper.c (grub_ia64_dl_get_tramp_got_size):
+	Do not explicitly check for symbol table as it's already checked in
+	platform-independent layer.
+
+2013-12-09  Colin Watson  <cjwatson@ubuntu.com>
+
+	* util/grub-mkconfig.in: Add missing newline to output.
+
 2013-12-08  Vladimir Serbinenko  <phcoder@gmail.com>
 
 	* grub-core/kern/ia64/efi/init.c (grub_arch_sync_caches): Move to ...

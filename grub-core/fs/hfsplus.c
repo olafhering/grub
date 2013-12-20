@@ -34,11 +34,6 @@
 
 GRUB_MOD_LICENSE ("GPLv3+");
 
-#define GRUB_HFSPLUS_MAGIC 0x482B
-#define GRUB_HFSPLUSX_MAGIC 0x4858
-#define GRUB_HFSPLUS_SBLOCK 2
-
-
 /* The type of node.  */
 enum grub_hfsplus_btnode_type
   {
@@ -65,7 +60,7 @@ struct grub_hfsplus_btheader
   grub_uint8_t btree_type;
   grub_uint8_t key_compare;
   grub_uint32_t attributes;
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 struct grub_hfsplus_catfile
 {
@@ -80,7 +75,7 @@ struct grub_hfsplus_catfile
   grub_uint8_t unused3[44];
   struct grub_hfsplus_forkdata data;
   struct grub_hfsplus_forkdata resource;
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 /* Filetype information as used in inodes.  */
 #define GRUB_HFSPLUS_FILEMODE_MASK	0170000
@@ -919,6 +914,8 @@ grub_hfsplus_dir_iter (const char *filename,
   info.dir = ((filetype & GRUB_FSHELP_TYPE_MASK) == GRUB_FSHELP_DIR);
   info.mtimeset = 1;
   info.mtime = node->mtime;
+  info.inodeset = 1;
+  info.inode = node->fileid;
   info.case_insensitive = !! (filetype & GRUB_FSHELP_CASE_INSENSITIVE);
   grub_free (node);
   return ctx->hook (filename, &info, ctx->hook_data);

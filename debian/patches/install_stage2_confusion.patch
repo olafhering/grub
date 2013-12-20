@@ -2,24 +2,24 @@ Description: If GRUB Legacy is still around, tell packaging to ignore it
 Author: Colin Watson <cjwatson@debian.org>
 Bug-Debian: http://bugs.debian.org/586143
 Forwarded: not-needed
-Last-Update: 2013-12-08
+Last-Update: 2013-12-20
 
 Index: b/util/grub-install.c
 ===================================================================
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
-@@ -41,6 +41,7 @@
- #include <grub/gpt_partition.h>
+@@ -42,6 +42,7 @@
  #include <grub/emu/config.h>
  #include <grub/util/ofpath.h>
+ #include <grub/hfsplus.h>
 +#include <grub/emu/hostfile.h>
  
  #include <string.h>
  
-@@ -1450,6 +1451,19 @@
+@@ -1648,6 +1649,19 @@
  	  grub_util_bios_setup (platdir, "boot.img", "core.img",
  				install_drive, force,
- 				fs_probe, allow_floppy);
+ 				fs_probe, allow_floppy, add_rs_codes);
 +
 +	/* If vestiges of GRUB Legacy still exist, tell the Debian packaging
 +	   that they can ignore them.  */

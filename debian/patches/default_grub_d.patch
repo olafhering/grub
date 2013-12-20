@@ -2,7 +2,7 @@ Description: Read /etc/default/grub.d/*.cfg after /etc/default/grub
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/901600
 Forwarded: no
-Last-Update: 2013-12-08
+Last-Update: 2013-12-20
 
 Index: b/grub-core/osdep/unix/config.c
 ===================================================================
@@ -92,7 +92,7 @@ Index: b/util/grub-mkconfig.in
 ===================================================================
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -153,6 +153,11 @@
+@@ -162,6 +162,11 @@
  if test -f ${sysconfdir}/default/grub ; then
    . ${sysconfdir}/default/grub
  fi

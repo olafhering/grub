@@ -89,7 +89,7 @@ struct idt_descriptor
 {
   grub_uint16_t limit;
   void *base;
-} __attribute__ ((packed));
+} GRUB_PACKED;
 
 static struct idt_descriptor idt_desc =
   {
@@ -251,8 +251,8 @@ allocate_pages (grub_size_t prot_size, grub_size_t *align,
     prot_mode_target = get_physical_target_address (ch);
   }
 
-  grub_dprintf ("linux", "prot_mode_mem = %lx, prot_mode_target = %lx, prot_size = %x\n",
-                (unsigned long) prot_mode_mem, (unsigned long) prot_mode_target,
+  grub_dprintf ("linux", "prot_mode_mem = %p, prot_mode_target = %lx, prot_size = %x\n",
+                prot_mode_mem, (unsigned long) prot_mode_target,
 		(unsigned) prot_size);
   return GRUB_ERR_NONE;
 
@@ -343,9 +343,11 @@ grub_linux_setup_video (struct linux_kernel_params *params)
 	case GRUB_VIDEO_DRIVER_CIRRUS:
 	case GRUB_VIDEO_DRIVER_BOCHS:
 	case GRUB_VIDEO_DRIVER_RADEON_FULOONG2E:
+	case GRUB_VIDEO_DRIVER_RADEON_YEELOONG3A:
 	case GRUB_VIDEO_DRIVER_IEEE1275:
 	case GRUB_VIDEO_DRIVER_COREBOOT:
 	  /* Make gcc happy. */
+	case GRUB_VIDEO_DRIVER_XEN:
 	case GRUB_VIDEO_DRIVER_SDL:
 	case GRUB_VIDEO_DRIVER_NONE:
 	case GRUB_VIDEO_ADAPTER_CAPTURE:
@@ -595,8 +597,8 @@ grub_linux_boot (void)
   }
   efi_mmap_buf = (grub_uint8_t *) real_mode_mem + ctx.real_size;
 
-  grub_dprintf ("linux", "real_mode_mem = %lx\n",
-                (unsigned long) real_mode_mem);
+  grub_dprintf ("linux", "real_mode_mem = %p\n",
+                real_mode_mem);
 
   ctx.params = real_mode_mem;
 
@@ -743,7 +745,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
       goto fail;
     }
 
-  if (lh.boot_flag != grub_cpu_to_le16 (0xaa55))
+  if (lh.boot_flag != grub_cpu_to_le16_compile_time (0xaa55))
     {
       grub_error (GRUB_ERR_BAD_OS, "invalid magic number");
       goto fail;
@@ -888,7 +890,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
   if (grub_le_to_cpu16 (linux_params.version) >= 0x0208)
     {
       linux_params.v0208.efi_signature = GRUB_LINUX_EFI_SIGNATURE;
-      linux_params.v0208.efi_system_table = (grub_uint32_t) (unsigned long) grub_efi_system_table;
+      linux_params.v0208.efi_system_table = (grub_uint32_t) (grub_addr_t) grub_efi_system_table;
 #ifdef __x86_64__
       linux_params.v0208.efi_system_table_hi = (grub_uint32_t) ((grub_uint64_t) grub_efi_system_table >> 32);
 #endif
@@ -896,12 +898,12 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
   else if (grub_le_to_cpu16 (linux_params.version) >= 0x0206)
     {
       linux_params.v0206.efi_signature = GRUB_LINUX_EFI_SIGNATURE;
-      linux_params.v0206.efi_system_table = (grub_uint32_t) (unsigned long) grub_efi_system_table;
+      linux_params.v0206.efi_system_table = (grub_uint32_t) (grub_addr_t) grub_efi_system_table;
     }
   else if (grub_le_to_cpu16 (linux_params.version) >= 0x0204)
     {
       linux_params.v0204.efi_signature = GRUB_LINUX_EFI_SIGNATURE_0204;
-      linux_params.v0204.efi_system_table = (grub_uint32_t) (unsigned long) grub_efi_system_table;
+      linux_params.v0204.efi_system_table = (grub_uint32_t) (grub_addr_t) grub_efi_system_table;
     }
 #endif
 

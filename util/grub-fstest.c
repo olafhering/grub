@@ -86,7 +86,7 @@ read_file (char *pathname, int (*hook) (grub_off_t ofs, char *buf, int len, void
       if ((! dev) || (! dev->disk))
         grub_util_error ("%s", grub_errmsg);
 
-      grub_util_info ("total sectors : %lld",
+      grub_util_info ("total sectors : %" GRUB_HOST_PRIuLONG_LONG,
                       (unsigned long long) dev->disk->total_sectors);
 
       if (! leng)
@@ -99,8 +99,11 @@ read_file (char *pathname, int (*hook) (grub_off_t ofs, char *buf, int len, void
           len = (leng > BUF_SIZE) ? BUF_SIZE : leng;
 
           if (grub_disk_read (dev->disk, 0, skip, len, buf))
-            grub_util_error (_("disk read fails at offset %lld, length %lld"),
-                             (long long) skip, (long long) len);
+	    {
+	      char *msg = grub_xasprintf (_("disk read fails at offset %lld, length %lld"),
+					  (long long) skip, (long long) len);
+	      grub_util_error ("%s", msg);
+	    }
 
           if (hook (skip, buf, len, hook_arg))
             break;
@@ -123,11 +126,14 @@ read_file (char *pathname, int (*hook) (grub_off_t ofs, char *buf, int len, void
       return;
     }
 
-  grub_util_info ("file size : %lld", (unsigned long long) file->size);
+  grub_util_info ("file size : %" GRUB_HOST_PRIuLONG_LONG,
+		  (unsigned long long) file->size);
 
   if (skip > file->size)
     {
-      grub_util_error (_("invalid skip value %lld"), (unsigned long long) skip);
+      char *msg = grub_xasprintf (_("invalid skip value %lld"),
+				  (unsigned long long) skip);
+      grub_util_error ("%s", msg);
       return;
     }
 
@@ -147,8 +153,9 @@ read_file (char *pathname, int (*hook) (grub_off_t ofs, char *buf, int len, void
 	sz = grub_file_read (file, buf, (len > BUF_SIZE) ? BUF_SIZE : len);
 	if (sz < 0)
 	  {
-	    grub_util_error (_("read error at offset %llu: %s"),
-			     (unsigned long long) ofs, grub_errmsg);
+	    char *msg = grub_xasprintf (_("read error at offset %llu: %s"),
+					(unsigned long long) ofs, grub_errmsg);
+	    grub_util_error ("%s", msg);
 	    break;
 	  }
 
@@ -232,8 +239,9 @@ cmp_hook (grub_off_t ofs, char *buf, int len, void *ff_in)
   static char buf_1[BUF_SIZE];
   if ((int) fread (buf_1, 1, len, ff) != len)
     {
-      grub_util_error (_("read error at offset %llu: %s"),
-		       (unsigned long long) ofs, grub_errmsg);
+      char *msg = grub_xasprintf (_("read error at offset %llu: %s"),
+				  (unsigned long long) ofs, grub_errmsg);
+      grub_util_error ("%s", msg);
       return 1;
     }
 
@@ -244,8 +252,9 @@ cmp_hook (grub_off_t ofs, char *buf, int len, void *ff_in)
       for (i = 0; i < len; i++, ofs++)
 	if (buf_1[i] != buf[i])
 	  {
-	    grub_util_error (_("compare fail at offset %llu"),
-			     (unsigned long long) ofs);
+	    char *msg = grub_xasprintf (_("compare fail at offset %llu"),
+					(unsigned long long) ofs);
+	    grub_util_error ("%s", msg);
 	    return 1;
 	  }
     }

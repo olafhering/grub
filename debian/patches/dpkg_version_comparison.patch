@@ -1,13 +1,13 @@
 Description: Improve handling of Debian kernel version numbers
 Author: Robert Millan <rmh@aybabtu.com>
 Forwarded: not-needed
-Last-Update: 2011-04-21
+Last-Update: 2013-12-20
 
 Index: b/util/grub-mkconfig_lib.in
 ===================================================================
 --- a/util/grub-mkconfig_lib.in
 +++ b/util/grub-mkconfig_lib.in
-@@ -235,8 +235,9 @@
+@@ -238,8 +238,9 @@
  
  version_test_gt ()
  {
@@ -19,7 +19,7 @@ Index: b/util/grub-mkconfig_lib.in
    version_test_gt_cmp=gt
    if [ "x$version_test_gt_b" = "x" ] ; then
      return 0
-@@ -246,7 +247,7 @@
+@@ -249,7 +250,7 @@
      *.old:*) version_test_gt_a="`echo -n "$version_test_gt_a" | sed -e 's/\.old$//'`" ; version_test_gt_cmp=gt ;;
      *:*.old) version_test_gt_b="`echo -n "$version_test_gt_b" | sed -e 's/\.old$//'`" ; version_test_gt_cmp=ge ;;
    esac

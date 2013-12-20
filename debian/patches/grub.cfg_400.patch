@@ -2,7 +2,7 @@ Index: b/util/grub-mkconfig.in
 ===================================================================
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -260,6 +260,10 @@
+@@ -298,6 +298,10 @@
    esac
  done
  

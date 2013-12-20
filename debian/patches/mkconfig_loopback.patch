@@ -13,7 +13,7 @@ Index: b/util/grub-mkconfig_lib.in
 ===================================================================
 --- a/util/grub-mkconfig_lib.in
 +++ b/util/grub-mkconfig_lib.in
-@@ -130,6 +130,21 @@
+@@ -133,6 +133,21 @@
      esac
    done
  
@@ -35,7 +35,7 @@ Index: b/util/grub-mkconfig_lib.in
    if dmsetup status $device 2>/dev/null | grep -q 'crypt[[:space:]]$'; then
      grub_warn \
        "$device is a crypto device, which GRUB cannot read directly.  Some" \
-@@ -240,6 +255,14 @@
+@@ -243,6 +258,14 @@
    else
      return 1
    fi
@@ -54,7 +54,7 @@ Index: b/util/grub.d/10_linux.in
 ===================================================================
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -40,6 +40,11 @@
+@@ -65,6 +65,11 @@
  case ${GRUB_DEVICE} in
    /dev/loop/*|/dev/loop[0-9])
      GRUB_DEVICE=`losetup ${GRUB_DEVICE} | sed -e "s/^[^(]*(\([^)]\+\)).*/\1/"`
@@ -70,7 +70,7 @@ Index: b/util/grub.d/20_linux_xen.in
 ===================================================================
 --- a/util/grub.d/20_linux_xen.in
 +++ b/util/grub.d/20_linux_xen.in
-@@ -40,6 +40,11 @@
+@@ -44,6 +44,11 @@
  case ${GRUB_DEVICE} in
    /dev/loop/*|/dev/loop[0-9])
      GRUB_DEVICE=`losetup ${GRUB_DEVICE} | sed -e "s/^[^(]*(\([^)]\+\)).*/\1/"`

@@ -48,6 +48,10 @@
 #include <winioctl.h>
 #include <wincrypt.h>
 
+#ifdef __CYGWIN__
+#include <sys/cygwin.h>
+#endif
+
 #if SIZEOF_TCHAR == 1
 
 LPTSTR
@@ -93,12 +97,54 @@ grub_util_tchar_to_utf8 (LPCTSTR in)
 #error "Unsupported TCHAR size"
 #endif
 
+
+static LPTSTR
+grub_util_get_windows_path_real (const char *path)
+{
+  LPTSTR fpa;
+  LPTSTR tpath;
+  size_t alloc, len;
+
+  tpath = grub_util_utf8_to_tchar (path);
+
+  alloc = PATH_MAX;
+
+  while (1)
+    {
+      fpa = xmalloc (alloc * sizeof (fpa[0]));
+
+      len = GetFullPathName (tpath, alloc, fpa, NULL);
+      if (len >= alloc)
+	{
+	  free (fpa);
+	  alloc = 2 * (len + 2);
+	  continue;
+	}
+      if (len == 0)
+	{
+	  free (fpa);
+	  return tpath;
+	}
+
+      free (tpath);
+      return fpa;
+    }
+}
+
 #ifdef __CYGWIN__
 LPTSTR
 grub_util_get_windows_path (const char *path)
 {
   LPTSTR winpath;
+  /* Workaround cygwin bugs with //?/.  */
+  if ((path[0] == '\\' || path[0] == '/')
+      && (path[1] == '\\' || path[1] == '/')
+      && (path[2] == '?' || path[2] == '.')
+      && (path[3] == '\\' || path[3] == '/'))
+    return grub_util_get_windows_path_real (path);
+
   winpath = xmalloc (sizeof (winpath[0]) * PATH_MAX);
+  memset (winpath, 0, sizeof (winpath[0]) * PATH_MAX);
   if (cygwin_conv_path ((sizeof (winpath[0]) == 1 ? CCP_POSIX_TO_WIN_A
 			 : CCP_POSIX_TO_WIN_W) | CCP_ABSOLUTE, path, winpath,
 			sizeof (winpath[0]) * PATH_MAX))
@@ -109,20 +155,7 @@ grub_util_get_windows_path (const char *path)
 LPTSTR
 grub_util_get_windows_path (const char *path)
 {
-  LPTSTR fpa;
-  LPTSTR tpath;
-
-  tpath = grub_util_utf8_to_tchar (path);
-
-  fpa = xmalloc (PATH_MAX * sizeof (fpa[0]));
-  if (!_wfullpath (fpa, tpath, PATH_MAX))
-    {
-      free (fpa);
-      return tpath;
-    }
-
-  free (tpath);
-  return fpa;
+  return grub_util_get_windows_path_real (path);
 }
 #endif
 
@@ -434,6 +467,8 @@ grub_util_rmdir (const char *name)
   return ret;
 }
 
+#ifndef __CYGWIN__
+
 static char *
 get_temp_name (void)
 {
@@ -441,7 +476,6 @@ get_temp_name (void)
   TCHAR *ptr;
   HCRYPTPROV   hCryptProv;
   grub_uint8_t rnd[5];
-  const size_t sz = sizeof (rnd) * GRUB_CHAR_BIT / 5;
   int i;
 
   GetTempPath (ARRAY_SIZE (rt) - 100, rt);
@@ -503,6 +537,8 @@ grub_util_make_temporary_dir (void)
 
   return ret;
 }
+
+#endif
 
 int
 grub_util_is_directory (const char *name)
@@ -614,20 +650,19 @@ grub_util_is_special_file (const char *name)
 
 #else
 
+void
+grub_util_file_sync (FILE *f)
+{
+  fflush (f);
+  if (!allow_fd_syncs)
+    return;
+  fsync (fileno (f));
+}
+
 FILE *
 grub_util_fopen (const char *path, const char *mode)
 {
   return fopen (path, mode);
-}
-
-int
-grub_util_is_special_file (const char *path)
-{
-  struct stat st;
-
-  if (lstat (destnew, &st) == -1)
-    return 1;
-  return (!S_ISREG (st.st_mode) && !S_ISDIR (st.st_mode));
 }
 
 #endif

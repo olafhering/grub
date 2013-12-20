@@ -5,13 +5,13 @@ Description: Cope with Kubuntu setting GRUB_DISTRIBUTOR
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/1242417
 Forwarded: not-needed
-Last-Update: 2013-12-08
+Last-Update: 2013-12-20
 
 Index: b/util/grub-install.c
 ===================================================================
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
-@@ -950,6 +950,8 @@
+@@ -1075,6 +1075,8 @@
        */
        char *t;
        efi_distributor = bootloader_id;

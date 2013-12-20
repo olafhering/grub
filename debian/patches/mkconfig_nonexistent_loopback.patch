@@ -2,13 +2,13 @@ Description: Avoid getting confused by inaccessible loop device backing paths
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/938724
 Forwarded: no
-Last-Update: 2013-11-26
+Last-Update: 2013-12-20
 
 Index: b/util/grub-mkconfig_lib.in
 ===================================================================
 --- a/util/grub-mkconfig_lib.in
 +++ b/util/grub-mkconfig_lib.in
-@@ -139,7 +139,7 @@
+@@ -142,7 +142,7 @@
          /dev/*) ;;
          *)
            loop_device="${device}"

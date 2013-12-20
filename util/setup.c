@@ -153,8 +153,8 @@ save_blocklists (grub_disk_addr_t sector, unsigned offset, unsigned length,
   struct grub_boot_blocklist *prev = bl->block + 1;
   grub_uint64_t seclen;
 
-  grub_util_info ("saving <%" PRIuGRUB_UINT64_T ",%u,%u>",
-		  sector, offset, length);
+  grub_util_info ("saving <%"  GRUB_HOST_PRIuLONG_LONG ",%u,%u>",
+		  (unsigned long long) sector, offset, length);
 
   if (bl->first_sector == (grub_disk_addr_t) -1)
     {
@@ -250,7 +250,8 @@ void
 SETUP (const char *dir,
        const char *boot_file, const char *core_file,
        const char *dest, int force,
-       int fs_probe, int allow_floppy)
+       int fs_probe, int allow_floppy,
+       int add_rs_codes __attribute__ ((unused))) /* unused on sparc64 */
 {
   char *core_path;
   char *boot_img, *core_img, *boot_path;
@@ -488,7 +489,11 @@ SETUP (const char *dir,
 
     nsec = core_sectors;
 
-    maxsec = 2 * core_sectors;
+    if (add_rs_codes)
+      maxsec = 2 * core_sectors;
+    else
+      maxsec = core_sectors;
+
     if (maxsec > ((0x78000 - GRUB_KERNEL_I386_PC_LINK_ADDR)
 		>> GRUB_DISK_SECTOR_BITS))
       maxsec = ((0x78000 - GRUB_KERNEL_I386_PC_LINK_ADDR)
@@ -545,15 +550,16 @@ SETUP (const char *dir,
 
     write_rootdev (root_dev, boot_img, bl.first_sector);
 
-    core_img = realloc (core_img, nsec * GRUB_DISK_SECTOR_SIZE);
+    /* Round up to the nearest sector boundary, and zero the extra memory */
+    core_img = xrealloc (core_img, nsec * GRUB_DISK_SECTOR_SIZE);
+    assert (core_img && (nsec * GRUB_DISK_SECTOR_SIZE >= core_size));
+    memset (core_img + core_size, 0, nsec * GRUB_DISK_SECTOR_SIZE - core_size);
+
     bl.first_block = (struct grub_boot_blocklist *) (core_img
 						     + GRUB_DISK_SECTOR_SIZE
 						     - sizeof (*bl.block));
 
     grub_size_t no_rs_length;
-    grub_set_unaligned32 ((core_img + GRUB_DISK_SECTOR_SIZE
-			   + GRUB_KERNEL_I386_PC_REED_SOLOMON_REDUNDANCY),
-			  grub_host_to_target32 (nsec * GRUB_DISK_SECTOR_SIZE - core_size));
     no_rs_length = grub_target_to_host16 
       (grub_get_unaligned16 (core_img
 			     + GRUB_DISK_SECTOR_SIZE
@@ -562,14 +568,21 @@ SETUP (const char *dir,
     if (no_rs_length == 0xffff)
       grub_util_error ("%s", _("core.img version mismatch"));
 
-    void *tmp = xmalloc (core_size);
-    grub_memcpy (tmp, core_img, core_size);
-    grub_reed_solomon_add_redundancy (core_img + no_rs_length + GRUB_DISK_SECTOR_SIZE,
-				      core_size - no_rs_length - GRUB_DISK_SECTOR_SIZE,
-				      nsec * GRUB_DISK_SECTOR_SIZE
-				      - core_size);
-    assert (grub_memcmp (tmp, core_img, core_size) == 0);
-    free (tmp);
+    if (add_rs_codes)
+      {
+	grub_set_unaligned32 ((core_img + GRUB_DISK_SECTOR_SIZE
+			       + GRUB_KERNEL_I386_PC_REED_SOLOMON_REDUNDANCY),
+			      grub_host_to_target32 (nsec * GRUB_DISK_SECTOR_SIZE - core_size));
+
+	void *tmp = xmalloc (core_size);
+	grub_memcpy (tmp, core_img, core_size);
+	grub_reed_solomon_add_redundancy (core_img + no_rs_length + GRUB_DISK_SECTOR_SIZE,
+					  core_size - no_rs_length - GRUB_DISK_SECTOR_SIZE,
+					  nsec * GRUB_DISK_SECTOR_SIZE
+					  - core_size);
+	assert (grub_memcmp (tmp, core_img, core_size) == 0);
+	free (tmp);
+      }
 
     /* Write the core image onto the disk.  */
     for (i = 0; i < nsec; i++)
