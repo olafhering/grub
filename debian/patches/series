@@ -5,7 +5,6 @@ grub_legacy_0_based_partitions.patch
 disable_floppies.patch
 grub.cfg_400.patch
 gfxpayload_keep_default.patch
-mkconfig_skip_dmcrypt.patch
 install_stage2_confusion.patch
 mkrescue_efi_modules.patch
 mkconfig_loopback.patch
