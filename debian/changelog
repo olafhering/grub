@@ -1,5 +1,6 @@
-grub2 (2.00+20131208-2) UNRELEASED; urgency=low
+grub2 (2.02~beta1-1) UNRELEASED; urgency=low
 
+  * New upstream beta release.
   * Drop qemu-utils build-dependency; the test suite no longer uses
     qemu-img.
   * Build grub-common, grub2-common, grub-themes-starfield, and grub-mount
