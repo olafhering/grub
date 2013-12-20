@@ -13,20 +13,21 @@ Index: b/util/grub-mkconfig_lib.in
 ===================================================================
 --- a/util/grub-mkconfig_lib.in
 +++ b/util/grub-mkconfig_lib.in
-@@ -133,6 +133,21 @@
+@@ -133,6 +133,22 @@
      esac
    done
  
 +  loop_file=
-+  case ${device} in
++  case $1 in
 +    /dev/loop/*|/dev/loop[0-9])
-+      grub_loop_device="${device#/dev/}"
-+      loop_file=`losetup "${device}" | sed -e "s/^[^(]*(\([^)]\+\)).*/\1/"`
++      grub_loop_device="${1#/dev/}"
++      loop_file=`losetup "$1" | sed -e "s/^[^(]*(\([^)]\+\)).*/\1/"`
 +      case $loop_file in
 +        /dev/*) ;;
 +        *)
-+          loop_device="${device}"
-+          device=`"${grub_probe}" --target=device "${loop_file}"`
++          loop_device="$1"
++          shift
++          set -- `"${grub_probe}" --target=device "${loop_file}"` "$@"
 +        ;;
 +      esac
 +    ;;
@@ -35,10 +36,10 @@ Index: b/util/grub-mkconfig_lib.in
    # Abstraction modules aren't auto-loaded.
    abstraction="`"${grub_probe}" --device $@ --target=abstraction`"
    for module in ${abstraction} ; do
-@@ -234,6 +249,14 @@
-   else
-     return 1
+@@ -165,6 +181,14 @@
+     echo "fi"
    fi
+   IFS="$old_ifs"
 +
 +  if [ "x${loop_file}" != x ]; then
 +    loop_mountpoint="$(awk '"'${loop_file}'" ~ "^"$2 && $2 != "/" { print $2 }' /proc/mounts | tail -n1)"
@@ -49,7 +50,7 @@ Index: b/util/grub-mkconfig_lib.in
 +  fi
  }
  
- version_test_gt ()
+ grub_get_device_id ()
 Index: b/util/grub.d/10_linux.in
 ===================================================================
 --- a/util/grub.d/10_linux.in
