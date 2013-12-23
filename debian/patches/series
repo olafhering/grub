@@ -38,5 +38,4 @@ vt_handoff.patch
 probe_fusionio.patch
 ignore_grub_func_test_failures.patch
 mkconfig_recovery_title.patch
-potfiles-skip-pc.patch
-gettext_test_ignore_extras.patch
+skip_gettext_strings_test.patch

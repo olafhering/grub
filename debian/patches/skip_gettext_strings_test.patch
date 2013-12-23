@@ -1,0 +1,19 @@
+Description: Don't run gettext_strings_test
+ This test is mainly useful as an upstream maintenance check.
+Author: Colin Watson <cjwatson@ubuntu.com>
+Forwarded: not-needed
+Last-Update: 2013-12-23
+
+Index: b/tests/gettext_strings_test.in
+===================================================================
+--- a/tests/gettext_strings_test.in
++++ b/tests/gettext_strings_test.in
+@@ -1,5 +1,8 @@
+ #!/bin/sh
+ 
++echo "Skipping upstream maintenance check."
++exit 77
++
+ cd '@srcdir@'
+ 
+ tdir="$(mktemp -d "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX")"
