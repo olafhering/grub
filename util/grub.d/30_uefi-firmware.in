@@ -26,6 +26,10 @@ export TEXTDOMAINDIR="@localedir@"
 
 . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
 
+if [ x$GRUB_PLATFORM != xx86 ]; then
+  exit 0
+fi
+
 efi_vars_dir=/sys/firmware/efi/vars
 EFI_GLOBAL_VARIABLE=8be4df61-93ca-11d2-aa0d-00e098032b8c
 OsIndications="$efi_vars_dir/OsIndicationsSupported-$EFI_GLOBAL_VARIABLE/data"

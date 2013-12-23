@@ -1,7 +1,7 @@
 Description: Output a menu entry for firmware setup on UEFI FastBoot systems
 Author: Steve Langasek <steve.langasek@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-12-20
+Last-Update: 2013-12-23
 
 Index: b/Makefile.util.def
 ===================================================================
@@ -24,7 +24,7 @@ Index: b/util/grub.d/30_uefi-firmware.in
 ===================================================================
 --- /dev/null
 +++ b/util/grub.d/30_uefi-firmware.in
-@@ -0,0 +1,46 @@
+@@ -0,0 +1,50 @@
 +#! /bin/sh
 +set -e
 +
@@ -52,6 +52,10 @@ Index: b/util/grub.d/30_uefi-firmware.in
 +export TEXTDOMAINDIR="@localedir@"
 +
 +. "@datadir@/@PACKAGE@/grub-mkconfig_lib"
++
++if [ x$GRUB_PLATFORM != xx86 ]; then
++  exit 0
++fi
 +
 +efi_vars_dir=/sys/firmware/efi/vars
 +EFI_GLOBAL_VARIABLE=8be4df61-93ca-11d2-aa0d-00e098032b8c
