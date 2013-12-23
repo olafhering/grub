@@ -30,6 +30,8 @@ grub2 (2.02~beta1-1) UNRELEASED; urgency=low
   * Install grub-file in grub-common.
   * Fix crash due to pointer confusion in grub-mkdevicemap, introduced while
     converting away from nested functions in 2.00+20131208-1.
+  * Add more grub.d scripts (05_debian_theme and 30_uefi-firmware) to the
+    list that should be run only once.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 10 Dec 2013 17:39:47 +0000
 
