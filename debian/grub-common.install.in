@@ -4,6 +4,7 @@
 etc/bash_completion.d
 etc/grub.d
 usr/bin/grub-editenv
+usr/bin/grub-file
 usr/bin/grub-fstest
 usr/bin/grub-kbdcomp
 usr/bin/grub-menulst2cfg
@@ -24,6 +25,7 @@ usr/share/grub/*.pf2
 usr/share/grub/grub-mkconfig_lib
 usr/share/locale
 usr/share/man/man1/grub-editenv.1
+usr/share/man/man1/grub-file.1
 usr/share/man/man1/grub-fstest.1
 usr/share/man/man1/grub-kbdcomp.1
 usr/share/man/man1/grub-menulst2cfg.1

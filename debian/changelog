@@ -27,6 +27,7 @@ grub2 (2.02~beta1-1) UNRELEASED; urgency=low
     these are installed on all architectures again.  (Retain the code to
     remove /etc/grub.d/10_freebsd, since that was renamed to
     /etc/grub.d/10_kfreebsd.)
+  * Install grub-file in grub-common.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 10 Dec 2013 17:39:47 +0000
 
