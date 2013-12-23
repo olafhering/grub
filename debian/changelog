@@ -17,6 +17,7 @@ grub2 (2.02~beta1-1) UNRELEASED; urgency=low
   * Drop mkconfig_skip_dmcrypt.patch; it breaks GRUB_ENABLE_CRYPTODISK=y,
     which is a better fix for the original problem (closes: #732245).
   * Fix mismerge of mkconfig_loopback.patch.
+  * Build for ppc64el, using a powerpc cross-compiler at least for now.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 10 Dec 2013 17:39:47 +0000
 

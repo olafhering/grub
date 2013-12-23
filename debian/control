@@ -16,7 +16,10 @@ Build-Depends: debhelper (>= 7.4.2~),
  help2man,
  texinfo,
  gcc-4.7-multilib [i386 kopensolaris-i386 any-amd64 any-ppc64 any-sparc],
- gcc-4.7,
+ gcc-4.7 [!any-ppc64el],
+ gcc-4.8-powerpc-linux-gnu [any-ppc64el],
+ gcc-4.8 [any-ppc64el],
+ libc6-dev-powerpc-cross [any-ppc64el],
  xfonts-unifont,
  libfreetype6-dev,
  gettext,
@@ -42,8 +45,8 @@ Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-grub/grub.git
 
 Package: grub2
 Section: oldlibs
-Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
-Depends: grub-pc (= ${binary:Version}) [any-i386 any-amd64] | grub-ieee1275 (= ${binary:Version}) [any-powerpc any-ppc64 any-sparc], ${misc:Depends}
+Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-ppc64el any-sparc
+Depends: grub-pc (= ${binary:Version}) [any-i386 any-amd64] | grub-ieee1275 (= ${binary:Version}) [any-powerpc any-ppc64 any-ppc64el any-sparc], ${misc:Depends}
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (dummy package)
  This is a dummy transitional package to handle GRUB 2 upgrades.  It can be
@@ -69,7 +72,7 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
 
 Package: grub-common
 Priority: optional
-Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc any-mipsel any-ia64 any-arm any-arm64
+Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-ppc64el any-sparc any-mipsel any-ia64 any-arm any-arm64
 Depends: ${shlibs:Depends}, ${misc:Depends}, gettext-base, ${lsb-base-depends}
 Replaces: grub-pc (<< 2.00-4), grub-ieee1275 (<< 2.00-4), grub-efi (<< 1.99-1), grub-coreboot (<< 2.00-4), grub-linuxbios (<< 1.96+20080831-1), grub-efi-ia32 (<< 2.00-4), grub-efi-amd64 (<< 2.00-4), grub-efi-ia64 (<< 2.00-4), grub-yeeloong (<< 2.00-4)
 Recommends: os-prober (>= 1.33)
@@ -85,7 +88,7 @@ Description: GRand Unified Bootloader (common files)
 
 Package: grub2-common
 Priority: optional
-Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc any-mipsel any-ia64 any-arm any-arm64
+Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-ppc64el any-sparc any-mipsel any-ia64 any-arm any-arm64
 Depends: grub-common (= ${binary:Version}), dpkg (>= 1.15.4) | install-info, ${shlibs:Depends}, ${misc:Depends}
 Replaces: grub, grub-legacy, grub-common (<< 1.99-1), grub-pc (<< 2.00-4), grub-ieee1275 (<< 2.00-4), grub-efi (<< 1.99-1), grub-coreboot (<< 2.00-4), grub-linuxbios (<< 1.99-1), grub-efi-ia32 (<< 2.00-4), grub-efi-amd64 (<< 2.00-4), grub-efi-ia64 (<< 2.00-4), grub-ieee1275 (<< 2.00-4), grub-yeeloong (<< 2.00-4)
 Conflicts: grub (<< 0.97-54), grub-legacy, ${legacy-doc-conflicts}
@@ -471,10 +474,10 @@ Description: GRand Unified Bootloader, version 2 (ARM64 UEFI version)
  ARM64 systems with UEFI.
 
 Package: grub-ieee1275-bin
-Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
+Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-ppc64el any-sparc
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
 Replaces: grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-ieee1275 (<< 1.99-1)
-Suggests: genisoimage [any-powerpc any-ppc64]
+Suggests: genisoimage [any-powerpc any-ppc64 any-ppc64el]
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (Open Firmware binaries)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
@@ -493,7 +496,7 @@ Description: GRand Unified Bootloader, version 2 (Open Firmware binaries)
 
 Package: grub-ieee1275-dbg
 Section: debug
-Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
+Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-ppc64el any-sparc
 Depends: ${misc:Depends}, grub-ieee1275-bin (= ${binary:Version}), grub-common (= ${binary:Version})
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (Open Firmware debug files)
@@ -501,8 +504,8 @@ Description: GRand Unified Bootloader, version 2 (Open Firmware debug files)
  need these if you are trying to debug GRUB using its GDB stub.
 
 Package: grub-ieee1275
-Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-ieee1275-bin (= ${binary:Version}), ucf, powerpc-ibm-utils (>= 1.2.12-1) [any-powerpc any-ppc64], powerpc-utils [any-powerpc any-ppc64]
+Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-ppc64el any-sparc
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-ieee1275-bin (= ${binary:Version}), ucf, powerpc-ibm-utils (>= 1.2.12-1) [any-powerpc any-ppc64 any-ppc64el], powerpc-utils [any-powerpc any-ppc64 any-ppc64el]
 Replaces: grub-legacy, grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-pc
 Conflicts: grub (<< 0.97-54), grub-legacy, grub-efi-amd64, grub-efi-ia32, grub-coreboot, grub-pc, grub-xen
 Multi-Arch: foreign
@@ -678,7 +681,7 @@ Description: GRand Unified Bootloader, version 2 (Yeeloong version)
  the Lemote Yeeloong laptop.
 
 Package: grub-theme-starfield
-Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-sparc any-mipsel any-ia64 any-arm any-arm64
+Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-ppc64el any-sparc any-mipsel any-ia64 any-arm any-arm64
 Depends: ${misc:Depends}, grub-common (= ${binary:Version})
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (starfield theme)
@@ -687,6 +690,6 @@ Description: GRand Unified Bootloader, version 2 (starfield theme)
 Package: grub-mount-udeb
 XC-Package-Type: udeb
 Section: debian-installer
-Architecture: i386 amd64 powerpc ppc64 sparc mipsel ia64 armel armhf arm64 kfreebsd-i386 kfreebsd-amd64
+Architecture: i386 amd64 powerpc ppc64 ppc64el sparc mipsel ia64 armel armhf arm64 kfreebsd-i386 kfreebsd-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: export GRUB filesystems using FUSE
