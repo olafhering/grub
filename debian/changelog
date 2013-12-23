@@ -22,6 +22,7 @@ grub2 (2.02~beta1-1) UNRELEASED; urgency=low
     upstream maintenance check.
   * Silence warning if /usr/share/locale-langpack does not exist (closes:
     #732595).
+  * Remove debian/grub-common.preinst, superseded by .maintscript files.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 10 Dec 2013 17:39:47 +0000
 
