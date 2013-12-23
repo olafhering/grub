@@ -28,6 +28,8 @@ grub2 (2.02~beta1-1) UNRELEASED; urgency=low
     remove /etc/grub.d/10_freebsd, since that was renamed to
     /etc/grub.d/10_kfreebsd.)
   * Install grub-file in grub-common.
+  * Fix crash due to pointer confusion in grub-mkdevicemap, introduced while
+    converting away from nested functions in 2.00+20131208-1.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 10 Dec 2013 17:39:47 +0000
 

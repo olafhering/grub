@@ -45,8 +45,8 @@
 struct make_device_map_ctx
 {
   FILE *fp;
-  int *num_fd;
-  int *num_hd;
+  int num_fd;
+  int num_hd;
 };
 
 /* Helper for make_device_map.  */
@@ -56,7 +56,7 @@ process_device (const char *name, int is_floppy, void *data)
   struct make_device_map_ctx *ctx = data;
 
   grub_util_emit_devicemap_entry (ctx->fp, (char *) name,
-				  is_floppy, ctx->num_fd, ctx->num_hd);
+				  is_floppy, &ctx->num_fd, &ctx->num_hd);
   return 0;
 }
 
