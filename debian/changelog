@@ -19,6 +19,7 @@ grub2 (2.02~beta1-1) UNRELEASED; urgency=low
   * Fix mismerge of mkconfig_loopback.patch.
   * Build for ppc64el, using a powerpc cross-compiler at least for now.
   * Don't add quilt files to po/POTFILES.in.
+  * Ignore untranslatable strings in grub-extras.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 10 Dec 2013 17:39:47 +0000
 
