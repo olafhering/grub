@@ -20,6 +20,8 @@ grub2 (2.02~beta1-1) UNRELEASED; urgency=low
   * Build for ppc64el, using a powerpc cross-compiler at least for now.
   * Don't run gettext_strings_test; this test is mainly useful as an
     upstream maintenance check.
+  * Silence warning if /usr/share/locale-langpack does not exist (closes:
+    #732595).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 10 Dec 2013 17:39:47 +0000
 

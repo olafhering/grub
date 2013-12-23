@@ -605,8 +605,9 @@ copy_locales (const char *dstd, int langpack)
   d = grub_util_fd_opendir (dir);
   if (!d)
     {
-      grub_util_warn (_("cannot open directory `%s': %s"),
-		      dir, grub_util_fd_strerror ());
+      if (!langpack)
+	grub_util_warn (_("cannot open directory `%s': %s"),
+			dir, grub_util_fd_strerror ());
       free (dir);
       return;
     }
