@@ -432,7 +432,11 @@ msg_NTFS_Not_Found_Error:
 	.ascii "No "
 
 nt_boot_image:
+#ifdef	BOOTGRUB2
+	.ascii "g2ldr\0"
+#else
 	.ascii "grldr\0"
+#endif
 
 	. = nt_boot_image + 8
 

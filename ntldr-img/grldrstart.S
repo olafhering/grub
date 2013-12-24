@@ -1830,7 +1830,9 @@ msg_BootError_32:
 
 filename_32:
 
-#ifdef	BOOTGRUB
+#ifdef	BOOTGRUB2
+	.ascii	"G2LDR      \0"
+#elif defined (BOOTGRUB)
 	.ascii	"GRLDR      \0"
 #else
 	.ascii	"KERNEL  SYS\0"
@@ -2555,7 +2557,9 @@ msg_BootError_12_16:
 
 filename_12_16:
 
-#ifdef	BOOTGRUB
+#ifdef	BOOTGRUB2
+	.ascii	"G2LDR      \0"
+#elif defined (BOOTGRUB)
 	.ascii	"GRLDR      \0"
 #else
 	.ascii	"KERNEL  SYS\0"
@@ -3378,8 +3382,11 @@ msg_No_grldr_ext2:
 	.ascii	"No "
 
 filename_ext2:
+#ifdef	BOOTGRUB2
+	.ascii	"g2ldr\0"
+#else
 	.ascii	"grldr\0"
-
+#endif
 	. = Entry_ext2 + 0x1ee
 
 filename_end_ext2:

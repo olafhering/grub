@@ -42,16 +42,45 @@ typedef struct {
   unsigned long	bse;		// Partition start address
   unsigned long len;		// Partition length
   unsigned long ebs;		// Base address for the extended partition
-} xde_t;
+} __attribute__ ((packed)) xde_t;
 
-#define valueat(buf,ofs,type)	*((type*)(((char*)&buf)+ofs))
+static inline unsigned short
+get16 (const void *buf_, unsigned offset)
+{
+  unsigned char *buf = (unsigned char *) buf_ + offset;
+  return buf[0] | (buf[1] << 8);
+}
+static inline unsigned int
+get32 (const void *buf_, unsigned offset)
+{
+  unsigned char *buf = (unsigned char *) buf_ + offset;
+  return buf[0] | (buf[1] << 8) | (buf[1] << 16) | (buf[1] << 24);
+}
+
+static inline void
+set16 (void *buf_, unsigned offset, unsigned short val)
+{
+  unsigned char *buf = (unsigned char *) buf_ + offset;
+  buf[0] = val;
+  buf[1] = val >> 8;
+}
+
+static inline void
+set32 (void *buf_, unsigned offset, unsigned int val)
+{
+  unsigned char *buf = (unsigned char *) buf_ + offset;
+  buf[0] = val;
+  buf[1] = val >> 8;
+  buf[2] = val >> 16;
+  buf[3] = val >> 24;
+}
 
 extern int mbr_nhd, mbr_spt;
 int go_sect(int,unsigned long);
 int xd_enum(int,xde_t*);
 int get_fstype(unsigned char*);
-char* fst2str(int);
-char* dfs2str(int);
+const char* fst2str(int);
+const char* dfs2str(int);
 
 #if defined(__cplusplus) || defined(c_plusplus)
 }

@@ -25,6 +25,7 @@
 #endif
 
 #include <stdio.h>
+#include <string.h>
 #include <fcntl.h>
 
 #include "utils.h"
@@ -72,7 +73,7 @@ int go_sect(int hd,unsigned long sec)
       bs[1]=sec>>23;
       if (bs[1])
         return 1;
-      return (lseek(hd,bs[0],SEEK_SET)!=bs[0]);
+      return (lseek(hd,bs[0],SEEK_SET)!=(off_t)bs[0]);
     }
 }
 
@@ -96,15 +97,15 @@ int xd_enum(int hd,xde_t* xe)
             return 1;
           if (read(hd,ebuf,nn)!=nn)
             return 1;
-          if (valueat(ebuf,0x1FE,unsigned short)!=0xAA55)
+          if (get16(ebuf,0x1FE)!=0xAA55)
             return 1;
           np=0;
           for (i=0x1BE;i<0x1FE;i+=16)
             if (ebuf[i+4])
               {
-                if ((pt[np][1]=valueat(ebuf,i+12,unsigned long))==0)
+                if ((pt[np][1]=get32(ebuf,i+12))==0)
                   return 1;
-                pt[np++][0]=valueat(ebuf,i+8,unsigned long);
+                pt[np++][0]=get32(ebuf,i+8);
               }
           if (np==0)
             return 1;
@@ -148,8 +149,8 @@ int xd_enum(int hd,xde_t* xe)
                 return 1;
               xe->cur=xe->nxt;
               xe->dfs=ebuf[xe->nxt*16+4+0x1BE];
-              xe->bse=valueat(ebuf,xe->nxt*16+8+0x1BE,unsigned long);
-              xe->len=valueat(ebuf,xe->nxt*16+12+0x1BE,unsigned long);
+              xe->bse=get32(ebuf,xe->nxt*16+8+0x1BE);
+              xe->len=get32(ebuf,xe->nxt*16+12+0x1BE);
               return 0;
             }
           else if (xe->nxt!=0xFF)
@@ -160,8 +161,8 @@ int xd_enum(int hd,xde_t* xe)
                 {
                   xe->cur=cc;
                   xe->dfs=ebuf[cc*16+4+0x1BE];
-                  xe->bse=valueat(ebuf,cc*16+8+0x1BE,unsigned long);
-                  xe->len=valueat(ebuf,cc*16+12+0x1BE,unsigned long);
+                  xe->bse=get32(ebuf,cc*16+8+0x1BE);
+                  xe->len=get32(ebuf,cc*16+12+0x1BE);
                   return 0;
                 }
               cc++;
@@ -176,19 +177,17 @@ int xd_enum(int hd,xde_t* xe)
             if ((ebuf[i*16+4+0x1BE]==5) || (ebuf[i*16+4+0x1BE]==0xF)) break;
           if (i==4)
             return 1;
-          xe->ebs=xe->bse=valueat(ebuf,i*16+8+0x1BE,unsigned long);
+          xe->ebs=xe->bse=get32(ebuf,i*16+8+0x1BE);
         }
       else
         {
           // Is end of extended partition chain ?
-          if ((ebuf[4+0x1CE]!=0x5) && (ebuf[4+0x1CE]!=0xF) ||
-              (valueat(ebuf,8+0x1CE,unsigned long)==0))
+          if (((ebuf[4+0x1CE]!=0x5) && (ebuf[4+0x1CE]!=0xF)) ||
+              (get32(ebuf,8+0x1CE)==0))
             return 1;
-          xe->bse=xe->ebs+valueat(ebuf,8+0x1CE,unsigned long);
+          xe->bse=xe->ebs+get32(ebuf,8+0x1CE);
         }
       {
-        int r;
-
         while (1)
           {
             if (go_sect(hd,xe->bse))
@@ -197,17 +196,19 @@ int xd_enum(int hd,xde_t* xe)
             if (read(hd,ebuf,nn)!=nn)
               return 1;
 
-            if (valueat(ebuf,0x1FE,unsigned short)!=0xAA55)
+            if (get16(ebuf,0x1FE)!=0xAA55)
               return 1;
 
             if ((ebuf[4+0x1BE]==5) || (ebuf[4+0x1BE]==0xF))
-              if (valueat(ebuf,8+0x1BE,unsigned long)==0)
-                return 1;
-              else
-                {
-                  xe->bse=xe->ebs+valueat(ebuf,8+0x1BE,unsigned long);
-                  continue;
-                }
+	      {
+		if (get32(ebuf,8+0x1BE)==0)
+		  return 1;
+		else
+		  {
+		    xe->bse=xe->ebs+get32(ebuf,8+0x1BE);
+		    continue;
+		  }
+	      }
             break;
           }
         kk=(ebuf[4+0x1BE]!=0);
@@ -215,8 +216,8 @@ int xd_enum(int hd,xde_t* xe)
           {
             xe->cur=cc;
             xe->dfs=ebuf[4+0x1BE];
-            xe->bse+=valueat(ebuf,8+0x1BE,unsigned long);
-            xe->len=valueat(ebuf,12+0x1BE,unsigned long);
+            xe->bse+=get32(ebuf,8+0x1BE);
+            xe->len=get32(ebuf,12+0x1BE);
             return 0;
           }
       }
@@ -255,8 +256,8 @@ int chk_mbr(unsigned char* buf)
     i+=16;
   if (i>=0x1FE)
     return 0;
-  a1=valueat(buf[i],8,unsigned long);
-  a2=a1+valueat(buf[i],12,unsigned long)-1;
+  a1=get32(&buf[i],8);
+  a2=a1+get32(&buf[i],12)-1;
   if (a1>=a2)
     return 0;
   split_chs(buf+i+5,&c2,&h2,&s2);
@@ -303,8 +304,8 @@ int chk_mbr(unsigned char* buf)
     {
       if (buf[i+4])
         {
-          if ((! chk_chs(nhd,spt,valueat(buf[i],8,unsigned long),buf+i+1)) ||
-              (! chk_chs(nhd,spt,valueat(buf[i],8,unsigned long)+valueat(buf[i],12,unsigned long)-1,buf+i+5)))
+          if ((! chk_chs(nhd,spt,get32(&buf[i],8),buf+i+1)) ||
+              (! chk_chs(nhd,spt,get32(&buf[i],8)+get32(&buf[i],12)-1,buf+i+5)))
             return 0;
         }
       i+=16;
@@ -320,20 +321,20 @@ int get_fstype(unsigned char* buf)
     return FST_MBR;
 
   // The first sector of EXT2 might not contain the 0xAA55 signature
-  if (valueat(buf[1024],56,unsigned short)==EXT2_SUPER_MAGIC)
+  if (get16(&buf[1024],56)==EXT2_SUPER_MAGIC)
     return FST_EXT2;
-  if (valueat(buf[0],0x1FE,unsigned short)!=0xAA55)
+  if (get16(&buf[0],0x1FE)!=0xAA55)
     return FST_OTHER;
-  if (! strncmp(&buf[0x36],"FAT",3))
+  if (! memcmp(&buf[0x36],"FAT",3))
     return ((buf[0x26]==0x28) || (buf[0x26]==0x29))?FST_FAT16:FST_OTHER;
-  if (! strncmp(&buf[0x52],"FAT32",5))
+  if (! memcmp(&buf[0x52],"FAT32",5))
     return ((buf[0x42]==0x28) || (buf[0x42]==0x29))?FST_FAT32:FST_OTHER;
-  if (! strncmp(&buf[0x3],"NTFS",4))
+  if (! memcmp(&buf[0x3],"NTFS",4))
     return ((buf[0]==0xEB) && (buf[1]==0x52))?FST_NTFS:FST_OTHER;
   return FST_OTHER;
 }
 
-char* fst2str(int fs)
+const char* fst2str(int fs)
 {
   switch (fs) {
   case FST_OTHER:
@@ -355,7 +356,7 @@ char* fst2str(int fs)
 
 typedef struct {
   int id;
-  char* str;
+  const char* str;
 } fstab_t;
 
 static fstab_t fstab[]= {
@@ -380,7 +381,7 @@ static fstab_t fstab[]= {
   {0xA5,"FBSD"},
   {0,"Other"}};
 
-char* dfs2str(int fs)
+const char* dfs2str(int fs)
 {
   int i;
 

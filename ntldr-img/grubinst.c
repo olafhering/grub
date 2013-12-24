@@ -23,6 +23,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <unistd.h>
 
 #ifndef WIN32
 
@@ -146,7 +147,9 @@ void help(void)
 
 int afg,gfg,def_drive,def_part,time_out,hot_key,part_num;
 int def_spt,def_hds,def_ssc,def_tsc;
-char *save_fn,*restore_fn,*boot_file,boot_file_83[12],*key_name;
+char *save_fn,*restore_fn,boot_file_83[12];
+const char *key_name;
+const char *boot_file;
 unsigned short load_seg;
 
 static char fn_buf[24];
@@ -284,10 +287,13 @@ void list(int hd)
   xe.cur=xe.nxt=0xFF;
   fprintf(stderr," #  id        base        leng\n");
   while (! xd_enum(hd,&xe))
-    fprintf(stderr,"%2d  %02X    %8X    %8X\n",xe.cur,xe.dfs,xe.bse,xe.len);
+    fprintf(stderr,"%2d  %02llX    %8llX    %8llX\n",xe.cur,
+	    (unsigned long long) xe.dfs,
+	    (unsigned long long) xe.bse,
+	    (unsigned long long) xe.len);
 }
 
-int is_grldr_mbr(char* buf)
+int is_grldr_mbr(unsigned char* buf)
 {
   int i,n;
 
@@ -296,13 +302,13 @@ int is_grldr_mbr(char* buf)
 
   while ((i>n) && (buf[i]==0))
     i--;
-  return (! strcmp(&buf[i-n+1],"Missing MBR-helper."));
+  return (! memcmp(&buf[i-n+1],"Missing MBR-helper.", sizeof("Missing MBR-helper.")));
 }
 
 int install(char* fn)
 {
-  int hd,nn,fs,slen;
-  char prev_mbr[sizeof(grub_mbr)];
+  int hd = -1,nn,fs,slen;
+  unsigned char prev_mbr[sizeof(grub_mbr)];
   unsigned long ssec;
 
   if (fn==NULL)
@@ -320,7 +326,7 @@ int install(char* fn)
           print_syserr("open");
           return errno;
         }
-      r1=valueat(grub_mbr[0x1FFA],0,unsigned short);
+      r1=get16(&grub_mbr[0x1FFA],0);
       nn=read(hd,grub_mbr,sizeof(grub_mbr));
       if (nn==-1)
         {
@@ -328,19 +334,19 @@ int install(char* fn)
           close(hd);
           return errno;
         }
-      if (nn<sizeof(grub_mbr))
+      if (nn<(int)sizeof(grub_mbr))
         {
           print_apperr("The input file is too short");
           close(hd);
           return 1;
         }
-      if (valueat(grub_mbr[0x1FFC],0,unsigned long)!=0xAA555247)
+      if (get32(&grub_mbr[0x1FFC],0)!=0xAA555247)
         {
           print_apperr("Invalid input file");
           close(hd);
           return 1;
         }
-      r2=valueat(grub_mbr[0x1FFA],0,unsigned short);
+      r2=get16(&grub_mbr[0x1FFA],0);
       if (r1!=r2)
         {
           char buf[80];
@@ -356,29 +362,29 @@ int install(char* fn)
 
   if (boot_file)
     {
-      unsigned short ofs,len;
+      unsigned short ofs;
 
       // Patching the FAT32 boot sector
-      ofs=valueat(grub_mbr,0x400+0x1EC,unsigned short) & 0x7FF;
-      strcpy(&grub_mbr[0x400+ofs],boot_file_83);
+      ofs=get16(&grub_mbr,0x400+0x1EC) & 0x7FF;
+      strcpy((char *) &grub_mbr[0x400+ofs],boot_file_83);
       if (load_seg)
-        valueat(grub_mbr,0x400+0x1EA,unsigned short)=load_seg;
+        set16(&grub_mbr,0x400+0x1EA,load_seg);
 
       // Patching the FAT12/FAT16 boot sector
-      ofs=valueat(grub_mbr,0x600+0x1EC,unsigned short) & 0x7FF;
-      strcpy(&grub_mbr[0x600+ofs],boot_file_83);
+      ofs=get16(&grub_mbr,0x600+0x1EC) & 0x7FF;
+      strcpy((char *) &grub_mbr[0x600+ofs],boot_file_83);
       if (load_seg)
-        valueat(grub_mbr,0x600+0x1EA,unsigned short)=load_seg;
+        set16(&grub_mbr,0x600+0x1EA,load_seg);
 
       // Patching the EXT2 boot sector
-      ofs=valueat(grub_mbr,0x800+0x1EE,unsigned short) & 0x7FF;
-      strcpy(&grub_mbr[0x800+ofs],boot_file);
+      ofs=get16(grub_mbr,0x800+0x1EE) & 0x7FF;
+      strcpy((char *) &grub_mbr[0x800+ofs],boot_file);
 
       // Patching the NTFS sector
-      ofs=valueat(grub_mbr,0xA00+0x1EC,unsigned short) & 0x7FF;
-      strcpy(&grub_mbr[0xA00+ofs],boot_file);
+      ofs=get16(grub_mbr,0xA00+0x1EC) & 0x7FF;
+      strcpy((char *) &grub_mbr[0xA00+ofs],boot_file);
       if (load_seg)
-        valueat(grub_mbr,0xA00+0x1EA,unsigned short)=load_seg;
+        set16(grub_mbr,0xA00+0x1EA,load_seg);
 
       if (afg & AFG_VERBOSE)
         {
@@ -415,15 +421,15 @@ int install(char* fn)
     }
 
   memset(&grub_mbr[512],0,512);
-  valueat(grub_mbr,2,unsigned char)=gfg;
-  valueat(grub_mbr,3,unsigned char)=time_out;
-  valueat(grub_mbr,4,unsigned short)=hot_key;
-  valueat(grub_mbr,6,unsigned char)=def_drive;
-  valueat(grub_mbr,7,unsigned char)=def_part;
+  grub_mbr[2] = gfg;
+  grub_mbr[3]=time_out;
+  set16(&grub_mbr,4,hot_key);
+  grub_mbr[6] = def_drive;
+  grub_mbr[7] = def_part;
   if ((key_name==NULL) && (hot_key==0x3920))
     key_name="SPACE";
   if (key_name)
-    strcpy(&grub_mbr[0x1fec],key_name);
+    strcpy((char *) &grub_mbr[0x1fec],key_name);
 
   hd=open(fn,O_RDWR | O_BINARY,S_IREAD | S_IWRITE);
   if (hd==-1)
@@ -455,13 +461,14 @@ int install(char* fn)
             }
           ssec=xe.bse;
           if (afg & AFG_VERBOSE)
-            fprintf(stderr,"Part Fs: %02X (%s)\nPart Leng: %u\n",xe.dfs,dfs2str(xe.dfs),xe.len);
+            fprintf(stderr,"Part Fs: %02X (%s)\nPart Leng: %llu\n",xe.dfs,dfs2str(xe.dfs),
+		    (unsigned long long) xe.len);
         }
     }
   else
     ssec=0;
   if (afg & AFG_VERBOSE)
-    fprintf(stderr,"Start sector: %u\n",ssec);
+    fprintf(stderr,"Start sector: %llu\n", (unsigned long long) ssec);
   if ((ssec) && (go_sect(hd,ssec)))
     {
       print_apperr("Can\'t seek to the start sector");
@@ -475,7 +482,7 @@ int install(char* fn)
       close(hd);
       return errno;
     }
-  if (nn<sizeof(prev_mbr))
+  if (nn<(int)sizeof(prev_mbr))
     {
       print_apperr("The input file is too short");
       close(hd);
@@ -510,14 +517,14 @@ int install(char* fn)
     {
       int n,nfs,sln;
       unsigned long ofs;
-      char bs[1024];
+      unsigned char bs[1024];
 
       ofs=0xFFFFFFFF;
       for (n=0x1BE;n<0x1FE;n+=16)
         if (prev_mbr[n+4])
           {
-            if (ofs>valueat(prev_mbr[n],8,unsigned long))
-              ofs=valueat(prev_mbr[n],8,unsigned long);
+            if (ofs>get32(&prev_mbr[n],8))
+              ofs=get32(&prev_mbr[n],8);
           }
       if (ofs<(sizeof(prev_mbr)>>9))
         {
@@ -548,8 +555,8 @@ int install(char* fn)
       if (sln)
         {
           memcpy(&grub_mbr[0xB],&bs[0xB],sln);
-          valueat(grub_mbr[0],0x1C,unsigned long)=0;
-          valueat(grub_mbr[0],0xE,unsigned short)+=ofs;
+          set32(&grub_mbr[0],0x1C,0);
+          set16(&grub_mbr[0],0xE,get16(&grub_mbr[0],0xE) + ofs);
         }
     }
   else if (fs==FST_NTFS)
@@ -600,13 +607,13 @@ int install(char* fn)
           close(hd);
           return 1;
         }
-      if (strncmp(&prev_mbr[1024+3],"GRLDR",5))
+      if (memcmp(&prev_mbr[1024+3],"GRLDR",5))
         {
           print_apperr("GRLDR is not installed");
           close(hd);
           return 1;
         }
-      if (valueat(prev_mbr,512+510,unsigned short)!=0xAA55)
+      if (get16(prev_mbr,512+510)!=0xAA55)
         {
           print_apperr("No previous saved MBR");
           close(hd);
@@ -641,8 +648,8 @@ int install(char* fn)
               close(h2);
               return errno;
             }
-          if ((nn<512) || (nn & 0x1FF!=0) ||
-              (fs!=FST_EXT2) && (valueat(grub_mbr,510,unsigned short)!=0xAA55))
+          if ((nn<512) || ((nn & 0x1FF)!=0) ||
+              ((fs!=FST_EXT2) && (get16(grub_mbr,510)!=0xAA55)))
             {
               print_apperr("Invalid restore file");
               close(hd);
@@ -709,32 +716,32 @@ int install(char* fn)
             }
           else if (fs==FST_EXT2)
             {
-              memcpy(grub_mbr,&grub_mbr[0x800],slen);
+              memcpy(&grub_mbr,&grub_mbr[0x800],slen);
               grub_mbr[0x25]=part_num;
               if (afg & AFG_LBA_MODE)
                 grub_mbr[2]=0x42;
               else if (afg & AFG_CHS_MODE)
                 grub_mbr[2]=0x2;
               if (def_spt!=-1)
-                valueat(grub_mbr,0x18,unsigned short)=def_spt;
+                set16(&grub_mbr,0x18,def_spt);
               else if ((afg & AFG_IS_FLOPPY)==0)
-                valueat(grub_mbr,0x18,unsigned short)=63;
+                set16(&grub_mbr,0x18,63);
               if (def_hds!=-1)
-                valueat(grub_mbr,0x1A,unsigned short)=def_hds;
+                set16(&grub_mbr,0x1A,def_hds);
               else if ((afg & AFG_IS_FLOPPY)==0)
-                valueat(grub_mbr,0x1A,unsigned short)=255;
+                set16(&grub_mbr,0x1A,255);
               if (def_tsc!=-1)
-                valueat(grub_mbr,0x20,unsigned long)=def_tsc;
-              valueat(grub_mbr,0x1C,unsigned long)=ssec;
+                set32(&grub_mbr,0x20,def_tsc);
+              set32(&grub_mbr,0x1C,ssec);
               // s_inode_size
               if (prev_mbr[1024+0x4C]) // s_rev_level
-                valueat(grub_mbr,0x26,unsigned short)=valueat(prev_mbr[1024],0x58,unsigned short);
+                set16(&grub_mbr,0x26,get16(&prev_mbr[1024],0x58));
               else
-                valueat(grub_mbr,0x26,unsigned short)=0x80;
+                set16(&grub_mbr,0x26,0x80);
               // s_inodes_per_group
-              valueat(grub_mbr,0x28,unsigned long)=valueat(prev_mbr[1024],0x28,unsigned long);
+              set32(&grub_mbr,0x28,get32(&prev_mbr[1024],0x28));
               // s_first_data_block+1
-              valueat(grub_mbr,0x2C,unsigned long)=valueat(prev_mbr[1024],0x14,unsigned long)+1;
+              set32(&grub_mbr,0x2C,get32(&prev_mbr[1024],0x14)+1);
             }
           else
             {
@@ -762,17 +769,17 @@ int install(char* fn)
       else if (fs==FST_FAT16)
         {
           memcpy(&grub_mbr[0xB],&prev_mbr[0xB],0x3E - 0xB);
-          valueat(grub_mbr,0x1C,unsigned long)=ssec;
+          set32(grub_mbr,0x1C,ssec);
         }
       else if (fs==FST_FAT32)
         {
           memcpy(&grub_mbr[0xB],&prev_mbr[0xB],0x5A - 0xB);
-          valueat(grub_mbr,0x1C,unsigned long)=ssec;
+          set32(grub_mbr,0x1C,ssec);
         }
       else if (fs==FST_NTFS)
         {
           memcpy(&grub_mbr[0xB],&prev_mbr[0xB],0x54 - 0xB);
-          valueat(grub_mbr,0x1C,unsigned long)=ssec;
+          set32(grub_mbr,0x1C,ssec);
         }
     }
   if (! (afg & AFG_READ_ONLY))
