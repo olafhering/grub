@@ -64,7 +64,7 @@
 #define print_apperr(a)		{ fprintf(stderr,APP_NAME "%s\n",a); print_pause; }
 #define print_syserr(a)		{ perror(APP_NAME a); print_pause; }
 
-void help(void)
+static void help(void)
 {
   fputs("Usage:\n"
         "\tgrubinst  [OPTIONS]  DEVICE_OR_FILE\n\n"
@@ -154,7 +154,7 @@ unsigned short load_seg;
 
 static char fn_buf[24];
 
-char* get_disk_name(int n)
+static char* get_disk_name(int n)
 {
 #if defined(WIN32)
   sprintf(fn_buf,"\\\\.\\PhysicalDrive%d",n);
@@ -169,7 +169,7 @@ char* get_disk_name(int n)
   return fn_buf;
 }
 
-char* get_flop_name(int n)
+static char* get_flop_name(int n)
 {
 #if defined(WIN32)
   if (n>1)
@@ -187,7 +187,7 @@ char* get_flop_name(int n)
   return fn_buf;
 }
 
-char* parse_fname(char* fn)
+static char* parse_fname(char* fn)
 {
   if ((afg & AFG_OUTPUT) && (fn[0]=='('))
     {
@@ -230,7 +230,7 @@ char* parse_fname(char* fn)
   return fn;
 }
 
-char* str_upcase(char* str)
+static char* str_upcase(char* str)
 {
   int i;
 
@@ -241,7 +241,7 @@ char* str_upcase(char* str)
   return str;
 }
 
-char* str_lowcase(char* str)
+static char* str_lowcase(char* str)
 {
   int i;
 
@@ -252,7 +252,7 @@ char* str_lowcase(char* str)
   return str;
 }
 
-int SetBootFile(char* fn)
+static int SetBootFile(char* fn)
 {
   char* pc;
 
@@ -278,9 +278,7 @@ int SetBootFile(char* fn)
   return 0;
 }
 
-int chk_mbr(unsigned char* buf);
-
-void list(int hd)
+static void list(int hd)
 {
   xde_t xe;
 
@@ -293,7 +291,7 @@ void list(int hd)
 	    (unsigned long long) xe.len);
 }
 
-int is_grldr_mbr(unsigned char* buf)
+static int is_grldr_mbr(unsigned char* buf)
 {
   int i,n;
 
@@ -305,7 +303,7 @@ int is_grldr_mbr(unsigned char* buf)
   return (! memcmp(&buf[i-n+1],"Missing MBR-helper.", sizeof("Missing MBR-helper.")));
 }
 
-int install(char* fn)
+static int install(char* fn)
 {
   int hd = -1,nn,fs,slen;
   unsigned char prev_mbr[sizeof(grub_mbr)];

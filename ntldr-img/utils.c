@@ -228,14 +228,14 @@ int xd_enum(int hd,xde_t* xe)
 
 int mbr_nhd, mbr_spt;
 
-void split_chs(unsigned char* chs,unsigned long* c,unsigned long* h,unsigned long* s)
+static void split_chs(unsigned char* chs,unsigned long* c,unsigned long* h,unsigned long* s)
 {
   *h=chs[0];
   *s=(chs[1] & 0x3F)-1;
   *c=((unsigned long)(chs[1]>>6))*256+chs[2];
 }
 
-int chk_chs(unsigned long nhd,unsigned long spt,unsigned long lba,unsigned char* chs)
+static int chk_chs(unsigned long nhd,unsigned long spt,unsigned long lba,unsigned char* chs)
 {
   unsigned long c,h,s;
 
@@ -246,7 +246,7 @@ int chk_chs(unsigned long nhd,unsigned long spt,unsigned long lba,unsigned char*
     return (c*nhd*spt+h*spt+s==lba);
 }
 
-int chk_mbr(unsigned char* buf)
+static int chk_mbr(unsigned char* buf)
 {
   unsigned long nhd,spt,a1,a2,c2,h2,s2;
   int i;
