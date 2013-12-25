@@ -45,6 +45,8 @@
 #include <stdlib.h>
 #include <errno.h>
 
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+
 char *
 grub_install_help_filter (int key, const char *text,
 				 void *input __attribute__ ((unused)))
@@ -66,6 +68,8 @@ grub_install_help_filter (int key, const char *text,
       return (char *) text;
     }
 }
+
+#pragma GCC diagnostic error "-Wformat-nonliteral"
 
 static int (*compress_func) (const char *src, const char *dest) = NULL;
 char *grub_install_copy_buffer;
@@ -120,7 +124,7 @@ grub_install_copy_file (const char *src,
   return 1;
 }
 
-int
+static int
 grub_install_compress_file (const char *in_name,
 			    const char *out_name,
 			    int is_needed)
@@ -746,7 +750,7 @@ grub_install_copy_files (const char *src,
 			       "fs.lst", "partmap.lst",
 			       "parttool.lst",
 			       "video.lst", "crypto.lst",
-			       "terminal.lst" };
+			       "terminal.lst", "modinfo.sh" };
   size_t i;
 
   for (i = 0; i < ARRAY_SIZE (pkglib_DATA); i++)

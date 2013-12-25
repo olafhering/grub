@@ -3,7 +3,7 @@ Author: Matthew Garrett <mjg@redhat.com>
 Author: Colin Watson <cjwatson@ubuntu.com>
 Origin: vendor, http://pkgs.fedoraproject.org/cgit/grub2.git/tree/grub-2.00-no-insmod-on-sb.patch
 Forwarded: no
-Last-Update: 2013-12-08
+Last-Update: 2013-12-25
 
 Index: b/grub-core/kern/dl.c
 ===================================================================
@@ -20,7 +20,7 @@ Index: b/grub-core/kern/dl.c
  
  
  #pragma GCC diagnostic ignored "-Wcast-align"
-@@ -678,6 +682,15 @@
+@@ -680,6 +684,15 @@
    void *core = 0;
    grub_dl_t mod = 0;
  
@@ -33,9 +33,9 @@ Index: b/grub-core/kern/dl.c
 +    }
 +#endif
 +
+   grub_boot_time ("Loading module %s", filename);
+ 
    file = grub_file_open (filename);
-   if (! file)
-     return 0;
 Index: b/grub-core/kern/efi/efi.c
 ===================================================================
 --- a/grub-core/kern/efi/efi.c

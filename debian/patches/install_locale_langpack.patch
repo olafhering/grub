@@ -2,13 +2,13 @@ Description: Prefer translations from Ubuntu language packs if available
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/537998
 Forwarded: not-needed
-Last-Update: 2013-12-23
+Last-Update: 2013-12-25
 
 Index: b/util/grub-install-common.c
 ===================================================================
 --- a/util/grub-install-common.c
 +++ b/util/grub-install-common.c
-@@ -590,17 +590,25 @@
+@@ -594,17 +594,25 @@
  }
  
  static void
@@ -38,7 +38,7 @@ Index: b/util/grub-install-common.c
        return;
      }
  
-@@ -617,14 +625,14 @@
+@@ -621,14 +629,14 @@
        if (ext && (grub_strcmp (ext, ".mo") == 0
  		  || grub_strcmp (ext, ".gmo") == 0))
  	{
@@ -55,7 +55,7 @@ Index: b/util/grub-install-common.c
  					    "LC_MESSAGES", PACKAGE, ".mo");
  	  dstf = grub_util_path_concat_ext (2, dstd, de->d_name, ".mo");
  	}
-@@ -633,6 +641,7 @@
+@@ -637,6 +645,7 @@
        free (dstf);
      }
    grub_util_fd_closedir (d);
@@ -63,7 +63,7 @@ Index: b/util/grub-install-common.c
  }
  
  static struct
-@@ -756,12 +765,14 @@
+@@ -760,12 +769,14 @@
      {
        char *srcd = grub_util_path_concat (2, src, "po");
        copy_by_ext (srcd, dst_locale, ".mo", 0);
@@ -79,7 +79,7 @@ Index: b/util/grub-install-common.c
  
        for (i = 0; i < install_locales.n_entries; i++)
  	{
-@@ -780,6 +791,19 @@
+@@ -784,6 +795,19 @@
  	    }
  	  free (srcf);
  	  srcf = grub_util_path_concat_ext (4,
@@ -99,7 +99,7 @@ Index: b/util/grub-install-common.c
  						 locale_dir,
  						 install_locales.entries[i],
  						 "LC_MESSAGES",
-@@ -794,6 +818,8 @@
+@@ -798,6 +822,8 @@
  	  grub_util_error (_("cannot find locale `%s'"),
  			   install_locales.entries[i]);
  	}

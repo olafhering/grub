@@ -48,7 +48,13 @@
 #include <grub/emu/config.h>
 
 #define _GNU_SOURCE	1
+
+#pragma GCC diagnostic ignored "-Wmissing-prototypes"
+#pragma GCC diagnostic ignored "-Wmissing-declarations"
 #include <argp.h>
+#pragma GCC diagnostic error "-Wmissing-prototypes"
+#pragma GCC diagnostic error "-Wmissing-declarations"
+
 
 #include "progname.h"
 
@@ -63,8 +69,8 @@ static struct argp_option options[] = {
    /* TRANSLATORS: "memdisk" here isn't an identifier, it can be translated.
     "embed" is a verb (command description).  "*/
    N_("embed FILE as a memdisk image\n"
-      "Implies `-p (memdisk)/boot/grub' but prefix can be overridden by "
-      "later options"), 0},
+      "Implies `-p (memdisk)/boot/grub' and overrides any prefix supplied previously,"
+      " but the prefix itself can be overridden by later options"), 0},
    /* TRANSLATORS: "embed" is a verb (command description).  "*/
   {"config",   'c', N_("FILE"), 0, N_("embed FILE as an early config"), 0},
    /* TRANSLATORS: "embed" is a verb (command description).  "*/
@@ -77,6 +83,8 @@ static struct argp_option options[] = {
   {"verbose",     'v', 0,      0, N_("print verbose messages."), 0},
   { 0, 0, 0, 0, 0, 0 }
 };
+
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
 
 static char *
 help_filter (int key, const char *text, void *input __attribute__ ((unused)))
@@ -99,6 +107,8 @@ help_filter (int key, const char *text, void *input __attribute__ ((unused)))
       return (char *) text;
     }
 }
+
+#pragma GCC diagnostic error "-Wformat-nonliteral"
 
 struct arguments
 {

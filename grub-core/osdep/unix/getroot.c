@@ -116,6 +116,7 @@
 #include <sys/mount.h>
 #endif
 
+#if !defined (__GNU__)
 static void
 strip_extra_slashes (char *dir)
 {
@@ -155,7 +156,6 @@ xgetcwd (void)
   return path;
 }
 
-#if !defined (__GNU__)
 char **
 grub_util_find_root_devices_from_poolname (char *poolname)
 {
@@ -443,17 +443,18 @@ grub_find_device (const char *dir, dev_t dev)
 	  /* Found!  */
 	  char *res;
 	  char *cwd;
-#if defined(__NetBSD__) || defined(__OpenBSD__)
-	  /* Convert this block device to its character (raw) device.  */
-	  const char *template = "%s/r%s";
-#else
-	  /* Keep the device name as it is.  */
-	  const char *template = "%s/%s";
-#endif
 
 	  cwd = xgetcwd ();
 	  res = xmalloc (strlen (cwd) + strlen (ent->d_name) + 3);
-	  sprintf (res, template, cwd, ent->d_name);
+	  sprintf (res, 
+#if defined(__NetBSD__) || defined(__OpenBSD__)
+		   /* Convert this block device to its character (raw) device.  */
+		   "%s/r%s",
+#else
+		   /* Keep the device name as it is.  */
+		   "%s/%s",
+#endif
+		   cwd, ent->d_name);
 	  strip_extra_slashes (res);
 	  free (cwd);
 
@@ -762,6 +763,8 @@ grub_util_biosdisk_is_floppy (grub_disk_t disk)
 }
 
 #else
+
+#include <grub/emu/getroot.h>
 
 void
 grub_util_pull_lvm_by_command (const char *os_dev __attribute__ ((unused)))

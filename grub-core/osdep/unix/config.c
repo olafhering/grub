@@ -122,7 +122,7 @@ grub_util_load_one_config (struct grub_util_config *cfg, const char *cfgfile)
       fclose (f);
     }
   else
-    grub_util_warn (_("cannot open config file `%s': %s"),
+    grub_util_warn (_("cannot open configuration file `%s': %s"),
 		    cfgfile, strerror (errno));
 }
 

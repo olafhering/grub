@@ -39,7 +39,11 @@
 #include <grub/emu/getroot.h>
 #include <grub/util/install.h>
 
+#pragma GCC diagnostic ignored "-Wmissing-prototypes"
+#pragma GCC diagnostic ignored "-Wmissing-declarations"
 #include <argp.h>
+#pragma GCC diagnostic error "-Wmissing-prototypes"
+#pragma GCC diagnostic error "-Wmissing-declarations"
 
 /* On SPARC this program fills in various fields inside of the 'boot' and 'core'
  * image files.
@@ -94,6 +98,8 @@ static struct argp_option options[] = {
   { 0, 0, 0, 0, 0, 0 }
 };
 
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+
 static char *
 help_filter (int key, const char *text, void *input __attribute__ ((unused)))
 {
@@ -115,6 +121,8 @@ help_filter (int key, const char *text, void *input __attribute__ ((unused)))
         return (char *) text;
     }
 }
+
+#pragma GCC diagnostic error "-Wformat-nonliteral"
 
 struct arguments
 {

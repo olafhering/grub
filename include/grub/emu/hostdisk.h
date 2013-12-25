@@ -61,7 +61,7 @@ char *
 grub_util_get_os_disk (const char *os_dev);
 
 int
-grub_util_get_dm_node_linear_info (const char *dev,
+grub_util_get_dm_node_linear_info (dev_t dev,
 				   int *maj, int *min,
 				   grub_disk_addr_t *st);
 
@@ -74,6 +74,12 @@ grub_disk_addr_t
 grub_hostdisk_find_partition_start_os (const char *dev);
 void
 grub_hostdisk_flush_initial_buffer (const char *os_dev);
+
+#ifdef __GNU__
+int
+grub_util_hurd_get_disk_info (const char *dev, grub_uint32_t *secsize, grub_disk_addr_t *offset,
+			      grub_disk_addr_t *size, char **parent);
+#endif
 
 struct grub_util_hostdisk_data
 {

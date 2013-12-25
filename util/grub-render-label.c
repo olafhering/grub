@@ -33,9 +33,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <argp.h>
 #include <unistd.h>
 #include <errno.h>
+
+#pragma GCC diagnostic ignored "-Wmissing-prototypes"
+#pragma GCC diagnostic ignored "-Wmissing-declarations"
+#include <argp.h>
+#pragma GCC diagnostic error "-Wmissing-prototypes"
+#pragma GCC diagnostic error "-Wmissing-declarations"
 
 #include "progname.h"
 
@@ -58,7 +63,10 @@ static struct argp_option options[] = {
   {"bgcolor",  'b', N_("COLOR"), 0,
    N_("use COLOR for background"), 0},
   {"text",  't', N_("STRING"), 0,
-   N_("set the label to render."), 0},
+  /* TRANSLATORS: The result is always stored to file and
+     never shown directly, so don't use "show" as synonym for render. Use "create" if
+     "render" doesn't translate directly.  */
+   N_("set the label to render"), 0},
   {"output",  'o', N_("FILE"), 0,
    N_("set output filename. Default is STDOUT"), 0},
   {"font",  'f', N_("FILE"), 0,
@@ -121,6 +129,10 @@ argp_parser (int key, char *arg, struct argp_state *state)
 
 static struct argp argp = {
   options, argp_parser, N_("[OPTIONS]"),
+  /* TRANSLATORS: This file takes a text and creates a graphical representation of it,
+     putting the result into .disk_label file. The result is always stored to file and
+     never shown directly, so don't use "show" as synonym for render. Use "create" if
+     "render" doesn't translate directly.  */
   N_("Render Apple .disk_label."),
   NULL, NULL, NULL
 };

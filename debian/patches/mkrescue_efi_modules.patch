@@ -3,13 +3,13 @@ Author: Mario Limonciello <Mario_Limonciello@dell.com>
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/677758
 Forwarded: http://lists.gnu.org/archive/html/grub-devel/2011-01/msg00028.html
-Last-Update: 2013-12-20
+Last-Update: 2013-12-25
 
 Index: b/util/grub-mkrescue.c
 ===================================================================
 --- a/util/grub-mkrescue.c
 +++ b/util/grub-mkrescue.c
-@@ -636,12 +636,18 @@
+@@ -653,12 +653,18 @@
        make_image_fwdisk_abs (GRUB_INSTALL_PLATFORM_IA64_EFI, "ia64-efi", imgname);
        free (imgname);
  

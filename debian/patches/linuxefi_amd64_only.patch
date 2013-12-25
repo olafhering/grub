@@ -1,13 +1,13 @@
 Description: Only build linuxefi on amd64
 Author: Colin Watson <cjwatson@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-12-20
+Last-Update: 2013-12-25
 
 Index: b/grub-core/Makefile.core.def
 ===================================================================
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -1708,7 +1708,6 @@
+@@ -1709,7 +1709,6 @@
    name = linuxefi;
    efi = loader/i386/efi/linux.c;
    efi = lib/cmdline.c;

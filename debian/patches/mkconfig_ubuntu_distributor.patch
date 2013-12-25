@@ -4,13 +4,13 @@ Author: Mario Limonciello <Mario_Limonciello@dell.com>
 Author: Colin Watson <cjwatson@debian.org>
 Author: Harald Sitter <apachelogger@kubuntu.org>
 Forwarded: not-needed
-Last-Update: 2013-12-20
+Last-Update: 2013-12-25
 
 Index: b/util/grub.d/10_linux.in
 ===================================================================
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -57,7 +57,14 @@
+@@ -32,7 +32,14 @@
  if [ "x${GRUB_DISTRIBUTOR}" = "x" ] ; then
    OS=GNU/Linux
  else

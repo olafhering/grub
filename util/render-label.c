@@ -20,6 +20,7 @@
 #include <config.h>
 
 #include <grub/util/misc.h>
+#include <grub/util/install.h>
 #include <grub/i18n.h>
 #include <grub/term.h>
 #include <grub/font.h>
@@ -32,7 +33,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <argp.h>
 #include <unistd.h>
 #include <errno.h>
 

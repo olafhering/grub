@@ -2,13 +2,13 @@ Description: Support running grub-probe in grub-legacy's update-grub
 Author: Robert Millan <rmh@aybabtu.com>
 Author: Colin Watson <cjwatson@debian.org>
 Forwarded: not-needed
-Last-Update: 2013-11-14
+Last-Update: 2013-12-25
 
 Index: b/util/getroot.c
 ===================================================================
 --- a/util/getroot.c
 +++ b/util/getroot.c
-@@ -239,6 +239,20 @@
+@@ -244,6 +244,20 @@
  
    if (ctx->start == part_start)
      {

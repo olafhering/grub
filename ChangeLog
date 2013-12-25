@@ -1,3 +1,363 @@
+2013-12-24  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Set version to 2.02~beta2.
+
+2013-12-24  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/disk/efi/efidisk.c (name_devices): Skip Apple ghosts.
+
+2013-12-24  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* util/grub-probe.c: Improve help message and simplify list handling.
+
+2013-12-24  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Fix buffer overflow in grub_efi_print_device_path.
+
+2013-12-24  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Show SATA device path.
+
+2013-12-24  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Revert grub-file usage in grub-mkconfig.
+
+2013-12-24  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Make newly-created files other than grub.cfg world-readable.
+
+2013-12-24  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* util/grub.d/00_header.in: Improve compatibility with old config.
+
+2013-12-24  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Make rijndael.c respect aliasing rules.
+
+	Trivial backport of dfb4673da8ee52d95e0a62c9f49ca8599943f22e.
+
+2013-12-24  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Make grub_util_device_is_mapped_stat available in grub-emu core.
+
+2013-12-24  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add -Qn to TARGET_CFLAGS if it's supported.
+	Fixes compilation on cygwin.
+
+	Reported by: Andrey Borzenkov.
+	Suggested by: Andrey Borzenkov.
+
+2013-12-24  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Save TARGET_CC version in modinfo.sh.
+
+	Suggested by: Andrey Borzenkov.
+
+2013-12-24  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Make grub_util_devmapper_part_to_disk and grub_util_find_partition_start
+	follow the same algorithm to avoid method mismatch. Don't assume
+	DMRAID- UUID to mean full disk but instead check that mapping is linear.
+
+2013-12-24  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Declare GRUB_EFI_VENDOR_APPLE_GUID.
+
+2013-12-24  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Dump type and vendor specific data when printing device path.
+
+2013-12-23  Colin Watson  <cjwatson@debian.org>
+
+	Update some documentation to refer to Git rather than Bazaar.
+
+	* docs/grub.texi (Obtaining and Building GRUB): Refer to Git rather
+	than Bazaar.
+	* po/README: Likewise.  Fix spelling mistake.
+
+2013-12-23  Colin Watson  <cjwatson@ubuntu.com>
+
+	Don't distribute config.h.
+
+	* Makefile.am (platform_HEADERS): Move to ...
+	(nodist_platform_HEADERS): ... here.  Fixes gettext_strings_test
+	failure when building from a distributed tarball.
+
+2013-12-23  Colin Watson  <cjwatson@ubuntu.com>
+
+	* configure.ac: Fix spelling.
+	* grub-core/commands/parttool.c: Fix grammar.
+	* grub-core/disk/ldm.c: Use consistent capitalisation for "LDM
+	Embedding Partition".
+
+2013-12-23  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	ARM64 support for grub-mkrescue.
+
+2013-12-23  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Install modinfo.sh to keep build information around.
+
+2013-12-23  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/modinfo.sh.in: Add build config information.
+
+2013-12-23  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	ARM64 grub-file and grub-mkconfig support.
+
+2013-12-23  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Remove leftover options defines.
+
+2013-12-23  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/arm64/linux.h: Remove leftovers. Add missing prefixes.
+
+2013-12-23  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/loader/arm64/linux.c: Add missing bracket.
+
+2013-12-23  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add arm64-efi recognition to grub-file.
+
+2013-12-23  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Fix ia64-efi recognition in grub-file.
+
+2013-12-23  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Recognize raspberry pi kernel in grub-file.
+
+2013-12-23  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Enable cache on ARM U-Boot port.
+
+	Without it the port is reidiculously slow.
+
+2013-12-23  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Fix ARM cache maintainance.
+
+	More code was converted from ASM to C for easier handling.
+
+2013-12-22  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/arm/cache.c (grub_arm_disable_caches_mmu): Use v6
+	algorithm on v5.
+
+	Suggested by: Leif Lindholm.
+
+2013-12-22  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* util/grub-mkconfig.in: Fix Xen platform conditions.
+
+2013-12-22  Andrey Borzenkov <arvidjaar@gmail.com>
+
+	* util/grub-mkrescue.c: Split single help message string in several
+	strings used in previous shell version.
+
+2013-12-22  Leif Lindholm <leif.lindholm@linaro.org>
+
+	Add arm64 Linux loader.
+
+2013-12-22  Leif Lindholm <leif.lindholm@linaro.org>
+
+	Add grub_fdt_create_empty_tree() and grub_fdt_set_prop64().
+
+2013-12-22  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add module loading and parsing boot time checkpoints.
+
+2013-12-22  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/loader/arm/linux.c: Pass arguments through on ATAG
+	platforms.
+
+2013-12-22  Lars Wendler <polynomial-c@gentoo.org>
+
+	* util/grub-mkconfig.in: Skip non-executable files.
+
+2013-12-22  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Workaround buggy timer in raspberry pie by using our own timer
+	implementation.
+
+2013-12-22  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/arm/uboot/kernel.h (GRUB_KERNEL_MACHINE_HEAP_SIZE):
+	Increase to 16 MiB to allow loading the whole memdisk.
+
+2013-12-22  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Fix ARM Linux Loader on non-FDT platforms.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Choose link format based on host_os on emu.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/osdep/unix/getroot.c: Non-unix build fix.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/emu/main.c: Build fix for emu.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Build fixes for argp.h with older gcc.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-glue-efi.c: Use "universal binary" rather "fat binary"
+	in strings.
+
+	Suggested by: David Prévot.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/crypto.h (grub_crypto_xor): Fix cast-align warning.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Enable -Wformat=2 if it's supported.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Add -Wmissing-include-dirs -Wmissing-prototypes
+	-Wmissing-declarations if supported.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/commands/macbless.c (grub_mac_bless_inode): Pass inode as
+	u32 as both HFS and HFS+ have 32-bit inodes.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/misc.h (grub_strtol): Fix overflow.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/term.h (grub_unicode_estimate_width): Use grub_size_t
+	as return type in both conditionals.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/video.h (grub_video_rgba_color_rgb): Fix prototype
+	to use uint8_t for color.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/misc.c (grub_util_get_image_size): Check for overflow.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/disk/raid6_recover.c (grub_raid_block_mulx): Use grub_size_t
+	for size.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/disk/lvm.c: Use grub_size_t for sizes and grub_ssize_t
+	for pointer difference.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/import_gcry.py: Skip sample keys.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/misc.c (grub_qsort_strcmp): Don't discard const attribute.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* configure.ac: Remove duplicate warning arguments.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add missing static qualifiers.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add missing includes.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Inline printf templates when possible to enable format checking.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* include/grub/crypto.h: Don't discard const attribute.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/net/bootp.c (grub_cmd_dhcpopt): Use snprintf where it
+	was intended.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/lib/crypto.c: Don't discard const attribute.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/lib/disk.c: Fix potential overflow.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/lib/arg.c: Don't discard const attribute.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/dl.c: Don't discard const attribute.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* grub-core/kern/disk.c: Fix potential overflow.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* conf/Makefile.common: Don't include non-existing directory
+	grub-core/lib/libgcrypt-grub/include.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Clarify several translatable messages.
+
+2013-12-21  David Prévot  <david@tilapin.org>
+
+	Correct some translatable strings.
+
+2013-12-21  Colin Watson  <cjwatson@ubuntu.com>
+
+	* util/grub-mkrescue.c: Rephrase mkrescue description.
+
+2013-12-21  Vladimir Serbinenko  <phcoder@gmail.com>
+2013-12-21  Colin Watson  <cjwatson@ubuntu.com>
+
+	Clarify several translatable messages.
+
+2013-12-20  Colin Watson  <cjwatson@ubuntu.com>
+
+	Be more verbose about some configure failures.
+
+2013-12-20  Colin Watson  <cjwatson@ubuntu.com>
+
+	Fix various build problems on GNU/Hurd.
+
+	* grub-core/osdep/unix/getroot.c (strip_extra_slashes): Move inside
+	!defined (__GNU__).
+	(xgetcwd): Likewise.
+	* include/grub/emu/hostdisk.h (grub_util_hurd_get_disk_info)
+	[__GNU__]: Add prototype.
+	* util/getroot.c (grub_util_biosdisk_get_grub_dev) [__GNU__]: Format
+	long int using %ld rather than %d.
+
+2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	* util/grub-install.c: Inform user about install platform.
+
 2013-12-18  Vladimir Serbinenko  <phcoder@gmail.com>
 
 	* configure.ac: Set version to 2.02~beta1.

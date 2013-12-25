@@ -2,7 +2,7 @@ Description: Read /etc/default/grub.d/*.cfg after /etc/default/grub
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/901600
 Forwarded: no
-Last-Update: 2013-12-20
+Last-Update: 2013-12-25
 
 Index: b/grub-core/osdep/unix/config.c
 ===================================================================
@@ -41,7 +41,7 @@ Index: b/grub-core/osdep/unix/config.c
      return;
  
 @@ -137,3 +125,47 @@
-     grub_util_warn (_("cannot open config file `%s': %s"),
+     grub_util_warn (_("cannot open configuration file `%s': %s"),
  		    cfgfile, strerror (errno));
  }
 +
@@ -92,7 +92,7 @@ Index: b/util/grub-mkconfig.in
 ===================================================================
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -162,6 +162,11 @@
+@@ -154,6 +154,11 @@
  if test -f ${sysconfdir}/default/grub ; then
    . ${sysconfdir}/default/grub
  fi

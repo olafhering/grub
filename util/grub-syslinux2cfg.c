@@ -30,7 +30,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <argp.h>
 #include <unistd.h>
 #include <errno.h>
 #include <grub/err.h>
@@ -39,6 +38,12 @@
 #include <grub/misc.h>
 #include <grub/mm.h>
 #include <grub/syslinux_parse.h>
+
+#pragma GCC diagnostic ignored "-Wmissing-prototypes"
+#pragma GCC diagnostic ignored "-Wmissing-declarations"
+#include <argp.h>
+#pragma GCC diagnostic error "-Wmissing-prototypes"
+#pragma GCC diagnostic error "-Wmissing-declarations"
 
 #include "progname.h"
 
@@ -60,14 +65,16 @@ static struct argp_option options[] = {
   {"root",  'r', N_("DIR"), 0,
    N_("root directory of the syslinux disk [default=/]."), 0},
   {"target-cwd",  'T', N_("DIR"), 0,
-   N_("current directory as it will be seen on runtime [default=$pwd]."), 0},
+   N_(
+      "current directory of the syslinux as it will be seen on runtime  [default is parent directory of input file]."
+), 0},
   {"cwd",  'c', N_("DIR"), 0,
-   N_("current directory of the syslinux disk [default=$pwd]."), 0},
+   N_("current directory of the syslinux [default is parent directory of input file]."), 0},
 
   {"output",  'o', N_("FILE"), 0, N_("write output to FILE [default=stdout]."), 0},
-  {"isolinux",     'i', 0,      0, N_("assume isolinux."), 0},
-  {"pxelinux",     'p', 0,      0, N_("assume pxelinux."), 0},
-  {"syslinux",     's', 0,      0, N_("assume syslinux."), 0},
+  {"isolinux",     'i', 0,      0, N_("assume input is an isolinux configuration file."), 0},
+  {"pxelinux",     'p', 0,      0, N_("assume input is a pxelinux configuration file."), 0},
+  {"syslinux",     's', 0,      0, N_("assume input is a syslinux configuration file."), 0},
   {"verbose",     'v', 0,      0, N_("print verbose messages."), 0},
   { 0, 0, 0, 0, 0, 0 }
 };

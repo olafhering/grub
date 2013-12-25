@@ -36,62 +36,66 @@ GRUB_MOD_LICENSE ("GPLv3+");
 
 static const struct grub_arg_option options[] = {
   {"is-i386-xen-pae-domu", 0, 0,
-   N_("Check if FILE can be booted as i386 PAE xen unprivilegied guest"),
+   N_("Check if FILE can be booted as i386 PAE Xen unprivileged guest kernel"),
    0, 0},
   {"is-x86_64-xen-domu", 0, 0,
-   N_("Check if FILE can be booted as x86_64 xen unprivilegied guest"), 0, 0},
+   N_("Check if FILE can be booted as x86_64 Xen unprivileged guest kernel"), 0, 0},
   {"is-x86-xen-dom0", 0, 0,
-   N_("Check if FILE can be used as xen x86 privilegied guest kernel"), 0, 0},
+   N_("Check if FILE can be used as Xen x86 privileged guest kernel"), 0, 0},
   {"is-x86-multiboot", 0, 0,
    N_("Check if FILE can be used as x86 multiboot kernel"), 0, 0},
   {"is-x86-multiboot2", 0, 0,
    N_("Check if FILE can be used as x86 multiboot2 kernel"), 0, 0},
   {"is-arm-linux", 0, 0,
-   N_("Check if FILE is ARM linux"), 0, 0},
+   N_("Check if FILE is ARM Linux"), 0, 0},
+  {"is-arm64-linux", 0, 0,
+   N_("Check if FILE is ARM64 Linux"), 0, 0},
   {"is-ia64-linux", 0, 0,
-   N_("Check if FILE is IA64 linux"), 0, 0},
+   N_("Check if FILE is IA64 Linux"), 0, 0},
   {"is-mips-linux", 0, 0,
-   N_("Check if FILE is MIPS linux"), 0, 0},
+   N_("Check if FILE is MIPS Linux"), 0, 0},
   {"is-mipsel-linux", 0, 0,
-   N_("Check if FILE is MIPSEL linux"), 0, 0},
+   N_("Check if FILE is MIPSEL Linux"), 0, 0},
   {"is-sparc64-linux", 0, 0,
-   N_("Check if FILE is SPARC64 linux"), 0, 0},
+   N_("Check if FILE is SPARC64 Linux"), 0, 0},
   {"is-powerpc-linux", 0, 0,
-   N_("Check if FILE is POWERPC linux"), 0, 0},
+   N_("Check if FILE is POWERPC Linux"), 0, 0},
   {"is-x86-linux", 0, 0,
-   N_("Check if FILE is x86 linux"), 0, 0},
+   N_("Check if FILE is x86 Linux"), 0, 0},
   {"is-x86-linux32", 0, 0,
-   N_("Check if FILE is x86 linux supporting 32-bit protocol"), 0, 0},
+   N_("Check if FILE is x86 Linux supporting 32-bit protocol"), 0, 0},
   {"is-x86-kfreebsd", 0, 0,
-   N_("Check if FILE is x86 kfreebsd"), 0, 0},
+   N_("Check if FILE is x86 kFreeBSD"), 0, 0},
   {"is-i386-kfreebsd", 0, 0,
-   N_("Check if FILE is i386 kfreebsd"), 0, 0},
+   N_("Check if FILE is i386 kFreeBSD"), 0, 0},
   {"is-x86_64-kfreebsd", 0, 0,
-   N_("Check if FILE is x86_64 kfreebsd"), 0, 0},
+   N_("Check if FILE is x86_64 kFreeBSD"), 0, 0},
 
   {"is-x86-knetbsd", 0, 0,
-   N_("Check if FILE is x86 knetbsd"), 0, 0},
+   N_("Check if FILE is x86 kNetBSD"), 0, 0},
   {"is-i386-knetbsd", 0, 0,
-   N_("Check if FILE is i386 knetbsd"), 0, 0},
+   N_("Check if FILE is i386 kNetBSD"), 0, 0},
   {"is-x86_64-knetbsd", 0, 0,
-   N_("Check if FILE is x86_64 knetbsd"), 0, 0},
+   N_("Check if FILE is x86_64 kNetBSD"), 0, 0},
 
   {"is-i386-efi", 0, 0,
    N_("Check if FILE is i386 EFI file"), 0, 0},
   {"is-x86_64-efi", 0, 0,
-   N_("Check if FILE is x86-64 EFI file"), 0, 0},
+   N_("Check if FILE is x86_64 EFI file"), 0, 0},
   {"is-ia64-efi", 0, 0,
    N_("Check if FILE is IA64 EFI file"), 0, 0},
+  {"is-arm64-efi", 0, 0,
+   N_("Check if FILE is ARM64 EFI file"), 0, 0},
   {"is-arm-efi", 0, 0,
    N_("Check if FILE is ARM EFI file"), 0, 0},
   {"is-hibernated-hiberfil", 0, 0,
    N_("Check if FILE is hiberfil.sys in hibernated state"), 0, 0},
   {"is-x86_64-xnu", 0, 0,
-   N_("Check if FILE is x86_64 xnu (Mac OS X kernel)"), 0, 0},
+   N_("Check if FILE is x86_64 XNU (Mac OS X kernel)"), 0, 0},
   {"is-i386-xnu", 0, 0,
-   N_("Check if FILE is i386 xnu (Mac OS X kernel)"), 0, 0},
+   N_("Check if FILE is i386 XNU (Mac OS X kernel)"), 0, 0},
   {"is-xnu-hibr", 0, 0,
-   N_("Check if FILE is xnu (Mac OS X kernel) hibernated image"), 0, 0},
+   N_("Check if FILE is XNU (Mac OS X kernel) hibernated image"), 0, 0},
   {"is-x86-bios-bootsector", 0, 0,
    N_("Check if FILE is BIOS bootsector"), 0, 0},
   {0, 0, 0, 0, 0, 0}
@@ -105,6 +109,7 @@ enum
   IS_MULTIBOOT,
   IS_MULTIBOOT2,
   IS_ARM_LINUX,
+  IS_ARM64_LINUX,
   IS_IA64_LINUX,
   IS_MIPS_LINUX,
   IS_MIPSEL_LINUX,
@@ -121,6 +126,7 @@ enum
   IS_32_EFI,
   IS_64_EFI,
   IS_IA_EFI,
+  IS_ARM64_EFI,
   IS_ARM_EFI,
   IS_HIBERNATED,
   IS_XNU64,
@@ -377,14 +383,40 @@ grub_cmd_file (grub_extcmd_context_t ctxt, int argc, char **args)
       }
     case IS_ARM_LINUX:
       {
-	grub_uint32_t sig;
+	grub_uint32_t sig, sig_pi;
+	if (grub_file_read (file, &sig_pi, 4) != 4)
+	  break;
+	/* Raspberry pi.  */
+	if (sig_pi == grub_cpu_to_le32_compile_time (0xea000006))
+	  {
+	    ret = 1;
+	    break;
+	  }
+
 	if (grub_file_seek (file, 0x24) == (grub_size_t) -1)
 	  break;
 	if (grub_file_read (file, &sig, 4) != 4)
 	  break;
-	if (sig != grub_cpu_to_le32_compile_time (0x016f2818))
+	if (sig == grub_cpu_to_le32_compile_time (0x016f2818))
+	  {
+	    ret = 1;
+	    break;
+	  }
+	break;
+      }
+    case IS_ARM64_LINUX:
+      {
+	grub_uint32_t sig;
+
+	if (grub_file_seek (file, 0x38) == (grub_size_t) -1)
 	  break;
-	ret = 1;
+	if (grub_file_read (file, &sig, 4) != 4)
+	  break;
+	if (sig == grub_cpu_to_le32_compile_time (0x644d5241))
+	  {
+	    ret = 1;
+	    break;
+	  }
 	break;
       }
     case IS_PAE_DOMU ... IS_DOM0:
@@ -535,6 +567,7 @@ grub_cmd_file (grub_extcmd_context_t ctxt, int argc, char **args)
     case IS_32_EFI:
     case IS_64_EFI:
     case IS_IA_EFI:
+    case IS_ARM64_EFI:
     case IS_ARM_EFI:
       {
 	char signature[4];
@@ -573,11 +606,15 @@ grub_cmd_file (grub_extcmd_context_t ctxt, int argc, char **args)
 	    && coff_head.machine !=
 	    grub_cpu_to_le16_compile_time (GRUB_PE32_MACHINE_IA64))
 	  break;
+	if (type == IS_ARM64_EFI
+	    && coff_head.machine !=
+	    grub_cpu_to_le16_compile_time (GRUB_PE32_MACHINE_ARM64))
+	  break;
 	if (type == IS_ARM_EFI
 	    && coff_head.machine !=
 	    grub_cpu_to_le16_compile_time (GRUB_PE32_MACHINE_ARMTHUMB_MIXED))
 	  break;
-	if (type == IS_64_EFI || type == IS_64_EFI)
+	if (type == IS_IA_EFI || type == IS_64_EFI || type == IS_ARM64_EFI)
 	  {
 	    struct grub_pe64_optional_header o64;
 	    if (grub_file_read (file, &o64, sizeof (o64)) != sizeof (o64))

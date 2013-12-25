@@ -3,13 +3,13 @@ Author: Colin Watson <cjwatson@ubuntu.com>
 Author: Stéphane Graber <stgraber@ubuntu.com>
 Author: Steve Langasek <steve.langasek@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-12-20
+Last-Update: 2013-12-25
 
 Index: b/util/grub-install.c
 ===================================================================
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
-@@ -76,6 +76,7 @@
+@@ -80,6 +80,7 @@
  static char *label_bgcolor;
  static char *product_version;
  static int add_rs_codes = 1;
@@ -17,7 +17,7 @@ Index: b/util/grub-install.c
  
  enum
    {
-@@ -107,7 +108,9 @@
+@@ -111,7 +112,9 @@
      OPTION_LABEL_FONT,
      OPTION_LABEL_COLOR,
      OPTION_LABEL_BGCOLOR,
@@ -28,7 +28,7 @@ Index: b/util/grub-install.c
    };
  
  static int fs_probe = 1;
-@@ -231,6 +234,14 @@
+@@ -235,6 +238,14 @@
        bootloader_id = xstrdup (arg);
        return 0;
  
@@ -43,7 +43,7 @@ Index: b/util/grub-install.c
      case ARGP_KEY_ARG:
        if (install_device)
  	grub_util_error ("%s", _("More than one install device?"));
-@@ -300,6 +311,14 @@
+@@ -304,6 +315,14 @@
    {"label-color", OPTION_LABEL_COLOR, N_("COLOR"), 0, N_("use COLOR for label"), 2},
    {"label-bgcolor", OPTION_LABEL_BGCOLOR, N_("COLOR"), 0, N_("use COLOR for label background"), 2},
    {"product-version", OPTION_PRODUCT_VERSION, N_("STRING"), 0, N_("use STRING as product version"), 2},
@@ -58,7 +58,7 @@ Index: b/util/grub-install.c
    {0, 0, 0, 0, 0, 0}
  };
  
-@@ -801,7 +820,8 @@
+@@ -809,7 +828,8 @@
  {
    int is_efi = 0;
    const char *efi_distributor = NULL;
@@ -68,7 +68,7 @@ Index: b/util/grub-install.c
    char **grub_devices;
    grub_fs_t grub_fs;
    grub_device_t grub_dev = NULL;
-@@ -1055,6 +1075,31 @@
+@@ -1069,6 +1089,31 @@
        */
        char *t;
        efi_distributor = bootloader_id;
@@ -100,7 +100,7 @@ Index: b/util/grub-install.c
        if (removable)
  	{
  	  /* The specification makes stricter requirements of removable
-@@ -1063,54 +1108,16 @@
+@@ -1077,54 +1122,16 @@
  	     must have a specific file name depending on the architecture.
  	  */
  	  efi_distributor = "BOOT";
@@ -159,7 +159,7 @@ Index: b/util/grub-install.c
  	}
        t = grub_util_path_concat (3, efidir, "EFI", efi_distributor);
        free (efidir);
-@@ -1315,6 +1322,31 @@
+@@ -1329,6 +1336,31 @@
  	}
      }
  
@@ -191,7 +191,7 @@ Index: b/util/grub-install.c
    if (!have_abstractions)
      {
        if ((disk_module && grub_strcmp (disk_module, "biosdisk") != 0)
-@@ -1322,7 +1354,8 @@
+@@ -1336,7 +1368,8 @@
  	  || (!install_drive
  	      && platform != GRUB_INSTALL_PLATFORM_POWERPC_IEEE1275)
  	  || (install_drive && !is_same_disk (grub_drives[0], install_drive))
@@ -201,7 +201,7 @@ Index: b/util/grub-install.c
  	{
  	  char *uuid = NULL;
  	  /*  generic method (used on coreboot and ata mod).  */
-@@ -1843,7 +1876,47 @@
+@@ -1857,7 +1890,47 @@
      case GRUB_INSTALL_PLATFORM_IA64_EFI:
        {
  	char *dst = grub_util_path_concat (2, efidir, efi_file);

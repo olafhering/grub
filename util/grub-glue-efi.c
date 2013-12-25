@@ -29,9 +29,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <argp.h>
 #include <unistd.h>
 #include <errno.h>
+
+#pragma GCC diagnostic ignored "-Wmissing-prototypes"
+#pragma GCC diagnostic ignored "-Wmissing-declarations"
+#include <argp.h>
+#pragma GCC diagnostic error "-Wmissing-prototypes"
+#pragma GCC diagnostic error "-Wmissing-declarations"
 
 #include "progname.h"
 
@@ -87,7 +92,7 @@ argp_parser (int key, char *arg, struct argp_state *state)
 
 static struct argp argp = {
   options, argp_parser, N_("[OPTIONS]"),
-  N_("Glue 32-bit and 64-binary into Apple fat one."),
+  N_("Glue 32-bit and 64-bit binary into Apple universal one."),
   NULL, NULL, NULL
 };
 

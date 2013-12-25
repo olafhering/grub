@@ -30,7 +30,6 @@ install_signed.patch
 sleep_shift.patch
 wubi_no_windows.patch
 maybe_quiet.patch
-probe_dmraid.patch
 install_efi_ubuntu_flavours.patch
 quick_boot.patch
 gfxpayload_dynamic.patch
@@ -39,4 +38,3 @@ probe_fusionio.patch
 ignore_grub_func_test_failures.patch
 mkconfig_recovery_title.patch
 skip_gettext_strings_test.patch
-mkconfig_more_scripts_once.patch

@@ -14,13 +14,13 @@ Description: Add configure option to bypass boot menu if possible
 Author: Colin Watson <cjwatson@ubuntu.com>
 Author: Richard Laager <rlaager@wiktel.com>
 Forwarded: no
-Last-Update: 2013-12-20
+Last-Update: 2013-12-25
 
 Index: b/configure.ac
 ===================================================================
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1560,6 +1560,17 @@
+@@ -1594,6 +1594,17 @@
  fi
  AC_SUBST([QUIET_BOOT])
  
@@ -97,7 +97,7 @@ Index: b/util/grub-mkconfig.in
 ===================================================================
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -245,7 +245,8 @@
+@@ -236,7 +236,8 @@
    GRUB_ENABLE_CRYPTODISK \
    GRUB_BADRAM \
    GRUB_OS_PROBER_SKIP_LIST \
@@ -169,13 +169,13 @@ Index: b/util/grub.d/00_header.in
 +  set timeout=${GRUB_RECORDFAIL_TIMEOUT:--1}
 +else
 +EOF
-     if [ "x${1}${3}" != "x" ] ; then
- 	if [ "x${3}" != "x" ] ; then
- 	    timeout="${2}"
-@@ -304,26 +336,29 @@
- 	    verbose=
- 	fi
- 	cat << EOF
+     if [ "x${3}" != "x" ] ; then
+ 	timeout="${2}"
+ 	style="${3}"
+@@ -304,26 +336,27 @@
+ 	style="menu"
+     fi
+     cat << EOF
 -if [ x\$feature_timeout_style = xy ] ; then
 -  set timeout_style=${style}
 -  set timeout=${timeout}
@@ -183,8 +183,19 @@ Index: b/util/grub.d/00_header.in
 +    set timeout_style=${style}
 +    set timeout=${timeout}
  EOF
- 	if [ "x${style}" != "xmenu" ] ; then
- 	    cat << EOF
+     if [ "x${style}" = "xmenu" ] ; then
+ 	cat << EOF
+-# Fallback normal timeout code in case the timeout_style feature is
+-# unavailable.
+-else
+-  set timeout=${timeout}
++  # Fallback normal timeout code in case the timeout_style feature is
++  # unavailable.
++  else
++    set timeout=${timeout}
+ EOF
+     else
+ 	cat << EOF
 -# Fallback hidden-timeout code in case the timeout_style feature is
 -# unavailable.
 -elif sleep${verbose} --interruptible ${timeout} ; then
@@ -194,23 +205,12 @@ Index: b/util/grub.d/00_header.in
 +  elif sleep${verbose} --interruptible ${timeout} ; then
 +    set timeout=0
  EOF
- 	fi
- 	cat << EOF
--fi
-+  fi
- EOF
-     else
- 	cat << EOF
--set timeout=${2}
-+  set timeout=${2}
- EOF
      fi
-+    cat << EOF
-+fi
-+EOF
+     cat << EOF
++  fi
+ fi
+ EOF
  }
- 
- if [ "x$GRUB_BUTTON_CMOS_ADDRESS" != "x" ]; then
 Index: b/util/grub.d/10_linux.in
 ===================================================================
 --- a/util/grub.d/10_linux.in
@@ -223,7 +223,7 @@ Index: b/util/grub.d/10_linux.in
  
  . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
  
-@@ -142,6 +143,9 @@
+@@ -117,6 +118,9 @@
    else
        echo "menuentry '$(echo "$os" | grub_quote)' ${CLASS} \$menuentry_id_option 'gnulinux-simple-$boot_device_id' {" | sed "s/^/$submenu_indentation/"
    fi      
