@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-1) UNRELEASED; urgency=low
+grub2 (2.02~beta2-1) experimental; urgency=low
 
   * New upstream beta release.
   * Drop qemu-utils build-dependency; the test suite no longer uses
@@ -27,7 +27,7 @@ grub2 (2.02~beta2-1) UNRELEASED; urgency=low
   * Fix crash due to pointer confusion in grub-mkdevicemap, introduced while
     converting away from nested functions in 2.00+20131208-1.
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 10 Dec 2013 17:39:47 +0000
+ -- Colin Watson <cjwatson@debian.org>  Thu, 26 Dec 2013 00:52:47 +0000
 
 grub2 (2.00+20131208-1) experimental; urgency=low
 
