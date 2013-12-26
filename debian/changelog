@@ -23,10 +23,6 @@ grub2 (2.02~beta2-1) UNRELEASED; urgency=low
   * Silence warning if /usr/share/locale-langpack does not exist (closes:
     #732595).
   * Remove debian/grub-common.preinst, superseded by .maintscript files.
-  * Stop removing /etc/grub.d/10_hurd and /etc/grub.d/10_linux on upgrade;
-    these are installed on all architectures again.  (Retain the code to
-    remove /etc/grub.d/10_freebsd, since that was renamed to
-    /etc/grub.d/10_kfreebsd.)
   * Install grub-file in grub-common.
   * Fix crash due to pointer confusion in grub-mkdevicemap, introduced while
     converting away from nested functions in 2.00+20131208-1.
