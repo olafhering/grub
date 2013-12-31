@@ -971,4 +971,3 @@ dmraid_end:
 out:
   clear_seen_devices ();
 }
-

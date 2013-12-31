@@ -58,7 +58,7 @@ Index: b/util/deviceiter.c
 ===================================================================
 --- /dev/null
 +++ b/util/deviceiter.c
-@@ -0,0 +1,955 @@
+@@ -0,0 +1,954 @@
 +/* deviceiter.c - iterate over system devices */
 +/*
 + *  GRUB  --  GRand Unified Bootloader
@@ -1013,7 +1013,6 @@ Index: b/util/deviceiter.c
 +out:
 +  clear_seen_devices ();
 +}
-+
 Index: b/util/devicemap.c
 ===================================================================
 --- /dev/null
