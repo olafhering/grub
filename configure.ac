@@ -1863,6 +1863,17 @@ else
 fi
 AC_SUBST([GFXPAYLOAD_DYNAMIC])
 
+AC_ARG_ENABLE([vt-handoff],
+              [AS_HELP_STRING([--enable-vt-handoff],
+                              [use Linux vt.handoff option for flicker-free booting (default=no)])],
+              [], [enable_vt_handoff=no])
+if test x"$enable_vt_handoff" = xyes ; then
+  VT_HANDOFF=1
+else
+  VT_HANDOFF=0
+fi
+AC_SUBST([VT_HANDOFF])
+
 LIBS=""
 
 AC_SUBST([FONT_SOURCE])
