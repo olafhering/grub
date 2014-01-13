@@ -23,6 +23,7 @@ datarootdir="@datarootdir@"
 ubuntu_recovery="@UBUNTU_RECOVERY@"
 quiet_boot="@QUIET_BOOT@"
 quick_boot="@QUICK_BOOT@"
+gfxpayload_dynamic="@GFXPAYLOAD_DYNAMIC@"
 
 . "$pkgdatadir/grub-mkconfig_lib"
 
@@ -135,9 +136,10 @@ linux_entry ()
       if [ "x$GRUB_GFXPAYLOAD_LINUX" != xtext ]; then
 	  echo "	load_video" | sed "s/^/$submenu_indentation/"
       fi
-      if [ "$ubuntu_recovery" = 0 ] || [ x$type != xrecovery ]; then
-	  echo "	set gfxpayload=$GRUB_GFXPAYLOAD_LINUX" | sed "s/^/$submenu_indentation/"
-      fi
+  fi
+  if ([ "$ubuntu_recovery" = 0 ] || [ x$type != xrecovery ]) && \
+     ([ "x$GRUB_GFXPAYLOAD_LINUX" != x ] || [ "$gfxpayload_dynamic" = 1 ]); then
+      echo "	set gfxpayload=\$linux_gfx_mode" | sed "s/^/$submenu_indentation/"
   fi
 
   echo "	insmod gzio" | sed "s/^/$submenu_indentation/"
@@ -211,6 +213,35 @@ prepare_boot_cache=
 prepare_root_cache=
 boot_device_id=
 title_correction_code=
+
+# Use ELILO's generic "efifb" when it's known to be available.
+# FIXME: We need an interface to select vesafb in case efifb can't be used.
+if [ "x$GRUB_GFXPAYLOAD_LINUX" != x ] || [ "$gfxpayload_dynamic" = 0 ]; then
+  echo "set linux_gfx_mode=$GRUB_GFXPAYLOAD_LINUX"
+else
+  cat << EOF
+if [ "\${recordfail}" != 1 ]; then
+  if [ -e \${prefix}/gfxblacklist.txt ]; then
+    if hwmatch \${prefix}/gfxblacklist.txt 3; then
+      if [ \${match} = 0 ]; then
+        set linux_gfx_mode=keep
+      else
+        set linux_gfx_mode=text
+      fi
+    else
+      set linux_gfx_mode=text
+    fi
+  else
+    set linux_gfx_mode=keep
+  fi
+else
+  set linux_gfx_mode=text
+fi
+EOF
+fi
+cat << EOF
+export linux_gfx_mode
+EOF
 
 # Extra indentation to add to menu entries in a submenu. We're not in a submenu
 # yet, so it's empty. In a submenu it will be equal to '\t' (one tab).

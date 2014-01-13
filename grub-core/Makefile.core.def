@@ -890,6 +890,15 @@ module = {
 };
 
 module = {
+  name = hwmatch;
+  i386_pc = commands/i386/pc/hwmatch.c;
+  enable = i386_pc;
+  common = gnulib/regex.c;
+  cflags = '$(CFLAGS_POSIX) $(CFLAGS_GNULIB)';
+  cppflags = '$(CPPFLAGS_POSIX) $(CPPFLAGS_GNULIB)';
+};
+
+module = {
   name = keystatus;
   common = commands/keystatus.c;
 };
