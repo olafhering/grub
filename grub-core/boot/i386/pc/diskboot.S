@@ -18,12 +18,21 @@
 
 #include <grub/symbol.h>
 #include <grub/machine/boot.h>
+#ifdef QUIET_BOOT
+#include <grub/machine/memory.h>
+#endif
 
 /*
  *  defines for the code go here
  */
 
 #define MSG(x)	movw $x, %si; call LOCAL(message)
+
+#ifdef QUIET_BOOT
+#define SILENT(x)	call LOCAL(check_silent); jz LOCAL(x)
+#else
+#define SILENT(x)
+#endif
 
 	.file	"diskboot.S"
 
@@ -50,11 +59,14 @@ _start:
 	/* save drive reference first thing! */
 	pushw	%dx
 
+	SILENT(after_notification_string)
+
 	/* print a notification message on the screen */
 	pushw	%si
 	MSG(notification_string)
 	popw	%si
 
+LOCAL(after_notification_string):
 	/* this sets up for the first run through "bootloop" */
 	movw	$LOCAL(firstlist), %di
 
@@ -279,7 +291,10 @@ LOCAL(copy_buffer):
 	/* restore addressing regs and print a dot with correct DS
 	   (MSG modifies SI, which is saved, and unused AX and BX) */
 	popw	%ds
+	SILENT(after_notification_step)
 	MSG(notification_step)
+
+LOCAL(after_notification_step):
 	popa
 
 	/* check if finished with this dataset */
@@ -295,8 +310,11 @@ LOCAL(copy_buffer):
 /* END OF MAIN LOOP */
 
 LOCAL(bootit):
+	SILENT(after_notification_done)
 	/* print a newline */
 	MSG(notification_done)
+
+LOCAL(after_notification_done):
 	popw	%dx	/* this makes sure %dl is our "boot" drive */
 	ljmp	$0, $(GRUB_BOOT_MACHINE_KERNEL_ADDR + 0x200)
 
@@ -319,6 +337,14 @@ LOCAL(general_error):
 
 /* go here when you need to stop the machine hard after an error condition */
 LOCAL(stop):	jmp	LOCAL(stop)
+
+#ifdef QUIET_BOOT
+LOCAL(check_silent):
+	/* is either shift key held down? */
+	movw	$(GRUB_MEMORY_MACHINE_BIOS_DATA_AREA_ADDR + 0x17), %bx
+	testb	$3, (%bx)
+	ret
+#endif
 
 notification_string:	.asciz "loading"
 
