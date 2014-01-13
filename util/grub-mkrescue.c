@@ -750,6 +750,7 @@ main (int argc, char *argv[])
 
       grub_install_push_module ("part_gpt");
       grub_install_push_module ("part_msdos");
+      grub_install_push_module ("fat");
 
       imgname = grub_util_path_concat (2, efidir_efi_boot, "bootia64.efi");
       make_image_fwdisk_abs (GRUB_INSTALL_PLATFORM_IA64_EFI, "ia64-efi", imgname);
@@ -825,6 +826,7 @@ main (int argc, char *argv[])
       free (efiimgfat);
       free (efidir_efi);
       free (efidir);
+      grub_install_pop_module ();
       grub_install_pop_module ();
       grub_install_pop_module ();
     }
