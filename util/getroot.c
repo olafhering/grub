@@ -245,6 +245,20 @@ find_partition (grub_disk_t dsk __attribute__ ((unused)),
 
   if (ctx->start == part_start)
     {
+      /* This is dreadfully hardcoded, but there's a limit to what GRUB
+         Legacy was able to deal with anyway.  */
+      if (getenv ("GRUB_LEGACY_0_BASED_PARTITIONS"))
+	{
+	  if (partition->parent)
+	    /* Probably a BSD slice.  */
+	    ctx->partname = xasprintf ("%d,%d", partition->parent->number,
+				       partition->number + 1);
+	  else
+	    ctx->partname = xasprintf ("%d", partition->number);
+
+	  return 1;
+	}
+
       ctx->partname = grub_partition_get_name (partition);
       return 1;
     }
