@@ -1054,6 +1054,15 @@ grub_video_vbe_setup (unsigned int width, unsigned int height,
 	      || vbe_mode_info.y_resolution > height)
 	    /* Resolution exceeds that of preferred mode.  */
 	    continue;
+
+	  /* Blacklist 1440x900x32 from preferred mode handling until a
+	     better solution is available.  This mode causes problems on
+	     many Thinkpads.  See:
+	       https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/701111  */
+	  if (vbe_mode_info.x_resolution == 1440 &&
+	      vbe_mode_info.y_resolution == 900 &&
+	      vbe_mode_info.bits_per_pixel == 32)
+	    continue;
 	}
       else
 	{
