@@ -21,6 +21,8 @@ prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 datarootdir="@datarootdir@"
 grub_lang=`echo $LANG | cut -d . -f 1`
+grubdir="`echo "/@bootdirname@/@grubdirname@" | sed 's,//*,/,g'`"
+quick_boot="@QUICK_BOOT@"
 
 export TEXTDOMAIN=@PACKAGE@
 export TEXTDOMAINDIR="@localedir@"
@@ -44,6 +46,7 @@ if [ "x${GRUB_TIMEOUT_BUTTON}" = "x" ] ; then GRUB_TIMEOUT_BUTTON="$GRUB_TIMEOUT
 
 cat << EOF
 if [ -s \$prefix/grubenv ]; then
+  set have_grubenv=true
   load_env
 fi
 EOF
@@ -96,7 +99,50 @@ function savedefault {
     save_env saved_entry
   fi
 }
+EOF
 
+if [ "$quick_boot" = 1 ]; then
+    cat <<EOF
+function recordfail {
+  set recordfail=1
+EOF
+
+  check_writable () {
+    abstractions="$(grub-probe --target=abstraction "${grubdir}")"
+    for abstraction in $abstractions; do
+      case "$abstraction" in
+        diskfilter | lvm)
+          cat <<EOF
+  # GRUB lacks write support for $abstraction, so recordfail support is disabled.
+EOF
+          return
+          ;;
+      esac
+    done
+
+    FS="$(grub-probe --target=fs "${grubdir}")"
+    case "$FS" in
+      btrfs | cpiofs | newc | odc | romfs | squash4 | tarfs | zfs)
+	cat <<EOF
+  # GRUB lacks write support for $FS, so recordfail support is disabled.
+EOF
+	return
+	;;
+    esac
+
+    cat <<EOF
+  if [ -n "\${have_grubenv}" ]; then if [ -z "\${boot_once}" ]; then save_env recordfail; fi; fi
+EOF
+  }
+
+  check_writable
+
+  cat <<EOF
+}
+EOF
+fi
+
+cat <<EOF
 function load_video {
 EOF
 if [ -n "${GRUB_VIDEO_BACKEND}" ]; then
@@ -282,10 +328,16 @@ fi
 
 make_timeout ()
 {
+    cat << EOF
+if [ "\${recordfail}" = 1 ] ; then
+  set timeout=${GRUB_RECORDFAIL_TIMEOUT:-30}
+else
+EOF
     if [ "x${3}" != "x" ] ; then
 	timeout="${2}"
 	style="${3}"
-    elif [ "x${1}" != "x" ] && [ "x${1}" != "x0" ] ; then
+    elif [ "x${1}" != "x" ] && \
+	 ([ "$quick_boot" = 1 ] || [ "x${1}" != "x0" ]) ; then
 	# Handle the deprecated GRUB_HIDDEN_TIMEOUT scheme.
 	timeout="${1}"
 	if [ "x${2}" != "x0" ] ; then
@@ -304,26 +356,27 @@ make_timeout ()
 	style="menu"
     fi
     cat << EOF
-if [ x\$feature_timeout_style = xy ] ; then
-  set timeout_style=${style}
-  set timeout=${timeout}
+  if [ x\$feature_timeout_style = xy ] ; then
+    set timeout_style=${style}
+    set timeout=${timeout}
 EOF
     if [ "x${style}" = "xmenu" ] ; then
 	cat << EOF
-# Fallback normal timeout code in case the timeout_style feature is
-# unavailable.
-else
-  set timeout=${timeout}
+  # Fallback normal timeout code in case the timeout_style feature is
+  # unavailable.
+  else
+    set timeout=${timeout}
 EOF
     else
 	cat << EOF
-# Fallback hidden-timeout code in case the timeout_style feature is
-# unavailable.
-elif sleep${verbose} --interruptible ${timeout} ; then
-  set timeout=0
+  # Fallback hidden-timeout code in case the timeout_style feature is
+  # unavailable.
+  elif sleep${verbose} --interruptible ${timeout} ; then
+    set timeout=0
 EOF
     fi
     cat << EOF
+  fi
 fi
 EOF
 }

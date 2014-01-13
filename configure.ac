@@ -1841,6 +1841,17 @@ else
 fi
 AC_SUBST([QUIET_BOOT])
 
+AC_ARG_ENABLE([quick-boot],
+              [AS_HELP_STRING([--enable-quick-boot],
+                              [bypass boot menu if possible (default=no)])],
+              [], [enable_quick_boot=no])
+if test x"$enable_quick_boot" = xyes ; then
+  QUICK_BOOT=1
+else
+  QUICK_BOOT=0
+fi
+AC_SUBST([QUICK_BOOT])
+
 LIBS=""
 
 AC_SUBST([FONT_SOURCE])
