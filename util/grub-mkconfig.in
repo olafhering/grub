@@ -102,6 +102,13 @@ do
     esac
 done
 
+if fgrep -qs '${GRUB_PREFIX}/video.lst' "${grub_mkconfig_dir}/00_header"; then
+  echo "GRUB >= 2.00 has been unpacked but not yet configured." >&2
+  echo "grub-mkconfig will not work until the upgrade is complete." >&2
+  echo "It should run later as part of configuring the new GRUB packages." >&2
+  exit 0
+fi
+
 if [ "x$EUID" = "x" ] ; then
   EUID=`id -u`
 fi
