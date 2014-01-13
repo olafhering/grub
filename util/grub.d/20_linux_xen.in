@@ -95,7 +95,7 @@ linux_entry ()
   fi
   if [ x$type != xsimple ] ; then
       if [ x$type = xrecovery ] ; then
-	  title="$(gettext_printf "%s, with Xen %s and Linux %s (recovery mode)" "${os}" "${xen_version}" "${version}")"
+	  title="$(gettext_printf "%s, with Xen %s and Linux %s (%s)" "${os}" "${xen_version}" "${version}" "$(gettext "${GRUB_RECOVERY_TITLE}")")"
       else
 	  title="$(gettext_printf "%s, with Xen %s and Linux %s" "${os}" "${xen_version}" "${version}")"
       fi
