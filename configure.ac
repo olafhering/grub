@@ -1819,6 +1819,17 @@ fi
 AC_SUBST([LIBZFS])
 AC_SUBST([LIBNVPAIR])
 
+AC_ARG_ENABLE([ubuntu-recovery],
+              [AS_HELP_STRING([--enable-ubuntu-recovery],
+                              [adjust boot options for the Ubuntu recovery mode (default=no)])],
+              [], [enable_ubuntu_recovery=no])
+if test x"$enable_ubuntu_recovery" = xyes ; then
+  UBUNTU_RECOVERY=1
+else
+  UBUNTU_RECOVERY=0
+fi
+AC_SUBST([UBUNTU_RECOVERY])
+
 LIBS=""
 
 AC_SUBST([FONT_SOURCE])
