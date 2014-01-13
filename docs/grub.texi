@@ -1504,6 +1504,11 @@ a console is restricted or limited.
 This option is only effective when GRUB was configured with the
 @option{--enable-quick-boot} option.
 
+@item GRUB_RECOVERY_TITLE
+This option sets the English text of the string that will be displayed in
+parentheses to indicate that a boot option is provided to help users recover
+a broken system.  The default is "recovery mode".
+
 @end table
 
 The following options are still accepted for compatibility with existing
