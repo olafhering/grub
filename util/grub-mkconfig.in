@@ -157,6 +157,11 @@ fi
 if test -f ${sysconfdir}/default/grub ; then
   . ${sysconfdir}/default/grub
 fi
+for x in ${sysconfdir}/default/grub.d/*.cfg ; do
+  if [ -e "${x}" ]; then
+    . "${x}"
+  fi
+done
 
 # XXX: should this be deprecated at some point?
 if [ "x${GRUB_TERMINAL}" != "x" ] ; then
