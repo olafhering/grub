@@ -61,28 +61,16 @@ grub_util_get_localedir (void)
   return LOCALEDIR;
 }
 
-void
-grub_util_load_config (struct grub_util_config *cfg)
+static void
+grub_util_load_one_config (struct grub_util_config *cfg, const char *cfgfile)
 {
   pid_t pid;
   const char *argv[4];
   char *script, *ptr;
-  const char *cfgfile, *iptr;
+  const char *iptr;
   FILE *f = NULL;
   int fd;
-  const char *v;
 
-  memset (cfg, 0, sizeof (*cfg));
-
-  v = getenv ("GRUB_ENABLE_CRYPTODISK");
-  if (v && v[0] == 'y' && v[1] == '\0')
-    cfg->is_cryptodisk_enabled = 1;
-
-  v = getenv ("GRUB_DISTRIBUTOR");
-  if (v)
-    cfg->grub_distributor = xstrdup (v);
-
-  cfgfile = grub_util_get_config_filename ();
   if (!grub_util_is_regular (cfgfile))
     return;
 
@@ -136,4 +124,48 @@ grub_util_load_config (struct grub_util_config *cfg)
   else
     grub_util_warn (_("cannot open configuration file `%s': %s"),
 		    cfgfile, strerror (errno));
+}
+
+void
+grub_util_load_config (struct grub_util_config *cfg)
+{
+  const char *cfgfile;
+  const char *v;
+  char *cfgdir;
+  grub_util_fd_dir_t d;
+
+  memset (cfg, 0, sizeof (*cfg));
+
+  v = getenv ("GRUB_ENABLE_CRYPTODISK");
+  if (v && v[0] == 'y' && v[1] == '\0')
+    cfg->is_cryptodisk_enabled = 1;
+
+  v = getenv ("GRUB_DISTRIBUTOR");
+  if (v)
+    cfg->grub_distributor = xstrdup (v);
+
+  cfgfile = grub_util_get_config_filename ();
+
+  grub_util_load_one_config (cfg, cfgfile);
+
+  cfgdir = xasprintf ("%s.d", cfgfile);
+  d = grub_util_fd_opendir (cfgdir);
+  if (d)
+    {
+      grub_util_fd_dirent_t de;
+
+      while ((de = grub_util_fd_readdir (d)))
+	{
+	  const char *ext = strrchr (de->d_name, '.');
+	  char *x;
+
+	  if (!ext || strcmp (ext, ".cfg") != 0)
+	    continue;
+
+	  x = grub_util_path_concat (2, cfgdir, de->d_name);
+	  grub_util_load_one_config (cfg, x);
+	  free (x);
+	}
+      grub_util_fd_closedir (d);
+    }
 }
