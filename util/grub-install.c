@@ -1115,6 +1115,10 @@ main (int argc, char *argv[])
       */
       char *t;
       efi_distributor = bootloader_id;
+      if (strcmp (efi_distributor, "kubuntu") == 0)
+	efi_distributor = "ubuntu";
+      else if (strcmp (efi_distributor, "devuan") == 0)
+	efi_distributor = "debian";
       switch (platform)
 	{
 	case GRUB_INSTALL_PLATFORM_I386_EFI:
