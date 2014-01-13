@@ -1490,6 +1490,20 @@ This option may be set to a list of GRUB module names separated by spaces.
 Each module will be loaded as early as possible, at the start of
 @file{grub.cfg}.
 
+@item GRUB_RECORDFAIL_TIMEOUT
+If this option is set, it overrides the default recordfail setting.  A
+setting of -1 causes GRUB to wait for user input indefinitely.  However, a
+false positive in the recordfail mechanism may occur if power is lost during
+boot before boot success is recorded in userspace.  The default setting is
+30, which causes GRUB to wait for user input for thirty seconds before
+continuing.  This default allows interactive users the opportunity to switch
+to a different, working kernel, while avoiding a false positive causing the
+boot to block indefinitely on headless and appliance systems where access to
+a console is restricted or limited.
+
+This option is only effective when GRUB was configured with the
+@option{--enable-quick-boot} option.
+
 @end table
 
 The following options are still accepted for compatibility with existing
