@@ -63,7 +63,7 @@ grub_linuxefi_secure_validate (void *data, grub_uint32_t size)
   if (!shim_lock)
     {
       grub_dprintf ("linuxefi", "shim not available\n");
-      return 1;
+      return 0;
     }
 
   grub_dprintf ("linuxefi", "Asking shim to verify kernel signature\n");
