@@ -102,7 +102,7 @@ netbsd_entry ()
 
   if [ x$type != xsimple ] ; then
       if [ x$type = xrecovery ] ; then
-	  title="$(gettext_printf "%s, with kernel %s (via %s, recovery mode)" "${OS}" "$(echo ${kernel} | sed -e 's,^.*/,,')" "${loader}")"
+	  title="$(gettext_printf "%s, with kernel %s (via %s, %s)" "${OS}" "$(echo ${kernel} | sed -e 's,^.*/,,')" "${loader}" "$(gettext "${GRUB_RECOVERY_TITLE}")")"
       else
 	  title="$(gettext_printf "%s, with kernel %s (via %s)" "${OS}" "$(echo ${kernel} | sed -e 's,^.*/,,')" "${loader}")"
       fi
