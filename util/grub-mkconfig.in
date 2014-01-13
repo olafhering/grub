@@ -265,6 +265,10 @@ for i in "${grub_mkconfig_dir}"/* ; do
   esac
 done
 
+if [ "x${grub_cfg}" != "x" ] && ! grep "^password" ${grub_cfg}.new >/dev/null; then
+  chmod 444 ${grub_cfg}.new || true
+fi
+
 if test "x${grub_cfg}" != "x" ; then
   if ! ${grub_script_check} ${grub_cfg}.new; then
     # TRANSLATORS: %s is replaced by filename
