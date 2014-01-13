@@ -264,15 +264,25 @@ reclaim_module_space (void)
 void __attribute__ ((noreturn))
 grub_main (void)
 {
+#ifdef QUIET_BOOT
+  struct grub_term_output *term;
+#endif
+
   /* First of all, initialize the machine.  */
   grub_machine_init ();
 
   grub_boot_time ("After machine init.");
 
+#ifdef QUIET_BOOT
+  /* Disable the cursor until we need it.  */
+  FOR_ACTIVE_TERM_OUTPUTS(term)
+    grub_term_setcursor (term, 0);
+#else
   /* Hello.  */
   grub_setcolorstate (GRUB_TERM_COLOR_HIGHLIGHT);
   grub_printf ("Welcome to GRUB!\n\n");
   grub_setcolorstate (GRUB_TERM_COLOR_STANDARD);
+#endif
 
   grub_load_config ();
 
@@ -308,5 +318,12 @@ grub_main (void)
   grub_boot_time ("After execution of embedded config. Attempt to go to normal mode");
 
   grub_load_normal_mode ();
+
+#ifdef QUIET_BOOT
+  /* If we have to enter rescue mode, enable the cursor again.  */
+  FOR_ACTIVE_TERM_OUTPUTS(term)
+    grub_term_setcursor (term, 1);
+#endif
+
   grub_rescue_run ();
 }
