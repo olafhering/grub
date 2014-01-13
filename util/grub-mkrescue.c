@@ -653,11 +653,17 @@ main (int argc, char *argv[])
       make_image_fwdisk_abs (GRUB_INSTALL_PLATFORM_IA64_EFI, "ia64-efi", imgname);
       free (imgname);
 
+      grub_install_push_module ("part_msdos");
+      grub_install_push_module ("fat");
+
       img64 = grub_util_path_concat (2, efidir_efi_boot, "bootx64.efi");
       make_image_fwdisk_abs (GRUB_INSTALL_PLATFORM_X86_64_EFI, "x86_64-efi", img64);
 
       img32 = grub_util_path_concat (2, efidir_efi_boot, "bootia32.efi");
       make_image_fwdisk_abs (GRUB_INSTALL_PLATFORM_I386_EFI, "i386-efi", img32);
+
+      grub_install_pop_module ();
+      grub_install_pop_module ();
 
       imgname = grub_util_path_concat (2, efidir_efi_boot, "bootarm.efi");
       make_image_fwdisk_abs (GRUB_INSTALL_PLATFORM_ARM_EFI, "arm-efi", imgname);
