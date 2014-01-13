@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo "Skipping upstream maintenance check."
+exit 77
+
 cd '@srcdir@'
 
 tdir="$(mktemp -d "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX")"
