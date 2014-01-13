@@ -1,11 +1,20 @@
+From c79d05703ec41571c44a0a09df31cf220d951c09 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@debian.org>
+Date: Mon, 13 Jan 2014 12:12:50 +0000
+Subject: Hack prefix for OLPC
 
 This sucks, but it's better than what OFW was giving us.
 
-Index: b/grub-core/kern/ieee1275/init.c
-===================================================================
+Patch-Name: olpc_prefix_hack.patch
+---
+ grub-core/kern/ieee1275/init.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/grub-core/kern/ieee1275/init.c b/grub-core/kern/ieee1275/init.c
+index 89b2822..ecce450 100644
 --- a/grub-core/kern/ieee1275/init.c
 +++ b/grub-core/kern/ieee1275/init.c
-@@ -65,6 +65,7 @@
+@@ -65,6 +65,7 @@ grub_exit (void)
    grub_ieee1275_exit ();
  }
  
@@ -13,7 +22,7 @@ Index: b/grub-core/kern/ieee1275/init.c
  /* Translate an OF filesystem path (separated by backslashes), into a GRUB
     path (separated by forward slashes).  */
  static void
-@@ -79,10 +80,19 @@
+@@ -79,10 +80,19 @@ grub_translate_ieee1275_path (char *filepath)
        backslash = grub_strchr (filepath, '\\');
      }
  }
@@ -33,7 +42,7 @@ Index: b/grub-core/kern/ieee1275/init.c
  void
  grub_machine_get_bootlocation (char **device, char **path)
  {
-@@ -150,6 +160,7 @@
+@@ -150,6 +160,7 @@ grub_machine_get_bootlocation (char **device, char **path)
      }
    grub_free (bootpath);
  }

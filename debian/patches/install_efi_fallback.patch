@@ -1,14 +1,23 @@
-Description: Fall back to i386-pc if booted using EFI but -efi is missing
- It may be possible, particularly in recovery situations, to be booted using
- EFI on x86 when only the i386-pc target is installed.  There's nothing
- actually stopping us installing i386-pc from an EFI environment, and it's
- better than returning a confusing error.
-Author: Colin Watson <cjwatson@ubuntu.com>
+From 91a9b4154512764807b99551f16982f6018a13d5 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Mon, 13 Jan 2014 12:13:05 +0000
+Subject: Fall back to i386-pc if booted using EFI but -efi is missing
+
+It may be possible, particularly in recovery situations, to be booted
+using EFI on x86 when only the i386-pc target is installed.  There's
+nothing actually stopping us installing i386-pc from an EFI environment,
+and it's better than returning a confusing error.
+
 Forwarded: no
 Last-Update: 2013-12-20
 
-Index: b/grub-core/osdep/linux/platform.c
-===================================================================
+Patch-Name: install_efi_fallback.patch
+---
+ grub-core/osdep/linux/platform.c | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
+
+diff --git a/grub-core/osdep/linux/platform.c b/grub-core/osdep/linux/platform.c
+index 4b9f6ef..175da72 100644
 --- a/grub-core/osdep/linux/platform.c
 +++ b/grub-core/osdep/linux/platform.c
 @@ -19,10 +19,12 @@
@@ -24,7 +33,7 @@ Index: b/grub-core/osdep/linux/platform.c
  #include <string.h>
  
  #include <sys/utsname.h>
-@@ -76,11 +78,24 @@
+@@ -76,11 +78,24 @@ grub_install_get_default_x86_platform (void)
    grub_util_info ("Looking for /sys/firmware/efi ..");
    if (is_not_empty_directory ("/sys/firmware/efi"))
      {

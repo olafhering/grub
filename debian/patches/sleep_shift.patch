@@ -1,16 +1,26 @@
-Description: Allow Shift to interrupt 'sleep --interruptible'
- Upstream would like to consider this at more length. See
- http://lists.gnu.org/archive/html/grub-devel/2009-08/msg00718.html, and the
- rest of the thread for context.
-Author: Colin Watson <cjwatson@ubuntu.com>
+From caf072064cdf1655852460205dd5fd47dc7d2c39 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Mon, 13 Jan 2014 12:13:23 +0000
+Subject: Allow Shift to interrupt 'sleep --interruptible'
+
+Upstream would like to consider this at more length. See
+http://lists.gnu.org/archive/html/grub-devel/2009-08/msg00718.html, and
+the rest of the thread for context.
+
 Forwarded: http://lists.gnu.org/archive/html/grub-devel/2009-08/msg00694.html
 Last-Update: 2013-12-04
 
-Index: b/grub-core/commands/sleep.c
-===================================================================
+Patch-Name: sleep_shift.patch
+---
+ grub-core/commands/sleep.c | 27 ++++++++++++++++++++++++++-
+ grub-core/normal/menu.c    | 19 +++++++++++++++++++
+ 2 files changed, 45 insertions(+), 1 deletion(-)
+
+diff --git a/grub-core/commands/sleep.c b/grub-core/commands/sleep.c
+index e77e790..3906b14 100644
 --- a/grub-core/commands/sleep.c
 +++ b/grub-core/commands/sleep.c
-@@ -46,6 +46,31 @@
+@@ -46,6 +46,31 @@ do_print (int n)
    grub_refresh ();
  }
  
@@ -42,7 +52,7 @@ Index: b/grub-core/commands/sleep.c
  /* Based on grub_millisleep() from kern/generic/millisleep.c.  */
  static int
  grub_interruptible_millisleep (grub_uint32_t ms)
-@@ -55,7 +80,7 @@
+@@ -55,7 +80,7 @@ grub_interruptible_millisleep (grub_uint32_t ms)
    start = grub_get_time_ms ();
  
    while (grub_get_time_ms () - start < ms)
@@ -51,11 +61,11 @@ Index: b/grub-core/commands/sleep.c
        return 1;
  
    return 0;
-Index: b/grub-core/normal/menu.c
-===================================================================
+diff --git a/grub-core/normal/menu.c b/grub-core/normal/menu.c
+index b47991a..2723547 100644
 --- a/grub-core/normal/menu.c
 +++ b/grub-core/normal/menu.c
-@@ -615,8 +615,27 @@
+@@ -615,8 +615,27 @@ run_menu (grub_menu_t menu, int nested, int *auto_boot)
        saved_time = grub_get_time_ms ();
        while (1)
  	{

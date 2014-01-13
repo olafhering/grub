@@ -1,10 +1,18 @@
-Description: Add more debugging to linuxefi
-Author: Colin Watson <cjwatson@ubuntu.com>
+From 1d8c1f8c6d61c57c07d8d6d4d9efb12a76c29fac Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Mon, 13 Jan 2014 12:13:18 +0000
+Subject: Add more debugging to linuxefi
+
 Forwarded: no
 Last-Update: 2013-01-29
 
-Index: b/grub-core/loader/i386/efi/linux.c
-===================================================================
+Patch-Name: linuxefi_debug.patch
+---
+ grub-core/loader/i386/efi/linux.c | 28 +++++++++++++++++++++++++---
+ 1 file changed, 25 insertions(+), 3 deletions(-)
+
+diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c
+index b79e632..a124c5e 100644
 --- a/grub-core/loader/i386/efi/linux.c
 +++ b/grub-core/loader/i386/efi/linux.c
 @@ -19,6 +19,7 @@
@@ -15,7 +23,7 @@ Index: b/grub-core/loader/i386/efi/linux.c
  #include <grub/types.h>
  #include <grub/mm.h>
  #include <grub/cpu/linux.h>
-@@ -54,15 +55,27 @@
+@@ -54,15 +55,27 @@ grub_linuxefi_secure_validate (void *data, grub_uint32_t size)
  {
    grub_efi_guid_t guid = SHIM_LOCK_GUID;
    grub_efi_shim_lock_t *shim_lock;
@@ -46,7 +54,7 @@ Index: b/grub-core/loader/i386/efi/linux.c
    return 0;
  }
  
-@@ -147,6 +160,8 @@
+@@ -147,6 +160,8 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
        goto fail;
      }
  
@@ -55,7 +63,7 @@ Index: b/grub-core/loader/i386/efi/linux.c
    params->ramdisk_size = size;
    params->ramdisk_image = (grub_uint32_t)(grub_uint64_t) initrd_mem;
  
-@@ -236,6 +251,8 @@
+@@ -236,6 +251,8 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
        goto fail;
      }
  
@@ -64,7 +72,7 @@ Index: b/grub-core/loader/i386/efi/linux.c
    memset (params, 0, 16384);
  
    if (grub_file_read (file, &lh, sizeof (lh)) != sizeof (lh))
-@@ -279,6 +296,9 @@
+@@ -279,6 +296,9 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
        goto fail;
      }
  
@@ -74,7 +82,7 @@ Index: b/grub-core/loader/i386/efi/linux.c
    grub_memcpy (linux_cmdline, LINUX_IMAGE, sizeof (LINUX_IMAGE));
    grub_create_loader_cmdline (argc, argv,
                                linux_cmdline + sizeof (LINUX_IMAGE) - 1,
-@@ -304,6 +324,8 @@
+@@ -304,6 +324,8 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
        goto fail;
      }
  

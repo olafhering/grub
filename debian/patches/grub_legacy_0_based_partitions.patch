@@ -1,14 +1,22 @@
-Description: Support running grub-probe in grub-legacy's update-grub
-Author: Robert Millan <rmh@aybabtu.com>
+From 4adb3bb965773724b1c9107bdb475b265778faf2 Mon Sep 17 00:00:00 2001
+From: Robert Millan <rmh@aybabtu.com>
+Date: Mon, 13 Jan 2014 12:12:53 +0000
+Subject: Support running grub-probe in grub-legacy's update-grub
+
 Author: Colin Watson <cjwatson@debian.org>
 Forwarded: not-needed
 Last-Update: 2013-12-25
 
-Index: b/util/getroot.c
-===================================================================
+Patch-Name: grub_legacy_0_based_partitions.patch
+---
+ util/getroot.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/util/getroot.c b/util/getroot.c
+index 3958105..704855c 100644
 --- a/util/getroot.c
 +++ b/util/getroot.c
-@@ -244,6 +244,20 @@
+@@ -244,6 +244,20 @@ find_partition (grub_disk_t dsk __attribute__ ((unused)),
  
    if (ctx->start == part_start)
      {

@@ -1,34 +1,51 @@
-Description: Add configure option to reduce visual clutter at boot time
- If this option is enabled, then do all of the following:
- .
- Don't display introductory message about line editing unless we're actually
- offering a shell prompt.  (This is believed to be a workaround for a
- different bug.  We'll go with this for now, but will drop this in favour of
- a better fix upstream if somebody figures out what that is.)
- .
- Don't clear the screen just before booting if we never drew the menu in the
- first place.
- .
- Remove verbose messages printed before reading configuration.  In some ways
- this is awkward because it makes debugging harder, but it's a requirement
- for a smooth-looking boot process; we may be able to do better in future.
- Upstream doesn't want this, though.
- .
- Disable the cursor as well, for similar reasons of tidiness.
- .
- Suppress kernel/initrd progress messages, except in recovery mode.
- .
- Suppress "GRUB loading" message unless Shift is held down.  Upstream
- doesn't want this, as it makes debugging harder.  Ubuntu wants it to
- provide a cleaner boot experience.
-Author: Colin Watson <cjwatson@ubuntu.com>
+From 8b16668498f2eab351256e176606915d0f1d317c Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Mon, 13 Jan 2014 12:13:26 +0000
+Subject: Add configure option to reduce visual clutter at boot time
+
+If this option is enabled, then do all of the following:
+
+Don't display introductory message about line editing unless we're
+actually offering a shell prompt.  (This is believed to be a workaround
+for a different bug.  We'll go with this for now, but will drop this in
+favour of a better fix upstream if somebody figures out what that is.)
+
+Don't clear the screen just before booting if we never drew the menu in
+the first place.
+
+Remove verbose messages printed before reading configuration.  In some
+ways this is awkward because it makes debugging harder, but it's a
+requirement for a smooth-looking boot process; we may be able to do
+better in future.  Upstream doesn't want this, though.
+
+Disable the cursor as well, for similar reasons of tidiness.
+
+Suppress kernel/initrd progress messages, except in recovery mode.
+
+Suppress "GRUB loading" message unless Shift is held down.  Upstream
+doesn't want this, as it makes debugging harder.  Ubuntu wants it to
+provide a cleaner boot experience.
+
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/386922
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/861048
 Forwarded: (partial) http://lists.gnu.org/archive/html/grub-devel/2009-09/msg00056.html
 Last-Update: 2013-12-25
 
-Index: b/config.h.in
-===================================================================
+Patch-Name: maybe_quiet.patch
+---
+ config.h.in                       |  2 ++
+ configure.ac                      | 16 ++++++++++++++++
+ grub-core/boot/i386/pc/boot.S     | 11 +++++++++++
+ grub-core/boot/i386/pc/diskboot.S | 26 ++++++++++++++++++++++++++
+ grub-core/kern/main.c             | 17 +++++++++++++++++
+ grub-core/kern/rescue_reader.c    |  2 ++
+ grub-core/normal/main.c           | 11 +++++++++++
+ grub-core/normal/menu.c           | 17 +++++++++++++++--
+ util/grub.d/10_linux.in           | 15 +++++++++++----
+ 9 files changed, 111 insertions(+), 6 deletions(-)
+
+diff --git a/config.h.in b/config.h.in
+index 4b63014..247cf11 100644
 --- a/config.h.in
 +++ b/config.h.in
 @@ -11,6 +11,8 @@
@@ -40,11 +57,11 @@ Index: b/config.h.in
  
  #if defined (GRUB_BUILD)
  #undef ENABLE_NLS
-Index: b/configure.ac
-===================================================================
+diff --git a/configure.ac b/configure.ac
+index fb4e2dd..7c8d0af 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1583,6 +1583,17 @@
+@@ -1583,6 +1583,17 @@ else
  fi
  AC_SUBST([UBUNTU_RECOVERY])
  
@@ -62,7 +79,7 @@ Index: b/configure.ac
  LIBS=""
  
  AC_SUBST([FONT_SOURCE])
-@@ -1837,5 +1848,10 @@
+@@ -1837,5 +1848,10 @@ echo "Without liblzma (no support for XZ-compressed mips images) ($liblzma_excus
  else
  echo "With liblzma from $LIBLZMA (support for XZ-compressed mips images)"
  fi
@@ -73,8 +90,8 @@ Index: b/configure.ac
 +fi
  echo "*******************************************************"
  ]
-Index: b/grub-core/boot/i386/pc/boot.S
-===================================================================
+diff --git a/grub-core/boot/i386/pc/boot.S b/grub-core/boot/i386/pc/boot.S
+index b4975e2..1fc8f08 100644
 --- a/grub-core/boot/i386/pc/boot.S
 +++ b/grub-core/boot/i386/pc/boot.S
 @@ -19,6 +19,9 @@
@@ -87,7 +104,7 @@ Index: b/grub-core/boot/i386/pc/boot.S
  
  /*
   *  defines for the code go here
-@@ -249,9 +252,17 @@
+@@ -249,9 +252,17 @@ real_start:
  	/* save drive reference first thing! */
  	pushw	%dx
  
@@ -105,8 +122,8 @@ Index: b/grub-core/boot/i386/pc/boot.S
  	/* set %si to the disk address packet */
  	movw	$disk_address_packet, %si
  
-Index: b/grub-core/boot/i386/pc/diskboot.S
-===================================================================
+diff --git a/grub-core/boot/i386/pc/diskboot.S b/grub-core/boot/i386/pc/diskboot.S
+index d030a14..7d0741a 100644
 --- a/grub-core/boot/i386/pc/diskboot.S
 +++ b/grub-core/boot/i386/pc/diskboot.S
 @@ -18,6 +18,9 @@
@@ -132,7 +149,7 @@ Index: b/grub-core/boot/i386/pc/diskboot.S
  	.file	"diskboot.S"
  
  	.text
-@@ -50,11 +59,14 @@
+@@ -50,11 +59,14 @@ _start:
  	/* save drive reference first thing! */
  	pushw	%dx
  
@@ -147,7 +164,7 @@ Index: b/grub-core/boot/i386/pc/diskboot.S
  	/* this sets up for the first run through "bootloop" */
  	movw	$LOCAL(firstlist), %di
  
-@@ -279,7 +291,10 @@
+@@ -279,7 +291,10 @@ LOCAL(copy_buffer):
  	/* restore addressing regs and print a dot with correct DS
  	   (MSG modifies SI, which is saved, and unused AX and BX) */
  	popw	%ds
@@ -158,7 +175,7 @@ Index: b/grub-core/boot/i386/pc/diskboot.S
  	popa
  
  	/* check if finished with this dataset */
-@@ -295,8 +310,11 @@
+@@ -295,8 +310,11 @@ LOCAL(copy_buffer):
  /* END OF MAIN LOOP */
  
  LOCAL(bootit):
@@ -170,7 +187,7 @@ Index: b/grub-core/boot/i386/pc/diskboot.S
  	popw	%dx	/* this makes sure %dl is our "boot" drive */
  	ljmp	$0, $(GRUB_BOOT_MACHINE_KERNEL_ADDR + 0x200)
  
-@@ -320,6 +338,14 @@
+@@ -320,6 +338,14 @@ LOCAL(general_error):
  /* go here when you need to stop the machine hard after an error condition */
  LOCAL(stop):	jmp	LOCAL(stop)
  
@@ -185,11 +202,11 @@ Index: b/grub-core/boot/i386/pc/diskboot.S
  notification_string:	.asciz "loading"
  
  notification_step:	.asciz "."
-Index: b/grub-core/kern/main.c
-===================================================================
+diff --git a/grub-core/kern/main.c b/grub-core/kern/main.c
+index 9cad0c4..5613cd5 100644
 --- a/grub-core/kern/main.c
 +++ b/grub-core/kern/main.c
-@@ -264,15 +264,25 @@
+@@ -264,15 +264,25 @@ reclaim_module_space (void)
  void __attribute__ ((noreturn))
  grub_main (void)
  {
@@ -215,7 +232,7 @@ Index: b/grub-core/kern/main.c
  
    grub_load_config ();
  
-@@ -308,5 +318,12 @@
+@@ -308,5 +318,12 @@ grub_main (void)
    grub_boot_time ("After execution of embedded config. Attempt to go to normal mode");
  
    grub_load_normal_mode ();
@@ -228,11 +245,11 @@ Index: b/grub-core/kern/main.c
 +
    grub_rescue_run ();
  }
-Index: b/grub-core/kern/rescue_reader.c
-===================================================================
+diff --git a/grub-core/kern/rescue_reader.c b/grub-core/kern/rescue_reader.c
+index dcd7d44..03826cf 100644
 --- a/grub-core/kern/rescue_reader.c
 +++ b/grub-core/kern/rescue_reader.c
-@@ -78,7 +78,9 @@
+@@ -78,7 +78,9 @@ grub_rescue_read_line (char **line, int cont,
  void __attribute__ ((noreturn))
  grub_rescue_run (void)
  {
@@ -242,11 +259,11 @@ Index: b/grub-core/kern/rescue_reader.c
  
    while (1)
      {
-Index: b/grub-core/normal/main.c
-===================================================================
+diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
+index c36663f..99622cb 100644
 --- a/grub-core/normal/main.c
 +++ b/grub-core/normal/main.c
-@@ -381,6 +381,15 @@
+@@ -381,6 +381,15 @@ static grub_err_t
  grub_normal_read_line_real (char **line, int cont, int nested)
  {
    const char *prompt;
@@ -262,7 +279,7 @@ Index: b/grub-core/normal/main.c
  
    if (cont)
      /* TRANSLATORS: it's command line prompt.  */
-@@ -429,7 +438,9 @@
+@@ -429,7 +438,9 @@ grub_cmdline_run (int nested)
        return;
      }
  
@@ -272,11 +289,11 @@ Index: b/grub-core/normal/main.c
  
    while (1)
      {
-Index: b/grub-core/normal/menu.c
-===================================================================
+diff --git a/grub-core/normal/menu.c b/grub-core/normal/menu.c
+index 2723547..7b55c27 100644
 --- a/grub-core/normal/menu.c
 +++ b/grub-core/normal/menu.c
-@@ -826,12 +826,18 @@
+@@ -826,12 +826,18 @@ run_menu (grub_menu_t menu, int nested, int *auto_boot)
  
  /* Callback invoked immediately before a menu entry is executed.  */
  static void
@@ -296,7 +313,7 @@ Index: b/grub-core/normal/menu.c
  }
  
  /* Callback invoked when a default menu entry executed because of a timeout
-@@ -879,6 +885,9 @@
+@@ -879,6 +885,9 @@ show_menu (grub_menu_t menu, int nested, int autobooted)
        int boot_entry;
        grub_menu_entry_t e;
        int auto_boot;
@@ -306,7 +323,7 @@ Index: b/grub-core/normal/menu.c
  
        boot_entry = run_menu (menu, nested, &auto_boot);
        if (boot_entry < 0)
-@@ -888,7 +897,11 @@
+@@ -888,7 +897,11 @@ show_menu (grub_menu_t menu, int nested, int autobooted)
        if (! e)
  	continue; /* Menu is empty.  */
  
@@ -319,11 +336,11 @@ Index: b/grub-core/normal/menu.c
  
        if (auto_boot)
  	grub_menu_execute_with_fallback (menu, e, autobooted,
-Index: b/util/grub.d/10_linux.in
-===================================================================
+diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
+index 1b55116..0616c6d 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -21,6 +21,7 @@
+@@ -21,6 +21,7 @@ prefix="@prefix@"
  exec_prefix="@exec_prefix@"
  datarootdir="@datarootdir@"
  ubuntu_recovery="@UBUNTU_RECOVERY@"
@@ -331,7 +348,7 @@ Index: b/util/grub.d/10_linux.in
  
  . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
  
-@@ -146,10 +147,12 @@
+@@ -146,10 +147,12 @@ linux_entry ()
      fi
      printf '%s\n' "${prepare_boot_cache}" | sed "s/^/$submenu_indentation/"
    fi
@@ -346,7 +363,7 @@ Index: b/util/grub.d/10_linux.in
    if test -d /sys/firmware/efi && test -e "${linux}.efi.signed"; then
      sed "s/^/$submenu_indentation/" << EOF
  	linux	${rel_dirname}/${basename}.efi.signed root=${linux_root_device_thisversion} ro ${args}
-@@ -161,9 +164,13 @@
+@@ -161,9 +164,13 @@ EOF
    fi
    if test -n "${initrd}" ; then
      # TRANSLATORS: ramdisk isn't identifier. Should be translated.

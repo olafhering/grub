@@ -1,13 +1,23 @@
-Description: Output a menu entry for firmware setup on UEFI FastBoot systems
-Author: Steve Langasek <steve.langasek@ubuntu.com>
+From ac4cf9625bc5fd2b2844b50bf9be91d1b1c07e97 Mon Sep 17 00:00:00 2001
+From: Steve Langasek <steve.langasek@ubuntu.com>
+Date: Mon, 13 Jan 2014 12:13:12 +0000
+Subject: Output a menu entry for firmware setup on UEFI FastBoot systems
+
 Forwarded: no
 Last-Update: 2013-12-25
 
-Index: b/Makefile.util.def
-===================================================================
+Patch-Name: uefi_firmware_setup.patch
+---
+ Makefile.util.def               |  6 ++++++
+ util/grub.d/30_uefi-firmware.in | 46 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 52 insertions(+)
+ create mode 100644 util/grub.d/30_uefi-firmware.in
+
+diff --git a/Makefile.util.def b/Makefile.util.def
+index f659fb4..e1f6089 100644
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
-@@ -508,6 +508,12 @@
+@@ -508,6 +508,12 @@ script = {
  };
  
  script = {
@@ -20,8 +30,9 @@ Index: b/Makefile.util.def
    name = '40_custom';
    common = util/grub.d/40_custom.in;
    installdir = grubconf;
-Index: b/util/grub.d/30_uefi-firmware.in
-===================================================================
+diff --git a/util/grub.d/30_uefi-firmware.in b/util/grub.d/30_uefi-firmware.in
+new file mode 100644
+index 0000000..0f49bfc
 --- /dev/null
 +++ b/util/grub.d/30_uefi-firmware.in
 @@ -0,0 +1,46 @@

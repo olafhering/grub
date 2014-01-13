@@ -1,15 +1,26 @@
-Description: Install signed images if UEFI Secure Boot is enabled
-Author: Colin Watson <cjwatson@ubuntu.com>
+From 22fe34b1f198ec9ec5debe12bafa263a223b3484 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Mon, 13 Jan 2014 12:13:22 +0000
+Subject: Install signed images if UEFI Secure Boot is enabled
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
 Author: Stéphane Graber <stgraber@ubuntu.com>
 Author: Steve Langasek <steve.langasek@ubuntu.com>
 Forwarded: no
 Last-Update: 2013-12-25
 
-Index: b/util/grub-install.c
-===================================================================
+Patch-Name: install_signed.patch
+---
+ util/grub-install.c | 165 +++++++++++++++++++++++++++++++++++++---------------
+ 1 file changed, 119 insertions(+), 46 deletions(-)
+
+diff --git a/util/grub-install.c b/util/grub-install.c
+index 3275209..6a956d4 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
-@@ -80,6 +80,7 @@
+@@ -80,6 +80,7 @@ static char *label_color;
  static char *label_bgcolor;
  static char *product_version;
  static int add_rs_codes = 1;
@@ -17,7 +28,7 @@ Index: b/util/grub-install.c
  
  enum
    {
-@@ -111,7 +112,9 @@
+@@ -111,7 +112,9 @@ enum
      OPTION_LABEL_FONT,
      OPTION_LABEL_COLOR,
      OPTION_LABEL_BGCOLOR,
@@ -28,7 +39,7 @@ Index: b/util/grub-install.c
    };
  
  static int fs_probe = 1;
-@@ -235,6 +238,14 @@
+@@ -235,6 +238,14 @@ argp_parser (int key, char *arg, struct argp_state *state)
        bootloader_id = xstrdup (arg);
        return 0;
  
@@ -43,7 +54,7 @@ Index: b/util/grub-install.c
      case ARGP_KEY_ARG:
        if (install_device)
  	grub_util_error ("%s", _("More than one install device?"));
-@@ -304,6 +315,14 @@
+@@ -304,6 +315,14 @@ static struct argp_option options[] = {
    {"label-color", OPTION_LABEL_COLOR, N_("COLOR"), 0, N_("use COLOR for label"), 2},
    {"label-bgcolor", OPTION_LABEL_BGCOLOR, N_("COLOR"), 0, N_("use COLOR for label background"), 2},
    {"product-version", OPTION_PRODUCT_VERSION, N_("STRING"), 0, N_("use STRING as product version"), 2},
@@ -58,7 +69,7 @@ Index: b/util/grub-install.c
    {0, 0, 0, 0, 0, 0}
  };
  
-@@ -809,7 +828,8 @@
+@@ -809,7 +828,8 @@ main (int argc, char *argv[])
  {
    int is_efi = 0;
    const char *efi_distributor = NULL;
@@ -68,7 +79,7 @@ Index: b/util/grub-install.c
    char **grub_devices;
    grub_fs_t grub_fs;
    grub_device_t grub_dev = NULL;
-@@ -1069,6 +1089,31 @@
+@@ -1069,6 +1089,31 @@ main (int argc, char *argv[])
        */
        char *t;
        efi_distributor = bootloader_id;
@@ -100,7 +111,7 @@ Index: b/util/grub-install.c
        if (removable)
  	{
  	  /* The specification makes stricter requirements of removable
-@@ -1077,54 +1122,16 @@
+@@ -1077,54 +1122,16 @@ main (int argc, char *argv[])
  	     must have a specific file name depending on the architecture.
  	  */
  	  efi_distributor = "BOOT";
@@ -159,7 +170,7 @@ Index: b/util/grub-install.c
  	}
        t = grub_util_path_concat (3, efidir, "EFI", efi_distributor);
        free (efidir);
-@@ -1329,6 +1336,31 @@
+@@ -1329,6 +1336,31 @@ main (int argc, char *argv[])
  	}
      }
  
@@ -191,7 +202,7 @@ Index: b/util/grub-install.c
    if (!have_abstractions)
      {
        if ((disk_module && grub_strcmp (disk_module, "biosdisk") != 0)
-@@ -1336,7 +1368,8 @@
+@@ -1336,7 +1368,8 @@ main (int argc, char *argv[])
  	  || (!install_drive
  	      && platform != GRUB_INSTALL_PLATFORM_POWERPC_IEEE1275)
  	  || (install_drive && !is_same_disk (grub_drives[0], install_drive))
@@ -201,7 +212,7 @@ Index: b/util/grub-install.c
  	{
  	  char *uuid = NULL;
  	  /*  generic method (used on coreboot and ata mod).  */
-@@ -1857,7 +1890,47 @@
+@@ -1857,7 +1890,47 @@ main (int argc, char *argv[])
      case GRUB_INSTALL_PLATFORM_IA64_EFI:
        {
  	char *dst = grub_util_path_concat (2, efidir, efi_file);

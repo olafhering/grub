@@ -1,3 +1,9 @@
+grub2 (2.02~beta2-2) UNRELEASED; urgency=medium
+
+  * Convert patch handling to git-dpm.
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 13 Jan 2014 12:33:18 +0000
+
 grub2 (2.02~beta2-1) experimental; urgency=low
 
   * New upstream beta release.

@@ -1,14 +1,23 @@
-Description: If running under UEFI secure boot, attempt to use linuxefi loader
-Author: Colin Watson <cjwatson@ubuntu.com>
+From 7c85179ab910d591162329365753de2cdcbbb782 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Mon, 13 Jan 2014 12:13:20 +0000
+Subject: If running under UEFI secure boot, attempt to use linuxefi loader
+
 Author: Steve Langasek <steve.langasek@canonical.com>
 Forwarded: no
 Last-Update: 2013-12-20
 
-Index: b/grub-core/loader/i386/efi/linux.c
-===================================================================
+Patch-Name: linuxefi_non_sb_fallback.patch
+---
+ grub-core/loader/i386/efi/linux.c |  2 +-
+ grub-core/loader/i386/linux.c     | 43 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+
+diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c
+index 26a958c..eb4ba96 100644
 --- a/grub-core/loader/i386/efi/linux.c
 +++ b/grub-core/loader/i386/efi/linux.c
-@@ -234,7 +234,7 @@
+@@ -234,7 +234,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
  
    if (! grub_linuxefi_secure_validate (kernel, filelen))
      {
@@ -17,11 +26,11 @@ Index: b/grub-core/loader/i386/efi/linux.c
        grub_free (kernel);
        goto fail;
      }
-Index: b/grub-core/loader/i386/linux.c
-===================================================================
+diff --git a/grub-core/loader/i386/linux.c b/grub-core/loader/i386/linux.c
+index 31fb91e..2380642 100644
 --- a/grub-core/loader/i386/linux.c
 +++ b/grub-core/loader/i386/linux.c
-@@ -76,6 +76,8 @@
+@@ -76,6 +76,8 @@ static grub_size_t maximal_cmdline_size;
  static struct linux_kernel_params linux_params;
  static char *linux_cmdline;
  #ifdef GRUB_MACHINE_EFI
@@ -30,7 +39,7 @@ Index: b/grub-core/loader/i386/linux.c
  static grub_efi_uintn_t efi_mmap_size;
  #else
  static const grub_size_t efi_mmap_size = 0;
-@@ -690,6 +692,41 @@
+@@ -690,6 +692,41 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
  
    grub_dl_ref (my_mod);
  
@@ -72,7 +81,7 @@ Index: b/grub-core/loader/i386/linux.c
    if (argc == 0)
      {
        grub_error (GRUB_ERR_BAD_ARGUMENT, N_("filename expected"));
-@@ -1052,6 +1089,12 @@
+@@ -1052,6 +1089,12 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
    grub_err_t err;
    struct grub_linux_initrd_context initrd_ctx;
  

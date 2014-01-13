@@ -1,18 +1,32 @@
-Description: "single" -> "recovery" when friendly-recovery is installed
- If configured with --enable-ubuntu-recovery, also set nomodeset for
- recovery mode, and disable 'set gfxpayload=keep' even if the system
- normally supports it.  See
- https://launchpad.net/ubuntu/+spec/desktop-o-xorg-tools-and-processes.
-Author: Colin Watson <cjwatson@ubuntu.com>
+From d6cdc3a51bbb3e603972bcc60813e42c2fb09ec1 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Mon, 13 Jan 2014 12:13:06 +0000
+Subject: "single" -> "recovery" when friendly-recovery is installed
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+If configured with --enable-ubuntu-recovery, also set nomodeset for
+recovery mode, and disable 'set gfxpayload=keep' even if the system
+normally supports it.  See
+https://launchpad.net/ubuntu/+spec/desktop-o-xorg-tools-and-processes.
+
 Author: Stéphane Graber <stgraber@ubuntu.com>
 Forwarded: no
 Last-Update: 2013-12-25
 
-Index: b/configure.ac
-===================================================================
+Patch-Name: mkconfig_ubuntu_recovery.patch
+---
+ configure.ac                | 11 +++++++++++
+ util/grub.d/10_linux.in     | 16 ++++++++++++++--
+ util/grub.d/30_os-prober.in |  2 +-
+ 3 files changed, 26 insertions(+), 3 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 7c5d080..fb4e2dd 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1572,6 +1572,17 @@
+@@ -1572,6 +1572,17 @@ fi
  AC_SUBST([LIBZFS])
  AC_SUBST([LIBNVPAIR])
  
@@ -30,11 +44,11 @@ Index: b/configure.ac
  LIBS=""
  
  AC_SUBST([FONT_SOURCE])
-Index: b/util/grub.d/10_linux.in
-===================================================================
+diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
+index c83f1ed..5f5c1c9 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -20,6 +20,7 @@
+@@ -20,6 +20,7 @@ set -e
  prefix="@prefix@"
  exec_prefix="@exec_prefix@"
  datarootdir="@datarootdir@"
@@ -42,7 +56,7 @@ Index: b/util/grub.d/10_linux.in
  
  . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
  
-@@ -72,6 +73,15 @@
+@@ -72,6 +73,15 @@ esac
  
  title_correction_code=
  
@@ -58,7 +72,7 @@ Index: b/util/grub.d/10_linux.in
  linux_entry ()
  {
    os="$1"
-@@ -111,7 +121,9 @@
+@@ -111,7 +121,9 @@ linux_entry ()
        if [ "x$GRUB_GFXPAYLOAD_LINUX" != xtext ]; then
  	  echo "	load_video" | sed "s/^/$submenu_indentation/"
        fi
@@ -69,7 +83,7 @@ Index: b/util/grub.d/10_linux.in
    fi
  
    echo "	insmod gzio" | sed "s/^/$submenu_indentation/"
-@@ -239,7 +251,7 @@
+@@ -239,7 +251,7 @@ while [ "x$list" != "x" ] ; do
                "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
    if [ "x${GRUB_DISABLE_RECOVERY}" != "xtrue" ]; then
      linux_entry "${OS}" "${version}" recovery \
@@ -78,11 +92,11 @@ Index: b/util/grub.d/10_linux.in
    fi
  
    list=`echo $list | tr ' ' '\n' | grep -vx $linux | tr '\n' ' '`
-Index: b/util/grub.d/30_os-prober.in
-===================================================================
+diff --git a/util/grub.d/30_os-prober.in b/util/grub.d/30_os-prober.in
+index 0470e66..dd639dd 100644
 --- a/util/grub.d/30_os-prober.in
 +++ b/util/grub.d/30_os-prober.in
-@@ -213,7 +213,7 @@
+@@ -213,7 +213,7 @@ EOF
  	fi
  
  	onstr="$(gettext_printf "(on %s)" "${DEVICE}")"

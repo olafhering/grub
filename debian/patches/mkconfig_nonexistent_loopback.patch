@@ -1,14 +1,23 @@
-Description: Avoid getting confused by inaccessible loop device backing paths
-Author: Colin Watson <cjwatson@ubuntu.com>
+From 80f90f89017838a78a3a9a317dbb9ce85e857916 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Mon, 13 Jan 2014 12:13:08 +0000
+Subject: Avoid getting confused by inaccessible loop device backing paths
+
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/938724
 Forwarded: no
 Last-Update: 2013-12-20
 
-Index: b/util/grub-mkconfig_lib.in
-===================================================================
+Patch-Name: mkconfig_nonexistent_loopback.patch
+---
+ util/grub-mkconfig_lib.in   | 2 +-
+ util/grub.d/30_os-prober.in | 9 +++++----
+ 2 files changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/util/grub-mkconfig_lib.in b/util/grub-mkconfig_lib.in
+index 6da2c2d..5992506 100644
 --- a/util/grub-mkconfig_lib.in
 +++ b/util/grub-mkconfig_lib.in
-@@ -143,7 +143,7 @@
+@@ -143,7 +143,7 @@ prepare_grub_to_access_device ()
          *)
            loop_device="$1"
            shift
@@ -17,11 +26,11 @@ Index: b/util/grub-mkconfig_lib.in
          ;;
        esac
      ;;
-Index: b/util/grub.d/30_os-prober.in
-===================================================================
+diff --git a/util/grub.d/30_os-prober.in b/util/grub.d/30_os-prober.in
+index dd639dd..f8ac363 100644
 --- a/util/grub.d/30_os-prober.in
 +++ b/util/grub.d/30_os-prober.in
-@@ -212,6 +212,11 @@
+@@ -212,6 +212,11 @@ EOF
  	  LINITRD="${LINITRD#/boot}"
  	fi
  
@@ -33,7 +42,7 @@ Index: b/util/grub.d/30_os-prober.in
  	onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
  	recovery_params="$(echo "${LPARAMS}" | grep 'single\|recovery')" || true
  	counter=1
-@@ -223,10 +228,6 @@
+@@ -223,10 +228,6 @@ EOF
  	fi
  	used_osprober_linux_ids="$used_osprober_linux_ids 'osprober-gnulinux-$LKERNEL-${recovery_params}-$counter-$boot_device_id'"
  

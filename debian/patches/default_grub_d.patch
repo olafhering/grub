@@ -1,14 +1,23 @@
-Description: Read /etc/default/grub.d/*.cfg after /etc/default/grub
-Author: Colin Watson <cjwatson@ubuntu.com>
+From 3dc748f76f42a241ba938d0ec562ffe7a444cbec Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Mon, 13 Jan 2014 12:13:10 +0000
+Subject: Read /etc/default/grub.d/*.cfg after /etc/default/grub
+
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/901600
 Forwarded: no
 Last-Update: 2013-12-25
 
-Index: b/grub-core/osdep/unix/config.c
-===================================================================
+Patch-Name: default_grub_d.patch
+---
+ grub-core/osdep/unix/config.c | 62 ++++++++++++++++++++++++++++++++-----------
+ util/grub-mkconfig.in         |  5 ++++
+ 2 files changed, 52 insertions(+), 15 deletions(-)
+
+diff --git a/grub-core/osdep/unix/config.c b/grub-core/osdep/unix/config.c
+index f4b0bb4..c966477 100644
 --- a/grub-core/osdep/unix/config.c
 +++ b/grub-core/osdep/unix/config.c
-@@ -61,28 +61,16 @@
+@@ -61,28 +61,16 @@ grub_util_get_localedir (void)
    return LOCALEDIR;
  }
  
@@ -40,7 +49,7 @@ Index: b/grub-core/osdep/unix/config.c
    if (!grub_util_is_regular (cfgfile))
      return;
  
-@@ -137,3 +125,47 @@
+@@ -137,3 +125,47 @@ grub_util_load_config (struct grub_util_config *cfg)
      grub_util_warn (_("cannot open configuration file `%s': %s"),
  		    cfgfile, strerror (errno));
  }
@@ -88,11 +97,11 @@ Index: b/grub-core/osdep/unix/config.c
 +      grub_util_fd_closedir (d);
 +    }
 +}
-Index: b/util/grub-mkconfig.in
-===================================================================
+diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
+index 81a9afd..62780bf 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -154,6 +154,11 @@
+@@ -154,6 +154,11 @@ fi
  if test -f ${sysconfdir}/default/grub ; then
    . ${sysconfdir}/default/grub
  fi

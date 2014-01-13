@@ -1,16 +1,25 @@
-Description: Remove GNU/Linux from default distributor string for Ubuntu
- Ubuntu is called "Ubuntu", not "Ubuntu GNU/Linux".
-Author: Mario Limonciello <Mario_Limonciello@dell.com>
+From ce913612522ff217a6db853bf477189a28454641 Mon Sep 17 00:00:00 2001
+From: Mario Limonciello <Mario_Limonciello@dell.com>
+Date: Mon, 13 Jan 2014 12:13:14 +0000
+Subject: Remove GNU/Linux from default distributor string for Ubuntu
+
+Ubuntu is called "Ubuntu", not "Ubuntu GNU/Linux".
+
 Author: Colin Watson <cjwatson@debian.org>
 Author: Harald Sitter <apachelogger@kubuntu.org>
 Forwarded: not-needed
 Last-Update: 2013-12-25
 
-Index: b/util/grub.d/10_linux.in
-===================================================================
+Patch-Name: mkconfig_ubuntu_distributor.patch
+---
+ util/grub.d/10_linux.in | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
+index 5f5c1c9..d343263 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -32,7 +32,14 @@
+@@ -32,7 +32,14 @@ CLASS="--class gnu-linux --class gnu --class os"
  if [ "x${GRUB_DISTRIBUTOR}" = "x" ] ; then
    OS=GNU/Linux
  else

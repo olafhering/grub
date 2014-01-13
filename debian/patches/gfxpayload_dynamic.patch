@@ -1,17 +1,30 @@
-Description: Add configure option to enable gfxpayload=keep dynamically
- Set GRUB_GFXPAYLOAD_LINUX=keep unless it's known to be unsupported on the
- current hardware.  See
- https://blueprints.launchpad.net/ubuntu/+spec/packageselection-foundations-n-grub2-boot-framebuffer.
-Author: Evan Broder <evan@ebroder.net>
+From c110b724359141e6e77e5a52291224b48e23d0f1 Mon Sep 17 00:00:00 2001
+From: Evan Broder <evan@ebroder.net>
+Date: Mon, 13 Jan 2014 12:13:29 +0000
+Subject: Add configure option to enable gfxpayload=keep dynamically
+
+Set GRUB_GFXPAYLOAD_LINUX=keep unless it's known to be unsupported on
+the current hardware.  See
+https://blueprints.launchpad.net/ubuntu/+spec/packageselection-foundations-n-grub2-boot-framebuffer.
+
 Author: Colin Watson <cjwatson@ubuntu.com>
 Forwarded: no
 Last-Update: 2013-12-25
 
-Index: b/configure.ac
-===================================================================
+Patch-Name: gfxpayload_dynamic.patch
+---
+ configure.ac                         |  11 +++
+ grub-core/Makefile.core.def          |   9 +++
+ grub-core/commands/i386/pc/hwmatch.c | 146 +++++++++++++++++++++++++++++++++++
+ util/grub.d/10_linux.in              |  37 ++++++++-
+ 4 files changed, 200 insertions(+), 3 deletions(-)
+ create mode 100644 grub-core/commands/i386/pc/hwmatch.c
+
+diff --git a/configure.ac b/configure.ac
+index 2a7e410..7f26de6 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1605,6 +1605,17 @@
+@@ -1605,6 +1605,17 @@ else
  fi
  AC_SUBST([QUICK_BOOT])
  
@@ -29,11 +42,11 @@ Index: b/configure.ac
  LIBS=""
  
  AC_SUBST([FONT_SOURCE])
-Index: b/grub-core/Makefile.core.def
-===================================================================
+diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
+index 8fed2fb..27988ad 100644
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -897,6 +897,15 @@
+@@ -897,6 +897,15 @@ module = {
  };
  
  module = {
@@ -49,8 +62,9 @@ Index: b/grub-core/Makefile.core.def
    name = keystatus;
    common = commands/keystatus.c;
  };
-Index: b/grub-core/commands/i386/pc/hwmatch.c
-===================================================================
+diff --git a/grub-core/commands/i386/pc/hwmatch.c b/grub-core/commands/i386/pc/hwmatch.c
+new file mode 100644
+index 0000000..c9f7c9f
 --- /dev/null
 +++ b/grub-core/commands/i386/pc/hwmatch.c
 @@ -0,0 +1,146 @@
@@ -200,11 +214,11 @@ Index: b/grub-core/commands/i386/pc/hwmatch.c
 +{
 +  grub_unregister_command (cmd);
 +}
-Index: b/util/grub.d/10_linux.in
-===================================================================
+diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
+index aa2c369..41f83ca 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -23,6 +23,7 @@
+@@ -23,6 +23,7 @@ datarootdir="@datarootdir@"
  ubuntu_recovery="@UBUNTU_RECOVERY@"
  quiet_boot="@QUIET_BOOT@"
  quick_boot="@QUICK_BOOT@"
@@ -212,7 +226,7 @@ Index: b/util/grub.d/10_linux.in
  
  . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
  
-@@ -133,9 +134,10 @@
+@@ -133,9 +134,10 @@ linux_entry ()
        if [ "x$GRUB_GFXPAYLOAD_LINUX" != xtext ]; then
  	  echo "	load_video" | sed "s/^/$submenu_indentation/"
        fi
@@ -226,7 +240,7 @@ Index: b/util/grub.d/10_linux.in
    fi
  
    echo "	insmod gzio" | sed "s/^/$submenu_indentation/"
-@@ -208,6 +210,35 @@
+@@ -208,6 +210,35 @@ prepare_root_cache=
  boot_device_id=
  title_correction_code=
  

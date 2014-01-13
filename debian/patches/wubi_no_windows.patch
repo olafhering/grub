@@ -1,18 +1,28 @@
-Description: Skip Windows os-prober entries on Wubi systems
- Since we're already being booted from the Windows boot loader, including
- entries that take us back to it mostly just causes confusion, and stops us
- from being able to hide the menu if there are no other OSes installed.
- .
- https://blueprints.launchpad.net/ubuntu/+spec/foundations-o-wubi
-Author: Colin Watson <cjwatson@ubuntu.com>
+From 532c1a0733f0e1743db4716b54c026fff60887e9 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Mon, 13 Jan 2014 12:13:24 +0000
+Subject: Skip Windows os-prober entries on Wubi systems
+
+Since we're already being booted from the Windows boot loader, including
+entries that take us back to it mostly just causes confusion, and stops
+us from being able to hide the menu if there are no other OSes
+installed.
+
+https://blueprints.launchpad.net/ubuntu/+spec/foundations-o-wubi
+
 Forwarded: not-needed
 Last-Update: 2013-11-26
 
-Index: b/util/grub.d/30_os-prober.in
-===================================================================
+Patch-Name: wubi_no_windows.patch
+---
+ util/grub.d/30_os-prober.in | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/util/grub.d/30_os-prober.in b/util/grub.d/30_os-prober.in
+index f8ac363..1c44cf2 100644
 --- a/util/grub.d/30_os-prober.in
 +++ b/util/grub.d/30_os-prober.in
-@@ -107,6 +107,8 @@
+@@ -107,6 +107,8 @@ EOF
  
  used_osprober_linux_ids=
  
@@ -21,7 +31,7 @@ Index: b/util/grub.d/30_os-prober.in
  for OS in ${OSPROBED} ; do
    DEVICE="`echo ${OS} | cut -d ':' -f 1`"
    LONGNAME="`echo ${OS} | cut -d ':' -f 2 | tr '^' ' '`"
-@@ -139,6 +141,23 @@
+@@ -139,6 +141,23 @@ for OS in ${OSPROBED} ; do
    case ${BOOT} in
      chain)
  

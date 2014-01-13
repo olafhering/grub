@@ -1,8 +1,18 @@
-Index: b/util/grub-mkconfig.in
-===================================================================
+From e3361108b4e3a2ea5d26b9ce7eb20973b776b17e Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@debian.org>
+Date: Mon, 13 Jan 2014 12:12:55 +0000
+Subject: Make grub.cfg world-readable if it contains no passwords
+
+Patch-Name: grub.cfg_400.patch
+---
+ util/grub-mkconfig.in | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
+index ca040dd..0d7cabb 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -262,6 +262,10 @@
+@@ -262,6 +262,10 @@ for i in "${grub_mkconfig_dir}"/* ; do
    esac
  done
  

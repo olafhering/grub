@@ -1,15 +1,23 @@
-Description: Build part_msdos and vfat into EFI boot images
-Author: Mario Limonciello <Mario_Limonciello@dell.com>
+From 901f9c3dfb7bd2954b6351e3b086e07d14f2d66c Mon Sep 17 00:00:00 2001
+From: Mario Limonciello <Mario_Limonciello@dell.com>
+Date: Mon, 13 Jan 2014 12:12:59 +0000
+Subject: Build part_msdos and vfat into EFI boot images
+
 Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/677758
 Forwarded: http://lists.gnu.org/archive/html/grub-devel/2011-01/msg00028.html
 Last-Update: 2013-12-25
 
-Index: b/util/grub-mkrescue.c
-===================================================================
+Patch-Name: mkrescue_efi_modules.patch
+---
+ util/grub-mkrescue.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/util/grub-mkrescue.c b/util/grub-mkrescue.c
+index 317879d..cf698ff 100644
 --- a/util/grub-mkrescue.c
 +++ b/util/grub-mkrescue.c
-@@ -653,12 +653,18 @@
+@@ -653,12 +653,18 @@ main (int argc, char *argv[])
        make_image_fwdisk_abs (GRUB_INSTALL_PLATFORM_IA64_EFI, "ia64-efi", imgname);
        free (imgname);
  

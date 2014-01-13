@@ -1,14 +1,27 @@
-Description: Add "linuxefi" loader which avoids ExitBootServices
-Author: Matthew Garrett <mjg@redhat.com>
+From 5af955d9fd40e3ca23bcfb660533cbf0c7a37902 Mon Sep 17 00:00:00 2001
+From: Matthew Garrett <mjg@redhat.com>
+Date: Mon, 13 Jan 2014 12:13:15 +0000
+Subject: Add "linuxefi" loader which avoids ExitBootServices
+
 Origin: vendor, http://pkgs.fedoraproject.org/cgit/grub2.git/tree/grub2-linuxefi.patch
 Forwarded: no
 Last-Update: 2013-12-25
 
-Index: b/grub-core/Makefile.core.def
-===================================================================
+Patch-Name: linuxefi.patch
+---
+ grub-core/Makefile.core.def       |   8 +
+ grub-core/kern/efi/mm.c           |  32 ++++
+ grub-core/loader/i386/efi/linux.c | 371 ++++++++++++++++++++++++++++++++++++++
+ include/grub/efi/efi.h            |   3 +
+ include/grub/i386/linux.h         |   1 +
+ 5 files changed, 415 insertions(+)
+ create mode 100644 grub-core/loader/i386/efi/linux.c
+
+diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
+index c916246..8c246c6 100644
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -1706,6 +1706,14 @@
+@@ -1706,6 +1706,14 @@ module = {
  };
  
  module = {
@@ -23,11 +36,11 @@ Index: b/grub-core/Makefile.core.def
    name = chain;
    efi = loader/efi/chainloader.c;
    i386_pc = loader/i386/pc/chainloader.c;
-Index: b/grub-core/kern/efi/mm.c
-===================================================================
+diff --git a/grub-core/kern/efi/mm.c b/grub-core/kern/efi/mm.c
+index be37afd..ddeca60 100644
 --- a/grub-core/kern/efi/mm.c
 +++ b/grub-core/kern/efi/mm.c
-@@ -49,6 +49,38 @@
+@@ -49,6 +49,38 @@ static grub_efi_uintn_t finish_desc_size;
  static grub_efi_uint32_t finish_desc_version;
  int grub_efi_is_finished = 0;
  
@@ -66,8 +79,9 @@ Index: b/grub-core/kern/efi/mm.c
  /* Allocate pages. Return the pointer to the first of allocated pages.  */
  void *
  grub_efi_allocate_pages (grub_efi_physical_address_t address,
-Index: b/grub-core/loader/i386/efi/linux.c
-===================================================================
+diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c
+new file mode 100644
+index 0000000..b79e632
 --- /dev/null
 +++ b/grub-core/loader/i386/efi/linux.c
 @@ -0,0 +1,371 @@
@@ -442,11 +456,11 @@ Index: b/grub-core/loader/i386/efi/linux.c
 +  grub_unregister_command (cmd_linux);
 +  grub_unregister_command (cmd_initrd);
 +}
-Index: b/include/grub/efi/efi.h
-===================================================================
+diff --git a/include/grub/efi/efi.h b/include/grub/efi/efi.h
+index db2169e..a000c38 100644
 --- a/include/grub/efi/efi.h
 +++ b/include/grub/efi/efi.h
-@@ -40,6 +40,9 @@
+@@ -40,6 +40,9 @@ void EXPORT_FUNC(grub_efi_stall) (grub_efi_uintn_t microseconds);
  void *
  EXPORT_FUNC(grub_efi_allocate_pages) (grub_efi_physical_address_t address,
  				      grub_efi_uintn_t pages);
@@ -456,11 +470,11 @@ Index: b/include/grub/efi/efi.h
  void EXPORT_FUNC(grub_efi_free_pages) (grub_efi_physical_address_t address,
  				       grub_efi_uintn_t pages);
  int
-Index: b/include/grub/i386/linux.h
-===================================================================
+diff --git a/include/grub/i386/linux.h b/include/grub/i386/linux.h
+index da0ca3b..fc36bda 100644
 --- a/include/grub/i386/linux.h
 +++ b/include/grub/i386/linux.h
-@@ -139,6 +139,7 @@
+@@ -139,6 +139,7 @@ struct linux_kernel_header
    grub_uint64_t setup_data;
    grub_uint64_t pref_address;
    grub_uint32_t init_size;

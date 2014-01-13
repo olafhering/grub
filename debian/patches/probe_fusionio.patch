@@ -1,14 +1,23 @@
-Description: Probe FusionIO devices
-Author: Colin Watson <cjwatson@ubuntu.com>
+From 699635c5231fe00bb05e388f705f3215ca6a0bc6 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Mon, 13 Jan 2014 12:13:31 +0000
+Subject: Probe FusionIO devices
+
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/1237519
 Forwarded: no
 Last-Update: 2013-11-15
 
-Index: b/grub-core/osdep/linux/getroot.c
-===================================================================
+Patch-Name: probe_fusionio.patch
+---
+ grub-core/osdep/linux/getroot.c | 13 +++++++++++++
+ util/deviceiter.c               | 19 +++++++++++++++++++
+ 2 files changed, 32 insertions(+)
+
+diff --git a/grub-core/osdep/linux/getroot.c b/grub-core/osdep/linux/getroot.c
+index 772de0a..6788e39 100644
 --- a/grub-core/osdep/linux/getroot.c
 +++ b/grub-core/osdep/linux/getroot.c
-@@ -883,6 +883,19 @@
+@@ -883,6 +883,19 @@ grub_util_part_to_disk (const char *os_dev, struct stat *st,
  	  *pp = '\0';
  	  return path;
  	}
@@ -28,11 +37,11 @@ Index: b/grub-core/osdep/linux/getroot.c
      }
  
    return path;
-Index: b/util/deviceiter.c
-===================================================================
+diff --git a/util/deviceiter.c b/util/deviceiter.c
+index bd7b993..e160fa0 100644
 --- a/util/deviceiter.c
 +++ b/util/deviceiter.c
-@@ -365,6 +365,12 @@
+@@ -365,6 +365,12 @@ get_xvd_disk_name (char *name, int unit)
  {
    sprintf (name, "/dev/xvd%c", unit + 'a');
  }
@@ -45,14 +54,10 @@ Index: b/util/deviceiter.c
  #endif
  
  static struct seen_device
-@@ -852,6 +858,19 @@
-       if (check_device_readable_unique (name))
- 	{
- 	  if (hook (name, 0, hook_data))
-+	    goto out;
-+	}
-+    }
-+
+@@ -856,6 +862,19 @@ grub_util_iterate_devices (int (*hook) (const char *, int, void *), void *hook_d
+ 	}
+     }
+ 
 +  /* FusionIO.  */
 +  for (i = 0; i < 26; i++)
 +    {
@@ -62,6 +67,10 @@ Index: b/util/deviceiter.c
 +      if (check_device_readable_unique (name))
 +	{
 +	  if (hook (name, 0, hook_data))
- 	    goto out;
- 	}
-     }
++	    goto out;
++	}
++    }
++
+ # ifdef HAVE_DEVICE_MAPPER
+ #  define dmraid_check(cond, ...) \
+   if (! (cond)) \

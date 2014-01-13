@@ -1,13 +1,21 @@
-Description: Improve handling of Debian kernel version numbers
-Author: Robert Millan <rmh@aybabtu.com>
+From f16cf1523e8bd1caa9d80ec62c23275ede3223b8 Mon Sep 17 00:00:00 2001
+From: Robert Millan <rmh@aybabtu.com>
+Date: Mon, 13 Jan 2014 12:12:52 +0000
+Subject: Improve handling of Debian kernel version numbers
+
 Forwarded: not-needed
 Last-Update: 2013-12-20
 
-Index: b/util/grub-mkconfig_lib.in
-===================================================================
+Patch-Name: dpkg_version_comparison.patch
+---
+ util/grub-mkconfig_lib.in | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/util/grub-mkconfig_lib.in b/util/grub-mkconfig_lib.in
+index 14fadbc..4f6c4fe 100644
 --- a/util/grub-mkconfig_lib.in
 +++ b/util/grub-mkconfig_lib.in
-@@ -238,8 +238,9 @@
+@@ -238,8 +238,9 @@ version_test_numeric ()
  
  version_test_gt ()
  {
@@ -19,7 +27,7 @@ Index: b/util/grub-mkconfig_lib.in
    version_test_gt_cmp=gt
    if [ "x$version_test_gt_b" = "x" ] ; then
      return 0
-@@ -249,7 +250,7 @@
+@@ -249,7 +250,7 @@ version_test_gt ()
      *.old:*) version_test_gt_a="`echo -n "$version_test_gt_a" | sed -e 's/\.old$//'`" ; version_test_gt_cmp=gt ;;
      *:*.old) version_test_gt_b="`echo -n "$version_test_gt_b" | sed -e 's/\.old$//'`" ; version_test_gt_cmp=ge ;;
    esac

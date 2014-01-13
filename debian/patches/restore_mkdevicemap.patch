@@ -1,8 +1,33 @@
-Index: b/Makefile.util.def
-===================================================================
+From 1af4fced4fac046536267b24f4b6d9d6bdfec3d5 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@debian.org>
+Date: Mon, 13 Jan 2014 12:13:01 +0000
+Subject: Restore grub-mkdevicemap
+
+This is kind of a mess, requiring lots of OS-specific code to iterate
+over all possible devices.  However, we use it in a number of scripts to
+discover devices and reimplementing those in terms of something else
+would be very complicated.
+
+Patch-Name: restore_mkdevicemap.patch
+---
+ Makefile.util.def              |  17 +
+ docs/man/grub-mkdevicemap.h2m  |   4 +
+ include/grub/util/deviceiter.h |  14 +
+ util/deviceiter.c              | 954 +++++++++++++++++++++++++++++++++++++++++
+ util/devicemap.c               |  13 +
+ util/grub-mkdevicemap.c        | 181 ++++++++
+ 6 files changed, 1183 insertions(+)
+ create mode 100644 docs/man/grub-mkdevicemap.h2m
+ create mode 100644 include/grub/util/deviceiter.h
+ create mode 100644 util/deviceiter.c
+ create mode 100644 util/devicemap.c
+ create mode 100644 util/grub-mkdevicemap.c
+
+diff --git a/Makefile.util.def b/Makefile.util.def
+index 985e76c..f659fb4 100644
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
-@@ -313,6 +313,23 @@
+@@ -313,6 +313,23 @@ program = {
  };
  
  program = {
@@ -26,8 +51,9 @@ Index: b/Makefile.util.def
    name = grub-probe;
    installdir = sbin;
    mansection = 8;
-Index: b/docs/man/grub-mkdevicemap.h2m
-===================================================================
+diff --git a/docs/man/grub-mkdevicemap.h2m b/docs/man/grub-mkdevicemap.h2m
+new file mode 100644
+index 0000000..96cd6ee
 --- /dev/null
 +++ b/docs/man/grub-mkdevicemap.h2m
 @@ -0,0 +1,4 @@
@@ -35,8 +61,9 @@ Index: b/docs/man/grub-mkdevicemap.h2m
 +grub-mkdevicemap \- make a device map file automatically
 +[SEE ALSO]
 +.BR grub-probe (8)
-Index: b/include/grub/util/deviceiter.h
-===================================================================
+diff --git a/include/grub/util/deviceiter.h b/include/grub/util/deviceiter.h
+new file mode 100644
+index 0000000..8537497
 --- /dev/null
 +++ b/include/grub/util/deviceiter.h
 @@ -0,0 +1,14 @@
@@ -54,8 +81,9 @@ Index: b/include/grub/util/deviceiter.h
 +				     int *num_fd, int *num_hd);
 +
 +#endif /* ! GRUB_DEVICEITER_MACHINE_UTIL_HEADER */
-Index: b/util/deviceiter.c
-===================================================================
+diff --git a/util/deviceiter.c b/util/deviceiter.c
+new file mode 100644
+index 0000000..bd7b993
 --- /dev/null
 +++ b/util/deviceiter.c
 @@ -0,0 +1,954 @@
@@ -1013,8 +1041,9 @@ Index: b/util/deviceiter.c
 +out:
 +  clear_seen_devices ();
 +}
-Index: b/util/devicemap.c
-===================================================================
+diff --git a/util/devicemap.c b/util/devicemap.c
+new file mode 100644
+index 0000000..c618644
 --- /dev/null
 +++ b/util/devicemap.c
 @@ -0,0 +1,13 @@
@@ -1031,8 +1060,9 @@ Index: b/util/devicemap.c
 +    else
 +      fprintf (fp, "(hd%d)\t%s\n", (*num_hd)++, name);
 +}
-Index: b/util/grub-mkdevicemap.c
-===================================================================
+diff --git a/util/grub-mkdevicemap.c b/util/grub-mkdevicemap.c
+new file mode 100644
+index 0000000..c4bbdbf
 --- /dev/null
 +++ b/util/grub-mkdevicemap.c
 @@ -0,0 +1,181 @@

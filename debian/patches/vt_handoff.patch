@@ -1,16 +1,27 @@
-Description: Add configure option to use vt.handoff=7
- This is used for non-recovery Linux entries only; it enables flicker-free
- booting if gfxpayload=keep is in use and a suitable kernel is present.
-Author: Colin Watson <cjwatson@ubuntu.com>
+From 34c3bfeef85c91bdd7dc9bf7406889272d06a732 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Mon, 13 Jan 2014 12:13:30 +0000
+Subject: Add configure option to use vt.handoff=7
+
+This is used for non-recovery Linux entries only; it enables
+flicker-free booting if gfxpayload=keep is in use and a suitable kernel
+is present.
+
 Author: Andy Whitcroft <apw@canonical.com>
 Forwarded: not-needed
 Last-Update: 2013-12-25
 
-Index: b/configure.ac
-===================================================================
+Patch-Name: vt_handoff.patch
+---
+ configure.ac            | 11 +++++++++++
+ util/grub.d/10_linux.in | 28 +++++++++++++++++++++++++++-
+ 2 files changed, 38 insertions(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 7f26de6..735313d 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1616,6 +1616,17 @@
+@@ -1616,6 +1616,17 @@ else
  fi
  AC_SUBST([GFXPAYLOAD_DYNAMIC])
  
@@ -28,11 +39,11 @@ Index: b/configure.ac
  LIBS=""
  
  AC_SUBST([FONT_SOURCE])
-Index: b/util/grub.d/10_linux.in
-===================================================================
+diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
+index 41f83ca..8d95887 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -24,6 +24,7 @@
+@@ -24,6 +24,7 @@ ubuntu_recovery="@UBUNTU_RECOVERY@"
  quiet_boot="@QUIET_BOOT@"
  quick_boot="@QUICK_BOOT@"
  gfxpayload_dynamic="@GFXPAYLOAD_DYNAMIC@"
@@ -40,7 +51,7 @@ Index: b/util/grub.d/10_linux.in
  
  . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
  
-@@ -92,6 +93,14 @@
+@@ -92,6 +93,14 @@ if [ "$ubuntu_recovery" = 1 ]; then
      GRUB_CMDLINE_LINUX_RECOVERY="$GRUB_CMDLINE_LINUX_RECOVERY nomodeset"
  fi
  
@@ -55,7 +66,7 @@ Index: b/util/grub.d/10_linux.in
  linux_entry ()
  {
    os="$1"
-@@ -137,7 +146,7 @@
+@@ -137,7 +146,7 @@ linux_entry ()
    fi
    if ([ "$ubuntu_recovery" = 0 ] || [ x$type != xrecovery ]) && \
       ([ "x$GRUB_GFXPAYLOAD_LINUX" != x ] || [ "$gfxpayload_dynamic" = 1 ]); then
@@ -64,7 +75,7 @@ Index: b/util/grub.d/10_linux.in
    fi
  
    echo "	insmod gzio" | sed "s/^/$submenu_indentation/"
-@@ -210,6 +219,23 @@
+@@ -210,6 +219,23 @@ prepare_root_cache=
  boot_device_id=
  title_correction_code=
  
