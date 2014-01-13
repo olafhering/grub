@@ -20,6 +20,7 @@ set -e
 prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 datarootdir="@datarootdir@"
+ubuntu_recovery="@UBUNTU_RECOVERY@"
 
 . "$pkgdatadir/grub-mkconfig_lib"
 
@@ -74,6 +75,15 @@ esac
 
 title_correction_code=
 
+if [ -x /lib/recovery-mode/recovery-menu ]; then
+    GRUB_CMDLINE_LINUX_RECOVERY=recovery
+else
+    GRUB_CMDLINE_LINUX_RECOVERY=single
+fi
+if [ "$ubuntu_recovery" = 1 ]; then
+    GRUB_CMDLINE_LINUX_RECOVERY="$GRUB_CMDLINE_LINUX_RECOVERY nomodeset"
+fi
+
 linux_entry ()
 {
   os="$1"
@@ -113,7 +123,9 @@ linux_entry ()
       if [ "x$GRUB_GFXPAYLOAD_LINUX" != xtext ]; then
 	  echo "	load_video" | sed "s/^/$submenu_indentation/"
       fi
-      echo "	set gfxpayload=$GRUB_GFXPAYLOAD_LINUX" | sed "s/^/$submenu_indentation/"
+      if [ "$ubuntu_recovery" = 0 ] || [ x$type != xrecovery ]; then
+	  echo "	set gfxpayload=$GRUB_GFXPAYLOAD_LINUX" | sed "s/^/$submenu_indentation/"
+      fi
   fi
 
   echo "	insmod gzio" | sed "s/^/$submenu_indentation/"
@@ -243,7 +255,7 @@ while [ "x$list" != "x" ] ; do
               "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
   if [ "x${GRUB_DISABLE_RECOVERY}" != "xtrue" ]; then
     linux_entry "${OS}" "${version}" recovery \
-                "single ${GRUB_CMDLINE_LINUX}"
+                "${GRUB_CMDLINE_LINUX_RECOVERY} ${GRUB_CMDLINE_LINUX}"
   fi
 
   list=`echo $list | tr ' ' '\n' | fgrep -vx "$linux" | tr '\n' ' '`
