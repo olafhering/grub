@@ -383,6 +383,12 @@ get_nvme_disk_name (char *name, int controller, int namespace)
 {
   sprintf (name, "/dev/nvme%dn%d", controller, namespace);
 }
+
+static void
+get_fio_disk_name (char *name, int unit)
+{
+  sprintf (name, "/dev/fio%c", unit + 'a');
+}
 #endif
 
 static struct seen_device
@@ -922,6 +928,19 @@ grub_util_iterate_devices (int (*hook) (const char *, int, void *), void *hook_d
 	  }
       }
   }
+
+  /* FusionIO.  */
+  for (i = 0; i < 26; i++)
+    {
+      char name[16];
+
+      get_fio_disk_name (name, i);
+      if (check_device_readable_unique (name))
+	{
+	  if (hook (name, 0, hook_data))
+	    goto out;
+	}
+    }
 
 # ifdef HAVE_DEVICE_MAPPER
 #  define dmraid_check(cond, ...) \
