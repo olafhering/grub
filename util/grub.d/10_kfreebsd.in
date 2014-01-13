@@ -76,7 +76,7 @@ kfreebsd_entry ()
   fi
   if [ x$type != xsimple ] ; then
       if [ x$type = xrecovery ] ; then
-	  title="$(gettext_printf "%s, with kFreeBSD %s (recovery mode)" "${os}" "${version}")"
+	  title="$(gettext_printf "%s, with kFreeBSD %s (%s)" "${os}" "${version}" "$(gettext "${GRUB_RECOVERY_TITLE}")")"
       else
 	  title="$(gettext_printf "%s, with kFreeBSD %s" "${os}" "${version}")"
       fi
