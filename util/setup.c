@@ -58,6 +58,8 @@
 
 #include <errno.h>
 
+#define CORE_IMG_IN_FS		"setup_left_core_image_in_filesystem"
+
 /* On SPARC this program fills in various fields inside of the 'boot' and 'core'
  * image files.
  *
@@ -600,6 +602,8 @@ SETUP (const char *dir,
 
     grub_free (sectors);
 
+    unlink (DEFAULT_DIRECTORY "/" CORE_IMG_IN_FS);
+
     goto finish;
   }
 
@@ -641,6 +645,10 @@ unable_to_embed:
 
   /* The core image must be put on a filesystem unfortunately.  */
   grub_util_info ("will leave the core image on the filesystem");
+
+  fp = grub_util_fd_open (DEFAULT_DIRECTORY "/" CORE_IMG_IN_FS,
+			  GRUB_UTIL_FD_O_WRONLY);
+  grub_util_fd_close (fp);
 
   grub_util_biosdisk_flush (root_dev->disk);
 
