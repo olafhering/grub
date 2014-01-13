@@ -20,11 +20,25 @@ set -e
 prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 datarootdir="@datarootdir@"
+quick_boot="@QUICK_BOOT@"
 
 export TEXTDOMAIN=@PACKAGE@
 export TEXTDOMAINDIR="@localedir@"
 
 . "$pkgdatadir/grub-mkconfig_lib"
+
+found_other_os=
+
+adjust_timeout () {
+  if [ "$quick_boot" = 1 ] && [ "x${found_other_os}" != "x" ]; then
+    cat << EOF
+set timeout_style=menu
+if [ "\${timeout}" = 0 ]; then
+  set timeout=10
+fi
+EOF
+  fi
+}
 
 if [ "x${GRUB_DISABLE_OS_PROBER}" = "xtrue" ]; then
   exit 0
@@ -42,6 +56,7 @@ if [ -z "${OSPROBED}" ] ; then
 fi
 
 osx_entry() {
+    found_other_os=1
     if [ x$2 = x32 ]; then
         # TRANSLATORS: it refers to kernel architecture (32-bit)
 	bitstr="$(gettext "(32-bit)")"
@@ -165,6 +180,7 @@ for OS in ${OSPROBED} ; do
 	  ;;
       esac
 
+      found_other_os=1
 	  onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
       cat << EOF
 menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' $CLASS --class os \$menuentry_id_option 'osprober-chain-$(grub_get_device_id "${DEVICE}")' {
@@ -195,6 +211,7 @@ EOF
     ;;
     efi)
 
+	found_other_os=1
 	EFIPATH=${DEVICE#*@}
 	DEVICE=${DEVICE%@*}
 	onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
@@ -243,6 +260,7 @@ EOF
 	  [ "${prepare_boot_cache}" ] || continue
 	fi
 
+	found_other_os=1
 	onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
 	recovery_params="$(echo "${LPARAMS}" | grep 'single\|recovery')" || true
 	counter=1
@@ -311,6 +329,7 @@ EOF
       fi
     ;;
     hurd)
+      found_other_os=1
       onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
       cat << EOF
 menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' --class hurd --class gnu --class os \$menuentry_id_option 'osprober-gnuhurd-/boot/gnumach.gz-false-$(grub_get_device_id "${DEVICE}")' {
@@ -353,3 +372,5 @@ EOF
     ;;
   esac
 done
+
+adjust_timeout
