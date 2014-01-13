@@ -75,6 +75,8 @@ static grub_size_t maximal_cmdline_size;
 static struct linux_kernel_params linux_params;
 static char *linux_cmdline;
 #ifdef GRUB_MACHINE_EFI
+static int using_linuxefi;
+static grub_command_t initrdefi_cmd;
 static grub_efi_uintn_t efi_mmap_size;
 #else
 static const grub_size_t efi_mmap_size = 0;
@@ -689,6 +691,41 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
 
   grub_dl_ref (my_mod);
 
+#ifdef GRUB_MACHINE_EFI
+  using_linuxefi = 0;
+  if (grub_efi_secure_boot ())
+    {
+      /* Try linuxefi first, which will require a successful signature check
+	 and then hand over to the kernel without calling ExitBootServices.
+	 If that fails, however, fall back to calling ExitBootServices
+	 ourselves and then booting an unsigned kernel.  */
+      grub_dl_t mod;
+      grub_command_t linuxefi_cmd;
+
+      grub_dprintf ("linux", "Secure Boot enabled: trying linuxefi\n");
+
+      mod = grub_dl_load ("linuxefi");
+      if (mod)
+	{
+	  grub_dl_ref (mod);
+	  linuxefi_cmd = grub_command_find ("linuxefi");
+	  initrdefi_cmd = grub_command_find ("initrdefi");
+	  if (linuxefi_cmd && initrdefi_cmd)
+	    {
+	      (linuxefi_cmd->func) (linuxefi_cmd, argc, argv);
+	      if (grub_errno == GRUB_ERR_NONE)
+		{
+		  grub_dprintf ("linux", "Handing off to linuxefi\n");
+		  using_linuxefi = 1;
+		  return GRUB_ERR_NONE;
+		}
+	      grub_dprintf ("linux", "linuxefi failed (%d)\n", grub_errno);
+	      grub_errno = GRUB_ERR_NONE;
+	    }
+	}
+    }
+#endif
+
   if (argc == 0)
     {
       grub_error (GRUB_ERR_BAD_ARGUMENT, N_("filename expected"));
@@ -1050,6 +1087,12 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
   grub_addr_t addr;
   grub_err_t err;
   struct grub_linux_initrd_context initrd_ctx = { 0, 0, 0 };
+
+#ifdef GRUB_MACHINE_EFI
+  /* If we're using linuxefi, just forward to initrdefi.  */
+  if (using_linuxefi && initrdefi_cmd)
+    return (initrdefi_cmd->func) (initrdefi_cmd, argc, argv);
+#endif
 
   if (argc == 0)
     {
