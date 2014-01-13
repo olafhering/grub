@@ -116,7 +116,7 @@ linux_entry ()
   if [ x$type != xsimple ] ; then
       case $type in
 	  recovery)
-	      title="$(gettext_printf "%s, with Linux %s (recovery mode)" "${os}" "${version}")" ;;
+	      title="$(gettext_printf "%s, with Linux %s (%s)" "${os}" "${version}" "$(gettext "${GRUB_RECOVERY_TITLE}")")" ;;
 	  *)
 	      title="$(gettext_printf "%s, with Linux %s" "${os}" "${version}")" ;;
       esac
