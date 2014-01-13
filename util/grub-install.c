@@ -42,6 +42,7 @@
 #include <grub/emu/config.h>
 #include <grub/util/ofpath.h>
 #include <grub/hfsplus.h>
+#include <grub/emu/hostfile.h>
 
 #include <string.h>
 
@@ -1675,6 +1676,19 @@ main (int argc, char *argv[])
 	  grub_util_bios_setup (platdir, "boot.img", "core.img",
 				install_drive, force,
 				fs_probe, allow_floppy, add_rs_codes);
+
+	/* If vestiges of GRUB Legacy still exist, tell the Debian packaging
+	   that they can ignore them.  */
+	if (!rootdir && grub_util_is_regular ("/boot/grub/stage2") &&
+	    grub_util_is_regular ("/boot/grub/menu.lst"))
+	  {
+	    grub_util_fd_t fd;
+
+	    fd = grub_util_fd_open ("/boot/grub/grub2-installed",
+				    GRUB_UTIL_FD_O_WRONLY);
+	    grub_util_fd_close (fd);
+	  }
+
 	break;
       }
     case GRUB_INSTALL_PLATFORM_SPARC64_IEEE1275:
