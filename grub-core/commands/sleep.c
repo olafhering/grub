@@ -46,6 +46,31 @@ do_print (int n)
   grub_refresh ();
 }
 
+static int
+grub_check_keyboard (void)
+{
+  int mods = 0;
+  grub_term_input_t term;
+
+  if (grub_term_poll_usb)
+    grub_term_poll_usb (0);
+
+  FOR_ACTIVE_TERM_INPUTS(term)
+  {
+    if (term->getkeystatus)
+      mods |= term->getkeystatus (term);
+  }
+
+  if (mods >= 0 &&
+      (mods & (GRUB_TERM_STATUS_LSHIFT | GRUB_TERM_STATUS_RSHIFT)) != 0)
+    return 1;
+
+  if (grub_getkey_noblock () == GRUB_TERM_ESC)
+    return 1;
+
+  return 0;
+}
+
 /* Based on grub_millisleep() from kern/generic/millisleep.c.  */
 static int
 grub_interruptible_millisleep (grub_uint32_t ms)
@@ -55,7 +80,7 @@ grub_interruptible_millisleep (grub_uint32_t ms)
   start = grub_get_time_ms ();
 
   while (grub_get_time_ms () - start < ms)
-    if (grub_getkey_noblock () == GRUB_TERM_ESC)
+    if (grub_check_keyboard ())
       return 1;
 
   return 0;
