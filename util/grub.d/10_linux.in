@@ -151,8 +151,16 @@ linux_entry ()
   message="$(gettext_printf "Loading Linux %s ..." ${version})"
   sed "s/^/$submenu_indentation/" << EOF
 	echo	'$(echo "$message" | grub_quote)'
+EOF
+  if test -d /sys/firmware/efi && test -e "${linux}.efi.signed"; then
+    sed "s/^/$submenu_indentation/" << EOF
+	linux	${rel_dirname}/${basename}.efi.signed root=${linux_root_device_thisversion} ro ${args}
+EOF
+  else
+    sed "s/^/$submenu_indentation/" << EOF
 	linux	${rel_dirname}/${basename} root=${linux_root_device_thisversion} ro ${args}
 EOF
+  fi
   if test -n "${initrd}" ; then
     # TRANSLATORS: ramdisk isn't identifier. Should be translated.
     message="$(gettext_printf "Loading initial ramdisk ...")"
@@ -200,6 +208,13 @@ submenu_indentation=""
 is_top_level=true
 while [ "x$list" != "x" ] ; do
   linux=`version_find_latest $list`
+  case $linux in
+    *.efi.signed)
+      # We handle these in linux_entry.
+      list=`echo $list | tr ' ' '\n' | grep -vx $linux | tr '\n' ' '`
+      continue
+      ;;
+  esac
   gettext_printf "Found linux image: %s\n" "$linux" >&2
   basename=`basename $linux`
   dirname=`dirname $linux`
