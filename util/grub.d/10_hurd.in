@@ -88,8 +88,8 @@ hurd_entry () {
 
   if [ x$type != xsimple ] ; then
       if [ x$type = xrecovery ] ; then
-	  title="$(gettext_printf "%s, with Hurd %s (recovery mode)" "${OS}" "${kernel_base}")"
-	  oldtitle="$OS using $kernel_base (recovery mode)"
+	  title="$(gettext_printf "%s, with Hurd %s (%s)" "${OS}" "${kernel_base}" "$(gettext "${GRUB_RECOVERY_TITLE}")")"
+	  oldtitle="$OS using $kernel_base ($GRUB_RECOVERY_TITLE)"
       else
 	  title="$(gettext_printf "%s, with Hurd %s" "${OS}" "${kernel_base}")"
 	  oldtitle="$OS using $kernel_base"
