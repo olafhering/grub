@@ -604,6 +604,30 @@ run_menu (grub_menu_t menu, int nested, int *auto_boot)
       static struct grub_term_coordinate *pos;
       int entry = -1;
 
+      if (timeout == 0)
+	{
+	  /* If modifier key statuses can't be detected without a delay,
+	     then a hidden timeout of zero cannot be interrupted in any way,
+	     which is not very helpful.  Bump it to three seconds in this
+	     case to give the user a fighting chance.  */
+	  grub_term_input_t term;
+	  int nterms = 0;
+	  int mods_detectable = 1;
+
+	  FOR_ACTIVE_TERM_INPUTS(term)
+	  {
+	    if (!term->getkeystatus)
+	      {
+		mods_detectable = 0;
+		break;
+	      }
+	    else
+	      nterms++;
+	  }
+	  if (!mods_detectable || !nterms)
+	    timeout = 3;
+	}
+
       if (timeout_style == TIMEOUT_STYLE_COUNTDOWN && timeout)
 	{
 	  pos = grub_term_save_pos ();
