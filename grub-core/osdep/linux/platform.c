@@ -19,10 +19,12 @@
 #include <config.h>
 
 #include <grub/util/install.h>
+#include <grub/emu/config.h>
 #include <grub/emu/exec.h>
 #include <grub/emu/misc.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include <sys/utsname.h>
@@ -113,11 +115,24 @@ grub_install_get_default_x86_platform (void)
   grub_util_info ("Looking for /sys/firmware/efi ..");
   if (is_not_empty_directory ("/sys/firmware/efi"))
     {
+      const char *pkglibdir = grub_util_get_pkglibdir ();
+      const char *platform;
+      char *pd;
+      int found;
+
       grub_util_info ("...found");
       if (read_platform_size() == 64)
-	return "x86_64-efi";
+	platform = "x86_64-efi";
       else
-	return "i386-efi";
+	platform = "i386-efi";
+
+      pd = grub_util_path_concat (2, pkglibdir, platform);
+      found = grub_util_is_directory (pd);
+      free (pd);
+      if (found)
+	return platform;
+      else
+	grub_util_info ("... but %s platform not available", platform);
     }
 
   grub_util_info ("... not found. Looking for /proc/device-tree ..");
