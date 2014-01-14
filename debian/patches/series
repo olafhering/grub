@@ -38,3 +38,4 @@ probe_fusionio.patch
 ignore_grub_func_test_failures.patch
 mkconfig_recovery_title.patch
 skip_gettext_strings_test.patch
+elf_bi_endian.patch
