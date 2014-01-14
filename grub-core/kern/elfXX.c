@@ -154,3 +154,46 @@ grub_elfXX_load (grub_elf_t elf, const char *filename,
 
   return grub_errno;
 }
+
+void
+grub_elfXX_byteswap_header (grub_elf_t elf)
+{
+  ElfXX_Ehdr *e = &(elf->ehdr.ehdrXX);
+  ElfXX_Phdr *phdr;
+
+  e->e_type = byte_swap_halfXX (e->e_type);
+  e->e_machine = byte_swap_halfXX (e->e_machine);
+  e->e_version = byte_swap_wordXX (e->e_version);
+  e->e_entry = byte_swap_addrXX (e->e_entry);
+  e->e_phoff = byte_swap_offXX (e->e_phoff);
+  e->e_shoff = byte_swap_offXX (e->e_shoff);
+  e->e_flags = byte_swap_wordXX (e->e_flags);
+  e->e_ehsize = byte_swap_halfXX (e->e_ehsize);
+  e->e_phentsize = byte_swap_halfXX (e->e_phentsize);
+  e->e_phnum = byte_swap_halfXX (e->e_phnum);
+  e->e_shentsize = byte_swap_halfXX (e->e_shentsize);
+  e->e_shnum = byte_swap_halfXX (e->e_shnum);
+  e->e_shstrndx = byte_swap_halfXX (e->e_shstrndx);
+
+  FOR_ELFXX_PHDRS (elf,phdr)
+    {
+      phdr->p_type = byte_swap_wordXX (phdr->p_type);
+      phdr->p_flags = byte_swap_wordXX (phdr->p_flags);
+      phdr->p_offset = byte_swap_offXX (phdr->p_offset);
+      phdr->p_vaddr = byte_swap_addrXX (phdr->p_vaddr);
+      phdr->p_paddr = byte_swap_addrXX (phdr->p_paddr);
+      phdr->p_filesz = byte_swap_XwordXX (phdr->p_filesz);
+      phdr->p_memsz = byte_swap_XwordXX (phdr->p_memsz);
+      phdr->p_align = byte_swap_XwordXX (phdr->p_align);
+    }
+
+}
+
+grub_err_t
+grub_elfXX_check_version (grub_elf_t elf)
+{
+  if (elf->ehdr.ehdrXX.e_version != EV_CURRENT)
+    return grub_error (GRUB_ERR_BAD_OS, N_("invalid arch-independent ELF magic"));
+
+  return GRUB_ERR_NONE;
+}
