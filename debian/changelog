@@ -6,6 +6,8 @@ grub2 (2.02~beta2-2) UNRELEASED; urgency=medium
     to appease "gcc -Werror=missing-prototypes".
   * Cherry-pick from upstream:
     - Change grub-macbless' manual page section to 8.
+  * Install grub-glue-efi, grub-macbless, grub-render-label, and
+    grub-syslinux2cfg.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 13 Jan 2014 12:33:18 +0000
 
