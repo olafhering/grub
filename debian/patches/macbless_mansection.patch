@@ -1,0 +1,23 @@
+From 2ba595d73052ba1a1afde17ba1698a9a10c278f6 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Wed, 8 Jan 2014 11:05:20 +0000
+Subject: * Makefile.util.def (grub-macbless): Change mansection to 8.
+
+Patch-Name: macbless_mansection.patch
+---
+ Makefile.util.def | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile.util.def b/Makefile.util.def
+index e1f6089..691372d 100644
+--- a/Makefile.util.def
++++ b/Makefile.util.def
+@@ -422,7 +422,7 @@ program = {
+ program = {
+   name = grub-macbless;
+   installdir = sbin;
+-  mansection = 1;
++  mansection = 8;
+   common = util/grub-macbless.c;
+   common = grub-core/osdep/init.c;
+   common = grub-core/kern/emu/argp_common.c;
