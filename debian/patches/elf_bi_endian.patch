@@ -1,4 +1,4 @@
-From 09c23babe0abe52f264cb27a9031b86daf9735c9 Mon Sep 17 00:00:00 2001
+From 0d73a3c10051f3fd2b59e7192897c9c6b3c186d2 Mon Sep 17 00:00:00 2001
 From: Tomohiro B Berry <tbberry@us.ibm.com>
 Date: Tue, 14 Jan 2014 17:43:25 +0000
 Subject: Add bi-endian support to ELF parser
@@ -13,13 +13,13 @@ Origin: other, https://lists.gnu.org/archive/html/grub-devel/2014-01/msg00039.ht
 
 Patch-Name: elf_bi_endian.patch
 ---
- grub-core/kern/elf.c   | 52 +++++++++++++++++++++++++++++++++++++++++++++-----
- grub-core/kern/elfXX.c | 44 ++++++++++++++++++++++++++++++++++++++++++
+ grub-core/kern/elf.c   | 55 ++++++++++++++++++++++++++++++++++++++++++++++++--
+ grub-core/kern/elfXX.c | 43 +++++++++++++++++++++++++++++++++++++++
  include/grub/elf.h     |  7 +++++++
- 3 files changed, 98 insertions(+), 5 deletions(-)
+ 3 files changed, 103 insertions(+), 2 deletions(-)
 
 diff --git a/grub-core/kern/elf.c b/grub-core/kern/elf.c
-index 5f99c43..6bded89 100644
+index 5f99c43..9a3cc71 100644
 --- a/grub-core/kern/elf.c
 +++ b/grub-core/kern/elf.c
 @@ -28,20 +28,45 @@
@@ -35,22 +35,19 @@ index 5f99c43..6bded89 100644
  static grub_err_t
  grub_elf_check_header (grub_elf_t elf)
  {
--  Elf32_Ehdr *e = &elf->ehdr.ehdr32;
-+  /* e_ident is the same for both 64-bit and 32-bit so just load into a 32-bit struct for now */ 
-+  Elf32_Ehdr *e = &elf->ehdr.ehdr32; 
++  /* e_ident is the same for both 64-bit and 32-bit so just load into a 32-bit struct for now */
+   Elf32_Ehdr *e = &elf->ehdr.ehdr32;
  
-+  /* check if it is an ELF image at all */ 
++  /* check if it is an ELF image at all */
    if (e->e_ident[EI_MAG0] != ELFMAG0
        || e->e_ident[EI_MAG1] != ELFMAG1
        || e->e_ident[EI_MAG2] != ELFMAG2
        || e->e_ident[EI_MAG3] != ELFMAG3
 -      || e->e_ident[EI_VERSION] != EV_CURRENT
 -      || e->e_version != EV_CURRENT)
--    return grub_error (GRUB_ERR_BAD_OS, N_("invalid arch-independent ELF magic"));
--
 +      || e->e_ident[EI_VERSION] != EV_CURRENT)
-+    return grub_error (GRUB_ERR_BAD_OS, N_("invalid arch-independent ELF magic")); 
-+ 
+     return grub_error (GRUB_ERR_BAD_OS, N_("invalid arch-independent ELF magic"));
+ 
 +  switch (e->e_ident[EI_CLASS])
 +    {
 +      case ELFCLASS32:
@@ -69,7 +66,7 @@ index 5f99c43..6bded89 100644
 +        return grub_error (GRUB_ERR_BAD_OS, N_("unrecognized ELF class"));
 +        break;
 +    }
-+ 
++
    return GRUB_ERR_NONE;
  }
  
@@ -106,20 +103,36 @@ index 5f99c43..6bded89 100644
  
  
  /* 64-bit */
+@@ -153,6 +195,15 @@ grub_elf_open (const char *name)
+ #define grub_elf_is_elfXX grub_elf_is_elf64
+ #define grub_elfXX_load_phdrs grub_elf64_load_phdrs
+ #define ElfXX_Phdr Elf64_Phdr
++#define ElfXX_Ehdr Elf64_Ehdr
+ #define grub_uintXX_t grub_uint64_t
++/* for phdr/ehdr byte swaps */
++#define byte_swap_halfXX grub_swap_bytes16
++#define byte_swap_wordXX grub_swap_bytes32
++#define byte_swap_addrXX grub_swap_bytes64
++#define byte_swap_offXX grub_swap_bytes64
++#define byte_swap_XwordXX grub_swap_bytes64
++#define grub_elfXX_byteswap_header grub_elf64_byteswap_header
++#define grub_elfXX_check_version grub_elf64_check_version
+ 
+ #include "elfXX.c"
 diff --git a/grub-core/kern/elfXX.c b/grub-core/kern/elfXX.c
-index 1d09971..4690c0d 100644
+index 1d09971..639cda6 100644
 --- a/grub-core/kern/elfXX.c
 +++ b/grub-core/kern/elfXX.c
-@@ -154,3 +154,47 @@ grub_elfXX_load (grub_elf_t elf, const char *filename,
+@@ -154,3 +154,46 @@ grub_elfXX_load (grub_elf_t elf, const char *filename,
  
    return grub_errno;
  }
 +
-+void 
++void
 +grub_elfXX_byteswap_header (grub_elf_t elf)
 +{
 +  ElfXX_Ehdr *e = &(elf->ehdr.ehdrXX);
-+  ElfXX_Phdr *phdr; 
++  ElfXX_Phdr *phdr;
 +
 +  e->e_type = byte_swap_halfXX (e->e_type);
 +  e->e_machine = byte_swap_halfXX (e->e_machine);
@@ -128,10 +141,10 @@ index 1d09971..4690c0d 100644
 +  e->e_phoff = byte_swap_offXX (e->e_phoff);
 +  e->e_shoff = byte_swap_offXX (e->e_shoff);
 +  e->e_flags = byte_swap_wordXX (e->e_flags);
-+  e->e_ehsize = byte_swap_halfXX (e->e_ehsize); 
-+  e->e_phentsize = byte_swap_halfXX (e->e_phentsize); 
-+  e->e_phnum = byte_swap_halfXX (e->e_phnum); 
-+  e->e_shentsize = byte_swap_halfXX (e->e_shentsize); 
++  e->e_ehsize = byte_swap_halfXX (e->e_ehsize);
++  e->e_phentsize = byte_swap_halfXX (e->e_phentsize);
++  e->e_phnum = byte_swap_halfXX (e->e_phnum);
++  e->e_shentsize = byte_swap_halfXX (e->e_shentsize);
 +  e->e_shnum = byte_swap_halfXX (e->e_shnum);
 +  e->e_shstrndx = byte_swap_halfXX (e->e_shstrndx);
 +
@@ -145,7 +158,7 @@ index 1d09971..4690c0d 100644
 +      phdr->p_filesz = byte_swap_XwordXX (phdr->p_filesz);
 +      phdr->p_memsz = byte_swap_XwordXX (phdr->p_memsz);
 +      phdr->p_align = byte_swap_XwordXX (phdr->p_align);
-+    } 
++    }
 +
 +}
 +
@@ -157,16 +170,15 @@ index 1d09971..4690c0d 100644
 +
 +  return GRUB_ERR_NONE;
 +}
-+
 diff --git a/include/grub/elf.h b/include/grub/elf.h
-index caa7963..13d7ed3 100644
+index caa7963..ca6e436 100644
 --- a/include/grub/elf.h
 +++ b/include/grub/elf.h
 @@ -56,6 +56,13 @@ typedef grub_uint16_t Elf64_Section;
  typedef Elf32_Half Elf32_Versym;
  typedef Elf64_Half Elf64_Versym;
  
-+/* Define the native endianness */ 
++/* Define the native endianness */
 +
 +#ifdef GRUB_CPU_WORDS_BIGENDIAN
 +#define ELFDATA_NATIVE         ELFDATA2MSB

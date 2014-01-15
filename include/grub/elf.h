@@ -56,7 +56,7 @@ typedef grub_uint16_t Elf64_Section;
 typedef Elf32_Half Elf32_Versym;
 typedef Elf64_Half Elf64_Versym;
 
-/* Define the native endianness */ 
+/* Define the native endianness */
 
 #ifdef GRUB_CPU_WORDS_BIGENDIAN
 #define ELFDATA_NATIVE         ELFDATA2MSB

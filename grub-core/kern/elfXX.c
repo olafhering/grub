@@ -155,11 +155,11 @@ grub_elfXX_load (grub_elf_t elf, const char *filename,
   return grub_errno;
 }
 
-void 
+void
 grub_elfXX_byteswap_header (grub_elf_t elf)
 {
   ElfXX_Ehdr *e = &(elf->ehdr.ehdrXX);
-  ElfXX_Phdr *phdr; 
+  ElfXX_Phdr *phdr;
 
   e->e_type = byte_swap_halfXX (e->e_type);
   e->e_machine = byte_swap_halfXX (e->e_machine);
@@ -168,10 +168,10 @@ grub_elfXX_byteswap_header (grub_elf_t elf)
   e->e_phoff = byte_swap_offXX (e->e_phoff);
   e->e_shoff = byte_swap_offXX (e->e_shoff);
   e->e_flags = byte_swap_wordXX (e->e_flags);
-  e->e_ehsize = byte_swap_halfXX (e->e_ehsize); 
-  e->e_phentsize = byte_swap_halfXX (e->e_phentsize); 
-  e->e_phnum = byte_swap_halfXX (e->e_phnum); 
-  e->e_shentsize = byte_swap_halfXX (e->e_shentsize); 
+  e->e_ehsize = byte_swap_halfXX (e->e_ehsize);
+  e->e_phentsize = byte_swap_halfXX (e->e_phentsize);
+  e->e_phnum = byte_swap_halfXX (e->e_phnum);
+  e->e_shentsize = byte_swap_halfXX (e->e_shentsize);
   e->e_shnum = byte_swap_halfXX (e->e_shnum);
   e->e_shstrndx = byte_swap_halfXX (e->e_shstrndx);
 
@@ -185,7 +185,7 @@ grub_elfXX_byteswap_header (grub_elf_t elf)
       phdr->p_filesz = byte_swap_XwordXX (phdr->p_filesz);
       phdr->p_memsz = byte_swap_XwordXX (phdr->p_memsz);
       phdr->p_align = byte_swap_XwordXX (phdr->p_align);
-    } 
+    }
 
 }
 
@@ -197,4 +197,3 @@ grub_elfXX_check_version (grub_elf_t elf)
 
   return GRUB_ERR_NONE;
 }
-

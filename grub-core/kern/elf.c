@@ -37,17 +37,17 @@ grub_err_t grub_elf64_check_version (grub_elf_t elf);
 static grub_err_t
 grub_elf_check_header (grub_elf_t elf)
 {
-  /* e_ident is the same for both 64-bit and 32-bit so just load into a 32-bit struct for now */ 
-  Elf32_Ehdr *e = &elf->ehdr.ehdr32; 
+  /* e_ident is the same for both 64-bit and 32-bit so just load into a 32-bit struct for now */
+  Elf32_Ehdr *e = &elf->ehdr.ehdr32;
 
-  /* check if it is an ELF image at all */ 
+  /* check if it is an ELF image at all */
   if (e->e_ident[EI_MAG0] != ELFMAG0
       || e->e_ident[EI_MAG1] != ELFMAG1
       || e->e_ident[EI_MAG2] != ELFMAG2
       || e->e_ident[EI_MAG3] != ELFMAG3
       || e->e_ident[EI_VERSION] != EV_CURRENT)
-    return grub_error (GRUB_ERR_BAD_OS, N_("invalid arch-independent ELF magic")); 
- 
+    return grub_error (GRUB_ERR_BAD_OS, N_("invalid arch-independent ELF magic"));
+
   switch (e->e_ident[EI_CLASS])
     {
       case ELFCLASS32:
@@ -66,7 +66,7 @@ grub_elf_check_header (grub_elf_t elf)
         return grub_error (GRUB_ERR_BAD_OS, N_("unrecognized ELF class"));
         break;
     }
- 
+
   return GRUB_ERR_NONE;
 }
 
@@ -195,6 +195,15 @@ grub_elf_open (const char *name)
 #define grub_elf_is_elfXX grub_elf_is_elf64
 #define grub_elfXX_load_phdrs grub_elf64_load_phdrs
 #define ElfXX_Phdr Elf64_Phdr
+#define ElfXX_Ehdr Elf64_Ehdr
 #define grub_uintXX_t grub_uint64_t
+/* for phdr/ehdr byte swaps */
+#define byte_swap_halfXX grub_swap_bytes16
+#define byte_swap_wordXX grub_swap_bytes32
+#define byte_swap_addrXX grub_swap_bytes64
+#define byte_swap_offXX grub_swap_bytes64
+#define byte_swap_XwordXX grub_swap_bytes64
+#define grub_elfXX_byteswap_header grub_elf64_byteswap_header
+#define grub_elfXX_check_version grub_elf64_check_version
 
 #include "elfXX.c"
