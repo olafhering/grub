@@ -1,4 +1,4 @@
-From 699635c5231fe00bb05e388f705f3215ca6a0bc6 Mon Sep 17 00:00:00 2001
+From 84fe9f6059b7a45aa94d1688a04970649ca80038 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:31 +0000
 Subject: Probe FusionIO devices
@@ -38,7 +38,7 @@ index 772de0a..6788e39 100644
  
    return path;
 diff --git a/util/deviceiter.c b/util/deviceiter.c
-index bd7b993..e160fa0 100644
+index 75047ff..b61715d 100644
 --- a/util/deviceiter.c
 +++ b/util/deviceiter.c
 @@ -365,6 +365,12 @@ get_xvd_disk_name (char *name, int unit)

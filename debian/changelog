@@ -2,6 +2,8 @@ grub2 (2.02~beta2-2) UNRELEASED; urgency=medium
 
   * Convert patch handling to git-dpm.
   * Add bi-endian support to ELF parser (Tomohiro B Berry).
+  * Adjust restore_mkdevicemap.patch to mark get_kfreebsd_version as static,
+    to appease "gcc -Werror=missing-prototypes".
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 13 Jan 2014 12:33:18 +0000
 

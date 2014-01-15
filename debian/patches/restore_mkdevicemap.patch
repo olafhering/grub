@@ -1,4 +1,4 @@
-From 1af4fced4fac046536267b24f4b6d9d6bdfec3d5 Mon Sep 17 00:00:00 2001
+From ad38e8808898569ceaa084611000843e81f4683b Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Mon, 13 Jan 2014 12:13:01 +0000
 Subject: Restore grub-mkdevicemap
@@ -83,7 +83,7 @@ index 0000000..8537497
 +#endif /* ! GRUB_DEVICEITER_MACHINE_UTIL_HEADER */
 diff --git a/util/deviceiter.c b/util/deviceiter.c
 new file mode 100644
-index 0000000..bd7b993
+index 0000000..75047ff
 --- /dev/null
 +++ b/util/deviceiter.c
 @@ -0,0 +1,954 @@
@@ -189,7 +189,7 @@ index 0000000..bd7b993
 +
 +  /* Runtime detection of kernel */
 +# include <sys/utsname.h>
-+int
++static int
 +get_kfreebsd_version (void)
 +{
 +  struct utsname uts;
