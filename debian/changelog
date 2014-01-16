@@ -1,3 +1,10 @@
+grub2 (2.02~beta2-3) UNRELEASED; urgency=medium
+
+  * Pass VERBOSE=1 when running tests so that Automake will print test logs
+    on failure.
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 16 Jan 2014 19:31:48 +0000
+
 grub2 (2.02~beta2-2) experimental; urgency=medium
 
   * Convert patch handling to git-dpm.

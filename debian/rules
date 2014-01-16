@@ -171,7 +171,7 @@ debian/stamps/build-grub-efi-ia32 debian/stamps/build-grub-efi-amd64 debian/stam
 debian/stamps/build-grub-pc: debian/stamps/configure-grub-pc
 	dh_auto_build
 ifeq ($(with_check), yes)
-	LC_CTYPE=C.UTF-8 PATH="$$PATH:/sbin:/usr/sbin" dh_auto_test
+	LC_CTYPE=C.UTF-8 PATH="$$PATH:/sbin:/usr/sbin" VERBOSE=1 dh_auto_test
 endif
 	touch $@
 
