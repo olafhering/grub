@@ -346,6 +346,10 @@ if test -z "$debug"; then
   qemuopts="${qemuopts} -nographic -monitor file:/dev/null"
 fi
 
+if [ x$boot = xfd ]; then
+    mkrescue_args="${mkrescue_args} -- -no-pad"
+fi
+
 if [ x$boot != xnet ] && [ x$boot != xemu ]; then
     pkgdatadir="@builddir@" "@builddir@/grub-mkrescue" "--output=${isofile}" "--override-directory=${builddir}/grub-core" \
 	--rom-directory="${rom_directory}" \
