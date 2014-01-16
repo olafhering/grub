@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-2) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-2) experimental; urgency=medium
 
   * Convert patch handling to git-dpm.
   * Add bi-endian support to ELF parser (Tomohiro B Berry).
@@ -10,7 +10,7 @@ grub2 (2.02~beta2-2) UNRELEASED; urgency=medium
     grub-syslinux2cfg.
   * grub-shell: Pass -no-pad to xorriso when building floppy images.
 
- -- Colin Watson <cjwatson@debian.org>  Mon, 13 Jan 2014 12:33:18 +0000
+ -- Colin Watson <cjwatson@debian.org>  Thu, 16 Jan 2014 15:18:04 +0000
 
 grub2 (2.02~beta2-1) experimental; urgency=low
 
