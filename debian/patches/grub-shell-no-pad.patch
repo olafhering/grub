@@ -1,0 +1,37 @@
+From 6f81c737a6062ea9a7ec76b2fed0a9aaae898b6b Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@debian.org>
+Date: Thu, 16 Jan 2014 12:51:23 +0000
+Subject: grub-shell: Pass -no-pad to xorriso when building floppy images
+
+The floppy images built by grub-shell are currently just over the
+floppy limit, and the Debian patch set plus the 915resolution extra
+bring this up to the point where GRUB tries to actually read past
+the floppy limit, breaking fddboot_test.  Passing -no-pad buys us
+300KiB, which should keep us going for a while.
+
+* tests/util/grub-shell.in: Pass -no-pad to xorriso when building
+floppy images, saving 300KiB.
+
+Forwarded: https://lists.gnu.org/archive/html/grub-devel/2014-01/msg00074.html
+Last-Update: 2014-01-16
+
+Patch-Name: grub-shell-no-pad.patch
+---
+ tests/util/grub-shell.in | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/tests/util/grub-shell.in b/tests/util/grub-shell.in
+index d9a5253..6f13591 100644
+--- a/tests/util/grub-shell.in
++++ b/tests/util/grub-shell.in
+@@ -346,6 +346,10 @@ if test -z "$debug"; then
+   qemuopts="${qemuopts} -nographic -monitor file:/dev/null"
+ fi
+ 
++if [ x$boot = xfd ]; then
++    mkrescue_args="${mkrescue_args} -- -no-pad"
++fi
++
+ if [ x$boot != xnet ] && [ x$boot != xemu ]; then
+     pkgdatadir="@builddir@" "@builddir@/grub-mkrescue" "--output=${isofile}" "--override-directory=${builddir}/grub-core" \
+ 	--rom-directory="${rom_directory}" \
