@@ -41,3 +41,4 @@ skip_gettext_strings_test.patch
 elf_bi_endian.patch
 macbless_mansection.patch
 grub-shell-no-pad.patch
+freebsd_debugflags_eperm.patch

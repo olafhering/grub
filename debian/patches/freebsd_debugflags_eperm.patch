@@ -1,0 +1,44 @@
+From 294f355408ede2ec620d41794a10c2f98ccc47ae Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@debian.org>
+Date: Fri, 17 Jan 2014 02:55:58 +0000
+Subject: Ignore EPERM when modifying kern.geom.debugflags
+
+Many tests fail when run as a non-root user on FreeBSD.  The failures
+all amount to an inability to open files using grub_util_fd_open,
+because we cannot set the kern.geom.debugflags sysctl.  This sysctl is
+indeed important to allow us to do such things as installing GRUB to the
+MBR, but if we need to do that and can't then we will get an error
+later.  Enforcing it here is unnecessary and prevents otherwise
+perfectly reasonable operations.
+
+Forwarded: https://lists.gnu.org/archive/html/grub-devel/2014-01/msg00086.html
+Last-Update: 2014-01-17
+
+Patch-Name: freebsd_debugflags_eperm.patch
+---
+ grub-core/osdep/freebsd/hostdisk.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/grub-core/osdep/freebsd/hostdisk.c b/grub-core/osdep/freebsd/hostdisk.c
+index bd5fddb..a5b00f4 100644
+--- a/grub-core/osdep/freebsd/hostdisk.c
++++ b/grub-core/osdep/freebsd/hostdisk.c
+@@ -102,8 +102,16 @@ grub_util_fd_open (const char *os_dev, int flags)
+   if (! (sysctl_oldflags & 0x10)
+       && sysctlbyname ("kern.geom.debugflags", NULL , 0, &sysctl_flags, sysctl_size))
+     {
+-      grub_error (GRUB_ERR_BAD_DEVICE, "cannot set flags of sysctl kern.geom.debugflags");
+-      return GRUB_UTIL_FD_INVALID;
++      if (errno == EPERM)
++	/* Running as an unprivileged user; don't worry about restoring
++	   flags, although if we try to write to anything interesting such
++	   as the MBR then we may fail later.  */
++	sysctl_oldflags = 0x10;
++      else
++	{
++	  grub_error (GRUB_ERR_BAD_DEVICE, "cannot set flags of sysctl kern.geom.debugflags");
++	  return GRUB_UTIL_FD_INVALID;
++	}
+     }
+ 
+   ret = open (os_dev, flags, S_IROTH | S_IRGRP | S_IRUSR | S_IWUSR);

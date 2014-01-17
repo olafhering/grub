@@ -5,6 +5,8 @@ grub2 (2.02~beta2-3) UNRELEASED; urgency=medium
   * Adjust Vcs-* fields to indicate the experimental branch.
   * Build-depend on cpio on architectures where we run the test suite, for
     tests/cpio_test.in.
+  * Ignore EPERM when modifying kern.geom.debugflags on FreeBSD, fixing
+    tests.
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 16 Jan 2014 19:31:48 +0000
 
