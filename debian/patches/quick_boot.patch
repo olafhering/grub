@@ -1,4 +1,4 @@
-From b49b075322ed0313063adc899d20296f95e6c178 Mon Sep 17 00:00:00 2001
+From d5f9d77af8c559b8e5985668c93c740b175f94ab Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:28 +0000
 Subject: Add configure option to bypass boot menu if possible
@@ -18,18 +18,18 @@ of the normal runlevels), then show the boot menu regardless.
 
 Author: Richard Laager <rlaager@wiktel.com>
 Forwarded: no
-Last-Update: 2013-12-25
+Last-Update: 2014-01-17
 
 Patch-Name: quick_boot.patch
 ---
  configure.ac                | 11 +++++++++
- docs/grub.texi              |  9 ++++++++
- grub-core/normal/menu.c     | 24 ++++++++++++++++++++
+ docs/grub.texi              |  9 +++++++
+ grub-core/normal/menu.c     | 24 +++++++++++++++++++
  util/grub-mkconfig.in       |  3 ++-
- util/grub.d/00_header.in    | 55 ++++++++++++++++++++++++++++++++++++---------
+ util/grub.d/00_header.in    | 58 +++++++++++++++++++++++++++++++++++----------
  util/grub.d/10_linux.in     |  4 ++++
- util/grub.d/30_os-prober.in | 21 +++++++++++++++++
- 7 files changed, 115 insertions(+), 12 deletions(-)
+ util/grub.d/30_os-prober.in | 21 ++++++++++++++++
+ 7 files changed, 117 insertions(+), 13 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
 index 7c8d0af..2a7e410 100644
@@ -123,7 +123,7 @@ index 62780bf..17350d4 100644
  if test "x${grub_cfg}" != "x"; then
    rm -f "${grub_cfg}.new"
 diff --git a/util/grub.d/00_header.in b/util/grub.d/00_header.in
-index 0c82f23..f6016a8 100644
+index 0c82f23..8dc5592 100644
 --- a/util/grub.d/00_header.in
 +++ b/util/grub.d/00_header.in
 @@ -21,6 +21,8 @@ prefix="@prefix@"
@@ -175,7 +175,7 @@ index 0c82f23..f6016a8 100644
  function load_video {
  EOF
  if [ -n "${GRUB_VIDEO_BACKEND}" ]; then
-@@ -282,6 +309,11 @@ fi
+@@ -282,10 +309,16 @@ fi
  
  make_timeout ()
  {
@@ -187,7 +187,13 @@ index 0c82f23..f6016a8 100644
      if [ "x${3}" != "x" ] ; then
  	timeout="${2}"
  	style="${3}"
-@@ -304,26 +336,27 @@ make_timeout ()
+-    elif [ "x${1}" != "x" -a "x${1}" != "x0" ] ; then
++    elif [ "x${1}" != "x" ] && \
++	 ([ "$quick_boot" = 1 ] || [ "x${1}" != "x0" ]) ; then
+ 	# Handle the deprecated GRUB_HIDDEN_TIMEOUT scheme.
+ 	timeout="${1}"
+ 	if [ "x${2}" != "x0" ] ; then
+@@ -304,26 +337,27 @@ make_timeout ()
  	style="menu"
      fi
      cat << EOF

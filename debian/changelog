@@ -2,6 +2,9 @@ grub2 (2.02~beta2-4) UNRELEASED; urgency=medium
 
   * Remove redundant build-dependencies on autoconf and automake, covered by
     dh-autoreconf.
+  * In --enable-quick-boot mode, restore previous behaviour of using a
+    hidden timeout if GRUB_HIDDEN_TIMEOUT=0 (thanks to Sebastien Bacher for
+    the report).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 17 Jan 2014 15:15:27 +0000
 
