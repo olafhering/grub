@@ -6,8 +6,6 @@ Uploaders: Robert Millan <rmh@debian.org>, Felix Zielcke <fzielcke@z-51.de>, Jor
 Build-Depends: debhelper (>= 7.4.2~),
  dpkg-dev (>= 1.15.1~),
  patchutils,
- autoconf,
- automake,
  dh-autoreconf,
  python,
  flex (>= 2.5.35),
