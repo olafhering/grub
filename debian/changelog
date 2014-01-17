@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-3) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-3) experimental; urgency=medium
 
   * Pass VERBOSE=1 when running tests so that Automake will print test logs
     on failure.
@@ -8,7 +8,7 @@ grub2 (2.02~beta2-3) UNRELEASED; urgency=medium
   * Ignore EPERM when modifying kern.geom.debugflags on FreeBSD, fixing
     tests.
 
- -- Colin Watson <cjwatson@debian.org>  Thu, 16 Jan 2014 19:31:48 +0000
+ -- Colin Watson <cjwatson@debian.org>  Fri, 17 Jan 2014 10:50:40 +0000
 
 grub2 (2.02~beta2-2) experimental; urgency=medium
 
