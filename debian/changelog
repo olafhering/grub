@@ -5,6 +5,8 @@ grub2 (2.02~beta2-4) UNRELEASED; urgency=medium
   * In --enable-quick-boot mode, restore previous behaviour of using a
     hidden timeout if GRUB_HIDDEN_TIMEOUT=0 (thanks to Sebastien Bacher for
     the report).
+  * Disable cpio test on kFreeBSD again for now; it fails within cpio itself
+    with "field width not sufficient for storing rdev minor".
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 17 Jan 2014 15:15:27 +0000
 
