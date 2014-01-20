@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-4) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-4) experimental; urgency=medium
 
   * Remove redundant build-dependencies on autoconf and automake, covered by
     dh-autoreconf.
@@ -10,7 +10,7 @@ grub2 (2.02~beta2-4) UNRELEASED; urgency=medium
   * Copy shim.efi.signed to the correct path in UEFI Secure Boot mode.
     Thanks to syscon-hh for the report.
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 17 Jan 2014 15:15:27 +0000
+ -- Colin Watson <cjwatson@debian.org>  Mon, 20 Jan 2014 15:53:36 +0000
 
 grub2 (2.02~beta2-3) experimental; urgency=medium
 
