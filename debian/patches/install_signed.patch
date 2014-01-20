@@ -1,4 +1,4 @@
-From cda8796cced47111322c9a7333760d97b33fb9c4 Mon Sep 17 00:00:00 2001
+From e5643388afc933e7392e751edf24aa574b5a5d5a Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:22 +0000
 Subject: Install signed images if UEFI Secure Boot is enabled
@@ -9,15 +9,15 @@ Content-Transfer-Encoding: 8bit
 Author: Stéphane Graber <stgraber@ubuntu.com>
 Author: Steve Langasek <steve.langasek@ubuntu.com>
 Forwarded: no
-Last-Update: 2013-12-25
+Last-Update: 2014-01-20
 
 Patch-Name: install_signed.patch
 ---
- util/grub-install.c | 165 +++++++++++++++++++++++++++++++++++++---------------
- 1 file changed, 119 insertions(+), 46 deletions(-)
+ util/grub-install.c | 167 +++++++++++++++++++++++++++++++++++++---------------
+ 1 file changed, 121 insertions(+), 46 deletions(-)
 
 diff --git a/util/grub-install.c b/util/grub-install.c
-index 3275209..6a956d4 100644
+index 3275209..0495d9d 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
 @@ -80,6 +80,7 @@ static char *label_color;
@@ -212,7 +212,7 @@ index 3275209..6a956d4 100644
  	{
  	  char *uuid = NULL;
  	  /*  generic method (used on coreboot and ata mod).  */
-@@ -1857,7 +1890,47 @@ main (int argc, char *argv[])
+@@ -1857,7 +1890,49 @@ main (int argc, char *argv[])
      case GRUB_INSTALL_PLATFORM_IA64_EFI:
        {
  	char *dst = grub_util_path_concat (2, efidir, efi_file);
@@ -230,6 +230,8 @@ index 3275209..6a956d4 100644
 +		  {
 +		    free (efi_file);
 +		    efi_file = xasprintf ("shim%s.efi", efi_suffix);
++		    free (dst);
++		    dst = grub_util_path_concat (2, efidir, efi_file);
 +		  }
 +		grub_install_copy_file (shim_signed, dst, 1);
 +		chained_base = xasprintf ("grub%s.efi", efi_suffix);

@@ -1,4 +1,4 @@
-From 26d7a910188b89fce7cf00608a6de2099884e96d Mon Sep 17 00:00:00 2001
+From 7ef7a5df726f601c88a708ea138314495de9197e Mon Sep 17 00:00:00 2001
 From: Tomohiro B Berry <tbberry@us.ibm.com>
 Date: Tue, 14 Jan 2014 17:43:25 +0000
 Subject: Add bi-endian support to ELF parser

@@ -1905,6 +1905,8 @@ main (int argc, char *argv[])
 		  {
 		    free (efi_file);
 		    efi_file = xasprintf ("shim%s.efi", efi_suffix);
+		    free (dst);
+		    dst = grub_util_path_concat (2, efidir, efi_file);
 		  }
 		grub_install_copy_file (shim_signed, dst, 1);
 		chained_base = xasprintf ("grub%s.efi", efi_suffix);

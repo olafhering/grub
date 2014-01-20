@@ -7,6 +7,8 @@ grub2 (2.02~beta2-4) UNRELEASED; urgency=medium
     the report).
   * Disable cpio test on kFreeBSD again for now; it fails within cpio itself
     with "field width not sufficient for storing rdev minor".
+  * Copy shim.efi.signed to the correct path in UEFI Secure Boot mode.
+    Thanks to syscon-hh for the report.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 17 Jan 2014 15:15:27 +0000
 
