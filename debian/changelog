@@ -2,6 +2,8 @@ grub2 (2.02~beta2-5) UNRELEASED; urgency=medium
 
   * Add a number of EFI debugging commands to the signed image (lsefi,
     lsefimmap, lsefisystab, lssal).
+  * Add gfxterm_background to the signed image so that background_image
+    works in UEFI Secure Boot mode.  Thanks to syscon-hh for the report.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 27 Jan 2014 08:26:52 +0000
 

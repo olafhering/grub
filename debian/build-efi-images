@@ -90,6 +90,7 @@ CD_MODULES="
 	gettext
 	gfxmenu
 	gfxterm
+	gfxterm_background
 	gzio
 	halt
 	hfsplus
