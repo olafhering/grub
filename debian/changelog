@@ -1,3 +1,10 @@
+grub2 (2.02~beta2-5) UNRELEASED; urgency=medium
+
+  * Add a number of EFI debugging commands to the signed image (lsefi,
+    lsefimmap, lsefisystab, lssal).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 27 Jan 2014 08:26:52 +0000
+
 grub2 (2.02~beta2-4) experimental; urgency=medium
 
   * Remove redundant build-dependencies on autoconf and automake, covered by
