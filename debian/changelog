@@ -4,6 +4,8 @@ grub2 (2.02~beta2-6) UNRELEASED; urgency=medium
     ppc64el.
   * Port yaboot logic to improve installation for various powerpc machine
     types.
+  * Improve parsing of /etc/default/grub.d/*.cfg in C utilities
+    (LP: #1273694).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 28 Jan 2014 09:54:17 +0000
 

@@ -1,80 +1,70 @@
-From 599a71ef532c7f576fc72af2bdd9f5e95d6a0893 Mon Sep 17 00:00:00 2001
+From 456b43187661cb81c2e7022f7ed8b010d85064d5 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:10 +0000
 Subject: Read /etc/default/grub.d/*.cfg after /etc/default/grub
 
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/901600
 Forwarded: no
-Last-Update: 2013-12-25
+Last-Update: 2014-01-28
 
 Patch-Name: default_grub_d.patch
 ---
- grub-core/osdep/unix/config.c | 62 ++++++++++++++++++++++++++++++++-----------
- util/grub-mkconfig.in         |  5 ++++
- 2 files changed, 52 insertions(+), 15 deletions(-)
+ grub-core/osdep/unix/config.c | 112 ++++++++++++++++++++++++++++++++++--------
+ util/grub-mkconfig.in         |   5 ++
+ 2 files changed, 97 insertions(+), 20 deletions(-)
 
 diff --git a/grub-core/osdep/unix/config.c b/grub-core/osdep/unix/config.c
-index f4b0bb4..c966477 100644
+index f4b0bb4..7b7fdc6 100644
 --- a/grub-core/osdep/unix/config.c
 +++ b/grub-core/osdep/unix/config.c
-@@ -61,28 +61,16 @@ grub_util_get_localedir (void)
+@@ -24,6 +24,8 @@
+ #include <grub/emu/config.h>
+ #include <grub/util/install.h>
+ #include <grub/util/misc.h>
++#include <grub/list.h>
++#include <assert.h>
+ #include <string.h>
+ #include <sys/types.h>
+ #include <sys/wait.h>
+@@ -61,6 +63,13 @@ grub_util_get_localedir (void)
    return LOCALEDIR;
  }
  
--void
--grub_util_load_config (struct grub_util_config *cfg)
-+static void
-+grub_util_load_one_config (struct grub_util_config *cfg, const char *cfgfile)
++struct cfglist
++{
++  struct cfglist *next;
++  struct cfglist *prev;
++  char *path;
++};
++
+ void
+ grub_util_load_config (struct grub_util_config *cfg)
  {
-   pid_t pid;
+@@ -68,6 +77,13 @@ grub_util_load_config (struct grub_util_config *cfg)
    const char *argv[4];
    char *script, *ptr;
--  const char *cfgfile, *iptr;
-+  const char *iptr;
-   FILE *f = NULL;
-   int fd;
--  const char *v;
- 
--  memset (cfg, 0, sizeof (*cfg));
--
--  v = getenv ("GRUB_ENABLE_CRYPTODISK");
--  if (v && v[0] == 'y' && v[1] == '\0')
--    cfg->is_cryptodisk_enabled = 1;
--
--  v = getenv ("GRUB_DISTRIBUTOR");
--  if (v)
--    cfg->grub_distributor = xstrdup (v);
--
--  cfgfile = grub_util_get_config_filename ();
-   if (!grub_util_is_regular (cfgfile))
-     return;
- 
-@@ -137,3 +125,47 @@ grub_util_load_config (struct grub_util_config *cfg)
-     grub_util_warn (_("cannot open configuration file `%s': %s"),
- 		    cfgfile, strerror (errno));
- }
-+
-+void
-+grub_util_load_config (struct grub_util_config *cfg)
-+{
-+  const char *cfgfile;
-+  const char *v;
+   const char *cfgfile, *iptr;
 +  char *cfgdir;
 +  grub_util_fd_dir_t d;
-+
-+  memset (cfg, 0, sizeof (*cfg));
-+
-+  v = getenv ("GRUB_ENABLE_CRYPTODISK");
-+  if (v && v[0] == 'y' && v[1] == '\0')
-+    cfg->is_cryptodisk_enabled = 1;
-+
-+  v = getenv ("GRUB_DISTRIBUTOR");
-+  if (v)
-+    cfg->grub_distributor = xstrdup (v);
-+
-+  cfgfile = grub_util_get_config_filename ();
-+
-+  grub_util_load_one_config (cfg, cfgfile);
++  struct cfglist *cfgpaths = NULL, *cfgpath, *next_cfgpath;
++  int num_cfgpaths = 0;
++  size_t len_cfgpaths = 0;
++  char **sorted_cfgpaths = NULL;
++  int i;
+   FILE *f = NULL;
+   int fd;
+   const char *v;
+@@ -83,29 +99,75 @@ grub_util_load_config (struct grub_util_config *cfg)
+     cfg->grub_distributor = xstrdup (v);
+ 
+   cfgfile = grub_util_get_config_filename ();
+-  if (!grub_util_is_regular (cfgfile))
+-    return;
++  if (grub_util_is_regular (cfgfile))
++    {
++      ++num_cfgpaths;
++      len_cfgpaths += strlen (cfgfile) * 4 + sizeof (". ''; ") - 1;
++    }
 +
 +  cfgdir = xasprintf ("%s.d", cfgfile);
 +  d = grub_util_fd_opendir (cfgdir);
@@ -85,18 +75,107 @@ index f4b0bb4..c966477 100644
 +      while ((de = grub_util_fd_readdir (d)))
 +	{
 +	  const char *ext = strrchr (de->d_name, '.');
-+	  char *x;
 +
 +	  if (!ext || strcmp (ext, ".cfg") != 0)
 +	    continue;
 +
-+	  x = grub_util_path_concat (2, cfgdir, de->d_name);
-+	  grub_util_load_one_config (cfg, x);
-+	  free (x);
++	  cfgpath = xmalloc (sizeof (*cfgpath));
++	  cfgpath->path = grub_util_path_concat (2, cfgdir, de->d_name);
++	  grub_list_push (GRUB_AS_LIST_P (&cfgpaths), GRUB_AS_LIST (cfgpath));
++	  ++num_cfgpaths;
++	  len_cfgpaths += strlen (cfgpath->path) * 4 + sizeof (". ''; ") - 1;
 +	}
 +      grub_util_fd_closedir (d);
 +    }
-+}
++
++  if (num_cfgpaths == 0)
++    goto out;
++
++  sorted_cfgpaths = xmalloc (num_cfgpaths * sizeof (*sorted_cfgpaths));
++  i = 0;
++  if (grub_util_is_regular (cfgfile))
++    sorted_cfgpaths[i++] = xstrdup (cfgfile);
++  FOR_LIST_ELEMENTS_SAFE (cfgpath, next_cfgpath, cfgpaths)
++    {
++      sorted_cfgpaths[i++] = cfgpath->path;
++      free (cfgpath);
++    }
++  assert (i == num_cfgpaths);
++  qsort (sorted_cfgpaths + 1, num_cfgpaths - 1, sizeof (*sorted_cfgpaths),
++	 (int (*) (const void *, const void *)) strcmp);
+ 
+   argv[0] = "sh";
+   argv[1] = "-c";
+ 
+-  script = xmalloc (4 * strlen (cfgfile) + 300);
++  script = xmalloc (len_cfgpaths + 300);
+ 
+   ptr = script;
+-  memcpy (ptr, ". '", 3);
+-  ptr += 3;
+-  for (iptr = cfgfile; *iptr; iptr++)
++  for (i = 0; i < num_cfgpaths; i++)
+     {
+-      if (*iptr == '\\')
++      memcpy (ptr, ". '", 3);
++      ptr += 3;
++      for (iptr = sorted_cfgpaths[i]; *iptr; iptr++)
+ 	{
+-	  memcpy (ptr, "'\\''", 4);
+-	  ptr += 4;
+-	  continue;
++	  if (*iptr == '\\')
++	    {
++	      memcpy (ptr, "'\\''", 4);
++	      ptr += 4;
++	      continue;
++	    }
++	  *ptr++ = *iptr;
+ 	}
+-      *ptr++ = *iptr;
++      memcpy (ptr, "'; ", 3);
++      ptr += 3;
+     }
+ 
+-  strcpy (ptr, "'; printf \"GRUB_ENABLE_CRYPTODISK=%s\\nGRUB_DISTRIBUTOR=%s\\n\", "
++  strcpy (ptr, "printf \"GRUB_ENABLE_CRYPTODISK=%s\\nGRUB_DISTRIBUTOR=%s\\n\", "
+ 	  "\"$GRUB_ENABLE_CRYPTODISK\", \"$GRUB_DISTRIBUTOR\"");
+ 
+   argv[2] = script;
+@@ -125,15 +187,25 @@ grub_util_load_config (struct grub_util_config *cfg)
+       waitpid (pid, NULL, 0);
+     }
+   if (f)
+-    return;
++    goto out;
+ 
+-  f = grub_util_fopen (cfgfile, "r");
+-  if (f)
++  for (i = 0; i < num_cfgpaths; i++)
+     {
+-      grub_util_parse_config (f, cfg, 0);
+-      fclose (f);
++      f = grub_util_fopen (sorted_cfgpaths[i], "r");
++      if (f)
++	{
++	  grub_util_parse_config (f, cfg, 0);
++	  fclose (f);
++	}
++      else
++	grub_util_warn (_("cannot open configuration file `%s': %s"),
++			cfgfile, strerror (errno));
+     }
+-  else
+-    grub_util_warn (_("cannot open configuration file `%s': %s"),
+-		    cfgfile, strerror (errno));
++
++out:
++  free (script);
++  for (i = 0; i < num_cfgpaths; i++)
++    free (sorted_cfgpaths[i]);
++  free (sorted_cfgpaths);
++  free (cfgdir);
+ }
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
 index 81a9afd..62780bf 100644
 --- a/util/grub-mkconfig.in

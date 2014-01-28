@@ -1,4 +1,4 @@
-From 6f1e7f1ca4de53476b97e703720bd637b867c890 Mon Sep 17 00:00:00 2001
+From 7354e71090201e34d682530f858e3972fe7d3099 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Thu, 16 Jan 2014 12:51:23 +0000
 Subject: grub-shell: Pass -no-pad to xorriso when building floppy images

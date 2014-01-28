@@ -1,4 +1,4 @@
-From 0b67af786c8e570840250c17ec76aa8ab0668d33 Mon Sep 17 00:00:00 2001
+From a5f2eff241350d805dd5e0085690b475bb66455b Mon Sep 17 00:00:00 2001
 From: Mario Limonciello <Mario_Limonciello@dell.com>
 Date: Mon, 13 Jan 2014 12:13:14 +0000
 Subject: Remove GNU/Linux from default distributor string for Ubuntu

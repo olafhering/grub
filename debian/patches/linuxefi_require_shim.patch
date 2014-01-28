@@ -1,4 +1,4 @@
-From e9dc3a48f081ba393ca9dfe545139a63057267ab Mon Sep 17 00:00:00 2001
+From ceea76bad9989e0ba4629e9e0d05a918066993de Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:19 +0000
 Subject: Make linuxefi refuse to boot without shim

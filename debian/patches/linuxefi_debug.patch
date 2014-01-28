@@ -1,4 +1,4 @@
-From b3ba7acdb0397fb808400f420bf210385aeb81fd Mon Sep 17 00:00:00 2001
+From efd9ff3eff1d48c498592bf61bc90b47d8c490f5 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:18 +0000
 Subject: Add more debugging to linuxefi
