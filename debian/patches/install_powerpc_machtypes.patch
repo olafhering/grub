@@ -1,4 +1,4 @@
-From 71b4bfd68ef7c3c4cee82091ab65b433c1a60c36 Mon Sep 17 00:00:00 2001
+From f6e6d59bfa40b7bacfb99446f8b432dca83b7692 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Tue, 28 Jan 2014 14:40:02 +0000
 Subject: Port yaboot logic for various powerpc machine types
@@ -13,11 +13,11 @@ Last-Update: 2014-01-28
 Patch-Name: install_powerpc_machtypes.patch
 ---
  grub-core/osdep/basic/platform.c   |  5 +++
- grub-core/osdep/linux/platform.c   | 63 ++++++++++++++++++++++++++++++++++++++
+ grub-core/osdep/linux/platform.c   | 64 ++++++++++++++++++++++++++++++++++++++
  grub-core/osdep/windows/platform.c |  6 ++++
  include/grub/util/install.h        |  3 ++
  util/grub-install.c                | 17 +++++++++-
- 5 files changed, 93 insertions(+), 1 deletion(-)
+ 5 files changed, 94 insertions(+), 1 deletion(-)
 
 diff --git a/grub-core/osdep/basic/platform.c b/grub-core/osdep/basic/platform.c
 index 4b5502a..2ab9079 100644
@@ -33,10 +33,18 @@ index 4b5502a..2ab9079 100644
 +  return "generic";
 +}
 diff --git a/grub-core/osdep/linux/platform.c b/grub-core/osdep/linux/platform.c
-index 175da72..bfebcb4 100644
+index 175da72..185f971 100644
 --- a/grub-core/osdep/linux/platform.c
 +++ b/grub-core/osdep/linux/platform.c
-@@ -108,3 +108,66 @@ grub_install_get_default_x86_platform (void)
+@@ -24,6 +24,7 @@
+ #include <grub/emu/misc.h>
+ #include <sys/types.h>
+ #include <dirent.h>
++#include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+ 
+@@ -108,3 +109,66 @@ grub_install_get_default_x86_platform (void)
    grub_util_info ("... not found");
    return "i386-pc";
  }
