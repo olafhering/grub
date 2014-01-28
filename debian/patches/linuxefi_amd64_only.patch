@@ -1,4 +1,4 @@
-From a16e48a24310eac5fadb2183deda89a1b00ff32e Mon Sep 17 00:00:00 2001
+From d17d82d5217170e5f3124ed1c5aa77a7b8f253d7 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:16 +0000
 Subject: Only build linuxefi on amd64

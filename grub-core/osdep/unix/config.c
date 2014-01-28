@@ -75,7 +75,7 @@ grub_util_load_config (struct grub_util_config *cfg)
 {
   pid_t pid;
   const char *argv[4];
-  char *script, *ptr;
+  char *script = NULL, *ptr;
   const char *cfgfile, *iptr;
   char *cfgdir;
   grub_util_fd_dir_t d;

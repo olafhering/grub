@@ -1,4 +1,4 @@
-From 456b43187661cb81c2e7022f7ed8b010d85064d5 Mon Sep 17 00:00:00 2001
+From b7b657b655fb49c41eaa51293aa54097a5dbdfa5 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:10 +0000
 Subject: Read /etc/default/grub.d/*.cfg after /etc/default/grub
@@ -9,12 +9,12 @@ Last-Update: 2014-01-28
 
 Patch-Name: default_grub_d.patch
 ---
- grub-core/osdep/unix/config.c | 112 ++++++++++++++++++++++++++++++++++--------
+ grub-core/osdep/unix/config.c | 114 ++++++++++++++++++++++++++++++++++--------
  util/grub-mkconfig.in         |   5 ++
- 2 files changed, 97 insertions(+), 20 deletions(-)
+ 2 files changed, 98 insertions(+), 21 deletions(-)
 
 diff --git a/grub-core/osdep/unix/config.c b/grub-core/osdep/unix/config.c
-index f4b0bb4..7b7fdc6 100644
+index f4b0bb4..95eabc8 100644
 --- a/grub-core/osdep/unix/config.c
 +++ b/grub-core/osdep/unix/config.c
 @@ -24,6 +24,8 @@
@@ -26,7 +26,7 @@ index f4b0bb4..7b7fdc6 100644
  #include <string.h>
  #include <sys/types.h>
  #include <sys/wait.h>
-@@ -61,6 +63,13 @@ grub_util_get_localedir (void)
+@@ -61,13 +63,27 @@ grub_util_get_localedir (void)
    return LOCALEDIR;
  }
  
@@ -40,9 +40,10 @@ index f4b0bb4..7b7fdc6 100644
  void
  grub_util_load_config (struct grub_util_config *cfg)
  {
-@@ -68,6 +77,13 @@ grub_util_load_config (struct grub_util_config *cfg)
+   pid_t pid;
    const char *argv[4];
-   char *script, *ptr;
+-  char *script, *ptr;
++  char *script = NULL, *ptr;
    const char *cfgfile, *iptr;
 +  char *cfgdir;
 +  grub_util_fd_dir_t d;

@@ -1,4 +1,4 @@
-From 6edbc585519e8643ad7cb810b5cbad643345da0f Mon Sep 17 00:00:00 2001
+From 1f7a967fdb2402b74258d7675f92ba5f99a05e7c Mon Sep 17 00:00:00 2001
 From: Steve Langasek <steve.langasek@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:12 +0000
 Subject: Output a menu entry for firmware setup on UEFI FastBoot systems
