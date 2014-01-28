@@ -1155,9 +1155,9 @@ main (int argc, char *argv[])
 	  chrp_note = 1;
 	}
       else if (strcmp (machtype, "cell") == 0)
-	update_nvram = 1;
+	update_nvram = 0;
       else if (strcmp (machtype, "generic") == 0)
-	update_nvram = 1;
+	update_nvram = 0;
 
       if (!macppcdir)
 	{
