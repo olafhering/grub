@@ -1155,7 +1155,18 @@ main (int argc, char *argv[])
 
   if (platform == GRUB_INSTALL_PLATFORM_POWERPC_IEEE1275)
     {
+      const char *machtype = grub_install_get_default_powerpc_machtype ();
       int is_guess = 0;
+
+      if (strcmp (machtype, "pmac_oldworld") == 0)
+	update_nvram = 0;
+      else if (strcmp (machtype, "cell") == 0)
+	update_nvram = 0;
+      else if (strcmp (machtype, "generic") == 0)
+	update_nvram = 0;
+      else if (strcmp (machtype, "chrp_ibm_qemu") == 0)
+	update_nvram = 0;
+
       if (!macppcdir)
 	{
 	  char *d;
