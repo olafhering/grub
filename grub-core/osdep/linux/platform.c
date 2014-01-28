@@ -24,6 +24,7 @@
 #include <grub/emu/misc.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -144,4 +145,75 @@ grub_install_get_default_x86_platform (void)
 
   grub_util_info ("... not found");
   return "i386-pc";
+}
+
+const char *
+grub_install_get_default_powerpc_machtype (void)
+{
+  FILE *fp;
+  char *buf = NULL;
+  size_t len = 0;
+  const char *machtype = "generic";
+
+  fp = grub_util_fopen ("/proc/cpuinfo", "r");
+  if (! fp)
+    return machtype;
+
+  while (getline (&buf, &len, fp) > 0)
+    {
+      if (strncmp (buf, "pmac-generation",
+		   sizeof ("pmac-generation") - 1) == 0)
+	{
+	  if (strstr (buf, "NewWorld"))
+	    {
+	      machtype = "pmac_newworld";
+	      break;
+	    }
+	  if (strstr (buf, "OldWorld"))
+	    {
+	      machtype = "pmac_oldworld";
+	      break;
+	    }
+	}
+
+      if (strncmp (buf, "motherboard", sizeof ("motherboard") - 1) == 0 &&
+	  strstr (buf, "AAPL"))
+	{
+	  machtype = "pmac_oldworld";
+	  break;
+	}
+
+      if (strncmp (buf, "machine", sizeof ("machine") - 1) == 0 &&
+	  strstr (buf, "CHRP IBM"))
+	{
+	  if (strstr (buf, "qemu"))
+	    {
+	      machtype = "chrp_ibm_qemu";
+	      break;
+	    }
+	  else
+	    {
+	      machtype = "chrp_ibm";
+	      break;
+	    }
+	}
+
+      if (strncmp (buf, "platform", sizeof ("platform") - 1) == 0)
+	{
+	  if (strstr (buf, "Maple"))
+	    {
+	      machtype = "maple";
+	      break;
+	    }
+	  if (strstr (buf, "Cell"))
+	    {
+	      machtype = "cell";
+	      break;
+	    }
+	}
+    }
+
+  free (buf);
+  fclose (fp);
+  return machtype;
 }
