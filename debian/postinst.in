@@ -698,6 +698,14 @@ case "$1" in
         done
       ;;
 
+      grub-ieee1275)
+        case $(dpkg --print-architecture) in
+          ppc64el)
+            grub-install
+          ;;
+        esac
+      ;;
+
       grub-yeeloong)
         grub-install --target=mipsel-loongson
       ;;

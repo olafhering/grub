@@ -6,6 +6,7 @@ grub2 (2.02~beta2-6) UNRELEASED; urgency=medium
     types.
   * Improve parsing of /etc/default/grub.d/*.cfg in C utilities
     (LP: #1273694).
+  * Run grub-install on install or upgrade on grub-ieee1275/ppc64el.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 28 Jan 2014 09:54:17 +0000
 
