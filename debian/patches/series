@@ -42,3 +42,4 @@ elf_bi_endian.patch
 macbless_mansection.patch
 grub-shell-no-pad.patch
 freebsd_debugflags_eperm.patch
+install_powerpc_machtypes.patch

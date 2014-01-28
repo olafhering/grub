@@ -2,6 +2,8 @@ grub2 (2.02~beta2-6) UNRELEASED; urgency=medium
 
   * Install bootinfo.txt and grub.chrp into grub-ieee1275-bin on powerpc and
     ppc64el.
+  * Port yaboot logic to improve installation for various powerpc machine
+    types.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 28 Jan 2014 09:54:17 +0000
 
