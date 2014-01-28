@@ -128,6 +128,12 @@ grub_install_get_default_x86_platform (void)
     return "i386-efi";
 }
 
+const char *
+grub_install_get_default_powerpc_machtype (void)
+{
+  return "generic";
+}
+
 static void *
 get_efi_variable (const wchar_t *varname, ssize_t *len)
 {
