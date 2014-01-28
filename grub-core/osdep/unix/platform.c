@@ -212,13 +212,29 @@ grub_install_register_ieee1275 (int is_prep, const char *install_device,
   else
     boot_device = get_ofpathname (install_device);
 
-  if (grub_util_exec ((const char * []){ "nvsetenv", "boot-device",
-	  boot_device, NULL }))
+  if (strcmp (grub_install_get_default_powerpc_machtype (), "chrp_ibm") == 0)
     {
-      char *cmd = xasprintf ("setenv boot-device %s", boot_device);
-      grub_util_error (_("`nvsetenv' failed. \nYou will have to set `boot-device' variable manually.  At the IEEE1275 prompt, type:\n  %s\n"),
-		       cmd);
-      free (cmd);
+      char *arg = xasprintf ("boot-device=%s", boot_device);
+      if (grub_util_exec ((const char * []){ "nvram",
+	  "--update-config", arg, NULL }))
+	{
+	  char *cmd = xasprintf ("setenv boot-device %s", boot_device);
+	  grub_util_error (_("`nvram' failed. \nYou will have to set `boot-device' variable manually.  At the IEEE1275 prompt, type:\n  %s\n"),
+			   cmd);
+	  free (cmd);
+	}
+      free (arg);
+    }
+  else
+    {
+      if (grub_util_exec ((const char * []){ "nvsetenv", "boot-device",
+	      boot_device, NULL }))
+	{
+	  char *cmd = xasprintf ("setenv boot-device %s", boot_device);
+	  grub_util_error (_("`nvsetenv' failed. \nYou will have to set `boot-device' variable manually.  At the IEEE1275 prompt, type:\n  %s\n"),
+			   cmd);
+	  free (cmd);
+	}
     }
 
   free (boot_device);
