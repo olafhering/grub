@@ -1,0 +1,2 @@
+usr/lib/grub/@CPU_PLATFORM@/bootinfo.txt
+usr/lib/grub/@CPU_PLATFORM@/grub.chrp
