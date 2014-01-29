@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-6) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-6) experimental; urgency=medium
 
   * Install bootinfo.txt and grub.chrp into grub-ieee1275-bin on powerpc and
     ppc64el.
@@ -8,7 +8,7 @@ grub2 (2.02~beta2-6) UNRELEASED; urgency=medium
     (LP: #1273694).
   * Run grub-install on install or upgrade on grub-ieee1275/ppc64el.
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 28 Jan 2014 09:54:17 +0000
+ -- Colin Watson <cjwatson@debian.org>  Tue, 28 Jan 2014 23:50:55 +0000
 
 grub2 (2.02~beta2-5) experimental; urgency=medium
 
