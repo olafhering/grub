@@ -1,3 +1,10 @@
+grub2 (2.02~beta2-7) UNRELEASED; urgency=medium
+
+  * Fix shift-held-down test not to clear other modifier key states
+    (LP: #843804).
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 03 Feb 2014 16:08:12 +0000
+
 grub2 (2.02~beta2-6) experimental; urgency=medium
 
   * Install bootinfo.txt and grub.chrp into grub-ieee1275-bin on powerpc and

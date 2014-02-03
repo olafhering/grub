@@ -255,7 +255,7 @@ real_start:
 #if defined(QUIET_BOOT) && !defined(HYBRID_BOOT)
 	/* is either shift key held down? */
 	movw	$(GRUB_MEMORY_MACHINE_BIOS_DATA_AREA_ADDR + 0x17), %bx
-	andb	$3, (%bx)
+	testb	$3, (%bx)
 	jz	2f
 #endif
 

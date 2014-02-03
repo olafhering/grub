@@ -1,4 +1,4 @@
-From a22ef2bbf3232bc9b1982fc9fee92a7f56b5cd7c Mon Sep 17 00:00:00 2001
+From 8d5c3fdf7090909163cead91efd7f760bfebd65b Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:26 +0000
 Subject: Add configure option to reduce visual clutter at boot time
@@ -29,7 +29,7 @@ provide a cleaner boot experience.
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/386922
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/861048
 Forwarded: (partial) http://lists.gnu.org/archive/html/grub-devel/2009-09/msg00056.html
-Last-Update: 2013-12-25
+Last-Update: 2014-01-03
 
 Patch-Name: maybe_quiet.patch
 ---
@@ -91,7 +91,7 @@ index fb4e2dd..7c8d0af 100644
  echo "*******************************************************"
  ]
 diff --git a/grub-core/boot/i386/pc/boot.S b/grub-core/boot/i386/pc/boot.S
-index b4975e2..1fc8f08 100644
+index b4975e2..7ebd96b 100644
 --- a/grub-core/boot/i386/pc/boot.S
 +++ b/grub-core/boot/i386/pc/boot.S
 @@ -19,6 +19,9 @@
@@ -111,7 +111,7 @@ index b4975e2..1fc8f08 100644
 +#if defined(QUIET_BOOT) && !defined(HYBRID_BOOT)
 +	/* is either shift key held down? */
 +	movw	$(GRUB_MEMORY_MACHINE_BIOS_DATA_AREA_ADDR + 0x17), %bx
-+	andb	$3, (%bx)
++	testb	$3, (%bx)
 +	jz	2f
 +#endif
 +
@@ -123,7 +123,7 @@ index b4975e2..1fc8f08 100644
  	movw	$disk_address_packet, %si
  
 diff --git a/grub-core/boot/i386/pc/diskboot.S b/grub-core/boot/i386/pc/diskboot.S
-index d030a14..7d0741a 100644
+index d030a14..7534991 100644
 --- a/grub-core/boot/i386/pc/diskboot.S
 +++ b/grub-core/boot/i386/pc/diskboot.S
 @@ -18,6 +18,9 @@
@@ -195,7 +195,7 @@ index d030a14..7d0741a 100644
 +LOCAL(check_silent):
 +	/* is either shift key held down? */
 +	movw	$(GRUB_MEMORY_MACHINE_BIOS_DATA_AREA_ADDR + 0x17), %bx
-+	andb	$3, (%bx)
++	testb	$3, (%bx)
 +	ret
 +#endif
 +
