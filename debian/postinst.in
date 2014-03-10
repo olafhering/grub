@@ -444,7 +444,7 @@ case "$1" in
             # Using grub-probe instead of "(hd0)" avoids (UUID=) hack slowness
             # in case /boot/grub is not on (hd0) in device.map.
             echo "Generating core.img" >&2
-            grub-install --no-floppy --grub-setup=/bin/true "$(grub-probe -t drive /boot/grub)" > /dev/null
+            grub-install --target=i386-pc --no-floppy --grub-setup=/bin/true "$(grub-probe -t drive /boot/grub)" > /dev/null
 
             # Update menu.lst to reflect that:
             # - core.img is present now
@@ -584,7 +584,7 @@ case "$1" in
             failed_devices=
             for i in `echo $RET | sed -e 's/, / /g'` ; do
               real_device="$(readlink -f "$i")"
-              if grub-install --force --no-floppy $real_device ; then
+              if grub-install --target=i386-pc --force --no-floppy $real_device ; then
                 # We just installed GRUB 2; then also generate grub.cfg.
                 touch /boot/grub/grub.cfg
               else
@@ -686,7 +686,14 @@ case "$1" in
           kubuntu) bootloader_id=ubuntu ;;
         esac
         if [ "$bootloader_id" ] && [ -d "/boot/efi/EFI/$bootloader_id" ]; then
-          grub-install
+          case @PACKAGE@ in
+            grub-efi-ia32)  target=i386-efi ;;
+            grub-efi-amd64) target=x86_64-efi ;;
+            grub-efi-ia64)  target=ia64-efi ;;
+            grub-efi-arm)   target=arm-efi ;;
+            grub-efi-arm64) target=arm64-efi ;;
+          esac
+          grub-install --target="$target"
         fi
 
         # /boot/grub/ has more chances of being accessible by GRUB
@@ -701,7 +708,7 @@ case "$1" in
       grub-ieee1275)
         case $(dpkg --print-architecture) in
           ppc64el)
-            grub-install
+            grub-install --target=powerpc-ieee1275
           ;;
         esac
       ;;
