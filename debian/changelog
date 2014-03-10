@@ -4,6 +4,9 @@ grub2 (2.02~beta2-7) UNRELEASED; urgency=medium
     (LP: #843804).
   * Explicitly pass an appropriate --target to grub-install in the postinst
     (suggested by Jordan Uggla).
+  * Backport from upstream:
+    - Use bootaa64.efi instead of bootaarch64.efi on arm64 to comply with
+      EFI specification.  Also use grubaa64.efi for consistency.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 03 Feb 2014 16:08:12 +0000
 
