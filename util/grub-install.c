@@ -1110,8 +1110,8 @@ main (int argc, char *argv[])
 	  efi_suffix_upper = "ARM";
 	  break;
 	case GRUB_INSTALL_PLATFORM_ARM64_EFI:
-	  efi_suffix = "arm64";
-	  efi_suffix_upper = "AARCH64";
+	  efi_suffix = "aa64";
+	  efi_suffix_upper = "AA64";
 	  break;
 	default:
 	  break;
