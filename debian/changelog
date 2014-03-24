@@ -1,3 +1,10 @@
+grub2 (2.02~beta2-8) UNRELEASED; urgency=medium
+
+  * Backport from upstream:
+    - ieee1275: check for IBM pseries emulated machine.
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 24 Mar 2014 15:47:50 +0000
+
 grub2 (2.02~beta2-7) experimental; urgency=medium
 
   * Fix shift-held-down test not to clear other modifier key states
