@@ -29,8 +29,8 @@ BACKGROUND_CACHE=".background_cache"
 
 set_default_theme(){
 	case $GRUB_DISTRIBUTOR in
-		Ubuntu|Kubuntu)
-			# Set a monochromatic theme for Ubuntu.
+		Tanglu|Ubuntu|Kubuntu)
+			# Set a monochromatic theme for Tanglu/Ubuntu.
 			echo "${1}set menu_color_normal=white/black"
 			echo "${1}set menu_color_highlight=black/light-gray"
 
@@ -175,6 +175,11 @@ fi
 # If we haven't found a background image yet, use the default from desktop-base.
 case $GRUB_DISTRIBUTOR in
 	Ubuntu|Kubuntu)
+		;;
+	Tanglu)
+		if set_background_image "/usr/share/images/grub/grub.png"; then
+			exit 0
+		fi
 		;;
 	*)
 		if set_background_image "/usr/share/images/desktop-base/desktop-grub.png"; then

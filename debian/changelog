@@ -1,7 +1,18 @@
 grub2 (2.02~beta2-8) UNRELEASED; urgency=medium
 
+  [ Colin Watson ]
   * Backport from upstream:
     - ieee1275: check for IBM pseries emulated machine.
+
+  [ Jon Severinsson ]
+  * Add Tanglu support, as in Debian except:
+    - Enable splash screen by default (as Ubuntu)
+    - Enable quiet and quick boot (as Ubuntu)
+    - Enable the grub-common init script (as Ubuntu)
+    - Enable dynamic gfxpayload (as Ubuntu)
+    - Enable vt handover (as Ubuntu)
+    - Use monochromatic theme by default (as Ubuntu)
+    - Use Tanglu GRUB wallpaper by default.
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 24 Mar 2014 15:47:50 +0000
 

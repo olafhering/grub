@@ -71,6 +71,19 @@ confflags += \
 substvars := \
 	-Vlsb-base-depends="lsb-base (>= 3.0-6)" \
 	-Vgfxpayload-depends="grub-gfxpayload-lists [any-i386 any-amd64]"
+else ifeq (yes,$(shell dpkg-vendor --derives-from Tanglu && echo yes))
+DEFAULT_CMDLINE := quiet splash
+DEFAULT_TIMEOUT := 10
+DEFAULT_HIDDEN_TIMEOUT := 0
+DEFAULT_HIDDEN_TIMEOUT_BOOL := true
+confflags += \
+	--enable-quiet-boot \
+	--enable-quick-boot \
+	--enable-gfxpayload-dynamic \
+	--enable-vt-handoff
+substvars := \
+	-Vlsb-base-depends="lsb-base (>= 3.0-6)" \
+	-Vgfxpayload-depends="grub-gfxpayload-lists [any-i386 any-amd64]"
 else
 DEFAULT_CMDLINE := quiet
 DEFAULT_TIMEOUT := 5
@@ -380,6 +393,9 @@ override_dh_installdocs:
 	dh_installdocs -Ngrub-common -Ngrub-rescue-pc -Ngrub-firmware-qemu --link-doc=grub-common
 
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
+override_dh_installinit:
+	dh_installinit -- start 99 2 3 4 5 .
+else ifeq (yes,$(shell dpkg-vendor --derives-from Tanglu && echo yes))
 override_dh_installinit:
 	dh_installinit -- start 99 2 3 4 5 .
 else
