@@ -1,0 +1,30 @@
+From 2efb97d0215ecb284faefcd09f0012f2bf2fec4a Mon Sep 17 00:00:00 2001
+From: Thomas Falcon <tlfalcon@linux.vnet.ibm.com>
+Date: Mon, 31 Mar 2014 15:32:30 +0100
+Subject: btrfs: fix get_root key comparison failures due to endianness
+
+* grub-core/fs/btrfs.c (get_root): Convert
+GRUB_BTRFS_ROOT_VOL_OBJECTID to little-endian.
+
+Origin: upstream, http://git.savannah.gnu.org/gitweb/?p=grub.git;a=commitdiff;h=4afd0107efa6a2d9cbe6fc71c529264dc2b9fb8a
+Forwarded: not-needed
+Last-Update: 2014-03-31
+
+Patch-Name: btrfs-endian.patch
+---
+ grub-core/fs/btrfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/grub-core/fs/btrfs.c b/grub-core/fs/btrfs.c
+index 89666b6..f7b6c15 100644
+--- a/grub-core/fs/btrfs.c
++++ b/grub-core/fs/btrfs.c
+@@ -1201,7 +1201,7 @@ get_root (struct grub_btrfs_data *data, struct grub_btrfs_key *key,
+   struct grub_btrfs_key key_out, key_in;
+   struct grub_btrfs_root_item ri;
+ 
+-  key_in.object_id = GRUB_BTRFS_ROOT_VOL_OBJECTID;
++  key_in.object_id = grub_cpu_to_le64_compile_time (GRUB_BTRFS_ROOT_VOL_OBJECTID);
+   key_in.offset = 0;
+   key_in.type = GRUB_BTRFS_ITEM_TYPE_ROOT_ITEM;
+   err = lower_bound (data, &key_in, &key_out,
