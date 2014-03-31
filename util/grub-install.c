@@ -1384,7 +1384,7 @@ main (int argc, char *argv[])
   if (!efi_signed || !grub_util_is_regular (efi_signed))
     uefi_secure_boot = 0;
 
-  if (!have_abstractions)
+  if (!have_abstractions || uefi_secure_boot)
     {
       if ((disk_module && grub_strcmp (disk_module, "biosdisk") != 0)
 	  || grub_drives[1]

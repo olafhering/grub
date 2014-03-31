@@ -7,6 +7,8 @@ grub2 (2.02~beta2-8) UNRELEASED; urgency=medium
       (closes: #735935).
   * Build-depend on automake (>= 1.10.1) to ensure that it meets configure's
     requirements (LP: #1299041).
+  * When installing an image for use with UEFI Secure Boot, generate a
+    load.cfg even if there are no device abstractions in use (LP: #1298399).
 
   [ Jon Severinsson ]
   * Add Tanglu support, as in Debian except:

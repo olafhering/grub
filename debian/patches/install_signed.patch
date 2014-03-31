@@ -1,4 +1,4 @@
-From af2df8281cbf3bcc7db1246551008bb0bbae007b Mon Sep 17 00:00:00 2001
+From 60122fc484c274c0a49565a6d6c1ee7658aba208 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:22 +0000
 Subject: Install signed images if UEFI Secure Boot is enabled
@@ -9,15 +9,15 @@ Content-Transfer-Encoding: 8bit
 Author: Stéphane Graber <stgraber@ubuntu.com>
 Author: Steve Langasek <steve.langasek@ubuntu.com>
 Forwarded: no
-Last-Update: 2014-01-20
+Last-Update: 2014-03-31
 
 Patch-Name: install_signed.patch
 ---
- util/grub-install.c | 167 +++++++++++++++++++++++++++++++++++++---------------
- 1 file changed, 121 insertions(+), 46 deletions(-)
+ util/grub-install.c | 169 +++++++++++++++++++++++++++++++++++++---------------
+ 1 file changed, 122 insertions(+), 47 deletions(-)
 
 diff --git a/util/grub-install.c b/util/grub-install.c
-index 3275209..0495d9d 100644
+index 3275209..0d77a2a 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
 @@ -80,6 +80,7 @@ static char *label_color;
@@ -170,10 +170,11 @@ index 3275209..0495d9d 100644
  	}
        t = grub_util_path_concat (3, efidir, "EFI", efi_distributor);
        free (efidir);
-@@ -1329,6 +1336,31 @@ main (int argc, char *argv[])
+@@ -1329,14 +1336,40 @@ main (int argc, char *argv[])
  	}
      }
  
+-  if (!have_abstractions)
 +  char *efi_signed = NULL;
 +  switch (platform)
 +    {
@@ -199,10 +200,10 @@ index 3275209..0495d9d 100644
 +  if (!efi_signed || !grub_util_is_regular (efi_signed))
 +    uefi_secure_boot = 0;
 +
-   if (!have_abstractions)
++  if (!have_abstractions || uefi_secure_boot)
      {
        if ((disk_module && grub_strcmp (disk_module, "biosdisk") != 0)
-@@ -1336,7 +1368,8 @@ main (int argc, char *argv[])
+ 	  || grub_drives[1]
  	  || (!install_drive
  	      && platform != GRUB_INSTALL_PLATFORM_POWERPC_IEEE1275)
  	  || (install_drive && !is_same_disk (grub_drives[0], install_drive))

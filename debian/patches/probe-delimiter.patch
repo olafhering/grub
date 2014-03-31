@@ -1,4 +1,4 @@
-From 1b63d58e31809d317c40ef477d1566ca3780bfc1 Mon Sep 17 00:00:00 2001
+From d9c202af30a1989246e0878af3c67b7aa9c6f83b Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 31 Mar 2014 14:48:33 +0100
 Subject: Fix partmap, cryptodisk, and abstraction handling in grub-mkconfig.
@@ -131,7 +131,7 @@ index 042fe04..1aedcd3 100644
  
  #endif /* ! GRUB_RAID_H */
 diff --git a/util/grub-install.c b/util/grub-install.c
-index dcfcef3..bcf16ed 100644
+index f6a70dd..34f3db2 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
 @@ -402,7 +402,7 @@ probe_raid_level (grub_disk_t disk)
