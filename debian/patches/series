@@ -46,3 +46,4 @@ install_powerpc_machtypes.patch
 install_arm64_naming.patch
 mkrescue_arm64_naming.patch
 ieee1275-pseries-emulation.patch
+probe-delimiter.patch
