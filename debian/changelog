@@ -5,6 +5,8 @@ grub2 (2.02~beta2-8) UNRELEASED; urgency=medium
     - ieee1275: check for IBM pseries emulated machine.
     - Fix partmap, cryptodisk, and abstraction handling in grub-mkconfig
       (closes: #735935).
+  * Build-depend on automake (>= 1.10.1) to ensure that it meets configure's
+    requirements (LP: #1299041).
 
   [ Jon Severinsson ]
   * Add Tanglu support, as in Debian except:
