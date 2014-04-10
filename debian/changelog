@@ -1,10 +1,10 @@
-grub2 (2.02~beta2-9) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-9) unstable; urgency=medium
 
   * Backport from upstream:
     - Tolerate devices with no filesystem UUID returned by os-prober
       (LP: #1287436).
 
- -- Colin Watson <cjwatson@debian.org>  Thu, 10 Apr 2014 16:58:48 +0100
+ -- Colin Watson <cjwatson@debian.org>  Thu, 10 Apr 2014 17:34:44 +0100
 
 grub2 (2.02~beta2-8) unstable; urgency=medium
 
