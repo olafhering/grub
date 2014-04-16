@@ -1,3 +1,10 @@
+grub2 (2.02~beta2-10) UNRELEASED; urgency=medium
+
+  * Add the true module to the signed image, since 05_debian_theme uses it.
+    Thanks to Dimitri John Ledkov for the report.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 16 Apr 2014 19:27:57 +0100
+
 grub2 (2.02~beta2-9) unstable; urgency=medium
 
   * Backport from upstream:

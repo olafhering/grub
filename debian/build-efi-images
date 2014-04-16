@@ -119,6 +119,7 @@ CD_MODULES="
 	search_label
 	sleep
 	test
+	true
 	video
 	"
 GRUB_MODULES="$CD_MODULES
