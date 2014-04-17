@@ -361,9 +361,7 @@ endif
 
 override_dh_install:
 	dh_install -pgrub2 -pgrub-linuxbios -pgrub-efi -pgrub-rescue-pc -pgrub-firmware-qemu
-	set -e; for package in grub-common grub2-common grub-theme-starfield grub-mount-udeb; do \
-		dh_install -p$$package --sourcedir=debian/tmp-grub-$(COMMON_PLATFORM); \
-	done
+	dh_install -pgrub-common -pgrub2-common -pgrub-theme-starfield -pgrub-mount-udeb --sourcedir=debian/tmp-grub-$(COMMON_PLATFORM)
 	rm -f debian/grub2-common/usr/share/info/dir*
 	rm -f debian/grub-theme-starfield/usr/share/grub/themes/starfield/COPYING.CC-BY-SA-3.0
 	set -e; for package in grub-pc grub-efi-ia32 grub-efi-amd64 grub-efi-ia64 grub-efi-arm grub-efi-arm64 grub-ieee1275 grub-coreboot grub-uboot grub-xen grub-yeeloong; do \

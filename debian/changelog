@@ -4,6 +4,7 @@ grub2 (2.02~beta2-10) UNRELEASED; urgency=medium
     Thanks to Dimitri John Ledkov for the report.
   * Limit test suite parallelisation to 1; the test suite seems to have some
     isolation problems at higher levels at the moment.
+  * Simplify override_dh_install a bit.
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 16 Apr 2014 19:27:57 +0100
 
