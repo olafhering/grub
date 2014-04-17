@@ -2,6 +2,8 @@ grub2 (2.02~beta2-10) UNRELEASED; urgency=medium
 
   * Add the true module to the signed image, since 05_debian_theme uses it.
     Thanks to Dimitri John Ledkov for the report.
+  * Limit test suite parallelisation to 1; the test suite seems to have some
+    isolation problems at higher levels at the moment.
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 16 Apr 2014 19:27:57 +0100
 
