@@ -1,0 +1,94 @@
+From 4b74263a7ef7bfeea509374f77c683f0ba3cf620 Mon Sep 17 00:00:00 2001
+From: Paulo Flabiano Smorigo <pfsmorigo@br.ibm.com>
+Date: Tue, 21 Jan 2014 11:03:51 -0200
+Subject: increase network try interval gradually
+
+* grub-core/net/arp.c (grub_net_arp_send_request): Increase network try
+interval gradually.
+* grub-core/net/icmp6.c (grub_net_icmp6_send_request): Likewise.
+* grub-core/net/net.c (grub_net_fs_read_real): Likewise.
+* grub-core/net/tftp.c (tftp_open): Likewise.
+* include/grub/net.h (GRUB_NET_INTERVAL_ADDITION): New define.
+
+Origin: upstream, http://git.savannah.gnu.org/gitweb/?p=grub.git;a=commitdiff;h=6f65e36cc4f92fe40672181eccf12eac4afb6738
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/1314134
+Last-Update: 2014-04-29
+
+Patch-Name: net-ramp-up-interval.patch
+---
+ grub-core/net/arp.c   | 3 ++-
+ grub-core/net/icmp6.c | 3 ++-
+ grub-core/net/net.c   | 5 +++--
+ grub-core/net/tftp.c  | 3 ++-
+ include/grub/net.h    | 1 +
+ 5 files changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/grub-core/net/arp.c b/grub-core/net/arp.c
+index e92c7e7..d62d0cc 100644
+--- a/grub-core/net/arp.c
++++ b/grub-core/net/arp.c
+@@ -110,7 +110,8 @@ grub_net_arp_send_request (struct grub_net_network_level_interface *inf,
+ 	return GRUB_ERR_NONE;
+       pending_req = proto_addr->ipv4;
+       have_pending = 0;
+-      grub_net_poll_cards (GRUB_NET_INTERVAL, &have_pending);
++      grub_net_poll_cards (GRUB_NET_INTERVAL + (i * GRUB_NET_INTERVAL_ADDITION),
++                           &have_pending);
+       if (grub_net_link_layer_resolve_check (inf, proto_addr))
+ 	return GRUB_ERR_NONE;
+       nb.data = nbd;
+diff --git a/grub-core/net/icmp6.c b/grub-core/net/icmp6.c
+index 2741e6f..bbc9020 100644
+--- a/grub-core/net/icmp6.c
++++ b/grub-core/net/icmp6.c
+@@ -518,7 +518,8 @@ grub_net_icmp6_send_request (struct grub_net_network_level_interface *inf,
+     {
+       if (grub_net_link_layer_resolve_check (inf, proto_addr))
+ 	break;
+-      grub_net_poll_cards (GRUB_NET_INTERVAL, 0);
++      grub_net_poll_cards (GRUB_NET_INTERVAL + (i * GRUB_NET_INTERVAL_ADDITION),
++                           0);
+       if (grub_net_link_layer_resolve_check (inf, proto_addr))
+ 	break;
+       nb->data = nbd;
+diff --git a/grub-core/net/net.c b/grub-core/net/net.c
+index 56355f3..1521d8d 100644
+--- a/grub-core/net/net.c
++++ b/grub-core/net/net.c
+@@ -1558,8 +1558,9 @@ grub_net_fs_read_real (grub_file_t file, char *buf, grub_size_t len)
+       if (!net->eof)
+ 	{
+ 	  try++;
+-	  grub_net_poll_cards (GRUB_NET_INTERVAL, &net->stall);
+-	}
++	  grub_net_poll_cards (GRUB_NET_INTERVAL +
++                               (try * GRUB_NET_INTERVAL_ADDITION), &net->stall);
++        }
+       else
+ 	return total;
+     }
+diff --git a/grub-core/net/tftp.c b/grub-core/net/tftp.c
+index 9c489f1..5173614 100644
+--- a/grub-core/net/tftp.c
++++ b/grub-core/net/tftp.c
+@@ -398,7 +398,8 @@ tftp_open (struct grub_file *file, const char *filename)
+ 	  destroy_pq (data);
+ 	  return err;
+ 	}
+-      grub_net_poll_cards (GRUB_NET_INTERVAL, &data->have_oack);
++      grub_net_poll_cards (GRUB_NET_INTERVAL + (i * GRUB_NET_INTERVAL_ADDITION),
++                           &data->have_oack);
+       if (data->have_oack)
+ 	break;
+     }
+diff --git a/include/grub/net.h b/include/grub/net.h
+index de6259e..0e0a605 100644
+--- a/include/grub/net.h
++++ b/include/grub/net.h
+@@ -532,5 +532,6 @@ extern char *grub_net_default_server;
+ 
+ #define GRUB_NET_TRIES 40
+ #define GRUB_NET_INTERVAL 400
++#define GRUB_NET_INTERVAL_ADDITION 20
+ 
+ #endif /* ! GRUB_NET_HEADER */
