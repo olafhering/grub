@@ -896,6 +896,20 @@ grub_util_part_to_disk (const char *os_dev, struct stat *st,
 	  *pp = '\0';
 	  return path;
 	}
+
+      /* If this is an NVMe device.  */
+      if (strncmp ("nvme", p, sizeof ("nvme") - 1) == 0)
+	{
+	  /* /dev/nvme[0-9]+n[0-9]+(p[0-9]+)? */
+	  p = strchr (p, 'p');
+	  if (p)
+	    {
+	      *is_part = 1;
+	      *p = '\0';
+	    }
+
+	  return path;
+	}
     }
 
   return path;
