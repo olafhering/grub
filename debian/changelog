@@ -1,10 +1,14 @@
 grub2 (2.02~beta2-10) UNRELEASED; urgency=medium
 
+  [ Colin Watson ]
   * Add the true module to the signed image, since 05_debian_theme uses it.
     Thanks to Dimitri John Ledkov for the report.
   * Limit test suite parallelisation to 1; the test suite seems to have some
     isolation problems at higher levels at the moment.
   * Simplify override_dh_install a bit.
+
+  [ Debconf translations ]
+  * Korean (Changwoo Ryu, closes: #745559).
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 16 Apr 2014 19:27:57 +0100
 
