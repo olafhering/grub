@@ -4,7 +4,7 @@ grub2 (2.02~beta2-10) UNRELEASED; urgency=medium
   * Add the true module to the signed image, since 05_debian_theme uses it.
     Thanks to Dimitri John Ledkov for the report.
   * Limit test suite parallelisation to 1; the test suite seems to have some
-    isolation problems at higher levels at the moment.
+    isolation problems at higher levels at the moment (closes: #746856).
   * Simplify override_dh_install a bit.
   * Backport patches from upstream to make the network stack more responsive
     on busy networks (LP: #1314134).
