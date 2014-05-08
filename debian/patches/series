@@ -51,3 +51,4 @@ btrfs-endian.patch
 tolerate-lvm-snapshots.patch
 net-receive-packets-yield.patch
 net-ramp-up-interval.patch
+probe_nvme.patch

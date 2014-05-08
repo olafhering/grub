@@ -9,6 +9,10 @@ grub2 (2.02~beta2-10) UNRELEASED; urgency=medium
   * Backport patches from upstream to make the network stack more responsive
     on busy networks (LP: #1314134).
 
+  [ Dimitri John Ledkov ]
+  * Add support for nvme device in grub-mkdevicemap (closes: #746396,
+    LP: #1275162).
+
   [ Debconf translations ]
   * Korean (Changwoo Ryu, closes: #745559).
 

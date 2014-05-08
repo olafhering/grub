@@ -1,0 +1,62 @@
+From ec8c78fe22703af241b63c0063f9b496ed763a21 Mon Sep 17 00:00:00 2001
+From: Dimitri John Ledkov <dimitri.ledkov@canonical.com>
+Date: Tue, 29 Apr 2014 16:45:44 +0100
+Subject: Add support for nvme device in grub-mkdevicemap
+
+Bug-Debian: https://bugs.debian.org/746396
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/1275162
+Forwarded: no
+Last-Update: 2014-05-08
+
+Patch-Name: probe_nvme.patch
+---
+ util/deviceiter.c | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+
+diff --git a/util/deviceiter.c b/util/deviceiter.c
+index b61715d..28dcc25 100644
+--- a/util/deviceiter.c
++++ b/util/deviceiter.c
+@@ -371,6 +371,12 @@ get_fio_disk_name (char *name, int unit)
+ {
+   sprintf (name, "/dev/fio%c", unit + 'a');
+ }
++
++static void
++get_nvme_disk_name (char *name, int controller, int namespace)
++{
++  sprintf (name, "/dev/nvme%dn%d", controller, namespace);
++}
+ #endif
+ 
+ static struct seen_device
+@@ -875,6 +881,29 @@ grub_util_iterate_devices (int (*hook) (const char *, int, void *), void *hook_d
+ 	}
+     }
+ 
++  /* This is for standard NVMe controllers
++     /dev/nvme<controller>n<namespace>p<partition>. No idea about
++     actual limits of how many controllers a system can have and/or
++     how many namespace that would be, 10 for now. */
++  {
++    int controller, namespace;
++
++    for (controller = 0; controller < 10; controller++)
++      {
++	for (namespace = 0; namespace < 10; namespace++)
++	  {
++	    char name[16];
++
++	    get_nvme_disk_name (name, controller, namespace);
++	    if (check_device_readable_unique (name))
++	      {
++		if (hook (name, 0, hook_data))
++		  goto out;
++	      }
++	  }
++      }
++  }
++
+ # ifdef HAVE_DEVICE_MAPPER
+ #  define dmraid_check(cond, ...) \
+   if (! (cond)) \
