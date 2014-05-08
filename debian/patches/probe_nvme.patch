@@ -1,8 +1,9 @@
-From ec8c78fe22703af241b63c0063f9b496ed763a21 Mon Sep 17 00:00:00 2001
+From e0b5980c8916a9828ffcdeb2cb054ca018cfbadb Mon Sep 17 00:00:00 2001
 From: Dimitri John Ledkov <dimitri.ledkov@canonical.com>
 Date: Tue, 29 Apr 2014 16:45:44 +0100
 Subject: Add support for nvme device in grub-mkdevicemap
 
+Author: Colin Watson <cjwatson@ubuntu.com>
 Bug-Debian: https://bugs.debian.org/746396
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/1275162
 Forwarded: no
@@ -10,9 +11,35 @@ Last-Update: 2014-05-08
 
 Patch-Name: probe_nvme.patch
 ---
- util/deviceiter.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ grub-core/osdep/linux/getroot.c | 14 ++++++++++++++
+ util/deviceiter.c               | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 43 insertions(+)
 
+diff --git a/grub-core/osdep/linux/getroot.c b/grub-core/osdep/linux/getroot.c
+index 6788e39..f97f3a6 100644
+--- a/grub-core/osdep/linux/getroot.c
++++ b/grub-core/osdep/linux/getroot.c
+@@ -896,6 +896,20 @@ grub_util_part_to_disk (const char *os_dev, struct stat *st,
+ 	  *pp = '\0';
+ 	  return path;
+ 	}
++
++      /* If this is an NVMe device.  */
++      if (strncmp ("nvme", p, sizeof ("nvme") - 1) == 0)
++	{
++	  /* /dev/nvme[0-9]+n[0-9]+(p[0-9]+)? */
++	  p = strchr (p, 'p');
++	  if (p)
++	    {
++	      *is_part = 1;
++	      *p = '\0';
++	    }
++
++	  return path;
++	}
+     }
+ 
+   return path;
 diff --git a/util/deviceiter.c b/util/deviceiter.c
 index b61715d..28dcc25 100644
 --- a/util/deviceiter.c
