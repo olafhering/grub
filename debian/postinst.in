@@ -411,6 +411,7 @@ case "$1" in
             # No || true here; it's vital that the user sees this, and it's
             # better to throw an error than to do the wrong thing.
             db_subst grub-pc/mixed_legacy_and_grub2 DISKS "$grub2_disks"
+            db_fset grub-pc/mixed_legacy_and_grub2 seen false
             db_input critical grub-pc/mixed_legacy_and_grub2
             db_go
             db_get grub-pc/mixed_legacy_and_grub2

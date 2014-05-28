@@ -1,3 +1,10 @@
+grub2 (2.02~beta2-11) UNRELEASED; urgency=medium
+
+  * Force grub-pc/mixed_legacy_and_grub2 to be reshown, rather than failing
+    when it was already seen (closes: #749571).
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 28 May 2014 09:59:41 +0100
+
 grub2 (2.02~beta2-10) unstable; urgency=medium
 
   [ Colin Watson ]
