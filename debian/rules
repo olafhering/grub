@@ -28,11 +28,7 @@ else
 with_check := yes
 endif
 
-ifeq ($(DEB_HOST_ARCH_CPU),ppc64el)
-CC := gcc-4.8
-else
-CC := gcc-4.7
-endif
+CC := gcc-4.9
 
 confflags = PACKAGE_VERSION="$(deb_version)" PACKAGE_STRING="GRUB $(deb_version)" CC=$(CC) TARGET_CC=$(CC) --enable-grub-mkfont
 
@@ -148,7 +144,7 @@ debian/stamps/configure-grub-pc debian/stamps/configure-grub-coreboot debian/sta
 
 debian/stamps/configure-grub-ieee1275: debian/stamps/autogen
 	mkdir -p debian/stamps obj/$(package)
-	dh_auto_configure -- $(confflags) --with-platform=$(subst grub-,,$(package)) $(if $(filter ppc64el,$(DEB_HOST_ARCH_CPU)),--target=powerpc-linux-gnu TARGET_CC=powerpc-linux-gnu-gcc-4.8)
+	dh_auto_configure -- $(confflags) --with-platform=$(subst grub-,,$(package)) $(if $(filter ppc64el,$(DEB_HOST_ARCH_CPU)),--target=powerpc-linux-gnu TARGET_CC=powerpc-linux-gnu-gcc-4.9)
 	touch $@
 
 # This name scheme leaves room for things like amd32 someday
