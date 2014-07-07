@@ -39,7 +39,7 @@ REAL_PACKAGES = grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub
 
 ifneq (,$(filter i386 amd64,$(DEB_HOST_ARCH_CPU)))
 COMMON_PLATFORM := pc
-else ifneq (,$(filter powerpc ppc64 ppc64el sparc,$(DEB_HOST_ARCH_CPU)))
+else ifneq (,$(filter powerpc ppc64 ppc64el sparc sparc64,$(DEB_HOST_ARCH_CPU)))
 COMMON_PLATFORM := ieee1275
 else ifeq (mipsel,$(DEB_HOST_ARCH_CPU))
 COMMON_PLATFORM := yeeloong
