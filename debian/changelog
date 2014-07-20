@@ -6,6 +6,8 @@ grub2 (2.02~beta2-11) UNRELEASED; urgency=medium
   * Build for sparc64 (closes: #753784).
   * Fix an infinite loop in grub-mkconfig when kernel paths contain regex
     metacharacters.  Thanks to Heimo Stranner for the report.
+  * On upgrade, if we find that one of the install devices no longer exists,
+    ask the debconf question at priority critical rather than high.
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 28 May 2014 09:59:41 +0100
 

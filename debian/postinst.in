@@ -464,6 +464,7 @@ case "$1" in
              test -e /boot/grub/@FIRST_CPU_PLATFORM@/core.img || \
              test "$UPGRADE_FROM_GRUB_LEGACY" || test "$wubi_device"; then
           question=grub-pc/install_devices
+          priority=high
           device_map="$(grub-mkdevicemap -m - | grep -v '^(fd[0-9]\+)' || true)"
           devices="$(echo "$device_map" | cut -f2)"
           if dpkg --compare-versions "$2" lt 1.98+20100702-1 && \
@@ -533,6 +534,7 @@ case "$1" in
             done
             if [ "$valid" = 0 ]; then
               question=grub-pc/install_devices_disks_changed
+              priority=critical
               db_set "$question" "$RET"
               db_fset "$question" seen false
               db_fset grub-pc/install_devices_empty seen false
@@ -579,7 +581,7 @@ case "$1" in
             done
             db_subst "$question" RAW_CHOICES "$ids"
             db_subst "$question" CHOICES "$descriptions"
-            db_input high "$question" || true
+            db_input "$priority" "$question" || true
             db_go
             db_get "$question"
             failed_devices=
