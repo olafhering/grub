@@ -39,8 +39,8 @@ Build-Depends: debhelper (>= 7.4.2~),
 Build-Conflicts: autoconf2.13, libzfs-dev, libnvpair-dev
 Standards-Version: 3.8.4
 Homepage: http://www.gnu.org/software/grub/
-Vcs-Git: git://anonscm.debian.org/pkg-grub/grub.git -b experimental
-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-grub/grub.git;a=shortlog;h=refs/heads/experimental
+Vcs-Git: git://anonscm.debian.org/pkg-grub/grub.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-grub/grub.git
 
 Package: grub2
 Section: oldlibs
