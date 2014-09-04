@@ -383,7 +383,7 @@ Description: GRand Unified Bootloader, version 2 (IA64 version)
 
 Package: grub-efi-arm-bin
 Architecture: any-arm
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}), efibootmgr [linux-any]
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (ARM UEFI binaries)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
@@ -429,7 +429,7 @@ Description: GRand Unified Bootloader, version 2 (ARM UEFI version)
 
 Package: grub-efi-arm64-bin
 Architecture: any-arm64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}), efibootmgr [linux-any]
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (ARM64 UEFI binaries)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a

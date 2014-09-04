@@ -1,5 +1,6 @@
 grub2 (2.02~beta2-12) UNRELEASED; urgency=medium
 
+  [ Colin Watson ]
   * Point Vcs-* fields back at master.
   * Support grub-emu on x32 (closes: #760428).
   * Adjust packaging for x32:
@@ -10,6 +11,9 @@ grub2 (2.02~beta2-12) UNRELEASED; urgency=medium
     - Build grub-mount-udeb on x32 as well.
     - Add Lintian binary-from-other-architecture overrides where
       appropriate.
+
+  [ Ian Campbell ]
+  * Add dependency on efibootmgr to grub-efi-{arm,arm64}-bin.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 19 Aug 2014 13:19:40 +0100
 
