@@ -1979,6 +1979,14 @@ main (int argc, char *argv[])
 	}
       break;
 
+    case GRUB_INSTALL_PLATFORM_I386_XEN:
+	  grub_install_copy_file (imgfile, "/boot/xen/pvboot-i386.elf", 1);
+	  break;
+
+    case GRUB_INSTALL_PLATFORM_X86_64_XEN:
+	  grub_install_copy_file (imgfile, "/boot/xen/pvboot-x86_64.elf", 1);
+	  break;
+
     case GRUB_INSTALL_PLATFORM_MIPSEL_LOONGSON:
     case GRUB_INSTALL_PLATFORM_MIPSEL_QEMU_MIPS:
     case GRUB_INSTALL_PLATFORM_MIPS_QEMU_MIPS:
@@ -1987,8 +1995,6 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_MIPSEL_ARC:
     case GRUB_INSTALL_PLATFORM_ARM_UBOOT:
     case GRUB_INSTALL_PLATFORM_I386_QEMU:
-    case GRUB_INSTALL_PLATFORM_I386_XEN:
-    case GRUB_INSTALL_PLATFORM_X86_64_XEN:
       grub_util_warn ("%s",
 		      _("WARNING: no platform-specific install was performed"));
       break;
