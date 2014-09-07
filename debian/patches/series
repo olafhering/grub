@@ -53,3 +53,4 @@ net-receive-packets-yield.patch
 net-ramp-up-interval.patch
 probe_nvme.patch
 mkconfig-kernels-infloop.patch
+x32.patch

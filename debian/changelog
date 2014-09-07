@@ -1,6 +1,7 @@
 grub2 (2.02~beta2-12) UNRELEASED; urgency=medium
 
   * Point Vcs-* fields back at master.
+  * Support grub-emu on x32 (closes: #760428).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 19 Aug 2014 13:19:40 +0100
 
