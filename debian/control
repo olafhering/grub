@@ -27,7 +27,7 @@ Build-Depends: debhelper (>= 7.4.2~),
  libsdl1.2-dev [!hurd-any],
  xorriso (>= 0.5.6.pl00),
  qemu-system [i386 kfreebsd-i386 kopensolaris-i386 any-amd64],
- cpio [i386 kopensolaris-i386 amd64],
+ cpio [i386 kopensolaris-i386 amd64 x32],
  parted [!hurd-any],
  libfuse-dev (>= 2.8.4-1.4) [linux-any kfreebsd-any],
  ttf-dejavu-core,
@@ -237,7 +237,7 @@ Description: GRand Unified Bootloader, version 2 (Coreboot version)
 
 Package: grub-efi-ia32-bin
 Architecture: any-i386 any-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}), efibootmgr [i386 amd64]
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}), efibootmgr [linux-any]
 Replaces: grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-efi, grub-efi-ia32 (<< 1.99-1)
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (EFI-IA32 binaries)
@@ -287,7 +287,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-IA32 version)
 
 Package: grub-efi-amd64-bin
 Architecture: i386 kopensolaris-i386 any-amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}), efibootmgr [i386 amd64]
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}), efibootmgr [linux-any]
 Replaces: grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-efi-amd64 (<< 1.99-1)
 Multi-Arch: foreign
 Description: GRand Unified Bootloader, version 2 (EFI-AMD64 binaries)
@@ -689,6 +689,6 @@ Description: GRand Unified Bootloader, version 2 (starfield theme)
 Package: grub-mount-udeb
 XC-Package-Type: udeb
 Section: debian-installer
-Architecture: i386 amd64 powerpc ppc64 ppc64el sparc sparc64 mipsel ia64 armel armhf arm64 kfreebsd-i386 kfreebsd-amd64
+Architecture: i386 amd64 x32 powerpc ppc64 ppc64el sparc sparc64 mipsel ia64 armel armhf arm64 kfreebsd-i386 kfreebsd-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: export GRUB filesystems using FUSE
