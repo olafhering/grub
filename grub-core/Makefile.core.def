@@ -132,6 +132,7 @@ kernel = {
   common = kern/rescue_reader.c;
   common = kern/term.c;
 
+  noemu = kern/compiler-rt.c;
   noemu = kern/mm.c;
   noemu = kern/time.c;
   noemu = kern/generic/millisleep.c;
@@ -252,6 +253,7 @@ kernel = {
 
   powerpc_ieee1275 = kern/powerpc/cache.S;
   powerpc_ieee1275 = kern/powerpc/dl.c;
+  powerpc_ieee1275 = kern/powerpc/compiler-rt.S;
 
   sparc64_ieee1275 = kern/sparc64/cache.S;
   sparc64_ieee1275 = kern/sparc64/dl.c;
