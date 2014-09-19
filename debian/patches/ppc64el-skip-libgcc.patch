@@ -1,0 +1,494 @@
+From b5237695021b1c8c3257a5812ac7cc28d9b0cce7 Mon Sep 17 00:00:00 2001
+From: Paulo Flabiano Smorigo <pfsmorigo@linux.vnet.ibm.com>
+Date: Wed, 17 Sep 2014 14:44:30 -0300
+Subject: Skip libgcc dependency for powerpc
+
+* configure.ac: Add conditions to avoid libgcc dependency.
+* Makefile.am: Likewise.
+* Makefile.core.def: Include compiler-rt.S and compiler-rt.c.
+* compiler-rt.c: New file.
+* compiler-rt.S: Likewise.
+* compiler-rt.h: Likewise.
+
+Also-By: Brent Baude <bbaude@redhat.com>
+Also-By: Vladimir 'phcoder' Serbinenko <phcoder@gmail.com>
+
+Origin: other, https://lists.gnu.org/archive/html/grub-devel/2014-09/msg00021.html
+Last-Update: 2014-09-19
+
+Patch-Name: ppc64el-skip-libgcc.patch
+---
+ configure.ac                         |  10 ++-
+ grub-core/Makefile.am                |   1 +
+ grub-core/Makefile.core.def          |   2 +
+ grub-core/kern/compiler-rt.c         | 166 +++++++++++++++++++++++++++++++++++
+ grub-core/kern/powerpc/compiler-rt.S | 130 +++++++++++++++++++++++++++
+ include/grub/compiler-rt.h           |  82 +++++++++++++++++
+ 6 files changed, 387 insertions(+), 4 deletions(-)
+ create mode 100644 grub-core/kern/compiler-rt.c
+ create mode 100644 grub-core/kern/powerpc/compiler-rt.S
+ create mode 100644 include/grub/compiler-rt.h
+
+diff --git a/configure.ac b/configure.ac
+index c21307c..5ce3caf 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1022,7 +1022,7 @@ else
+ CFLAGS="$TARGET_CFLAGS -nostdlib -Wno-error"
+ fi
+ CPPFLAGS="$TARGET_CPPFLAGS"
+-if test x$target_cpu = xi386 || test x$target_cpu = xx86_64 || test "x$grub_cv_cc_target_clang" = xyes ; then
++if test x$target_cpu = xi386 || test x$target_cpu = xx86_64 || test x$target_cpu = xpowerpc || test "x$grub_cv_cc_target_clang" = xyes; then
+ TARGET_LIBGCC=
+ else
+ TARGET_LIBGCC=-lgcc
+@@ -1040,8 +1040,10 @@ fi
+ CFLAGS="$TARGET_CFLAGS -nostdlib $DEFSYM"
+ fi
+ 
+-# Check for libgcc symbols
+-AC_CHECK_FUNCS(__bswapsi2 __bswapdi2 __ashldi3 __ashrdi3 __lshrdi3 __ucmpdi2 _restgpr_14_x)
++if ! test x$target_cpu = xpowerpc; then
++  # Check for libgcc symbols
++  AC_CHECK_FUNCS(__bswapsi2 __bswapdi2 __ashldi3 __ashrdi3 __lshrdi3 __ucmpdi2 _restgpr_14_x)
++fi
+ 
+ if test "x$TARGET_APPLE_LINKER" = x1 ; then
+ CFLAGS="$TARGET_CFLAGS -nostdlib -static"
+@@ -1658,7 +1660,7 @@ if test x"$enable_werror" != xno ; then
+   HOST_CFLAGS="$HOST_CFLAGS -Werror"
+ fi
+ 
+-if test "x$grub_cv_cc_target_clang" = xno; then
++if test "x$grub_cv_cc_target_clang" = xno && test x$target_cpu != xpowerpc; then
+    TARGET_LDFLAGS_STATIC_LIBGCC="-static-libgcc"
+ else
+    TARGET_LDFLAGS_STATIC_LIBGCC=
+diff --git a/grub-core/Makefile.am b/grub-core/Makefile.am
+index 1b3142d..eab481c 100644
+--- a/grub-core/Makefile.am
++++ b/grub-core/Makefile.am
+@@ -74,6 +74,7 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i18n.h
+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/kernel.h
+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/list.h
+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/misc.h
++KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/compiler-rt.h
+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/mm.h
+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/parser.h
+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/partition.h
+diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
+index 27988ad..5a25045 100644
+--- a/grub-core/Makefile.core.def
++++ b/grub-core/Makefile.core.def
+@@ -132,6 +132,7 @@ kernel = {
+   common = kern/rescue_reader.c;
+   common = kern/term.c;
+ 
++  noemu = kern/compiler-rt.c;
+   noemu = kern/mm.c;
+   noemu = kern/time.c;
+   noemu = kern/generic/millisleep.c;
+@@ -252,6 +253,7 @@ kernel = {
+ 
+   powerpc_ieee1275 = kern/powerpc/cache.S;
+   powerpc_ieee1275 = kern/powerpc/dl.c;
++  powerpc_ieee1275 = kern/powerpc/compiler-rt.S;
+ 
+   sparc64_ieee1275 = kern/sparc64/cache.S;
+   sparc64_ieee1275 = kern/sparc64/dl.c;
+diff --git a/grub-core/kern/compiler-rt.c b/grub-core/kern/compiler-rt.c
+new file mode 100644
+index 0000000..42689c0
+--- /dev/null
++++ b/grub-core/kern/compiler-rt.c
+@@ -0,0 +1,166 @@
++/* compiler-rt.c - compiler helpers. */
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010-2014  Free Software Foundation, Inc.
++ *
++ *  GRUB is free software: you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation, either version 3 of the License, or
++ *  (at your option) any later version.
++ *
++ *  GRUB is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <grub/misc.h>
++#include <grub/compiler-rt.h>
++
++#if defined (__powerpc__)
++
++union component64
++{
++  grub_uint64_t full;
++  struct
++  {
++#ifdef GRUB_CPU_WORDS_BIGENDIAN
++    grub_uint32_t high;
++    grub_uint32_t low;
++#else
++    grub_uint32_t low;
++    grub_uint32_t high;
++#endif
++  };
++};
++
++/* Based on libgcc2.c from gcc suite.  */
++grub_uint64_t
++__lshrdi3 (grub_uint64_t u, int b)
++{
++  if (b == 0)
++    return u;
++
++  const union component64 uu = {.full = u};
++  const int bm = 32 - b;
++  union component64 w;
++
++  if (bm <= 0)
++    {
++      w.high = 0;
++      w.low = (grub_uint32_t) uu.high >> -bm;
++    }
++  else
++    {
++      const grub_uint32_t carries = (grub_uint32_t) uu.high << bm;
++
++      w.high = (grub_uint32_t) uu.high >> b;
++      w.low = ((grub_uint32_t) uu.low >> b) | carries;
++    }
++
++  return w.full;
++}
++
++/* Based on libgcc2.c from gcc suite.  */
++grub_uint64_t
++__ashrdi3 (grub_uint64_t u, int b)
++{
++  if (b == 0)
++    return u;
++
++  const union component64 uu = {.full = u};
++  const int bm = 32 - b;
++  union component64 w;
++
++  if (bm <= 0)
++    {
++      /* w.high = 1..1 or 0..0 */
++      w.high = uu.high >> (32 - 1);
++      w.low = uu.high >> -bm;
++    }
++  else
++    {
++      const grub_uint32_t carries = (grub_uint32_t) uu.high << bm;
++
++      w.high = uu.high >> b;
++      w.low = ((grub_uint32_t) uu.low >> b) | carries;
++    }
++
++  return w.full;
++}
++
++/* Based on libgcc2.c from gcc suite.  */
++grub_uint64_t
++__ashldi3 (grub_uint64_t u, int b)
++{
++  if (b == 0)
++    return u;
++
++  const union component64 uu = {.full = u};
++  const int bm = 32 - b;
++  union component64 w;
++
++  if (bm <= 0)
++    {
++      w.low = 0;
++      w.high = (grub_uint32_t) uu.low << -bm;
++    }
++  else
++    {
++      const grub_uint32_t carries = (grub_uint32_t) uu.low >> bm;
++
++      w.low = (grub_uint32_t) uu.low << b;
++      w.high = ((grub_uint32_t) uu.high << b) | carries;
++    }
++
++  return w.full;
++}
++
++/* Based on libgcc2.c from gcc suite.  */
++int
++__ucmpdi2 (grub_uint64_t a, grub_uint64_t b)
++{
++  union component64 ac, bc;
++  ac.full = a;
++  bc.full = b;
++
++  if (ac.high < bc.high)
++    return 0;
++  else if (ac.high > bc.high)
++    return 2;
++
++  if (ac.low < bc.low)
++    return 0;
++  else if (ac.low > bc.low)
++    return 2;
++  return 1;
++}
++
++/* Based on libgcc2.c from gcc suite.  */
++grub_uint32_t
++__bswapsi2 (grub_uint32_t u)
++{
++  return ((((u) & 0xff000000) >> 24)
++	  | (((u) & 0x00ff0000) >>  8)
++	  | (((u) & 0x0000ff00) <<  8)
++	  | (((u) & 0x000000ff) << 24));
++}
++
++/* Based on libgcc2.c from gcc suite.  */
++grub_uint64_t
++__bswapdi2 (grub_uint64_t u)
++{
++  return ((((u) & 0xff00000000000000ull) >> 56)
++	  | (((u) & 0x00ff000000000000ull) >> 40)
++	  | (((u) & 0x0000ff0000000000ull) >> 24)
++	  | (((u) & 0x000000ff00000000ull) >>  8)
++	  | (((u) & 0x00000000ff000000ull) <<  8)
++	  | (((u) & 0x0000000000ff0000ull) << 24)
++	  | (((u) & 0x000000000000ff00ull) << 40)
++	  | (((u) & 0x00000000000000ffull) << 56));
++}
++
++#endif
+diff --git a/grub-core/kern/powerpc/compiler-rt.S b/grub-core/kern/powerpc/compiler-rt.S
+new file mode 100644
+index 0000000..63e3a0d
+--- /dev/null
++++ b/grub-core/kern/powerpc/compiler-rt.S
+@@ -0,0 +1,130 @@
++/*
++ * Special support for eabi and SVR4
++ *
++ *   Copyright (C) 1995-2014 Free Software Foundation, Inc.
++ *   Written By Michael Meissner
++ *   64-bit support written by David Edelsohn
++ *
++ * This file is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 3, or (at your option) any
++ * later version.
++ *
++ * This file is distributed in the hope that it will be useful, but
++ * WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * General Public License for more details.
++ *
++ * Under Section 7 of GPL version 3, you are granted additional
++ * permissions described in the GCC Runtime Library Exception, version
++ * 3.1, as published by the Free Software Foundation.
++ *
++ * You should have received a copy of the GNU General Public License and
++ * a copy of the GCC Runtime Library Exception along with this program;
++ * see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++ * <http://www.gnu.org/licenses/>.
++ */
++
++/* Do any initializations needed for the eabi environment */
++
++#include <grub/symbol.h>
++#include <grub/dl.h>
++
++	.section ".text"
++
++#define CFI_RESTORE(reg)		.cfi_restore reg
++#define CFI_OFFSET(reg, off)		.cfi_offset reg, off
++#define CFI_DEF_CFA_REGISTER(reg)	.cfi_def_cfa_register reg
++#define CFI_STARTPROC			.cfi_startproc
++#define CFI_ENDPROC			.cfi_endproc
++
++/* Routines for restoring integer registers, called by the compiler.  */
++/* Called with r11 pointing to the stack header word of the caller of the */
++/* function, just beyond the end of the integer restore area.  */
++
++CFI_STARTPROC
++CFI_DEF_CFA_REGISTER (11)
++CFI_OFFSET (65, 4)
++CFI_OFFSET (14, -72)
++CFI_OFFSET (15, -68)
++CFI_OFFSET (16, -64)
++CFI_OFFSET (17, -60)
++CFI_OFFSET (18, -56)
++CFI_OFFSET (19, -52)
++CFI_OFFSET (20, -48)
++CFI_OFFSET (21, -44)
++CFI_OFFSET (22, -40)
++CFI_OFFSET (23, -36)
++CFI_OFFSET (24, -32)
++CFI_OFFSET (25, -28)
++CFI_OFFSET (26, -24)
++CFI_OFFSET (27, -20)
++CFI_OFFSET (28, -16)
++CFI_OFFSET (29, -12)
++CFI_OFFSET (30, -8)
++CFI_OFFSET (31, -4)
++FUNCTION(_restgpr_14_x)	lwz	14,-72(11)	/* restore gp registers */
++CFI_RESTORE (14)
++FUNCTION(_restgpr_15_x)	lwz	15,-68(11)
++CFI_RESTORE (15)
++FUNCTION(_restgpr_16_x)	lwz	16,-64(11)
++CFI_RESTORE (16)
++FUNCTION(_restgpr_17_x)	lwz	17,-60(11)
++CFI_RESTORE (17)
++FUNCTION(_restgpr_18_x)	lwz	18,-56(11)
++CFI_RESTORE (18)
++FUNCTION(_restgpr_19_x)	lwz	19,-52(11)
++CFI_RESTORE (19)
++FUNCTION(_restgpr_20_x)	lwz	20,-48(11)
++CFI_RESTORE (20)
++FUNCTION(_restgpr_21_x)	lwz	21,-44(11)
++CFI_RESTORE (21)
++FUNCTION(_restgpr_22_x)	lwz	22,-40(11)
++CFI_RESTORE (22)
++FUNCTION(_restgpr_23_x)	lwz	23,-36(11)
++CFI_RESTORE (23)
++FUNCTION(_restgpr_24_x)	lwz	24,-32(11)
++CFI_RESTORE (24)
++FUNCTION(_restgpr_25_x)	lwz	25,-28(11)
++CFI_RESTORE (25)
++FUNCTION(_restgpr_26_x)	lwz	26,-24(11)
++CFI_RESTORE (26)
++FUNCTION(_restgpr_27_x)	lwz	27,-20(11)
++CFI_RESTORE (27)
++FUNCTION(_restgpr_28_x)	lwz	28,-16(11)
++CFI_RESTORE (28)
++FUNCTION(_restgpr_29_x)	lwz	29,-12(11)
++CFI_RESTORE (29)
++FUNCTION(_restgpr_30_x)	lwz	30,-8(11)
++CFI_RESTORE (30)
++FUNCTION(_restgpr_31_x)	lwz	0,4(11)
++				lwz	31,-4(11)
++CFI_RESTORE (31)
++				mtlr	0
++CFI_RESTORE (65)
++				mr	1,11
++CFI_DEF_CFA_REGISTER (1)
++				blr
++CFI_ENDPROC
++
++CFI_STARTPROC
++FUNCTION(_savegpr_14)	stw	14,-72(11)	/* save gp registers */
++FUNCTION(_savegpr_15)	stw	15,-68(11)
++FUNCTION(_savegpr_16)	stw	16,-64(11)
++FUNCTION(_savegpr_17)	stw	17,-60(11)
++FUNCTION(_savegpr_18)	stw	18,-56(11)
++FUNCTION(_savegpr_19)	stw	19,-52(11)
++FUNCTION(_savegpr_20)	stw	20,-48(11)
++FUNCTION(_savegpr_21)	stw	21,-44(11)
++FUNCTION(_savegpr_22)	stw	22,-40(11)
++FUNCTION(_savegpr_23)	stw	23,-36(11)
++FUNCTION(_savegpr_24)	stw	24,-32(11)
++FUNCTION(_savegpr_25)	stw	25,-28(11)
++FUNCTION(_savegpr_26)	stw	26,-24(11)
++FUNCTION(_savegpr_27)	stw	27,-20(11)
++FUNCTION(_savegpr_28)	stw	28,-16(11)
++FUNCTION(_savegpr_29)	stw	29,-12(11)
++FUNCTION(_savegpr_30)	stw	30,-8(11)
++FUNCTION(_savegpr_31)	stw	31,-4(11)
++			blr
++CFI_ENDPROC
+diff --git a/include/grub/compiler-rt.h b/include/grub/compiler-rt.h
+new file mode 100644
+index 0000000..7f76967
+--- /dev/null
++++ b/include/grub/compiler-rt.h
+@@ -0,0 +1,82 @@
++/* compiler.h - macros for various compiler features */
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2002,2003,2005,2006,2007,2008,2009,2010,2014  Free Software Foundation, Inc.
++ *
++ *  GRUB is free software: you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation, either version 3 of the License, or
++ *  (at your option) any later version.
++ *
++ *  GRUB is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef GRUB_COMPILER_RT_HEADER
++#define GRUB_COMPILER_RT_HEADER	1
++
++#if defined (__powerpc__)
++
++void EXPORT_FUNC (_restgpr_14_x) (void);
++void EXPORT_FUNC (_restgpr_15_x) (void);
++void EXPORT_FUNC (_restgpr_16_x) (void);
++void EXPORT_FUNC (_restgpr_17_x) (void);
++void EXPORT_FUNC (_restgpr_18_x) (void);
++void EXPORT_FUNC (_restgpr_19_x) (void);
++void EXPORT_FUNC (_restgpr_20_x) (void);
++void EXPORT_FUNC (_restgpr_21_x) (void);
++void EXPORT_FUNC (_restgpr_22_x) (void);
++void EXPORT_FUNC (_restgpr_23_x) (void);
++void EXPORT_FUNC (_restgpr_24_x) (void);
++void EXPORT_FUNC (_restgpr_25_x) (void);
++void EXPORT_FUNC (_restgpr_26_x) (void);
++void EXPORT_FUNC (_restgpr_27_x) (void);
++void EXPORT_FUNC (_restgpr_28_x) (void);
++void EXPORT_FUNC (_restgpr_29_x) (void);
++void EXPORT_FUNC (_restgpr_30_x) (void);
++void EXPORT_FUNC (_restgpr_31_x) (void);
++void EXPORT_FUNC (_savegpr_14) (void);
++void EXPORT_FUNC (_savegpr_15) (void);
++void EXPORT_FUNC (_savegpr_16) (void);
++void EXPORT_FUNC (_savegpr_17) (void);
++void EXPORT_FUNC (_savegpr_18) (void);
++void EXPORT_FUNC (_savegpr_19) (void);
++void EXPORT_FUNC (_savegpr_20) (void);
++void EXPORT_FUNC (_savegpr_21) (void);
++void EXPORT_FUNC (_savegpr_22) (void);
++void EXPORT_FUNC (_savegpr_23) (void);
++void EXPORT_FUNC (_savegpr_24) (void);
++void EXPORT_FUNC (_savegpr_25) (void);
++void EXPORT_FUNC (_savegpr_26) (void);
++void EXPORT_FUNC (_savegpr_27) (void);
++void EXPORT_FUNC (_savegpr_28) (void);
++void EXPORT_FUNC (_savegpr_29) (void);
++void EXPORT_FUNC (_savegpr_30) (void);
++void EXPORT_FUNC (_savegpr_31) (void);
++
++grub_uint64_t
++EXPORT_FUNC (__lshrdi3) (grub_uint64_t u, int b);
++
++grub_uint64_t
++EXPORT_FUNC (__ashrdi3) (grub_uint64_t u, int b);
++
++grub_uint64_t
++EXPORT_FUNC (__ashldi3) (grub_uint64_t u, int b);
++
++int
++EXPORT_FUNC (__ucmpdi2) (grub_uint64_t a, grub_uint64_t b);
++
++grub_uint32_t
++EXPORT_FUNC (__bswapsi2) (grub_uint32_t u);
++
++grub_uint64_t
++EXPORT_FUNC (__bswapdi2) (grub_uint64_t u);
++
++#endif
++
++#endif /* ! GRUB_COMPILER_RT_HEADER */

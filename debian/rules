@@ -137,14 +137,9 @@ debian/stamps/configure-grub-common: debian/stamps/configure-grub-$(COMMON_PLATF
 
 debian/stamps/build-grub-common: debian/stamps/build-grub-$(COMMON_PLATFORM)
 
-debian/stamps/configure-grub-pc debian/stamps/configure-grub-coreboot debian/stamps/configure-grub-emu debian/stamps/configure-grub-uboot debian/stamps/configure-grub-yeeloong: debian/stamps/autogen
+debian/stamps/configure-grub-pc debian/stamps/configure-grub-ieee1275 debian/stamps/configure-grub-coreboot debian/stamps/configure-grub-emu debian/stamps/configure-grub-uboot debian/stamps/configure-grub-yeeloong: debian/stamps/autogen
 	mkdir -p debian/stamps obj/$(package)
 	dh_auto_configure -- $(confflags) --with-platform=$(subst grub-,,$(package))
-	touch $@
-
-debian/stamps/configure-grub-ieee1275: debian/stamps/autogen
-	mkdir -p debian/stamps obj/$(package)
-	dh_auto_configure -- $(confflags) --with-platform=$(subst grub-,,$(package)) $(if $(filter ppc64el,$(DEB_HOST_ARCH_CPU)),--target=powerpc-linux-gnu TARGET_CC=powerpc-linux-gnu-gcc-4.9)
 	touch $@
 
 # This name scheme leaves room for things like amd32 someday

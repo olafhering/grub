@@ -11,6 +11,9 @@ grub2 (2.02~beta2-12) UNRELEASED; urgency=medium
     - Build grub-mount-udeb on x32 as well.
     - Add Lintian binary-from-other-architecture overrides where
       appropriate.
+  * Apply patches from Paulo Flabiano Smorigo to allow building a 32-bit
+    big-endian loader on ppc64el using -m32 -mbig-endian, replacing the
+    cross-compiler hack.
 
   [ Ian Campbell ]
   * Add dependency on efibootmgr to grub-efi-{arm,arm64}-bin.

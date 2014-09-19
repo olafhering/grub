@@ -54,3 +54,5 @@ net-ramp-up-interval.patch
 probe_nvme.patch
 mkconfig-kernels-infloop.patch
 x32.patch
+ppc64el-flags.patch
+ppc64el-skip-libgcc.patch

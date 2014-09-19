@@ -119,6 +119,7 @@ if test "x$with_platform" = x; then
     x86_64-*) platform=pc ;;
     powerpc-*) platform=ieee1275 ;;
     powerpc64-*) platform=ieee1275 ;;
+    powerpc64le-*) platform=ieee1275 ;;
     sparc64-*) platform=ieee1275 ;;
     mipsel-*) platform=loongson ;;
     mips-*) platform=arc ;;
@@ -137,6 +138,7 @@ case "$target_cpu"-"$platform" in
   x86_64-xen) ;;
   x86_64-*) target_cpu=i386 ;;
   powerpc64-ieee1275) target_cpu=powerpc ;;
+  powerpc64le-ieee1275) target_cpu=powerpc ;;
 esac
 
 # Check if the platform is supported, make final adjustments.
@@ -568,6 +570,13 @@ fi
 
 if test "x$target_cpu" = xi386 && test "x$platform" != xemu; then
   TARGET_CFLAGS="$TARGET_CFLAGS -march=i386"
+fi
+
+if test x$target_cpu = xpowerpc && test x$ac_cv_c_bigendian = xno; then
+	#LD_FORCE_LE=1
+	TARGET_CFLAGS="$TARGET_CFLAGS -mbig-endian"
+	TARGET_CCASFLAGS="$TARGET_CCASFLAGS -mbig-endian"
+	TARGET_LDFLAGS="$TARGET_LDFLAGS -static -mbig-endian"
 fi
 
 if test "x$target_m32" = x1; then
@@ -1013,7 +1022,7 @@ else
 CFLAGS="$TARGET_CFLAGS -nostdlib -Wno-error"
 fi
 CPPFLAGS="$TARGET_CPPFLAGS"
-if test x$target_cpu = xi386 || test x$target_cpu = xx86_64 || test "x$grub_cv_cc_target_clang" = xyes ; then
+if test x$target_cpu = xi386 || test x$target_cpu = xx86_64 || test x$target_cpu = xpowerpc || test "x$grub_cv_cc_target_clang" = xyes; then
 TARGET_LIBGCC=
 else
 TARGET_LIBGCC=-lgcc
@@ -1031,8 +1040,10 @@ fi
 CFLAGS="$TARGET_CFLAGS -nostdlib $DEFSYM"
 fi
 
-# Check for libgcc symbols
-AC_CHECK_FUNCS(__bswapsi2 __bswapdi2 __ashldi3 __ashrdi3 __lshrdi3 __ucmpdi2 _restgpr_14_x)
+if ! test x$target_cpu = xpowerpc; then
+  # Check for libgcc symbols
+  AC_CHECK_FUNCS(__bswapsi2 __bswapdi2 __ashldi3 __ashrdi3 __lshrdi3 __ucmpdi2 _restgpr_14_x)
+fi
 
 if test "x$TARGET_APPLE_LINKER" = x1 ; then
 CFLAGS="$TARGET_CFLAGS -nostdlib -static"
@@ -1649,7 +1660,7 @@ if test x"$enable_werror" != xno ; then
   HOST_CFLAGS="$HOST_CFLAGS -Werror"
 fi
 
-if test "x$grub_cv_cc_target_clang" = xno; then
+if test "x$grub_cv_cc_target_clang" = xno && test x$target_cpu != xpowerpc; then
    TARGET_LDFLAGS_STATIC_LIBGCC="-static-libgcc"
 else
    TARGET_LDFLAGS_STATIC_LIBGCC=
