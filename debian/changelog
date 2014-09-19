@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-12) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-12) unstable; urgency=medium
 
   [ Colin Watson ]
   * Point Vcs-* fields back at master.
@@ -18,7 +18,7 @@ grub2 (2.02~beta2-12) UNRELEASED; urgency=medium
   [ Ian Campbell ]
   * Add dependency on efibootmgr to grub-efi-{arm,arm64}-bin.
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 19 Aug 2014 13:19:40 +0100
+ -- Colin Watson <cjwatson@debian.org>  Fri, 19 Sep 2014 15:19:26 +0100
 
 grub2 (2.02~beta2-11) unstable; urgency=medium
 
