@@ -1,0 +1,175 @@
+From 3fd076ad09f96d82c4232101505bfb50b01697ba Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@debian.org>
+Date: Tue, 23 Sep 2014 12:11:58 +0100
+Subject: Add a new "none" platform that only builds utilities
+
+This makes it possible to build generally-useful utilities such as
+grub-mount even if the rest of GRUB has not been ported to the target
+CPU.
+
+* configure.ac: Add "none" platform.  Default to it for unsupported
+CPUs rather than stopping with a fatal error.  Don't downgrade
+x86_64-none to i386.  Define COND_real_platform Automake conditional
+if the platform is anything other than "none".  Don't do any include
+directory linking for "none".
+* Makefile.am: Skip building grub-core and all bootcheck targets if
+!COND_real_platform.
+* include/grub/time.h: Don't include <grub/cpu/time.h> if GRUB_UTIL
+is defined.
+
+Origin: upstream, http://git.savannah.gnu.org/gitweb/?p=grub.git;a=commitdiff;h=5d90f6e533d82abf89f9e1787f90f17f2fab14aa
+Last-Update: 2014-09-23
+
+Patch-Name: platform-none.patch
+---
+ Makefile.am         | 14 +++++++++++---
+ configure.ac        | 46 +++++++++++++++++++++++++++++-----------------
+ include/grub/time.h |  2 +-
+ 3 files changed, 41 insertions(+), 21 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 320e86f..a32f893 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -1,7 +1,11 @@
+ AUTOMAKE_OPTIONS = subdir-objects -Wno-portability
+ 
+ DEPDIR = .deps-util
+-SUBDIRS = grub-core/gnulib . grub-core po docs util/bash-completion.d
++SUBDIRS = grub-core/gnulib .
++if COND_real_platform
++SUBDIRS += grub-core
++endif
++SUBDIRS += po docs util/bash-completion.d
+ 
+ include $(top_srcdir)/conf/Makefile.common
+ include $(top_srcdir)/conf/Makefile.extra-dist
+@@ -132,6 +136,8 @@ nodist_platform_HEADERS = config.h
+ pkgdata_DATA += grub-mkconfig_lib
+ 
+ 
++if COND_real_platform
++
+ if COND_i386_coreboot
+ QEMU32=qemu-system-i386
+ endif
+@@ -383,8 +389,6 @@ if COND_powerpc_ieee1275
+ BOOTCHECKS = bootcheck-linux-ppc
+ endif
+ 
+-EXTRA_DIST += grub-core/tests/boot/kbsd.init-i386.S grub-core/tests/boot/kbsd.init-x86_64.S grub-core/tests/boot/kbsd.spec.txt grub-core/tests/boot/kernel-8086.S grub-core/tests/boot/kernel-i386.S grub-core/tests/boot/kfreebsd-aout.cfg grub-core/tests/boot/kfreebsd.cfg grub-core/tests/boot/kfreebsd.init-i386.S grub-core/tests/boot/kfreebsd.init-x86_64.S grub-core/tests/boot/knetbsd.cfg grub-core/tests/boot/kopenbsd.cfg grub-core/tests/boot/kopenbsdlabel.txt grub-core/tests/boot/linux16.cfg grub-core/tests/boot/linux.cfg grub-core/tests/boot/linux.init-i386.S grub-core/tests/boot/linux.init-mips.S grub-core/tests/boot/linux.init-ppc.S grub-core/tests/boot/linux.init-x86_64.S grub-core/tests/boot/linux-ppc.cfg grub-core/tests/boot/multiboot2.cfg grub-core/tests/boot/multiboot.cfg grub-core/tests/boot/ntldr.cfg grub-core/tests/boot/pc-chainloader.cfg grub-core/tests/boot/qemu-shutdown-x86.S
+-
+ .PHONY: bootcheck-linux-i386 bootcheck-linux-x86_64 \
+        bootcheck-kfreebsd-i386 bootcheck-kfreebsd-x86_64 \
+        bootcheck-knetbsd-i386 bootcheck-knetbsd-x86_64 \
+@@ -402,6 +406,10 @@ default_payload.elf: grub-mkstandalone grub-mkimage
+ 	pkgdatadir=. ./grub-mkstandalone --grub-mkimage=./grub-mkimage -O i386-coreboot -o $@ --modules='ahci pata ehci uhci ohci usb_keyboard usbms part_msdos xfs ext2 fat at_keyboard part_gpt usbserial_usbdebug cbfs' --install-modules='ls linux search configfile normal cbtime cbls memrw iorw minicmd lsmmap lspci halt reboot hexdump pcidump regexp setpci lsacpi chain test serial' --fonts= --themes= --locales= -d grub-core/ /boot/grub/grub.cfg=$(srcdir)/coreboot.cfg
+ endif
+ 
++endif
++
++EXTRA_DIST += grub-core/tests/boot/kbsd.init-i386.S grub-core/tests/boot/kbsd.init-x86_64.S grub-core/tests/boot/kbsd.spec.txt grub-core/tests/boot/kernel-8086.S grub-core/tests/boot/kernel-i386.S grub-core/tests/boot/kfreebsd-aout.cfg grub-core/tests/boot/kfreebsd.cfg grub-core/tests/boot/kfreebsd.init-i386.S grub-core/tests/boot/kfreebsd.init-x86_64.S grub-core/tests/boot/knetbsd.cfg grub-core/tests/boot/kopenbsd.cfg grub-core/tests/boot/kopenbsdlabel.txt grub-core/tests/boot/linux16.cfg grub-core/tests/boot/linux.cfg grub-core/tests/boot/linux.init-i386.S grub-core/tests/boot/linux.init-mips.S grub-core/tests/boot/linux.init-ppc.S grub-core/tests/boot/linux.init-x86_64.S grub-core/tests/boot/linux-ppc.cfg grub-core/tests/boot/multiboot2.cfg grub-core/tests/boot/multiboot.cfg grub-core/tests/boot/ntldr.cfg grub-core/tests/boot/pc-chainloader.cfg grub-core/tests/boot/qemu-shutdown-x86.S
++
+ windowsdir=$(top_builddir)/$(PACKAGE)-$(VERSION)-for-windows
+ windowsdir: $(PROGRAMS) $(starfield_DATA) $(platform_DATA)
+ 	test -d $(windowsdir) && rm -rf $(windowsdir) || true
+diff --git a/configure.ac b/configure.ac
+index 5ce3caf..4235f3a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -126,7 +126,10 @@ if test "x$with_platform" = x; then
+     ia64-*) platform=efi ;;
+     arm-*) platform=uboot ;;
+     arm64-*) platform=efi ;;
+-    *) AC_MSG_ERROR([unsupported CPU: "$target_cpu"]) ;;
++    *)
++      AC_MSG_WARN([unsupported CPU: "$target_cpu" - only building utilities])
++      platform=none
++      ;;
+   esac
+ else
+   platform="$with_platform"
+@@ -136,6 +139,7 @@ case "$target_cpu"-"$platform" in
+   x86_64-efi) ;;
+   x86_64-emu) ;;
+   x86_64-xen) ;;
++  x86_64-none) ;;
+   x86_64-*) target_cpu=i386 ;;
+   powerpc64-ieee1275) target_cpu=powerpc ;;
+   powerpc64le-ieee1275) target_cpu=powerpc ;;
+@@ -169,6 +173,7 @@ case "$target_cpu"-"$platform" in
+   arm-efi) ;;
+   arm64-efi) ;;
+   *-emu) ;;
++  *-none) ;;
+   *) AC_MSG_ERROR([platform "$platform" is not supported for target CPU "$target_cpu"]) ;;
+ esac
+ 
+@@ -1705,6 +1710,7 @@ AC_SUBST(BUILD_LIBM)
+ # Automake conditionals
+ #
+ 
++AM_CONDITIONAL([COND_real_platform], [test x$platform != xnone])
+ AM_CONDITIONAL([COND_emu], [test x$platform = xemu])
+ AM_CONDITIONAL([COND_clang], [test x$grub_cv_cc_target_clang = xyes])
+ AM_CONDITIONAL([COND_i386_pc], [test x$target_cpu = xi386 -a x$platform = xpc])
+@@ -1778,24 +1784,30 @@ AC_DEFINE_UNQUOTED(GRUB_SYSCONFDIR, "$grub_sysconfdir", [Configuration dir])
+ 
+ 
+ # Output files.
+-cpudir="${target_cpu}"
+-if test x${cpudir} = xmipsel; then
+-  cpudir=mips;
+-fi
+-grub_CHECK_LINK_DIR
+-if test x"$link_dir" = xyes ; then
+-  AC_CONFIG_LINKS([include/grub/cpu:include/grub/$cpudir])
+-  if test "$platform" != emu ; then
+-    AC_CONFIG_LINKS([include/grub/machine:include/grub/$cpudir/$platform])
++if test "$platform" != none; then
++  cpudir="${target_cpu}"
++  if test x${cpudir} = xmipsel; then
++    cpudir=mips;
+   fi
+-else
+-  mkdir -p include/grub 2>/dev/null
+-  rm -rf include/grub/cpu
+-  cp -rp $srcdir/include/grub/$cpudir include/grub/cpu 2>/dev/null
+-  if test "$platform" != emu ; then
+-    rm -rf include/grub/machine
+-    cp -rp $srcdir/include/grub/$cpudir/$platform include/grub/machine 2>/dev/null
++  grub_CHECK_LINK_DIR
++  if test x"$link_dir" = xyes ; then
++    AC_CONFIG_LINKS([include/grub/cpu:include/grub/$cpudir])
++    if test "$platform" != emu ; then
++      AC_CONFIG_LINKS([include/grub/machine:include/grub/$cpudir/$platform])
++    fi
++  else
++    mkdir -p include/grub 2>/dev/null
++    rm -rf include/grub/cpu
++    cp -rp $srcdir/include/grub/$cpudir include/grub/cpu 2>/dev/null
++    if test "$platform" != emu ; then
++      rm -rf include/grub/machine
++      cp -rp $srcdir/include/grub/$cpudir/$platform include/grub/machine 2>/dev/null
++    fi
+   fi
++else
++  # Just enough to stop the compiler failing with -I$(srcdir)/include.
++  mkdir -p include 2>/dev/null
++  rm -rf include/grub
+ fi
+ 
+ AC_CONFIG_FILES([Makefile])
+diff --git a/include/grub/time.h b/include/grub/time.h
+index 64ac99a..c919c1f 100644
+--- a/include/grub/time.h
++++ b/include/grub/time.h
+@@ -21,7 +21,7 @@
+ 
+ #include <grub/types.h>
+ #include <grub/symbol.h>
+-#ifndef GRUB_MACHINE_EMU
++#if !defined(GRUB_MACHINE_EMU) && !defined(GRUB_UTIL)
+ #include <grub/cpu/time.h>
+ #else
+ static inline void

@@ -69,7 +69,7 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
 
 Package: grub-common
 Priority: optional
-Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-ppc64el any-sparc any-sparc64 any-mipsel any-ia64 any-arm any-arm64
+Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, gettext-base, ${lsb-base-depends}
 Replaces: grub-pc (<< 2.00-4), grub-ieee1275 (<< 2.00-4), grub-efi (<< 1.99-1), grub-coreboot (<< 2.00-4), grub-linuxbios (<< 1.96+20080831-1), grub-efi-ia32 (<< 2.00-4), grub-efi-amd64 (<< 2.00-4), grub-efi-ia64 (<< 2.00-4), grub-yeeloong (<< 2.00-4)
 Recommends: os-prober (>= 1.33)
@@ -85,6 +85,9 @@ Description: GRand Unified Bootloader (common files)
 
 Package: grub2-common
 Priority: optional
+# Not Architecture: any because this package contains some things which are
+# only built when there is a real platform (e.g. grub-install), and the rest
+# of the package is not very useful in a utilities-only build.
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-ppc64el any-sparc any-sparc64 any-mipsel any-ia64 any-arm any-arm64
 Depends: grub-common (= ${binary:Version}), dpkg (>= 1.15.4) | install-info, ${shlibs:Depends}, ${misc:Depends}
 Replaces: grub, grub-legacy, grub-common (<< 1.99-1), grub-pc (<< 2.00-4), grub-ieee1275 (<< 2.00-4), grub-efi (<< 1.99-1), grub-coreboot (<< 2.00-4), grub-linuxbios (<< 1.99-1), grub-efi-ia32 (<< 2.00-4), grub-efi-amd64 (<< 2.00-4), grub-efi-ia64 (<< 2.00-4), grub-ieee1275 (<< 2.00-4), grub-yeeloong (<< 2.00-4)
@@ -678,6 +681,8 @@ Description: GRand Unified Bootloader, version 2 (Yeeloong version)
  the Lemote Yeeloong laptop.
 
 Package: grub-theme-starfield
+# Could be Architecture: any, but in practice this package is useless in a
+# utilities-only build.
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-ppc64el any-sparc any-sparc64 any-mipsel any-ia64 any-arm any-arm64
 Depends: ${misc:Depends}, grub-common (= ${binary:Version})
 Multi-Arch: foreign
@@ -687,6 +692,6 @@ Description: GRand Unified Bootloader, version 2 (starfield theme)
 Package: grub-mount-udeb
 XC-Package-Type: udeb
 Section: debian-installer
-Architecture: i386 amd64 x32 powerpc ppc64 ppc64el sparc sparc64 mipsel ia64 armel armhf arm64 kfreebsd-i386 kfreebsd-amd64
+Architecture: linux-any kfreebsd-any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: export GRUB filesystems using FUSE
