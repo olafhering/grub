@@ -1,4 +1,4 @@
-From 3fd076ad09f96d82c4232101505bfb50b01697ba Mon Sep 17 00:00:00 2001
+From 648d917befbd93718e9346a0299adb0754ae7ea1 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Tue, 23 Sep 2014 12:11:58 +0100
 Subject: Add a new "none" platform that only builds utilities
@@ -18,7 +18,8 @@ directory linking for "none".
 is defined.
 
 Origin: upstream, http://git.savannah.gnu.org/gitweb/?p=grub.git;a=commitdiff;h=5d90f6e533d82abf89f9e1787f90f17f2fab14aa
-Last-Update: 2014-09-23
+Origin: upstream, http://git.savannah.gnu.org/gitweb/?p=grub.git;a=commitdiff;h=77063f4cb672f423272db7e21ca448cf3de98dcf
+Last-Update: 2014-09-25
 
 Patch-Name: platform-none.patch
 ---
@@ -74,7 +75,7 @@ index 320e86f..a32f893 100644
  windowsdir: $(PROGRAMS) $(starfield_DATA) $(platform_DATA)
  	test -d $(windowsdir) && rm -rf $(windowsdir) || true
 diff --git a/configure.ac b/configure.ac
-index 5ce3caf..4235f3a 100644
+index 5ce3caf..24b9cbf 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -126,7 +126,10 @@ if test "x$with_platform" = x; then
@@ -156,7 +157,7 @@ index 5ce3caf..4235f3a 100644
 +else
 +  # Just enough to stop the compiler failing with -I$(srcdir)/include.
 +  mkdir -p include 2>/dev/null
-+  rm -rf include/grub
++  rm -rf include/grub/cpu include/grub/machine
  fi
  
  AC_CONFIG_FILES([Makefile])
