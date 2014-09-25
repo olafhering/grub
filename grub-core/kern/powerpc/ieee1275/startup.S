@@ -20,6 +20,8 @@
 #include <grub/symbol.h>
 #include <grub/offsets.h>
 
+#define MSR_VSX 0x80
+
 .extern __bss_start
 .extern _end
 
@@ -28,6 +30,16 @@
 	.globl	start, _start
 start:
 _start:
+ _start:
+
+    /* Disable VSX instruction */
+	mfmsr  0
+	oris   0,0,MSR_VSX
+	/* The "VSX Available" bit is in the lower half of the MSR, so we
+	   don't need mtmsrd, which in any case won't work in 32-bit mode.  */
+	mtmsr  0
+	isync
+
 	li      2, 0
 	li      13, 0
 
