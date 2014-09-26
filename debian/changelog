@@ -6,6 +6,8 @@ grub2 (2.02~beta2-14) UNRELEASED; urgency=medium
     architectures.
   * Remove .MIPS.abiflags section from images (thanks, Jurica Stanojkovic,
     although I used a slightly simpler approach; closes: #762307).
+  * Include a text attribute reset in the clear command for ppc
+    (LP: #1295255).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 23 Sep 2014 12:13:20 +0100
 

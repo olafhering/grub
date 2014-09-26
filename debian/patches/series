@@ -58,3 +58,4 @@ ppc64el-flags.patch
 ppc64el-skip-libgcc.patch
 platform-none.patch
 mips-abiflags.patch
+ieee1275-clear-reset.patch
