@@ -9,6 +9,9 @@ grub2 (2.02~beta2-14) UNRELEASED; urgency=medium
   * Include a text attribute reset in the clear command for ppc
     (LP: #1295255).
   * Disable VSX instruction on powerpc startup to fix booting on ppc64el.
+  * Stop adding a CHRP note on chrp_ibm machines, since that apparently
+    breaks PowerVM and isn't needed on other machine types as far as we can
+    tell (LP: #1334793).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 23 Sep 2014 12:13:20 +0100
 

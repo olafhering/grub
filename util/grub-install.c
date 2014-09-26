@@ -58,7 +58,6 @@ static char *target;
 static int removable = 0;
 static int recheck = 0;
 static int update_nvram = 1;
-static int chrp_note = 0;
 static char *install_device = NULL;
 static char *debug_image = NULL;
 static char *rootdir = NULL;
@@ -1156,10 +1155,7 @@ main (int argc, char *argv[])
       if (strcmp (machtype, "pmac_oldworld") == 0)
 	update_nvram = 0;
       else if (strcmp (machtype, "chrp_ibm") == 0)
-	{
-	  update_nvram = 0;
-	  chrp_note = 1;
-	}
+	update_nvram = 0;
       else if (strcmp (machtype, "cell") == 0)
 	update_nvram = 0;
       else if (strcmp (machtype, "generic") == 0)
@@ -1634,7 +1630,7 @@ main (int argc, char *argv[])
 				/* output */ imgfile,
 				/* memdisk */ NULL,
 				have_load_cfg ? load_cfg : NULL,
-				/* image target */ mkimage_target, chrp_note);
+				/* image target */ mkimage_target, 0);
   /* Backward-compatibility kludges.  */
   switch (platform)
     {

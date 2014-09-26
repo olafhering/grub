@@ -1,4 +1,4 @@
-From 46ee181b23c1bb6ef42e7c36e8f08ab57671b92e Mon Sep 17 00:00:00 2001
+From 473a0438733aa59f8aa552501909c1bf28ae7883 Mon Sep 17 00:00:00 2001
 From: Paulo Flabiano Smorigo <pfsmorigo@linux.vnet.ibm.com>
 Date: Wed, 17 Sep 2014 14:42:40 -0300
 Subject: Add powerpc little-endian (ppc64le) flags
