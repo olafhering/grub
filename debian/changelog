@@ -16,9 +16,9 @@ grub2 (2.02~beta2-14) UNRELEASED; urgency=medium
     duplication.
   * Disable flicker-free-boot on Ubuntu ppc64el for now, as it isn't needed
     there and causes too many problems (LP: #1338471).
-  * Use nvram rather than nvsetenv on chrp_ibm machines, since that tool
-    is better-supported and copes with such things as nvram being
-    missing in qemu.
+  * Use nvram rather than nvsetenv on chrp_ibm machines, since that tool is
+    better-supported and copes with such things as nvram being missing in
+    qemu.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 23 Sep 2014 12:13:20 +0100
 
