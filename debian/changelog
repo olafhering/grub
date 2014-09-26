@@ -14,6 +14,8 @@ grub2 (2.02~beta2-14) UNRELEASED; urgency=medium
     tell (LP: #1334793).
   * Refactor flicker-free-boot configuration in debian/rules to reduce
     duplication.
+  * Disable flicker-free-boot on Ubuntu ppc64el for now, as it isn't needed
+    there and causes too many problems (LP: #1338471).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 23 Sep 2014 12:13:20 +0100
 

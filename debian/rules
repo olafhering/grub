@@ -58,7 +58,11 @@ endif
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 DEFAULT_CMDLINE := quiet splash
 DEFAULT_TIMEOUT := 10
+ifeq ($(DEB_HOST_ARCH_CPU),ppc64el)
+FLICKER_FREE_BOOT := no
+else
 FLICKER_FREE_BOOT := yes
+endif
 confflags += --enable-ubuntu-recovery
 else ifeq (yes,$(shell dpkg-vendor --derives-from Tanglu && echo yes))
 DEFAULT_CMDLINE := quiet splash
