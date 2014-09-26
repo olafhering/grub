@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-14) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-14) unstable; urgency=medium
 
   * On architectures without a real GRUB port, just build the utilities.
     This makes tools such as grub-probe and grub-fstest available
@@ -25,7 +25,7 @@ grub2 (2.02~beta2-14) UNRELEASED; urgency=medium
     first one if found.  For now this is done by borrowing prep-bootdev.c
     from grub-installer, incurring a dependency on libparted.
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 23 Sep 2014 12:13:20 +0100
+ -- Colin Watson <cjwatson@debian.org>  Fri, 26 Sep 2014 18:05:15 +0100
 
 grub2 (2.02~beta2-13) unstable; urgency=medium
 
