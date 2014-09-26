@@ -1,0 +1,49 @@
+From 785ca0c3575261f1db2ba2e7ddb8099203aef053 Mon Sep 17 00:00:00 2001
+From: Paulo Flabiano Smorigo <pfsmorigo@linux.vnet.ibm.com>
+Date: Thu, 25 Sep 2014 19:33:39 -0300
+Subject: Disable VSX instruction
+
+VSX bit is enabled by default for Power7 and Power8 CPU models,
+so we need to disable them in order to avoid instruction exceptions.
+Kernel will activate it when necessary.
+
+* grub-core/kern/powerpc/ieee1275/startup.S: Disable VSX.
+
+Also-By: Adhemerval Zanella <azanella@linux.vnet.ibm.com>
+
+Origin: other, https://lists.gnu.org/archive/html/grub-devel/2014-09/msg00078.html
+Last-Update: 2014-09-26
+
+Patch-Name: ppc64el-disable-vsx.patch
+---
+ grub-core/kern/powerpc/ieee1275/startup.S | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/grub-core/kern/powerpc/ieee1275/startup.S b/grub-core/kern/powerpc/ieee1275/startup.S
+index 21c884b..b4d9c21 100644
+--- a/grub-core/kern/powerpc/ieee1275/startup.S
++++ b/grub-core/kern/powerpc/ieee1275/startup.S
+@@ -20,6 +20,8 @@
+ #include <grub/symbol.h>
+ #include <grub/offsets.h>
+ 
++#define MSR_VSX 0x80
++
+ .extern __bss_start
+ .extern _end
+ 
+@@ -28,6 +30,14 @@
+ 	.globl	start, _start
+ start:
+ _start:
++ _start:
++
++    /* Disable VSX instruction */
++	mfmsr  0
++	oris   0,0,MSR_VSX
++	mtmsrd 0
++	isync
++
+ 	li      2, 0
+ 	li      13, 0
+ 
