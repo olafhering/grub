@@ -4,6 +4,8 @@ grub2 (2.02~beta2-14) UNRELEASED; urgency=medium
     This makes tools such as grub-probe and grub-fstest available
     everywhere, and makes grub-mount available on all Linux and kFreeBSD
     architectures.
+  * Remove .MIPS.abiflags section from images (thanks, Jurica Stanojkovic,
+    although I used a slightly simpler approach; closes: #762307).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 23 Sep 2014 12:13:20 +0100
 

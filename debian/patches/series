@@ -57,3 +57,4 @@ x32.patch
 ppc64el-flags.patch
 ppc64el-skip-libgcc.patch
 platform-none.patch
+mips-abiflags.patch
