@@ -19,6 +19,8 @@ grub2 (2.02~beta2-14) UNRELEASED; urgency=medium
   * Use nvram rather than nvsetenv on chrp_ibm machines, since that tool is
     better-supported and copes with such things as nvram being missing in
     qemu.
+  * Remove brace-expansion from the postrm, and switch the preinst and
+    postrm to /bin/sh (closes: #762940).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 23 Sep 2014 12:13:20 +0100
 

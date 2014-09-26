@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 case "$1" in
@@ -23,7 +23,21 @@ case "$1" in
         db_go || true
         db_get grub-pc/postrm_purge_boot_grub || true
         if [ "$RET" = "true" ] ; then
-          rm -f /boot/grub/{grub.cfg,ascii.pf2,unicode.pf2,moreblue-orbit-grub.png,*.mod,*.lst,*.img,efiemu32.o,efiemu64.o,device.map,grubenv,installed-version,.background_cache.jpeg,.background_cache.png,.background_cache.tga} || true
+          rm -f /boot/grub/grub.cfg \
+                /boot/grub/ascii.pf2 \
+                /boot/grub/unicode.pf2 \
+                /boot/grub/moreblue-orbit-grub.png \
+                /boot/grub/*.mod \
+                /boot/grub/*.lst \
+                /boot/grub/*.img \
+                /boot/grub/efiemu32.o \
+                /boot/grub/efiemu64.o \
+                /boot/grub/device.map \
+                /boot/grub/grubenv \
+                /boot/grub/installed-version \
+                /boot/grub/.background_cache.jpeg \
+                /boot/grub/.background_cache.png \
+                /boot/grub/.background_cache.tga || true
           rm -rf /boot/grub/locale
           rmdir --ignore-fail-on-non-empty /boot/grub || true
         fi
