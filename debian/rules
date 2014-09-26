@@ -172,7 +172,7 @@ debian/stamps/configure-grub-firmware-qemu: debian/stamps/autogen
 	dh_auto_configure -- $(confflags) --with-platform=qemu
 	touch $@
 
-debian/stamps/build-grub-none debian/stamps/build-grub-efi-ia32 debian/stamps/build-grub-efi-amd64 debian/stamps/build-grub-efi-ia64 debian/stamps/build-grub-efi-arm debian/stamps/build-grub-efi-arm64 debian/stamps/build-grub-ieee1275 debian/stamps/build-grub-coreboot debian/stamps/build-grub-emu debian/stamps/build-grub-uboot debian/stamps/build-grub-xen-i386 debian/stamps/build-grub-xen-amd64 debian/stamps/build-grub-yeeloong: debian/stamps/build-%: debian/stamps/configure-%
+debian/stamps/build-grub-none debian/stamps/build-grub-efi-ia32 debian/stamps/build-grub-efi-amd64 debian/stamps/build-grub-efi-ia64 debian/stamps/build-grub-efi-arm debian/stamps/build-grub-efi-arm64 debian/stamps/build-grub-coreboot debian/stamps/build-grub-emu debian/stamps/build-grub-uboot debian/stamps/build-grub-xen-i386 debian/stamps/build-grub-xen-amd64 debian/stamps/build-grub-yeeloong: debian/stamps/build-%: debian/stamps/configure-%
 	dh_auto_build
 	touch $@
 
@@ -180,6 +180,13 @@ debian/stamps/build-grub-pc: debian/stamps/configure-grub-pc
 	dh_auto_build
 ifeq ($(with_check), yes)
 	LC_CTYPE=C.UTF-8 PATH="$$PATH:/sbin:/usr/sbin" VERBOSE=1 dh_auto_test --max-parallel=1
+endif
+	touch $@
+
+debian/stamps/build-grub-ieee1275: debian/stamps/configure-grub-ieee1275
+	dh_auto_build
+ifeq ($(DEB_HOST_ARCH_CPU),ppc64el)
+	$(CC) $(HOST_CFLAGS) debian/prep-bootdev.c -o debian/prep-bootdev -lparted
 endif
 	touch $@
 

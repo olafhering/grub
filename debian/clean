@@ -1,1 +1,2 @@
 debian/grub-common.install
+debian/prep-bootdev

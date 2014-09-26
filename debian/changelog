@@ -21,6 +21,9 @@ grub2 (2.02~beta2-14) UNRELEASED; urgency=medium
     qemu.
   * Remove brace-expansion from the postrm, and switch the preinst and
     postrm to /bin/sh (closes: #762940).
+  * On ppc64el, look for a PReP partition and install the core image to the
+    first one if found.  For now this is done by borrowing prep-bootdev.c
+    from grub-installer, incurring a dependency on libparted.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 23 Sep 2014 12:13:20 +0100
 

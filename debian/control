@@ -34,6 +34,7 @@ Build-Depends: debhelper (>= 7.4.2~),
  mtools [amd64],
  wamerican,
  libxen-dev [i386 amd64],
+ libparted-dev [any-ppc64el],
 Build-Conflicts: autoconf2.13, libzfs-dev, libnvpair-dev
 Standards-Version: 3.8.4
 Homepage: http://www.gnu.org/software/grub/

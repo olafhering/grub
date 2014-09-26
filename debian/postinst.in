@@ -711,7 +711,10 @@ case "$1" in
       grub-ieee1275)
         case $(dpkg --print-architecture) in
           ppc64el)
-            grub-install --target=powerpc-ieee1275
+            # Output may be empty; if so, just update the core image but
+            # don't install it to any PReP partition.
+            prep_bootdev="$(/usr/lib/grub/powerpc-ieee1275/prep-bootdev)"
+            grub-install --target=powerpc-ieee1275 $prep_bootdev
           ;;
         esac
       ;;
