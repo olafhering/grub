@@ -1,4 +1,4 @@
-From 5135c93d8ef0afff0752d0686131287b7200db80 Mon Sep 17 00:00:00 2001
+From e5f9743e4b1d122e80fac1b78f90f6e64b26dcfa Mon Sep 17 00:00:00 2001
 From: Paulo Flabiano Smorigo <pfsmorigo@linux.vnet.ibm.com>
 Date: Wed, 17 Sep 2014 14:44:30 -0300
 Subject: Skip libgcc dependency for powerpc
