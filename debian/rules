@@ -31,6 +31,7 @@ endif
 CC := gcc-4.9
 
 confflags = PACKAGE_VERSION="$(deb_version)" PACKAGE_STRING="GRUB $(deb_version)" CC=$(CC) TARGET_CC=$(CC) --enable-grub-mkfont
+substvars =
 
 AUTOGEN_DEB_FILES = config templates preinst postinst postrm dirs install links maintscript
 
@@ -57,20 +58,19 @@ endif
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 DEFAULT_CMDLINE := quiet splash
 DEFAULT_TIMEOUT := 10
-DEFAULT_HIDDEN_TIMEOUT := 0
-DEFAULT_HIDDEN_TIMEOUT_BOOL := true
-confflags += \
-	--enable-ubuntu-recovery \
-	--enable-quiet-boot \
-	--enable-quick-boot \
-	--enable-gfxpayload-dynamic \
-	--enable-vt-handoff
-substvars := \
-	-Vlsb-base-depends="lsb-base (>= 3.0-6)" \
-	-Vgfxpayload-depends="grub-gfxpayload-lists [any-i386 any-amd64]"
+FLICKER_FREE_BOOT := yes
+confflags += --enable-ubuntu-recovery
 else ifeq (yes,$(shell dpkg-vendor --derives-from Tanglu && echo yes))
 DEFAULT_CMDLINE := quiet splash
 DEFAULT_TIMEOUT := 10
+FLICKER_FREE_BOOT := yes
+else
+DEFAULT_CMDLINE := quiet
+DEFAULT_TIMEOUT := 5
+FLICKER_FREE_BOOT := no
+endif
+
+ifeq ($(FLICKER_FREE_BOOT),yes)
 DEFAULT_HIDDEN_TIMEOUT := 0
 DEFAULT_HIDDEN_TIMEOUT_BOOL := true
 confflags += \
@@ -78,15 +78,12 @@ confflags += \
 	--enable-quick-boot \
 	--enable-gfxpayload-dynamic \
 	--enable-vt-handoff
-substvars := \
+substvars += \
 	-Vlsb-base-depends="lsb-base (>= 3.0-6)" \
 	-Vgfxpayload-depends="grub-gfxpayload-lists [any-i386 any-amd64]"
 else
-DEFAULT_CMDLINE := quiet
-DEFAULT_TIMEOUT := 5
 DEFAULT_HIDDEN_TIMEOUT :=
 DEFAULT_HIDDEN_TIMEOUT_BOOL := false
-substvars :=
 endif
 
 SB_PACKAGE :=
@@ -395,10 +392,7 @@ override_dh_installdocs:
 	dh_installdocs -pgrub-common -pgrub-rescue-pc -pgrub-firmware-qemu -A AUTHORS NEWS README THANKS TODO
 	dh_installdocs -Ngrub-common -Ngrub-rescue-pc -Ngrub-firmware-qemu --link-doc=grub-common
 
-ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
-override_dh_installinit:
-	dh_installinit -- start 99 2 3 4 5 .
-else ifeq (yes,$(shell dpkg-vendor --derives-from Tanglu && echo yes))
+ifeq ($(FLICKER_FREE_BOOT),yes)
 override_dh_installinit:
 	dh_installinit -- start 99 2 3 4 5 .
 else
