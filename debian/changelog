@@ -1,10 +1,10 @@
-grub2 (2.02~beta2-15) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-15) unstable; urgency=medium
 
   * Disable nvram installation again on chrp_ibm machines that are emulated
     by qemu; that doesn't have nvram devices so the nvram utility inevitably
     fails.
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 15 Oct 2014 13:29:16 +0100
+ -- Colin Watson <cjwatson@debian.org>  Wed, 15 Oct 2014 21:34:02 +0100
 
 grub2 (2.02~beta2-14) unstable; urgency=medium
 
