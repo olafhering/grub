@@ -1,4 +1,4 @@
-From f80114b5f552bb2ffd0db0cef31738c0952c0a71 Mon Sep 17 00:00:00 2001
+From 05782dbceedc0c2a5f17a80cbd58c233ce7c8141 Mon Sep 17 00:00:00 2001
 From: Thomas Falcon <tlfalcon@linux.vnet.ibm.com>
 Date: Mon, 31 Mar 2014 15:32:30 +0100
 Subject: btrfs: fix get_root key comparison failures due to endianness

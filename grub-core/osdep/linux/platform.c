@@ -149,8 +149,16 @@ grub_install_get_default_powerpc_machtype (void)
       if (strncmp (buf, "machine", sizeof ("machine") - 1) == 0 &&
 	  strstr (buf, "CHRP IBM"))
 	{
-	  machtype = "chrp_ibm";
-	  break;
+	  if (strstr (buf, "qemu"))
+	    {
+	      machtype = "chrp_ibm_qemu";
+	      break;
+	    }
+	  else
+	    {
+	      machtype = "chrp_ibm";
+	      break;
+	    }
 	}
 
       if (strncmp (buf, "platform", sizeof ("platform") - 1) == 0)

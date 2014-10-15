@@ -1158,6 +1158,8 @@ main (int argc, char *argv[])
 	update_nvram = 0;
       else if (strcmp (machtype, "generic") == 0)
 	update_nvram = 0;
+      else if (strcmp (machtype, "chrp_ibm_qemu") == 0)
+	update_nvram = 0;
 
       if (!macppcdir)
 	{

@@ -1,4 +1,4 @@
-From 47f7e14f4425da35789eb74eb86dd5a284210328 Mon Sep 17 00:00:00 2001
+From c08579124c9dd427b5ab1978b940387cd1202ed5 Mon Sep 17 00:00:00 2001
 From: Paulo Flabiano Smorigo <pfsmorigo@br.ibm.com>
 Date: Tue, 21 Jan 2014 10:49:39 -0200
 Subject: change stop condition to avoid infinite loops

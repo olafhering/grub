@@ -1,4 +1,4 @@
-From e14cf7792a98a819254d62e613736fde2b3bca8e Mon Sep 17 00:00:00 2001
+From b9f4934da52a6d870299916ca636e663f41161a2 Mon Sep 17 00:00:00 2001
 From: Andrey Borzenkov <arvidjaar@gmail.com>
 Date: Mon, 10 Mar 2014 13:34:10 +0000
 Subject: use {grub,boot}aa64.efi for boot images on AArch64
@@ -16,7 +16,7 @@ Patch-Name: install_arm64_naming.patch
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/util/grub-install.c b/util/grub-install.c
-index 505af9e..1ff6522 100644
+index 98da118..b4fe429 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
 @@ -1110,8 +1110,8 @@ main (int argc, char *argv[])

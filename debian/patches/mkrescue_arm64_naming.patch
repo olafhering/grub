@@ -1,4 +1,4 @@
-From d24a5f758e9ba240673eabe44682da2d633007eb Mon Sep 17 00:00:00 2001
+From 9a1ad757a9dfb7cf6668cd0c075e3194505dfde5 Mon Sep 17 00:00:00 2001
 From: Andrey Borzenkov <arvidjaar@gmail.com>
 Date: Mon, 10 Mar 2014 13:35:53 +0000
 Subject: Change grub-mkrescue to use bootaa64.efi too
