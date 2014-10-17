@@ -118,7 +118,9 @@ linux_entry ()
       echo "	load_video" | sed "s/^/$submenu_indentation/"
       if grep -qx "CONFIG_FB_EFI=y" "${config}" 2> /dev/null \
 	  && grep -qx "CONFIG_VT_HW_CONSOLE_BINDING=y" "${config}" 2> /dev/null; then
-	  echo "	set gfxpayload=keep" | sed "s/^/$submenu_indentation/"
+	  echo '	if [ "x$grub_platform" = xefi ]; then' | sed "s/^/$submenu_indentation/"
+	  echo "		set gfxpayload=keep" | sed "s/^/$submenu_indentation/"
+	  echo '	fi' | sed "s/^/$submenu_indentation/"
       fi
   else
       if [ "x$GRUB_GFXPAYLOAD_LINUX" != xtext ]; then
