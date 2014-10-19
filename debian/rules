@@ -36,7 +36,11 @@ substvars =
 AUTOGEN_DEB_FILES = config templates preinst postinst postrm dirs install links maintscript
 
 BUILD_PACKAGES := $(strip $(shell dh_listpackages))
+# REAL_PACKAGES build an actual grub variant (and therefore have both configure
+# and build stages). EXTRA_PACKAGES do not build grub but may depend on a
+# REAL_PACKAGE (and therefore only have a build stage)
 REAL_PACKAGES = grub-common grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-efi-ia64 grub-efi-arm grub-efi-arm64 grub-ieee1275 grub-firmware-qemu grub-uboot grub-xen grub-yeeloong
+EXTRA_PACKAGES = grub-rescue-pc
 
 ifneq (,$(filter i386 amd64,$(DEB_HOST_ARCH_CPU)))
 COMMON_PLATFORM := pc
@@ -109,7 +113,7 @@ override_dh_auto_build: $(patsubst %,build/%,$(BUILD_PACKAGES))
 override_dh_auto_install: $(patsubst %,install/%,$(BUILD_PACKAGES))
 
 $(patsubst %,configure/%,$(REAL_PACKAGES)) :: configure/% : debian/stamps/configure-%
-$(patsubst %,build/%,$(REAL_PACKAGES) grub-rescue-pc) :: build/% : debian/stamps/build-%
+$(patsubst %,build/%,$(REAL_PACKAGES) $(EXTRA_PACKAGES)) :: build/% : debian/stamps/build-%
 
 debian/stamps/configure-%: package = $(subst debian/stamps/configure-,,$@)
 debian/stamps/configure-%: export DH_OPTIONS = -p$(package) -Bobj/$(package)
