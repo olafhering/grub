@@ -40,7 +40,7 @@ BUILD_PACKAGES := $(strip $(shell dh_listpackages))
 # and build stages). EXTRA_PACKAGES do not build grub but may depend on a
 # REAL_PACKAGE (and therefore only have a build stage)
 REAL_PACKAGES = grub-common grub-emu grub-pc grub-coreboot grub-efi-ia32 grub-efi-amd64 grub-efi-ia64 grub-efi-arm grub-efi-arm64 grub-ieee1275 grub-firmware-qemu grub-uboot grub-xen grub-yeeloong
-EXTRA_PACKAGES = grub-rescue-pc
+EXTRA_PACKAGES = grub-rescue-pc grub-xen-host
 
 ifneq (,$(filter i386 amd64,$(DEB_HOST_ARCH_CPU)))
 COMMON_PLATFORM := pc
@@ -178,6 +178,32 @@ debian/stamps/configure-grub-firmware-qemu: debian/stamps/autogen
 
 debian/stamps/build-grub-none debian/stamps/build-grub-efi-ia32 debian/stamps/build-grub-efi-amd64 debian/stamps/build-grub-efi-ia64 debian/stamps/build-grub-efi-arm debian/stamps/build-grub-efi-arm64 debian/stamps/build-grub-coreboot debian/stamps/build-grub-emu debian/stamps/build-grub-uboot debian/stamps/build-grub-xen-i386 debian/stamps/build-grub-xen-amd64 debian/stamps/build-grub-yeeloong: debian/stamps/build-%: debian/stamps/configure-%
 	dh_auto_build
+	touch $@
+
+debian/stamps/build-grub-xen-host-i386: PVBOOT_ARCH := i386
+debian/stamps/build-grub-xen-host-amd64: PVBOOT_ARCH := x86_64
+debian/stamps/build-grub-xen-host-%: debian/stamps/build-grub-xen-%
+	target=$(subst debian/stamps/build-grub-xen-host-,,$@) ; \
+	obj_dir=$(CURDIR)/obj/grub-xen-$${target} ; \
+	grub_dir=`mktemp -d` ; \
+	grub_memdisk=`mktemp` ; \
+	trap "rm -rf $${grub_dir} $${grub_memdisk}" EXIT HUP INT QUIT TERM ; \
+	mkdir -p $${grub_dir}/boot/grub ; \
+	mkdir -p $(CURDIR)/obj/$(package) ; \
+	sed -e "s/@@PVBOOT_ARCH@@/$(PVBOOT_ARCH)/g" \
+	    <debian/grub-xen-host_grub.cfg \
+	    >$${grub_dir}/grub.cfg ; \
+	tar -cf - -C $${grub_dir} grub.cfg > $${grub_memdisk} ; \
+	$${obj_dir}/grub-mkimage \
+		-O $(PVBOOT_ARCH)-xen \
+		-c $(CURDIR)/debian/grub-xen-host_grub-bootstrap.cfg \
+		-d $${obj_dir}/grub-core \
+		$${obj_dir}/grub-core/*.mod \
+		-m $${grub_memdisk} \
+		-o $(CURDIR)/obj/$(package)/grub-$(PVBOOT_ARCH)-xen.bin
+	touch $@
+
+debian/stamps/build-grub-xen-host: debian/stamps/build-grub-xen-host-i386 debian/stamps/build-grub-xen-host-amd64
 	touch $@
 
 debian/stamps/build-grub-pc: debian/stamps/configure-grub-pc
@@ -375,7 +401,7 @@ ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 endif
 
 override_dh_install:
-	dh_install -pgrub2 -pgrub-linuxbios -pgrub-efi -pgrub-rescue-pc -pgrub-firmware-qemu
+	dh_install -pgrub2 -pgrub-linuxbios -pgrub-efi -pgrub-rescue-pc -pgrub-firmware-qemu -pgrub-xen-host
 	dh_install -pgrub-common -pgrub2-common -pgrub-theme-starfield -pgrub-mount-udeb --sourcedir=debian/tmp-grub-$(COMMON_PLATFORM)
 	rm -f debian/grub2-common/usr/share/info/dir*
 	rm -f debian/grub-theme-starfield/usr/share/grub/themes/starfield/COPYING.CC-BY-SA-3.0
@@ -404,8 +430,8 @@ endif
 endif
 
 override_dh_installdocs:
-	dh_installdocs -pgrub-common -pgrub-rescue-pc -pgrub-firmware-qemu -A AUTHORS NEWS README THANKS TODO
-	dh_installdocs -Ngrub-common -Ngrub-rescue-pc -Ngrub-firmware-qemu --link-doc=grub-common
+	dh_installdocs -pgrub-common -pgrub-rescue-pc -pgrub-firmware-qemu -pgrub-xen-host -A AUTHORS NEWS README THANKS TODO
+	dh_installdocs -Ngrub-common -Ngrub-rescue-pc -Ngrub-firmware-qemu -Ngrub-xen-host --link-doc=grub-common
 
 ifeq ($(FLICKER_FREE_BOOT),yes)
 override_dh_installinit:

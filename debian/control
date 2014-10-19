@@ -634,6 +634,23 @@ Description: GRand Unified Bootloader, version 2 (Xen version)
  This package contains a version of GRUB that has been built for use with
  the Xen hypervisor (i.e. PV-GRUB).
 
+Package: grub-xen-host
+Architecture: i386 amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}, grub-xen-bin (= ${binary:Version})
+Multi-Arch: foreign
+Description: GRand Unified Bootloader, version 2 (Xen host version)
+ GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
+ cleaner design than its predecessors, and provides the following new features:
+ .
+  - Scripting in grub.cfg using BASH-like syntax.
+  - Support for modern partition maps such as GPT.
+  - Modular generation of grub.cfg via update-grub.  Packages providing GRUB
+    add-ons can plug in their own script rules and trigger updates by invoking
+    update-grub.
+ .
+ This package arranges for GRUB binary images which can be used to boot a Xen
+ guest (i.e. PV-GRUB) to be present in the control domain filesystem.
+
 Package: grub-yeeloong-bin
 Architecture: any-mipsel
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
