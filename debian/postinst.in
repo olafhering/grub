@@ -722,6 +722,17 @@ case "$1" in
       grub-yeeloong)
         grub-install --target=mipsel-loongson
       ;;
+
+      grub-xen)
+        # Install for x86_64 regardless of arch, since a 32-bit userspace can still boot with a 64-bit kernel.
+	mkdir -p /boot/xen
+        grub-install --target=x86_64-xen
+        case $(dpkg --print-architecture) in
+          i386)
+            grub-install --target=i386-xen
+          ;;
+        esac
+      ;;
     esac
 
     # If grub.cfg has been generated, update it.
