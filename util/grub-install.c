@@ -1980,12 +1980,26 @@ main (int argc, char *argv[])
       break;
 
     case GRUB_INSTALL_PLATFORM_I386_XEN:
-	  grub_install_copy_file (imgfile, "/boot/xen/pvboot-i386.elf", 1);
-	  break;
+      {
+	char *path = grub_util_path_concat (2, bootdir, "xen");
+	char *dst = grub_util_path_concat (2, path, "pvboot-i386.elf");
+	grub_install_mkdir_p (path);
+	grub_install_copy_file (imgfile, dst, 1);
+	free (dst);
+	free (path);
+      }
+      break;
 
     case GRUB_INSTALL_PLATFORM_X86_64_XEN:
-	  grub_install_copy_file (imgfile, "/boot/xen/pvboot-x86_64.elf", 1);
-	  break;
+      {
+	char *path = grub_util_path_concat (2, bootdir, "xen");
+	char *dst = grub_util_path_concat (2, path, "pvboot-x86_64.elf");
+	grub_install_mkdir_p (path);
+	grub_install_copy_file (imgfile, dst, 1);
+	free (dst);
+	free (path);
+      }
+      break;
 
     case GRUB_INSTALL_PLATFORM_MIPSEL_LOONGSON:
     case GRUB_INSTALL_PLATFORM_MIPSEL_QEMU_MIPS:
