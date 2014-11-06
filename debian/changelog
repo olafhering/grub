@@ -5,7 +5,7 @@ grub2 (2.02~beta2-16) unstable; urgency=medium
     package.
   * Build/Install binaries into /boot/xen when installing grub-xen.
 
- -- Colin Watson <cjwatson@debian.org>  Sun, 19 Oct 2014 16:28:00 +0100
+ -- Ian Campbell <ijc@debian.org>  Thu, 06 Nov 2014 13:32:01 +0000
 
 grub2 (2.02~beta2-15) unstable; urgency=medium
 
