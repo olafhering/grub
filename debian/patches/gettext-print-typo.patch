@@ -1,0 +1,27 @@
+From 20886bef9351d5c20a9de1fb3339fe40114f01d1 Mon Sep 17 00:00:00 2001
+From: Andrey Borzenkov <arvidjaar@gmail.com>
+Date: Thu, 14 Aug 2014 21:02:31 +0400
+Subject: Fix typo (gettext_print instead of gettext_printf)
+
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/1390766
+Origin: upstream, http://git.savannah.gnu.org/gitweb/?p=grub.git;a=commitdiff;h=c291f47b2c003ef6daeafaedd458db838bad6fb8
+Last-Update: 2014-11-18
+
+Patch-Name: gettext-print-typo.patch
+---
+ util/grub-mkconfig.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
+index ccce9e5..4641563 100644
+--- a/util/grub-mkconfig.in
++++ b/util/grub-mkconfig.in
+@@ -131,7 +131,7 @@ set $grub_probe dummy
+ if test -f "$1"; then
+     :
+ else
+-    gettext_print "%s: Not found.\n" "$1" 1>&2
++    gettext_printf "%s: Not found.\n" "$1" 1>&2
+     exit 1
+ fi
+ 

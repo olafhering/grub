@@ -2,6 +2,8 @@ grub2 (2.02~beta2-17) UNRELEASED; urgency=medium
 
   * Fix up some pointer-to-integer casts in linuxefi so that it can build on
     i386-efi.
+  * Backport from upstream:
+    - Fix typo (gettext_print instead of gettext_printf) (LP: #1390766).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 18 Nov 2014 14:55:27 +0000
 
