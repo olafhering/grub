@@ -1,4 +1,4 @@
-From 2054fb25f29ee1896e232ed22b4f75c645b3603a Mon Sep 17 00:00:00 2001
+From c278190ee403f581fbe485106f4c8683de913958 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Tue, 8 Jul 2014 23:54:30 +0100
 Subject: Fix an infinite loop in grub-mkconfig

@@ -1,4 +1,4 @@
-From 22fb5cb563a439aab34fd9b4ce33e10ee54c03e1 Mon Sep 17 00:00:00 2001
+From 2d4ae2d55ec42eb645037dcbfc4c0fca9e83a587 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:19 +0000
 Subject: Make linuxefi refuse to boot without shim
@@ -14,7 +14,7 @@ Patch-Name: linuxefi_require_shim.patch
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c
-index a124c5e..26a958c 100644
+index 2bf38fa..f764f49 100644
 --- a/grub-core/loader/i386/efi/linux.c
 +++ b/grub-core/loader/i386/efi/linux.c
 @@ -63,7 +63,7 @@ grub_linuxefi_secure_validate (void *data, grub_uint32_t size)

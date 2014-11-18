@@ -1,4 +1,4 @@
-From 343ea9dab997e510d0eae6d396842a437b4bc28a Mon Sep 17 00:00:00 2001
+From 8b87b4c314cdb7c1d8753d2122db233ec2037da6 Mon Sep 17 00:00:00 2001
 From: Evan Broder <evan@ebroder.net>
 Date: Mon, 13 Jan 2014 12:13:29 +0000
 Subject: Add configure option to enable gfxpayload=keep dynamically
@@ -43,7 +43,7 @@ index 2a7e410..7f26de6 100644
  
  AC_SUBST([FONT_SOURCE])
 diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
-index 8fed2fb..27988ad 100644
+index 8c246c6..6a47ee1 100644
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
 @@ -897,6 +897,15 @@ module = {

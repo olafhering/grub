@@ -1,4 +1,4 @@
-From 5b79bb9581844e0abbfabfa06e0670f9c5fc594e Mon Sep 17 00:00:00 2001
+From 1d4954644ade521d8fe9d9ab1e9c1d505ca7cce1 Mon Sep 17 00:00:00 2001
 From: Nikunj A Dadhania <nikunj@linux.vnet.ibm.com>
 Date: Thu, 20 Mar 2014 16:57:12 +0530
 Subject: ieee1275: check for IBM pseries emulated machine

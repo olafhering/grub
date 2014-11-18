@@ -1,4 +1,4 @@
-From b3c2863b099e05ddf970797c5ab2c79bc1e09fb8 Mon Sep 17 00:00:00 2001
+From 84bf326fe956748e429f618c84e4fb9410357e1f Mon Sep 17 00:00:00 2001
 From: Paulo Flabiano Smorigo <pfsmorigo@linux.vnet.ibm.com>
 Date: Wed, 17 Sep 2014 14:44:30 -0300
 Subject: Skip libgcc dependency for powerpc
@@ -77,7 +77,7 @@ index 1b3142d..eab481c 100644
  KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/parser.h
  KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/partition.h
 diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
-index 27988ad..5a25045 100644
+index 6a47ee1..223fca7 100644
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
 @@ -132,6 +132,7 @@ kernel = {

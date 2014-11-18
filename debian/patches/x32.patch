@@ -1,4 +1,4 @@
-From d074f9f8320a3d6498982389d3a1779de078c898 Mon Sep 17 00:00:00 2001
+From beef9dbb0659407889eaa48f9ac73a152a1046f0 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Sun, 7 Sep 2014 23:06:49 +0100
 Subject: Support grub-emu on x32 (ILP32 but with x86-64 instruction set)

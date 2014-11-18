@@ -1,4 +1,4 @@
-From a59b9959c77a656f109e3b1c15029c1dec3e62d2 Mon Sep 17 00:00:00 2001
+From 653e57efb0d65833016a9c39df82eb1a6ddbd58c Mon Sep 17 00:00:00 2001
 From: Dimitri John Ledkov <dimitri.ledkov@canonical.com>
 Date: Tue, 29 Apr 2014 16:45:44 +0100
 Subject: Add support for nvme device in grub-mkdevicemap

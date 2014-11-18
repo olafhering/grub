@@ -1,4 +1,4 @@
-From 935cb0d861b3e0a0ab9340f7f1527fa1d0d388af Mon Sep 17 00:00:00 2001
+From 755d4a32dc78349fb80a966e9fb150bc8cfd6426 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:18 +0000
 Subject: Add more debugging to linuxefi
@@ -12,7 +12,7 @@ Patch-Name: linuxefi_debug.patch
  1 file changed, 25 insertions(+), 3 deletions(-)
 
 diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c
-index b79e632..a124c5e 100644
+index ebaf1db..2bf38fa 100644
 --- a/grub-core/loader/i386/efi/linux.c
 +++ b/grub-core/loader/i386/efi/linux.c
 @@ -19,6 +19,7 @@
@@ -61,7 +61,7 @@ index b79e632..a124c5e 100644
 +  grub_dprintf ("linuxefi", "initrd_mem = %lx\n", (unsigned long) initrd_mem);
 +
    params->ramdisk_size = size;
-   params->ramdisk_image = (grub_uint32_t)(grub_uint64_t) initrd_mem;
+   params->ramdisk_image = (grub_uint32_t)(grub_addr_t) initrd_mem;
  
 @@ -236,6 +251,8 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
        goto fail;
