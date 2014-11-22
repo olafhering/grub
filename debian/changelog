@@ -8,6 +8,8 @@ grub2 (2.02~beta2-17) UNRELEASED; urgency=medium
 
   [ Ian Campbell ]
   * Correct syntax error in grub-xen-host bootstrap configuration file.
+  * Log failure when grub-install fails in postinst, rather than failing the
+    entire postinst. (Closes: #770412)
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 18 Nov 2014 14:55:27 +0000
 

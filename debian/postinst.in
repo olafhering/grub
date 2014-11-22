@@ -299,6 +299,14 @@ running_in_container()
   type running-in-container >/dev/null 2>&1 && running-in-container >/dev/null
 }
 
+run_grub_install()
+{
+    if ! grub-install $@ ; then
+        echo "Failed: grub-install $@" >&2
+        echo "WARNING: Bootloader is not properly installed, system may not be bootable" >&2
+    fi
+}
+
 case "$1" in
   configure)
     . /usr/share/debconf/confmodule
@@ -696,7 +704,7 @@ case "$1" in
             grub-efi-arm)   target=arm-efi ;;
             grub-efi-arm64) target=arm64-efi ;;
           esac
-          grub-install --target="$target"
+          run_grub_install --target="$target"
         fi
 
         # /boot/grub/ has more chances of being accessible by GRUB
@@ -714,22 +722,22 @@ case "$1" in
             # Output may be empty; if so, just update the core image but
             # don't install it to any PReP partition.
             prep_bootdev="$(/usr/lib/grub/powerpc-ieee1275/prep-bootdev)"
-            grub-install --target=powerpc-ieee1275 $prep_bootdev
+            run_grub_install --target=powerpc-ieee1275 $prep_bootdev
           ;;
         esac
       ;;
 
       grub-yeeloong)
-        grub-install --target=mipsel-loongson
+        run_grub_install --target=mipsel-loongson
       ;;
 
       grub-xen)
         # Install for x86_64 regardless of arch, since a 32-bit userspace can still boot with a 64-bit kernel.
-	mkdir -p /boot/xen
-        grub-install --target=x86_64-xen
+        mkdir -p /boot/xen
+        run_grub_install --target=x86_64-xen
         case $(dpkg --print-architecture) in
           i386)
-            grub-install --target=i386-xen
+            run_grub_install --target=i386-xen
           ;;
         esac
       ;;
