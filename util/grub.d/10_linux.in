@@ -152,6 +152,7 @@ linux_entry ()
   fi
 
   echo "	insmod gzio" | sed "s/^/$submenu_indentation/"
+  echo "	if [ x\$grub_platform = xxen ]; then insmod xzio; insmod lzopio; fi" | sed "s/^/$submenu_indentation/"
 
   if [ x$dirname = x/ ]; then
     if [ -z "${prepare_root_cache}" ]; then
