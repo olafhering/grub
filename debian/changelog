@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-17) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-17) unstable; urgency=medium
 
   [ Colin Watson ]
   * Fix up some pointer-to-integer casts in linuxefi so that it can build on
@@ -13,7 +13,7 @@ grub2 (2.02~beta2-17) UNRELEASED; urgency=medium
   * Arrange to insmod xzio and lzopio when booting a kernel as a Xen guest.
     (Closes: #755256)
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 18 Nov 2014 14:55:27 +0000
+ -- Ian Campbell <ijc@debian.org>  Sun, 30 Nov 2014 17:15:21 +0000
 
 grub2 (2.02~beta2-16) unstable; urgency=medium
 
