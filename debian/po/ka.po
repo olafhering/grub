@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2011-05-27 13:33+0100\n"
+"POT-Creation-Date: 2014-12-07 16:09+0000\n"
 "PO-Revision-Date: 2009-08-30 18:05+0400\n"
 "Last-Translator: Aiet Kolkhi <aietkolkhi@gmail.com>\n"
 "Language-Team: Georgian <aiet@gakartuleba.org>\n"
@@ -306,15 +306,34 @@ msgstr ""
 "შემდეგი სტრიქონი გამოყენებულ იქნება როგორც ლინუქსის პარამეტრები მენიუს "
 "სტანდარტული შენატანისათვის, მაგრამ არა აღდგენის რეჟიმისათვის."
 
-#. Type: string
+#. Type: boolean
 #. Description
 #: ../templates.in:3001
+msgid "Force extra installation to the EFI removable path?"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../templates.in:3001
+msgid ""
+"Some EFI-based systems are buggy and do not handle new bootloaders "
+"correctly. If you force extra installation of GRUB to the EFI removable "
+"path, it should make sure that this system will boot Debian correctly "
+"despite such a problem. However, this may remove the ability to boot any "
+"other operating systems that also depend on this path. If so, you will need "
+"to ensure that GRUB is configured successfully to be able boot any other OS "
+"installations correctly."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
 msgid "kFreeBSD command line:"
 msgstr "kFreeBSD ბრძანების სტრიქონი:"
 
 #. Type: string
 #. Description
-#: ../templates.in:3001
+#: ../templates.in:4001
 #, fuzzy
 #| msgid ""
 #| "The following kFreeBSD command line was extracted from /etc/default/grub "
@@ -331,13 +350,13 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../templates.in:4001
+#: ../templates.in:5001
 msgid "kFreeBSD default command line:"
 msgstr "kFreeBSD-ის სტანდარტული ბრძანების სტრიქონი:"
 
 #. Type: string
 #. Description
-#: ../templates.in:4001
+#: ../templates.in:5001
 msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
@@ -347,13 +366,13 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../templates.in:5001
+#: ../templates.in:6001
 msgid "/boot/grub/device.map has been regenerated"
 msgstr ""
 
 #. Type: note
 #. Description
-#: ../templates.in:5001
+#: ../templates.in:6001
 msgid ""
 "The file /boot/grub/device.map has been rewritten to use stable device "
 "names. In most cases, this should significantly reduce the need to change it "
@@ -362,7 +381,7 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../templates.in:5001
+#: ../templates.in:6001
 msgid ""
 "However, since more than one disk is present in the system, it is possible "
 "that the system is depending on the old device map. Please check whether "
@@ -372,7 +391,7 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../templates.in:5001
+#: ../templates.in:6001
 msgid ""
 "If you do not understand this message, or if there are no custom boot menu "
 "entries, you can ignore this message."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2011-05-27 13:33+0100\n"
+"POT-Creation-Date: 2014-12-07 16:09+0000\n"
 "PO-Revision-Date: 2012-04-23 20:48+0700\n"
 "Last-Translator: Hai Lang <hailangvn@gmail.com>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
@@ -331,15 +331,34 @@ msgstr ""
 "Chuỗi theo đây sẽ được sử dụng làm các tham số Linux cho mục nhập trình đơn "
 "mặc định, mà không phải cho chế độ phục hồi."
 
-#. Type: string
+#. Type: boolean
 #. Description
 #: ../templates.in:3001
+msgid "Force extra installation to the EFI removable path?"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../templates.in:3001
+msgid ""
+"Some EFI-based systems are buggy and do not handle new bootloaders "
+"correctly. If you force extra installation of GRUB to the EFI removable "
+"path, it should make sure that this system will boot Debian correctly "
+"despite such a problem. However, this may remove the ability to boot any "
+"other operating systems that also depend on this path. If so, you will need "
+"to ensure that GRUB is configured successfully to be able boot any other OS "
+"installations correctly."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../templates.in:4001
 msgid "kFreeBSD command line:"
 msgstr "Dòng lệnh kFreeBSD:"
 
 #. Type: string
 #. Description
-#: ../templates.in:3001
+#: ../templates.in:4001
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -351,13 +370,13 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../templates.in:4001
+#: ../templates.in:5001
 msgid "kFreeBSD default command line:"
 msgstr "Dòng lệnh kFreeBSD mặc định:"
 
 #. Type: string
 #. Description
-#: ../templates.in:4001
+#: ../templates.in:5001
 msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
@@ -367,13 +386,13 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../templates.in:5001
+#: ../templates.in:6001
 msgid "/boot/grub/device.map has been regenerated"
 msgstr "Tập tin /boot/grub/device.map đã được tạo lại."
 
 #. Type: note
 #. Description
-#: ../templates.in:5001
+#: ../templates.in:6001
 msgid ""
 "The file /boot/grub/device.map has been rewritten to use stable device "
 "names. In most cases, this should significantly reduce the need to change it "
@@ -386,7 +405,7 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../templates.in:5001
+#: ../templates.in:6001
 msgid ""
 "However, since more than one disk is present in the system, it is possible "
 "that the system is depending on the old device map. Please check whether "
@@ -400,7 +419,7 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../templates.in:5001
+#: ../templates.in:6001
 msgid ""
 "If you do not understand this message, or if there are no custom boot menu "
 "entries, you can ignore this message."

@@ -704,7 +704,11 @@ case "$1" in
             grub-efi-arm)   target=arm-efi ;;
             grub-efi-arm64) target=arm64-efi ;;
           esac
-          run_grub_install --target="$target"
+          db_get grub2/force_efi_extra_removable
+          if [ "$RET" = true ]; then
+            FORCE_EXTRA_REMOVABLE="--force-extra-removable"
+          fi
+          run_grub_install --target="$target" "$FORCE_EXTRA_REMOVABLE"
         fi
 
         # /boot/grub/ has more chances of being accessible by GRUB

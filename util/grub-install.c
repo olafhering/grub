@@ -56,6 +56,7 @@
 
 static char *target;
 static int removable = 0;
+static int force_extra_removable = 0;
 static int recheck = 0;
 static int update_nvram = 1;
 static char *install_device = NULL;
@@ -114,7 +115,8 @@ enum
     OPTION_LABEL_BGCOLOR,
     OPTION_PRODUCT_VERSION,
     OPTION_UEFI_SECURE_BOOT,
-    OPTION_NO_UEFI_SECURE_BOOT
+    OPTION_NO_UEFI_SECURE_BOOT,
+    OPTION_FORCE_EXTRA_REMOVABLE
   };
 
 static int fs_probe = 1;
@@ -215,6 +217,10 @@ argp_parser (int key, char *arg, struct argp_state *state)
 
     case OPTION_REMOVABLE:
       removable = 1;
+      return 0;
+
+    case OPTION_FORCE_EXTRA_REMOVABLE:
+      force_extra_removable = 1;
       return 0;
 
     case OPTION_ALLOW_FLOPPY:
@@ -322,6 +328,9 @@ static struct argp_option options[] = {
   {"no-uefi-secure-boot", OPTION_NO_UEFI_SECURE_BOOT, 0, 0,
    N_("do not install an image usable with UEFI Secure Boot, even if the "
       "system was currently started using it. "
+      "This option is only available on EFI."), 2},
+  {"force-extra-removable", OPTION_FORCE_EXTRA_REMOVABLE, 0, 0,
+   N_("force installation to the removable media path also. "
       "This option is only available on EFI."), 2},
   {0, 0, 0, 0, 0, 0}
 };
@@ -829,6 +838,27 @@ fill_core_services (const char *core_services)
   free (sysv_plist);
 }
 
+static void
+also_install_removable(const char *src, const char *base_efidir, const char *efi_suffix_upper)
+{
+  char *efi_file = NULL;
+  char *dst = NULL;
+  char *dir = NULL;
+
+  if (!efi_suffix_upper)
+    grub_util_error ("%s", _("efi_suffix_upper not set"));
+  efi_file = xasprintf ("BOOT%s.EFI", efi_suffix_upper);
+
+  dir = grub_util_path_concat (3, base_efidir, "EFI", "BOOT");
+  grub_install_mkdir_p (dir);
+
+  dst = grub_util_path_concat (2, dir, efi_file);
+  grub_install_copy_file (src, dst, 1);
+  free (dst);
+  free (efi_file);
+  free (dir);
+}
+
 int
 main (int argc, char *argv[])
 {
@@ -846,6 +876,7 @@ main (int argc, char *argv[])
   char *relative_grubdir;
   char **efidir_device_names = NULL;
   grub_device_t efidir_grub_dev = NULL;
+  char *base_efidir = NULL;
   char *efidir_grub_devname;
   int efidir_is_mac = 0;
   int is_prep = 0;
@@ -877,6 +908,9 @@ main (int argc, char *argv[])
       free (bootloader_id);
       bootloader_id = xstrdup ("grub");
     }
+
+  if (removable && force_extra_removable)
+    grub_util_error (_("Invalid to use both --removable and --force_extra_removable"));
 
   if (!grub_install_source_directory)
     {
@@ -1086,6 +1120,8 @@ main (int argc, char *argv[])
 
       if (!efidir_is_mac && grub_strcmp (fs->name, "fat") != 0)
 	grub_util_error (_("%s doesn't look like an EFI partition.\n"), efidir);
+
+      base_efidir = xstrdup(efidir);
 
       /* The EFI specification requires that an EFI System Partition must
 	 contain an "EFI" subdirectory, and that OS loaders are stored in
@@ -1949,9 +1985,15 @@ main (int argc, char *argv[])
 	    fprintf (config_dst_f, "configfile $prefix/grub.cfg\n");
 	    fclose (config_dst_f);
 	    free (config_dst);
+	    if (force_extra_removable)
+	      also_install_removable(efi_signed, base_efidir, efi_suffix_upper);
 	  }
 	else
-	  grub_install_copy_file (imgfile, dst, 1);
+	  {
+	    grub_install_copy_file (imgfile, dst, 1);
+	    if (force_extra_removable)
+	      also_install_removable(imgfile, base_efidir, efi_suffix_upper);
+	  }
 	free (dst);
       }
       if (!removable && update_nvram)

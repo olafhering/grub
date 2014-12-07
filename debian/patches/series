@@ -62,3 +62,4 @@ ppc64el-disable-vsx.patch
 grub-install-pvxen-paths.patch
 gettext-print-typo.patch
 insmod-xzio-and-lzopio-on-xen.patch
+grub-install-extra-removable.patch

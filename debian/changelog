@@ -1,3 +1,11 @@
+grub2 (2.02~beta2-18) UNRELEASED; urgency=medium
+
+  [ Steve McIntyre ]
+  * Add support for forcing an extra copy of grub-efi to the removable
+    media path /boot/efi/EFI/BOOT/BOOT$ARCH.EFI (#767037)
+
+ -- Steve McIntyre <93sam@debian.org>  Wed, 03 Dec 2014 01:23:18 +0000
+
 grub2 (2.02~beta2-17) unstable; urgency=medium
 
   [ Colin Watson ]

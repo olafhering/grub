@@ -73,4 +73,5 @@ esac
 
 db_input ${priority} grub2/linux_cmdline || true
 db_input medium grub2/linux_cmdline_default || true
+db_input low grub2/force_efi_extra_removable || true
 db_go

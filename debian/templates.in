@@ -12,6 +12,17 @@ _Description: Linux default command line:
  The following string will be used as Linux parameters for the default menu
  entry but not for the recovery mode.
 
+Template: grub2/force_efi_extra_removable
+Type: boolean
+Default: false
+_Description: Force extra installation to the EFI removable path?
+ Some EFI-based systems are buggy and do not handle new bootloaders correctly.
+ If you force extra installation of GRUB to the EFI removable path, it should
+ make sure that this system will boot Debian correctly despite such a problem.
+ However, this may remove the ability to boot any other operating systems that
+ also depend on this path. If so, you will need to ensure that GRUB is
+ configured successfully to be able boot any other OS installations correctly.
+
 # still unused
 Template: grub2/kfreebsd_cmdline
 Type: string
