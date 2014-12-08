@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-18) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-18) unstable; urgency=medium
 
   [ Steve McIntyre ]
   * Add support for forcing an extra copy of grub-efi to the removable
@@ -7,7 +7,7 @@ grub2 (2.02~beta2-18) UNRELEASED; urgency=medium
   [ Ian Campbell ]
   * Add myself to Uploaders.
 
- -- Steve McIntyre <93sam@debian.org>  Wed, 03 Dec 2014 01:23:18 +0000
+ -- Ian Campbell <ijc@debian.org>  Mon, 08 Dec 2014 08:38:38 +0000
 
 grub2 (2.02~beta2-17) unstable; urgency=medium
 
