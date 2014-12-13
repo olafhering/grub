@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2014-12-07 16:09+0000\n"
+"POT-Creation-Date: 2014-12-13 20:23+0000\n"
 "PO-Revision-Date: 2014-12-13 22:00+0300\n"
 "Last-Translator: Rimas Kudelis <rq@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
-"100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
+"%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Virtaal 0.7.1\n"
 
 #. Type: boolean
@@ -335,20 +335,31 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-msgid "Force extra installation to the EFI removable path?"
+#, fuzzy
+#| msgid "Force extra installation to the EFI removable path?"
+msgid "Force extra installation to the EFI removable media path?"
 msgstr "Priverstinai papildomai įdiegti į EFI keičiamąjį kelią?"
 
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
+#, fuzzy
+#| msgid ""
+#| "Some EFI-based systems are buggy and do not handle new bootloaders "
+#| "correctly. If you force extra installation of GRUB to the EFI removable "
+#| "path, it should make sure that this system will boot Debian correctly "
+#| "despite such a problem. However, this may remove the ability to boot any "
+#| "other operating systems that also depend on this path. If so, you will "
+#| "need to ensure that GRUB is configured successfully to be able boot any "
+#| "other OS installations correctly."
 msgid ""
 "Some EFI-based systems are buggy and do not handle new bootloaders "
-"correctly. If you force extra installation of GRUB to the EFI removable "
-"path, it should make sure that this system will boot Debian correctly "
-"despite such a problem. However, this may remove the ability to boot any "
-"other operating systems that also depend on this path. If so, you will need "
-"to ensure that GRUB is configured successfully to be able boot any other OS "
-"installations correctly."
+"correctly. If you force an extra installation of GRUB to the EFI removable "
+"media path, this should ensure that this system will boot Debian correctly "
+"despite such a problem. However, it may remove the ability to boot any other "
+"operating systems that also depend on this path. If so, you will need to "
+"make sure that GRUB is configured successfully to be able to boot any other "
+"OS installations correctly."
 msgstr ""
 "Kai kurios EFI veiksena veikiančios sistemos turi klaidų ir negeba "
 "korektiškai dirbti su naujomis paleidyklėmis. „GRUB“ paleidyklę priverstinai "
@@ -435,4 +446,3 @@ msgid ""
 msgstr ""
 "Jeigu nesuprantate šio pranešimo, arba neturite rankiniu būdu sukurtų "
 "paleidimo įrašų, šio pranešimo galite nepaisyti."
-

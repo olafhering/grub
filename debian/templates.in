@@ -15,13 +15,14 @@ _Description: Linux default command line:
 Template: grub2/force_efi_extra_removable
 Type: boolean
 Default: false
-_Description: Force extra installation to the EFI removable path?
+_Description: Force extra installation to the EFI removable media path?
  Some EFI-based systems are buggy and do not handle new bootloaders correctly.
- If you force extra installation of GRUB to the EFI removable path, it should
- make sure that this system will boot Debian correctly despite such a problem.
- However, this may remove the ability to boot any other operating systems that
- also depend on this path. If so, you will need to ensure that GRUB is
- configured successfully to be able boot any other OS installations correctly.
+ If you force an extra installation of GRUB to the EFI removable media path,
+ this should ensure that this system will boot Debian correctly despite such a
+ problem. However, it may remove the ability to boot any other operating
+ systems that also depend on this path. If so, you will need to make sure that
+ GRUB is configured successfully to be able to boot any other OS installations
+ correctly.
 
 # still unused
 Template: grub2/kfreebsd_cmdline

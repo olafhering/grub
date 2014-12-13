@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: grub_debian_po_is\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2014-12-07 16:09+0000\n"
+"POT-Creation-Date: 2014-12-13 20:23+0000\n"
 "PO-Revision-Date: 2014-12-11 23:20+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
@@ -335,28 +335,39 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-msgid "Force extra installation to the EFI removable path?"
+#, fuzzy
+#| msgid "Force extra installation to the EFI removable path?"
+msgid "Force extra installation to the EFI removable media path?"
 msgstr "Þvinga aukauppsetningu inn á fjarlægjanlegu EFI-slóðina?"
 
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
+#, fuzzy
+#| msgid ""
+#| "Some EFI-based systems are buggy and do not handle new bootloaders "
+#| "correctly. If you force extra installation of GRUB to the EFI removable "
+#| "path, it should make sure that this system will boot Debian correctly "
+#| "despite such a problem. However, this may remove the ability to boot any "
+#| "other operating systems that also depend on this path. If so, you will "
+#| "need to ensure that GRUB is configured successfully to be able boot any "
+#| "other OS installations correctly."
 msgid ""
 "Some EFI-based systems are buggy and do not handle new bootloaders "
-"correctly. If you force extra installation of GRUB to the EFI removable "
-"path, it should make sure that this system will boot Debian correctly "
-"despite such a problem. However, this may remove the ability to boot any "
-"other operating systems that also depend on this path. If so, you will need "
-"to ensure that GRUB is configured successfully to be able boot any other OS "
-"installations correctly."
+"correctly. If you force an extra installation of GRUB to the EFI removable "
+"media path, this should ensure that this system will boot Debian correctly "
+"despite such a problem. However, it may remove the ability to boot any other "
+"operating systems that also depend on this path. If so, you will need to "
+"make sure that GRUB is configured successfully to be able to boot any other "
+"OS installations correctly."
 msgstr ""
 "Sum EFI-kerfi eru ekki villulaus og meðhöndla nýja ræsistjóra (bootloaders) "
-"ekki rétt. Ef þú þvingar aukauppsetningu af GRUB inn á fjarlægjanlegu "
-"EFI-slóðina, ætti það að tryggja að Debian ræsist rétt þrátt fyrir slíka "
-"galla. Hinsvegar, þetta gæti líka skemmt hæfnina til að ræsa önnur stýrikerfi "
-"sem einnig eru háð notkun á þessari slóð. Ef sú er raunin, þá verður þú að "
-"ganga úr skugga um að GRUB sé sett upp á fullnægjandi máta til þess að geta "
-"ræst rétt öll önnur stýrikerfi."
+"ekki rétt. Ef þú þvingar aukauppsetningu af GRUB inn á fjarlægjanlegu EFI-"
+"slóðina, ætti það að tryggja að Debian ræsist rétt þrátt fyrir slíka galla. "
+"Hinsvegar, þetta gæti líka skemmt hæfnina til að ræsa önnur stýrikerfi sem "
+"einnig eru háð notkun á þessari slóð. Ef sú er raunin, þá verður þú að ganga "
+"úr skugga um að GRUB sé sett upp á fullnægjandi máta til þess að geta ræst "
+"rétt öll önnur stýrikerfi."
 
 #. Type: string
 #. Description
@@ -434,4 +445,3 @@ msgid ""
 msgstr ""
 "Ef þú skilur ekki þessi skilaboð, eða ef þú hefur engar sérsniðnar "
 "ræsifærslur, þá geturðu hunsað skilaboðin."
-

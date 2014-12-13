@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2014-12-07 16:09+0000\n"
+"POT-Creation-Date: 2014-12-13 20:23+0000\n"
 "PO-Revision-Date: 2012-05-25 12:10+0300\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
@@ -332,7 +332,7 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-msgid "Force extra installation to the EFI removable path?"
+msgid "Force extra installation to the EFI removable media path?"
 msgstr ""
 
 #. Type: boolean
@@ -340,12 +340,12 @@ msgstr ""
 #: ../templates.in:3001
 msgid ""
 "Some EFI-based systems are buggy and do not handle new bootloaders "
-"correctly. If you force extra installation of GRUB to the EFI removable "
-"path, it should make sure that this system will boot Debian correctly "
-"despite such a problem. However, this may remove the ability to boot any "
-"other operating systems that also depend on this path. If so, you will need "
-"to ensure that GRUB is configured successfully to be able boot any other OS "
-"installations correctly."
+"correctly. If you force an extra installation of GRUB to the EFI removable "
+"media path, this should ensure that this system will boot Debian correctly "
+"despite such a problem. However, it may remove the ability to boot any other "
+"operating systems that also depend on this path. If so, you will need to "
+"make sure that GRUB is configured successfully to be able to boot any other "
+"OS installations correctly."
 msgstr ""
 
 #. Type: string
