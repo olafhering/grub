@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: master\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-07 16:09+0000\n"
-"PO-Revision-Date: 2011-06-18 23:22+0600\n"
+"PO-Revision-Date: 2014-12-12 08:58+0600\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -16,8 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Poedit-Language: Kazakh\n"
-"X-Poedit-Country: KAZAKHSTAN\n"
+"X-Generator: Poedit 1.6.9\n"
 
 #. Type: boolean
 #. Description
@@ -330,7 +329,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable path?"
-msgstr ""
+msgstr "EFI ауыстырмалы тасушыға қосымша орнатуды мәжбүрлету керек пе?"
 
 #. Type: boolean
 #. Description
@@ -344,6 +343,13 @@ msgid ""
 "to ensure that GRUB is configured successfully to be able boot any other OS "
 "installations correctly."
 msgstr ""
+"Кейбір EFI негізіндегі жүйелер толығымен дұрыс жасамайды және жаңа "
+"жүктеушілерді дұрыс өңдемейді. Егер сіз қосымша түрде GRUB-ты EFI "
+"ауыстырмалы тасушыға орнатсаңыз, осы мәселеге қарамастан, бұл әрекет бұл "
+"жүйенің Debian-ды дұрыс жүктейтінін қамтамасыз етуі тиіс. Алайда, ол "
+"тасушыға тәуелді басқа операциялық жүйелердің жүктеле алмауына әкеп соғуы "
+"мүмкін. Олай болса сізге GRUB барлық басқа ОЖ-ды жүктей алатындай етіп дұрыс "
+"бапталғанына көз жеткізу керек."
 
 #. Type: string
 #. Description

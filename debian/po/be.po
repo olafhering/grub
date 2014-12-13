@@ -2,21 +2,24 @@
 # Copyright (C) 2009 respective translators (see below)
 # This file is distributed under the same license as the grub2 package.
 # Hleb Rubanau <g.rubanau@gmail.com>, 2009,
-# Viktar Siarheichyk <vics@eq.by>, 2010, 2012.
-#
+# Viktar Siarheichyk <vics@eq.by>, 2010, 2012, 2014.
+# Viktar Siarheichyk <vics@fsfe.org>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: be\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-07 16:09+0000\n"
-"PO-Revision-Date: 2012-03-05 13:46+0300\n"
-"Last-Translator: Viktar Siarheichyk <viсs@eq.by>\n"
-"Language-Team: Debian Belarusian (Official spelling) <debian-l10n-"
+"PO-Revision-Date: 2014-12-13 20:57+0300\n"
+"Last-Translator: Viktar Siarheichyk <vics@fsfe.org>\n"
+"Language-Team: Debian translation team for Belarusian <debian-l10n-"
 "belarusian@lists.debian.org>\n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Virtaal 0.7.1\n"
 "X-Poedit-Language: Belarusian\n"
 "X-Poedit-Country: BELARUS\n"
 
@@ -340,7 +343,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable path?"
-msgstr ""
+msgstr "Прымусова ўсталяваць дадаткова ў зменны носьбіт EFI?"
 
 #. Type: boolean
 #. Description
@@ -354,6 +357,13 @@ msgid ""
 "to ensure that GRUB is configured successfully to be able boot any other OS "
 "installations correctly."
 msgstr ""
+"Некаторыя EFI-сістэмы утрымліваюць памылкі і некарэктна працуюць з новымі "
+"пачатковымі загрузчыкамі. Калі вы прымусова ўсталюеце дадаткова ў зменны "
+"носьбіт EFI, трэба ўпэўніцца, што гэтая сістэма карэктна загрузіць Debian, "
+"нягледзячы на гэтую праблему. Аднак, з-за гэтага можа страціцца магчымасць "
+"запусціць любую іншую аперацыйную сістэму (АС), якая таксама выкарыстоўвае "
+"гэты носьбіт і шлях. У гэтым выпадку трэба ўпэўніцца, што GRUB правільна "
+"сканфігураваны для карэктнага запуску іншай АС."
 
 #. Type: string
 #. Description

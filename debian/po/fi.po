@@ -1,10 +1,11 @@
 # Esko Arajärvi <edu@iki.fi>, 2009, 2010.
+# Timo Jyrinki <timo.jyrinki@iki.fi>, 2012, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-07 16:09+0000\n"
-"PO-Revision-Date: 2012-08-24 19:21+0300\n"
+"PO-Revision-Date: 2014-12-12 10:19+0200\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@iki.fi>\n"
 "Language-Team: Finnish <debian-l10n-finnish@lists.debian.org>\n"
 "Language: fi\n"
@@ -336,7 +337,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable path?"
-msgstr ""
+msgstr "Pakotetaanko lisäasennus irrotettavissa olevaan EFI-polkuun?"
 
 #. Type: boolean
 #. Description
@@ -350,6 +351,14 @@ msgid ""
 "to ensure that GRUB is configured successfully to be able boot any other OS "
 "installations correctly."
 msgstr ""
+"Jotkin EFI-järjestelmät sisältävät ohjelmavirheitä joidenka takia ne eivät "
+"käsittele alkulatausohjelmia oikein. Jos pakotat GRUB:n lisäasentamisen "
+"irrotettavissa olevaan EFI-polkuun, järjestelmän pitäisi kyetä käynnistämään "
+"Debian riippumatta kyseisenkaltaisista ongelmista. Tämä kuitenkin saattaa "
+"poistaa mahdollisuuden muiden käyttöjärjestelmien käynnistämiseen, mikäli "
+"ne riippuvat samasta polusta. Tässä tapauksessa tulee varmistaa, että GRUBin "
+"asetukset on tehty niin, että GRUBista voidaan käynnistää nämä muut "
+"käyttöjärjestelmät oikein."
 
 #. Type: string
 #. Description

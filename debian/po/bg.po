@@ -1,21 +1,21 @@
 # Bulgarian translation of grub2 debconf messages.
 # Copyright (C) grub2 packagers.
 # This file is distributed under the same license as the grub2 package.
-# Damyan Ivanov <dmn@debian.org>, 2009, 2010, 2011.
+# Damyan Ivanov <dmn@debian.org>, 2009, 2010, 2011, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-07 16:09+0000\n"
-"PO-Revision-Date: 2011-12-27 15:01+0200\n"
+"PO-Revision-Date: 2014-12-11 23:45+0200\n"
 "Last-Translator: Damyan Ivanov <dmn@debian.org>\n"
-"Language-Team: Bulgarian <dict@fsa-bg.org>\n"
+"Language-Team: Български <dict@fsa-bg.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Gtranslator 2.91.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #. Type: boolean
@@ -339,6 +339,7 @@ msgstr ""
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable path?"
 msgstr ""
+"Допълнително инсталиране в резервния път на EFI за преносими устройства?"
 
 #. Type: boolean
 #. Description
@@ -352,6 +353,13 @@ msgid ""
 "to ensure that GRUB is configured successfully to be able boot any other OS "
 "installations correctly."
 msgstr ""
+"Някои базирани на EFI системи съдържат грешки и не работят добре с добавени "
+"програми за начално зареждане (като GRUB). Допълнителното инсталиране на "
+"GRUB в резервния път за преносими устройства ще осигури правилно зареждане "
+"на Дебиан дори и ако системата има такъв проблем. Това обаче ще попречи на "
+"зареждането на други операционни системи, които може да разчитат на този "
+"път. В такъв случай трябва да се уверите, че GRUB е настроен да зарежда "
+"другите операционни системи."
 
 #. Type: string
 #. Description

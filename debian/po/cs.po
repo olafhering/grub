@@ -1,14 +1,14 @@
 # Czech translation of grub2 debconf messages.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the grub2 package.
-# Miroslav Kure <kurem@debian.cz>, 2008 -- 2011
+# Miroslav Kure <kurem@debian.cz>, 2008 -- 2014
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-07 16:09+0000\n"
-"PO-Revision-Date: 2011-06-02 19:54+0200\n"
+"PO-Revision-Date: 2014-12-12 10:08+0100\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "Language: cs\n"
@@ -331,7 +331,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable path?"
-msgstr ""
+msgstr "Vynutit další instalaci do EFI removable path?"
 
 #. Type: boolean
 #. Description
@@ -345,6 +345,13 @@ msgid ""
 "to ensure that GRUB is configured successfully to be able boot any other OS "
 "installations correctly."
 msgstr ""
+"Některé systémy používající EFI obsahují chyby a neumí správně pracovat "
+"s novými zavaděči. Vynutíte-li další instalaci GRUBu do EFI removable "
+"path, mělo by to zajistit, že se na tomto systému bude Debian zavádět "
+"i přes zmíněné chyby. Tím však můžete přijít o možnost zavádění jiných "
+"operačních systémů, které na EFI removable path také závisí. V takovém "
+"případě si budete muset pohlídat nastavení GRUBu, aby zvládlo zavést "
+"ostatní operační systémy."
 
 #. Type: string
 #. Description
