@@ -337,8 +337,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Force extra installation to the EFI removable path?"
 msgid "Force extra installation to the EFI removable media path?"
 msgstr ""
 "Допълнително инсталиране в резервния път на EFI за преносими устройства?"
@@ -346,15 +344,6 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "Some EFI-based systems are buggy and do not handle new bootloaders "
-#| "correctly. If you force extra installation of GRUB to the EFI removable "
-#| "path, it should make sure that this system will boot Debian correctly "
-#| "despite such a problem. However, this may remove the ability to boot any "
-#| "other operating systems that also depend on this path. If so, you will "
-#| "need to ensure that GRUB is configured successfully to be able boot any "
-#| "other OS installations correctly."
 msgid ""
 "Some EFI-based systems are buggy and do not handle new bootloaders "
 "correctly. If you force an extra installation of GRUB to the EFI removable "

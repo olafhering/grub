@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2014-12-12 10:38+0100\n"
+"PO-Revision-Date: 2014-12-14 10:28+0100\n"
 "Last-Translator: Łukasz Dulny <BartekChom@poczta.onet.pl>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
 "Language: pl\n"
@@ -343,23 +343,12 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Force extra installation to the EFI removable path?"
 msgid "Force extra installation to the EFI removable media path?"
 msgstr "Wymusić dodatkową instalację do ścieżki nośników wymiennych EFI?"
 
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "Some EFI-based systems are buggy and do not handle new bootloaders "
-#| "correctly. If you force extra installation of GRUB to the EFI removable "
-#| "path, it should make sure that this system will boot Debian correctly "
-#| "despite such a problem. However, this may remove the ability to boot any "
-#| "other operating systems that also depend on this path. If so, you will "
-#| "need to ensure that GRUB is configured successfully to be able boot any "
-#| "other OS installations correctly."
 msgid ""
 "Some EFI-based systems are buggy and do not handle new bootloaders "
 "correctly. If you force an extra installation of GRUB to the EFI removable "
@@ -370,12 +359,12 @@ msgid ""
 "OS installations correctly."
 msgstr ""
 "Niektóre oparte na EFI systemy mają błędy i nie obsługują poprawnie nowych "
-"programów rozruchowych. Jeśli wymusisz dodatkową instalację GRUB-a do "
-"ścieżki nośników wymiennych EFI, powinna ona zapewnić, że system załaduje "
-"Debiana prawidłowo mimo tego problemu. Jednak może ona uniemożliwić "
-"ładowanie innych systemów operacyjnych, które też zależą od tej ścieżki. W "
-"takiej sytuacji będziesz musiał upewnić się, że GRUB jest skonfigurowany "
-"poprawnie i będzie mógł ładować te systemy."
+"programów rozruchowych. Jeśli wymusisz dodatkową instalację GRUB-a do ścieżki "
+"nośników wymiennych EFI, powinno to zapewnić, że system załaduje Debiana "
+"prawidłowo mimo tego problemu. Jednak może to także uniemożliwić ładowanie "
+"innych systemów operacyjnych, które również zależą od tej ścieżki. W takiej "
+"sytuacji będziesz musiał upewnić się, że GRUB jest skonfigurowany poprawnie i "
+"będzie mógł ładować te systemy."
 
 #. Type: string
 #. Description
@@ -454,3 +443,4 @@ msgid ""
 msgstr ""
 "Jeśli ta wiadomość jest niezrozumiała lub jeśli nie tworzono żadnych "
 "specjalnych wpisów menu, można ją zignorować."
+

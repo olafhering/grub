@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: grub2_2.02~beta2-18\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2014-12-12 12:46+0100\n"
+"PO-Revision-Date: 2014-12-16 09:10+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
 "Language: eu\n"
@@ -338,23 +338,12 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Force extra installation to the EFI removable path?"
 msgid "Force extra installation to the EFI removable media path?"
-msgstr "Behartu instalazio gehigarria EFI bide-izen aldagarrian?"
+msgstr "Behartu instalazio gehigarria EFI euskarri aldagarriaren bide-izenean?"
 
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "Some EFI-based systems are buggy and do not handle new bootloaders "
-#| "correctly. If you force extra installation of GRUB to the EFI removable "
-#| "path, it should make sure that this system will boot Debian correctly "
-#| "despite such a problem. However, this may remove the ability to boot any "
-#| "other operating systems that also depend on this path. If so, you will "
-#| "need to ensure that GRUB is configured successfully to be able boot any "
-#| "other OS installations correctly."
 msgid ""
 "Some EFI-based systems are buggy and do not handle new bootloaders "
 "correctly. If you force an extra installation of GRUB to the EFI removable "
@@ -365,10 +354,10 @@ msgid ""
 "OS installations correctly."
 msgstr ""
 "EFIn oinarritutako sistema batzuk akastunak dira, eta ez dituzte abioko "
-"kargatzaile berriak ongi kudeatzen. EFI bide-izen aldagarrian GRUBen "
-"instalazio gehigarria behartzen baduzu, ziurtatu beharko da sistema honek "
-"Debian ongi abiatuko duela arazo horrez gain. Hala ere, honek bide-izen "
-"honen mende dauden beste edozer sistema eragile abiatzeko gaitasuna ken "
+"kargatzaile berriak ongi kudeatzen. EFI euskarri aldagarriaren bide-izenean "
+"GRUBen instalazio gehigarria behartzen baduzu, ziurtatu beharko luke sistema "
+"honek Debian ongi abiatuko duela arazo horrez gain. Hala ere, honek bide-"
+"izen honen mende dauden beste edozer sistema eragile abiatzeko gaitasuna ken "
 "dezake. Horrela bada, ziurtatu zaitez GRUB ongi konfiguratuta dagoela beste "
 "edozer SE-ren instalazioak ongi abiatzeko."
 

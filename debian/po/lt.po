@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2014-12-13 22:00+0300\n"
+"PO-Revision-Date: 2014-12-14 10:37+0300\n"
 "Last-Translator: Rimas Kudelis <rq@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "Language: lt\n"
@@ -335,23 +335,12 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Force extra installation to the EFI removable path?"
 msgid "Force extra installation to the EFI removable media path?"
-msgstr "Priverstinai papildomai įdiegti į EFI keičiamąjį kelią?"
+msgstr "Papildomai priverstinai įdiegti į EFI keičiamųjų laikmenų kelią?"
 
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "Some EFI-based systems are buggy and do not handle new bootloaders "
-#| "correctly. If you force extra installation of GRUB to the EFI removable "
-#| "path, it should make sure that this system will boot Debian correctly "
-#| "despite such a problem. However, this may remove the ability to boot any "
-#| "other operating systems that also depend on this path. If so, you will "
-#| "need to ensure that GRUB is configured successfully to be able boot any "
-#| "other OS installations correctly."
 msgid ""
 "Some EFI-based systems are buggy and do not handle new bootloaders "
 "correctly. If you force an extra installation of GRUB to the EFI removable "
@@ -362,13 +351,13 @@ msgid ""
 "OS installations correctly."
 msgstr ""
 "Kai kurios EFI veiksena veikiančios sistemos turi klaidų ir negeba "
-"korektiškai dirbti su naujomis paleidyklėmis. „GRUB“ paleidyklę priverstinai "
-"papildomai įdiegus į EFI keičiamąjį kelią, turėtų būti užtikrintas "
-"korektiškas „Debian“ paleidimas tokiose sistemose. Kita vertus, tai galimai "
-"užkirstų kelią paleisti kitas operacines sistemas, paleidimui naudojančias "
-"šį kelią. Jeigu taip nutiktų, jums tektų užtikrinti, kad „GRUB“ paleidyklė "
-"sukonfigūruota tinkamai ir geba korektiškai paleisti šias operacines "
-"sistemas."
+"korektiškai dirbti su naujomis paleidyklėmis. „GRUB“ paleidyklę papildomai "
+"priverstinai įdiegus į EFI keičiamųjų laikmenų kelią, turėtų būti "
+"užtikrintas korektiškas „Debian“ paleidimas tokiose sistemose. Kita vertus, "
+"tai galimai užkirstų kelią paleisti kitas operacines sistemas, paleidimui "
+"taip pat naudojančias šį kelią. Jeigu taip nutiktų, jums tektų užtikrinti, "
+"kad „GRUB“ paleidyklė sukonfigūruota tinkamai ir geba korektiškai paleisti "
+"šias operacines sistemas."
 
 #. Type: string
 #. Description

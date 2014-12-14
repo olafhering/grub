@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: be\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2014-12-13 20:57+0300\n"
+"PO-Revision-Date: 2014-12-15 05:50+0300\n"
 "Last-Translator: Viktar Siarheichyk <vics@fsfe.org>\n"
-"Language-Team: Debian translation team for Belarusian <debian-l10n-"
-"belarusian@lists.debian.org>\n"
+"Language-Team: Debian l10n team for Belarusian <debian-l10n-belarusian@lists."
+"debian.org>\n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -342,23 +342,12 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Force extra installation to the EFI removable path?"
 msgid "Force extra installation to the EFI removable media path?"
-msgstr "Прымусова ўсталяваць дадаткова ў зменны носьбіт EFI?"
+msgstr "Прымусова ўсталяваць дадаткова па адрасе EFI на зменным носьбце?"
 
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "Some EFI-based systems are buggy and do not handle new bootloaders "
-#| "correctly. If you force extra installation of GRUB to the EFI removable "
-#| "path, it should make sure that this system will boot Debian correctly "
-#| "despite such a problem. However, this may remove the ability to boot any "
-#| "other operating systems that also depend on this path. If so, you will "
-#| "need to ensure that GRUB is configured successfully to be able boot any "
-#| "other OS installations correctly."
 msgid ""
 "Some EFI-based systems are buggy and do not handle new bootloaders "
 "correctly. If you force an extra installation of GRUB to the EFI removable "
@@ -369,12 +358,12 @@ msgid ""
 "OS installations correctly."
 msgstr ""
 "Некаторыя EFI-сістэмы утрымліваюць памылкі і некарэктна працуюць з новымі "
-"пачатковымі загрузчыкамі. Калі вы прымусова ўсталюеце дадаткова ў зменны "
-"носьбіт EFI, трэба ўпэўніцца, што гэтая сістэма карэктна загрузіць Debian, "
-"нягледзячы на гэтую праблему. Аднак, з-за гэтага можа страціцца магчымасць "
-"запусціць любую іншую аперацыйную сістэму (АС), якая таксама выкарыстоўвае "
-"гэты носьбіт і шлях. У гэтым выпадку трэба ўпэўніцца, што GRUB правільна "
-"сканфігураваны для карэктнага запуску іншай АС."
+"пачатковымі загрузчыкамі. Калі вы прымусова ўсталюеце дадаткова па адрасе "
+"EFI на зменным носьбіце, трэба ўпэўніцца, што гэтая сістэма карэктна "
+"загрузіць Debian, нягледзячы на такую праблему. Аднак, з-за гэтага можа "
+"страціцца магчымасць запусціць любую іншую аперацыйную сістэму (АС), якая "
+"таксама выкарыстоўвае гэты носьбіт і шлях. У гэтым выпадку трэба ўпэўніцца, "
+"што GRUB правільна сканфігураваны для карэктнага запуску іншай АС."
 
 #. Type: string
 #. Description

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2014-12-12 10:08+0100\n"
+"PO-Revision-Date: 2014-12-21 10:32+0100\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "Language: cs\n"
@@ -330,23 +330,12 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Force extra installation to the EFI removable path?"
 msgid "Force extra installation to the EFI removable media path?"
-msgstr "Vynutit další instalaci do EFI removable path?"
+msgstr "Vynutit další instalaci do EFI cesty pro výměnná média?"
 
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "Some EFI-based systems are buggy and do not handle new bootloaders "
-#| "correctly. If you force extra installation of GRUB to the EFI removable "
-#| "path, it should make sure that this system will boot Debian correctly "
-#| "despite such a problem. However, this may remove the ability to boot any "
-#| "other operating systems that also depend on this path. If so, you will "
-#| "need to ensure that GRUB is configured successfully to be able boot any "
-#| "other OS installations correctly."
 msgid ""
 "Some EFI-based systems are buggy and do not handle new bootloaders "
 "correctly. If you force an extra installation of GRUB to the EFI removable "
@@ -357,10 +346,10 @@ msgid ""
 "OS installations correctly."
 msgstr ""
 "Některé systémy používající EFI obsahují chyby a neumí správně pracovat s "
-"novými zavaděči. Vynutíte-li další instalaci GRUBu do EFI removable path, "
-"mělo by to zajistit, že se na tomto systému bude Debian zavádět i přes "
-"zmíněné chyby. Tím však můžete přijít o možnost zavádění jiných operačních "
-"systémů, které na EFI removable path také závisí. V takovém případě si "
+"novými zavaděči. Vynutíte-li další instalaci GRUBu do EFI cesty pro výměnná, "
+"média, mělo by to zajistit, že se na tomto systému bude Debian zavádět "
+"i přes zmíněné chyby. Tím však můžete přijít o možnost zavádění jiných "
+"operačních systémů, které na této cestě také závisí. V takovém případě si "
 "budete muset pohlídat nastavení GRUBu, aby zvládlo zavést ostatní operační "
 "systémy."
 
