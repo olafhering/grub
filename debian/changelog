@@ -4,16 +4,16 @@ grub2 (2.02~beta2-19) UNRELEASED; urgency=medium
   * Improvements to English wording of new debconf template from Justin B Rye.
 
   [ Debconf translations ]
-  * Basque (Iñaki Larrañaga Murgoitio, Closes: #772946)
-  * Belarusian (Viktar Siarheichyk, Closes: #773054)
-  * Bulgarian (Damyan Ivanov, Closes: #772878)
-  * Czech (Miroslav Kure, Closes: #772924)
-  * Finish (Timo Jyrinki, Closes: #772921)
-  * French (Christian PERRIER, Closes: #772771)
-  * Icelandic (Sveinn í Felli, Closes: #772922)
-  * Kazakh (Baurzhan Muftakhidinov, Closes: #772916)
-  * Lithuanian (Rimas Kudelis, Closes: #773060)
-  * Polish (Łukasz Dulny, Closes: #772930)
+  * [eu] Basque (Iñaki Larrañaga Murgoitio, Closes: #772946)
+  * [be] Belarusian (Viktar Siarheichyk, Closes: #773054)
+  * [bg] Bulgarian (Damyan Ivanov, Closes: #772878)
+  * [cs] Czech (Miroslav Kure, Closes: #772924)
+  * [fi] Finish (Timo Jyrinki, Closes: #772921)
+  * [fr] French (Christian PERRIER, Closes: #772771)
+  * [is] Icelandic (Sveinn í Felli, Closes: #772922)
+  * [kk] Kazakh (Baurzhan Muftakhidinov, Closes: #772916)
+  * [lt] Lithuanian (Rimas Kudelis, Closes: #773060)
+  * [pl] Polish (Łukasz Dulny, Closes: #772930)
 
  -- Ian Campbell <ijc@debian.org>  Sat, 13 Dec 2014 19:53:54 +0000
 
