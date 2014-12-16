@@ -1,17 +1,17 @@
 # translation of grub2 debconf messages to Swedish
 # Swedish translation for grub2.
-# Copyright (C) 2007, 2008, 2009, 2010 Free Software Foundation, Inc.
+# Copyright (C) 2007, 2008, 2009, 2010, 2014 Free Software Foundation, Inc.
 # This file is distributed under the same license as the grub2 package.
 #
 # Daniel Nylander <po@danielnylander.se>, 2007.
 # Martin Ågren <martin.agren@gmail.com>, 2008, 2009.
-# Martin Bagge <brother@bsnet.se>, 2010.
+# Martin Bagge <brother@bsnet.se>, 2010, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2_sv\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2011-06-02 03:22+0100\n"
+"PO-Revision-Date: 2014-12-15 16:53+0100\n"
 "Last-Translator: Martin Bagge / brother <brother@bsnet.se>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -19,8 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: Swedish\n"
-"X-Poedit-Country: Sweden\n"
+"X-Generator: Poedit 1.6.10\n"
 
 #. Type: boolean
 #. Description
@@ -97,8 +96,8 @@ msgid ""
 "prevent the installed GRUB core image from getting out of sync with GRUB "
 "modules or grub.cfg."
 msgstr ""
-"Att köra grub-install automatiskt är rekomenderat i de flesta situationer "
-"för att förhindra att den installerade GRUB-huvudavbidlningen för att hamna "
+"Att köra grub-install automatiskt är rekommenderat i de flesta situationer "
+"för att förhindra att den installerade GRUB-huvudavbildningen för att hamna "
 "i ett förhållande där GRUB-moduler eller grub.cfg inte är i korrekt läge."
 
 #. Type: multiselect
@@ -127,7 +126,7 @@ msgstr ""
 "OBS: det är möjligt att installera GRUB i partitionens uppstartsområde "
 "också, några av dessa visas nedan. Dock innebär installation där att GRUB "
 "tvingas använda en blockeringslista, som gör funktionen mindre pålitlig, och "
-"detta rekomenderas inte."
+"detta rekommenderas inte."
 
 #. Type: multiselect
 #. Description
@@ -300,7 +299,7 @@ msgid ""
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
 "Det generella rådet är att avsluta konverteringen till GRUB 2 om dessa filer "
-"inte skapats av en GRUB 2-installation på ett annat opertivsystem."
+"inte skapats av en GRUB 2-installation på ett annat operativsystem."
 
 #. Type: string
 #. Description
@@ -340,7 +339,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
+msgstr "Forcera installation till flyttbar EFI-media?"
 
 #. Type: boolean
 #. Description
@@ -354,6 +353,13 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"Vissa EFI-baserade system beter sig felaktigt och kan inte hantera nyare "
+"uppstartshanterare korrekt. Om Grub-installationen forceras in i en "
+"flyttbar EFI-enhet så ska detta säkerställa att systemet kommer att starta "
+"Debian korrekt oavsett sådana problem. Å andra sidan kan detta innebära att "
+"andra operativsystem inte kan startas eftersom de är beroende av den "
+"sökvägen. Om detta är fallet behöver du säkerställa att Grub ställts in "
+"komplett för att kunna starta andra operativsystem korrekt."
 
 #. Type: string
 #. Description
@@ -429,7 +435,7 @@ msgid ""
 "If you do not understand this message, or if there are no custom boot menu "
 "entries, you can ignore this message."
 msgstr ""
-"Om du inte förstår detta meddelande eller om du inte har några alterantiva "
+"Om du inte förstår detta meddelande eller om du inte har några alternativa "
 "menyposter kan du ignorera detta meddelande."
 
 #~ msgid ""

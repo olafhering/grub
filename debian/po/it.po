@@ -1,13 +1,13 @@
 # Italian (it) translation of debconf templates for grub2
 # This file is distributed under the same license as the grub2 package.
-# Luca Monducci <luca.mo@tiscali.it>, 2007-2012.
+# Luca Monducci <luca.mo@tiscali.it>, 2007-2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.99-14 italian debconf templates\n"
+"Project-Id-Version: grub2 2.02~beta2-18 italian debconf templates\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2012-01-02 21:52+0100\n"
+"PO-Revision-Date: 2014-12-19 21:49+0100\n"
 "Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
 "Language: it\n"
@@ -336,7 +336,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
+msgstr "Forzare l'installazione sul percorso dei supporti removibili EFI?"
 
 #. Type: boolean
 #. Description
@@ -350,6 +350,13 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"Alcuni sistemi EFI hanno degli errori e non gestiscono correttamente i nuovi "
+"bootloader. Forzando un'installazione aggiuntiva di GRUB sul percorso dei "
+"supporti removibili, si garantisce che il sistema avvierà Debian nonostante "
+"questo tipo di problemi. Tuttavia ciò potrebbe impedire l'avvio di qualsiasi "
+"altro sistema operativo che dipende dallo stesso percorso; in tal caso "
+"occorre accertarsi che GRUB sia configurato in modo che possa avviare "
+"correttamente qualsiasi altro SO installato."
 
 #. Type: string
 #. Description

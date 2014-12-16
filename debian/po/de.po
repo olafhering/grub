@@ -1,6 +1,7 @@
 # Translation of GRUB 2 debconf templates to German
 # Copyright (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2009.
-#               Martin Eberhard Schauer <Martin.E.Schauer@gmx.de>, 2010, 2011.
+#               Martin Eberhard Schauer <Martin.E.Schauer@gmx.de>,
+#               2010, 2011, 2014.
 # This file is distributed under the same license as the grub2 package.
 #
 msgid ""
@@ -8,13 +9,15 @@ msgstr ""
 "Project-Id-Version: grub2 1.98+20100710-2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2011-07-13 00:10+0100\n"
+"PO-Revision-Date: 2014-12-21 18:29+0100\n"
 "Last-Translator: Martin Eberhard Schauer <Martin.E.Schauer@gmx.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #. Type: boolean
 #. Description
@@ -345,7 +348,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
+msgstr "Zusätzliche Installation in den Pfad für EFI-Wechselmedien erzwingen?"
 
 #. Type: boolean
 #. Description
@@ -359,6 +362,14 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"Einige EFI-basierte Systeme haben einen Fehler und handhaben neue Bootloader "
+"nicht korrekt. Falls Sie eine zusätzliche Installation von GRUB in den Pfad  "
+"für EFI-Wechselmedien erzwingen, sollten Sie gewährleisten, dass das "
+"System Debian trotz dieses Problems korrekt startet. Es besteht jedoch die "
+"Möglichkeit, dass ein anderes von diesem Pfad abhängiges Betriebssystem "
+"nicht mehr starten kann. In diesem Fall müssen Sie sicherstellen, dass GRUB "
+"erfolgreich konfiguriert wurde und Installationen beliebiger anderer "
+"Betriebssystem korrekt starten können."
 
 #. Type: string
 #. Description
@@ -437,3 +448,4 @@ msgid ""
 msgstr ""
 "Wenn Sie diese Nachricht nicht verstehen oder wenn keine modifizierten Boot-"
 "Menü-Einträge vorhanden sind, können Sie diese Nachricht ignorieren."
+

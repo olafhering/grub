@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2012-08-18 18:44+0300\n"
+"PO-Revision-Date: 2014-12-17 12:19+0200\n"
 "Last-Translator: Andrei POPESCU <andreimpopescu@gmail.com>\n"
 "Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
 "Language: ro\n"
@@ -342,7 +342,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
+msgstr "Forțează o instalare suplimentară în calea EFI pentru medii externe"
 
 #. Type: boolean
 #. Description
@@ -356,6 +356,13 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"Anumite sisteme EFI au probleme și nu funcționează corect cu încărcători de "
+"sistem noi. Forțând o instalare GRUB suplimentară în calea EFI pentru medii "
+"externe ar trebui să asigure o încărcare corectă a sistemului Debian chiar "
+"și în cazul acestor probleme. Totuși, în acest fel este posibil să pierdeți "
+"posibilitatea de încărcare a altor sisteme care depind de aceiași metodă. În "
+"acest caz va trebui să vă asigurați că GRUB este configurat corect pentru a "
+"putea încărca și orice alte sisteme de operare."
 
 #. Type: string
 #. Description

@@ -1,20 +1,21 @@
 # grub2 po-debconf translation to Esperanto
-# Copyright (C) 2010, 2011 Software in the Public Interest
+# Copyright (C) 2010, 2011, 2014 Software in the Public Interest
 # This file is distributed under the same license as the grub2 package.
-# Felipe Castro <fefcas@gmail.com>, 2010, 2011.
+# Felipe Castro <fefcas@gmail.com>, 2010, 2011, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.99-5\n"
+"Project-Id-Version: grub2 2.02-18\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2011-06-29 21:08-0300\n"
+"PO-Revision-Date: 2014-12-13 21:14-0300\n"
 "Last-Translator: Felipe Castro <fefcas@gmail.com>\n"
 "Language-Team: Esperanto <debian-l10n-esperanto@lists.debian.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.10\n"
 
 #. Type: boolean
 #. Description
@@ -331,7 +332,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
+msgstr "Ĉu perforti kroma instalo al la vojo de demetebla datumportilo EFI?"
 
 #. Type: boolean
 #. Description
@@ -345,6 +346,13 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"Kelkaj sistemoj surbazitaj je EFI estas problemplenaj kaj ne traktas ĝuste "
+"novajn ekŝargilojn. Se vi perfortos kroman instalon de GRUB al la vojo de "
+"demetebla datumportilo EFI, tio povos sekurigi ke tiu ĉi sistemo ekŝargos "
+"Debian perfekte malgraŭ tia problemo. Tamen, tio povos mortigi la kapablon "
+"ekŝargi iun ajn alian operaciuman sistemon kiu ankaŭ dependas de tiu vojo. "
+"Tiaokaze, vi devas certigi ke GRUB estas sukcese agordita tiel ke ĝi "
+"kapablos ekŝargi iun ajn alian OS-instalon ĝuste."
 
 #. Type: string
 #. Description

@@ -1,15 +1,15 @@
 # Thai translation of grub.
-# Copyright (C) 2010-2012 Software in the Public Interest, Inc.
+# Copyright (C) 2010-2014 Software in the Public Interest, Inc.
 # This file is distributed under the same license as the grub package.
-# Theppitak Karoonboonyanan <thep@linux.thai.net>, 2010-2012.
+# Theppitak Karoonboonyanan <thep@debian.org>, 2010-2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2012-01-20 17:12+0700\n"
-"Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
+"PO-Revision-Date: 2014-12-15 12:54+0700\n"
+"Last-Translator: Theppitak Karoonboonyanan <thep@debian.org>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
 "Language: th\n"
 "MIME-Version: 1.0\n"
@@ -318,7 +318,7 @@ msgstr "พารามิเตอร์ต่อไปนี้จะใช้
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
+msgstr "จะบังคับติดตั้งส่วนพิเศษเพิ่มเติมลงในพาธของสื่อถอดเสียบของ EFI หรือไม่?"
 
 #. Type: boolean
 #. Description
@@ -332,6 +332,12 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"ระบบที่อิง EFI บางระบบมีข้อบกพร่อง และไม่ได้จัดการบูตโหลดเดอร์ตัวใหม่ๆ อย่างถูกต้อง "
+"ถ้าคุณบังคับติดตั้งส่วนพิเศษเพิ่มเติมของ GRUB ลงในพาธของสื่อถอดเสียบของ EFI "
+"ก็จะช่วยให้แน่ใจได้ว่าระบบนี้จะบูตเดเบียนได้อย่างถูกต้องแม้จะมีปัญหาดังกล่าว อย่างไรก็ตาม "
+"การติดตั้งดังกล่าวอาจทำให้ไม่สามารถบูตระบบปฏิบัติการอื่นที่อิงอาศัยพาธนี้อยู่ด้วยได้ ซึ่งหากเป็นเช่นนั้น "
+"คุณจะต้องตรวจสอบให้แน่ใจว่าได้ตั้งค่า GRUB "
+"ได้สำเร็จเพื่อให้สามารถบูตระบบปฏิบัติการอื่นได้อย่างถูกต้องด้วย"
 
 #. Type: string
 #. Description

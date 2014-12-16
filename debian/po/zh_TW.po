@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2012-04-22 17:31-0700\n"
+"PO-Revision-Date: 2014-12-17 17:08-0800\n"
 "Last-Translator: Vincent Chen <vinmun@gmail.com>\n"
 "Language-Team: Debian-user in Chinese [Big5] <debian-chinese-big5@lists."
 "debian.org>\n"
@@ -312,7 +312,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
+msgstr "強制額外的安裝到 EFI 可移動媒體的路徑？"
 
 #. Type: boolean
 #. Description
@@ -326,6 +326,10 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"一些基於 EFI 的系統是不穩定的，無法正確處理新的引導程序。如果強制額外安裝 "
+"GRUB 到可移動 EFI 媒體路徑，應該可以確保這個系統將正常啟動 Debian。但是，它可"
+"能會移除其它需要這個路徑的作業系統的啟動能力。如果是這樣，您需要確保 GRUB 設"
+"定成功，這樣其它的作業系統才能正常開機。"
 
 #. Type: string
 #. Description

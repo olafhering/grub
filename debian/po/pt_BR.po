@@ -2,14 +2,15 @@
 # Copyright (C) 2009 THE grub2'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the grub2 package.
 # Flamarion Jorge <jorge.flamarion@gmail.com>, 2009, 2010, 2011.
+# Adriano Rafael Gomes <adrianorg@arg.eti.br>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.98\n"
+"Project-Id-Version: grub2 2.02~beta2-18\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2011-05-29 17:13-0300\n"
-"Last-Translator: Flamarion Jorge <jorge.flamarion@gmail.com>\n"
+"PO-Revision-Date: 2014-12-21 21:37-0200\n"
+"Last-Translator: Adriano Rafael Gomes <adrianorg@arg.eti.br>\n"
 "Language-Team: Brazilian Portuguese <debian-l10n-portuguese@lists.debian."
 "org>\n"
 "Language: pt_BR\n"
@@ -344,7 +345,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
+msgstr "Forçar instalação extra no caminho de mídia removível EFI?"
 
 #. Type: boolean
 #. Description
@@ -358,6 +359,15 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"Alguns sistemas baseados em EFI contém bugs e não lidam corretamente com "
+"novos carregadores de inicialização. Se você forçar uma instalação extra do "
+"GRUB no caminho de mídia removível EFI, isso deverá assegurar que este "
+"sistema inicializará o Debian corretamente, apesar desse problema. No "
+"entanto, isso pode remover a habilidade de inicializar quaisquer outros "
+"sistemas operacionais que também dependam desse caminho. Caso afirmativo, "
+"você precisará certificar-se de que o GRUB seja configurado com sucesso para "
+"ser capaz de inicializar corretamente quaisquer instalações de outros "
+"sistemas operacionais."
 
 #. Type: string
 #. Description
