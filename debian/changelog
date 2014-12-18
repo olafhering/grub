@@ -2,6 +2,7 @@ grub2 (2.02~beta2-19) UNRELEASED; urgency=medium
 
   [ Ian Campbell ]
   * Improvements to English wording of new debconf template from Justin B Rye.
+  * Add debian/README.source.
 
   [ Debconf translations ]
   * [eu] Basque (Iñaki Larrañaga Murgoitio, Closes: #772946)
