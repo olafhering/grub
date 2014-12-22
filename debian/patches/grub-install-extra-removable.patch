@@ -1,4 +1,4 @@
-From dfcbcb60e5428bcb87ba96011c7b7ab1b7891fa1 Mon Sep 17 00:00:00 2001
+From 617a691e4a95e67967ca8b0c77c59d347df182d6 Mon Sep 17 00:00:00 2001
 From: Steve McIntyre <93sam@debian.org>
 Date: Wed, 3 Dec 2014 01:25:12 +0000
 Subject: Add support for forcing EFI installation to the removable media path
@@ -12,17 +12,17 @@ with new boot paths.
 
 Signed-off-by: Steve McIntyre <93sam@debian.org>
 
-Bug-Debian: https://bugs.debian.org/767037
+Bug-Debian: https://bugs.debian.org/767037 https://bugs.debian.org/773092
 Forwarded: Not yet
-Last-Update: 2014-12-03
+Last-Update: 2014-12-20
 
 Patch-Name: grub-install-extra-removable.patch
 ---
- util/grub-install.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 44 insertions(+), 2 deletions(-)
+ util/grub-install.c | 110 +++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 108 insertions(+), 2 deletions(-)
 
 diff --git a/util/grub-install.c b/util/grub-install.c
-index 7a7734e..18015da 100644
+index 7a7734e..54fbd35 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
 @@ -56,6 +56,7 @@
@@ -64,35 +64,99 @@ index 7a7734e..18015da 100644
    {0, 0, 0, 0, 0, 0}
  };
  
-@@ -829,6 +838,27 @@ fill_core_services (const char *core_services)
+@@ -829,6 +838,91 @@ fill_core_services (const char *core_services)
    free (sysv_plist);
  }
  
++/* Helper routine for also_install_removable() below. Walk through the
++   specified dir, looking to see if there is a file/dir that matches
++   the search string exactly, but in a case-insensitive manner. If so,
++   return a copy of the exact file/dir that *does* exist. If not,
++   return NULL */
++static char *
++check_component_exists(const char *dir,
++		       const char *search)
++{
++  grub_util_fd_dir_t d;
++  grub_util_fd_dirent_t de;
++  char *found = NULL;
++
++  d = grub_util_fd_opendir (dir);
++  if (!d)
++    grub_util_error (_("cannot open directory `%s': %s"),
++		     dir, grub_util_fd_strerror ());
++
++  while ((de = grub_util_fd_readdir (d)))
++    {
++      if (strcasecmp (de->d_name, search) == 0)
++	{
++	  found = xstrdup (de->d_name);
++	  break;
++	}
++    }
++  grub_util_fd_closedir (d);
++  return found;
++}
++
++/* Some complex directory-handling stuff in here, to cope with
++ * case-insensitive FAT/VFAT filesystem semantics. Ugh. */
 +static void
-+also_install_removable(const char *src, const char *base_efidir, const char *efi_suffix_upper)
++also_install_removable(const char *src,
++		       const char *base_efidir,
++		       const char *efi_suffix_upper)
 +{
 +  char *efi_file = NULL;
 +  char *dst = NULL;
-+  char *dir = NULL;
++  char *cur = NULL;
++  char *found = NULL;
 +
 +  if (!efi_suffix_upper)
 +    grub_util_error ("%s", _("efi_suffix_upper not set"));
 +  efi_file = xasprintf ("BOOT%s.EFI", efi_suffix_upper);
 +
-+  dir = grub_util_path_concat (3, base_efidir, "EFI", "BOOT");
-+  grub_install_mkdir_p (dir);
++  /* We need to install in $base_efidir/EFI/BOOT/$efi_file, but we
++   * need to cope with case-insensitive stuff here. Build the path one
++   * component at a time, checking for existing matches each time. */
 +
-+  dst = grub_util_path_concat (2, dir, efi_file);
-+  grub_install_copy_file (src, dst, 1);
++  /* Look for "EFI" in base_efidir. Make it if it does not exist in
++   * some form. */
++  found = check_component_exists(base_efidir, "EFI");
++  if (found == NULL)
++    found = xstrdup("EFI");
++  dst = grub_util_path_concat (2, base_efidir, found);
++  cur = xstrdup (dst);
 +  free (dst);
++  free (found);
++  grub_install_mkdir_p (cur);
++
++  /* Now BOOT */
++  found = check_component_exists(cur, "BOOT");
++  if (found == NULL)
++    found = xstrdup("BOOT");
++  dst = grub_util_path_concat (2, cur, found);
++  cur = xstrdup (dst);
++  free (dst);
++  free (found);
++  grub_install_mkdir_p (cur);
++
++  /* Now $efi_file */
++  found = check_component_exists(cur, efi_file);
++  if (found == NULL)
++    found = xstrdup(efi_file);
++  dst = grub_util_path_concat (2, cur, found);
++  cur = xstrdup (dst);
++  free (dst);
++  free (found);
++  grub_install_copy_file (src, cur, 1);
++
++  free (cur);
 +  free (efi_file);
-+  free (dir);
 +}
 +
  int
  main (int argc, char *argv[])
  {
-@@ -846,6 +876,7 @@ main (int argc, char *argv[])
+@@ -846,6 +940,7 @@ main (int argc, char *argv[])
    char *relative_grubdir;
    char **efidir_device_names = NULL;
    grub_device_t efidir_grub_dev = NULL;
@@ -100,7 +164,7 @@ index 7a7734e..18015da 100644
    char *efidir_grub_devname;
    int efidir_is_mac = 0;
    int is_prep = 0;
-@@ -878,6 +909,9 @@ main (int argc, char *argv[])
+@@ -878,6 +973,9 @@ main (int argc, char *argv[])
        bootloader_id = xstrdup ("grub");
      }
  
@@ -110,7 +174,7 @@ index 7a7734e..18015da 100644
    if (!grub_install_source_directory)
      {
        if (!target)
-@@ -1087,6 +1121,8 @@ main (int argc, char *argv[])
+@@ -1087,6 +1185,8 @@ main (int argc, char *argv[])
        if (!efidir_is_mac && grub_strcmp (fs->name, "fat") != 0)
  	grub_util_error (_("%s doesn't look like an EFI partition.\n"), efidir);
  
@@ -119,7 +183,7 @@ index 7a7734e..18015da 100644
        /* The EFI specification requires that an EFI System Partition must
  	 contain an "EFI" subdirectory, and that OS loaders are stored in
  	 subdirectories below EFI.  Vendors are expected to pick names that do
-@@ -1949,9 +1985,15 @@ main (int argc, char *argv[])
+@@ -1949,9 +2049,15 @@ main (int argc, char *argv[])
  	    fprintf (config_dst_f, "configfile $prefix/grub.cfg\n");
  	    fclose (config_dst_f);
  	    free (config_dst);

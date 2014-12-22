@@ -1,5 +1,10 @@
 grub2 (2.02~beta2-19) UNRELEASED; urgency=medium
 
+  [ Steve McIntyre ]
+  * Handle case insensitivity of VFAT filesystem on /boot/EFI when installing
+    extra cpoy of grub-efi to the removable media path
+    /boot/efi/EFI/BOOT/BOOT$ARCH.EFI (Closes: #773092)
+
   [ Ian Campbell ]
   * Improvements to English wording of new debconf template from Justin B Rye.
   * Add debian/README.source.
