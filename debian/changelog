@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-19) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-19) unstable; urgency=medium
 
   [ Steve McIntyre ]
   * Handle case insensitivity of VFAT filesystem on /boot/EFI when installing
@@ -38,7 +38,7 @@ grub2 (2.02~beta2-19) UNRELEASED; urgency=medium
   * [zh_TW] Traditional Chinese (Vincent W. Chen, Closes: #773418)
   * [tr] Turkish (Mert Dirik, Closes: #773666)
 
- -- Ian Campbell <ijc@debian.org>  Sat, 13 Dec 2014 19:53:54 +0000
+ -- Ian Campbell <ijc@debian.org>  Mon, 22 Dec 2014 11:55:33 +0000
 
 grub2 (2.02~beta2-18) unstable; urgency=medium
 
