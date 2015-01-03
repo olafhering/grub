@@ -1,20 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# localuser <sampada.n@rediffmail.com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2012-05-13 23:06+0530\n"
-"Last-Translator: sampada <sampadanakhare@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-12-24 20:56+0530\n"
+"Last-Translator: localuser <sampada.n@rediffmail.com>\n"
+"Language-Team: C-DAC/Sampada\n"
+"Language: mr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.7.1\n"
 
 #. Type: boolean
 #. Description
@@ -90,7 +91,7 @@ msgid ""
 "modules or grub.cfg."
 msgstr ""
 "ग्रब गाभा प्रतिमेच्या ग्रब मोड्यूल्स वा grub.cfg शी विसंवादाला आळा बसण्यासाठी बहुतांश "
-"परिस्थितींमध्ये ग्रब-इन्स्टाल स्वयंचलितपणे चालवले जाण्याची शिफारस केली जाते"
+"परिस्थितींमध्ये ग्रब-इन्स्टाल स्वयंचलितपणे चालवले जाण्याची शिफारस केली जाते."
 
 #. Type: multiselect
 #. Description
@@ -209,7 +210,7 @@ msgstr ""
 "कोणत्याही उपकरणांवर ग्रब अधिष्ठापित न करण्याचे तुम्ही निवडले आहे. तुम्ही पुढे चालू ठेवल्यास, "
 "हा आरंभ सूचक योग्यरित्या संरचित झालेला नसू शकतो, व हा संगणक पुन्हा सुरू होईल तेव्हा बूट "
 "सेक्टरमध्ये आधी जे काही होते ते वापरेल. बूट सेक्टरमध्ये ग्रब 2 ची आधीची आवृत्ती असेल, तर "
-"कदाचित तो मोड्युल्स लोड करू शकणार नाही वा सद्य संरचना फाईल हाताळू शकणार नाही.\t"
+"कदाचित तो मोड्युल्स लोड करू शकणार नाही वा सद्य संरचना फाईल हाताळू शकणार नाही."
 
 #. Type: boolean
 #. Description
@@ -322,7 +323,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
+msgstr "ईएफआय काढण्याजोग्या मिडीया मार्गात अतिरिक्त अधिष्ठापना जबरदस्ती करायची?"
 
 #. Type: boolean
 #. Description
@@ -336,6 +337,12 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"काही ईएफआय-आधारित प्रणाली दोषपूर्ण असतात व नवीन आरंभसूचकांना योग्य रीतीने हाताळत "
+"नाहीत. तुम्ही ईएफआय काढण्याजोग्या मिडीया मार्गात ग्रबची अतिरिक्त अधिष्ठापना जबरदस्ती "
+"केल्यास, त्यामुळे अशी समस्या असूनही ही प्रणाली डेबियन योग्यरीत्या आरंभ करेल याची खात्री "
+"होईल. तथापि, त्यामुळे याच मार्गावर अवलंबून असणारी अन्य एखादी प्रचालन प्रणाली आरंभ "
+"होण्याची क्षमता काढून टाकली जाऊ शकते. असे असल्यास, अन्य एखादी प्रणाली योग्य रीतीने आरंभ "
+"होण्यासाठी ग्रब यशस्वीपणे संरचित केला गेला असल्याची खातरजमा तुम्ही करणे गरजेचे आहे."
 
 #. Type: string
 #. Description
@@ -400,7 +407,7 @@ msgid ""
 msgstr ""
 "तथापि, प्रणालीमध्ये एकाहून अधिक डिस्क अस्तित्वात असल्याने, प्रणाली जुन्या उपकरण नकाशावर "
 "अवलंबून असणे शक्य आहे. ग्रबच्या (hdN) ड्राईव्ह क्रमांकांवर विसंबणार्‍या एखाद्या आरंभ मेन्यू नोंदी "
-"आहेत का हे कृपया तपासा, व आवश्यकता भासल्यास त्या अद्ययावत "
+"आहेत का हे कृपया तपासा, व आवश्यकता भासल्यास त्या अद्ययावत करा."
 
 #. Type: note
 #. Description
