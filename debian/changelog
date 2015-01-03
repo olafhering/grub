@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-20) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-20) unstable; urgency=medium
 
   [ Colin Watson ]
   * Generate alternative init entries in advanced menu (closes: #757298,
@@ -11,7 +11,7 @@ grub2 (2.02~beta2-20) UNRELEASED; urgency=medium
   * [fi] Finnish (Timo Jyrinki; closes: #774060).
   * [mr] Marathi (sampada nakhare; closes: #773901).
 
- -- Colin Watson <cjwatson@debian.org>  Sat, 03 Jan 2015 12:19:27 +0000
+ -- Colin Watson <cjwatson@debian.org>  Sat, 03 Jan 2015 12:39:52 +0000
 
 grub2 (2.02~beta2-19) unstable; urgency=medium
 
