@@ -671,13 +671,12 @@ case "$1" in
         fi
 
         # /boot/grub/ has more chances of being accessible by GRUB
-        if test -e /boot/grub/grub.cfg ; then
-          for i in /usr/share/grub/unicode.pf2 ; do
-            if test -e $i ; then
-              cp $i /boot/grub/
-            fi
-          done
-        fi
+        for i in /usr/share/grub/unicode.pf2 ; do
+          if test -e $i ; then
+            mkdir -p /boot/grub
+            cp $i /boot/grub/
+          fi
+        done
 
         if [ "$fix_mixed_system" ]; then
           # These never contain any valuable information, and they aren't
