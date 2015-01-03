@@ -1,3 +1,10 @@
+grub2 (2.02~beta2-20) UNRELEASED; urgency=medium
+
+  * Generate alternative init entries in advanced menu (closes: #757298,
+    #773173).
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 03 Jan 2015 12:19:27 +0000
+
 grub2 (2.02~beta2-19) unstable; urgency=medium
 
   [ Steve McIntyre ]
