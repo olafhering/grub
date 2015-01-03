@@ -33,7 +33,7 @@ grub2 (2.02~beta2-19) unstable; urgency=medium
   * [cs] Czech (Miroslav Kure, Closes: #772924)
   * [nl] Dutch (Frans Spiesschaert, Closes: 773637)
   * [eo] Esperanto (Felipe Castro, Closes: #773096)
-  * [fi] Finish (Timo Jyrinki, Closes: #772921)
+  * [fi] Finnish (Timo Jyrinki, Closes: #772921)
   * [fr] French (Christian PERRIER, Closes: #772771)
   * [de] German (Martin Eberhard Schauer, Closes: #773664)
   * [el] Greek (Panagiotis Georgakopoulos, Closes: #773068)
