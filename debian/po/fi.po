@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2014-12-12 10:19+0200\n"
+"PO-Revision-Date: 2014-12-27 18:53+0200\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@iki.fi>\n"
 "Language-Team: Finnish <debian-l10n-finnish@lists.debian.org>\n"
 "Language: fi\n"
@@ -336,23 +336,12 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid "Force extra installation to the EFI removable path?"
 msgid "Force extra installation to the EFI removable media path?"
-msgstr "Pakotetaanko lisäasennus irrotettavissa olevaan EFI-polkuun?"
+msgstr "Pakotetaanko lisäasennus irrotettavissa olevan median EFI-polkuun?"
 
 #. Type: boolean
 #. Description
 #: ../templates.in:3001
-#, fuzzy
-#| msgid ""
-#| "Some EFI-based systems are buggy and do not handle new bootloaders "
-#| "correctly. If you force extra installation of GRUB to the EFI removable "
-#| "path, it should make sure that this system will boot Debian correctly "
-#| "despite such a problem. However, this may remove the ability to boot any "
-#| "other operating systems that also depend on this path. If so, you will "
-#| "need to ensure that GRUB is configured successfully to be able boot any "
-#| "other OS installations correctly."
 msgid ""
 "Some EFI-based systems are buggy and do not handle new bootloaders "
 "correctly. If you force an extra installation of GRUB to the EFI removable "
@@ -364,12 +353,12 @@ msgid ""
 msgstr ""
 "Jotkin EFI-järjestelmät sisältävät ohjelmavirheitä joidenka takia ne eivät "
 "käsittele alkulatausohjelmia oikein. Jos pakotat GRUB:n lisäasentamisen "
-"irrotettavissa olevaan EFI-polkuun, järjestelmän pitäisi kyetä käynnistämään "
-"Debian riippumatta kyseisenkaltaisista ongelmista. Tämä kuitenkin saattaa "
-"poistaa mahdollisuuden muiden käyttöjärjestelmien käynnistämiseen, mikäli ne "
-"riippuvat samasta polusta. Tässä tapauksessa tulee varmistaa, että GRUBin "
-"asetukset on tehty niin, että GRUBista voidaan käynnistää nämä muut "
-"käyttöjärjestelmät oikein."
+"irrotettavissa olevan median EFI-polkuun, järjestelmän pitäisi kyetä "
+"käynnistämään Debian riippumatta kyseisenkaltaisista ongelmista. Tämä "
+"kuitenkin saattaa poistaa mahdollisuuden muiden käyttöjärjestelmien "
+"käynnistämiseen, mikäli ne riippuvat samasta polusta. Tässä tapauksessa "
+"tulee varmistaa, että GRUBin asetukset on tehty niin, että GRUBista voidaan "
+"käynnistää nämä muut käyttöjärjestelmät oikein."
 
 #. Type: string
 #. Description

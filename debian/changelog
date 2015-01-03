@@ -8,6 +8,7 @@ grub2 (2.02~beta2-20) UNRELEASED; urgency=medium
     grub-efi-* (thanks, Luca Capello; closes: #617196).
 
   [ Debconf translations ]
+  * [fi] Finnish (Timo Jyrinki; closes: #774060).
   * [mr] Marathi (sampada nakhare; closes: #773901).
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 03 Jan 2015 12:19:27 +0000
