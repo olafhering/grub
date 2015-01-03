@@ -32,6 +32,7 @@ export TEXTDOMAIN=@PACKAGE@
 export TEXTDOMAINDIR="@localedir@"
 
 CLASS="--class gnu-linux --class gnu --class os"
+SUPPORTED_INITS="sysvinit:/lib/sysvinit/init systemd:/lib/systemd/systemd upstart:/sbin/upstart"
 
 if [ "x${GRUB_DISTRIBUTOR}" = "x" ] ; then
   OS=GNU/Linux
@@ -117,6 +118,8 @@ linux_entry ()
       case $type in
 	  recovery)
 	      title="$(gettext_printf "%s, with Linux %s (%s)" "${os}" "${version}" "$(gettext "${GRUB_RECOVERY_TITLE}")")" ;;
+	  init-*)
+	      title="$(gettext_printf "%s, with Linux %s (%s)" "${os}" "${version}" "${type#init-}")" ;;
 	  *)
 	      title="$(gettext_printf "%s, with Linux %s" "${os}" "${version}")" ;;
       esac
@@ -344,6 +347,13 @@ while [ "x$list" != "x" ] ; do
 
   linux_entry "${OS}" "${version}" advanced \
               "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
+  for supported_init in ${SUPPORTED_INITS}; do
+    init_path="${supported_init#*:}"
+    if [ -x "${init_path}" ] && [ "$(readlink -f /sbin/init)" != "$(readlink -f "${init_path}")" ]; then
+      linux_entry "${OS}" "${version}" "init-${supported_init%%:*}" \
+		  "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT} init=${init_path}"
+    fi
+  done
   if [ "x${GRUB_DISABLE_RECOVERY}" != "xtrue" ]; then
     linux_entry "${OS}" "${version}" recovery \
                 "${GRUB_CMDLINE_LINUX_RECOVERY} ${GRUB_CMDLINE_LINUX}"
