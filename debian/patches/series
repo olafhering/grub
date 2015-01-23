@@ -64,3 +64,4 @@ gettext-print-typo.patch
 insmod-xzio-and-lzopio-on-xen.patch
 grub-install-extra-removable.patch
 mkconfig_other_inits.patch
+check_blocklists_overlap_fix.patch
