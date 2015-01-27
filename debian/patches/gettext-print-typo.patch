@@ -1,4 +1,4 @@
-From 20886bef9351d5c20a9de1fb3339fe40114f01d1 Mon Sep 17 00:00:00 2001
+From 34411ff593136ce78ab5c21706dfb7ae3655a16f Mon Sep 17 00:00:00 2001
 From: Andrey Borzenkov <arvidjaar@gmail.com>
 Date: Thu, 14 Aug 2014 21:02:31 +0400
 Subject: Fix typo (gettext_print instead of gettext_printf)

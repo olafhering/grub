@@ -8,6 +8,11 @@ grub2 (2.02~beta2-21) UNRELEASED; urgency=medium
   * Add support for running a 64-bit Linux kernel on a 32-bit EFI (closes:
     #775202).
 
+  [ Colin Watson ]
+  * Use mtmsr rather than mtmsrd in ppc64el-disable-vsx.patch, since the
+    "VSX Available" bit is in the lower half of the MSR anyway, and mtmsrd
+    faults on 32-bit systems (closes: #776400).
+
  -- Mathieu Trudel-Lapierre <mathieu.tl@gmail.com>  Fri, 23 Jan 2015 13:43:16 -0500
 
 grub2 (2.02~beta2-20) unstable; urgency=medium
