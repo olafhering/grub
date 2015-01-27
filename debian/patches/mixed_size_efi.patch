@@ -1,0 +1,79 @@
+From df4a549e72451e65578d055400fb5f213a4699fb Mon Sep 17 00:00:00 2001
+From: Steve McIntyre <93sam@debian.org>
+Date: Tue, 27 Jan 2015 20:08:53 +0000
+Subject: Add support for running a 64-bit Linux kernel on a 32-bit EFI
+
+Some platforms might be capable of running a 64-bit Linux kernel but
+only use a 32-bit EFI.  To support such systems, it is necessary to work
+out the size of the firmware rather than just the size of the kernel.
+To enable that, there is now an extra EFI sysfs file to describe the
+underlying firmware.  Read that if possible, otherwise fall back to the
+kernel type as before.
+
+Signed-off-by: Steve McIntyre <93sam@debian.org>
+
+Bug-Debian: https://bugs.debian.org/775202
+Forwarded: Not yet
+Last-Update: 2015-01-10
+
+Patch-Name: mixed_size_efi.patch
+---
+ grub-core/osdep/linux/platform.c | 38 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
+
+diff --git a/grub-core/osdep/linux/platform.c b/grub-core/osdep/linux/platform.c
+index 033afd8..3675b23 100644
+--- a/grub-core/osdep/linux/platform.c
++++ b/grub-core/osdep/linux/platform.c
+@@ -63,6 +63,42 @@ is_64_kernel (void)
+   return strcmp (un.machine, "x86_64") == 0;
+ }
+ 
++static int
++read_platform_size (void)
++{
++  FILE *fp;
++  char *buf = NULL;
++  size_t len = 0;
++  int ret = 0;
++
++  /* Newer kernels can tell us directly about the size of the
++   * underlying firmware - let's see if that interface is there. */
++  fp = grub_util_fopen ("/sys/firmware/efi/fw_platform_size", "r");
++  if (fp != NULL)
++  {
++    if (getline (&buf, &len, fp) > 0)
++      {
++	if (strncmp (buf, "32", 2) == 0)
++	  ret = 32;
++	else if (strncmp (buf, "64", 2) == 0)
++	  ret = 64;
++      }
++    free (buf);
++    fclose (fp);
++  }
++
++  if (ret == 0)
++    /* Unrecognised - fall back to matching the kernel size instead */
++    {
++      if (is_64_kernel ())
++	ret = 64;
++      else
++	ret = 32;
++    }
++
++  return ret;
++}
++
+ const char *
+ grub_install_get_default_x86_platform (void)
+ { 
+@@ -85,7 +121,7 @@ grub_install_get_default_x86_platform (void)
+       int found;
+ 
+       grub_util_info ("...found");
+-      if (is_64_kernel ())
++      if (read_platform_size() == 64)
+ 	platform = "x86_64-efi";
+       else
+ 	platform = "i386-efi";

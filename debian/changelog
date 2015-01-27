@@ -1,7 +1,12 @@
 grub2 (2.02~beta2-21) UNRELEASED; urgency=medium
 
+  [ Mathieu Trudel-Lapierre ]
   * Fix overlap check in check_blocklists for load_env (backported patch from
     upstream commit 1f6af2a9).
+
+  [ Steve McIntyre ]
+  * Add support for running a 64-bit Linux kernel on a 32-bit EFI (closes:
+    #775202).
 
  -- Mathieu Trudel-Lapierre <mathieu.tl@gmail.com>  Fri, 23 Jan 2015 13:43:16 -0500
 
