@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-21) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-21) unstable; urgency=medium
 
   [ Mathieu Trudel-Lapierre ]
   * Fix overlap check in check_blocklists for load_env (backported patch
@@ -13,7 +13,7 @@ grub2 (2.02~beta2-21) UNRELEASED; urgency=medium
     "VSX Available" bit is in the lower half of the MSR anyway, and mtmsrd
     faults on 32-bit systems (closes: #776400).
 
- -- Mathieu Trudel-Lapierre <mathieu.tl@gmail.com>  Fri, 23 Jan 2015 13:43:16 -0500
+ -- Colin Watson <cjwatson@debian.org>  Tue, 27 Jan 2015 20:37:04 +0000
 
 grub2 (2.02~beta2-20) unstable; urgency=medium
 
