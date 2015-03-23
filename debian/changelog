@@ -4,6 +4,9 @@ grub2 (2.02~beta2-22) UNRELEASED; urgency=medium
     quieten debcheck.
   * Remove unnecessary feature test macros from hostfs, to fix building with
     glibc 2.20.
+  * Backport from upstream:
+    - Fix UEFI boot failure with some firmware that returns incorrect paths
+      (closes: #735960).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 19 Mar 2015 10:24:47 +0000
 
