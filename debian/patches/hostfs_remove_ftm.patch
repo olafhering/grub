@@ -1,4 +1,4 @@
-From e0758840449a372d8cae3c7aba1f1716b57c6d9c Mon Sep 17 00:00:00 2001
+From d6236220e351d7b712825997b7d84feb38e49bd3 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Mon, 23 Mar 2015 14:34:01 +0000
 Subject: hostfs: Drop unnecessary feature test macros
@@ -8,8 +8,8 @@ in e768b77068a0b030a07576852bd0f121c9a077eb.  While adding
 _DEFAULT_SOURCE as well works around problems with current glibc,
 neither is in fact needed nowadays.
 
-Origin: upstream, http://git.savannah.gnu.org/gitweb/?p=grub.git;a=commitdiff;h=a276b840464629fdaecbe7e813f83a717a34993a
-Origin: upstream, http://git.savannah.gnu.org/gitweb/?p=grub.git;a=commitdiff;h=5974d4ba65fc5ad9253857bf992ffd3c635baf2a
+Origin: upstream, http://git.savannah.gnu.org/cgit/grub.git/commit/?id=a276b840464629fdaecbe7e813f83a717a34993a
+Origin: upstream, http://git.savannah.gnu.org/cgit/grub.git/commit/?id=5974d4ba65fc5ad9253857bf992ffd3c635baf2a
 Last-Update: 2015-03-23
 
 Patch-Name: hostfs_remove_ftm.patch
