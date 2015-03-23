@@ -66,3 +66,4 @@ grub-install-extra-removable.patch
 mkconfig_other_inits.patch
 check_blocklists_overlap_fix.patch
 mixed_size_efi.patch
+hostfs_remove_ftm.patch
