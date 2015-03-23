@@ -19,7 +19,6 @@
 
 #include <config-util.h>
 
-#define _BSD_SOURCE
 #include <grub/fs.h>
 #include <grub/file.h>
 #include <grub/disk.h>
