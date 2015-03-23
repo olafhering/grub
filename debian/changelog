@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-22) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-22) unstable; urgency=medium
 
   * Make grub-common's Suggests on grub-emu architecture-specific, to
     quieten debcheck.
@@ -8,7 +8,7 @@ grub2 (2.02~beta2-22) UNRELEASED; urgency=medium
     - Fix UEFI boot failure with some firmware that returns incorrect paths
       (closes: #735960).
 
- -- Colin Watson <cjwatson@debian.org>  Thu, 19 Mar 2015 10:24:47 +0000
+ -- Colin Watson <cjwatson@debian.org>  Mon, 23 Mar 2015 15:30:15 +0000
 
 grub2 (2.02~beta2-21) unstable; urgency=medium
 
