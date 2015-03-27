@@ -183,7 +183,34 @@ grub_lua_enum_device_iter (const char *name, void *data)
 		}
 	    }
 
-	  lua_call (state, 3, 1);
+	  if (! fs->label)
+	    lua_pushnil (state);
+	  else
+	    {
+	      int err;
+	      char *label = NULL;
+
+	      err = fs->label (dev, &label);
+	      if (err)
+		{
+		  grub_errno = 0;
+		  lua_pushnil (state);
+		}
+	      else
+		{
+		  if (label == NULL)
+		    {
+		      lua_pushnil (state);
+		    }
+		  else
+		    {
+		      lua_pushstring (state, label);
+		    }
+		  grub_free (label);
+		}
+	    }
+
+	  lua_call (state, 4, 1);
 	  result = lua_tointeger (state, -1);
 	  lua_pop (state, 1);
 	}
