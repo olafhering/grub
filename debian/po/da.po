@@ -1,7 +1,7 @@
 # Danish translation grub2.
-# Copyright (C) 2011 grub2 & nedenstående oversættere.
+# Copyright (C) 2015 grub2 & nedenstående oversættere.
 # This file is distributed under the same license as the grub2 package.
-# Joe Hansen <joedalton2@yahoo.dk>, 2010, 2011.
+# Joe Hansen <joedalton2@yahoo.dk>, 2010, 2011, 2015.
 # Korrekturlæst Kenneth Nielsen, Keld Jørn Simonsen, Torben Grøn Helligsø.
 #
 # Chain loading -> Chain loading is a method used by computer programs 
@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2011-05-28 17:30+01:00\n"
+"PO-Revision-Date: 2015-03-27 17:30+01:00\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <debian-l10n-danish@lists.debian.org> \n"
 "Language: \n"
@@ -348,7 +348,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
+msgstr "Fremtving ekstra installation til den flytbare mediesti for EFI?"
 
 #. Type: boolean
 #. Description
@@ -362,6 +362,14 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"Nogle EFI-baserede systemer er fejlramte og håndterer ikke nye "
+"opstartsindlæsere korrekt. Hvis du fremtvinger en ekstra installation af "
+"GRUB til den flytbare mediesti for EFI, bør dette sikre, at systemet vil "
+"starte Debian korrekt op på trods af et sådant problem. Det kan dog fjerne "
+"muligheden for at starte et andet operativsystem op, som også afhænger af "
+"denne sti. Hvis dette er tilfældet, så skal du sikre dig, at GRUB er "
+"konfigureret succesfuldt for at kunne starte andre operativsystemer "
+"op korrekt."
 
 #. Type: string
 #. Description
