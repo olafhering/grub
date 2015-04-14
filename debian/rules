@@ -209,7 +209,7 @@ debian/stamps/build-grub-xen-host: debian/stamps/build-grub-xen-host-i386 debian
 debian/stamps/build-grub-pc: debian/stamps/configure-grub-pc
 	dh_auto_build
 ifeq ($(with_check), yes)
-	LC_CTYPE=C.UTF-8 PATH="$$PATH:/sbin:/usr/sbin" VERBOSE=1 dh_auto_test --max-parallel=1
+	LC_MESSAGES=C.UTF-8 LC_CTYPE=C.UTF-8 PATH="$$PATH:/sbin:/usr/sbin" VERBOSE=1 dh_auto_test --max-parallel=1
 endif
 	touch $@
 
