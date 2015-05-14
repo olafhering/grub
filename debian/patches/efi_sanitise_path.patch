@@ -1,4 +1,4 @@
-From 913e2ef0514e1b88d93f01b1e7bd1d1c944307b7 Mon Sep 17 00:00:00 2001
+From cf0dc36a7ea641ac9c168a8e283d29ba61dbd593 Mon Sep 17 00:00:00 2001
 From: Vladimir Serbinenko <phcoder@gmail.com>
 Date: Sat, 18 Jan 2014 16:41:47 +0100
 Subject: Fix UEFI boot failure with some firmware that returns incorrect paths

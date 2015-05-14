@@ -1,4 +1,4 @@
-From aa6cd0ede64ab60a58c00f3d4ff04b0db15188e0 Mon Sep 17 00:00:00 2001
+From 61e102680ca8b0eed26fcf9fd97700c8ed97d5fc Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:33 +0000
 Subject: Add GRUB_RECOVERY_TITLE option
@@ -21,10 +21,10 @@ Patch-Name: mkconfig_recovery_title.patch
  7 files changed, 17 insertions(+), 7 deletions(-)
 
 diff --git a/docs/grub.texi b/docs/grub.texi
-index 28743d5..af020ec 100644
+index a79256b..49b17ec 100644
 --- a/docs/grub.texi
 +++ b/docs/grub.texi
-@@ -1499,6 +1499,11 @@ restricted or limited.
+@@ -1504,6 +1504,11 @@ a console is restricted or limited.
  This option is only effective when GRUB was configured with the
  @option{--enable-quick-boot} option.
  

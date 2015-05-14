@@ -1,4 +1,4 @@
-From 117750671b90c8576dab576af524f29df9a0981c Mon Sep 17 00:00:00 2001
+From 0dbefbae6c1ae8195d2aebc6c4e839c79d1aec9a Mon Sep 17 00:00:00 2001
 From: Ian Campbell <ijc@debian.org>
 Date: Sun, 30 Nov 2014 12:12:52 +0000
 Subject: Arrange to insmod xzio and lzopio when booting a kernel as a Xen

@@ -1,4 +1,4 @@
-From 211894b6333be68c2ddaa2f3a8d9b0df7b13b60c Mon Sep 17 00:00:00 2001
+From a6c14d009f574b026c8aebb977cd1e808827961b Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:28 +0000
 Subject: Add configure option to bypass boot menu if possible
@@ -17,19 +17,20 @@ If the previous boot failed (defined as failing to get to the end of one
 of the normal runlevels), then show the boot menu regardless.
 
 Author: Richard Laager <rlaager@wiktel.com>
+Author: Robie Basak <robie.basak@ubuntu.com>
 Forwarded: no
-Last-Update: 2014-01-17
+Last-Update: 2015-05-14
 
 Patch-Name: quick_boot.patch
 ---
  configure.ac                | 11 +++++++++
- docs/grub.texi              |  9 +++++++
+ docs/grub.texi              | 14 +++++++++++
  grub-core/normal/menu.c     | 24 +++++++++++++++++++
  util/grub-mkconfig.in       |  3 ++-
  util/grub.d/00_header.in    | 58 +++++++++++++++++++++++++++++++++++----------
  util/grub.d/10_linux.in     |  4 ++++
  util/grub.d/30_os-prober.in | 21 ++++++++++++++++
- 7 files changed, 117 insertions(+), 13 deletions(-)
+ 7 files changed, 122 insertions(+), 13 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
 index 7c8d0af..2a7e410 100644
@@ -54,18 +55,23 @@ index 7c8d0af..2a7e410 100644
  
  AC_SUBST([FONT_SOURCE])
 diff --git a/docs/grub.texi b/docs/grub.texi
-index 46b9e7f..28743d5 100644
+index 46b9e7f..a79256b 100644
 --- a/docs/grub.texi
 +++ b/docs/grub.texi
-@@ -1490,6 +1490,15 @@ This option may be set to a list of GRUB module names separated by spaces.
+@@ -1490,6 +1490,20 @@ This option may be set to a list of GRUB module names separated by spaces.
  Each module will be loaded as early as possible, at the start of
  @file{grub.cfg}.
  
 +@item GRUB_RECORDFAIL_TIMEOUT
-+If this option is set, it overrides the default recordfail setting. The
-+default setting is -1, which causes GRUB to wait for user input. This option
-+should be set on headless and appliance systems where access to a console is
-+restricted or limited.
++If this option is set, it overrides the default recordfail setting.  A
++setting of -1 causes GRUB to wait for user input indefinitely.  However, a
++false positive in the recordfail mechanism may occur if power is lost during
++boot before boot success is recorded in userspace.  The default setting is
++30, which causes GRUB to wait for user input for thirty seconds before
++continuing.  This default allows interactive users the opportunity to switch
++to a different, working kernel, while avoiding a false positive causing the
++boot to block indefinitely on headless and appliance systems where access to
++a console is restricted or limited.
 +
 +This option is only effective when GRUB was configured with the
 +@option{--enable-quick-boot} option.
@@ -123,7 +129,7 @@ index 62780bf..17350d4 100644
  if test "x${grub_cfg}" != "x"; then
    rm -f "${grub_cfg}.new"
 diff --git a/util/grub.d/00_header.in b/util/grub.d/00_header.in
-index 0c82f23..8dc5592 100644
+index 0c82f23..2e6b5a4 100644
 --- a/util/grub.d/00_header.in
 +++ b/util/grub.d/00_header.in
 @@ -21,6 +21,8 @@ prefix="@prefix@"
@@ -181,7 +187,7 @@ index 0c82f23..8dc5592 100644
  {
 +    cat << EOF
 +if [ "\${recordfail}" = 1 ] ; then
-+  set timeout=${GRUB_RECORDFAIL_TIMEOUT:--1}
++  set timeout=${GRUB_RECORDFAIL_TIMEOUT:-30}
 +else
 +EOF
      if [ "x${3}" != "x" ] ; then

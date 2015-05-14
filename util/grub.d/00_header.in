@@ -311,7 +311,7 @@ make_timeout ()
 {
     cat << EOF
 if [ "\${recordfail}" = 1 ] ; then
-  set timeout=${GRUB_RECORDFAIL_TIMEOUT:--1}
+  set timeout=${GRUB_RECORDFAIL_TIMEOUT:-30}
 else
 EOF
     if [ "x${3}" != "x" ] ; then

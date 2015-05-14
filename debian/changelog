@@ -12,6 +12,12 @@ grub2 (2.02~beta2-23) UNRELEASED; urgency=medium
     - arp, icmp: Fix handling in case of oversized or invalid packets.
       (LP: #1428005)
 
+  [ Robie Basak ]
+  * Change the default GRUB_RECORDFAIL_TIMEOUT to 30, so interactive users
+    still get the opporunity to intervene after a real boot failure, but
+    headless users will not end up stuck after boot failures that were
+    really power failures (closes: #782552, LP: #1443735).
+
  -- Felix Zielcke <fzielcke@z-51.de>  Sat, 28 Mar 2015 12:17:08 +0100
 
 grub2 (2.02~beta2-22) unstable; urgency=medium
