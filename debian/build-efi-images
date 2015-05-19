@@ -99,7 +99,6 @@ CD_MODULES="
 	keystatus
 	loadenv
 	linux
-	linuxefi
 	lsefi
 	lsefimmap
 	lsefisystab
@@ -122,6 +121,16 @@ CD_MODULES="
 	true
 	video
 	"
+
+# Platform-specific modules
+case $platform in
+    amd64-efi)
+	CD_MODULES="$CD_MODULES
+	linuxefi
+	"
+	;;
+esac
+
 GRUB_MODULES="$CD_MODULES
 	lvm
 	mdraid09

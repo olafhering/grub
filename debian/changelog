@@ -1,6 +1,9 @@
 grub2 (2.02~beta2-24) UNRELEASED; urgency=medium
 
   * Build image tarball on arm64
+  * Only include linuxefi module in images for amd64. This module doesn't
+    exist on other platforms like arm64, where GRUB chainloads to the kernel
+    EFI stub.
 
  -- dann frazier <dannf@debian.org>  Tue, 19 May 2015 17:02:12 -0600
 
