@@ -1,0 +1,35 @@
+From 01e7324528324867f0db0fae29d59a35d00a6182 Mon Sep 17 00:00:00 2001
+From: Glenn Washburn <development@efficientek.com>
+Date: Sun, 22 Jun 2014 01:45:11 +0200
+Subject: 	* util/grub-install.c: Fix handling of --disk-module.
+
+Last-Update: 2015-05-19
+Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1309735
+Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=746596
+Origin: upstream, http://git.savannah.gnu.org/cgit/grub.git/commit/?id=fa33530870839e303354ff2660baeff5356ea736
+Patch-Name: fix_disk-module_option_handling.patch
+---
+ util/grub-install.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/util/grub-install.c b/util/grub-install.c
+index 54fbd35..4f4b2a7 100644
+--- a/util/grub-install.c
++++ b/util/grub-install.c
+@@ -97,7 +97,6 @@ enum
+     OPTION_RECHECK, 
+     OPTION_FORCE,
+     OPTION_FORCE_FILE_ID,
+-    OPTION_MODULE, 
+     OPTION_NO_NVRAM, 
+     OPTION_REMOVABLE, 
+     OPTION_BOOTLOADER_ID, 
+@@ -291,7 +290,7 @@ static struct argp_option options[] = {
+    N_("install even if problems are detected"), 2},
+   {"force-file-id", OPTION_FORCE_FILE_ID, 0, 0,
+    N_("use identifier file even if UUID is available"), 2},
+-  {"disk-module", OPTION_MODULE, N_("MODULE"), 0,
++  {"disk-module", OPTION_DISK_MODULE, N_("MODULE"), 0,
+    N_("disk module to use (biosdisk or native). "
+       "This option is only available on BIOS target."), 2},
+   {"no-nvram", OPTION_NO_NVRAM, 0, 0,

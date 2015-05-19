@@ -1,0 +1,78 @@
+From c551ebae3925e3b3f240755c098199b58775ee4b Mon Sep 17 00:00:00 2001
+From: Andrei Borzenkov <arvidjaar@gmail.com>
+Date: Sat, 14 Feb 2015 19:08:58 +0300
+Subject: diskfilter: fix double free of lv names for mdraid
+
+Avoid micro-optimization in grub_diskfilter_make_raid and make sure
+name and fullname are independent strings. This avoids need to special
+case it everywhere else.
+
+Also fix memory leak in failure case in grub_diskfilter_make_raid.
+
+Closes: 41582
+
+Last-Update: 2015-05-19
+Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1330963
+Origin: upstream, http://git.savannah.gnu.org/cgit/grub.git/commit/?id=fc535b32b9fe0cd84213724ffba43b98e2da6ab4
+Patch-Name: fix_diskfilter_lv_name_dblfree.patch
+---
+ grub-core/disk/diskfilter.c | 32 +++++++++++++++++++++++++-------
+ 1 file changed, 25 insertions(+), 7 deletions(-)
+
+diff --git a/grub-core/disk/diskfilter.c b/grub-core/disk/diskfilter.c
+index e8a3bcb..81aa09a 100644
+--- a/grub-core/disk/diskfilter.c
++++ b/grub-core/disk/diskfilter.c
+@@ -983,8 +983,16 @@ grub_diskfilter_make_raid (grub_size_t uuidlen, char *uuid, int nmemb,
+     goto fail;
+   array->lvs->segment_count = 1;
+   array->lvs->visible = 1;
+-  array->lvs->name = array->name;
+-  array->lvs->fullname = array->name;
++  if (array->name)
++    {
++      array->lvs->name = grub_strdup (array->name);
++      if (!array->lvs->name)
++	goto fail;
++      array->lvs->fullname = grub_strdup (array->name);
++      if (!array->lvs->fullname)
++	goto fail;
++    }
++  array->lvs->vg = array;
+ 
+   array->lvs->idname = grub_malloc (sizeof ("mduuid/") + 2 * uuidlen);
+   if (!array->lvs->idname)
+@@ -1034,7 +1042,18 @@ grub_diskfilter_make_raid (grub_size_t uuidlen, char *uuid, int nmemb,
+   return array;
+ 
+  fail:
+-  grub_free (array->lvs);
++  if (array->lvs)
++    {
++      grub_free (array->lvs->name);
++      grub_free (array->lvs->fullname);
++      grub_free (array->lvs->idname);
++      if (array->lvs->segments)
++	{
++	  grub_free (array->lvs->segments->nodes);
++	  grub_free (array->lvs->segments);
++	}
++      grub_free (array->lvs);
++    }
+   while (array->pvs)
+     {
+       pv = array->pvs->next;
+@@ -1143,10 +1162,9 @@ free_array (void)
+ 	{
+ 	  unsigned i;
+ 	  vg->lvs = lv->next;
+-	  if (lv->name != lv->fullname)
+-	    grub_free (lv->fullname);
+-	  if (lv->name != vg->name)
+-	    grub_free (lv->name);
++	  grub_free (lv->fullname);
++	  grub_free (lv->name);
++	  grub_free (lv->idname);
+ 	  for (i = 0; i < lv->segment_count; i++)
+ 	    grub_free (lv->segments[i].nodes);
+ 	  grub_free (lv->segments);

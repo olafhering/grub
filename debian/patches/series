@@ -69,3 +69,5 @@ mixed_size_efi.patch
 hostfs_remove_ftm.patch
 efi_sanitise_path.patch
 arp_icmp_oversize_handling.patch
+fix_diskfilter_lv_name_dblfree.patch
+fix_disk-module_option_handling.patch

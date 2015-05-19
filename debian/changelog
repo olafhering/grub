@@ -1,3 +1,12 @@
+grub2 (2.02~beta2-24) UNRELEASED; urgency=medium
+
+  * Fix handling of --disk-module option (cherry-pick from fa335308).
+    (Closes: #746596, LP: #1309735)
+  * Fix double-free of LV names for mdraid (cherry-pick from fc535b32).
+    (LP: #1330963)
+
+ -- Mathieu Trudel-Lapierre <mathieu.tl@gmail.com>  Tue, 19 May 2015 13:02:13 -0400
+
 grub2 (2.02~beta2-23) unstable; urgency=medium
 
   [ Debconf translations ]
