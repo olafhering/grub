@@ -101,6 +101,11 @@ SB_PACKAGE := grub-efi-amd64
 SB_PLATFORM := x86_64-efi
 SB_EFI_NAME := x64
 endif
+ifeq ($(DEB_HOST_ARCH),arm64)
+SB_PACKAGE := grub-efi-arm64
+SB_PLATFORM := arm64-efi
+SB_EFI_NAME := aa64
+endif
 endif
 
 %:
