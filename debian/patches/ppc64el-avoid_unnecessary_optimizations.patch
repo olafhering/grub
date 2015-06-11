@@ -1,0 +1,28 @@
+From 1e880cd2f24508ac24a5e310702ba4a4eeb303c1 Mon Sep 17 00:00:00 2001
+From: Paulo Flabiano Smorigo <pfsmorigo@linux.vnet.ibm.com>
+Date: Thu, 11 Jun 2015 07:55:16 -0400
+Subject: powerpc: Add a flag to avoid unnecessary optimizations (like vsx)
+
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/1459706
+Last-Update: 2015-06-11
+
+Patch-Name: ppc64el-avoid_unnecessary_optimizations.patch
+---
+ conf/Makefile.common | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/conf/Makefile.common b/conf/Makefile.common
+index e4c301f..7258b43 100644
+--- a/conf/Makefile.common
++++ b/conf/Makefile.common
+@@ -23,6 +23,10 @@ if COND_arm64
+   CFLAGS_PLATFORM += -mcmodel=large
+ endif
+ 
++if COND_powerpc_ieee1275
++  CFLAGS_PLATFORM += -mcpu=powerpc
++endif
++
+ #FIXME: discover and check XEN headers
+ CPPFLAGS_XEN = -I/usr/include
+ 

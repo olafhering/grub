@@ -12,6 +12,10 @@ grub2 (2.02~beta2-24) UNRELEASED; urgency=medium
     exist on other platforms like arm64, where GRUB chainloads to the kernel
     EFI stub.
 
+  [ Paulo Flabiano Smorigo ]
+  * powerpc: Add a flag to avoid unnecessary optimizations (like vsx)
+    (LP: #1459706).
+
  -- Mathieu Trudel-Lapierre <mathieu.tl@gmail.com>  Tue, 19 May 2015 13:02:13 -0400
 
 grub2 (2.02~beta2-23) unstable; urgency=medium

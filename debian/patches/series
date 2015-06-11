@@ -71,3 +71,4 @@ efi_sanitise_path.patch
 arp_icmp_oversize_handling.patch
 fix_diskfilter_lv_name_dblfree.patch
 fix_disk-module_option_handling.patch
+ppc64el-avoid_unnecessary_optimizations.patch
