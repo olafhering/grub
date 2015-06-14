@@ -1,4 +1,4 @@
-From bcc5252f0c9357f78a36459b77436aee8a0fe804 Mon Sep 17 00:00:00 2001
+From 3210544ee89320721ded412293e0d733c30462b6 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 31 Mar 2014 14:48:33 +0100
 Subject: Fix partmap, cryptodisk, and abstraction handling in grub-mkconfig.

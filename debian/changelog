@@ -4,6 +4,9 @@ grub2 (2.02~beta2-26) UNRELEASED; urgency=medium
   * Fix linuxefi module to be included on x86_64-efi rather than amd64-efi.
     amd64-efi isn't a thing. (LP: #1464959)
 
+  [ Steven Chamberlain ]
+  * Recognise Xen xbd and KVM virtio disks on kFreeBSD (closes: #786621).
+
  -- Colin Watson <cjwatson@debian.org>  Sun, 14 Jun 2015 09:48:35 +0100
 
 grub2 (2.02~beta2-25) unstable; urgency=medium

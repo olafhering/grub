@@ -305,6 +305,18 @@ get_mfi_disk_name (char *name, int unit)
 {
   sprintf (name, "/dev/mfid%d", unit);
 }
+
+static void
+get_virtio_disk_name (char *name, int unit)
+{
+  sprintf (name, "/dev/vtbd%d", unit);
+}
+
+static void
+get_xvd_disk_name (char *name, int unit)
+{
+  sprintf (name, "/dev/xbd%d", unit);
+}
 #endif
 
 #ifdef __linux__
@@ -693,6 +705,32 @@ grub_util_iterate_devices (int (*hook) (const char *, int, void *), void *hook_d
 	  if (hook (name, 0, hook_data))
 	    goto out;
         }
+    }
+
+  /* Virtio disks.  */
+  for (i = 0; i < 96; i++)
+    {
+      char name[16];
+
+      get_virtio_disk_name (name, i);
+      if (check_device_readable_unique (name))
+	{
+	  if (hook (name, 0, hook_data))
+	    goto out;
+	}
+    }
+
+  /* Xen virtual block devices.  */
+  for (i = 0; i < 96; i++)
+    {
+      char name[16];
+
+      get_xvd_disk_name (name, i);
+      if (check_device_readable_unique (name))
+	{
+	  if (hook (name, 0, hook_data))
+	    goto out;
+	}
     }
 #endif
 

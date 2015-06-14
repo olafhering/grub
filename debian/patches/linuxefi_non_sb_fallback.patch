@@ -1,4 +1,4 @@
-From 001df0878ccd17f7c62568b05c8d8b00883a12b5 Mon Sep 17 00:00:00 2001
+From 7fa1557805f46fa8827c84837ed474f6d558e558 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:20 +0000
 Subject: If running under UEFI secure boot, attempt to use linuxefi loader

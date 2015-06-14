@@ -1,4 +1,4 @@
-From cf9de5a21539892566a1f159d7b15670640d01ff Mon Sep 17 00:00:00 2001
+From 7db3da2541d5de0b14f6490cea6c46db312b5570 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:31 +0000
 Subject: Probe FusionIO devices
@@ -38,10 +38,10 @@ index 772de0a..6788e39 100644
  
    return path;
 diff --git a/util/deviceiter.c b/util/deviceiter.c
-index 75047ff..b61715d 100644
+index 3e71048..d3d38a1 100644
 --- a/util/deviceiter.c
 +++ b/util/deviceiter.c
-@@ -365,6 +365,12 @@ get_xvd_disk_name (char *name, int unit)
+@@ -377,6 +377,12 @@ get_xvd_disk_name (char *name, int unit)
  {
    sprintf (name, "/dev/xvd%c", unit + 'a');
  }
@@ -54,7 +54,7 @@ index 75047ff..b61715d 100644
  #endif
  
  static struct seen_device
-@@ -856,6 +862,19 @@ grub_util_iterate_devices (int (*hook) (const char *, int, void *), void *hook_d
+@@ -894,6 +900,19 @@ grub_util_iterate_devices (int (*hook) (const char *, int, void *), void *hook_d
  	}
      }
  

@@ -1,4 +1,4 @@
-From bd491d4f83c8b1bf14d88196e543be7ab3f3ab18 Mon Sep 17 00:00:00 2001
+From b66a0114d441524f2b9afb64f75388acccdafcf2 Mon Sep 17 00:00:00 2001
 From: Andrey Borzenkov <arvidjaar@gmail.com>
 Date: Mon, 10 Mar 2014 13:34:10 +0000
 Subject: use {grub,boot}aa64.efi for boot images on AArch64

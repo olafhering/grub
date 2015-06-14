@@ -1,4 +1,4 @@
-From ad38e8808898569ceaa084611000843e81f4683b Mon Sep 17 00:00:00 2001
+From aaaae9b28c4e9aec0f5aa4402dc10935abbf687a Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Mon, 13 Jan 2014 12:13:01 +0000
 Subject: Restore grub-mkdevicemap
@@ -13,10 +13,10 @@ Patch-Name: restore_mkdevicemap.patch
  Makefile.util.def              |  17 +
  docs/man/grub-mkdevicemap.h2m  |   4 +
  include/grub/util/deviceiter.h |  14 +
- util/deviceiter.c              | 954 +++++++++++++++++++++++++++++++++++++++++
+ util/deviceiter.c              | 992 +++++++++++++++++++++++++++++++++++++++++
  util/devicemap.c               |  13 +
  util/grub-mkdevicemap.c        | 181 ++++++++
- 6 files changed, 1183 insertions(+)
+ 6 files changed, 1221 insertions(+)
  create mode 100644 docs/man/grub-mkdevicemap.h2m
  create mode 100644 include/grub/util/deviceiter.h
  create mode 100644 util/deviceiter.c
@@ -83,10 +83,10 @@ index 0000000..8537497
 +#endif /* ! GRUB_DEVICEITER_MACHINE_UTIL_HEADER */
 diff --git a/util/deviceiter.c b/util/deviceiter.c
 new file mode 100644
-index 0000000..75047ff
+index 0000000..3e71048
 --- /dev/null
 +++ b/util/deviceiter.c
-@@ -0,0 +1,954 @@
+@@ -0,0 +1,992 @@
 +/* deviceiter.c - iterate over system devices */
 +/*
 + *  GRUB  --  GRand Unified Bootloader
@@ -393,6 +393,18 @@ index 0000000..75047ff
 +get_mfi_disk_name (char *name, int unit)
 +{
 +  sprintf (name, "/dev/mfid%d", unit);
++}
++
++static void
++get_virtio_disk_name (char *name, int unit)
++{
++  sprintf (name, "/dev/vtbd%d", unit);
++}
++
++static void
++get_xvd_disk_name (char *name, int unit)
++{
++  sprintf (name, "/dev/xbd%d", unit);
 +}
 +#endif
 +
@@ -770,6 +782,32 @@ index 0000000..75047ff
 +	  if (hook (name, 0, hook_data))
 +	    goto out;
 +        }
++    }
++
++  /* Virtio disks.  */
++  for (i = 0; i < 96; i++)
++    {
++      char name[16];
++
++      get_virtio_disk_name (name, i);
++      if (check_device_readable_unique (name))
++	{
++	  if (hook (name, 0, hook_data))
++	    goto out;
++	}
++    }
++
++  /* Xen virtual block devices.  */
++  for (i = 0; i < 96; i++)
++    {
++      char name[16];
++
++      get_xvd_disk_name (name, i);
++      if (check_device_readable_unique (name))
++	{
++	  if (hook (name, 0, hook_data))
++	    goto out;
++	}
 +    }
 +#endif
 +
