@@ -124,7 +124,7 @@ CD_MODULES="
 
 # Platform-specific modules
 case $platform in
-    amd64-efi)
+    x86_64-efi)
 	CD_MODULES="$CD_MODULES
 	linuxefi
 	"
