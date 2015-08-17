@@ -1,3 +1,10 @@
+grub2 (2.02~beta2-27) UNRELEASED; urgency=medium
+
+  * Remove Robert Millan from Uploads with his permission. Thanks for
+    all the work he did for GRUB 2!
+
+ -- Felix Zielcke <fzielcke@z-51.de>  Mon, 17 Aug 2015 22:29:04 +0200
+
 grub2 (2.02~beta2-26) unstable; urgency=medium
 
   [ William Grant ]
