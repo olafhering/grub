@@ -35,10 +35,10 @@ Build-Depends: debhelper (>= 7.4.2~),
  libxen-dev [i386 amd64],
  libparted-dev [any-ppc64el],
 Build-Conflicts: autoconf2.13, libzfs-dev, libnvpair-dev
-Standards-Version: 3.8.4
+Standards-Version: 3.9.6
 Homepage: http://www.gnu.org/software/grub/
 Vcs-Git: git://anonscm.debian.org/pkg-grub/grub.git
-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-grub/grub.git
+Vcs-Browser: https://anonscm.debian.org/cgit/pkg-grub/grub.git
 
 Package: grub2
 Section: oldlibs
@@ -707,7 +707,7 @@ Description: GRand Unified Bootloader, version 2 (starfield theme)
  This is the default theme for GRUB's graphical menu.
 
 Package: grub-mount-udeb
-XC-Package-Type: udeb
+Package-Type: udeb
 Section: debian-installer
 Architecture: linux-any kfreebsd-any
 Depends: ${shlibs:Depends}, ${misc:Depends}
