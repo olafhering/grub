@@ -6,6 +6,7 @@ grub2 (2.02~beta2-27) UNRELEASED; urgency=medium
   * Update to Policy 3.9.6.
   * Update the Browser URL for our git repository.
   * Use dpkg-buildflags at least for the host binaries.
+  * Simplifiy Build-Depends.
 
  -- Felix Zielcke <fzielcke@z-51.de>  Mon, 17 Aug 2015 22:29:04 +0200
 
