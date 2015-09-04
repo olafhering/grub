@@ -26,6 +26,8 @@ grub2 (2.02~beta2-27) UNRELEASED; urgency=medium
   * debian/patches/uefi_firmware_setup.patch: Take into account that the
     UEFI variable OsIndicationsSupported is a bit field, and as such should
     be compared as hex values in 30_uefi-firmware.in. (LP: #1456911)
+  * Update quick boot logic to handle abstractions for which there is no
+    write support. (LP: #1274320)
 
  -- Felix Zielcke <fzielcke@z-51.de>  Mon, 17 Aug 2015 22:29:04 +0200
 

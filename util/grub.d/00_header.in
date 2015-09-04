@@ -106,19 +106,38 @@ if [ "$quick_boot" = 1 ]; then
 function recordfail {
   set recordfail=1
 EOF
+
+  check_writable () {
+    abstractions="$(grub-probe --target=abstraction "${grubdir}")"
+    for abstraction in $abstractions; do
+      case "$abstraction" in
+        diskfilter | lvm)
+          cat <<EOF
+  # GRUB lacks write support for $abstraction, so recordfail support is disabled.
+EOF
+          return
+          ;;
+      esac
+    done
+
     FS="$(grub-probe --target=fs "${grubdir}")"
     case "$FS" in
       btrfs | cpiofs | newc | odc | romfs | squash4 | tarfs | zfs)
 	cat <<EOF
   # GRUB lacks write support for $FS, so recordfail support is disabled.
 EOF
+	return
 	;;
-      *)
-	cat <<EOF
+    esac
+
+    cat <<EOF
   if [ -n "\${have_grubenv}" ]; then if [ -z "\${boot_once}" ]; then save_env recordfail; fi; fi
 EOF
-    esac
-    cat <<EOF
+  }
+
+  check_writable
+
+  cat <<EOF
 }
 EOF
 fi

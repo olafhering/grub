@@ -1,4 +1,4 @@
-From 953d78becfef9ff4ae0620df527fa25fc317002d Mon Sep 17 00:00:00 2001
+From 93182e8bbc7bc5f723f50b1f89cb913ff373c8b2 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:28 +0000
 Subject: Add configure option to bypass boot menu if possible
@@ -19,18 +19,18 @@ of the normal runlevels), then show the boot menu regardless.
 Author: Richard Laager <rlaager@wiktel.com>
 Author: Robie Basak <robie.basak@ubuntu.com>
 Forwarded: no
-Last-Update: 2015-05-14
+Last-Update: 2015-09-04
 
 Patch-Name: quick_boot.patch
 ---
- configure.ac                | 11 +++++++++
- docs/grub.texi              | 14 +++++++++++
- grub-core/normal/menu.c     | 24 +++++++++++++++++++
- util/grub-mkconfig.in       |  3 ++-
- util/grub.d/00_header.in    | 58 +++++++++++++++++++++++++++++++++++----------
- util/grub.d/10_linux.in     |  4 ++++
- util/grub.d/30_os-prober.in | 21 ++++++++++++++++
- 7 files changed, 122 insertions(+), 13 deletions(-)
+ configure.ac                | 11 +++++++
+ docs/grub.texi              | 14 +++++++++
+ grub-core/normal/menu.c     | 24 ++++++++++++++
+ util/grub-mkconfig.in       |  3 +-
+ util/grub.d/00_header.in    | 77 ++++++++++++++++++++++++++++++++++++++-------
+ util/grub.d/10_linux.in     |  4 +++
+ util/grub.d/30_os-prober.in | 21 +++++++++++++
+ 7 files changed, 141 insertions(+), 13 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
 index 7c8d0af..2a7e410 100644
@@ -129,7 +129,7 @@ index 62780bf..17350d4 100644
  if test "x${grub_cfg}" != "x"; then
    rm -f "${grub_cfg}.new"
 diff --git a/util/grub.d/00_header.in b/util/grub.d/00_header.in
-index 0c82f23..2e6b5a4 100644
+index 0c82f23..a74828e 100644
 --- a/util/grub.d/00_header.in
 +++ b/util/grub.d/00_header.in
 @@ -21,6 +21,8 @@ prefix="@prefix@"
@@ -149,30 +149,49 @@ index 0c82f23..2e6b5a4 100644
    load_env
  fi
  EOF
-@@ -96,7 +99,31 @@ function savedefault {
+@@ -96,7 +99,50 @@ function savedefault {
      save_env saved_entry
    fi
  }
 +EOF
- 
++
 +if [ "$quick_boot" = 1 ]; then
 +    cat <<EOF
 +function recordfail {
 +  set recordfail=1
 +EOF
++
++  check_writable () {
++    abstractions="$(grub-probe --target=abstraction "${grubdir}")"
++    for abstraction in $abstractions; do
++      case "$abstraction" in
++        diskfilter | lvm)
++          cat <<EOF
++  # GRUB lacks write support for $abstraction, so recordfail support is disabled.
++EOF
++          return
++          ;;
++      esac
++    done
++
 +    FS="$(grub-probe --target=fs "${grubdir}")"
 +    case "$FS" in
 +      btrfs | cpiofs | newc | odc | romfs | squash4 | tarfs | zfs)
 +	cat <<EOF
 +  # GRUB lacks write support for $FS, so recordfail support is disabled.
 +EOF
++	return
 +	;;
-+      *)
-+	cat <<EOF
++    esac
++
++    cat <<EOF
 +  if [ -n "\${have_grubenv}" ]; then if [ -z "\${boot_once}" ]; then save_env recordfail; fi; fi
 +EOF
-+    esac
-+    cat <<EOF
++  }
++
++  check_writable
+ 
++  cat <<EOF
 +}
 +EOF
 +fi
@@ -181,7 +200,7 @@ index 0c82f23..2e6b5a4 100644
  function load_video {
  EOF
  if [ -n "${GRUB_VIDEO_BACKEND}" ]; then
-@@ -282,10 +309,16 @@ fi
+@@ -282,10 +328,16 @@ fi
  
  make_timeout ()
  {
@@ -199,7 +218,7 @@ index 0c82f23..2e6b5a4 100644
  	# Handle the deprecated GRUB_HIDDEN_TIMEOUT scheme.
  	timeout="${1}"
  	if [ "x${2}" != "x0" ] ; then
-@@ -304,26 +337,27 @@ make_timeout ()
+@@ -304,26 +356,27 @@ make_timeout ()
  	style="menu"
      fi
      cat << EOF
