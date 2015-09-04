@@ -1,13 +1,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2012.
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2012, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2012-05-25 12:10+0300\n"
+"PO-Revision-Date: 2015-02-10 21:14+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 
 #. Type: boolean
 #. Description
@@ -333,7 +333,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
+msgstr "Forsēt papildu instalāciju uz EFI noņemamā datu nesēja ceļa?"
 
 #. Type: boolean
 #. Description
@@ -347,6 +347,13 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"Dažas EFI sistēmas ir satur kļūdas un nespēj pareizi apstrādāt jaunus "
+"sistēmas ielādētājus. Ja forsēsiet GRUB instalēšanu uz EFI noņemamā datu "
+"nesēja ceļa, tam vajadzētu pārliecināties, ka šī sistēma pareizi ielādēs "
+"Debian, neskatoties uz šādām problēmām. Bet tas var liegt iespēju ielādēt "
+"jebkuru citu operētājsistēmu, kas ir atkarīga no šī ceļa. Ja tā, jums būs "
+"jāpārliecinās, ka GRUB ir veiksmīgi nokonfigurēts un varēs veiksmīgi ielādēt "
+"citas OS instalācijas."
 
 #. Type: string
 #. Description
