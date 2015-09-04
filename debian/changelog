@@ -19,6 +19,11 @@ grub2 (2.02~beta2-27) UNRELEASED; urgency=medium
     (i.e. dpkg-buildpackage -b) work on non-x86 architectures (closes:
     #744954).
 
+  [ Mathieu Trudel-Lapierre ]
+  * debian/build-efi-images: Look for grub.cfg in $cmdpath too in
+    gcdx64.efi, to simplify embedded scenarios: putting a grub.cfg snippet
+    that loads the right "real" grub.cfg can be useful. (LP: #1468111)
+
  -- Felix Zielcke <fzielcke@z-51.de>  Mon, 17 Aug 2015 22:29:04 +0200
 
 grub2 (2.02~beta2-26) unstable; urgency=medium

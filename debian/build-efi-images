@@ -55,8 +55,10 @@ if [ -z "\$prefix" -o ! -e "\$prefix" ]; then
 fi
 if [ -e \$prefix/$platform/grub.cfg ]; then
 	source \$prefix/$platform/grub.cfg
-else
+elif [ -e \$prefix/grub.cfg ]; then
 	source \$prefix/grub.cfg
+else
+	source \$cmdpath/grub.cfg
 fi
 EOF
 
