@@ -1,7 +1,7 @@
 grub2 (2.02~beta2-27) UNRELEASED; urgency=medium
 
   [ Felix Zielcke ]
-  * Remove Robert Millan from Uploads with his permission. Thanks for
+  * Remove Robert Millan from Uploaders with his permission. Thanks for
     all the work he did for GRUB 2!
   * Stop forcing gcc-4.9 for building.
   * Update to Policy 3.9.6.
