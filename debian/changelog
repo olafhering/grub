@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-27) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-27) unstable; urgency=medium
 
   [ Felix Zielcke ]
   * Remove Robert Millan from Uploaders with his permission. Thanks for
@@ -36,7 +36,7 @@ grub2 (2.02~beta2-27) UNRELEASED; urgency=medium
   [ Debconf translations ]
   * [lv] Latvian (Rudolfs Mazurs; closes: #777648).
 
- -- Felix Zielcke <fzielcke@z-51.de>  Mon, 17 Aug 2015 22:29:04 +0200
+ -- Colin Watson <cjwatson@debian.org>  Fri, 04 Sep 2015 12:35:59 +0100
 
 grub2 (2.02~beta2-26) unstable; urgency=medium
 
