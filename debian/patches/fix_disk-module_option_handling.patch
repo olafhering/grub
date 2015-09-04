@@ -1,4 +1,4 @@
-From ff5b1db4b9161f40f6618ca6b0267f25b2be3b7a Mon Sep 17 00:00:00 2001
+From 8a90501e0ae1554d94f25a60384ab2ddd55278a9 Mon Sep 17 00:00:00 2001
 From: Glenn Washburn <development@efficientek.com>
 Date: Sun, 22 Jun 2014 01:45:11 +0200
 Subject: 	* util/grub-install.c: Fix handling of --disk-module.

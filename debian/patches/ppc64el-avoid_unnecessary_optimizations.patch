@@ -1,4 +1,4 @@
-From 32294805c78e3cc2f8de804d3ee6133b0511c30b Mon Sep 17 00:00:00 2001
+From 2eaea381de2ed8c914917e8498de4113fbc9a18d Mon Sep 17 00:00:00 2001
 From: Paulo Flabiano Smorigo <pfsmorigo@linux.vnet.ibm.com>
 Date: Thu, 11 Jun 2015 07:55:16 -0400
 Subject: powerpc: Add a flag to avoid unnecessary optimizations (like vsx)

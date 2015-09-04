@@ -1,4 +1,4 @@
-From 95d8098c477e11a62669f191a160095b6be96600 Mon Sep 17 00:00:00 2001
+From f5f41115fc9ba7321efb068d5f24b2f0b2b33d4f Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Mon, 23 Mar 2015 14:34:01 +0000
 Subject: hostfs: Drop unnecessary feature test macros

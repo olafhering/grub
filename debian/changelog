@@ -23,6 +23,9 @@ grub2 (2.02~beta2-27) UNRELEASED; urgency=medium
   * debian/build-efi-images: Look for grub.cfg in $cmdpath too in
     gcdx64.efi, to simplify embedded scenarios: putting a grub.cfg snippet
     that loads the right "real" grub.cfg can be useful. (LP: #1468111)
+  * debian/patches/uefi_firmware_setup.patch: Take into account that the
+    UEFI variable OsIndicationsSupported is a bit field, and as such should
+    be compared as hex values in 30_uefi-firmware.in. (LP: #1456911)
 
  -- Felix Zielcke <fzielcke@z-51.de>  Mon, 17 Aug 2015 22:29:04 +0200
 
