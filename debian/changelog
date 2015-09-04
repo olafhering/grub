@@ -29,6 +29,10 @@ grub2 (2.02~beta2-27) UNRELEASED; urgency=medium
   * Update quick boot logic to handle abstractions for which there is no
     write support. (LP: #1274320)
 
+  [ dann frazier ]
+  * d/p/arm64-set-correct-length-of-device-path-end-entry.patch: Fixes
+    booting arm64 kernels on certain UEFI implementations. (LP: #1476882)
+
  -- Felix Zielcke <fzielcke@z-51.de>  Mon, 17 Aug 2015 22:29:04 +0200
 
 grub2 (2.02~beta2-26) unstable; urgency=medium

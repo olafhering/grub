@@ -1,0 +1,33 @@
+From 07a105d450ee701b7a690a562b7efa0d827bdc65 Mon Sep 17 00:00:00 2001
+From: Leif Lindholm <leif.lindholm@linaro.org>
+Date: Tue, 7 Jan 2014 17:52:50 +0000
+Subject: arm64: set correct length of device path end entry
+
+The length of the Device Path End entry in the grub_linux_boot()
+function was incorrectly set to 0. This triggers an assert failure
+in debug builds of Tianocore.
+
+Set it to sizeof (grub_efi_device_path_t).
+
+Bug-Ubuntu: http://bugs.launchpad.net/bugs/1476882
+Origin: http://git.savannah.gnu.org/cgit/grub.git/commit/grub-core/loader/arm64/linux.c?id=4d21c1019904598a991e847eef049c65f9c49bd9
+Last-Update: 2015-07-22
+
+Patch-Name: arm64-set-correct-length-of-device-path-end-entry.patch
+---
+ grub-core/loader/arm64/linux.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/grub-core/loader/arm64/linux.c b/grub-core/loader/arm64/linux.c
+index 9d15aad..75ad871 100644
+--- a/grub-core/loader/arm64/linux.c
++++ b/grub-core/loader/arm64/linux.c
+@@ -268,7 +268,7 @@ grub_linux_boot (void)
+ 
+   mempath[1].header.type = GRUB_EFI_END_DEVICE_PATH_TYPE;
+   mempath[1].header.subtype = GRUB_EFI_END_ENTIRE_DEVICE_PATH_SUBTYPE;
+-  mempath[1].header.length = 0;
++  mempath[1].header.length = sizeof (grub_efi_device_path_t);
+ 
+   b = grub_efi_system_table->boot_services;
+   status = b->load_image (0, grub_efi_image_handle,
