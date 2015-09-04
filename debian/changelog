@@ -15,6 +15,8 @@ grub2 (2.02~beta2-27) UNRELEASED; urgency=medium
     changes to the size of compiled code which break delicate parts of GRUB,
     and we want to make sure that we test newer versions before switching to
     them.
+  * Make builds that are not limited to architecture-dependent packages
+    (i.e. dpkg-buildpackage -b) work on non-x86 architectures.
 
  -- Felix Zielcke <fzielcke@z-51.de>  Mon, 17 Aug 2015 22:29:04 +0200
 

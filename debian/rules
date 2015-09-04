@@ -403,27 +403,37 @@ ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 		$(CURDIR)/debian/$(package)/etc/pm/sleep.d/10_grub-common
 endif
 
+NON_PLATFORM_PACKAGES = $(filter grub2 grub-linuxbios grub-efi grub-rescue-pc grub-firmware-qemu grub-xen-host,$(BUILD_PACKAGES))
+COMMON_PLATFORM_PACKAGES = $(filter grub-common grub2-common grub-theme-starfield grub-mount-udeb,$(BUILD_PACKAGES))
+PLATFORM_PACKAGES = $(filter grub-pc grub-efi-ia32 grub-efi-amd64 grub-efi-ia64 grub-efi-arm grub-efi-arm64 grub-ieee1275 grub-coreboot grub-uboot grub-xen grub-yeeloong,$(BUILD_PACKAGES))
+
 override_dh_install:
-	dh_install -pgrub2 -pgrub-linuxbios -pgrub-efi -pgrub-rescue-pc -pgrub-firmware-qemu -pgrub-xen-host
-	dh_install -pgrub-common -pgrub2-common -pgrub-theme-starfield -pgrub-mount-udeb --sourcedir=debian/tmp-grub-$(COMMON_PLATFORM)
+ifneq (,$(NON_PLATFORM_PACKAGES))
+	dh_install $(patsubst %,-p%,$(NON_PLATFORM_PACKAGES))
+endif
+	dh_install $(patsubst %,-p%,$(COMMON_PLATFORM_PACKAGES)) --sourcedir=debian/tmp-grub-$(COMMON_PLATFORM)
 	rm -f debian/grub2-common/usr/share/info/dir*
 	rm -f debian/grub-theme-starfield/usr/share/grub/themes/starfield/COPYING.CC-BY-SA-3.0
-	set -e; for package in grub-pc grub-efi-ia32 grub-efi-amd64 grub-efi-ia64 grub-efi-arm grub-efi-arm64 grub-ieee1275 grub-coreboot grub-uboot grub-xen grub-yeeloong; do \
+ifneq (,$(PLATFORM_PACKAGES))
+	set -e; for package in $(PLATFORM_PACKAGES); do \
 		dh_install -p$$package --sourcedir=debian/tmp-$$package; \
 		dh_install -p$$package-bin --sourcedir=debian/tmp-$$package; \
 		dh_install -p$$package-dbg --sourcedir=debian/tmp-$$package; \
 	done
+endif
+ifneq (,$(filter grub-emu,$(BUILD_PACKAGES)))
 	dh_install -pgrub-emu --sourcedir=debian/tmp-grub-emu
 	dh_install -pgrub-emu-dbg --sourcedir=debian/tmp-grub-emu
+endif
 ifneq (,$(filter grub2-common,$(BUILD_PACKAGES)))
 	sed -i \
 		-e "s/@DEFAULT_CMDLINE@/$(DEFAULT_CMDLINE)/g" \
 		-e "s/@DEFAULT_TIMEOUT@/$(DEFAULT_TIMEOUT)/g" \
 		debian/grub2-common/usr/share/grub/default/grub
-endif
 ifneq (,$(DEFAULT_HIDDEN_TIMEOUT))
 	perl -pi -e 's/^GRUB_TIMEOUT=.*/GRUB_HIDDEN_TIMEOUT=0\nGRUB_HIDDEN_TIMEOUT_QUIET=true\n$$&/' \
 		debian/grub2-common/usr/share/grub/default/grub
+endif
 endif
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 ifneq (,$(filter grub-pc,$(BUILD_PACKAGES)))
@@ -433,8 +443,8 @@ endif
 endif
 
 override_dh_installdocs:
-	dh_installdocs -pgrub-common -pgrub-rescue-pc -pgrub-firmware-qemu -pgrub-xen-host -A AUTHORS NEWS README THANKS TODO
-	dh_installdocs -Ngrub-common -Ngrub-rescue-pc -Ngrub-firmware-qemu -Ngrub-xen-host --link-doc=grub-common
+	dh_installdocs $(patsubst %,-p%,$(filter grub-common grub-rescue-pc grub-firmware-qemu grub-xen-host,$(BUILD_PACKAGES))) -A AUTHORS NEWS README THANKS TODO
+	dh_installdocs --remaining-packages --link-doc=grub-common
 
 ifeq ($(FLICKER_FREE_BOOT),yes)
 override_dh_installinit:
