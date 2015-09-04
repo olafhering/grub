@@ -7,7 +7,7 @@ grub2 (2.02~beta2-27) UNRELEASED; urgency=medium
   * Update to Policy 3.9.6.
   * Update the Browser URL for our git repository.
   * Use dpkg-buildflags at least for the host binaries.
-  * Simplifiy Build-Depends.
+  * Simplify Build-Depends.
 
   [ Colin Watson ]
   * Go back to forcing a particular compiler version, but this time gcc-5.
