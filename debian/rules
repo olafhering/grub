@@ -11,7 +11,9 @@ DEB_HOST_ARCH_OS ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS 2>/dev/null)
 DEB_HOST_ARCH_CPU ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU 2>/dev/null)
 
 HOST_CPPFLAGS := $(shell dpkg-buildflags --get CPPFLAGS)
-HOST_CFLAGS := -Wall -Wno-error=unused-result $(shell dpkg-buildflags --get CFLAGS)
+# -O3 (default on Ubuntu ppc64el) introduces various -Werror failures, and
+# isn't worth it here.
+HOST_CFLAGS := -Wall -Wno-error=unused-result $(shell dpkg-buildflags --get CFLAGS | perl -pe 's/-O3\b/-O2/')
 HOST_LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
 
 unexport CFLAGS
