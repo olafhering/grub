@@ -1,9 +1,9 @@
-grub2 (2.02~beta2-28) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-28) unstable; urgency=medium
 
   * Reduce the CFLAGS -O3 default on Ubuntu ppc64el to -O2; it introduces
     various -Werror failures and isn't worth it here.
 
- -- Colin Watson <cjwatson@debian.org>  Sat, 05 Sep 2015 19:08:28 +0100
+ -- Colin Watson <cjwatson@debian.org>  Sun, 06 Sep 2015 01:25:56 +0100
 
 grub2 (2.02~beta2-27) unstable; urgency=medium
 
