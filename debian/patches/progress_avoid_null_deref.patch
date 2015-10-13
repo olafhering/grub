@@ -1,0 +1,57 @@
+From df958de5315158a421d3cf938ccbb5164096526a Mon Sep 17 00:00:00 2001
+From: Andrei Borzenkov <arvidjaar@gmail.com>
+Date: Sat, 10 Oct 2015 11:44:14 +0300
+Subject: progress: avoid NULL dereference for net files
+
+From original patch by dann frazier <dann.frazier@canonical.com>:
+
+  grub_net_fs_open() saves off a copy of the file structure it gets passed and
+  uses it to create a bufio structure. It then overwrites the passed in file
+  structure with this new bufio structure. Since file->name doesn't get set
+  until we return back to grub_file_open(), it means that only the bufio
+  structure gets a valid file->name. The "real" file's name is left
+  uninitialized. This leads to a crash when the progress module hook is called
+  on it.
+
+grub_net_fs_open() already saved copy of file name as ->net->name, so change
+progress module to use it.
+
+Also, grub_file_open may leave file->name as NULL if grub_strdup fails. Check
+for it.
+
+Also-By: dann frazier <dann.frazier@canonical.com>
+Patch-Name: progress_avoid_null_deref.patch
+Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1459872
+---
+ grub-core/lib/progress.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/grub-core/lib/progress.c b/grub-core/lib/progress.c
+index 63a0767..95a4a62 100644
+--- a/grub-core/lib/progress.c
++++ b/grub-core/lib/progress.c
+@@ -23,6 +23,7 @@
+ #include <grub/dl.h>
+ #include <grub/misc.h>
+ #include <grub/normal.h>
++#include <grub/net.h>
+ 
+ GRUB_MOD_LICENSE ("GPLv3+");
+ 
+@@ -70,7 +71,15 @@ grub_file_progress_hook_real (grub_disk_addr_t sector __attribute__ ((unused)),
+ 	percent = grub_divmod64 (100 * file->progress_offset,
+ 				 file->size, 0);
+ 
+-      partial_file_name = grub_strrchr (file->name, '/');
++      /* grub_net_fs_open() saves off partial file structure before name is initialized.
++         It already saves passed file name in net structure so just use it in this case.
++       */
++      if (file->device->net)
++	partial_file_name = grub_strrchr (file->device->net->name, '/');
++      else if (file->name) /* grub_file_open() may leave it as NULL */
++	partial_file_name = grub_strrchr (file->name, '/');
++      else
++	partial_file_name = NULL;
+       if (partial_file_name)
+ 	partial_file_name++;
+       else

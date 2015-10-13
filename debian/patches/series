@@ -73,3 +73,4 @@ fix_diskfilter_lv_name_dblfree.patch
 fix_disk-module_option_handling.patch
 ppc64el-avoid_unnecessary_optimizations.patch
 arm64-set-correct-length-of-device-path-end-entry.patch
+progress_avoid_null_deref.patch

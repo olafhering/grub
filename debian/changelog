@@ -3,6 +3,9 @@ grub2 (2.02~beta2-29) UNRELEASED; urgency=medium
   [ Linn Crosetto ]
   * Clean up docs, mpi, and other files (closes: #798607).
 
+  [ dann frazier ]
+  * progress: avoid NULL dereference for net files. (LP: #1459872)
+
  -- Colin Watson <cjwatson@debian.org>  Sat, 12 Sep 2015 17:38:02 +0100
 
 grub2 (2.02~beta2-28) unstable; urgency=medium
