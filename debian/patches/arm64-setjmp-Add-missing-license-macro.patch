@@ -1,0 +1,33 @@
+From 8e700eca70d89314fe8f23f3dc12b076076fd8dd Mon Sep 17 00:00:00 2001
+From: dann frazier <dann.frazier@canonical.com>
+Date: Thu, 21 May 2015 10:28:48 -0600
+Subject: arm64/setjmp: Add missing license macro
+
+Including the setjmp module in an arm64-efi image will cause it to
+immediately exit with an "incompatible license" error.
+
+The source file includes a GPLv3+ boilerplate, so fix this by declaring a
+GPLv3+ license using the GRUB_MOD_LICENSE macro.
+
+Signed-off-by: dann frazier <dann.frazier@canonical.com>
+Patch-Name: arm64-setjmp-Add-missing-license-macro.patch
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/1459871
+---
+ grub-core/lib/arm64/setjmp.S | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/grub-core/lib/arm64/setjmp.S b/grub-core/lib/arm64/setjmp.S
+index adaafe4..eabfd99 100644
+--- a/grub-core/lib/arm64/setjmp.S
++++ b/grub-core/lib/arm64/setjmp.S
+@@ -17,8 +17,10 @@
+  */
+ 
+ #include <grub/symbol.h>
++#include <grub/dl.h>
+ 
+ 	.file	"setjmp.S"
++GRUB_MOD_LICENSE "GPLv3+"
+ 	.text
+ 
+ /*
