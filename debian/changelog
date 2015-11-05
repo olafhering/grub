@@ -1,3 +1,9 @@
+grub2 (2.02~beta2-31) UNRELEASED; urgency=medium
+
+  * Cherry-pick upstream patch to fix XFS alignment treatment.
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 05 Nov 2015 15:05:16 +0000
+
 grub2 (2.02~beta2-30) unstable; urgency=medium
 
   [ dann frazier ]
