@@ -1,4 +1,4 @@
-From 8e700eca70d89314fe8f23f3dc12b076076fd8dd Mon Sep 17 00:00:00 2001
+From 5156130e37ca208f5961d7caba766841b401d82c Mon Sep 17 00:00:00 2001
 From: dann frazier <dann.frazier@canonical.com>
 Date: Thu, 21 May 2015 10:28:48 -0600
 Subject: arm64/setjmp: Add missing license macro
@@ -10,9 +10,10 @@ The source file includes a GPLv3+ boilerplate, so fix this by declaring a
 GPLv3+ license using the GRUB_MOD_LICENSE macro.
 
 Signed-off-by: dann frazier <dann.frazier@canonical.com>
-Patch-Name: arm64-setjmp-Add-missing-license-macro.patch
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/1459871
 Origin: upstream, http://git.savannah.gnu.org/cgit/grub.git/commit/?id=3ac342205dc81293bb8e2d91b8c5ebe124b4ad35
+
+Patch-Name: arm64-setjmp-Add-missing-license-macro.patch
 ---
  grub-core/lib/arm64/setjmp.S | 2 ++
  1 file changed, 2 insertions(+)
