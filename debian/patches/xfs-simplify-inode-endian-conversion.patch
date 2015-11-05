@@ -1,0 +1,83 @@
+From 5c9c6331c04238caf4baad5cec01b9979af32c86 Mon Sep 17 00:00:00 2001
+From: Jan Kara <jack@suse.cz>
+Date: Mon, 14 Jul 2014 17:21:30 +0200
+Subject: xfs: Convert inode numbers to cpu endianity immediately after reading
+
+Currently XFS driver converted inode numbers to native endianity only
+when using them to compute inode position. Although this works, it is
+somewhat confusing. So convert inode numbers when reading them from disk
+structures as every other field.
+
+Signed-off-by: Jan Kara <jack@suse.cz>
+
+Origin: upstream, http://git.savannah.gnu.org/cgit/grub.git/commit/?id=a139188eb559ee23f51540948ec84ef5948fb2d1
+Last-Update: 2015-11-05
+
+Patch-Name: xfs-simplify-inode-endian-conversion.patch
+---
+ grub-core/fs/xfs.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+
+diff --git a/grub-core/fs/xfs.c b/grub-core/fs/xfs.c
+index 4bd52d1..0d704e9 100644
+--- a/grub-core/fs/xfs.c
++++ b/grub-core/fs/xfs.c
+@@ -180,14 +180,14 @@ static inline grub_uint64_t
+ GRUB_XFS_INO_INOINAG (struct grub_xfs_data *data,
+ 		      grub_uint64_t ino)
+ {
+-  return (grub_be_to_cpu64 (ino) & ((1LL << GRUB_XFS_INO_AGBITS (data)) - 1));
++  return (ino & ((1LL << GRUB_XFS_INO_AGBITS (data)) - 1));
+ }
+ 
+ static inline grub_uint64_t
+ GRUB_XFS_INO_AG (struct grub_xfs_data *data,
+ 		 grub_uint64_t ino)
+ {
+-  return (grub_be_to_cpu64 (ino) >> GRUB_XFS_INO_AGBITS (data));
++  return (ino >> GRUB_XFS_INO_AGBITS (data));
+ }
+ 
+ static inline grub_disk_addr_t
+@@ -506,13 +506,12 @@ grub_xfs_iterate_dir (grub_fshelp_node_t dir,
+ 	if (smallino)
+ 	  {
+ 	    parent = grub_be_to_cpu32 (diro->inode.data.dir.dirhead.parent.i4);
+-	    parent = grub_cpu_to_be64 (parent);
+ 	    /* The header is a bit smaller than usual.  */
+ 	    de = (struct grub_xfs_dir_entry *) ((char *) de - 4);
+ 	  }
+ 	else
+ 	  {
+-	    parent = diro->inode.data.dir.dirhead.parent.i8;
++	    parent = grub_be_to_cpu64(diro->inode.data.dir.dirhead.parent.i8);
+ 	  }
+ 
+ 	/* Synthesize the direntries for `.' and `..'.  */
+@@ -545,7 +544,6 @@ grub_xfs_iterate_dir (grub_fshelp_node_t dir,
+ 		| (((grub_uint64_t) inopos[5]) << 16)
+ 		| (((grub_uint64_t) inopos[6]) << 8)
+ 		| (((grub_uint64_t) inopos[7]) << 0);
+-	    ino = grub_cpu_to_be64 (ino);
+ 
+ 	    c = de->name[de->len];
+ 	    de->name[de->len] = '\0';
+@@ -627,7 +625,8 @@ grub_xfs_iterate_dir (grub_fshelp_node_t dir,
+ 		   is not used by GRUB.  So it can be overwritten.  */
+ 		filename[direntry->len] = '\0';
+ 
+-		if (iterate_dir_call_hook (direntry->inode, filename, &ctx))
++		if (iterate_dir_call_hook (grub_be_to_cpu64(direntry->inode), 
++					   filename, &ctx))
+ 		  {
+ 		    grub_free (dirblock);
+ 		    return 1;
+@@ -689,7 +688,7 @@ grub_xfs_mount (grub_disk_t disk)
+     goto fail;
+ 
+   data->diropen.data = data;
+-  data->diropen.ino = data->sblock.rootino;
++  data->diropen.ino = grub_be_to_cpu64(data->sblock.rootino);
+   data->diropen.inode_read = 1;
+   data->bsize = grub_be_to_cpu32 (data->sblock.bsize);
+   data->agsize = grub_be_to_cpu32 (data->sblock.agsize);

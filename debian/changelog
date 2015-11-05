@@ -1,6 +1,10 @@
 grub2 (2.02~beta2-30) UNRELEASED; urgency=medium
 
+  [ dann frazier ]
   * arm64/setjmp: Add missing license macro. (LP: #1459871)
+
+  [ Colin Watson ]
+  * Cherry-pick upstream patches for XFS v5 support (closes: #772565).
 
  -- dann frazier <dannf@debian.org>  Fri, 23 Oct 2015 16:23:02 -0600
 

@@ -1,0 +1,34 @@
+From fe80425253b89108c01841f84203bc2b3db5a848 Mon Sep 17 00:00:00 2001
+From: Jan Kara <jack@suse.cz>
+Date: Mon, 14 Jul 2014 17:21:29 +0200
+Subject: xfs: Fix termination loop for directory iteration
+
+Directory iteration used wrong position (sizeof wrong structure) for
+termination of iteration inside a directory block. Luckily the position
+ended up being wrong by just 1 byte and directory entries are larger so
+things worked out fine in practice. But fix the problem anyway.
+
+Signed-off-by: Jan Kara <jack@suse.cz>
+
+Origin: upstream, http://git.savannah.gnu.org/cgit/grub.git/commit/?id=1570140f0362d9936f97a014a9fa5cecbca54f07
+Last-Update: 2015-11-05
+
+Patch-Name: xfs-fix-directory-iteration.patch
+---
+ grub-core/fs/xfs.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/grub-core/fs/xfs.c b/grub-core/fs/xfs.c
+index 16ffd3f..4bd52d1 100644
+--- a/grub-core/fs/xfs.c
++++ b/grub-core/fs/xfs.c
+@@ -603,8 +603,7 @@ grub_xfs_iterate_dir (grub_fshelp_node_t dir,
+ 		       - grub_be_to_cpu32 (tail->leaf_stale));
+ 
+ 	    /* Iterate over all entries within this block.  */
+-	    while (pos < (dirblk_size
+-			  - (int) sizeof (struct grub_xfs_dir2_entry)))
++	    while (pos < tail_start)
+ 	      {
+ 		struct grub_xfs_dir2_entry *direntry;
+ 		grub_uint8_t *freetag;

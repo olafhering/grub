@@ -75,3 +75,7 @@ ppc64el-avoid_unnecessary_optimizations.patch
 arm64-set-correct-length-of-device-path-end-entry.patch
 progress_avoid_null_deref.patch
 arm64-setjmp-Add-missing-license-macro.patch
+xfs-fix-directory-iteration.patch
+xfs-simplify-inode-endian-conversion.patch
+xfs-add-inode-size-helpers.patch
+xfs-v5.patch
