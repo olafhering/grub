@@ -80,3 +80,4 @@ xfs-simplify-inode-endian-conversion.patch
 xfs-add-inode-size-helpers.patch
 xfs-v5.patch
 xfs-fix-alignment.patch
+xfs-crc-fix-symlink.patch
