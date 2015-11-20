@@ -1,3 +1,10 @@
+grub2 (2.02~beta2-32) UNRELEASED; urgency=medium
+
+  * Cherry-pick patch to add SAS disks to the device list from the ofdisk
+    module. (LP: #1517586)
+
+ -- Mathieu Trudel-Lapierre <mathieu-tl@ubuntu.com>  Fri, 20 Nov 2015 09:42:25 -0500
+
 grub2 (2.02~beta2-31) unstable; urgency=medium
 
   * Cherry-pick upstream patch to fix XFS alignment treatment.
