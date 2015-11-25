@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-32) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-32) unstable; urgency=medium
 
   [ Mathieu Trudel-Lapierre ]
   * Cherry-pick patch to add SAS disks to the device list from the ofdisk
@@ -12,7 +12,7 @@ grub2 (2.02~beta2-32) UNRELEASED; urgency=medium
   * Install arm64 signed images if UEFI Secure Boot is enabled (closes:
     #806178).
 
- -- Mathieu Trudel-Lapierre <mathieu-tl@ubuntu.com>  Fri, 20 Nov 2015 09:42:25 -0500
+ -- Colin Watson <cjwatson@debian.org>  Wed, 25 Nov 2015 16:07:21 +0000
 
 grub2 (2.02~beta2-31) unstable; urgency=medium
 
