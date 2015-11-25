@@ -82,3 +82,4 @@ xfs-v5.patch
 xfs-fix-alignment.patch
 xfs-crc-fix-symlink.patch
 ofdisk_add_sas_disks.patch
+efinet-open-Simple-Network-Protocol-exclusively.patch

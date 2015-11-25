@@ -1,7 +1,12 @@
 grub2 (2.02~beta2-32) UNRELEASED; urgency=medium
 
+  [ Mathieu Trudel-Lapierre ]
   * Cherry-pick patch to add SAS disks to the device list from the ofdisk
     module. (LP: #1517586)
+
+  [ dann frazier ]
+  * Cherry-pick patch to open Simple Network Protocol exclusively.
+    (LP: #1508893)
 
  -- Mathieu Trudel-Lapierre <mathieu-tl@ubuntu.com>  Fri, 20 Nov 2015 09:42:25 -0500
 

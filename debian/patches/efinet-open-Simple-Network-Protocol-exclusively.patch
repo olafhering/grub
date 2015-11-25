@@ -1,0 +1,73 @@
+From f9381cb536d952d2985fff08dc8efa0e1721f5c6 Mon Sep 17 00:00:00 2001
+From: Andrei Borzenkov <arvidjaar@gmail.com>
+Date: Thu, 7 May 2015 20:37:17 +0300
+Subject: efinet: open Simple Network Protocol exclusively
+
+Patch-Name: efinet-open-Simple-Network-Protocol-exclusively.patch
+Origin: upstream, http://git.savannah.gnu.org/cgit/grub.git/commit/?id=49426e9fd2e562c73a4f1206f32eff9e424a1a73
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/1508893
+Last-Update: 2015-11-25
+---
+ grub-core/net/drivers/efi/efinet.c | 46 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
+
+diff --git a/grub-core/net/drivers/efi/efinet.c b/grub-core/net/drivers/efi/efinet.c
+index 2b344d6..658b3d1 100644
+--- a/grub-core/net/drivers/efi/efinet.c
++++ b/grub-core/net/drivers/efi/efinet.c
+@@ -130,9 +130,55 @@ get_card_packet (struct grub_net_card *dev)
+   return nb;
+ }
+ 
++static grub_err_t
++open_card (struct grub_net_card *dev)
++{
++  grub_efi_simple_network_t *net;
++
++  /* Try to reopen SNP exlusively to close any active MNP protocol instance
++     that may compete for packet polling
++   */
++  net = grub_efi_open_protocol (dev->efi_handle, &net_io_guid,
++				GRUB_EFI_OPEN_PROTOCOL_BY_EXCLUSIVE);
++  if (net)
++    {
++      if (net->mode->state == GRUB_EFI_NETWORK_STOPPED
++	  && efi_call_1 (net->start, net) != GRUB_EFI_SUCCESS)
++	return grub_error (GRUB_ERR_NET_NO_CARD, "%s: net start failed",
++			   dev->name);
++
++      if (net->mode->state == GRUB_EFI_NETWORK_STOPPED)
++	return grub_error (GRUB_ERR_NET_NO_CARD, "%s: card stopped",
++			   dev->name);
++
++      if (net->mode->state == GRUB_EFI_NETWORK_STARTED
++	  && efi_call_3 (net->initialize, net, 0, 0) != GRUB_EFI_SUCCESS)
++	return grub_error (GRUB_ERR_NET_NO_CARD, "%s: net initialize failed",
++			   dev->name);
++
++      efi_call_4 (grub_efi_system_table->boot_services->close_protocol,
++		  dev->efi_net, &net_io_guid,
++		  grub_efi_image_handle, dev->efi_handle);
++      dev->efi_net = net;
++    }
++
++  /* If it failed we just try to run as best as we can */
++  return GRUB_ERR_NONE;
++}
++
++static void
++close_card (struct grub_net_card *dev)
++{
++  efi_call_4 (grub_efi_system_table->boot_services->close_protocol,
++	      dev->efi_net, &net_io_guid,
++	      grub_efi_image_handle, dev->efi_handle);
++}
++
+ static struct grub_net_card_driver efidriver =
+   {
+     .name = "efinet",
++    .open = open_card,
++    .close = close_card,
+     .send = send_card_buffer,
+     .recv = get_card_packet
+   };
