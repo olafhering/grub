@@ -1,4 +1,4 @@
-From 951eb264ce5ed6f65880e8549dd4a55b38037e80 Mon Sep 17 00:00:00 2001
+From 4b75a4a0f2438e1afd6ff3cb15697dbc52dfbd74 Mon Sep 17 00:00:00 2001
 From: Paulo Flabiano Smorigo <pfsmorigo@linux.vnet.ibm.com>
 Date: Sun, 8 Nov 2015 21:52:22 -0200
 Subject: ofdisk: add sas disks to the device list

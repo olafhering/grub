@@ -1460,6 +1460,7 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_I386_EFI:
     case GRUB_INSTALL_PLATFORM_X86_64_EFI:
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
+    case GRUB_INSTALL_PLATFORM_ARM64_EFI:
     case GRUB_INSTALL_PLATFORM_IA64_EFI:
       {
 	char *dir = xasprintf ("%s-signed", grub_install_source_directory);

@@ -1,4 +1,4 @@
-From f9381cb536d952d2985fff08dc8efa0e1721f5c6 Mon Sep 17 00:00:00 2001
+From 99d5df36311e15d60a16f6cba6e3b4ca442b0472 Mon Sep 17 00:00:00 2001
 From: Andrei Borzenkov <arvidjaar@gmail.com>
 Date: Thu, 7 May 2015 20:37:17 +0300
 Subject: efinet: open Simple Network Protocol exclusively

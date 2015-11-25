@@ -1,4 +1,4 @@
-From 5ae07c1ecdc51923eeac7066d2df62bc99ad7ff6 Mon Sep 17 00:00:00 2001
+From 41f39647eec96745dd63221e295a869050faab9a Mon Sep 17 00:00:00 2001
 From: Steve McIntyre <93sam@debian.org>
 Date: Tue, 27 Jan 2015 20:08:53 +0000
 Subject: Add support for running a 64-bit Linux kernel on a 32-bit EFI

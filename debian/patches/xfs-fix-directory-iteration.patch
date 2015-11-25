@@ -1,4 +1,4 @@
-From fe80425253b89108c01841f84203bc2b3db5a848 Mon Sep 17 00:00:00 2001
+From 7d12bcf99a086f5082b95ba8f819afb8d0b4a073 Mon Sep 17 00:00:00 2001
 From: Jan Kara <jack@suse.cz>
 Date: Mon, 14 Jul 2014 17:21:29 +0200
 Subject: xfs: Fix termination loop for directory iteration

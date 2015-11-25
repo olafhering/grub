@@ -1,4 +1,4 @@
-From 5c9c6331c04238caf4baad5cec01b9979af32c86 Mon Sep 17 00:00:00 2001
+From 82f382747d87ce89176b1fbdd5c3e0ae3eb7bd21 Mon Sep 17 00:00:00 2001
 From: Jan Kara <jack@suse.cz>
 Date: Mon, 14 Jul 2014 17:21:30 +0200
 Subject: xfs: Convert inode numbers to cpu endianity immediately after reading

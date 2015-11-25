@@ -1,4 +1,4 @@
-From 3c177c9e5744cc4eb80a2905694d4f9b657ac6ae Mon Sep 17 00:00:00 2001
+From 59feb4a8603b7d509f098219cf21a2e20e01f0ce Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Fri, 26 Sep 2014 10:34:46 +0100
 Subject: Remove .MIPS.abiflags section from images

@@ -1,4 +1,4 @@
-From df958de5315158a421d3cf938ccbb5164096526a Mon Sep 17 00:00:00 2001
+From 2450f1cce11f110df6e9ca561fea601750f3c580 Mon Sep 17 00:00:00 2001
 From: Andrei Borzenkov <arvidjaar@gmail.com>
 Date: Sat, 10 Oct 2015 11:44:14 +0300
 Subject: progress: avoid NULL dereference for net files

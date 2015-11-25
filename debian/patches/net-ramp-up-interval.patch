@@ -1,4 +1,4 @@
-From c6653da3c70e30cb337676cb2aeb868c12555b79 Mon Sep 17 00:00:00 2001
+From ee1df194ddcb14fb7e49e3f1c5763cfcc9a861bf Mon Sep 17 00:00:00 2001
 From: Paulo Flabiano Smorigo <pfsmorigo@br.ibm.com>
 Date: Tue, 21 Jan 2014 11:03:51 -0200
 Subject: increase network try interval gradually

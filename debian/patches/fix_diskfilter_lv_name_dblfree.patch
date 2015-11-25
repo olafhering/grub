@@ -1,4 +1,4 @@
-From 874a6fb6e8db5c86ea3448e89a559070e3b947cb Mon Sep 17 00:00:00 2001
+From 6640663a349f902c717b0f447c7e8c05d6d8e280 Mon Sep 17 00:00:00 2001
 From: Andrei Borzenkov <arvidjaar@gmail.com>
 Date: Sat, 14 Feb 2015 19:08:58 +0300
 Subject: diskfilter: fix double free of lv names for mdraid

@@ -1,4 +1,4 @@
-From 0c936e15b7b223c618628e7971e822d8dfa23d6f Mon Sep 17 00:00:00 2001
+From cd6abe82a63c633d94290eb22341d884627ef57a Mon Sep 17 00:00:00 2001
 From: Jan Kara <jack@suse.cz>
 Date: Mon, 1 Jun 2015 14:28:46 +0200
 Subject: xfs: V5 filesystem format support

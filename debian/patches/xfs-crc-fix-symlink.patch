@@ -1,4 +1,4 @@
-From 25133940565784be3bac00f140ca4086bf20d243 Mon Sep 17 00:00:00 2001
+From 80be497baf892b89ac7b775dfd237d3d9e297c69 Mon Sep 17 00:00:00 2001
 From: Vladimir Serbinenko <phcoder@gmail.com>
 Date: Fri, 24 Jul 2015 01:15:32 +0200
 Subject: xfs: Fix handling of symlink with crc-enabled filesystem.

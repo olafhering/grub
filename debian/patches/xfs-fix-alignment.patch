@@ -1,4 +1,4 @@
-From 744e82c493eb014c2649a765cc8ee12f523ccaf4 Mon Sep 17 00:00:00 2001
+From 442d2d2861cc817a2769949a0cd46330cfc268b1 Mon Sep 17 00:00:00 2001
 From: Vladimir Serbinenko <phcoder@gmail.com>
 Date: Thu, 16 Jul 2015 12:46:02 +0200
 Subject: XFS: Fix wrong alignment treatment.

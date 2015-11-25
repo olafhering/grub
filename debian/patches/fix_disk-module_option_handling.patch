@@ -1,4 +1,4 @@
-From 225dd520075c7df7198386d96d17350602be9d73 Mon Sep 17 00:00:00 2001
+From 9612078b9b45f34e29c19c65c2811de380ff1437 Mon Sep 17 00:00:00 2001
 From: Glenn Washburn <development@efficientek.com>
 Date: Sun, 22 Jun 2014 01:45:11 +0200
 Subject: 	* util/grub-install.c: Fix handling of --disk-module.
@@ -13,7 +13,7 @@ Patch-Name: fix_disk-module_option_handling.patch
  1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/util/grub-install.c b/util/grub-install.c
-index 54fbd35..4f4b2a7 100644
+index 462071f..5f17dd5 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
 @@ -97,7 +97,6 @@ enum

@@ -1,4 +1,4 @@
-From f7692b6ea2df001fb91559b4a27bb8c288db7805 Mon Sep 17 00:00:00 2001
+From 3bfa66ba214fe989719283588ae61c7778988595 Mon Sep 17 00:00:00 2001
 From: Jan Kara <jack@suse.cz>
 Date: Mon, 1 Jun 2015 14:28:45 +0200
 Subject: xfs: Add helpers for inode size
