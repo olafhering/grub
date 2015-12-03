@@ -83,3 +83,6 @@ xfs-fix-alignment.patch
 xfs-crc-fix-symlink.patch
 ofdisk_add_sas_disks.patch
 efinet-open-Simple-Network-Protocol-exclusively.patch
+efidisk-device-path-helpers-for-efinet.patch
+efinet-skip-virtual-devices-on-enumeration.patch
+efinet-enable-hardware-filters-on-interface.patch

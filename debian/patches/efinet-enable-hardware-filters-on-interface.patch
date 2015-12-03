@@ -1,0 +1,109 @@
+From 1a8eacd20fdfc9e9d3adf15af0a24a5c025fa071 Mon Sep 17 00:00:00 2001
+From: Andrei Borzenkov <arvidjaar@gmail.com>
+Date: Tue, 16 Jun 2015 19:52:45 +0300
+Subject: efinet: enable hardware filters when opening interface
+
+Exclusive open on SNP will close all existing protocol instances which
+may disable all receive filters on interface. Reinstall them after we
+opened protocol exclusively.
+
+Also follow UEFI specification recommendation and stop interfaces when
+closing them:
+
+Unexpected system errors, reboots and hangs can occur if an OS is loaded
+and the network devices are not Shutdown() and Stopped().
+
+Also by: Mark Salter <msalter@redhat.com>
+Closes: 45204
+
+Patch-Name: efinet-enable-hardware-filters-on-interface.patch
+Bug: http://savannah.gnu.org/bugs/?45204
+Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1521612
+Last-Update: 2015-12-03
+---
+ grub-core/net/drivers/efi/efinet.c | 25 +++++++++++++++++++++++++
+ include/grub/efi/api.h             | 20 +++++++++++++++++---
+ 2 files changed, 42 insertions(+), 3 deletions(-)
+
+diff --git a/grub-core/net/drivers/efi/efinet.c b/grub-core/net/drivers/efi/efinet.c
+index 775abde..9e0c0ad 100644
+--- a/grub-core/net/drivers/efi/efinet.c
++++ b/grub-core/net/drivers/efi/efinet.c
+@@ -156,6 +156,29 @@ open_card (struct grub_net_card *dev)
+ 	return grub_error (GRUB_ERR_NET_NO_CARD, "%s: net initialize failed",
+ 			   dev->name);
+ 
++      /* Enable hardware receive filters if driver declares support for it.
++	 We need unicast and broadcast and additionaly all nodes and
++	 solicited multicast for IPv6. Solicited multicast is per-IPv6
++	 address and we currently do not have API to do it so simply
++	 try to enable receive of all multicast packets or evertyhing in
++	 the worst case (i386 PXE driver always enables promiscuous too).
++
++	 This does trust firmware to do what it claims to do.
++       */
++      if (net->mode->receive_filter_mask)
++	{
++	  grub_uint32_t filters = GRUB_EFI_SIMPLE_NETWORK_RECEIVE_UNICAST   |
++				  GRUB_EFI_SIMPLE_NETWORK_RECEIVE_BROADCAST |
++				  GRUB_EFI_SIMPLE_NETWORK_RECEIVE_PROMISCUOUS_MULTICAST;
++
++	  filters &= net->mode->receive_filter_mask;
++	  if (!(filters & GRUB_EFI_SIMPLE_NETWORK_RECEIVE_PROMISCUOUS_MULTICAST))
++	    filters |= (net->mode->receive_filter_mask &
++			GRUB_EFI_SIMPLE_NETWORK_RECEIVE_PROMISCUOUS);
++
++	  efi_call_6 (net->receive_filters, net, filters, 0, 0, 0, NULL);
++	}
++
+       efi_call_4 (grub_efi_system_table->boot_services->close_protocol,
+ 		  dev->efi_net, &net_io_guid,
+ 		  grub_efi_image_handle, dev->efi_handle);
+@@ -169,6 +192,8 @@ open_card (struct grub_net_card *dev)
+ static void
+ close_card (struct grub_net_card *dev)
+ {
++  efi_call_1 (dev->efi_net->shutdown, dev->efi_net);
++  efi_call_1 (dev->efi_net->stop, dev->efi_net);
+   efi_call_4 (grub_efi_system_table->boot_services->close_protocol,
+ 	      dev->efi_net, &net_io_guid,
+ 	      grub_efi_image_handle, dev->efi_handle);
+diff --git a/include/grub/efi/api.h b/include/grub/efi/api.h
+index e5dd543..1a5e38c 100644
+--- a/include/grub/efi/api.h
++++ b/include/grub/efi/api.h
+@@ -1501,17 +1501,31 @@ enum
+     GRUB_EFI_NETWORK_INITIALIZED,
+   };
+ 
++enum
++  {
++    GRUB_EFI_SIMPLE_NETWORK_RECEIVE_UNICAST		  = 0x01,
++    GRUB_EFI_SIMPLE_NETWORK_RECEIVE_MULTICAST		  = 0x02,
++    GRUB_EFI_SIMPLE_NETWORK_RECEIVE_BROADCAST		  = 0x04,
++    GRUB_EFI_SIMPLE_NETWORK_RECEIVE_PROMISCUOUS		  = 0x08,
++    GRUB_EFI_SIMPLE_NETWORK_RECEIVE_PROMISCUOUS_MULTICAST = 0x10,
++  };
++
+ struct grub_efi_simple_network
+ {
+   grub_uint64_t revision;
+   grub_efi_status_t (*start) (struct grub_efi_simple_network *this);
+-  void (*stop) (void);
++  grub_efi_status_t (*stop) (struct grub_efi_simple_network *this);
+   grub_efi_status_t (*initialize) (struct grub_efi_simple_network *this,
+ 				   grub_efi_uintn_t extra_rx,
+ 				   grub_efi_uintn_t extra_tx);
+   void (*reset) (void);
+-  void (*shutdown) (void);
+-  void (*receive_filters) (void);
++  grub_efi_status_t (*shutdown) (struct grub_efi_simple_network *this);
++  grub_efi_status_t (*receive_filters) (struct grub_efi_simple_network *this,
++					grub_uint32_t enable,
++					grub_uint32_t disable,
++					grub_efi_boolean_t reset_mcast_filter,
++					grub_efi_uintn_t mcast_filter_count,
++					grub_efi_mac_address_t *mcast_filter);
+   void (*station_address) (void);
+   void (*statistics) (void);
+   void (*mcastiptomac) (void);
