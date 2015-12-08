@@ -137,6 +137,8 @@ GRUB_MODULES="$CD_MODULES
 	lvm
 	mdraid09
 	mdraid1x
+	raid5rec
+	raid6rec
 	"
 NET_MODULES="$CD_MODULES
 	tftp

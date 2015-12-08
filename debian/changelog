@@ -1,9 +1,13 @@
 grub2 (2.02~beta2-33) UNRELEASED; urgency=medium
 
+  [ Mathieu Trudel-Lapierre ]
   * Cherry-picks to better handle TFTP timeouts on some arches: (LP: #1521612)
     - (7b386b7) efidisk: move device path helpers in core for efinet
     - (c52ae40) efinet: skip virtual IP devices when enumerating cards
     - (f348aee) efinet: enable hardware filters when opening interface
+
+  [ Lee Trager ]
+  * Add raid5rec and raid6rec to signed EFI images (closes: #807385).
 
  -- Mathieu Trudel-Lapierre <mathieu-tl@ubuntu.com>  Thu, 03 Dec 2015 11:01:36 -0500
 
