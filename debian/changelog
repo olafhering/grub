@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-33) UNRELEASED; urgency=high
+grub2 (2.02~beta2-33) unstable; urgency=high
 
   [ Mathieu Trudel-Lapierre ]
   * Cherry-picks to better handle TFTP timeouts on some arches: (LP: #1521612)
@@ -13,7 +13,7 @@ grub2 (2.02~beta2-33) UNRELEASED; urgency=high
   * CVE-2015-8370: Fix authentication bypass via backspace integer underflow
     (closes: #808122).
 
- -- Mathieu Trudel-Lapierre <mathieu-tl@ubuntu.com>  Thu, 03 Dec 2015 11:01:36 -0500
+ -- Colin Watson <cjwatson@debian.org>  Wed, 16 Dec 2015 09:46:22 +0000
 
 grub2 (2.02~beta2-32) unstable; urgency=medium
 
