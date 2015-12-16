@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-33) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-33) UNRELEASED; urgency=high
 
   [ Mathieu Trudel-Lapierre ]
   * Cherry-picks to better handle TFTP timeouts on some arches: (LP: #1521612)
@@ -8,6 +8,10 @@ grub2 (2.02~beta2-33) UNRELEASED; urgency=medium
 
   [ Lee Trager ]
   * Add raid5rec and raid6rec to signed EFI images (closes: #807385).
+
+  [ Colin Watson ]
+  * CVE-2015-8370: Fix authentication bypass via backspace integer underflow
+    (closes: #808122).
 
  -- Mathieu Trudel-Lapierre <mathieu-tl@ubuntu.com>  Thu, 03 Dec 2015 11:01:36 -0500
 
