@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <errno.h>
@@ -285,10 +286,11 @@ static void list(int hd)
   xe.cur=xe.nxt=0xFF;
   fprintf(stderr," #  id        base        leng\n");
   while (! xd_enum(hd,&xe))
-    fprintf(stderr,"%2d  %02llX    %8llX    %8llX\n",xe.cur,
-	    (unsigned long long) xe.dfs,
-	    (unsigned long long) xe.bse,
-	    (unsigned long long) xe.len);
+    fprintf(stderr,"%2d  %02" PRIX64 "    %8" PRIX64 "    %8" PRIX64 "\n",
+	    xe.cur,
+	    (uint64_t) xe.dfs,
+	    (uint64_t) xe.bse,
+	    (uint64_t) xe.len);
 }
 
 static int is_grldr_mbr(unsigned char* buf)
@@ -459,14 +461,14 @@ static int install(char* fn)
             }
           ssec=xe.bse;
           if (afg & AFG_VERBOSE)
-            fprintf(stderr,"Part Fs: %02X (%s)\nPart Leng: %llu\n",xe.dfs,dfs2str(xe.dfs),
-		    (unsigned long long) xe.len);
+            fprintf(stderr,"Part Fs: %02X (%s)\nPart Leng: %" PRIu64 "\n",xe.dfs,dfs2str(xe.dfs),
+		    (uint64_t) xe.len);
         }
     }
   else
     ssec=0;
   if (afg & AFG_VERBOSE)
-    fprintf(stderr,"Start sector: %llu\n", (unsigned long long) ssec);
+    fprintf(stderr,"Start sector: %" PRIu64 "\n", (uint64_t) ssec);
   if ((ssec) && (go_sect(hd,ssec)))
     {
       print_apperr("Can\'t seek to the start sector");
