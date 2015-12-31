@@ -691,9 +691,9 @@ static void gtf_timings(int x, int y, int freq,
       = ((y+1) * (11*freq) + 10000.0 - 5 * freq - (freq + 1) / 2)/(20000.0 - (11*freq))
 */
     vbl = y + 1 +
-      ((y+1) * (11*(long long)freq) + 10000 - 5 * (long long)freq
-       - (freq + 1) / 2)
-      / (20000 - (11*(long long)freq));
+      grub_divmod64 (((y+1) * (11*(long long)freq) + 10000 - 5 * (long long)freq
+		      - (freq + 1) / 2),
+		     (20000 - (11*(long long)freq)), 0);
     vfreq = vbl * freq;
     /*
       (x * (30.0 - 300000.0 / vfreq) /
@@ -705,8 +705,9 @@ static void gtf_timings(int x, int y, int freq,
       = (((x * (30 * vfreq - 300000)) /
           (70 * vfreq + 300000) + 8) / 16)
     */
-    hbl = 16 * (int)(((x * (30 * (long long)vfreq - 300000))
-			 / (70 * (long long)vfreq + 300000) + 8) / 16);
+    hbl = 16 * (int)((grub_divmod64((x * (30 * (long long)vfreq - 300000)),
+				    (70 * (long long)vfreq + 300000), 0)
+		      + 8) / 16);
 
     *vsyncstart = y;
     *vsyncend = y + 3;
