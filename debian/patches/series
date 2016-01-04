@@ -87,3 +87,5 @@ efidisk-device-path-helpers-for-efinet.patch
 efinet-skip-virtual-devices-on-enumeration.patch
 efinet-enable-hardware-filters-on-interface.patch
 CVE-2015-8370.patch
+acpihalt-opcodes-1.patch
+acpihalt-opcodes-2.patch

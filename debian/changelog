@@ -5,6 +5,8 @@ grub2 (2.02~beta2-34) UNRELEASED; urgency=medium
     grub2-common.
   * Refer to /usr/share/common-licenses/GPL-3 rather than
     /usr/share/common-licenses/GPL.
+  * Cherry-pick upstream patches to add more ACPI opcodes to acpihalt
+    (closes: #766853, LP: #1530648).
 
   [ Didier Roche ]
   * Use new plymouth theme path to set grub theme configuration.

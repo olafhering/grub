@@ -1,0 +1,48 @@
+From 3f32ea1a437e69829e50e17e72ed474ce82cb91a Mon Sep 17 00:00:00 2001
+From: Andrei Borzenkov <arvidjaar@gmail.com>
+Date: Sat, 2 Jan 2016 21:33:18 +0300
+Subject: acpihalt: add GRUB_ACPI_OPCODE_CREATE_DWORD_FIELD (0x8a)
+
+Fixes ACPI halt on ASUSTeK P8B75-V,
+Bios: American Megatrends v: 0414 date: 04/24/2012
+
+Reported-By: Goh Lip <g.lip@gmx.com>
+
+Origin: upstream, http://git.savannah.gnu.org/cgit/grub.git/commit/?id=aa7bb4607bb799b2790ea008bcfd8d6ca0a6d752
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/1530648
+Last-Update: 2016-01-04
+
+Patch-Name: acpihalt-opcodes-2.patch
+---
+ grub-core/commands/acpihalt.c | 1 +
+ include/grub/acpi.h           | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/grub-core/commands/acpihalt.c b/grub-core/commands/acpihalt.c
+index 45aa84c..f64512d 100644
+--- a/grub-core/commands/acpihalt.c
++++ b/grub-core/commands/acpihalt.c
+@@ -246,6 +246,7 @@ get_sleep_type (grub_uint8_t *table, grub_uint8_t *ptr, grub_uint8_t *end,
+ 	  if (!add)
+ 	    return -1;
+ 	  break;
++	case GRUB_ACPI_OPCODE_CREATE_DWORD_FIELD:
+ 	case GRUB_ACPI_OPCODE_CREATE_WORD_FIELD:
+ 	case GRUB_ACPI_OPCODE_CREATE_BYTE_FIELD:
+ 	  {
+diff --git a/include/grub/acpi.h b/include/grub/acpi.h
+index f6e6a11..ac09b80 100644
+--- a/include/grub/acpi.h
++++ b/include/grub/acpi.h
+@@ -215,9 +215,10 @@ enum
+     GRUB_ACPI_OPCODE_CONCATRES = 0x84,
+     GRUB_ACPI_OPCODE_MOD = 0x85,
+     GRUB_ACPI_OPCODE_INDEX = 0x88,
+-    GRUB_ACPI_OPCODE_TOSTRING = 0x9c,
++    GRUB_ACPI_OPCODE_CREATE_DWORD_FIELD = 0x8a,
+     GRUB_ACPI_OPCODE_CREATE_WORD_FIELD = 0x8b,
+     GRUB_ACPI_OPCODE_CREATE_BYTE_FIELD = 0x8c,
++    GRUB_ACPI_OPCODE_TOSTRING = 0x9c,
+     GRUB_ACPI_OPCODE_IF = 0xa0, GRUB_ACPI_OPCODE_ONES = 0xff
+   };
+ enum
