@@ -34,6 +34,11 @@ set_default_theme(){
 			echo "${1}set menu_color_normal=white/black"
 			echo "${1}set menu_color_highlight=black/light-gray"
 
+			if [ -e /usr/share/plymouth/themes/default.grub ]; then
+				sed "s/^/${1}/" /usr/share/plymouth/themes/default.grub
+			fi
+			# For plymouth backward compatiblity. Can be removed
+			# after xenial.
 			if [ -e /lib/plymouth/themes/default.grub ]; then
 				sed "s/^/${1}/" /lib/plymouth/themes/default.grub
 			fi
