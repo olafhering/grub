@@ -10,6 +10,8 @@ grub2 (2.02~beta2-34) UNRELEASED; urgency=medium
   * Drop build-dependency on libusb-dev, since it was currently unused in
     any case; also explicitly configure with --disable-grub-emu-usb to avoid
     possible future ambiguity (closes: #810421).
+  * Use dpkg-maintscript-helper to convert directories to symlinks in
+    various upgrade cases, in place of hand-coded equivalents.
 
   [ Didier Roche ]
   * Use new plymouth theme path to set grub theme configuration.
