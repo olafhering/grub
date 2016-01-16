@@ -12,6 +12,8 @@ grub2 (2.02~beta2-34) UNRELEASED; urgency=medium
     possible future ambiguity (closes: #810421).
   * Use dpkg-maintscript-helper to convert directories to symlinks in
     various upgrade cases, in place of hand-coded equivalents.
+  * Change versioned Conflicts from grub-common and grub2-common into Breaks
+    or Breaks+Replaces as appropriate.
 
   [ Didier Roche ]
   * Use new plymouth theme path to set grub theme configuration.
