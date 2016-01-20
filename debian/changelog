@@ -14,6 +14,7 @@ grub2 (2.02~beta2-34) UNRELEASED; urgency=medium
     various upgrade cases, in place of hand-coded equivalents.
   * Change versioned Conflicts from grub-common and grub2-common into Breaks
     or Breaks+Replaces as appropriate.
+  * Remove pragmas related to -Wunreachable-code (closes: #812047).
 
   [ Didier Roche ]
   * Use new plymouth theme path to set grub theme configuration.

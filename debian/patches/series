@@ -89,3 +89,4 @@ efinet-enable-hardware-filters-on-interface.patch
 CVE-2015-8370.patch
 acpihalt-opcodes-1.patch
 acpihalt-opcodes-2.patch
+remove-unreachable-code-pragmas.patch

@@ -1,0 +1,45 @@
+From b8ae346b2dd974ea5f67baafc86ab40cf9687a3b Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Wed, 20 Jan 2016 15:56:55 +0000
+Subject: Remove pragmas related to -Wunreachable-code
+
+-Wunreachable-code has been a no-op since GCC 4.5; GRUB hasn't been
+compiled with it since 2012; and GCC 6 produces "error:
+'-Wunreachable-code' is not an option that controls warnings" for these.
+
+Fixes Debian bug #812047.
+
+Origin: upstream, http://git.savannah.gnu.org/cgit/grub.git/commit/?id=47e67d809cca22b77ea73ab4dbe04cfd5b11bae1
+Bug-Debian: https://bugs.debian.org/812047
+Last-Update: 2016-01-20
+
+Patch-Name: remove-unreachable-code-pragmas.patch
+---
+ grub-core/lib/pbkdf2.c    | 1 -
+ grub-core/script/parser.y | 1 -
+ 2 files changed, 2 deletions(-)
+
+diff --git a/grub-core/lib/pbkdf2.c b/grub-core/lib/pbkdf2.c
+index 2fbaa95..dfaed9b 100644
+--- a/grub-core/lib/pbkdf2.c
++++ b/grub-core/lib/pbkdf2.c
+@@ -31,7 +31,6 @@ GRUB_MOD_LICENSE ("GPLv2+");
+    desired derived output length DKLEN.  Output buffer is DK which
+    must have room for at least DKLEN octets.  The output buffer will
+    be filled with the derived data.  */
+-#pragma GCC diagnostic ignored "-Wunreachable-code"
+ 
+ gcry_err_code_t
+ grub_crypto_pbkdf2 (const struct gcry_md_spec *md,
+diff --git a/grub-core/script/parser.y b/grub-core/script/parser.y
+index 1d60e9d..4f0ab83 100644
+--- a/grub-core/script/parser.y
++++ b/grub-core/script/parser.y
+@@ -30,7 +30,6 @@
+ 
+ #include "grub_script.tab.h"
+ 
+-#pragma GCC diagnostic ignored "-Wunreachable-code"
+ #pragma GCC diagnostic ignored "-Wmissing-declarations"
+ 
+ %}
