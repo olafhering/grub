@@ -1,0 +1,70 @@
+From 95593bb11dd80d673164e054edea8cc26260f915 Mon Sep 17 00:00:00 2001
+From: Vladimir Serbinenko <phcoder@gmail.com>
+Date: Sat, 24 Jan 2015 20:57:26 +0100
+Subject: zfs: Fix disk-matching logic.
+
+Reported by: Tim Chase <dweeezil>
+
+Origin: upstream, http://git.savannah.gnu.org/cgit/grub.git/commit/?id=12a9c5516b94888db0a4502946242e3b14709f
+Last-Update: 2016-01-22
+
+Patch-Name: zfs-disk-matching.patch
+---
+ grub-core/fs/zfs/zfs.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/grub-core/fs/zfs/zfs.c b/grub-core/fs/zfs/zfs.c
+index cfb25c0..e00a980 100644
+--- a/grub-core/fs/zfs/zfs.c
++++ b/grub-core/fs/zfs/zfs.c
+@@ -252,7 +252,6 @@ struct grub_zfs_data
+ 
+   uberblock_t current_uberblock;
+ 
+-  int mounted;
+   grub_uint64_t guid;
+ };
+ 
+@@ -957,7 +956,7 @@ nvpair_value (const char *nvp,char **val,
+ static grub_err_t
+ check_pool_label (struct grub_zfs_data *data,
+ 		  struct grub_zfs_device_desc *diskdesc,
+-		  int *inserted)
++		  int *inserted, int original)
+ {
+   grub_uint64_t pool_state, txg = 0;
+   char *nvlist,*features;
+@@ -1081,11 +1080,12 @@ check_pool_label (struct grub_zfs_data *data,
+ 
+   grub_dprintf ("zfs", "check 11 passed\n");
+ 
+-  if (data->mounted && data->guid != poolguid)
+-    return grub_error (GRUB_ERR_BAD_FS, "another zpool");
+-  else
++  if (original)
+     data->guid = poolguid;
+ 
++  if (data->guid != poolguid)
++    return grub_error (GRUB_ERR_BAD_FS, "another zpool");
++
+   {
+     char *nv;
+     nv = grub_zfs_nvlist_lookup_nvlist (nvlist, ZPOOL_CONFIG_VDEV_TREE);
+@@ -1186,7 +1186,7 @@ scan_disk (grub_device_t dev, struct grub_zfs_data *data,
+ 	}
+       grub_dprintf ("zfs", "label ok %d\n", label);
+ 
+-      err = check_pool_label (data, &desc, inserted);
++      err = check_pool_label (data, &desc, inserted, original);
+       if (err || !*inserted)
+ 	{
+ 	  grub_errno = GRUB_ERR_NONE;
+@@ -3606,8 +3606,6 @@ zfs_mount (grub_device_t dev)
+ 					 ub_endian) >> 63) & 1;
+   grub_free (osp);
+ 
+-  data->mounted = 1;
+-
+   return data;
+ }
+ 

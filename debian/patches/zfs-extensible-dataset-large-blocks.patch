@@ -1,0 +1,89 @@
+From c9ca44d13eddc6e44de5caa166bda1a89fbddfc0 Mon Sep 17 00:00:00 2001
+From: Toomas Soome <tsoome@me.com>
+Date: Thu, 16 Apr 2015 08:24:38 +0300
+Subject: zfs extensible_dataset and large_blocks feature support
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+large blocks basically use extensible dataset feature, or to be exact,
+setting recordsize above 128k will trigger large_block feature to be
+enabled and storing such blocks is using feature extensible dataset. so
+the extensible dataset is prerequisite.
+
+Changes implement read support extensible dataset… instead of fixed DMU
+types they dont specify type, making it possible to use fat zap objects
+from bonus area.
+
+Origin: upstream, http://git.savannah.gnu.org/cgit/grub.git/commit/?id=cad5cc0f5d3d3630ccfbe242552958b13f2120d6
+Last-Update: 2016-01-22
+
+Patch-Name: zfs-extensible-dataset-large-blocks.patch
+---
+ grub-core/fs/zfs/zfs.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
+
+diff --git a/grub-core/fs/zfs/zfs.c b/grub-core/fs/zfs/zfs.c
+index d33424c..9ac0759 100644
+--- a/grub-core/fs/zfs/zfs.c
++++ b/grub-core/fs/zfs/zfs.c
+@@ -283,6 +283,8 @@ static const char *spa_feature_names[] = {
+   "org.illumos:lz4_compress",
+   "com.delphix:hole_birth",
+   "com.delphix:embedded_data",
++  "com.delphix:extensible_dataset",
++  "org.open-zfs:large_blocks",
+   NULL
+ };
+ 
+@@ -3072,7 +3074,7 @@ get_filesystem_dnode (dnode_end_t * mosmdn, char *fsname,
+ 
+   grub_dprintf ("zfs", "alive\n");
+ 
+-  err = dnode_get (mosmdn, objnum, DMU_OT_DSL_DIR, mdn, data);
++  err = dnode_get (mosmdn, objnum, 0, mdn, data);
+   if (err)
+     return err;
+ 
+@@ -3105,7 +3107,7 @@ get_filesystem_dnode (dnode_end_t * mosmdn, char *fsname,
+       if (err)
+ 	return err;
+ 
+-      err = dnode_get (mosmdn, objnum, DMU_OT_DSL_DIR, mdn, data);
++      err = dnode_get (mosmdn, objnum, 0, mdn, data);
+       if (err)
+ 	return err;
+ 
+@@ -3260,8 +3262,7 @@ dnode_get_fullpath (const char *fullpath, struct subvolume *subvol,
+ 
+   grub_dprintf ("zfs", "endian = %d\n", subvol->mdn.endian);
+ 
+-  err = dnode_get (&(data->mos), headobj, DMU_OT_DSL_DATASET, &subvol->mdn,
+-		   data);
++  err = dnode_get (&(data->mos), headobj, 0, &subvol->mdn, data);
+   if (err)
+     {
+       grub_free (fsname);
+@@ -3657,8 +3658,11 @@ zfs_mount (grub_device_t dev)
+   if (ub->ub_version >= SPA_VERSION_FEATURES &&
+       check_mos_features(&((objset_phys_t *) osp)->os_meta_dnode,ub_endian,
+ 			 data) != 0)
+-    return NULL;
+-	
++    {
++      grub_error (GRUB_ERR_BAD_FS, "Unsupported features in pool");
++      return NULL;
++    }
++
+   /* Got the MOS. Save it at the memory addr MOS. */
+   grub_memmove (&(data->mos.dn), &((objset_phys_t *) osp)->os_meta_dnode,
+ 		DNODE_SIZE);
+@@ -3949,7 +3953,7 @@ fill_fs_info (struct grub_dirhook_info *info,
+     {
+       headobj = grub_zfs_to_cpu64 (((dsl_dir_phys_t *) DN_BONUS (&mdn.dn))->dd_head_dataset_obj, mdn.endian);
+ 
+-      err = dnode_get (&(data->mos), headobj, DMU_OT_DSL_DATASET, &mdn, data);
++      err = dnode_get (&(data->mos), headobj, 0, &mdn, data);
+       if (err)
+ 	{
+ 	  grub_dprintf ("zfs", "failed here\n");

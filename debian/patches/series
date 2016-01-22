@@ -90,3 +90,9 @@ CVE-2015-8370.patch
 acpihalt-opcodes-1.patch
 acpihalt-opcodes-2.patch
 remove-unreachable-code-pragmas.patch
+zfs-disk-matching.patch
+zfs-mzap-lookup-argument-types.patch
+zfs-hole-birth.patch
+zfs-embedded-data.patch
+zfs-zap-lookup-truncation.patch
+zfs-extensible-dataset-large-blocks.patch

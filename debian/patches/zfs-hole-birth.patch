@@ -1,0 +1,57 @@
+From f4483fc0bbeaff9dc8b899aea97a914d914c46d6 Mon Sep 17 00:00:00 2001
+From: Toomas Soome <tsoome@me.com>
+Date: Thu, 16 Apr 2015 08:22:08 +0300
+Subject: zfs: com.delphix:hole_birth feature support
+
+In the past birth was always zero for holes. This feature started
+to make use of birth for holes as well, so change code to test for
+valid DVA address instead.
+
+Origin: upstream, http://git.savannah.gnu.org/cgit/grub.git/commit/?id=a1007c6af296172c788f3346ff3ad30b9020f723
+Last-Update: 2016-01-22
+
+Patch-Name: zfs-hole-birth.patch
+---
+ grub-core/fs/zfs/zfs.c | 6 ++++--
+ include/grub/zfs/spa.h | 4 +++-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/grub-core/fs/zfs/zfs.c b/grub-core/fs/zfs/zfs.c
+index da8fd56..b01c34f 100644
+--- a/grub-core/fs/zfs/zfs.c
++++ b/grub-core/fs/zfs/zfs.c
+@@ -280,7 +280,9 @@ grub_crypto_cipher_handle_t (*grub_zfs_load_key) (const struct grub_zfs_key *key
+  */
+ #define MAX_SUPPORTED_FEATURE_STRLEN 50
+ static const char *spa_feature_names[] = {
+-  "org.illumos:lz4_compress",NULL
++  "org.illumos:lz4_compress",
++  "com.delphix:hole_birth",
++  NULL
+ };
+ 
+ static int
+@@ -1748,7 +1750,7 @@ zio_read_gang (blkptr_t * bp, grub_zfs_endian_t endian, dva_t * dva, void *buf,
+ 
+   for (i = 0; i < SPA_GBH_NBLKPTRS; i++)
+     {
+-      if (zio_gb->zg_blkptr[i].blk_birth == 0)
++      if (BP_IS_HOLE(&zio_gb->zg_blkptr[i]))
+ 	continue;
+ 
+       err = zio_read_data (&zio_gb->zg_blkptr[i], endian, buf, data);
+diff --git a/include/grub/zfs/spa.h b/include/grub/zfs/spa.h
+index 7edb8ab..df43b6b 100644
+--- a/include/grub/zfs/spa.h
++++ b/include/grub/zfs/spa.h
+@@ -279,7 +279,9 @@ typedef struct blkptr {
+ 
+ #define	BP_IDENTITY(bp)		(&(bp)->blk_dva[0])
+ #define	BP_IS_GANG(bp)		DVA_GET_GANG(BP_IDENTITY(bp))
+-#define	BP_IS_HOLE(bp)		((bp)->blk_birth == 0)
++#define	DVA_IS_EMPTY(dva)	((dva)->dva_word[0] == 0ULL && \
++				(dva)->dva_word[1] == 0ULL)
++#define	BP_IS_HOLE(bp)		DVA_IS_EMPTY(BP_IDENTITY(bp))
+ 
+ /* BP_IS_RAIDZ(bp) assumes no block compression */
+ #define	BP_IS_RAIDZ(bp)		(DVA_GET_ASIZE(&(bp)->blk_dva[0]) > \

@@ -17,6 +17,8 @@ grub2 (2.02~beta2-34) UNRELEASED; urgency=medium
   * Remove pragmas related to -Wunreachable-code (closes: #812047).
   * Temporarily work around arm64 build failure with gcc-5 >= 5.3.1-4 using
     -mpc-relative-literal-loads.
+  * Backport various ZFS improvements from trunk (closes: #706415, #772797;
+    LP: #1451476, #1530457).
 
   [ Didier Roche ]
   * Use new plymouth theme path to set grub theme configuration.
