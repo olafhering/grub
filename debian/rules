@@ -22,14 +22,6 @@ export HOST_CFLAGS
 export HOST_LDFLAGS
 export TARGET_CPPFLAGS := -Wno-unused-but-set-variable
 
-ifeq ($(DEB_HOST_ARCH),arm64)
-# Work around unsupported relocations as reported in
-# https://lists.gnu.org/archive/html/grub-devel/2015-12/msg00092.html; see
-# also:
-# https://bugs.launchpad.net/bugs/1533009
-export TARGET_CFLAGS := -Os -mpc-relative-literal-loads
-endif
-
 ifeq (,$(shell which qemu-system-i386 2>/dev/null))
 with_check := no
 else

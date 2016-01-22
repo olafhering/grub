@@ -936,6 +936,21 @@ if test "x$grub_cv_target_cc_qn" = xyes; then
   TARGET_CFLAGS="$TARGET_CFLAGS -Qn"
 fi
 
+if test "x$target_cpu" = xarm64; then
+  # Work around unsupported relocations as reported in
+  # https://lists.gnu.org/archive/html/grub-devel/2015-12/msg00092.html; see
+  # also: https://bugs.launchpad.net/bugs/1533009
+  AC_CACHE_CHECK([whether option -mpc-relative-literal-loads], grub_cv_cc_mpc_relative_literal_loads, [
+    CFLAGS="$TARGET_CFLAGS -mpc-relative-literal-loads -Werror"
+    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
+		      [grub_cv_cc_mpc_relative_literal_loads=yes],
+		      [grub_cv_cc_mpc_relative_literal_loads=no])
+  ])
+  if test "x$grub_cv_cc_mpc_relative_literal_loads" = xyes; then
+    TARGET_CFLAGS="$TARGET_CFLAGS -mpc-relative-literal-loads"
+  fi
+fi
+
 #
 # Compiler features.
 #

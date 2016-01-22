@@ -96,3 +96,4 @@ zfs-hole-birth.patch
 zfs-embedded-data.patch
 zfs-zap-lookup-truncation.patch
 zfs-extensible-dataset-large-blocks.patch
+0099-Work-around-unsupported-relocations-on-arm64.patch
