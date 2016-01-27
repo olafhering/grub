@@ -1,3 +1,9 @@
+grub2 (2.02~beta2-36) UNRELEASED; urgency=medium
+
+  * Use HTTPS for Vcs-Git URL.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 27 Jan 2016 11:51:12 +0000
+
 grub2 (2.02~beta2-35) unstable; urgency=medium
 
   * Apply the arm64 -mpc-relative-literal-loads workaround in configure
