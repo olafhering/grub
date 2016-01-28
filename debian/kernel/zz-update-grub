@@ -3,8 +3,8 @@ set -e
 
 which update-grub >/dev/null 2>&1 || exit 0
 
-if type running-in-container >/dev/null 2>&1 && \
-   running-in-container >/dev/null; then
+if type systemd-detect-virt >/dev/null 2>&1 &&
+   systemd-detect-virt --quiet --container; then
 	exit 0
 fi
 

@@ -296,7 +296,7 @@ config_item()
 
 running_in_container()
 {
-  type running-in-container >/dev/null 2>&1 && running-in-container >/dev/null
+  type systemd-detect-virt >/dev/null 2>&1 && systemd-detect-virt --quiet --container
 }
 
 run_grub_install()
