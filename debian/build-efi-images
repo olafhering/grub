@@ -122,6 +122,9 @@ CD_MODULES="
 	test
 	true
 	video
+	zfs
+	zfscrypt
+	zfsinfo
 	"
 
 # Platform-specific modules

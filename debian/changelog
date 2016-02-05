@@ -2,6 +2,7 @@ grub2 (2.02~beta2-36) UNRELEASED; urgency=medium
 
   [ Colin Watson ]
   * Use HTTPS for Vcs-Git URL.
+  * Add zfs, zfscrypt, and zfsinfo to signed EFI images (LP: #1542358).
 
   [ Martin Pitt ]
   * debian/postinst.in, debian/kernel/zz-update-grub: Call
