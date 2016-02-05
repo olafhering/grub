@@ -1,4 +1,4 @@
-grub2 (2.02~beta2-36) UNRELEASED; urgency=medium
+grub2 (2.02~beta2-36) unstable; urgency=medium
 
   [ Colin Watson ]
   * Use HTTPS for Vcs-Git URL.
@@ -10,7 +10,7 @@ grub2 (2.02~beta2-36) UNRELEASED; urgency=medium
     name) instead of the Ubuntu specific running-in-container wrapper.
     (LP: #1539016)
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 27 Jan 2016 11:51:12 +0000
+ -- Colin Watson <cjwatson@debian.org>  Fri, 05 Feb 2016 15:41:05 +0000
 
 grub2 (2.02~beta2-35) unstable; urgency=medium
 
