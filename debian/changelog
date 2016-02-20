@@ -1,3 +1,10 @@
+grub2 (2.02~beta2-37) UNRELEASED; urgency=medium
+
+  [ Debconf translations ]
+  * [ja] Japanese (Takuma Yamada; closes: #815203).
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 20 Feb 2016 02:10:39 +0000
+
 grub2 (2.02~beta2-36) unstable; urgency=medium
 
   [ Colin Watson ]

@@ -1,19 +1,22 @@
 # Copyright (C) 2008-2010 GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
 # This file is distributed under the same license as the grub2 package.
 # Hideki Yamane <henrich@debian.or.jp>, <henrich@debian.org>, 2008-2011.
+# Takuma Yamada <tyamada@takumayamada.com>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2 1.99-5\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2014-12-13 20:23+0000\n"
-"PO-Revision-Date: 2011-05-28 23:44+0900\n"
-"Last-Translator: Hideki Yamane <henrich@debian.org>\n"
-"Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
+"PO-Revision-Date: 2016-02-19 19:39+0900\n"
+"Last-Translator: Takuma Yamada <tyamada@takumayamada.com>\n"
+"Language-Team: 日本語 <debian-japanese@lists.debian.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #. Type: boolean
 #. Description
@@ -333,7 +336,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
+msgstr "EFI リムーバブルメディアパスに特別インストールを強制しますか?"
 
 #. Type: boolean
 #. Description
@@ -347,6 +350,12 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"一部の EFI ベースのシステムにはバグがあり、正しく新しいブートローダーを扱うこ"
+"とができません。EFI リムーバブルメディアパスに GRUB の特別インストールを強制"
+"すると、この問題にもかかわらず、このシステムで正常に Debian が起動するでしょ"
+"う。しかし、それはまた、このパスに依存するすべてのほかのオペレーティングシス"
+"テムを起動する機能を削除することがあります。その場合は、ほかにインストールさ"
+"れた OS が正常に起動するよう GRUB を適切に設定する必要があります。"
 
 #. Type: string
 #. Description
