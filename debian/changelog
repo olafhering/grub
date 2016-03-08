@@ -1,7 +1,7 @@
 grub2 (2.02~beta2-37) UNRELEASED; urgency=medium
 
   [ Debconf translations ]
-  * [ja] Japanese (Takuma Yamada; closes: #815203).
+  * [ja] Japanese (Takuma Yamada; closes: #815203, #817084).
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 20 Feb 2016 02:10:39 +0000
 
