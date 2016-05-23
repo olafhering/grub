@@ -9,6 +9,9 @@ grub2 (2.02~beta2-37) UNRELEASED; urgency=medium
     use the LSB log_action_msg in non-verbose (default) mode, most other
     packages use it unconditionally (closes: #824875, LP: #1584134).
 
+  [ Steve Beattie ]
+  * debian/rules: Disable PIE builds for GRUB modules.
+
  -- Colin Watson <cjwatson@debian.org>  Sat, 20 Feb 2016 02:10:39 +0000
 
 grub2 (2.02~beta2-36) unstable; urgency=medium

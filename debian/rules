@@ -21,6 +21,7 @@ export HOST_CPPFLAGS
 export HOST_CFLAGS
 export HOST_LDFLAGS
 export TARGET_CPPFLAGS := -Wno-unused-but-set-variable
+export TARGET_LDFLAGS := -no-pie
 
 ifeq (,$(shell which qemu-system-i386 2>/dev/null))
 with_check := no
