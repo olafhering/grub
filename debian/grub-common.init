@@ -13,20 +13,17 @@
 
 which grub-editenv >/dev/null 2>&1 || exit 0
 
-# Load the VERBOSE setting and other rcS variables
-. /lib/init/vars.sh
-
 # Define LSB log_* functions.
 # Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
 . /lib/lsb/init-functions
 
 case $1 in
     start|restart|force-reload)
-	[ "$VERBOSE" != no ] && log_action_msg "Recording successful boot for GRUB"
+	log_action_msg "Recording successful boot for GRUB"
 	[ -s /boot/grub/grubenv ] || rm -f /boot/grub/grubenv
 	mkdir -p /boot/grub
 	grub-editenv /boot/grub/grubenv unset recordfail
-	[ "$VERBOSE" != no ] && log_end_msg $?
+	log_end_msg $?
 	;;
     stop)
 	;;

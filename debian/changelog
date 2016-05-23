@@ -3,6 +3,12 @@ grub2 (2.02~beta2-37) UNRELEASED; urgency=medium
   [ Debconf translations ]
   * [ja] Japanese (Takuma Yamada; closes: #815203, #817084).
 
+  [ Martin Pitt ]
+  * debian/grub-common.init: Don't source /lib/init/vars.sh, we don't depend
+    on initscripts (and don't want to). There is no reason why we would not
+    use the LSB log_action_msg in non-verbose (default) mode, most other
+    packages use it unconditionally (closes: #824875, LP: #1584134).
+
  -- Colin Watson <cjwatson@debian.org>  Sat, 20 Feb 2016 02:10:39 +0000
 
 grub2 (2.02~beta2-36) unstable; urgency=medium
