@@ -1,6 +1,8 @@
 grub2 (2.02~beta3-1) UNRELEASED; urgency=medium
 
+  [ Colin Watson ]
   * New upstream beta release.
+  * syslinux_test: Fix out-of-tree build handling.
 
   [ Debconf translations ]
   * [ja] Japanese (Takuma Yamada; closes: #815203, #817084).
