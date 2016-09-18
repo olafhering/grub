@@ -22,6 +22,8 @@
 #ifndef GRUB_DSDT_TEST
 #include <grub/types.h>
 #include <grub/err.h>
+#else
+#define GRUB_PACKED __attribute__ ((packed))
 #endif
 
 #define GRUB_RSDP_SIGNATURE "RSD PTR "
@@ -67,10 +69,14 @@ struct grub_acpi_fadt
   grub_uint32_t dsdt_addr;
   grub_uint8_t somefields1[20];
   grub_uint32_t pm1a;
-  grub_uint8_t somefields2[64];
+  grub_uint8_t somefields2[8];
+  grub_uint32_t pmtimer;
+  grub_uint8_t somefields3[32];
+  grub_uint32_t flags;
+  grub_uint8_t somefields4[16];
   grub_uint64_t facs_xaddr;
   grub_uint64_t dsdt_xaddr;
-  grub_uint8_t somefields3[96];
+  grub_uint8_t somefields5[96];
 } GRUB_PACKED;
 
 #define GRUB_ACPI_MADT_SIGNATURE "APIC"
@@ -176,9 +182,9 @@ enum
 #ifndef GRUB_DSDT_TEST
 struct grub_acpi_rsdp_v10 *grub_acpi_get_rsdpv1 (void);
 struct grub_acpi_rsdp_v20 *grub_acpi_get_rsdpv2 (void);
-struct grub_acpi_rsdp_v10 *grub_machine_acpi_get_rsdpv1 (void);
-struct grub_acpi_rsdp_v20 *grub_machine_acpi_get_rsdpv2 (void);
-grub_uint8_t grub_byte_checksum (void *base, grub_size_t size);
+struct grub_acpi_rsdp_v10 *EXPORT_FUNC(grub_machine_acpi_get_rsdpv1) (void);
+struct grub_acpi_rsdp_v20 *EXPORT_FUNC(grub_machine_acpi_get_rsdpv2) (void);
+grub_uint8_t EXPORT_FUNC(grub_byte_checksum) (void *base, grub_size_t size);
 
 grub_err_t grub_acpi_create_ebda (void);
 
@@ -234,5 +240,8 @@ enum
     GRUB_ACPI_EXTOPCODE_INDEX_FIELD_OP = 0x86,
     GRUB_ACPI_EXTOPCODE_BANK_FIELD_OP = 0x87,
   };
+
+struct grub_acpi_fadt *
+EXPORT_FUNC(grub_acpi_find_fadt) (void);
 
 #endif /* ! GRUB_ACPI_HEADER */

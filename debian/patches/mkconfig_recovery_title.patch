@@ -1,4 +1,4 @@
-From c88ce860dc1a3977f6b0b930cadb0c76631ade9e Mon Sep 17 00:00:00 2001
+From f42836795c7d10e437bdae5586587dca97303224 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:33 +0000
 Subject: Add GRUB_RECOVERY_TITLE option
@@ -21,7 +21,7 @@ Patch-Name: mkconfig_recovery_title.patch
  7 files changed, 17 insertions(+), 7 deletions(-)
 
 diff --git a/docs/grub.texi b/docs/grub.texi
-index a79256b..49b17ec 100644
+index efe9c6e..82cf7bb 100644
 --- a/docs/grub.texi
 +++ b/docs/grub.texi
 @@ -1504,6 +1504,11 @@ a console is restricted or limited.
@@ -37,10 +37,10 @@ index a79256b..49b17ec 100644
  
  The following options are still accepted for compatibility with existing
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-index 17350d4..ccce9e5 100644
+index 2dc9aa8..c3ea64d 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -186,6 +186,10 @@ GRUB_ACTUAL_DEFAULT="$GRUB_DEFAULT"
+@@ -189,6 +189,10 @@ GRUB_ACTUAL_DEFAULT="$GRUB_DEFAULT"
  
  if [ "x${GRUB_ACTUAL_DEFAULT}" = "xsaved" ] ; then GRUB_ACTUAL_DEFAULT="`"${grub_editenv}" - list | sed -n '/^saved_entry=/ s,^saved_entry=,,p'`" ; fi
  
@@ -51,7 +51,7 @@ index 17350d4..ccce9e5 100644
  
  # These are defined in this script, export them here so that user can
  # override them.
-@@ -237,7 +241,8 @@ export GRUB_DEFAULT \
+@@ -240,7 +244,8 @@ export GRUB_DEFAULT \
    GRUB_BADRAM \
    GRUB_OS_PROBER_SKIP_LIST \
    GRUB_DISABLE_SUBMENU \
@@ -62,7 +62,7 @@ index 17350d4..ccce9e5 100644
  if test "x${grub_cfg}" != "x"; then
    rm -f "${grub_cfg}.new"
 diff --git a/util/grub.d/10_hurd.in b/util/grub.d/10_hurd.in
-index 82dfe19..6fafe1a 100644
+index 59a9a48..7fa3a3f 100644
 --- a/util/grub.d/10_hurd.in
 +++ b/util/grub.d/10_hurd.in
 @@ -88,8 +88,8 @@ hurd_entry () {
@@ -77,7 +77,7 @@ index 82dfe19..6fafe1a 100644
  	  title="$(gettext_printf "%s, with Hurd %s" "${OS}" "${kernel_base}")"
  	  oldtitle="$OS using $kernel_base"
 diff --git a/util/grub.d/10_kfreebsd.in b/util/grub.d/10_kfreebsd.in
-index a524762..7b04a87 100644
+index 9d8e8fd..8301d36 100644
 --- a/util/grub.d/10_kfreebsd.in
 +++ b/util/grub.d/10_kfreebsd.in
 @@ -76,7 +76,7 @@ kfreebsd_entry ()
@@ -90,10 +90,10 @@ index a524762..7b04a87 100644
  	  title="$(gettext_printf "%s, with kFreeBSD %s" "${os}" "${version}")"
        fi
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index 8d95887..024a89e 100644
+index c219e30..788cdc1 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -114,7 +114,7 @@ linux_entry ()
+@@ -116,7 +116,7 @@ linux_entry ()
    if [ x$type != xsimple ] ; then
        case $type in
  	  recovery)
@@ -103,7 +103,7 @@ index 8d95887..024a89e 100644
  	      title="$(gettext_printf "%s, with Linux %s" "${os}" "${version}")" ;;
        esac
 diff --git a/util/grub.d/10_netbsd.in b/util/grub.d/10_netbsd.in
-index 29a0e41..21c7e7d 100644
+index 874f599..bb29cc0 100644
 --- a/util/grub.d/10_netbsd.in
 +++ b/util/grub.d/10_netbsd.in
 @@ -102,7 +102,7 @@ netbsd_entry ()
@@ -116,10 +116,10 @@ index 29a0e41..21c7e7d 100644
  	  title="$(gettext_printf "%s, with kernel %s (via %s)" "${OS}" "$(echo ${kernel} | sed -e 's,^.*/,,')" "${loader}")"
        fi
 diff --git a/util/grub.d/20_linux_xen.in b/util/grub.d/20_linux_xen.in
-index fb4f615..10a3db5 100644
+index 971e464..8aab55e 100644
 --- a/util/grub.d/20_linux_xen.in
 +++ b/util/grub.d/20_linux_xen.in
-@@ -93,7 +93,7 @@ linux_entry ()
+@@ -95,7 +95,7 @@ linux_entry ()
    fi
    if [ x$type != xsimple ] ; then
        if [ x$type = xrecovery ] ; then

@@ -1,4 +1,4 @@
-From b8b97d8b852927ad913fb4c5c137bc30122329a5 Mon Sep 17 00:00:00 2001
+From ba6688aff1e4549be59177e189fe424a9a5d3ec9 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Mon, 13 Jan 2014 12:12:58 +0000
 Subject: If GRUB Legacy is still around, tell packaging to ignore it
@@ -13,7 +13,7 @@ Patch-Name: install_stage2_confusion.patch
  1 file changed, 14 insertions(+)
 
 diff --git a/util/grub-install.c b/util/grub-install.c
-index 8cfe0ea..3275209 100644
+index 6c89c2b..b993c98 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
 @@ -42,6 +42,7 @@
@@ -24,7 +24,7 @@ index 8cfe0ea..3275209 100644
  
  #include <string.h>
  
-@@ -1662,6 +1663,19 @@ main (int argc, char *argv[])
+@@ -1675,6 +1676,19 @@ main (int argc, char *argv[])
  	  grub_util_bios_setup (platdir, "boot.img", "core.img",
  				install_drive, force,
  				fs_probe, allow_floppy, add_rs_codes);

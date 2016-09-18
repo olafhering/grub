@@ -1,4 +1,4 @@
-From 85024e437049f60a25c8d12bf42cdfc577066efd Mon Sep 17 00:00:00 2001
+From bc671257168e3d106f31c0d8dd449cf4e773ee46 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Mon, 13 Jan 2014 12:13:00 +0000
 Subject: Handle filesystems loop-mounted on file images
@@ -21,7 +21,7 @@ Patch-Name: mkconfig_loopback.patch
  3 files changed, 34 insertions(+)
 
 diff --git a/util/grub-mkconfig_lib.in b/util/grub-mkconfig_lib.in
-index 4f6c4fe..6da2c2d 100644
+index 3a4684e..9ee60d5 100644
 --- a/util/grub-mkconfig_lib.in
 +++ b/util/grub-mkconfig_lib.in
 @@ -133,6 +133,22 @@ prepare_grub_to_access_device ()
@@ -63,7 +63,7 @@ index 4f6c4fe..6da2c2d 100644
  
  grub_get_device_id ()
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index a9f9b31..c83f1ed 100644
+index b808016..f7c2667 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -40,6 +40,11 @@ fi
@@ -79,7 +79,7 @@ index a9f9b31..c83f1ed 100644
  esac
  
 diff --git a/util/grub.d/20_linux_xen.in b/util/grub.d/20_linux_xen.in
-index a608435..fb4f615 100644
+index 46045db..971e464 100644
 --- a/util/grub.d/20_linux_xen.in
 +++ b/util/grub.d/20_linux_xen.in
 @@ -40,6 +40,11 @@ fi

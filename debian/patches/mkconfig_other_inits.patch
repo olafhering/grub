@@ -1,4 +1,4 @@
-From f11cdc39e992d228da764c2fb45feeb57777a72c Mon Sep 17 00:00:00 2001
+From f37eb8f82c850dac3c88cc3224685da1bec8ccbd Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Sat, 3 Jan 2015 12:04:59 +0000
 Subject: Generate alternative init entries in advanced menu
@@ -18,7 +18,7 @@ Patch-Name: mkconfig_other_inits.patch
  2 files changed, 21 insertions(+)
 
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index 86e35f2..f201e7d 100644
+index c01a797..fd9dc1a 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -32,6 +32,7 @@ export TEXTDOMAIN=@PACKAGE@
@@ -29,7 +29,7 @@ index 86e35f2..f201e7d 100644
  
  if [ "x${GRUB_DISTRIBUTOR}" = "x" ] ; then
    OS=GNU/Linux
-@@ -115,6 +116,8 @@ linux_entry ()
+@@ -117,6 +118,8 @@ linux_entry ()
        case $type in
  	  recovery)
  	      title="$(gettext_printf "%s, with Linux %s (%s)" "${os}" "${version}" "$(gettext "${GRUB_RECOVERY_TITLE}")")" ;;
@@ -38,7 +38,7 @@ index 86e35f2..f201e7d 100644
  	  *)
  	      title="$(gettext_printf "%s, with Linux %s" "${os}" "${version}")" ;;
        esac
-@@ -340,6 +343,13 @@ while [ "x$list" != "x" ] ; do
+@@ -344,6 +347,13 @@ while [ "x$list" != "x" ] ; do
  
    linux_entry "${OS}" "${version}" advanced \
                "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
@@ -53,7 +53,7 @@ index 86e35f2..f201e7d 100644
      linux_entry "${OS}" "${version}" recovery \
                  "${GRUB_CMDLINE_LINUX_RECOVERY} ${GRUB_CMDLINE_LINUX}"
 diff --git a/util/grub.d/20_linux_xen.in b/util/grub.d/20_linux_xen.in
-index a5e5e50..11b7e01 100644
+index 8aab55e..9c4901f 100644
 --- a/util/grub.d/20_linux_xen.in
 +++ b/util/grub.d/20_linux_xen.in
 @@ -27,6 +27,7 @@ export TEXTDOMAIN=@PACKAGE@
@@ -64,7 +64,7 @@ index a5e5e50..11b7e01 100644
  
  if [ "x${GRUB_DISTRIBUTOR}" = "x" ] ; then
    OS=GNU/Linux
-@@ -94,6 +95,8 @@ linux_entry ()
+@@ -96,6 +97,8 @@ linux_entry ()
    if [ x$type != xsimple ] ; then
        if [ x$type = xrecovery ] ; then
  	  title="$(gettext_printf "%s, with Xen %s and Linux %s (%s)" "${os}" "${xen_version}" "${version}" "$(gettext "${GRUB_RECOVERY_TITLE}")")"
@@ -73,7 +73,7 @@ index a5e5e50..11b7e01 100644
        else
  	  title="$(gettext_printf "%s, with Xen %s and Linux %s" "${os}" "${xen_version}" "${version}")"
        fi
-@@ -255,6 +258,14 @@ while [ "x${xen_list}" != "x" ] ; do
+@@ -259,6 +262,14 @@ while [ "x${xen_list}" != "x" ] ; do
  
  	linux_entry "${OS}" "${version}" "${xen_version}" advanced \
  	    "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}" "${GRUB_CMDLINE_XEN} ${GRUB_CMDLINE_XEN_DEFAULT}"

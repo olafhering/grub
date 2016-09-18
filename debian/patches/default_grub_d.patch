@@ -1,4 +1,4 @@
-From 858b3fb813b1894d31cd342d1243371c7ef3e785 Mon Sep 17 00:00:00 2001
+From 3c6068124da8e41247a2e5d9ba61f167093c1993 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:10 +0000
 Subject: Read /etc/default/grub.d/*.cfg after /etc/default/grub
@@ -14,7 +14,7 @@ Patch-Name: default_grub_d.patch
  2 files changed, 98 insertions(+), 21 deletions(-)
 
 diff --git a/grub-core/osdep/unix/config.c b/grub-core/osdep/unix/config.c
-index f4b0bb4..95eabc8 100644
+index 65effa9..5478030 100644
 --- a/grub-core/osdep/unix/config.c
 +++ b/grub-core/osdep/unix/config.c
 @@ -24,6 +24,8 @@
@@ -138,9 +138,9 @@ index f4b0bb4..95eabc8 100644
 +      ptr += 3;
      }
  
--  strcpy (ptr, "'; printf \"GRUB_ENABLE_CRYPTODISK=%s\\nGRUB_DISTRIBUTOR=%s\\n\", "
-+  strcpy (ptr, "printf \"GRUB_ENABLE_CRYPTODISK=%s\\nGRUB_DISTRIBUTOR=%s\\n\", "
- 	  "\"$GRUB_ENABLE_CRYPTODISK\", \"$GRUB_DISTRIBUTOR\"");
+-  strcpy (ptr, "'; printf \"GRUB_ENABLE_CRYPTODISK=%s\\nGRUB_DISTRIBUTOR=%s\\n\" "
++  strcpy (ptr, "printf \"GRUB_ENABLE_CRYPTODISK=%s\\nGRUB_DISTRIBUTOR=%s\\n\" "
+ 	  "\"$GRUB_ENABLE_CRYPTODISK\" \"$GRUB_DISTRIBUTOR\"");
  
    argv[2] = script;
 @@ -125,15 +187,25 @@ grub_util_load_config (struct grub_util_config *cfg)
@@ -178,10 +178,10 @@ index f4b0bb4..95eabc8 100644
 +  free (cfgdir);
  }
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-index 81a9afd..62780bf 100644
+index 4650f4b..c05f0d1 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -154,6 +154,11 @@ fi
+@@ -157,6 +157,11 @@ fi
  if test -f ${sysconfdir}/default/grub ; then
    . ${sysconfdir}/default/grub
  fi

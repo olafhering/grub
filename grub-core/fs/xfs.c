@@ -367,7 +367,7 @@ grub_xfs_inode_offset (struct grub_xfs_data *data,
 static inline grub_size_t
 grub_xfs_inode_size(struct grub_xfs_data *data)
 {
-  return 1 << data->sblock.log2_inode;
+  return (grub_size_t)1 << data->sblock.log2_inode;
 }
 
 /*
@@ -775,7 +775,10 @@ grub_xfs_iterate_dir (grub_fshelp_node_t dir,
 	    c = de->name[de->len];
 	    de->name[de->len] = '\0';
 	    if (iterate_dir_call_hook (ino, de->name, &ctx))
-	      return 1;
+	      {
+		de->name[de->len] = c;
+		return 1;
+	      }
 	    de->name[de->len] = c;
 
 	    de = grub_xfs_inline_next_de(dir->data, head, de);

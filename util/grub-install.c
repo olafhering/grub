@@ -273,7 +273,7 @@ static struct argp_option options[] = {
    OPTION_HIDDEN, 0, 2},
   {"target", OPTION_TARGET, N_("TARGET"),
    /* TRANSLATORS: "TARGET" as in "target platform".  */
-   0, N_("install GRUB for TARGET platform [default=%s]"), 2},
+   0, N_("install GRUB for TARGET platform [default=%s]; available targets: %s"), 2},
   {"grub-setup", OPTION_SETUP, "FILE", OPTION_HIDDEN, 0, 2},
   {"grub-mkrelpath", OPTION_MKRELPATH, "FILE", OPTION_HIDDEN, 0, 2},
   {"grub-mkdevicemap", OPTION_MKDEVICEMAP, "FILE", OPTION_HIDDEN, 0, 2},
@@ -368,7 +368,13 @@ help_filter (int key, const char *text, void *input __attribute__ ((unused)))
     case OPTION_BOOT_DIRECTORY:
       return xasprintf (text, GRUB_DIR_NAME, GRUB_BOOT_DIR_NAME "/" GRUB_DIR_NAME);
     case OPTION_TARGET:
-      return xasprintf (text, get_default_platform ());
+      {
+	char *plats = grub_install_get_platforms_string ();
+	char *ret;
+	ret = xasprintf (text, get_default_platform (), plats);
+	free (plats);
+	return ret;
+      }
     case ARGP_KEY_HELP_POST_DOC:
       return xasprintf (text, program_name, GRUB_BOOT_DIR_NAME "/" GRUB_DIR_NAME);
     default:
@@ -638,14 +644,14 @@ device_map_check_duplicates (const char *dev_map)
   char **d;
   size_t i;
 
-  d = xmalloc (alloced * sizeof (d[0]));
-
   if (dev_map[0] == '\0')
     return;
 
   fp = grub_util_fopen (dev_map, "r");
   if (! fp)
     return;
+
+  d = xmalloc (alloced * sizeof (d[0]));
 
   while (fgets (buf, sizeof (buf), fp))
     {
@@ -709,6 +715,7 @@ write_to_disk (grub_device_t dev, const char *fn)
 
   core_img = grub_util_read_image (fn);    
 
+  grub_util_info ("writing `%s' to `%s'", fn, dev->disk->name);
   err = grub_disk_write (dev->disk, 0, 0,
 			 core_size, core_img);
   free (core_img);
@@ -795,7 +802,7 @@ bless (grub_device_t dev, const char *path, int x86)
   err = grub_mac_bless_inode (dev, st.st_ino, S_ISDIR (st.st_mode), x86);
   if (err)
     grub_util_error ("%s", grub_errmsg);
-  grub_util_info ("blessed\n");
+  grub_util_info ("blessed");
 }
 
 static void
@@ -1079,7 +1086,7 @@ main (int argc, char *argv[])
   {
     char * t = grub_util_path_concat (2, bootdir, GRUB_DIR_NAME);
     grub_install_mkdir_p (t);
-    grubdir = canonicalize_file_name (t);
+    grubdir = grub_canonicalize_file_name (t);
     if (!grubdir)
       grub_util_error (_("failed to get canonical path of `%s'"), t);
     free (t);
@@ -1182,7 +1189,7 @@ main (int argc, char *argv[])
 	efidir_is_mac = 1;
 
       if (!efidir_is_mac && grub_strcmp (fs->name, "fat") != 0)
-	grub_util_error (_("%s doesn't look like an EFI partition.\n"), efidir);
+	grub_util_error (_("%s doesn't look like an EFI partition"), efidir);
 
       base_efidir = xstrdup(efidir);
 
@@ -1385,7 +1392,7 @@ main (int argc, char *argv[])
 
   if (!config.is_cryptodisk_enabled && have_cryptodisk)
     grub_util_error (_("attempt to install to encrypted disk without cryptodisk enabled. "
-		       "Set `%s' in file `%s'."), "GRUB_ENABLE_CRYPTODISK=1",
+		       "Set `%s' in file `%s'"), "GRUB_ENABLE_CRYPTODISK=y",
 		     grub_util_get_config_filename ());
 
   if (disk_module && grub_strcmp (disk_module, "ata") == 0)
@@ -1396,6 +1403,7 @@ main (int argc, char *argv[])
       grub_install_push_module ("ahci");
       grub_install_push_module ("ohci");
       grub_install_push_module ("uhci");
+      grub_install_push_module ("ehci");
       grub_install_push_module ("usbms");
     }
   else if (disk_module && disk_module[0])
@@ -1413,7 +1421,7 @@ main (int argc, char *argv[])
   {
     char *t = grub_util_path_concat (2, grubdir,
 				   platname);
-    platdir = canonicalize_file_name (t);
+    platdir = grub_canonicalize_file_name (t);
     if (!platdir)
       grub_util_error (_("failed to get canonical path of `%s'"),
 		       t);
@@ -1852,7 +1860,7 @@ main (int argc, char *argv[])
 	/*  Now perform the installation.  */
 	if (install_bootsector)
 	  grub_util_sparc_setup (platdir, "boot.img", "core.img",
-				 install_device, force,
+				 install_drive, force,
 				 fs_probe, allow_floppy,
 				 0 /* unused */ );
 	break;
@@ -1881,7 +1889,7 @@ main (int argc, char *argv[])
 	  grub_elf = grub_util_path_concat (2, core_services, "grub.elf");
 	  grub_install_copy_file (imgfile, grub_elf, 1);
 
-	  f = grub_util_fopen (mach_kernel, "r+");
+	  f = grub_util_fopen (mach_kernel, "a+");
 	  if (!f)
 	    grub_util_error (_("Can't create file: %s"), strerror (errno));
 	  fclose (f);
@@ -1963,7 +1971,7 @@ main (int argc, char *argv[])
 	  grub_install_copy_file (imgfile, dst, 1);
 	  free (dst);
 	}
-
+      /* Fallthrough.  */
     case GRUB_INSTALL_PLATFORM_X86_64_EFI:
       if (efidir_is_mac)
 	{

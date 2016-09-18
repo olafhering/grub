@@ -168,8 +168,8 @@ start:
 	 * this area.
 	 */
 
-	. = _start + GRUB_BOOT_MACHINE_BPB_START
-	. = _start + 4
+	.org GRUB_BOOT_MACHINE_BPB_START
+	.org 4
 #endif
 #ifdef HYBRID_BOOT
 	floppy
@@ -177,23 +177,23 @@ start:
 	scratch
 #endif
 
-	. = _start + GRUB_BOOT_MACHINE_BPB_END
+	.org GRUB_BOOT_MACHINE_BPB_END
 	/*
 	 * End of BIOS parameter block.
 	 */
 
-kernel_address:
+LOCAL(kernel_address):
 	.word	GRUB_BOOT_MACHINE_KERNEL_ADDR
 
 #ifndef HYBRID_BOOT
-	. = _start + GRUB_BOOT_MACHINE_KERNEL_SECTOR
-kernel_sector:
+	.org GRUB_BOOT_MACHINE_KERNEL_SECTOR
+LOCAL(kernel_sector):
 	.long	1
-kernel_sector_high:
+LOCAL(kernel_sector_high):
 	.long	0
 #endif
 
-	. = _start + GRUB_BOOT_MACHINE_BOOT_DRIVE
+	.org GRUB_BOOT_MACHINE_BOOT_DRIVE
 boot_drive:
 	.byte 0xff	/* the disk to load kernel from */
 			/* 0xff means use the boot drive */
@@ -211,7 +211,7 @@ LOCAL(after_BPB):
          * possible boot drive. If GRUB is installed into a floppy,
          * this does nothing (only jump).
          */
-	. = _start + GRUB_BOOT_MACHINE_DRIVE_CHECK
+	.org GRUB_BOOT_MACHINE_DRIVE_CHECK
 boot_drive_check:
         jmp     3f	/* grub-setup may overwrite this jump */
         testb   $0x80, %dl
@@ -286,7 +286,7 @@ real_start:
 	andw	$1, %cx
 	jz	LOCAL(chs_mode)
 
-lba_mode:
+LOCAL(lba_mode):
 	xorw	%ax, %ax
 	movw	%ax, 4(%si)
 
@@ -301,9 +301,9 @@ lba_mode:
 	movw	$0x0010, (%si)
 
 	/* the absolute address */
-	movl	kernel_sector, %ebx
+	movl	LOCAL(kernel_sector), %ebx
 	movl	%ebx, 8(%si)
-	movl	kernel_sector_high, %ebx
+	movl	LOCAL(kernel_sector_high), %ebx
 	movl	%ebx, 12(%si)
 
 	/* the segment of buffer address */
@@ -372,13 +372,13 @@ LOCAL(final_init):
 
 setup_sectors:
 	/* load logical sector start (top half) */
-	movl	kernel_sector_high, %eax
+	movl	LOCAL(kernel_sector_high), %eax
 
 	orl	%eax, %eax
 	jnz	LOCAL(geometry_error)
 
 	/* load logical sector start (bottom half) */
-	movl	kernel_sector, %eax
+	movl	LOCAL(kernel_sector), %eax
 
 	/* zero %edx */
 	xorl	%edx, %edx
@@ -463,7 +463,7 @@ LOCAL(copy_buffer):
 	popa
 
 	/* boot kernel */
-	jmp	*(kernel_address)
+	jmp	*(LOCAL(kernel_address))
 
 /* END OF MAIN LOOP */
 
@@ -522,13 +522,13 @@ LOCAL(message):
 	 */
 
 #ifdef HYBRID_BOOT
-	. = _start + 0x1b0
-kernel_sector:
+	.org 0x1b0
+LOCAL(kernel_sector):
 	.long	1
-kernel_sector_high:
+LOCAL(kernel_sector_high):
 	.long	0
 #endif
-	. = _start + GRUB_BOOT_MACHINE_WINDOWS_NT_MAGIC
+	.org GRUB_BOOT_MACHINE_WINDOWS_NT_MAGIC
 nt_magic:
 	.long 0
 	.word 0
@@ -539,7 +539,7 @@ nt_magic:
 	 *  sneaky, huh?
 	*/
 
-	. = _start + GRUB_BOOT_MACHINE_PART_START
+	.org GRUB_BOOT_MACHINE_PART_START
 
 #ifndef HYBRID_BOOT
 	floppy
@@ -547,7 +547,7 @@ nt_magic:
 	scratch
 #endif
 
-	. = _start + GRUB_BOOT_MACHINE_PART_END
+	.org GRUB_BOOT_MACHINE_PART_END
 	
 /* the last 2 bytes in the sector 0 contain the signature */
 	.word	GRUB_BOOT_MACHINE_SIGNATURE

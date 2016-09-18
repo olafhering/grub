@@ -27,6 +27,7 @@
 #include <grub/term.h>
 #include <grub/kernel.h>
 #include <grub/mm.h>
+#include <grub/loader.h>
 
 /* The handle of GRUB itself. Filled in by the startup code.  */
 grub_efi_handle_t grub_efi_image_handle;
@@ -156,7 +157,7 @@ grub_efi_get_loaded_image (grub_efi_handle_t image_handle)
 void
 grub_exit (void)
 {
-  grub_efi_fini ();
+  grub_machine_fini (GRUB_LOADER_FLAG_NORETURN);
   efi_call_4 (grub_efi_system_table->boot_services->exit,
               grub_efi_image_handle, GRUB_EFI_SUCCESS, 0, 0);
   for (;;) ;
@@ -205,6 +206,7 @@ grub_efi_set_variable(const char *var, const grub_efi_guid_t *guid,
 			| GRUB_EFI_VARIABLE_BOOTSERVICE_ACCESS
 			| GRUB_EFI_VARIABLE_RUNTIME_ACCESS),
 		       datasize, data);
+  grub_free (var16);
   if (status == GRUB_EFI_SUCCESS)
     return GRUB_ERR_NONE;
 
@@ -236,8 +238,11 @@ grub_efi_get_variable (const char *var, const grub_efi_guid_t *guid,
 
   status = efi_call_5 (r->get_variable, var16, guid, NULL, &datasize, NULL);
 
-  if (!datasize)
-    return NULL;
+  if (status != GRUB_EFI_BUFFER_TOO_SMALL || !datasize)
+    {
+      grub_free (var16);
+      return NULL;
+    }
 
   data = grub_malloc (datasize);
   if (!data)

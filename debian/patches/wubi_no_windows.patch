@@ -1,4 +1,4 @@
-From ba847e2301a79775921edb851ffd7ce4036cbfe3 Mon Sep 17 00:00:00 2001
+From 0bf658e0da84dce2722e13c16f97456a1725252f Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:24 +0000
 Subject: Skip Windows os-prober entries on Wubi systems
@@ -19,10 +19,10 @@ Patch-Name: wubi_no_windows.patch
  1 file changed, 19 insertions(+)
 
 diff --git a/util/grub.d/30_os-prober.in b/util/grub.d/30_os-prober.in
-index f8ac363..1c44cf2 100644
+index b7e1147..271044f 100644
 --- a/util/grub.d/30_os-prober.in
 +++ b/util/grub.d/30_os-prober.in
-@@ -107,6 +107,8 @@ EOF
+@@ -110,6 +110,8 @@ EOF
  
  used_osprober_linux_ids=
  
@@ -31,7 +31,7 @@ index f8ac363..1c44cf2 100644
  for OS in ${OSPROBED} ; do
    DEVICE="`echo ${OS} | cut -d ':' -f 1`"
    LONGNAME="`echo ${OS} | cut -d ':' -f 2 | tr '^' ' '`"
-@@ -139,6 +141,23 @@ for OS in ${OSPROBED} ; do
+@@ -146,6 +148,23 @@ for OS in ${OSPROBED} ; do
    case ${BOOT} in
      chain)
  
@@ -54,4 +54,4 @@ index f8ac363..1c44cf2 100644
 +
  	  onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
        cat << EOF
- menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' --class windows --class os \$menuentry_id_option 'osprober-chain-$(grub_get_device_id "${DEVICE}")' {
+ menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' $CLASS --class os \$menuentry_id_option 'osprober-chain-$(grub_get_device_id "${DEVICE}")' {

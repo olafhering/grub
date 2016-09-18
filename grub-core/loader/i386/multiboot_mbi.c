@@ -73,6 +73,9 @@ load_kernel (grub_file_t file, const char *filename,
   if (grub_multiboot_quirks & GRUB_MULTIBOOT_QUIRK_BAD_KLUDGE)
     {
       err = grub_multiboot_load_elf (file, filename, buffer);
+      if (err == GRUB_ERR_NONE) {
+	return GRUB_ERR_NONE;
+      }
       if (err == GRUB_ERR_UNKNOWN_OS && (header->flags & MULTIBOOT_AOUT_KLUDGE))
 	grub_errno = err = GRUB_ERR_NONE;
     }
@@ -121,6 +124,24 @@ load_kernel (grub_file_t file, const char *filename,
   return grub_multiboot_load_elf (file, filename, buffer);
 }
 
+static struct multiboot_header *
+find_header (char *buffer, grub_ssize_t len)
+{
+  struct multiboot_header *header;
+
+  /* Look for the multiboot header in the buffer.  The header should
+     be at least 12 bytes and aligned on a 4-byte boundary.  */
+  for (header = (struct multiboot_header *) buffer;
+       ((char *) header <= buffer + len - 12);
+       header = (struct multiboot_header *) ((char *) header + MULTIBOOT_HEADER_ALIGN))
+    {
+      if (header->magic == MULTIBOOT_HEADER_MAGIC
+	  && !(header->magic + header->flags + header->checksum))
+	return header;
+    }
+  return NULL;
+}
+
 grub_err_t
 grub_multiboot_load (grub_file_t file, const char *filename)
 {
@@ -143,16 +164,7 @@ grub_multiboot_load (grub_file_t file, const char *filename)
       return grub_errno;
     }
 
-  /* Look for the multiboot header in the buffer.  The header should
-     be at least 12 bytes and aligned on a 4-byte boundary.  */
-  for (header = (struct multiboot_header *) buffer;
-       ((char *) header <= buffer + len - 12) || (header = 0);
-       header = (struct multiboot_header *) ((char *) header + MULTIBOOT_HEADER_ALIGN))
-    {
-      if (header->magic == MULTIBOOT_HEADER_MAGIC
-	  && !(header->magic + header->flags + header->checksum))
-	break;
-    }
+  header = find_header (buffer, len);
 
   if (header == 0)
     {
@@ -446,7 +458,7 @@ grub_multiboot_make_mbi (grub_uint32_t *target)
   bufsize = grub_multiboot_get_mbi_size ();
 
   err = grub_relocator_alloc_chunk_align (grub_multiboot_relocator, &ch,
-					  0x10000, 0x100000 - bufsize,
+					  0x10000, 0xa0000 - bufsize,
 					  bufsize, 4,
 					  GRUB_RELOCATOR_PREFERENCE_NONE, 0);
   if (err)

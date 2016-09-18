@@ -1,11 +1,11 @@
-From fa220e8e8d80cca55511fe5b2c4fe95f40b922da Mon Sep 17 00:00:00 2001
+From 8930d230c9e3aeed6c244e7750b3a6ce7915cf90 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:31 +0000
 Subject: Probe FusionIO devices
 
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/1237519
 Forwarded: no
-Last-Update: 2013-11-15
+Last-Update: 2016-09-18
 
 Patch-Name: probe_fusionio.patch
 ---
@@ -14,10 +14,10 @@ Patch-Name: probe_fusionio.patch
  2 files changed, 32 insertions(+)
 
 diff --git a/grub-core/osdep/linux/getroot.c b/grub-core/osdep/linux/getroot.c
-index 772de0a..6788e39 100644
+index 10480b6..08e98a1 100644
 --- a/grub-core/osdep/linux/getroot.c
 +++ b/grub-core/osdep/linux/getroot.c
-@@ -883,6 +883,19 @@ grub_util_part_to_disk (const char *os_dev, struct stat *st,
+@@ -921,6 +921,19 @@ grub_util_part_to_disk (const char *os_dev, struct stat *st,
  	  *pp = '\0';
  	  return path;
  	}
@@ -38,12 +38,12 @@ index 772de0a..6788e39 100644
  
    return path;
 diff --git a/util/deviceiter.c b/util/deviceiter.c
-index 3e71048..d3d38a1 100644
+index 23d49ae..bc68b25 100644
 --- a/util/deviceiter.c
 +++ b/util/deviceiter.c
-@@ -377,6 +377,12 @@ get_xvd_disk_name (char *name, int unit)
+@@ -383,6 +383,12 @@ get_nvme_disk_name (char *name, int controller, int namespace)
  {
-   sprintf (name, "/dev/xvd%c", unit + 'a');
+   sprintf (name, "/dev/nvme%dn%d", controller, namespace);
  }
 +
 +static void
@@ -54,9 +54,9 @@ index 3e71048..d3d38a1 100644
  #endif
  
  static struct seen_device
-@@ -894,6 +900,19 @@ grub_util_iterate_devices (int (*hook) (const char *, int, void *), void *hook_d
- 	}
-     }
+@@ -923,6 +929,19 @@ grub_util_iterate_devices (int (*hook) (const char *, int, void *), void *hook_d
+       }
+   }
  
 +  /* FusionIO.  */
 +  for (i = 0; i < 26; i++)

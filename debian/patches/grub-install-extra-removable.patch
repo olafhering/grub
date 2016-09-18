@@ -1,4 +1,4 @@
-From 57879c97917d8bfdbef85685c655eaea8e8bcb23 Mon Sep 17 00:00:00 2001
+From 8d1a8a51175970e588f4bbbe4917b09d79eebdb7 Mon Sep 17 00:00:00 2001
 From: Steve McIntyre <93sam@debian.org>
 Date: Wed, 3 Dec 2014 01:25:12 +0000
 Subject: Add support for forcing EFI installation to the removable media path
@@ -22,7 +22,7 @@ Patch-Name: grub-install-extra-removable.patch
  1 file changed, 108 insertions(+), 2 deletions(-)
 
 diff --git a/util/grub-install.c b/util/grub-install.c
-index b1db51e..462071f 100644
+index cf40eed..dd1c7e6 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
 @@ -56,6 +56,7 @@
@@ -33,7 +33,7 @@ index b1db51e..462071f 100644
  static int recheck = 0;
  static int update_nvram = 1;
  static char *install_device = NULL;
-@@ -114,7 +115,8 @@ enum
+@@ -113,7 +114,8 @@ enum
      OPTION_LABEL_BGCOLOR,
      OPTION_PRODUCT_VERSION,
      OPTION_UEFI_SECURE_BOOT,
@@ -43,7 +43,7 @@ index b1db51e..462071f 100644
    };
  
  static int fs_probe = 1;
-@@ -217,6 +219,10 @@ argp_parser (int key, char *arg, struct argp_state *state)
+@@ -216,6 +218,10 @@ argp_parser (int key, char *arg, struct argp_state *state)
        removable = 1;
        return 0;
  
@@ -54,7 +54,7 @@ index b1db51e..462071f 100644
      case OPTION_ALLOW_FLOPPY:
        allow_floppy = 1;
        return 0;
-@@ -323,6 +329,9 @@ static struct argp_option options[] = {
+@@ -322,6 +328,9 @@ static struct argp_option options[] = {
     N_("do not install an image usable with UEFI Secure Boot, even if the "
        "system was currently started using it. "
        "This option is only available on EFI."), 2},
@@ -64,7 +64,7 @@ index b1db51e..462071f 100644
    {0, 0, 0, 0, 0, 0}
  };
  
-@@ -829,6 +838,91 @@ fill_core_services (const char *core_services)
+@@ -835,6 +844,91 @@ fill_core_services (const char *core_services)
    free (sysv_plist);
  }
  
@@ -156,7 +156,7 @@ index b1db51e..462071f 100644
  int
  main (int argc, char *argv[])
  {
-@@ -846,6 +940,7 @@ main (int argc, char *argv[])
+@@ -852,6 +946,7 @@ main (int argc, char *argv[])
    char *relative_grubdir;
    char **efidir_device_names = NULL;
    grub_device_t efidir_grub_dev = NULL;
@@ -164,7 +164,7 @@ index b1db51e..462071f 100644
    char *efidir_grub_devname;
    int efidir_is_mac = 0;
    int is_prep = 0;
-@@ -878,6 +973,9 @@ main (int argc, char *argv[])
+@@ -884,6 +979,9 @@ main (int argc, char *argv[])
        bootloader_id = xstrdup ("grub");
      }
  
@@ -174,16 +174,16 @@ index b1db51e..462071f 100644
    if (!grub_install_source_directory)
      {
        if (!target)
-@@ -1087,6 +1185,8 @@ main (int argc, char *argv[])
+@@ -1093,6 +1191,8 @@ main (int argc, char *argv[])
        if (!efidir_is_mac && grub_strcmp (fs->name, "fat") != 0)
- 	grub_util_error (_("%s doesn't look like an EFI partition.\n"), efidir);
+ 	grub_util_error (_("%s doesn't look like an EFI partition"), efidir);
  
 +      base_efidir = xstrdup(efidir);
 +
        /* The EFI specification requires that an EFI System Partition must
  	 contain an "EFI" subdirectory, and that OS loaders are stored in
  	 subdirectories below EFI.  Vendors are expected to pick names that do
-@@ -1950,9 +2050,15 @@ main (int argc, char *argv[])
+@@ -1957,9 +2057,15 @@ main (int argc, char *argv[])
  	    fprintf (config_dst_f, "configfile $prefix/grub.cfg\n");
  	    fclose (config_dst_f);
  	    free (config_dst);

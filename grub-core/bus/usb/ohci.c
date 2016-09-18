@@ -314,7 +314,7 @@ grub_ohci_pci_iter (grub_pci_device_t dev, grub_pci_id_t pciid,
   grub_memset ((void *) o->ed_ctrl, 0, sizeof (struct grub_ohci_ed)
 	       * GRUB_OHCI_CTRL_EDS);
   for (j=0; j < GRUB_OHCI_CTRL_EDS; j++)
-    o->ed_ctrl[j].target = grub_cpu_to_le32 (1 << 14); /* skip */
+    o->ed_ctrl[j].target = grub_cpu_to_le32_compile_time (1 << 14); /* skip */
     
   grub_dprintf ("ohci", "EDs-C: chunk=%p, virt=%p, phys=0x%02x\n",
                 o->ed_ctrl_chunk, o->ed_ctrl, o->ed_ctrl_addr);
@@ -329,7 +329,7 @@ grub_ohci_pci_iter (grub_pci_device_t dev, grub_pci_id_t pciid,
   /* Preset EDs */
   grub_memset ((void*)o->ed_bulk, 0, sizeof(struct grub_ohci_ed) * GRUB_OHCI_BULK_EDS);
   for (j=0; j < GRUB_OHCI_BULK_EDS; j++)
-    o->ed_bulk[j].target = grub_cpu_to_le32 (1 << 14); /* skip */
+    o->ed_bulk[j].target = grub_cpu_to_le32_compile_time (1 << 14); /* skip */
 
   grub_dprintf ("ohci", "EDs-B: chunk=%p, virt=%p, phys=0x%02x\n",
                 o->ed_bulk_chunk, o->ed_bulk, o->ed_bulk_addr);
@@ -750,7 +750,10 @@ grub_ohci_setup_transfer (grub_usb_controller_t dev,
     {
       cdata->td_head_virt = grub_ohci_alloc_td (o);
       if (!cdata->td_head_virt)
-        return GRUB_USB_ERR_INTERNAL; /* We don't need de-allocate ED */
+	{
+	  grub_free (cdata);
+	  return GRUB_USB_ERR_INTERNAL; /* We don't need de-allocate ED */
+	}
       /* We can set td_head only when ED is not active, i.e.
        * when it is newly allocated. */
       cdata->ed_virt->td_head
@@ -1349,10 +1352,10 @@ grub_ohci_fini_hw (int noreturn __attribute__ ((unused)))
       /* Set skip in all EDs */
       if (o->ed_bulk)
         for (i=0; i < GRUB_OHCI_BULK_EDS; i++)
-          o->ed_bulk[i].target |= grub_cpu_to_le32 (1 << 14); /* skip */
+          o->ed_bulk[i].target |= grub_cpu_to_le32_compile_time (1 << 14); /* skip */
       if (o->ed_ctrl)
         for (i=0; i < GRUB_OHCI_CTRL_EDS; i++)
-          o->ed_ctrl[i].target |= grub_cpu_to_le32 (1 << 14); /* skip */
+          o->ed_ctrl[i].target |= grub_cpu_to_le32_compile_time (1 << 14); /* skip */
 
       /* We should wait for next SOF to be sure that all EDs are
        * unaccessed by OHCI. But OHCI can be non-functional, so

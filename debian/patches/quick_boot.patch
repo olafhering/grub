@@ -1,4 +1,4 @@
-From 13e55ebaa2bf5acf082f6aa45e3cdf4fb181c870 Mon Sep 17 00:00:00 2001
+From 1d64d097747607a1a1bd73b0370e794283d16c45 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:28 +0000
 Subject: Add configure option to bypass boot menu if possible
@@ -33,10 +33,10 @@ Patch-Name: quick_boot.patch
  7 files changed, 141 insertions(+), 13 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 7c8d0af..2a7e410 100644
+index 596bbe7..48364fe 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1594,6 +1594,17 @@ else
+@@ -1808,6 +1808,17 @@ else
  fi
  AC_SUBST([QUIET_BOOT])
  
@@ -55,7 +55,7 @@ index 7c8d0af..2a7e410 100644
  
  AC_SUBST([FONT_SOURCE])
 diff --git a/docs/grub.texi b/docs/grub.texi
-index 46b9e7f..a79256b 100644
+index 82f6fa4..efe9c6e 100644
 --- a/docs/grub.texi
 +++ b/docs/grub.texi
 @@ -1490,6 +1490,20 @@ This option may be set to a list of GRUB module names separated by spaces.
@@ -80,7 +80,7 @@ index 46b9e7f..a79256b 100644
  
  The following options are still accepted for compatibility with existing
 diff --git a/grub-core/normal/menu.c b/grub-core/normal/menu.c
-index 7b55c27..a968e0f 100644
+index 1f3447a..906a480 100644
 --- a/grub-core/normal/menu.c
 +++ b/grub-core/normal/menu.c
 @@ -604,6 +604,30 @@ run_menu (grub_menu_t menu, int nested, int *auto_boot)
@@ -115,10 +115,10 @@ index 7b55c27..a968e0f 100644
  	{
  	  pos = grub_term_save_pos ();
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-index 62780bf..17350d4 100644
+index c05f0d1..2dc9aa8 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -236,7 +236,8 @@ export GRUB_DEFAULT \
+@@ -239,7 +239,8 @@ export GRUB_DEFAULT \
    GRUB_ENABLE_CRYPTODISK \
    GRUB_BADRAM \
    GRUB_OS_PROBER_SKIP_LIST \
@@ -129,7 +129,7 @@ index 62780bf..17350d4 100644
  if test "x${grub_cfg}" != "x"; then
    rm -f "${grub_cfg}.new"
 diff --git a/util/grub.d/00_header.in b/util/grub.d/00_header.in
-index 0c82f23..a74828e 100644
+index 93a9023..674a761 100644
 --- a/util/grub.d/00_header.in
 +++ b/util/grub.d/00_header.in
 @@ -21,6 +21,8 @@ prefix="@prefix@"
@@ -212,7 +212,7 @@ index 0c82f23..a74828e 100644
      if [ "x${3}" != "x" ] ; then
  	timeout="${2}"
  	style="${3}"
--    elif [ "x${1}" != "x" -a "x${1}" != "x0" ] ; then
+-    elif [ "x${1}" != "x" ] && [ "x${1}" != "x0" ] ; then
 +    elif [ "x${1}" != "x" ] && \
 +	 ([ "$quick_boot" = 1 ] || [ "x${1}" != "x0" ]) ; then
  	# Handle the deprecated GRUB_HIDDEN_TIMEOUT scheme.
@@ -258,7 +258,7 @@ index 0c82f23..a74828e 100644
  EOF
  }
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index 0616c6d..aa2c369 100644
+index d203c37..b32cc53 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -22,6 +22,7 @@ exec_prefix="@exec_prefix@"
@@ -267,9 +267,9 @@ index 0616c6d..aa2c369 100644
  quiet_boot="@QUIET_BOOT@"
 +quick_boot="@QUICK_BOOT@"
  
- . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
+ . "$pkgdatadir/grub-mkconfig_lib"
  
-@@ -117,6 +118,9 @@ linux_entry ()
+@@ -119,6 +120,9 @@ linux_entry ()
    else
        echo "menuentry '$(echo "$os" | grub_quote)' ${CLASS} \$menuentry_id_option 'gnulinux-simple-$boot_device_id' {" | sed "s/^/$submenu_indentation/"
    fi      
@@ -280,7 +280,7 @@ index 0616c6d..aa2c369 100644
        save_default_entry | grub_add_tab
    fi
 diff --git a/util/grub.d/30_os-prober.in b/util/grub.d/30_os-prober.in
-index 1c44cf2..1106ad1 100644
+index 271044f..da5f288 100644
 --- a/util/grub.d/30_os-prober.in
 +++ b/util/grub.d/30_os-prober.in
 @@ -20,12 +20,26 @@ set -e
@@ -292,7 +292,7 @@ index 1c44cf2..1106ad1 100644
  export TEXTDOMAIN=@PACKAGE@
  export TEXTDOMAINDIR="@localedir@"
  
- . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
+ . "$pkgdatadir/grub-mkconfig_lib"
  
 +found_other_os=
 +
@@ -318,15 +318,15 @@ index 1c44cf2..1106ad1 100644
      if [ x$2 = x32 ]; then
          # TRANSLATORS: it refers to kernel architecture (32-bit)
  	bitstr="$(gettext "(32-bit)")"
-@@ -158,6 +173,7 @@ for OS in ${OSPROBED} ; do
+@@ -165,6 +180,7 @@ for OS in ${OSPROBED} ; do
  	  ;;
        esac
  
 +      found_other_os=1
  	  onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
        cat << EOF
- menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' --class windows --class os \$menuentry_id_option 'osprober-chain-$(grub_get_device_id "${DEVICE}")' {
-@@ -188,6 +204,7 @@ EOF
+ menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' $CLASS --class os \$menuentry_id_option 'osprober-chain-$(grub_get_device_id "${DEVICE}")' {
+@@ -195,6 +211,7 @@ EOF
      ;;
      efi)
  
@@ -334,7 +334,7 @@ index 1c44cf2..1106ad1 100644
  	EFIPATH=${DEVICE#*@}
  	DEVICE=${DEVICE%@*}
  	onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
-@@ -236,6 +253,7 @@ EOF
+@@ -243,6 +260,7 @@ EOF
  	  [ "${prepare_boot_cache}" ] || continue
  	fi
  
@@ -342,15 +342,15 @@ index 1c44cf2..1106ad1 100644
  	onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
  	recovery_params="$(echo "${LPARAMS}" | grep 'single\|recovery')" || true
  	counter=1
-@@ -302,6 +320,7 @@ EOF
-       osx_entry xnu_kernel64 64
+@@ -311,6 +329,7 @@ EOF
+       fi
      ;;
      hurd)
 +      found_other_os=1
        onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
        cat << EOF
  menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' --class hurd --class gnu --class os \$menuentry_id_option 'osprober-gnuhurd-/boot/gnumach.gz-false-$(grub_get_device_id "${DEVICE}")' {
-@@ -345,3 +364,5 @@ EOF
+@@ -353,3 +372,5 @@ EOF
      ;;
    esac
  done

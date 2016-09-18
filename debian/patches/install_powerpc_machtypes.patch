@@ -1,4 +1,4 @@
-From 3b48c0a70aa574b5bec32be9a8dbba5328bfd5cd Mon Sep 17 00:00:00 2001
+From 6e18b4772ad0cca77a74d042816ce34b8c2ee1bf Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Tue, 28 Jan 2014 14:40:02 +0000
 Subject: Port yaboot logic for various powerpc machine types
@@ -38,7 +38,7 @@ index 4b5502a..2ab9079 100644
 +  return "generic";
 +}
 diff --git a/grub-core/osdep/linux/platform.c b/grub-core/osdep/linux/platform.c
-index 175da72..033afd8 100644
+index 35f1bcc..9805c36 100644
 --- a/grub-core/osdep/linux/platform.c
 +++ b/grub-core/osdep/linux/platform.c
 @@ -24,6 +24,7 @@
@@ -49,7 +49,7 @@ index 175da72..033afd8 100644
  #include <stdlib.h>
  #include <string.h>
  
-@@ -108,3 +109,74 @@ grub_install_get_default_x86_platform (void)
+@@ -145,3 +146,74 @@ grub_install_get_default_x86_platform (void)
    grub_util_info ("... not found");
    return "i386-pc";
  }
@@ -165,7 +165,7 @@ index a3fcfca..28cb37e 100644
  
    free (boot_device);
 diff --git a/grub-core/osdep/windows/platform.c b/grub-core/osdep/windows/platform.c
-index f2b9d71..cf2e39c 100644
+index 9122691..c30025b 100644
 --- a/grub-core/osdep/windows/platform.c
 +++ b/grub-core/osdep/windows/platform.c
 @@ -128,6 +128,12 @@ grub_install_get_default_x86_platform (void)
@@ -182,10 +182,10 @@ index f2b9d71..cf2e39c 100644
  get_efi_variable (const wchar_t *varname, ssize_t *len)
  {
 diff --git a/include/grub/util/install.h b/include/grub/util/install.h
-index bc987aa..2de6c90 100644
+index 5ca4811..9f517a1 100644
 --- a/include/grub/util/install.h
 +++ b/include/grub/util/install.h
-@@ -204,6 +204,9 @@ grub_install_create_envblk_file (const char *name);
+@@ -206,6 +206,9 @@ grub_install_create_envblk_file (const char *name);
  const char *
  grub_install_get_default_x86_platform (void);
  
@@ -196,10 +196,10 @@ index bc987aa..2de6c90 100644
  grub_install_register_efi (grub_device_t efidir_grub_dev,
  			   const char *efifile_path,
 diff --git a/util/grub-install.c b/util/grub-install.c
-index d6018e3..49ebb3f 100644
+index 99c075d..3ca3d1a 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
-@@ -1143,7 +1143,18 @@ main (int argc, char *argv[])
+@@ -1155,7 +1155,18 @@ main (int argc, char *argv[])
  
    if (platform == GRUB_INSTALL_PLATFORM_POWERPC_IEEE1275)
      {

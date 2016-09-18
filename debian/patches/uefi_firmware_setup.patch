@@ -1,4 +1,4 @@
-From e9ae6a0c90aeece56980bb6ae5f016b3e382cd44 Mon Sep 17 00:00:00 2001
+From bbed543990557e93c558040a2e5f92e210b3b52a Mon Sep 17 00:00:00 2001
 From: Steve Langasek <steve.langasek@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:12 +0000
 Subject: Output a menu entry for firmware setup on UEFI FastBoot systems
@@ -14,10 +14,10 @@ Patch-Name: uefi_firmware_setup.patch
  create mode 100644 util/grub.d/30_uefi-firmware.in
 
 diff --git a/Makefile.util.def b/Makefile.util.def
-index f659fb4..e1f6089 100644
+index 51b8e10..7b8755d 100644
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
-@@ -508,6 +508,12 @@ script = {
+@@ -510,6 +510,12 @@ script = {
  };
  
  script = {

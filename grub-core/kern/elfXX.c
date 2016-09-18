@@ -12,7 +12,7 @@ grub_elfXX_load_phdrs (grub_elf_t elf)
   if (elf->phdrs)
     return GRUB_ERR_NONE;
 
-  phdrs_size = elf->ehdr.ehdrXX.e_phnum * elf->ehdr.ehdrXX.e_phentsize;
+  phdrs_size = (grub_uint32_t) elf->ehdr.ehdrXX.e_phnum * elf->ehdr.ehdrXX.e_phentsize;
 
   grub_dprintf ("elf", "Loading program headers at 0x%llx, size 0x%lx.\n",
 		(unsigned long long) elf->ehdr.ehdrXX.e_phoff,
@@ -30,6 +30,25 @@ grub_elfXX_load_phdrs (grub_elf_t elf)
 		    elf->filename);
       return grub_errno;
     }
+
+#if GRUB_ELF_ENABLE_BI_ENDIAN
+  if (elf->ehdr.ehdrXX.e_ident[EI_DATA] == GRUB_ELF_OPPOSITE_ENDIANNESS)
+    {
+      ElfXX_Phdr *phdr;
+      for (phdr = elf->phdrs; (char *) phdr < (char *) elf->phdrs + phdrs_size;
+	   phdr = (ElfXX_Phdr *) ((char *) phdr + elf->ehdr.ehdrXX.e_phentsize))
+	{
+	  phdr->p_type = grub_swap_bytes_wordXX (phdr->p_type);
+	  phdr->p_flags = grub_swap_bytes_wordXX (phdr->p_flags);
+          phdr->p_offset = grub_swap_bytes_offXX (phdr->p_offset);
+          phdr->p_vaddr = grub_swap_bytes_addrXX (phdr->p_vaddr);
+          phdr->p_paddr = grub_swap_bytes_addrXX (phdr->p_paddr);
+          phdr->p_filesz = grub_swap_bytes_XwordXX (phdr->p_filesz);
+          phdr->p_memsz = grub_swap_bytes_XwordXX (phdr->p_memsz);
+          phdr->p_align = grub_swap_bytes_XwordXX (phdr->p_align);
+        }
+    }
+#endif /* GRUB_ELF_ENABLE_BI_ENDIAN */
 
   return GRUB_ERR_NONE;
 }
@@ -155,45 +174,34 @@ grub_elfXX_load (grub_elf_t elf, const char *filename,
   return grub_errno;
 }
 
-void
-grub_elfXX_byteswap_header (grub_elf_t elf)
+static int
+grub_elfXX_check_endianess_and_bswap_ehdr (grub_elf_t elf)
 {
   ElfXX_Ehdr *e = &(elf->ehdr.ehdrXX);
-  ElfXX_Phdr *phdr;
-
-  e->e_type = byte_swap_halfXX (e->e_type);
-  e->e_machine = byte_swap_halfXX (e->e_machine);
-  e->e_version = byte_swap_wordXX (e->e_version);
-  e->e_entry = byte_swap_addrXX (e->e_entry);
-  e->e_phoff = byte_swap_offXX (e->e_phoff);
-  e->e_shoff = byte_swap_offXX (e->e_shoff);
-  e->e_flags = byte_swap_wordXX (e->e_flags);
-  e->e_ehsize = byte_swap_halfXX (e->e_ehsize);
-  e->e_phentsize = byte_swap_halfXX (e->e_phentsize);
-  e->e_phnum = byte_swap_halfXX (e->e_phnum);
-  e->e_shentsize = byte_swap_halfXX (e->e_shentsize);
-  e->e_shnum = byte_swap_halfXX (e->e_shnum);
-  e->e_shstrndx = byte_swap_halfXX (e->e_shstrndx);
-
-  FOR_ELFXX_PHDRS (elf,phdr)
+  if (e->e_ident[EI_DATA] == GRUB_ELF_NATIVE_ENDIANNESS)
     {
-      phdr->p_type = byte_swap_wordXX (phdr->p_type);
-      phdr->p_flags = byte_swap_wordXX (phdr->p_flags);
-      phdr->p_offset = byte_swap_offXX (phdr->p_offset);
-      phdr->p_vaddr = byte_swap_addrXX (phdr->p_vaddr);
-      phdr->p_paddr = byte_swap_addrXX (phdr->p_paddr);
-      phdr->p_filesz = byte_swap_XwordXX (phdr->p_filesz);
-      phdr->p_memsz = byte_swap_XwordXX (phdr->p_memsz);
-      phdr->p_align = byte_swap_XwordXX (phdr->p_align);
+      return 1;
     }
 
-}
+#if GRUB_ELF_ENABLE_BI_ENDIAN
+  if (e->e_ident[EI_DATA] == GRUB_ELF_OPPOSITE_ENDIANNESS)
+    {
+      e->e_type = grub_swap_bytes_halfXX (e->e_type);
+      e->e_machine = grub_swap_bytes_halfXX (e->e_machine);
+      e->e_version = grub_swap_bytes_wordXX (e->e_version);
+      e->e_entry = grub_swap_bytes_addrXX (e->e_entry);
+      e->e_phoff = grub_swap_bytes_offXX (e->e_phoff);
+      e->e_shoff = grub_swap_bytes_offXX (e->e_shoff);
+      e->e_flags = grub_swap_bytes_wordXX (e->e_flags);
+      e->e_ehsize = grub_swap_bytes_halfXX (e->e_ehsize);
+      e->e_phentsize = grub_swap_bytes_halfXX (e->e_phentsize);
+      e->e_phnum = grub_swap_bytes_halfXX (e->e_phnum);
+      e->e_shentsize = grub_swap_bytes_halfXX (e->e_shentsize);
+      e->e_shnum = grub_swap_bytes_halfXX (e->e_shnum);
+      e->e_shstrndx = grub_swap_bytes_halfXX (e->e_shstrndx);
+      return 1;
+    }
+#endif /* GRUB_ELF_ENABLE_BI_ENDIAN */
 
-grub_err_t
-grub_elfXX_check_version (grub_elf_t elf)
-{
-  if (elf->ehdr.ehdrXX.e_version != EV_CURRENT)
-    return grub_error (GRUB_ERR_BAD_OS, N_("invalid arch-independent ELF magic"));
-
-  return GRUB_ERR_NONE;
+  return 0;
 }

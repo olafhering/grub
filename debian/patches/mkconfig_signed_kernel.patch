@@ -1,4 +1,4 @@
-From d2f892d0c8015eb2465319538d5bc902ffd00050 Mon Sep 17 00:00:00 2001
+From 04f48fe503ee4287e586faf0c92e7e07cb337dda Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:21 +0000
 Subject: Generate configuration for signed UEFI kernels if available
@@ -12,10 +12,10 @@ Patch-Name: mkconfig_signed_kernel.patch
  1 file changed, 15 insertions(+)
 
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index d343263..1b55116 100644
+index 13af9ea..0e5c550 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
-@@ -149,8 +149,16 @@ linux_entry ()
+@@ -151,8 +151,16 @@ linux_entry ()
    message="$(gettext_printf "Loading Linux %s ..." ${version})"
    sed "s/^/$submenu_indentation/" << EOF
  	echo	'$(echo "$message" | grub_quote)'
@@ -32,7 +32,7 @@ index d343263..1b55116 100644
    if test -n "${initrd}" ; then
      # TRANSLATORS: ramdisk isn't identifier. Should be translated.
      message="$(gettext_printf "Loading initial ramdisk ...")"
-@@ -196,6 +204,13 @@ submenu_indentation=""
+@@ -200,6 +208,13 @@ submenu_indentation=""
  is_top_level=true
  while [ "x$list" != "x" ] ; do
    linux=`version_find_latest $list`

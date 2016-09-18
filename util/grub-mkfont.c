@@ -33,7 +33,11 @@
 
 #ifndef GRUB_BUILD
 #define _GNU_SOURCE	1
+#pragma GCC diagnostic ignored "-Wmissing-prototypes"
+#pragma GCC diagnostic ignored "-Wmissing-declarations"
 #include <argp.h>
+#pragma GCC diagnostic error "-Wmissing-prototypes"
+#pragma GCC diagnostic error "-Wmissing-declarations"
 #endif
 #include <assert.h>
 
@@ -516,8 +520,8 @@ process_cursive (struct gsub_feature *feature,
 	}		      
       if (grub_be_to_cpu16 (lookup->flag) & ~GSUB_RTL_CHAR)
 	{
-	  printf (_("Unsupported substitution flag: 0x%x\n"),
-		  grub_be_to_cpu16 (lookup->flag));
+	  grub_util_info ("unsupported substitution flag: 0x%x",
+			  grub_be_to_cpu16 (lookup->flag));
 	}
       switch (feattag)
 	{
@@ -577,7 +581,8 @@ process_cursive (struct gsub_feature *feature,
 	       There are 2 coverage specifications: list and range.
 	       This warning is thrown when another coverage specification
 	       is detected.  */
-	    printf (_("Unsupported coverage specification: %d\n"), covertype);
+	    fprintf (stderr,
+		     _("Unsupported coverage specification: %d\n"), covertype);
 	}
     }
 }
@@ -616,7 +621,8 @@ add_font (struct grub_font_info *font_info, FT_Face face, int nocut)
 	  grub_uint32_t feattag
 	    = grub_be_to_cpu32 (features->features[i].feature_tag);
 	  if (feature->params)
-	    printf (_("WARNING: unsupported font feature parameters: %x\n"),
+	    fprintf (stderr,
+		     _("WARNING: unsupported font feature parameters: %x\n"),
 		    grub_be_to_cpu16 (feature->params));
 	  switch (feattag)
 	    {
@@ -647,8 +653,8 @@ add_font (struct grub_font_info *font_info, FT_Face face, int nocut)
 		  if (!grub_isgraph (str[j]))
 		    str[j] = '?';
 		/* TRANSLATORS: It's gsub feature, not gsub font.  */
-		printf (_("Unknown gsub font feature 0x%x (%s)\n"),
-			feattag, str);
+		grub_util_info ("Unknown gsub font feature 0x%x (%s)",
+				feattag, str);
 	      }
 	    }
 	}
@@ -698,7 +704,7 @@ write_be16_section (const char *name, grub_uint16_t data, int* offset,
 {
   grub_uint32_t leng;
 
-  leng = grub_cpu_to_be32 (2);
+  leng = grub_cpu_to_be32_compile_time (2);
   data = grub_cpu_to_be16 (data);
   grub_util_write_image (name, 4, file, filename);
   grub_util_write_image ((char *) &leng, 4, file, filename);
@@ -795,7 +801,7 @@ write_font_pf2 (struct grub_font_info *font_info, char *output_file)
 
   offset = 0;
 
-  leng = grub_cpu_to_be32 (4);
+  leng = grub_cpu_to_be32_compile_time (4);
   grub_util_write_image (FONT_FORMAT_SECTION_NAMES_FILE,
   			 sizeof(FONT_FORMAT_SECTION_NAMES_FILE) - 1, file,
 			 output_file);

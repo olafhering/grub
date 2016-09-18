@@ -1,4 +1,4 @@
-From d6c983f521647f7ec018568e96db02257d4697aa Mon Sep 17 00:00:00 2001
+From fd99a933c3e74ae10034446ef5ee54749c4b06d0 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:05 +0000
 Subject: Fall back to i386-pc if booted using EFI but -efi is missing
@@ -17,7 +17,7 @@ Patch-Name: install_efi_fallback.patch
  1 file changed, 17 insertions(+), 2 deletions(-)
 
 diff --git a/grub-core/osdep/linux/platform.c b/grub-core/osdep/linux/platform.c
-index 4b9f6ef..175da72 100644
+index 775b6c0..35f1bcc 100644
 --- a/grub-core/osdep/linux/platform.c
 +++ b/grub-core/osdep/linux/platform.c
 @@ -19,10 +19,12 @@
@@ -33,7 +33,7 @@ index 4b9f6ef..175da72 100644
  #include <string.h>
  
  #include <sys/utsname.h>
-@@ -76,11 +78,24 @@ grub_install_get_default_x86_platform (void)
+@@ -113,11 +115,24 @@ grub_install_get_default_x86_platform (void)
    grub_util_info ("Looking for /sys/firmware/efi ..");
    if (is_not_empty_directory ("/sys/firmware/efi"))
      {
@@ -43,7 +43,7 @@ index 4b9f6ef..175da72 100644
 +      int found;
 +
        grub_util_info ("...found");
-       if (is_64_kernel ())
+       if (read_platform_size() == 64)
 -	return "x86_64-efi";
 +	platform = "x86_64-efi";
 +      else

@@ -1,4 +1,4 @@
-From bbee35754c088eca0ffada3ed7457a2fe674de69 Mon Sep 17 00:00:00 2001
+From 09ad903eb51e9b3547f5680311cbc96c280bded3 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:20 +0000
 Subject: If running under UEFI secure boot, attempt to use linuxefi loader
@@ -27,10 +27,10 @@ index f764f49..88e2d34 100644
        goto fail;
      }
 diff --git a/grub-core/loader/i386/linux.c b/grub-core/loader/i386/linux.c
-index 31fb91e..2380642 100644
+index fddcc46..3897f7a 100644
 --- a/grub-core/loader/i386/linux.c
 +++ b/grub-core/loader/i386/linux.c
-@@ -76,6 +76,8 @@ static grub_size_t maximal_cmdline_size;
+@@ -75,6 +75,8 @@ static grub_size_t maximal_cmdline_size;
  static struct linux_kernel_params linux_params;
  static char *linux_cmdline;
  #ifdef GRUB_MACHINE_EFI
@@ -39,7 +39,7 @@ index 31fb91e..2380642 100644
  static grub_efi_uintn_t efi_mmap_size;
  #else
  static const grub_size_t efi_mmap_size = 0;
-@@ -690,6 +692,41 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+@@ -689,6 +691,41 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
  
    grub_dl_ref (my_mod);
  
@@ -81,9 +81,9 @@ index 31fb91e..2380642 100644
    if (argc == 0)
      {
        grub_error (GRUB_ERR_BAD_ARGUMENT, N_("filename expected"));
-@@ -1052,6 +1089,12 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
+@@ -1051,6 +1088,12 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
    grub_err_t err;
-   struct grub_linux_initrd_context initrd_ctx;
+   struct grub_linux_initrd_context initrd_ctx = { 0, 0, 0 };
  
 +#ifdef GRUB_MACHINE_EFI
 +  /* If we're using linuxefi, just forward to initrdefi.  */

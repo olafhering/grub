@@ -1,7 +1,7 @@
-/* compiler.h - macros for various compiler features */
+/* compiler-rt.h - prototypes for compiler helpers. */
 /*
  *  GRUB  --  GRand Unified Bootloader
- *  Copyright (C) 2002,2003,2005,2006,2007,2008,2009,2010,2014  Free Software Foundation, Inc.
+ *  Copyright (C) 2002,2003,2005,2006,2007,2008,2009,2010-2014  Free Software Foundation, Inc.
  *
  *  GRUB is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,6 +19,95 @@
 
 #ifndef GRUB_COMPILER_RT_HEADER
 #define GRUB_COMPILER_RT_HEADER	1
+
+#include <stdarg.h>
+#include <grub/types.h>
+#include <grub/symbol.h>
+#include <grub/misc.h>
+
+#if defined(GRUB_DIVISION_IN_SOFTWARE) && GRUB_DIVISION_IN_SOFTWARE
+
+grub_uint32_t
+EXPORT_FUNC (__udivsi3) (grub_uint32_t a, grub_uint32_t b);
+
+grub_uint32_t
+EXPORT_FUNC (__umodsi3) (grub_uint32_t a, grub_uint32_t b);
+
+grub_int32_t
+EXPORT_FUNC (__divsi3) (grub_int32_t a, grub_int32_t b);
+
+grub_int32_t
+EXPORT_FUNC (__modsi3) (grub_int32_t a, grub_int32_t b);
+
+grub_int64_t
+EXPORT_FUNC (__divdi3) (grub_int64_t a, grub_int64_t b);
+
+grub_int64_t
+EXPORT_FUNC (__moddi3) (grub_int64_t a, grub_int64_t b);
+
+grub_uint64_t
+EXPORT_FUNC (__udivdi3) (grub_uint64_t a, grub_uint64_t b);
+
+grub_uint64_t
+EXPORT_FUNC (__umoddi3) (grub_uint64_t a, grub_uint64_t b);
+
+#endif
+
+#if defined (__sparc__) || defined (__powerpc__) || defined (__mips__) || defined (__arm__)
+unsigned
+EXPORT_FUNC (__ctzdi2) (grub_uint64_t x);
+#define NEED_CTZDI2 1
+#endif
+
+#if defined (__mips__) || defined (__arm__)
+unsigned
+EXPORT_FUNC (__ctzsi2) (grub_uint32_t x);
+#define NEED_CTZSI2 1
+#endif
+
+#ifdef __arm__
+grub_uint32_t
+EXPORT_FUNC (__aeabi_uidiv) (grub_uint32_t a, grub_uint32_t b);
+grub_uint32_t
+EXPORT_FUNC (__aeabi_uidivmod) (grub_uint32_t a, grub_uint32_t b);
+
+grub_int32_t
+EXPORT_FUNC (__aeabi_idiv) (grub_int32_t a, grub_int32_t b);
+grub_int32_t
+EXPORT_FUNC (__aeabi_idivmod) (grub_int32_t a, grub_int32_t b);
+
+int
+EXPORT_FUNC (__aeabi_ulcmp) (grub_uint64_t a, grub_uint64_t b);
+
+/* Needed for allowing modules to be compiled as thumb.  */
+grub_uint64_t
+EXPORT_FUNC (__muldi3) (grub_uint64_t a, grub_uint64_t b);
+grub_uint64_t
+EXPORT_FUNC (__aeabi_lmul) (grub_uint64_t a, grub_uint64_t b);
+
+void *
+EXPORT_FUNC (__aeabi_memcpy) (void *dest, const void *src, grub_size_t n);
+void *
+EXPORT_FUNC (__aeabi_memcpy4) (void *dest, const void *src, grub_size_t n);
+void *
+EXPORT_FUNC (__aeabi_memcpy8) (void *dest, const void *src, grub_size_t n);
+void *
+EXPORT_FUNC(__aeabi_memset) (void *s, int c, grub_size_t n);
+void EXPORT_FUNC(__aeabi_memclr) (void *s, grub_size_t n);
+void EXPORT_FUNC(__aeabi_memclr4) (void *s, grub_size_t n);
+void EXPORT_FUNC(__aeabi_memclr8) (void *s, grub_size_t n);
+
+grub_uint64_t
+EXPORT_FUNC (__aeabi_lasr) (grub_uint64_t u, int b);
+
+grub_uint64_t
+EXPORT_FUNC (__aeabi_llsl) (grub_uint64_t u, int b);
+
+grub_uint64_t
+EXPORT_FUNC (__aeabi_llsr) (grub_uint64_t u, int b);
+
+#endif
+
 
 #if defined (__powerpc__)
 
@@ -59,24 +148,53 @@ void EXPORT_FUNC (_savegpr_29) (void);
 void EXPORT_FUNC (_savegpr_30) (void);
 void EXPORT_FUNC (_savegpr_31) (void);
 
-grub_uint64_t
-EXPORT_FUNC (__lshrdi3) (grub_uint64_t u, int b);
+#endif
 
-grub_uint64_t
-EXPORT_FUNC (__ashrdi3) (grub_uint64_t u, int b);
-
-grub_uint64_t
-EXPORT_FUNC (__ashldi3) (grub_uint64_t u, int b);
+#if defined (__powerpc__) || defined(__mips__) || defined (__arm__)
 
 int
-EXPORT_FUNC (__ucmpdi2) (grub_uint64_t a, grub_uint64_t b);
-
-grub_uint32_t
-EXPORT_FUNC (__bswapsi2) (grub_uint32_t u);
+EXPORT_FUNC(__ucmpdi2) (grub_uint64_t a, grub_uint64_t b);
 
 grub_uint64_t
-EXPORT_FUNC (__bswapdi2) (grub_uint64_t u);
+EXPORT_FUNC(__ashldi3) (grub_uint64_t u, int b);
+
+grub_uint64_t
+EXPORT_FUNC(__ashrdi3) (grub_uint64_t u, int b);
+
+grub_uint64_t
+EXPORT_FUNC (__lshrdi3) (grub_uint64_t u, int b);
+#endif
+
+#if defined (__powerpc__) || defined(__mips__) || defined(__sparc__) || defined (__arm__)
+grub_uint32_t
+EXPORT_FUNC(__bswapsi2) (grub_uint32_t u);
+
+grub_uint64_t
+EXPORT_FUNC(__bswapdi2) (grub_uint64_t u);
+#endif
+
+#if defined (__APPLE__) && defined(__i386__)
+#define GRUB_BUILTIN_ATTR  __attribute__ ((regparm(0)))
+#else
+#define GRUB_BUILTIN_ATTR
+#endif
+
+/* Prototypes for aliases.  */
+int GRUB_BUILTIN_ATTR EXPORT_FUNC(memcmp) (const void *s1, const void *s2, grub_size_t n);
+void *GRUB_BUILTIN_ATTR EXPORT_FUNC(memmove) (void *dest, const void *src, grub_size_t n);
+void *GRUB_BUILTIN_ATTR EXPORT_FUNC(memcpy) (void *dest, const void *src, grub_size_t n);
+void *GRUB_BUILTIN_ATTR EXPORT_FUNC(memset) (void *s, int c, grub_size_t n);
+
+#ifdef __APPLE__
+void GRUB_BUILTIN_ATTR EXPORT_FUNC (__bzero) (void *s, grub_size_t n);
+#endif
+
+#if defined (__MINGW32__) || defined (__CYGWIN__)
+void EXPORT_FUNC (__register_frame_info) (void);
+void EXPORT_FUNC (__deregister_frame_info) (void);
+void EXPORT_FUNC (___chkstk_ms) (void);
+void EXPORT_FUNC (__chkstk_ms) (void);
+#endif
 
 #endif
 
-#endif /* ! GRUB_COMPILER_RT_HEADER */

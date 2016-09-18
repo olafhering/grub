@@ -24,7 +24,7 @@ datarootdir="@datarootdir@"
 export TEXTDOMAIN=@PACKAGE@
 export TEXTDOMAINDIR="@localedir@"
 
-. "@datadir@/@PACKAGE@/grub-mkconfig_lib"
+. "$pkgdatadir/grub-mkconfig_lib"
 
 osx_entry() {
     if [ x$2 = x32 ]; then
@@ -56,6 +56,9 @@ EOF
            fi
            if [ /kernelcache -nt /System/Library/Extensions ]; then
               $1 /kernelcache boot-uuid=\${uuid} rd=*uuid
+           elif [ -f /System/Library/Kernels/kernel ]; then
+              $1 /System/Library/Kernels/kernel boot-uuid=\${uuid} rd=*uuid
+              xnu_kextdir /System/Library/Extensions
            else
               $1 /mach_kernel boot-uuid=\${uuid} rd=*uuid
               if [ /System/Library/Extensions.mkext -nt /System/Library/Extensions ]; then

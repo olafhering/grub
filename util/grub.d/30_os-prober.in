@@ -25,7 +25,7 @@ quick_boot="@QUICK_BOOT@"
 export TEXTDOMAIN=@PACKAGE@
 export TEXTDOMAINDIR="@localedir@"
 
-. "@datadir@/@PACKAGE@/grub-mkconfig_lib"
+. "$pkgdatadir/grub-mkconfig_lib"
 
 found_other_os=
 
@@ -44,7 +44,7 @@ if [ "x${GRUB_DISABLE_OS_PROBER}" = "xtrue" ]; then
   exit 0
 fi
 
-if [ -z "`which os-prober 2> /dev/null`" -o -z "`which linux-boot-prober 2> /dev/null`" ] ; then
+if [ -z "`which os-prober 2> /dev/null`" ] || [ -z "`which linux-boot-prober 2> /dev/null`" ] ; then
   # missing os-prober and/or linux-boot-prober
   exit 0
 fi
@@ -86,6 +86,9 @@ EOF
            fi
            if [ /kernelcache -nt /System/Library/Extensions ]; then
               $1 /kernelcache boot-uuid=\${uuid} rd=*uuid
+           elif [ -f /System/Library/Kernels/kernel ]; then
+              $1 /System/Library/Kernels/kernel boot-uuid=\${uuid} rd=*uuid
+              xnu_kextdir /System/Library/Extensions
            else
               $1 /mach_kernel boot-uuid=\${uuid} rd=*uuid
               if [ /System/Library/Extensions.mkext -nt /System/Library/Extensions ]; then
@@ -136,7 +139,7 @@ for OS in ${OSPROBED} ; do
       EXPUUID="${EXPUUID}@${DEVICE#*@}"
     fi
 
-    if [ "x${GRUB_OS_PROBER_SKIP_LIST}" != "x" -a "x`echo ${GRUB_OS_PROBER_SKIP_LIST} | grep -i -e '\b'${EXPUUID}'\b'`" != "x" ] ; then
+    if [ "x${GRUB_OS_PROBER_SKIP_LIST}" != "x" ] && [ "x`echo ${GRUB_OS_PROBER_SKIP_LIST} | grep -i -e '\b'${EXPUUID}'\b'`" != "x" ] ; then
       echo "Skipped ${LONGNAME} on ${DEVICE} by user request." >&2
       continue
     fi
@@ -151,6 +154,9 @@ for OS in ${OSPROBED} ; do
   if [ -z "${LONGNAME}" ] ; then
     LONGNAME="${LABEL}"
   fi
+
+  # os-prober returns text string followed by optional counter
+  CLASS="--class $(echo "${LABEL}" | LC_ALL=C sed 's,[[:digit:]]*$,,' | cut -d' ' -f1 | tr 'A-Z' 'a-z' | LC_ALL=C sed 's,[^[:alnum:]_],_,g')"
 
   gettext_printf "Found %s on %s\n" "${LONGNAME}" "${DEVICE}" >&2
 
@@ -177,7 +183,7 @@ for OS in ${OSPROBED} ; do
       found_other_os=1
 	  onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
       cat << EOF
-menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' --class windows --class os \$menuentry_id_option 'osprober-chain-$(grub_get_device_id "${DEVICE}")' {
+menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' $CLASS --class os \$menuentry_id_option 'osprober-chain-$(grub_get_device_id "${DEVICE}")' {
 EOF
       save_default_entry | grub_add_tab
       prepare_grub_to_access_device ${DEVICE} | grub_add_tab
@@ -210,7 +216,7 @@ EOF
 	DEVICE=${DEVICE%@*}
 	onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
       cat << EOF
-menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' --class windows --class os \$menuentry_id_option 'osprober-efi-$(grub_get_device_id "${DEVICE}")' {
+menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' $CLASS --class os \$menuentry_id_option 'osprober-efi-$(grub_get_device_id "${DEVICE}")' {
 EOF
       save_default_entry | sed -e "s/^/\t/"
       prepare_grub_to_access_device ${DEVICE} | sed -e "s/^/\t/"
@@ -268,7 +274,7 @@ EOF
 
 	if [ "x$is_top_level" = xtrue ] && [ "x${GRUB_DISABLE_SUBMENU}" != xy ]; then
             cat << EOF
-menuentry '$(echo "$OS $onstr" | grub_quote)' --class gnu-linux --class gnu --class os \$menuentry_id_option 'osprober-gnulinux-simple-$boot_device_id' {
+menuentry '$(echo "$OS $onstr" | grub_quote)' $CLASS --class gnu-linux --class gnu --class os \$menuentry_id_option 'osprober-gnulinux-simple-$boot_device_id' {
 EOF
 	    save_default_entry | grub_add_tab
 	    printf '%s\n' "${prepare_boot_cache}"
@@ -361,9 +367,8 @@ EOF
 EOF
     ;;
     *)
-      echo -n "  "
       # TRANSLATORS: %s is replaced by OS name.
-      gettext_printf "%s is not yet supported by grub-mkconfig.\n" "${LONGNAME}" >&2
+      gettext_printf "%s is not yet supported by grub-mkconfig.\n" "  ${LONGNAME}" >&2
     ;;
   esac
 done

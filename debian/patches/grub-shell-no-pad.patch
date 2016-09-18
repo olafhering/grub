@@ -1,4 +1,4 @@
-From caa6b84423b6f257b55ab026cee89734448ea1f6 Mon Sep 17 00:00:00 2001
+From d36baf78117f7bb817b05cc0b66a5434a5bb5c6c Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Thu, 16 Jan 2014 12:51:23 +0000
 Subject: grub-shell: Pass -no-pad to xorriso when building floppy images
@@ -21,10 +21,10 @@ Patch-Name: grub-shell-no-pad.patch
  1 file changed, 4 insertions(+)
 
 diff --git a/tests/util/grub-shell.in b/tests/util/grub-shell.in
-index d9a5253..6f13591 100644
+index ab19dbb..6e4cb90 100644
 --- a/tests/util/grub-shell.in
 +++ b/tests/util/grub-shell.in
-@@ -346,6 +346,10 @@ if test -z "$debug"; then
+@@ -371,6 +371,10 @@ if test -z "$debug"; then
    qemuopts="${qemuopts} -nographic -monitor file:/dev/null"
  fi
  

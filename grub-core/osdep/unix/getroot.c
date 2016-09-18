@@ -45,18 +45,15 @@
 #ifdef __linux__
 #include <sys/ioctl.h>         /* ioctl */
 #include <sys/mount.h>
-#ifndef MAJOR
-# ifndef MINORBITS
-#  define MINORBITS	8
-# endif /* ! MINORBITS */
-# define MAJOR(dev)	((unsigned) ((dev) >> MINORBITS))
-#endif /* ! MAJOR */
 #ifndef FLOPPY_MAJOR
 # define FLOPPY_MAJOR	2
 #endif /* ! FLOPPY_MAJOR */
 #endif
 
 #include <sys/types.h>
+#if defined(HAVE_SYS_MKDEV_H)
+#include <sys/mkdev.h>
+#endif
 
 #if defined(HAVE_LIBZFS) && defined(HAVE_LIBNVPAIR)
 # include <grub/util/libzfs.h>
@@ -70,7 +67,6 @@
 #include <grub/emu/getroot.h>
 
 #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
-# define MAJOR(dev) major(dev)
 # define FLOPPY_MAJOR	2
 #endif
 
@@ -87,7 +83,6 @@
 #endif /* defined(__NetBSD__) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__) */
 
 #if defined(__NetBSD__) || defined(__OpenBSD__)
-# define MAJOR(dev) major(dev)
 # ifdef HAVE_GETRAWPARTITION
 #  include <util.h>    /* getrawpartition */
 # endif /* HAVE_GETRAWPARTITION */
@@ -491,7 +486,7 @@ grub_guess_root_devices (const char *dir_in)
   char **os_dev = NULL;
   struct stat st;
   dev_t dev;
-  char *dir = canonicalize_file_name (dir_in);
+  char *dir = grub_canonicalize_file_name (dir_in);
 
   if (!dir)
     grub_util_error (_("failed to get canonical path of `%s'"), dir_in);
@@ -516,7 +511,7 @@ grub_guess_root_devices (const char *dir_in)
 	    *cur = tmp;
 	  else
 	    {
-	      *cur = canonicalize_file_name (tmp);
+	      *cur = grub_canonicalize_file_name (tmp);
 	      if (*cur == NULL)
 		grub_util_error (_("failed to get canonical path of `%s'"), tmp);
 	      free (tmp);
@@ -541,6 +536,7 @@ grub_guess_root_devices (const char *dir_in)
 
   if (stat (dir, &st) < 0)
     grub_util_error (_("cannot stat `%s': %s"), dir, strerror (errno));
+  free (dir);
 
   dev = st.st_dev;
 
@@ -621,7 +617,10 @@ grub_util_pull_lvm_by_command (const char *os_dev)
   free (vgname);
 
   if (!pid)
-    return;
+    {
+      free (vgid);
+      return;
+    }
 
   /* Parent.  Read vgs' output.  */
   vgs = fdopen (fd, "r");
@@ -653,6 +652,7 @@ out:
   close (fd);
   waitpid (pid, NULL, 0);
   free (buf);
+  free (vgid);
 }
 
 /* ZFS has similar problems to those of btrfs (see above).  */

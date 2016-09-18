@@ -1,4 +1,4 @@
-From 1f49cca006e1b532a86eceb513251366cdb923a2 Mon Sep 17 00:00:00 2001
+From 104a8e22f4a4a9fddf59c76c151f8d3b85cdb649 Mon Sep 17 00:00:00 2001
 From: Matthew Garrett <mjg@redhat.com>
 Date: Mon, 13 Jan 2014 12:13:09 +0000
 Subject: Don't permit loading modules on UEFI secure boot
@@ -16,7 +16,7 @@ Patch-Name: no_insmod_on_sb.patch
  3 files changed, 42 insertions(+)
 
 diff --git a/grub-core/kern/dl.c b/grub-core/kern/dl.c
-index 6850e04..587a316 100644
+index e394cd9..b653515 100644
 --- a/grub-core/kern/dl.c
 +++ b/grub-core/kern/dl.c
 @@ -38,6 +38,10 @@
@@ -30,7 +30,7 @@ index 6850e04..587a316 100644
  
  
  #pragma GCC diagnostic ignored "-Wcast-align"
-@@ -680,6 +684,15 @@ grub_dl_load_file (const char *filename)
+@@ -686,6 +690,15 @@ grub_dl_load_file (const char *filename)
    void *core = 0;
    grub_dl_t mod = 0;
  
@@ -47,10 +47,10 @@ index 6850e04..587a316 100644
  
    file = grub_file_open (filename);
 diff --git a/grub-core/kern/efi/efi.c b/grub-core/kern/efi/efi.c
-index b253141..db0fd2d 100644
+index caf9bcc..043348b 100644
 --- a/grub-core/kern/efi/efi.c
 +++ b/grub-core/kern/efi/efi.c
-@@ -259,6 +259,34 @@ grub_efi_get_variable (const char *var, const grub_efi_guid_t *guid,
+@@ -264,6 +264,34 @@ grub_efi_get_variable (const char *var, const grub_efi_guid_t *guid,
    return NULL;
  }
  
@@ -86,10 +86,10 @@ index b253141..db0fd2d 100644
  
  /* Search the mods section from the PE32/PE32+ image. This code uses
 diff --git a/include/grub/efi/efi.h b/include/grub/efi/efi.h
-index 489cf9e..db2169e 100644
+index 0e6fd86..1b8f88f 100644
 --- a/include/grub/efi/efi.h
 +++ b/include/grub/efi/efi.h
-@@ -69,6 +69,7 @@ EXPORT_FUNC (grub_efi_set_variable) (const char *var,
+@@ -73,6 +73,7 @@ EXPORT_FUNC (grub_efi_set_variable) (const char *var,
  				     const grub_efi_guid_t *guid,
  				     void *data,
  				     grub_size_t datasize);

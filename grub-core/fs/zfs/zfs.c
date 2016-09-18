@@ -290,7 +290,7 @@ static const char *spa_feature_names[] = {
 
 static int
 check_feature(const char *name, grub_uint64_t val, struct grub_zfs_dir_ctx *ctx);
-static int
+static grub_err_t
 check_mos_features(dnode_phys_t *mosmdn_phys,grub_zfs_endian_t endian,struct grub_zfs_data* data );
 
 static grub_err_t 
@@ -1506,6 +1506,9 @@ read_device (grub_uint64_t offset, struct grub_zfs_device_desc *desc,
 	  return grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET, 
 			     "raidz%d is not supported", desc->nparity);
 
+	if (desc->n_children <= desc->nparity || desc->n_children < 1)
+	  return grub_error(GRUB_ERR_BAD_FS, "too little devices for given parity");
+
 	orig_s = (((len + (1 << desc->ashift) - 1) >> desc->ashift)
 		  + (desc->n_children - desc->nparity) - 1);
 	s = orig_s;
@@ -1886,14 +1889,12 @@ zio_read (blkptr_t *bp, grub_zfs_endian_t endian, void **buf,
 		       "compression algorithm %s not supported\n", decomp_table[comp].name);
 
   if (comp != ZIO_COMPRESS_OFF)
-    {
-      /* It's not really necessary to align to 16, just for safety.  */
-      compbuf = grub_malloc (ALIGN_UP (psize, 16));
-      if (! compbuf)
-	return grub_errno;
-    }
+    /* It's not really necessary to align to 16, just for safety.  */
+    compbuf = grub_malloc (ALIGN_UP (psize, 16));
   else
     compbuf = *buf = grub_malloc (lsize);
+  if (! compbuf)
+    return grub_errno;
 
   grub_dprintf ("zfs", "endian = %d\n", endian);
   if (BP_IS_EMBEDDED(bp))
@@ -1901,7 +1902,9 @@ zio_read (blkptr_t *bp, grub_zfs_endian_t endian, void **buf,
   else
     {
       err = zio_read_data (bp, endian, compbuf, data);
-      grub_memset (compbuf, 0, ALIGN_UP (psize, 16) - psize);
+      /* FIXME is it really necessary? */
+      if (comp != ZIO_COMPRESS_OFF)
+	grub_memset (compbuf + psize, 0, ALIGN_UP (psize, 16) - psize);
     }
   if (err)
     {
@@ -2032,7 +2035,7 @@ dmu_read (dnode_end_t * dn, grub_uint64_t blkid, void **buf,
 						dn->endian) 
 	    << SPA_MINBLOCKSHIFT;
 	  *buf = grub_malloc (size);
-	  if (*buf)
+	  if (!*buf)
 	    {
 	      err = grub_errno;
 	      break;
@@ -2866,6 +2869,9 @@ dnode_get_path (struct subvolume *subvol, const char *path_in, dnode_end_t *dn,
 					  dnode_path->dn.endian)
 		       << SPA_MINBLOCKSHIFT);
 
+	      if (blksz == 0)
+		return grub_error(GRUB_ERR_BAD_FS, "0-sized block");
+
 	      sym_value = grub_malloc (sym_sz);
 	      if (!sym_value)
 		return grub_errno;
@@ -2876,7 +2882,10 @@ dnode_get_path (struct subvolume *subvol, const char *path_in, dnode_end_t *dn,
 
 		  err = dmu_read (&(dnode_path->dn), block, &t, 0, data);
 		  if (err)
-		    return err;
+		    {
+		      grub_free (sym_value);
+		      return err;
+		    }
 
 		  movesize = sym_sz - block * blksz;
 		  if (movesize > blksz)
@@ -2891,6 +2900,8 @@ dnode_get_path (struct subvolume *subvol, const char *path_in, dnode_end_t *dn,
 	  if (!path_buf)
 	    {
 	      grub_free (oldpathbuf);
+	      if (free_symval)
+		grub_free (sym_value);
 	      return grub_errno;
 	    }
 	  grub_memcpy (path, sym_value, sym_sz);
@@ -3121,7 +3132,7 @@ make_mdn (dnode_end_t * mdn, struct grub_zfs_data *data)
 {
   void *osp;
   blkptr_t *bp;
-  grub_size_t ospsize;
+  grub_size_t ospsize = 0;
   grub_err_t err;
 
   grub_dprintf ("zfs", "endian = %d\n", mdn->endian);
@@ -3660,6 +3671,8 @@ zfs_mount (grub_device_t dev)
 			 data) != 0)
     {
       grub_error (GRUB_ERR_BAD_FS, "Unsupported features in pool");
+      grub_free (osp);
+      zfs_unmount (data);
       return NULL;
     }
 
@@ -3860,6 +3873,12 @@ grub_zfs_read (grub_file_t file, char *buf, grub_size_t len)
   blksz = grub_zfs_to_cpu16 (data->dnode.dn.dn_datablkszsec, 
 			     data->dnode.endian) << SPA_MINBLOCKSHIFT;
 
+  if (blksz == 0)
+    {
+      grub_error (GRUB_ERR_BAD_FS, "0-sized block");
+      return -1;
+    }
+
   /*
    * Entire Dnode is too big to fit into the space available.  We
    * will need to read it in chunks.  This could be optimized to
@@ -4031,7 +4050,12 @@ iterate_zap (const char *name, grub_uint64_t val, struct grub_zfs_dir_ctx *ctx)
   dnode_end_t dn;
   grub_memset (&info, 0, sizeof (info));
 
-  dnode_get (&(ctx->data->subvol.mdn), val, 0, &dn, ctx->data);
+  err = dnode_get (&(ctx->data->subvol.mdn), val, 0, &dn, ctx->data);
+  if (err)
+    {
+      grub_print_error ();
+      return 0;
+    }
 
   if (dn.dn.dn_bonustype == DMU_OT_SA)
     {
@@ -4252,11 +4276,11 @@ check_feature (const char *name, grub_uint64_t val,
  *	errnum: Failure.
  */
 	    	   
-static int
+static grub_err_t
 check_mos_features(dnode_phys_t *mosmdn_phys,grub_zfs_endian_t endian,struct grub_zfs_data* data )
 {
   grub_uint64_t objnum;
-  grub_uint8_t errnum = 0;
+  grub_err_t errnum = 0;
   dnode_end_t dn,mosmdn;
   mzap_phys_t* mzp;
   grub_zfs_endian_t endianzap;

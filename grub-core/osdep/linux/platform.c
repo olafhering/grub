@@ -76,7 +76,7 @@ read_platform_size (void)
   fp = grub_util_fopen ("/sys/firmware/efi/fw_platform_size", "r");
   if (fp != NULL)
   {
-    if (getline (&buf, &len, fp) > 0)
+    if (getline (&buf, &len, fp) >= 3) /* 2 digits plus newline */
       {
 	if (strncmp (buf, "32", 2) == 0)
 	  ret = 32;
@@ -88,8 +88,9 @@ read_platform_size (void)
   }
 
   if (ret == 0)
-    /* Unrecognised - fall back to matching the kernel size instead */
     {
+      /* Unrecognised - fall back to matching the kernel size
+       * instead */
       if (is_64_kernel ())
 	ret = 64;
       else

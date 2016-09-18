@@ -1,4 +1,4 @@
-From a9a0fea7981c9fa910726e52cb4b3aae8668006f Mon Sep 17 00:00:00 2001
+From 5d41a6e8f69dac08059ccffa3ecb124575dfca26 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:26 +0000
 Subject: Add configure option to reduce visual clutter at boot time
@@ -45,23 +45,23 @@ Patch-Name: maybe_quiet.patch
  9 files changed, 111 insertions(+), 6 deletions(-)
 
 diff --git a/config.h.in b/config.h.in
-index 4b63014..247cf11 100644
+index 9e8f991..d2c4ce8 100644
 --- a/config.h.in
 +++ b/config.h.in
-@@ -11,6 +11,8 @@
+@@ -12,6 +12,8 @@
  /* Define to 1 to enable disk cache statistics.  */
  #define DISK_CACHE_STATS @DISK_CACHE_STATS@
  #define BOOT_TIME_STATS @BOOT_TIME_STATS@
 +/* Define to 1 to make GRUB quieter at boot time.  */
 +#define QUIET_BOOT @QUIET_BOOT@
  
- #if defined (GRUB_BUILD)
- #undef ENABLE_NLS
+ /* We don't need those.  */
+ #define MINILZO_CFG_SKIP_LZO_PTR 1
 diff --git a/configure.ac b/configure.ac
-index fb4e2dd..7c8d0af 100644
+index ce24e5b..596bbe7 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1583,6 +1583,17 @@ else
+@@ -1797,6 +1797,17 @@ else
  fi
  AC_SUBST([UBUNTU_RECOVERY])
  
@@ -79,7 +79,7 @@ index fb4e2dd..7c8d0af 100644
  LIBS=""
  
  AC_SUBST([FONT_SOURCE])
-@@ -1837,5 +1848,10 @@ echo "Without liblzma (no support for XZ-compressed mips images) ($liblzma_excus
+@@ -2048,5 +2059,10 @@ echo "Without liblzma (no support for XZ-compressed mips images) ($liblzma_excus
  else
  echo "With liblzma from $LIBLZMA (support for XZ-compressed mips images)"
  fi
@@ -91,7 +91,7 @@ index fb4e2dd..7c8d0af 100644
  echo "*******************************************************"
  ]
 diff --git a/grub-core/boot/i386/pc/boot.S b/grub-core/boot/i386/pc/boot.S
-index b4975e2..7ebd96b 100644
+index 2bd0b2d..451c8be 100644
 --- a/grub-core/boot/i386/pc/boot.S
 +++ b/grub-core/boot/i386/pc/boot.S
 @@ -19,6 +19,9 @@
@@ -123,7 +123,7 @@ index b4975e2..7ebd96b 100644
  	movw	$disk_address_packet, %si
  
 diff --git a/grub-core/boot/i386/pc/diskboot.S b/grub-core/boot/i386/pc/diskboot.S
-index d030a14..7534991 100644
+index 1ee4cf5..31096ce 100644
 --- a/grub-core/boot/i386/pc/diskboot.S
 +++ b/grub-core/boot/i386/pc/diskboot.S
 @@ -18,6 +18,9 @@
@@ -260,10 +260,10 @@ index dcd7d44..03826cf 100644
    while (1)
      {
 diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
-index c36663f..99622cb 100644
+index 78a70a8..e924f64 100644
 --- a/grub-core/normal/main.c
 +++ b/grub-core/normal/main.c
-@@ -381,6 +381,15 @@ static grub_err_t
+@@ -389,6 +389,15 @@ static grub_err_t
  grub_normal_read_line_real (char **line, int cont, int nested)
  {
    const char *prompt;
@@ -279,7 +279,7 @@ index c36663f..99622cb 100644
  
    if (cont)
      /* TRANSLATORS: it's command line prompt.  */
-@@ -429,7 +438,9 @@ grub_cmdline_run (int nested)
+@@ -441,7 +450,9 @@ grub_cmdline_run (int nested, int force_auth)
        return;
      }
  
@@ -290,7 +290,7 @@ index c36663f..99622cb 100644
    while (1)
      {
 diff --git a/grub-core/normal/menu.c b/grub-core/normal/menu.c
-index 2723547..7b55c27 100644
+index 9d0ad4c..1f3447a 100644
 --- a/grub-core/normal/menu.c
 +++ b/grub-core/normal/menu.c
 @@ -826,12 +826,18 @@ run_menu (grub_menu_t menu, int nested, int *auto_boot)
@@ -337,7 +337,7 @@ index 2723547..7b55c27 100644
        if (auto_boot)
  	grub_menu_execute_with_fallback (menu, e, autobooted,
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index 1b55116..0616c6d 100644
+index 0e5c550..d203c37 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -21,6 +21,7 @@ prefix="@prefix@"
@@ -346,9 +346,9 @@ index 1b55116..0616c6d 100644
  ubuntu_recovery="@UBUNTU_RECOVERY@"
 +quiet_boot="@QUIET_BOOT@"
  
- . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
+ . "$pkgdatadir/grub-mkconfig_lib"
  
-@@ -146,10 +147,12 @@ linux_entry ()
+@@ -148,10 +149,12 @@ linux_entry ()
      fi
      printf '%s\n' "${prepare_boot_cache}" | sed "s/^/$submenu_indentation/"
    fi
@@ -363,7 +363,7 @@ index 1b55116..0616c6d 100644
    if test -d /sys/firmware/efi && test -e "${linux}.efi.signed"; then
      sed "s/^/$submenu_indentation/" << EOF
  	linux	${rel_dirname}/${basename}.efi.signed root=${linux_root_device_thisversion} ro ${args}
-@@ -161,9 +164,13 @@ EOF
+@@ -163,9 +166,13 @@ EOF
    fi
    if test -n "${initrd}" ; then
      # TRANSLATORS: ramdisk isn't identifier. Should be translated.

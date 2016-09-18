@@ -1,4 +1,4 @@
-From f16cf1523e8bd1caa9d80ec62c23275ede3223b8 Mon Sep 17 00:00:00 2001
+From d56874b3ff3fd3012ad8032d258ee080785955ba Mon Sep 17 00:00:00 2001
 From: Robert Millan <rmh@aybabtu.com>
 Date: Mon, 13 Jan 2014 12:12:52 +0000
 Subject: Improve handling of Debian kernel version numbers
@@ -12,7 +12,7 @@ Patch-Name: dpkg_version_comparison.patch
  1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/util/grub-mkconfig_lib.in b/util/grub-mkconfig_lib.in
-index 14fadbc..4f6c4fe 100644
+index 60b31ca..3a4684e 100644
 --- a/util/grub-mkconfig_lib.in
 +++ b/util/grub-mkconfig_lib.in
 @@ -238,8 +238,9 @@ version_test_numeric ()
@@ -28,8 +28,8 @@ index 14fadbc..4f6c4fe 100644
    if [ "x$version_test_gt_b" = "x" ] ; then
      return 0
 @@ -249,7 +250,7 @@ version_test_gt ()
-     *.old:*) version_test_gt_a="`echo -n "$version_test_gt_a" | sed -e 's/\.old$//'`" ; version_test_gt_cmp=gt ;;
-     *:*.old) version_test_gt_b="`echo -n "$version_test_gt_b" | sed -e 's/\.old$//'`" ; version_test_gt_cmp=ge ;;
+     *.old:*) version_test_gt_a="`echo "$version_test_gt_a" | sed -e 's/\.old$//'`" ; version_test_gt_cmp=gt ;;
+     *:*.old) version_test_gt_b="`echo "$version_test_gt_b" | sed -e 's/\.old$//'`" ; version_test_gt_cmp=ge ;;
    esac
 -  version_test_numeric "$version_test_gt_a" "$version_test_gt_cmp" "$version_test_gt_b"
 +  dpkg --compare-versions "$version_test_gt_a" "$version_test_gt_cmp" "$version_test_gt_b"

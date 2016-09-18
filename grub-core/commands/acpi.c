@@ -61,18 +61,6 @@ static const struct grub_arg_option options[] = {
   {0, 0, 0, 0, 0, 0}
 };
 
-/* Simple checksum by summing all bytes. Used by ACPI and SMBIOS. */
-grub_uint8_t
-grub_byte_checksum (void *base, grub_size_t size)
-{
-  grub_uint8_t *ptr;
-  grub_uint8_t ret = 0;
-  for (ptr = (grub_uint8_t *) base; ptr < ((grub_uint8_t *) base) + size;
-       ptr++)
-    ret += *ptr;
-  return ret;
-}
-
 /* rev1 is 1 if ACPIv1 is to be generated, 0 otherwise.
    rev2 contains the revision of ACPIv2+ to generate or 0 if none. */
 static int rev1, rev2;
@@ -131,6 +119,8 @@ grub_acpi_get_rsdpv1 (void)
   return grub_machine_acpi_get_rsdpv1 ();
 }
 
+#if defined (__i386__) || defined (__x86_64__)
+
 static inline int
 iszero (grub_uint8_t *reg, int size)
 {
@@ -141,7 +131,6 @@ iszero (grub_uint8_t *reg, int size)
   return 1;
 }
 
-#if defined (__i386__) || defined (__x86_64__)
 /* Context for grub_acpi_create_ebda.  */
 struct grub_acpi_create_ebda_ctx {
   int ebda_len;
@@ -179,8 +168,10 @@ grub_acpi_create_ebda (void)
   struct grub_acpi_rsdp_v20 *v2;
 
   ebda = (grub_uint8_t *) (grub_addr_t) ((*((grub_uint16_t *)0x40e)) << 4);
+  grub_dprintf ("acpi", "EBDA @%p\n", ebda);
   if (ebda)
     ebda_kb_len = *(grub_uint16_t *) ebda;
+  grub_dprintf ("acpi", "EBDA length 0x%x\n", ebda_kb_len);
   if (ebda_kb_len > 16)
     ebda_kb_len = 0;
   ctx.ebda_len = (ebda_kb_len + 1) << 10;
@@ -227,7 +218,7 @@ grub_acpi_create_ebda (void)
 	    grub_dprintf ("acpi", "Copying rsdpv2 to %p\n", target);
 	    v2inebda = target;
 	    target += v2->length;
-	    target = (grub_uint8_t *) ((((grub_addr_t) target - 1) | 0xf) + 1);
+	    target = (grub_uint8_t *) ALIGN_UP((grub_addr_t) target, 16);
 	    v2 = 0;
 	    break;
 	  }
@@ -246,7 +237,7 @@ grub_acpi_create_ebda (void)
 	    grub_dprintf ("acpi", "Copying rsdpv1 to %p\n", target);
 	    v1inebda = target;
 	    target += sizeof (struct grub_acpi_rsdp_v10);
-	    target = (grub_uint8_t *) ((((grub_addr_t) target - 1) | 0xf) + 1);
+	    target = (grub_uint8_t *) ALIGN_UP((grub_addr_t) target, 16);
 	    v1 = 0;
 	    break;
 	  }
@@ -265,7 +256,7 @@ grub_acpi_create_ebda (void)
 	    grub_memcpy (target, v2, v2->length);
 	    v2inebda = target;
 	    target += v2->length;
-	    target = (grub_uint8_t *) ((((grub_addr_t) target - 1) | 0xf) + 1);
+	    target = (grub_uint8_t *) ALIGN_UP((grub_addr_t) target, 16);
 	    v2 = 0;
 	    break;
 	  }
@@ -282,7 +273,7 @@ grub_acpi_create_ebda (void)
 	    grub_memcpy (target, v1, sizeof (struct grub_acpi_rsdp_v10));
 	    v1inebda = target;
 	    target += sizeof (struct grub_acpi_rsdp_v10);
-	    target = (grub_uint8_t *) ((((grub_addr_t) target - 1) | 0xf) + 1);
+	    target = (grub_uint8_t *) ALIGN_UP((grub_addr_t) target, 16);
 	    v1 = 0;
 	    break;
 	  }
@@ -494,6 +485,8 @@ grub_cmd_acpi (struct grub_extcmd_context *ctxt, int argc, char **args)
   if (! rsdp)
     rsdp = grub_machine_acpi_get_rsdpv1 ();
 
+  grub_dprintf ("acpi", "RSDP @%p\n", rsdp);
+
   if (rsdp)
     {
       grub_uint32_t *entry_ptr;
@@ -600,6 +593,9 @@ grub_cmd_acpi (struct grub_extcmd_context *ctxt, int argc, char **args)
 	  if (! table->addr)
 	    {
 	      free_tables ();
+	      grub_free (exclude);
+	      grub_free (load_only);
+	      grub_free (table);
 	      return grub_errno;
 	    }
 	  table->next = acpi_tables;

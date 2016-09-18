@@ -201,7 +201,7 @@ grub_scsi_read_capacity16 (grub_scsi_t scsi)
   rc.opcode = grub_scsi_cmd_read_capacity16;
   rc.lun = (scsi->lun << GRUB_SCSI_LUN_SHIFT) | 0x10;
   rc.logical_block_addr = 0;
-  rc.alloc_len = grub_cpu_to_be32 (sizeof (rcd));
+  rc.alloc_len = grub_cpu_to_be32_compile_time (sizeof (rcd));
   rc.PMI = 0;
   rc.control = 0;
 	
@@ -615,9 +615,10 @@ grub_scsi_open (const char *name, grub_disk_t disk)
 
       if (scsi->blocksize & (scsi->blocksize - 1) || !scsi->blocksize)
 	{
+	  grub_error (GRUB_ERR_IO, "invalid sector size %d",
+		      scsi->blocksize);
 	  grub_free (scsi);
-	  return grub_error (GRUB_ERR_IO, "invalid sector size %d",
-			     scsi->blocksize);
+	  return grub_errno;
 	}
       for (disk->log_sector_size = 0;
 	   (1U << disk->log_sector_size) < scsi->blocksize;

@@ -1,4 +1,4 @@
-From 99cccbe05dba4b71e44c235028ba4329db7794ac Mon Sep 17 00:00:00 2001
+From 97a71ac2ffc5ae207cecae13836eb8c435dc242a Mon Sep 17 00:00:00 2001
 From: Evan Broder <evan@ebroder.net>
 Date: Mon, 13 Jan 2014 12:13:29 +0000
 Subject: Add configure option to enable gfxpayload=keep dynamically
@@ -21,10 +21,10 @@ Patch-Name: gfxpayload_dynamic.patch
  create mode 100644 grub-core/commands/i386/pc/hwmatch.c
 
 diff --git a/configure.ac b/configure.ac
-index 2a7e410..7f26de6 100644
+index 48364fe..622b8fd 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1605,6 +1605,17 @@ else
+@@ -1819,6 +1819,17 @@ else
  fi
  AC_SUBST([QUICK_BOOT])
  
@@ -43,10 +43,10 @@ index 2a7e410..7f26de6 100644
  
  AC_SUBST([FONT_SOURCE])
 diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
-index 8c246c6..6a47ee1 100644
+index 2344a5e..6b04710 100644
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -897,6 +897,15 @@ module = {
+@@ -888,6 +888,15 @@ module = {
  };
  
  module = {
@@ -215,7 +215,7 @@ index 0000000..c9f7c9f
 +  grub_unregister_command (cmd);
 +}
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index aa2c369..41f83ca 100644
+index b32cc53..402c562 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -23,6 +23,7 @@ datarootdir="@datarootdir@"
@@ -224,9 +224,9 @@ index aa2c369..41f83ca 100644
  quick_boot="@QUICK_BOOT@"
 +gfxpayload_dynamic="@GFXPAYLOAD_DYNAMIC@"
  
- . "@datadir@/@PACKAGE@/grub-mkconfig_lib"
+ . "$pkgdatadir/grub-mkconfig_lib"
  
-@@ -133,9 +134,10 @@ linux_entry ()
+@@ -135,9 +136,10 @@ linux_entry ()
        if [ "x$GRUB_GFXPAYLOAD_LINUX" != xtext ]; then
  	  echo "	load_video" | sed "s/^/$submenu_indentation/"
        fi
@@ -240,7 +240,7 @@ index aa2c369..41f83ca 100644
    fi
  
    echo "	insmod gzio" | sed "s/^/$submenu_indentation/"
-@@ -208,6 +210,35 @@ prepare_root_cache=
+@@ -212,6 +214,35 @@ prepare_root_cache=
  boot_device_id=
  title_correction_code=
  

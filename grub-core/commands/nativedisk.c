@@ -57,6 +57,7 @@ get_uuid (const char *name, char **uuid, int getnative)
   if (!dev->disk)
     {
       grub_dprintf ("nativedisk", "Skipping non-disk\n");
+      grub_device_close (dev);
       return 0;
     }
 
@@ -90,6 +91,7 @@ get_uuid (const char *name, char **uuid, int getnative)
     case GRUB_DISK_DEVICE_MEMDISK_ID:
       grub_dprintf ("nativedisk", "Skipping native disk %s\n",
 		    dev->disk->name);
+      grub_device_close (dev);
       return 0;
 
       /* FIXME: those probably need special handling.  */
@@ -196,7 +198,10 @@ grub_cmd_nativedisk (grub_command_t cmd __attribute__ ((unused)),
     return grub_errno;
 
   if (get_uuid (NULL, &uuid_root, 0))
-    return grub_errno;
+    {
+      grub_free (mods);
+      return grub_errno;
+    }
 
   prefdev = grub_file_get_device_name (prefix);
   if (grub_errno)
@@ -208,6 +213,8 @@ grub_cmd_nativedisk (grub_command_t cmd __attribute__ ((unused)),
   if (get_uuid (prefdev, &uuid_prefix, 0))
     {
       grub_free (uuid_root);
+      grub_free (prefdev);
+      grub_free (mods);
       return grub_errno;
     }
 
@@ -287,12 +294,15 @@ grub_cmd_nativedisk (grub_command_t cmd __attribute__ ((unused)),
     }
   grub_free (uuid_root);
   grub_free (uuid_prefix);
+  grub_free (prefdev);
+  grub_free (mods);
 
   return GRUB_ERR_NONE;
 
  fail:
   grub_free (uuid_root);
   grub_free (uuid_prefix);
+  grub_free (prefdev);
 
   for (i = 0; i < mods_loaded; i++)
     if (mods[i])
@@ -300,6 +310,8 @@ grub_cmd_nativedisk (grub_command_t cmd __attribute__ ((unused)),
 	mods[i]->fini = 0;
 	grub_dl_unload (mods[i]);
       }
+  grub_free (mods);
+
   return grub_errno;
 }
 
