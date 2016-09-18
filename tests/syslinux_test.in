@@ -2,15 +2,21 @@
 
 set -e
 
+tdir="`mktemp -d "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX"`" || exit 1
 outfile="`mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX"`" || exit 1
 
-"@builddir@/grub-syslinux2cfg" -r "@abs_top_srcdir@/tests/syslinux/ubuntu10.04" "@abs_top_srcdir@/tests/syslinux/ubuntu10.04/isolinux/isolinux.cfg" -o "$outfile"
+cp -a "@top_srcdir@/tests/syslinux/ubuntu10.04" "$tdir/ubuntu10.04"
 
-echo "$outfile"
+"@builddir@/grub-syslinux2cfg" -r "$tdir/ubuntu10.04" "$tdir/ubuntu10.04/isolinux/isolinux.cfg" -o "$tdir/observed.cfg"
 
-if ! diff -u "$outfile" "@builddir@/tests/syslinux/ubuntu10.04_grub.cfg"; then
+echo "$tdir/observed.cfg"
+
+sed -e "s,@dir@,$tdir,g" "@top_srcdir@/tests/syslinux/ubuntu10.04_grub.cfg.in" >"$tdir/expected.cfg"
+if ! diff -u "$tdir/observed.cfg" "$tdir/expected.cfg"; then
   echo "Mismatch in ubuntu10.04"
-  exit 1;
+  rm -rf "$tdir"
+  exit 1
 fi
 
+rm -rf "$tdir"
 exit 0
