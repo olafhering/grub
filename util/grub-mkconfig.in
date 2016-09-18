@@ -33,6 +33,9 @@ datadir="@datadir@"
 if [ "x$pkgdatadir" = x ]; then
     pkgdatadir="${datadir}/@PACKAGE@"
 fi
+# export it for scripts
+export pkgdatadir
+
 grub_cfg=""
 grub_mkconfig_dir="${sysconfdir}"/grub.d
 
@@ -82,7 +85,7 @@ do
     -h | --help)
 	usage
 	exit 0 ;;
-    -v | --version)
+    -V | --version)
 	echo "$self (${PACKAGE_NAME}) ${PACKAGE_VERSION}"
 	exit 0 ;;
     -o | --output)
@@ -124,7 +127,7 @@ set $grub_probe dummy
 if test -f "$1"; then
     :
 else
-    gettext_print "%s: Not found.\n" "$1" 1>&2
+    gettext_printf "%s: Not found.\n" "$1" 1>&2
     exit 1
 fi
 

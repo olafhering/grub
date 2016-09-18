@@ -97,6 +97,7 @@ struct grub_cryptodisk
   grub_uint8_t rekey_key[64];
   grub_uint64_t last_rekey;
   int rekey_derived_size;
+  grub_disk_addr_t partition_start;
 };
 typedef struct grub_cryptodisk *grub_cryptodisk_t;
 
@@ -145,7 +146,8 @@ grub_cryptodisk_cheat_insert (grub_cryptodisk_t newdev, const char *name,
 			      grub_disk_t source, const char *cheat);
 void
 grub_util_cryptodisk_get_abstraction (grub_disk_t disk,
-				      void (*cb) (const char *val));
+				      void (*cb) (const char *val, void *data),
+				      void *data);
 
 char *
 grub_util_get_geli_uuid (const char *dev);

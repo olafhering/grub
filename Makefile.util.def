@@ -48,6 +48,7 @@ library = {
   common = grub-core/partmap/gpt.c;
   common = grub-core/partmap/msdos.c;
   common = grub-core/fs/proc.c;
+  common = grub-core/fs/archelp.c;
 };
 
 library = {
@@ -91,7 +92,6 @@ library = {
   common = grub-core/fs/bfs.c;
   common = grub-core/fs/btrfs.c;
   common = grub-core/fs/cbfs.c;
-  common = grub-core/fs/archelp.c;
   common = grub-core/fs/cpio.c;
   common = grub-core/fs/cpio_be.c;
   common = grub-core/fs/odc.c;
@@ -172,6 +172,8 @@ program = {
 
   common = util/grub-mkimage.c;
   common = util/mkimage.c;
+  common = util/grub-mkimage32.c;
+  common = util/grub-mkimage64.c;
   common = util/resolve.c;
   common = grub-core/kern/emu/argp_common.c;
   common = grub-core/osdep/init.c;
@@ -384,7 +386,7 @@ program = {
   ldadd = libgrubgcry.a;
   ldadd = libgrubkern.a;
   ldadd = grub-core/gnulib/libgnu.a;
-  ldadd = '$(LIBINTL) $(LIBDEVMAPPER) $(LIBUTIL) $(LIBGEOM)';
+  ldadd = '$(LIBINTL) $(LIBDEVMAPPER) $(LIBUTIL) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
 };
 
 program = {
@@ -405,7 +407,7 @@ program = {
 program = {
   name = grub-macbless;
   installdir = sbin;
-  mansection = 1;
+  mansection = 8;
   common = util/grub-macbless.c;
   common = grub-core/osdep/init.c;
   common = grub-core/kern/emu/argp_common.c;
@@ -510,6 +512,8 @@ program = {
   common = util/render-label.c;
   common = util/glue-efi.c;
   common = util/mkimage.c;
+  common = util/grub-mkimage32.c;
+  common = util/grub-mkimage64.c;
   common = util/grub-install-common.c;
   common = util/setup_bios.c;
   common = util/setup_sparc.c;
@@ -552,6 +556,8 @@ program = {
   common = util/render-label.c;
   common = util/glue-efi.c;
   common = util/mkimage.c;
+  common = util/grub-mkimage32.c;
+  common = util/grub-mkimage64.c;
   common = util/grub-install-common.c;
   common = util/setup_bios.c;
   common = util/setup_sparc.c;
@@ -595,6 +601,8 @@ program = {
   common = util/grub-install.c;
   common = util/probe.c;
   common = util/mkimage.c;
+  common = util/grub-mkimage32.c;
+  common = util/grub-mkimage64.c;
   common = util/grub-install-common.c;
   common = util/setup_bios.c;
   common = util/setup_sparc.c;
@@ -613,7 +621,6 @@ program = {
   common = grub-core/disk/host.c;
 
   common = util/resolve.c;
-  enable = noemu;
   common = grub-core/kern/emu/argp_common.c;
   common = grub-core/osdep/init.c;
 
@@ -633,6 +640,8 @@ program = {
   common = util/grub-mknetdir.c;
 
   common = util/mkimage.c;
+  common = util/grub-mkimage32.c;
+  common = util/grub-mkimage64.c;
   common = util/grub-install-common.c;
   common = util/setup_bios.c;
   common = util/setup_sparc.c;
@@ -708,7 +717,7 @@ script = {
   name = grub-fs-tester;
   common = tests/util/grub-fs-tester.in;
   installdir = noinst;
-  dependencies = garbage-gen;
+  dependencies = 'garbage-gen$(BUILD_EXEEXT)';
 };
 
 script = {
@@ -1148,6 +1157,24 @@ script = {
   testcase;
   name = grub_cmd_tr;
   common = tests/grub_cmd_tr.in;
+};
+
+script = {
+  testcase;
+  name = file_filter_test;
+  common = tests/file_filter_test.in;
+};
+
+script = {
+  testcase;
+  name = grub_cmd_test;
+  common = tests/grub_cmd_test.in;
+};
+
+script = {
+  testcase;
+  name = syslinux_test;
+  common = tests/syslinux_test.in;
 };
 
 program = {

@@ -1,7 +1,11 @@
 AUTOMAKE_OPTIONS = subdir-objects -Wno-portability
 
 DEPDIR = .deps-util
-SUBDIRS = grub-core/gnulib . grub-core po docs util/bash-completion.d
+SUBDIRS = grub-core/gnulib .
+if COND_real_platform
+SUBDIRS += grub-core
+endif
+SUBDIRS += po docs util/bash-completion.d
 
 include $(top_srcdir)/conf/Makefile.common
 include $(top_srcdir)/conf/Makefile.extra-dist
@@ -66,35 +70,40 @@ endif
 
 starfield_theme_files = $(srcdir)/themes/starfield/blob_w.png $(srcdir)/themes/starfield/boot_menu_c.png $(srcdir)/themes/starfield/boot_menu_e.png $(srcdir)/themes/starfield/boot_menu_ne.png $(srcdir)/themes/starfield/boot_menu_n.png $(srcdir)/themes/starfield/boot_menu_nw.png $(srcdir)/themes/starfield/boot_menu_se.png $(srcdir)/themes/starfield/boot_menu_s.png $(srcdir)/themes/starfield/boot_menu_sw.png $(srcdir)/themes/starfield/boot_menu_w.png $(srcdir)/themes/starfield/slider_c.png $(srcdir)/themes/starfield/slider_n.png $(srcdir)/themes/starfield/slider_s.png $(srcdir)/themes/starfield/starfield.png $(srcdir)/themes/starfield/terminal_box_c.png $(srcdir)/themes/starfield/terminal_box_e.png $(srcdir)/themes/starfield/terminal_box_ne.png $(srcdir)/themes/starfield/terminal_box_n.png $(srcdir)/themes/starfield/terminal_box_nw.png $(srcdir)/themes/starfield/terminal_box_se.png $(srcdir)/themes/starfield/terminal_box_s.png $(srcdir)/themes/starfield/terminal_box_sw.png $(srcdir)/themes/starfield/terminal_box_w.png $(srcdir)/themes/starfield/theme.txt $(srcdir)/themes/starfield/README $(srcdir)/themes/starfield/COPYING.CC-BY-SA-3.0
 
-build-grub-mkfont: util/grub-mkfont.c grub-core/unidata.c grub-core/kern/emu/misc.c util/misc.c
-	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) -DGRUB_MKFONT=1 -DGRUB_BUILD=1 -DGRUB_UTIL=1 -DGRUB_BUILD_PROGRAM_NAME=\"build-grub-mkfont\" $^ $(build_freetype_cflags) $(build_freetype_libs)
-CLEANFILES += build-grub-mkfont
+build-grub-mkfont$(BUILD_EXEEXT): util/grub-mkfont.c grub-core/unidata.c grub-core/kern/emu/misc.c util/misc.c
+	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $(BUILD_LDFLAGS) -DGRUB_MKFONT=1 -DGRUB_BUILD=1 -DGRUB_UTIL=1 -DGRUB_BUILD_PROGRAM_NAME=\"build-grub-mkfont\" $^ $(build_freetype_cflags) $(build_freetype_libs)
+CLEANFILES += build-grub-mkfont$(BUILD_EXEEXT)
 
-garbage-gen: util/garbage-gen.c
-	$(BUILD_CC) -o $@ $(BUILD_CFLAGS) $(BUILD_CPPFLAGS)  $^
-CLEANFILES += garbage-gen
+garbage-gen$(BUILD_EXEEXT): util/garbage-gen.c
+	$(BUILD_CC) -o $@ $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $(BUILD_LDFLAGS)  $^
+CLEANFILES += garbage-gen$(BUILD_EXEEXT)
 EXTRA_DIST += util/garbage-gen.c
 
-build-grub-gen-asciih: util/grub-gen-asciih.c
-	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) -DGRUB_MKFONT=1 -DGRUB_BUILD=1 -DGRUB_UTIL=1 $^ $(build_freetype_cflags) $(build_freetype_libs) -Wall -Werror
-CLEANFILES += build-grub-gen-asciih
+build-grub-gen-asciih$(BUILD_EXEEXT): util/grub-gen-asciih.c
+	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $(BUILD_LDFLAGS) -DGRUB_MKFONT=1 -DGRUB_BUILD=1 -DGRUB_UTIL=1 $^ $(build_freetype_cflags) $(build_freetype_libs) -Wall -Werror
+CLEANFILES += build-grub-gen-asciih$(BUILD_EXEEXT)
 
-build-grub-gen-widthspec: util/grub-gen-widthspec.c
-	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) -DGRUB_MKFONT=1 -DGRUB_BUILD=1 -DGRUB_UTIL=1 $^ $(build_freetype_cflags) $(build_freetype_libs) -Wall -Werror
-CLEANFILES += build-grub-gen-widthspec
+build-grub-gen-widthspec$(BUILD_EXEEXT): util/grub-gen-widthspec.c
+	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $(BUILD_LDFLAGS) -DGRUB_MKFONT=1 -DGRUB_BUILD=1 -DGRUB_UTIL=1 $^ $(build_freetype_cflags) $(build_freetype_libs) -Wall -Werror
+CLEANFILES += build-grub-gen-widthspec$(BUILD_EXEEXT)
 
 if COND_STARFIELD
 starfield_DATA = dejavu_10.pf2 dejavu_12.pf2 dejavu_bold_14.pf2 dejavu_14.pf2 dejavu_16.pf2 $(starfield_theme_files)
-dejavu_10.pf2: $(DJVU_FONT_SOURCE) build-grub-mkfont
-	./build-grub-mkfont -s 10 -o $@ $(DJVU_FONT_SOURCE)
-dejavu_12.pf2: $(DJVU_FONT_SOURCE) build-grub-mkfont
-	./build-grub-mkfont -s 12 -o $@ $(DJVU_FONT_SOURCE)
-dejavu_14.pf2: $(DJVU_FONT_SOURCE) build-grub-mkfont
-	./build-grub-mkfont -s 14 -o $@ $(DJVU_FONT_SOURCE)
-dejavu_bold_14.pf2: $(DJVU_FONT_SOURCE) build-grub-mkfont
-	./build-grub-mkfont -b -s 14 -o $@ $(DJVU_FONT_SOURCE)
-dejavu_16.pf2: $(DJVU_FONT_SOURCE) build-grub-mkfont
-	./build-grub-mkfont -s 16 -o $@ $(DJVU_FONT_SOURCE)
+dejavu_10.pf2: $(DJVU_FONT_SOURCE) build-grub-mkfont$(BUILD_EXEEXT)
+	./build-grub-mkfont$(BUILD_EXEEXT) -s 10 -o $@ $(DJVU_FONT_SOURCE)
+CLEANFILES += dejavu_10.pf2
+dejavu_12.pf2: $(DJVU_FONT_SOURCE) build-grub-mkfont$(BUILD_EXEEXT)
+	./build-grub-mkfont$(BUILD_EXEEXT) -s 12 -o $@ $(DJVU_FONT_SOURCE)
+CLEANFILES += dejavu_12.pf2
+dejavu_14.pf2: $(DJVU_FONT_SOURCE) build-grub-mkfont$(BUILD_EXEEXT)
+	./build-grub-mkfont$(BUILD_EXEEXT) -s 14 -o $@ $(DJVU_FONT_SOURCE)
+CLEANFILES += dejavu_14.pf2
+dejavu_bold_14.pf2: $(DJVU_FONT_SOURCE) build-grub-mkfont$(BUILD_EXEEXT)
+	./build-grub-mkfont$(BUILD_EXEEXT) -b -s 14 -o $@ $(DJVU_FONT_SOURCE)
+CLEANFILES += dejavu_bold_14.pf2
+dejavu_16.pf2: $(DJVU_FONT_SOURCE) build-grub-mkfont$(BUILD_EXEEXT)
+	./build-grub-mkfont$(BUILD_EXEEXT) -s 16 -o $@ $(DJVU_FONT_SOURCE)
+CLEANFILES += dejavu_16.pf2
 else
 starfield_DATA =
 endif
@@ -102,28 +111,28 @@ endif
 EXTRA_DIST += $(starfield_theme_files)
 EXTRA_DIST += $(srcdir)/themes/starfield/src/slider_s.xcf $(srcdir)/themes/starfield/src/slider_n.xcf $(srcdir)/themes/starfield/src/slider_c.xcf $(srcdir)/themes/starfield/src/blob_nw.xcf $(srcdir)/themes/starfield/src/bootmenu/center.xcf $(srcdir)/themes/starfield/src/bootmenu/corner.xcf $(srcdir)/themes/starfield/src/bootmenu/side.xcf $(srcdir)/themes/starfield/src/terminalbox/side.xcf $(srcdir)/themes/starfield/src/terminalbox/corner.xcf $(srcdir)/themes/starfield/src/terminalbox/center.xcf
 
-unicode.pf2: $(FONT_SOURCE) build-grub-mkfont
-	./build-grub-mkfont -o $@ $(FONT_SOURCE) || (rm -f $@; exit 1)
+unicode.pf2: $(FONT_SOURCE) build-grub-mkfont$(BUILD_EXEEXT)
+	./build-grub-mkfont$(BUILD_EXEEXT) -o $@ $(FONT_SOURCE) || (rm -f $@; exit 1)
 CLEANFILES += unicode.pf2
 
 # Arrows and lines are needed to draw the menu, so always include them
 UNICODE_ARROWS=0x2190-0x2193
 UNICODE_LINES=0x2501-0x251B
 
-ascii.pf2: $(FONT_SOURCE) build-grub-mkfont
-	./build-grub-mkfont -o $@ $(FONT_SOURCE) -r 0x0-0x7f,$(UNICODE_ARROWS),$(UNICODE_LINES) || (rm -f $@; exit 1)
+ascii.pf2: $(FONT_SOURCE) build-grub-mkfont$(BUILD_EXEEXT)
+	./build-grub-mkfont$(BUILD_EXEEXT) -o $@ $(FONT_SOURCE) -r 0x0-0x7f,$(UNICODE_ARROWS),$(UNICODE_LINES) || (rm -f $@; exit 1)
 CLEANFILES += ascii.pf2
 
-euro.pf2: $(FONT_SOURCE) build-grub-mkfont
-	./build-grub-mkfont -o $@ $(FONT_SOURCE) -r 0x0-0x4ff,0x1e00-0x1fff,$(UNICODE_ARROWS),$(UNICODE_LINES) || (rm -f $@; exit 1)
+euro.pf2: $(FONT_SOURCE) build-grub-mkfont$(BUILD_EXEEXT)
+	./build-grub-mkfont$(BUILD_EXEEXT) -o $@ $(FONT_SOURCE) -r 0x0-0x4ff,0x1e00-0x1fff,$(UNICODE_ARROWS),$(UNICODE_LINES) || (rm -f $@; exit 1)
 CLEANFILES += euro.pf2
 
-ascii.h: $(FONT_SOURCE) build-grub-gen-asciih
-	./build-grub-gen-asciih $(FONT_SOURCE) $@ || (rm -f $@; exit 1)
+ascii.h: $(FONT_SOURCE) build-grub-gen-asciih$(BUILD_EXEEXT)
+	./build-grub-gen-asciih$(BUILD_EXEEXT) $(FONT_SOURCE) $@ || (rm -f $@; exit 1)
 CLEANFILES += ascii.h
 
-widthspec.h: $(FONT_SOURCE) build-grub-gen-widthspec
-	./build-grub-gen-widthspec $(FONT_SOURCE) $@ || (rm -f $@; exit 1)
+widthspec.h: $(FONT_SOURCE) build-grub-gen-widthspec$(BUILD_EXEEXT)
+	./build-grub-gen-widthspec$(BUILD_EXEEXT) $(FONT_SOURCE) $@ || (rm -f $@; exit 1)
 CLEANFILES += widthspec.h
 
 # Install config.h into platformdir
@@ -131,6 +140,8 @@ nodist_platform_HEADERS = config.h
 
 pkgdata_DATA += grub-mkconfig_lib
 
+
+if COND_real_platform
 
 if COND_i386_coreboot
 QEMU32=qemu-system-i386
@@ -334,33 +345,35 @@ bootcheck-ntldr: ntldr.bin $(srcdir)/grub-core/tests/boot/ntldr.cfg grub-shell
 	./grub-shell --timeout=$(BOOTCHECK_TIMEOUT) --qemu=$(QEMU32) --files=/ntldr.bin=ntldr.bin $(srcdir)/grub-core/tests/boot/ntldr.cfg | grep $(SUCCESSFUL_BOOT_STRING) > /dev/null
 
 if COND_i386_efi
-BOOTCHECKS = bootcheck-kfreebsd-aout bootcheck-kopenbsd-i386 bootcheck-kopenbsd-x86_64 bootcheck-multiboot bootcheck-multiboot2 bootcheck-linux-i386 bootcheck-linux-x86_64 bootcheck-knetbsd-x86_64 bootcheck-kfreebsd-x86_64 bootcheck-kfreebsd-i386
+# NetBSD has no support for finding ACPI on EFI
+BOOTCHECKS = bootcheck-kfreebsd-aout bootcheck-kopenbsd-i386 bootcheck-kopenbsd-x86_64 bootcheck-multiboot bootcheck-multiboot2 bootcheck-linux-i386 bootcheck-linux-x86_64 bootcheck-kfreebsd-x86_64 bootcheck-kfreebsd-i386
 endif
 
 if COND_x86_64_efi
-BOOTCHECKS = bootcheck-kfreebsd-aout bootcheck-kopenbsd-i386 bootcheck-kopenbsd-x86_64 bootcheck-multiboot bootcheck-multiboot2 bootcheck-linux-i386 bootcheck-linux-x86_64 bootcheck-knetbsd-x86_64 bootcheck-kfreebsd-x86_64 bootcheck-kfreebsd-i386
+# NetBSD has no support for finding ACPI on EFI
+BOOTCHECKS = bootcheck-kfreebsd-aout bootcheck-kopenbsd-i386 bootcheck-kopenbsd-x86_64 bootcheck-multiboot bootcheck-multiboot2 bootcheck-linux-i386 bootcheck-linux-x86_64 bootcheck-kfreebsd-x86_64 bootcheck-kfreebsd-i386
 endif
 
 if COND_i386_multiboot
-# FreeBSD requires ACPI
-BOOTCHECKS = bootcheck-kfreebsd-aout bootcheck-kopenbsd-i386 bootcheck-kopenbsd-x86_64 bootcheck-multiboot bootcheck-multiboot2 bootcheck-linux-i386 bootcheck-linux-x86_64 bootcheck-knetbsd-x86_64
+# *BSD requires ACPI
+BOOTCHECKS = bootcheck-kfreebsd-aout bootcheck-multiboot bootcheck-multiboot2 bootcheck-linux-i386 bootcheck-linux-x86_64
+endif
+
+
+if COND_i386_qemu
+# *BSD requires ACPI
+BOOTCHECKS = bootcheck-kfreebsd-aout bootcheck-multiboot bootcheck-multiboot2 bootcheck-linux-i386 bootcheck-linux-x86_64
 endif
 
 if COND_i386_coreboot
-# Freebsd requires ACPI
-BOOTCHECKS = bootcheck-kfreebsd-aout bootcheck-kopenbsd-i386 bootcheck-kopenbsd-x86_64 bootcheck-multiboot bootcheck-multiboot2 bootcheck-linux-i386 bootcheck-linux-x86_64 bootcheck-knetbsd-x86_64
-endif
-
-if COND_i386_qemu
-# FreeBSD requires ACPI
-BOOTCHECKS = bootcheck-kfreebsd-aout bootcheck-kopenbsd-i386 bootcheck-kopenbsd-x86_64 bootcheck-multiboot bootcheck-multiboot2 bootcheck-linux-i386 bootcheck-linux-x86_64 bootcheck-knetbsd-x86_64
+BOOTCHECKS = bootcheck-kfreebsd-aout bootcheck-kopenbsd-i386 bootcheck-kopenbsd-x86_64 bootcheck-multiboot bootcheck-multiboot2 bootcheck-linux-i386 bootcheck-linux-x86_64 bootcheck-knetbsd-x86_64 bootcheck-kfreebsd-x86_64 bootcheck-kfreebsd-i386
 endif
 
 if COND_i386_pc
 #pc chainloader by definition is only for i386-pc
 #ntldr and bootmgr require BIOS.
-#legacy protocol makes early BIOS calls.
-# NetBSD crashes early on non-BIOS
+#legacy protocol (linux16) makes early BIOS calls.
+# 32-bit NetBSD crashes early on non-BIOS
 BOOTCHECKS = bootcheck-kfreebsd-aout bootcheck-kopenbsd-i386 bootcheck-kopenbsd-x86_64 bootcheck-multiboot bootcheck-multiboot2 bootcheck-linux-i386 bootcheck-linux-x86_64 bootcheck-knetbsd-x86_64 bootcheck-kfreebsd-x86_64 bootcheck-kfreebsd-i386 bootcheck-pc-chainloader bootcheck-ntldr bootcheck-linux16-i386 bootcheck-linux16-x86_64 bootcheck-knetbsd-i386
 endif
 
@@ -383,12 +396,10 @@ if COND_powerpc_ieee1275
 BOOTCHECKS = bootcheck-linux-ppc
 endif
 
-EXTRA_DIST += grub-core/tests/boot/kbsd.init-i386.S grub-core/tests/boot/kbsd.init-x86_64.S grub-core/tests/boot/kbsd.spec.txt grub-core/tests/boot/kernel-8086.S grub-core/tests/boot/kernel-i386.S grub-core/tests/boot/kfreebsd-aout.cfg grub-core/tests/boot/kfreebsd.cfg grub-core/tests/boot/kfreebsd.init-i386.S grub-core/tests/boot/kfreebsd.init-x86_64.S grub-core/tests/boot/knetbsd.cfg grub-core/tests/boot/kopenbsd.cfg grub-core/tests/boot/kopenbsdlabel.txt grub-core/tests/boot/linux16.cfg grub-core/tests/boot/linux.cfg grub-core/tests/boot/linux.init-i386.S grub-core/tests/boot/linux.init-mips.S grub-core/tests/boot/linux.init-ppc.S grub-core/tests/boot/linux.init-x86_64.S grub-core/tests/boot/linux-ppc.cfg grub-core/tests/boot/multiboot2.cfg grub-core/tests/boot/multiboot.cfg grub-core/tests/boot/ntldr.cfg grub-core/tests/boot/pc-chainloader.cfg grub-core/tests/boot/qemu-shutdown-x86.S
-
 .PHONY: bootcheck-linux-i386 bootcheck-linux-x86_64 \
        bootcheck-kfreebsd-i386 bootcheck-kfreebsd-x86_64 \
        bootcheck-knetbsd-i386 bootcheck-knetbsd-x86_64 \
-	bootcheck-linux-mips
+	bootcheck-linux-mips FORCE
 
 # Randomly generated
 SUCCESSFUL_BOOT_STRING=3e49994fd5d82b7c9298d672d774080d
@@ -398,9 +409,14 @@ BOOTCHECK_TIMEOUT=180
 bootcheck: $(BOOTCHECKS)
 
 if COND_i386_coreboot
-default_payload.elf: grub-mkstandalone grub-mkimage
-	pkgdatadir=. ./grub-mkstandalone --grub-mkimage=./grub-mkimage -O i386-coreboot -o $@ --modules='ahci pata ehci uhci ohci usb_keyboard usbms part_msdos xfs ext2 fat at_keyboard part_gpt usbserial_usbdebug cbfs' --install-modules='ls linux search configfile normal cbtime cbls memrw iorw minicmd lsmmap lspci halt reboot hexdump pcidump regexp setpci lsacpi chain test serial' --fonts= --themes= --locales= -d grub-core/ /boot/grub/grub.cfg=$(srcdir)/coreboot.cfg
+default_payload.elf: grub-mkstandalone grub-mkimage FORCE
+	test -f $@ && rm $@ || true
+	pkgdatadir=. ./grub-mkstandalone --grub-mkimage=./grub-mkimage -O i386-coreboot -o $@ --modules='ahci pata ehci uhci ohci usb_keyboard usbms part_msdos ext2 fat at_keyboard part_gpt usbserial_usbdebug cbfs' --install-modules='ls linux search configfile normal cbtime cbls memrw iorw minicmd lsmmap lspci halt reboot hexdump pcidump regexp setpci lsacpi chain test serial multiboot cbmemc linux16 gzio echo help syslinuxcfg xnu $(shell cat grub-core/fs.lst) password_pbkdf2 $(EXTRA_PAYLOAD_MODULES)' --fonts= --themes= --locales= -d grub-core/ /boot/grub/grub.cfg=$(srcdir)/coreboot.cfg
 endif
+
+endif
+
+EXTRA_DIST += grub-core/tests/boot/kbsd.init-i386.S grub-core/tests/boot/kbsd.init-x86_64.S grub-core/tests/boot/kbsd.spec.txt grub-core/tests/boot/kernel-8086.S grub-core/tests/boot/kernel-i386.S grub-core/tests/boot/kfreebsd-aout.cfg grub-core/tests/boot/kfreebsd.cfg grub-core/tests/boot/kfreebsd.init-i386.S grub-core/tests/boot/kfreebsd.init-x86_64.S grub-core/tests/boot/knetbsd.cfg grub-core/tests/boot/kopenbsd.cfg grub-core/tests/boot/kopenbsdlabel.txt grub-core/tests/boot/linux16.cfg grub-core/tests/boot/linux.cfg grub-core/tests/boot/linux.init-i386.S grub-core/tests/boot/linux.init-mips.S grub-core/tests/boot/linux.init-ppc.S grub-core/tests/boot/linux.init-x86_64.S grub-core/tests/boot/linux-ppc.cfg grub-core/tests/boot/multiboot2.cfg grub-core/tests/boot/multiboot.cfg grub-core/tests/boot/ntldr.cfg grub-core/tests/boot/pc-chainloader.cfg grub-core/tests/boot/qemu-shutdown-x86.S
 
 windowsdir=$(top_builddir)/$(PACKAGE)-$(VERSION)-for-windows
 windowsdir: $(PROGRAMS) $(starfield_DATA) $(platform_DATA)
@@ -420,10 +436,33 @@ windowsdir: $(PROGRAMS) $(starfield_DATA) $(platform_DATA)
 	for x in $(starfield_DATA); do \
 		cp -fp $$x $(windowsdir)/themes/starfield/$$(basename $$x); \
 	done
+	for x in $(GRUB_WINDOWS_EXTRA_DIST); do \
+		cp -fp $$x $(windowsdir); \
+	done
 
 windowszip=$(top_builddir)/$(PACKAGE)-$(VERSION)-for-windows.zip
 windowszip: windowsdir
 	test -f $(windowszip) && rm $(windowszip) || true
 	zip -r $(windowszip) $(windowsdir)
+	rm -rf $(windowsdir)
 
 EXTRA_DIST += linguas.sh
+
+changelog_start_date = 2015-01-23
+gitlog_to_changelog = $(top_srcdir)/build-aux/gitlog-to-changelog
+
+ChangeLog: FORCE
+	if test -d $(top_srcdir)/.git; then \
+		$(gitlog_to_changelog) --srcdir=$(top_srcdir) --since=$(changelog_start_date) > '$@.tmp'; \
+		rm -f '$@'; mv '$@.tmp' '$@'; \
+	else \
+		touch $@; \
+	fi
+
+EXTRA_DIST += ChangeLog ChangeLog-2015
+
+syslinux_test: $(top_builddir)/config.status tests/syslinux/ubuntu10.04_grub.cfg
+
+tests/syslinux/ubuntu10.04_grub.cfg: $(top_builddir)/config.status tests/syslinux/ubuntu10.04_grub.cfg.in
+	(for x in tests/syslinux/ubuntu10.04_grub.cfg.in ; do cat $(srcdir)/"$$x"; done) | $(top_builddir)/config.status --file=$@:-
+CLEANFILES += tests/syslinux/ubuntu10.04_grub.cfg

@@ -69,7 +69,6 @@ static grub_addr_t prot_mode_target;
 static void *initrd_mem;
 static grub_addr_t initrd_mem_target;
 static grub_size_t prot_init_space;
-static grub_uint32_t initrd_pages;
 static struct grub_relocator *relocator = NULL;
 static void *efi_mmap_buf;
 static grub_size_t maximal_cmdline_size;
@@ -722,7 +721,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
 
   /* FIXME: 2.03 is not always good enough (Linux 2.4 can be 2.03 and
      still not support 32-bit boot.  */
-  if (lh.header != grub_cpu_to_le32 (GRUB_LINUX_MAGIC_SIGNATURE)
+  if (lh.header != grub_cpu_to_le32_compile_time (GRUB_LINUX_MAGIC_SIGNATURE)
       || grub_le_to_cpu16 (lh.version) < 0x0203)
     {
       grub_error (GRUB_ERR_BAD_OS, "version too old for 32-bit boot"
@@ -1046,11 +1045,11 @@ static grub_err_t
 grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
 		 int argc, char *argv[])
 {
-  grub_size_t size = 0;
+  grub_size_t size = 0, aligned_size = 0;
   grub_addr_t addr_min, addr_max;
   grub_addr_t addr;
   grub_err_t err;
-  struct grub_linux_initrd_context initrd_ctx;
+  struct grub_linux_initrd_context initrd_ctx = { 0, 0, 0 };
 
   if (argc == 0)
     {
@@ -1068,8 +1067,7 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
     goto fail;
 
   size = grub_get_initrd_size (&initrd_ctx);
-
-  initrd_pages = (page_align (size) >> 12);
+  aligned_size = ALIGN_UP (size, 4096);
 
   /* Get the highest address available for the initrd.  */
   if (grub_le_to_cpu16 (linux_params.version) >= 0x0203)
@@ -1097,7 +1095,7 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
   addr_min = (grub_addr_t) prot_mode_target + prot_init_space;
 
   /* Put the initrd as high as possible, 4KiB aligned.  */
-  addr = (addr_max - size) & ~0xFFF;
+  addr = (addr_max - aligned_size) & ~0xFFF;
 
   if (addr < addr_min)
     {
@@ -1108,7 +1106,8 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
   {
     grub_relocator_chunk_t ch;
     err = grub_relocator_alloc_chunk_align (relocator, &ch,
-					    addr_min, addr, size, 0x1000,
+					    addr_min, addr, aligned_size,
+					    0x1000,
 					    GRUB_RELOCATOR_PREFERENCE_HIGH,
 					    1);
     if (err)

@@ -329,7 +329,7 @@ write_file (FILE *out, const char *fname, struct grub_keyboard_layout *layout)
   grub_uint32_t version;
   unsigned i;
 
-  version = grub_cpu_to_le32 (GRUB_KEYBOARD_LAYOUTS_VERSION);
+  version = grub_cpu_to_le32_compile_time (GRUB_KEYBOARD_LAYOUTS_VERSION);
   
   for (i = 0; i < ARRAY_SIZE (layout->keyboard_map); i++)
     layout->keyboard_map[i] = grub_cpu_to_le32(layout->keyboard_map[i]);
@@ -383,6 +383,13 @@ write_keymaps (FILE *in, FILE *out, const char *out_filename)
 
 	  sscanf (line, "keycode %u = %60s %60s %60s %60s", &keycode_linux,
 		  normal, shift, normalalt, shiftalt);
+
+	  if (keycode_linux >= ARRAY_SIZE (linux_to_usb_map))
+	    {
+	      /* TRANSLATORS: scan code is keyboard key numeric identifier.  */
+	      fprintf (stderr, _("Unknown keyboard scan code 0x%02x\n"), keycode_linux);
+	      continue;
+	    }
 
 	  /* Not used.  */
 	  if (keycode_linux == 0x77 /* Pause */

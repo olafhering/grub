@@ -64,7 +64,7 @@ iterate_device (const char *name, void *data)
   /* Skip floppy drives when requested.  */
   if (ctx->no_floppy &&
       name[0] == 'f' && name[1] == 'd' && name[2] >= '0' && name[2] <= '9')
-    return 0;
+    return 1;
 
 #ifdef DO_SEARCH_FS_UUID
 #define compare_fn grub_strcasecmp
@@ -210,10 +210,10 @@ try (struct search_ctx *ctx)
       /* Cache entry was outdated. Remove it.  */
       if (!ctx->count)
 	{
+	  *prev = cache_ent->next;
 	  grub_free (cache_ent->key);
 	  grub_free (cache_ent->value);
 	  grub_free (cache_ent);
-	  *prev = cache_ent->next;
 	}
     }
 

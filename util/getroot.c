@@ -107,6 +107,7 @@ grub_util_pull_device (const char *os_dev)
     default:
       if (grub_util_pull_device_os (os_dev, ab))
 	return;
+      /* Fallthrough.  */
     case GRUB_DEV_ABSTRACTION_NONE:
       free (grub_util_biosdisk_get_grub_dev (os_dev));
       return;
@@ -382,9 +383,6 @@ grub_util_biosdisk_get_grub_dev (const char *os_dev)
     grub_util_info ("%s starts from %" GRUB_HOST_PRIuLONG_LONG,
 		    os_dev, (unsigned long long) ctx.start);
 
-    if (ctx.start == 0 && !is_part)
-      return name;
-
     grub_util_info ("opening the device %s", name);
     disk = grub_disk_open (name);
     free (name);
@@ -405,7 +403,7 @@ grub_util_biosdisk_get_grub_dev (const char *os_dev)
 	       os_dev);
 	    grub_errno = GRUB_ERR_NONE;
 
-	    canon = canonicalize_file_name (os_dev);
+	    canon = grub_canonicalize_file_name (os_dev);
 	    drive = grub_hostdisk_os_dev_to_grub_drive (canon ? : os_dev, 1);
 	    if (canon)
 	      free (canon);
@@ -417,7 +415,10 @@ grub_util_biosdisk_get_grub_dev (const char *os_dev)
 
     name = grub_util_get_ldm (disk, ctx.start);
     if (name)
-      return name;
+      {
+	grub_disk_close (disk);
+	return name;
+      }
 
     ctx.partname = NULL;
 

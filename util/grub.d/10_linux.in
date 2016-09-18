@@ -21,7 +21,7 @@ prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 datarootdir="@datarootdir@"
 
-. "@datadir@/@PACKAGE@/grub-mkconfig_lib"
+. "$pkgdatadir/grub-mkconfig_lib"
 
 export TEXTDOMAIN=@PACKAGE@
 export TEXTDOMAINDIR="@localedir@"
@@ -43,9 +43,11 @@ case ${GRUB_DEVICE} in
   ;;
 esac
 
+# btrfs may reside on multiple devices. We cannot pass them as value of root= parameter
+# and mounting btrfs requires user space scanning, so force UUID in this case.
 if [ "x${GRUB_DEVICE_UUID}" = "x" ] || [ "x${GRUB_DISABLE_LINUX_UUID}" = "xtrue" ] \
     || ! test -e "/dev/disk/by-uuid/${GRUB_DEVICE_UUID}" \
-    || uses_abstraction "${GRUB_DEVICE}" lvm; then
+    || test -e "${GRUB_DEVICE}" && uses_abstraction "${GRUB_DEVICE}" lvm; then
   LINUX_ROOT_DEVICE=${GRUB_DEVICE}
 else
   LINUX_ROOT_DEVICE=UUID=${GRUB_DEVICE_UUID}
@@ -147,13 +149,15 @@ EOF
 machine=`uname -m`
 case "x$machine" in
     xi?86 | xx86_64)
-	list=`for i in /boot/vmlinuz-* /vmlinuz-* /boot/kernel-* ; do
-                  if grub_file_is_not_garbage "$i" ; then echo -n "$i " ; fi
-              done` ;;
+	list=
+	for i in /boot/vmlinuz-* /vmlinuz-* /boot/kernel-* ; do
+	    if grub_file_is_not_garbage "$i" ; then list="$list $i" ; fi
+	done ;;
     *) 
-	list=`for i in /boot/vmlinuz-* /boot/vmlinux-* /vmlinuz-* /vmlinux-* /boot/kernel-* ; do
-                  if grub_file_is_not_garbage "$i" ; then echo -n "$i " ; fi
-	     done` ;;
+	list=
+	for i in /boot/vmlinuz-* /boot/vmlinux-* /vmlinuz-* /vmlinux-* /boot/kernel-* ; do
+                  if grub_file_is_not_garbage "$i" ; then list="$list $i" ; fi
+	done ;;
 esac
 
 case "$machine" in
@@ -241,7 +245,7 @@ while [ "x$list" != "x" ] ; do
                 "single ${GRUB_CMDLINE_LINUX}"
   fi
 
-  list=`echo $list | tr ' ' '\n' | grep -vx $linux | tr '\n' ' '`
+  list=`echo $list | tr ' ' '\n' | fgrep -vx "$linux" | tr '\n' ' '`
 done
 
 # If at least one kernel was found, then we need to

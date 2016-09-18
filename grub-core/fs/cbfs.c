@@ -74,8 +74,7 @@ grub_cbfs_find_file (struct grub_archelp_data *data, char **name,
       (void) mtime;
       offset = grub_be_to_cpu32 (hd.offset);
 
-      if (mode)
-	*mode = GRUB_ARCHELP_ATTR_FILE | GRUB_ARCHELP_ATTR_NOTIME;
+      *mode = GRUB_ARCHELP_ATTR_FILE | GRUB_ARCHELP_ATTR_NOTIME;
 
       namesize = offset;
       if (namesize >= sizeof (hd))
@@ -144,10 +143,13 @@ static struct grub_archelp_data *
 grub_cbfs_mount (grub_disk_t disk)
 {
   struct cbfs_file hd;
-  struct grub_archelp_data *data;
+  struct grub_archelp_data *data = NULL;
   grub_uint32_t ptr;
   grub_off_t header_off;
   struct cbfs_header head;
+
+  if (grub_disk_get_size (disk) == GRUB_DISK_SIZE_UNKNOWN)
+    goto fail;
 
   if (grub_disk_read (disk, grub_disk_get_size (disk) - 1,
 		      GRUB_DISK_SECTOR_SIZE - sizeof (ptr),
@@ -193,6 +195,7 @@ grub_cbfs_mount (grub_disk_t disk)
   return data;
 
 fail:
+  grub_free (data);
   grub_error (GRUB_ERR_BAD_FS, "not a cbfs filesystem");
   return 0;
 }
@@ -341,8 +344,16 @@ init_cbfsdisk (void)
 
   ptr = *(grub_uint32_t *) 0xfffffffc;
   head = (struct cbfs_header *) (grub_addr_t) ptr;
+  grub_dprintf ("cbfs", "head=%p\n", head);
 
-  if (!validate_head (head))
+  /* coreboot current supports only ROMs <= 16 MiB. Bigger ROMs will
+     have problems as RCBA is 18 MiB below end of 32-bit typically,
+     so either memory map would have to be rearranged or we'd need to support
+     reading ROMs through controller directly.
+   */
+  if (ptr < 0xff000000
+      || 0xffffffff - ptr < (grub_uint32_t) sizeof (*head) + 0xf
+      || !validate_head (head))
     return;
 
   cbfsdisk_size = ALIGN_UP (grub_be_to_cpu32 (head->romsize),

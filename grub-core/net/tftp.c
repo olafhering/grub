@@ -149,7 +149,7 @@ ack (tftp_data_t data, grub_uint64_t block)
     return err;
 
   tftph_ack = (struct tftphdr *) nb_ack.data;
-  tftph_ack->opcode = grub_cpu_to_be16 (TFTP_ACK);
+  tftph_ack->opcode = grub_cpu_to_be16_compile_time (TFTP_ACK);
   tftph_ack->u.ack.block = grub_cpu_to_be16 (block);
 
   err = grub_net_send_udp_packet (data->sock, &nb_ack);
@@ -326,14 +326,17 @@ tftp_open (struct grub_file *file, const char *filename)
   grub_netbuff_reserve (&nb, 1500);
   err = grub_netbuff_push (&nb, sizeof (*tftph));
   if (err)
-    return err;
+    {
+      grub_free (data);
+      return err;
+    }
 
   tftph = (struct tftphdr *) nb.data;
 
   rrq = (char *) tftph->u.rrq;
   rrqlen = 0;
 
-  tftph->opcode = grub_cpu_to_be16 (TFTP_RRQ);
+  tftph->opcode = grub_cpu_to_be16_compile_time (TFTP_RRQ);
   grub_strcpy (rrq, filename);
   rrqlen += grub_strlen (filename) + 1;
   rrq += grub_strlen (filename) + 1;
@@ -361,19 +364,26 @@ tftp_open (struct grub_file *file, const char *filename)
 
   err = grub_netbuff_unput (&nb, nb.tail - (nb.data + hdrlen));
   if (err)
-    return err;
+    {
+      grub_free (data);
+      return err;
+    }
 
   file->not_easily_seekable = 1;
   file->data = data;
 
   data->pq = grub_priority_queue_new (sizeof (struct grub_net_buff *), cmp);
   if (!data->pq)
-    return grub_errno;
+    {
+      grub_free (data);
+      return grub_errno;
+    }
 
   err = grub_net_resolve_address (file->device->net->server, &addr);
   if (err)
     {
       destroy_pq (data);
+      grub_free (data);
       return err;
     }
 
@@ -383,6 +393,7 @@ tftp_open (struct grub_file *file, const char *filename)
   if (!data->sock)
     {
       destroy_pq (data);
+      grub_free (data);
       return grub_errno;
     }
 
@@ -396,9 +407,11 @@ tftp_open (struct grub_file *file, const char *filename)
 	{
 	  grub_net_udp_close (data->sock);
 	  destroy_pq (data);
+	  grub_free (data);
 	  return err;
 	}
-      grub_net_poll_cards (GRUB_NET_INTERVAL, &data->have_oack);
+      grub_net_poll_cards (GRUB_NET_INTERVAL + (i * GRUB_NET_INTERVAL_ADDITION),
+                           &data->have_oack);
       if (data->have_oack)
 	break;
     }
@@ -411,6 +424,7 @@ tftp_open (struct grub_file *file, const char *filename)
     {
       grub_net_udp_close (data->sock);
       destroy_pq (data);
+      grub_free (data);
       return grub_errno;
     }
 
@@ -442,8 +456,8 @@ tftp_close (struct grub_file *file)
       if (!err)
 	{
 	  tftph = (struct tftphdr *) nb_err.data;
-	  tftph->opcode = grub_cpu_to_be16 (TFTP_ERROR);
-	  tftph->u.err.errcode = grub_cpu_to_be16 (TFTP_EUNDEF);
+	  tftph->opcode = grub_cpu_to_be16_compile_time (TFTP_ERROR);
+	  tftph->u.err.errcode = grub_cpu_to_be16_compile_time (TFTP_EUNDEF);
 	  grub_memcpy (tftph->u.err.errmsg, "closed", sizeof ("closed"));
 
 	  err = grub_net_send_udp_packet (data->sock, &nb_err);

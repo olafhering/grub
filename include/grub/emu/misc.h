@@ -27,6 +27,7 @@
 #include <grub/symbol.h>
 #include <grub/types.h>
 #include <grub/misc.h>
+#include <grub/util/misc.h>
 
 extern int verbosity;
 extern const char *program_name;
@@ -53,15 +54,13 @@ grub_util_device_is_mapped (const char *dev);
 void * EXPORT_FUNC(xmalloc) (grub_size_t size) WARN_UNUSED_RESULT;
 void * EXPORT_FUNC(xrealloc) (void *ptr, grub_size_t size) WARN_UNUSED_RESULT;
 char * EXPORT_FUNC(xstrdup) (const char *str) WARN_UNUSED_RESULT;
-char * EXPORT_FUNC(xasprintf) (const char *fmt, ...) __attribute__ ((format (printf, 1, 2))) WARN_UNUSED_RESULT;
+char * EXPORT_FUNC(xasprintf) (const char *fmt, ...) __attribute__ ((format (__printf__, 1, 2))) WARN_UNUSED_RESULT;
 
-void EXPORT_FUNC(grub_util_warn) (const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
-void EXPORT_FUNC(grub_util_info) (const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
-void EXPORT_FUNC(grub_util_error) (const char *fmt, ...) __attribute__ ((format (printf, 1, 2), noreturn));
+void EXPORT_FUNC(grub_util_warn) (const char *fmt, ...) __attribute__ ((format (__printf__, 1, 2)));
+void EXPORT_FUNC(grub_util_info) (const char *fmt, ...) __attribute__ ((format (__printf__, 1, 2)));
+void EXPORT_FUNC(grub_util_error) (const char *fmt, ...) __attribute__ ((format (__printf__, 1, 2), noreturn));
 
 grub_uint64_t EXPORT_FUNC (grub_util_get_cpu_time_ms) (void);
-
-extern char * canonicalize_file_name (const char *path);
 
 #ifdef HAVE_DEVICE_MAPPER
 int grub_device_mapper_supported (void);

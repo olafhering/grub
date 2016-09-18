@@ -238,7 +238,7 @@ grub_install_push_module (const char *val)
       if (modules.n_alloc < 16)
 	modules.n_alloc = 16;
       modules.entries = xrealloc (modules.entries,
-				  modules.n_alloc * sizeof (modules.entries));
+				  modules.n_alloc * sizeof (*modules.entries));
     }
   modules.entries[modules.n_entries++] = xstrdup (val);
   modules.entries[modules.n_entries] = NULL;
@@ -490,10 +490,11 @@ grub_install_make_image_wrap_file (const char *dir, const char *prefix,
 		  dir, prefix,
 		  outname, mkimage_target,
 		  compnames[compression], note ? "--note" : "", s);
+  free (s);
 
   tgt = grub_install_get_image_target (mkimage_target);
   if (!tgt)
-    grub_util_error (_("unknown target format %s\n"), mkimage_target);
+    grub_util_error (_("unknown target format %s"), mkimage_target);
 
   grub_install_generate_image (dir, prefix, fp, outname,
 			       modules.entries, memdisk_path,
@@ -668,6 +669,36 @@ static struct
   }; 
 
 char *
+grub_install_get_platforms_string (void)
+{
+  char **arr = xmalloc (sizeof (char *) * ARRAY_SIZE (platforms));
+  int platform_strins_len = 0;
+  char *platforms_string;
+  char *ptr;
+  unsigned i;
+  for (i = 0; i < ARRAY_SIZE (platforms); i++)
+    {
+      arr[i] = xasprintf ("%s-%s", platforms[i].cpu,
+			  platforms[i].platform);
+      platform_strins_len += strlen (arr[i]) + 2;
+    }
+  ptr = platforms_string = xmalloc (platform_strins_len);
+  qsort (arr, ARRAY_SIZE (platforms), sizeof (char *), grub_qsort_strcmp);
+  for (i = 0; i < ARRAY_SIZE (platforms); i++)
+    {
+      strcpy (ptr, arr[i]);
+      ptr += strlen (arr[i]);
+      *ptr++ = ',';
+      *ptr++ = ' ';
+      free (arr[i]);
+    }
+  ptr[-2] = 0;
+  free (arr);
+ 
+  return platforms_string;
+}
+
+char *
 grub_install_get_platform_name (enum grub_install_plat platid)
 {
   return xasprintf ("%s-%s", platforms[platid].cpu,
@@ -734,6 +765,8 @@ grub_install_copy_files (const char *src,
 	  grub_install_compress_file (srcf, dstf, 1);
 	  free (dstf);
 	}
+
+      grub_util_free_path_list (path_list);
     }
 
   const char *pkglib_DATA[] = {"efiemu32.o", "efiemu64.o",
@@ -871,8 +904,8 @@ grub_install_get_target (const char *src)
 {
   char *fn;
   grub_util_fd_t f;
-  char buf[2048];
-  size_t r;
+  char buf[8192];
+  ssize_t r;
   char *c, *pl, *p;
   size_t i;
   fn = grub_util_path_concat (2, src, "modinfo.sh");
@@ -881,6 +914,8 @@ grub_install_get_target (const char *src)
     grub_util_error (_("%s doesn't exist. Please specify --target or --directory"), 
 		     fn);
   r = grub_util_fd_read (f, buf, sizeof (buf) - 1);
+  if (r < 0)
+    grub_util_error (_("cannot read `%s': %s"), fn, strerror (errno));
   grub_util_fd_close (f);
   buf[r] = '\0';
   c = strstr (buf, "grub_modinfo_target_cpu=");

@@ -34,13 +34,18 @@ struct ofdisk_hash_ent
   char *open_path;
   char *grub_devpath;
   int is_boot;
-  int is_cdrom;
+  int is_removable;
+  int block_size_fails;
   /* Pointer to shortest available name on nodes representing canonical names,
      otherwise NULL.  */
   const char *shortest;
   const char *grub_shortest;
   struct ofdisk_hash_ent *next;
 };
+
+static grub_err_t
+grub_ofdisk_get_block_size (const char *device, grub_uint32_t *block_size,
+			    struct ofdisk_hash_ent *op);
 
 #define OFDISK_HASH_SZ	8
 static struct ofdisk_hash_ent *ofdisk_hash[OFDISK_HASH_SZ];
@@ -123,7 +128,7 @@ ofdisk_hash_add_real (char *devpath)
 }
 
 static int
-check_string_cdrom (const char *str)
+check_string_removable (const char *str)
 {
   const char *ptr = grub_strrchr (str, '/');
 
@@ -131,7 +136,7 @@ check_string_cdrom (const char *str)
     ptr++;
   else
     ptr = str;
-  return (grub_strncmp (ptr, "cdrom", 5) == 0);
+  return (grub_strncmp (ptr, "cdrom", 5) == 0 || grub_strncmp (ptr, "fd", 2) == 0);
 }
 
 static struct ofdisk_hash_ent *
@@ -147,8 +152,8 @@ ofdisk_hash_add (char *devpath, char *curcan)
     {
       p->shortest = p->devpath;
       p->grub_shortest = p->grub_devpath;
-      if (check_string_cdrom (devpath))
-	p->is_cdrom = 1;  
+      if (check_string_removable (devpath))
+	p->is_removable = 1;
       return p;
     }
 
@@ -158,8 +163,8 @@ ofdisk_hash_add (char *devpath, char *curcan)
   else
     grub_free (curcan);
 
-  if (check_string_cdrom (devpath) || check_string_cdrom (curcan))
-    pcan->is_cdrom = 1;
+  if (check_string_removable (devpath) || check_string_removable (curcan))
+    pcan->is_removable = 1;
 
   if (!pcan)
     grub_errno = GRUB_ERR_NONE;
@@ -222,7 +227,10 @@ dev_iterate (const struct grub_ieee1275_devalias *alias)
 
       if (grub_ieee1275_open (alias->path, &ihandle))
 	return;
-    
+
+      /* This method doesn't need memory allocation for the table. Open
+         firmware takes care of all memory management and the result table
+         stays in memory and is never freed. */
       INIT_IEEE1275_COMMON (&args.common, "call-method", 2, 3);
       args.method = (grub_ieee1275_cell_t) "vscsi-report-luns";
       args.ihandle = ihandle;
@@ -254,6 +262,82 @@ dev_iterate (const struct grub_ieee1275_devalias *alias)
       grub_ieee1275_close (ihandle);
       grub_free (buf);
       return;
+    }
+  else if (grub_strcmp (alias->type, "sas_ioa") == 0)
+    {
+      /* The method returns the number of disks and a table where
+       * each ID is 64-bit long. Example of sas paths:
+       *  /pci@80000002000001f/pci1014,034A@0/sas/disk@c05db70800
+       *  /pci@80000002000001f/pci1014,034A@0/sas/disk@a05db70800
+       *  /pci@80000002000001f/pci1014,034A@0/sas/disk@805db70800 */
+
+      struct sas_children
+        {
+          struct grub_ieee1275_common_hdr common;
+          grub_ieee1275_cell_t method;
+          grub_ieee1275_cell_t ihandle;
+          grub_ieee1275_cell_t max;
+          grub_ieee1275_cell_t table;
+          grub_ieee1275_cell_t catch_result;
+          grub_ieee1275_cell_t nentries;
+        }
+      args;
+      char *buf, *bufptr;
+      unsigned i;
+      grub_uint64_t *table;
+      grub_uint16_t table_size;
+      grub_ieee1275_ihandle_t ihandle;
+
+      buf = grub_malloc (grub_strlen (alias->path) +
+                         sizeof ("/disk@7766554433221100"));
+      if (!buf)
+        return;
+      bufptr = grub_stpcpy (buf, alias->path);
+
+      /* Power machines documentation specify 672 as maximum SAS disks in
+         one system. Using a slightly larger value to be safe. */
+      table_size = 768;
+      table = grub_malloc (table_size * sizeof (grub_uint64_t));
+
+      if (!table)
+        {
+          grub_free (buf);
+          return;
+        }
+
+      if (grub_ieee1275_open (alias->path, &ihandle))
+        {
+          grub_free (buf);
+          grub_free (table);
+          return;
+        }
+
+      INIT_IEEE1275_COMMON (&args.common, "call-method", 4, 2);
+      args.method = (grub_ieee1275_cell_t) "get-sas-children";
+      args.ihandle = ihandle;
+      args.max = table_size;
+      args.table = (grub_ieee1275_cell_t) table;
+      args.catch_result = 0;
+      args.nentries = 0;
+
+      if (IEEE1275_CALL_ENTRY_FN (&args) == -1)
+        {
+          grub_ieee1275_close (ihandle);
+          grub_free (table);
+          grub_free (buf);
+          return;
+        }
+
+      for (i = 0; i < args.nentries; i++)
+        {
+          grub_snprintf (bufptr, sizeof ("/disk@7766554433221100"),
+                        "/disk@%" PRIxGRUB_UINT64_T, table[i]);
+          dev_iterate_real (buf, buf);
+        }
+
+      grub_ieee1275_close (ihandle);
+      grub_free (table);
+      grub_free (buf);
     }
 
   if (!grub_ieee1275_test_flag (GRUB_IEEE1275_FLAG_NO_TREE_SCANNING_FOR_DISKS)
@@ -330,7 +414,7 @@ grub_ofdisk_iterate (grub_disk_dev_iterate_hook_t hook, void *hook_data,
 		}
 	    }
 
-	  if (!ent->is_boot && ent->is_cdrom)
+	  if (!ent->is_boot && ent->is_removable)
 	    continue;
 
 	  if (hook (ent->grub_shortest, hook_data))
@@ -375,6 +459,8 @@ grub_ofdisk_open (const char *name, grub_disk_t disk)
   /* XXX: This should be large enough for any possible case.  */
   char prop[64];
   grub_ssize_t actual;
+  grub_uint32_t block_size = 0;
+  grub_err_t err;
 
   if (grub_strncmp (name, "ieee1275/", sizeof ("ieee1275/") - 1) != 0)
       return grub_error (GRUB_ERR_UNKNOWN_DEVICE,
@@ -405,14 +491,6 @@ grub_ofdisk_open (const char *name, grub_disk_t disk)
       return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "not a block device");
     }
 
-  grub_uint32_t block_size = 0;
-  if (grub_ofdisk_get_block_size (devpath, &block_size) == 0)
-    {
-      for (disk->log_sector_size = 0;
-           (1U << disk->log_sector_size) < block_size;
-           disk->log_sector_size++);
-    }
-
   /* XXX: There is no property to read the number of blocks.  There
      should be a property `#blocks', but it is not there.  Perhaps it
      is possible to use seek for this.  */
@@ -423,14 +501,31 @@ grub_ofdisk_open (const char *name, grub_disk_t disk)
     op = ofdisk_hash_find (devpath);
     if (!op)
       op = ofdisk_hash_add (devpath, NULL);
-    else
-      grub_free (devpath);
     if (!op)
-      return grub_errno;
+      {
+        grub_free (devpath);
+        return grub_errno;
+      }
     disk->id = (unsigned long) op;
     disk->data = op->open_path;
+
+    err = grub_ofdisk_get_block_size (devpath, &block_size, op);
+    if (err)
+      {
+        grub_free (devpath);
+        return err;
+      }
+    if (block_size != 0)
+      {
+	for (disk->log_sector_size = 0;
+	     (1U << disk->log_sector_size) < block_size;
+	     disk->log_sector_size++);
+      }
+    else
+      disk->log_sector_size = 9;
   }
 
+  grub_free (devpath);
   return 0;
 }
 
@@ -589,8 +684,9 @@ grub_ofdisk_init (void)
   grub_disk_dev_register (&grub_ofdisk_dev);
 }
 
-grub_err_t
-grub_ofdisk_get_block_size (const char *device, grub_uint32_t *block_size)
+static grub_err_t
+grub_ofdisk_get_block_size (const char *device, grub_uint32_t *block_size,
+			    struct ofdisk_hash_ent *op)
 {
   struct size_args_ieee1275
     {
@@ -612,20 +708,34 @@ grub_ofdisk_get_block_size (const char *device, grub_uint32_t *block_size)
   if (! last_ihandle)
     return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "can't open device");
 
+  *block_size = 0;
+
+  if (op->block_size_fails >= 2)
+    return GRUB_ERR_NONE;
+
   INIT_IEEE1275_COMMON (&args_ieee1275.common, "call-method", 2, 2);
   args_ieee1275.method = (grub_ieee1275_cell_t) "block-size";
   args_ieee1275.ihandle = last_ihandle;
   args_ieee1275.result = 1;
 
-  *block_size = GRUB_DISK_SECTOR_SIZE;
-
-  if ((IEEE1275_CALL_ENTRY_FN (&args_ieee1275) == -1) || (args_ieee1275.result))
-    grub_dprintf ("disk", "can't get block size\n");
-  else
-    if (args_ieee1275.size1
-        && !(args_ieee1275.size1 & (args_ieee1275.size1 - 1))
-        && args_ieee1275.size1 >= 512 && args_ieee1275.size1 <= 16384)
+  if (IEEE1275_CALL_ENTRY_FN (&args_ieee1275) == -1)
+    {
+      grub_dprintf ("disk", "can't get block size: failed call-method\n");
+      op->block_size_fails++;
+    }
+  else if (args_ieee1275.result)
+    {
+      grub_dprintf ("disk", "can't get block size: %lld\n",
+		    (long long) args_ieee1275.result);
+      op->block_size_fails++;
+    }
+  else if (args_ieee1275.size1
+	   && !(args_ieee1275.size1 & (args_ieee1275.size1 - 1))
+	   && args_ieee1275.size1 >= 512 && args_ieee1275.size1 <= 16384)
+    {
+      op->block_size_fails = 0;
       *block_size = args_ieee1275.size1;
+    }
 
   return 0;
 }

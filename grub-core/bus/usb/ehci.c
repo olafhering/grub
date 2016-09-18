@@ -29,6 +29,7 @@
 #include <grub/loader.h>
 #include <grub/cs5536.h>
 #include <grub/disk.h>
+#include <grub/cache.h>
 
 GRUB_MOD_LICENSE ("GPLv3+");
 
@@ -337,6 +338,21 @@ struct grub_ehci
 
 static struct grub_ehci *ehci;
 
+static void
+sync_all_caches (struct grub_ehci *e)
+{
+  if (!e)
+    return;
+  if (e->td_virt)
+    grub_arch_sync_dma_caches (e->td_virt, sizeof (struct grub_ehci_td) *
+			       GRUB_EHCI_N_TD);
+  if (e->qh_virt)
+    grub_arch_sync_dma_caches (e->qh_virt, sizeof (struct grub_ehci_qh) *
+			       GRUB_EHCI_N_QH);
+  if (e->framelist_virt)
+    grub_arch_sync_dma_caches (e->framelist_virt, 4096);
+}
+
 /* EHCC registers access functions */
 static inline grub_uint32_t
 grub_ehci_ehcc_read32 (struct grub_ehci *e, grub_uint32_t addr)
@@ -436,6 +452,8 @@ static grub_usb_err_t
 grub_ehci_reset (struct grub_ehci *e)
 {
   grub_uint64_t maxtime;
+
+  sync_all_caches (e);
 
   grub_ehci_oper_write32 (e, GRUB_EHCI_COMMAND,
 			  GRUB_EHCI_CMD_HC_RESET
@@ -670,23 +688,23 @@ grub_ehci_pci_iter (grub_pci_device_t dev, grub_pci_id_t pciid,
   for (i = 0; i < (GRUB_EHCI_N_TD - 1); i++)
     {
       e->td_virt[i].link_td = e->td_phys + (i + 1) * sizeof (struct grub_ehci_td);
-      e->td_virt[i].next_td = grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
-      e->td_virt[i].alt_next_td = grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
+      e->td_virt[i].next_td = grub_cpu_to_le32_compile_time (GRUB_EHCI_TERMINATE);
+      e->td_virt[i].alt_next_td = grub_cpu_to_le32_compile_time (GRUB_EHCI_TERMINATE);
     }
   e->td_virt[GRUB_EHCI_N_TD - 1].next_td =
-    grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
+    grub_cpu_to_le32_compile_time (GRUB_EHCI_TERMINATE);
   e->td_virt[GRUB_EHCI_N_TD - 1].alt_next_td =
-    grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
+    grub_cpu_to_le32_compile_time (GRUB_EHCI_TERMINATE);
   e->tdfree_virt = e->td_virt;
   /* Set Terminate in first QH, which is used in framelist */
-  e->qh_virt[0].qh_hptr = grub_cpu_to_le32 (GRUB_EHCI_TERMINATE | GRUB_EHCI_HPTR_TYPE_QH);
-  e->qh_virt[0].td_overlay.next_td = grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
+  e->qh_virt[0].qh_hptr = grub_cpu_to_le32_compile_time (GRUB_EHCI_TERMINATE | GRUB_EHCI_HPTR_TYPE_QH);
+  e->qh_virt[0].td_overlay.next_td = grub_cpu_to_le32_compile_time (GRUB_EHCI_TERMINATE);
   e->qh_virt[0].td_overlay.alt_next_td =
-    grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
+    grub_cpu_to_le32_compile_time (GRUB_EHCI_TERMINATE);
   /* Also set Halted bit in token */
-  e->qh_virt[0].td_overlay.token = grub_cpu_to_le32 (GRUB_EHCI_STATUS_HALTED);
+  e->qh_virt[0].td_overlay.token = grub_cpu_to_le32_compile_time (GRUB_EHCI_STATUS_HALTED);
   /* Set the H bit in first QH used for AL */
-  e->qh_virt[1].ep_char = grub_cpu_to_le32 (GRUB_EHCI_H);
+  e->qh_virt[1].ep_char = grub_cpu_to_le32_compile_time (GRUB_EHCI_H);
   /* Set Terminate into TD in rest of QHs and set horizontal link
    * pointer to itself - these QHs will be used for asynchronous
    * schedule and they should have valid value in horiz. link */
@@ -697,12 +715,12 @@ grub_ehci_pci_iter (grub_pci_device_t dev, grub_pci_id_t pciid,
 						e->qh_chunk) &
 			   GRUB_EHCI_POINTER_MASK) | GRUB_EHCI_HPTR_TYPE_QH);
       e->qh_virt[i].td_overlay.next_td =
-	grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
+	grub_cpu_to_le32_compile_time (GRUB_EHCI_TERMINATE);
       e->qh_virt[i].td_overlay.alt_next_td =
-	grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
+	grub_cpu_to_le32_compile_time (GRUB_EHCI_TERMINATE);
       /* Also set Halted bit in token */
       e->qh_virt[i].td_overlay.token =
-	grub_cpu_to_le32 (GRUB_EHCI_STATUS_HALTED);
+	grub_cpu_to_le32_compile_time (GRUB_EHCI_STATUS_HALTED);
     }
 
   /* Note: QH 0 and QH 1 are reserved and must not be used anywhere.
@@ -839,6 +857,8 @@ grub_ehci_pci_iter (grub_pci_device_t dev, grub_pci_id_t pciid,
   /* Link to ehci now that initialisation is successful.  */
   e->next = ehci;
   ehci = e;
+
+  sync_all_caches (e);
 
   grub_dprintf ("ehci", "EHCI grub_ehci_pci_iter: OK at all\n");
 
@@ -991,7 +1011,7 @@ grub_ehci_find_qh (struct grub_ehci *e, grub_usb_transfer_t transfer)
   target = ((transfer->endpoint << GRUB_EHCI_EP_NUM_OFF) |
 	    transfer->devaddr) & GRUB_EHCI_TARGET_MASK;
   target = grub_cpu_to_le32 (target);
-  mask = grub_cpu_to_le32 (GRUB_EHCI_TARGET_MASK);
+  mask = grub_cpu_to_le32_compile_time (GRUB_EHCI_TARGET_MASK);
 
   /* low speed interrupt transfers are linked to the periodic */
   /* schedule, everything else to the asynchronous schedule */
@@ -1020,6 +1040,7 @@ grub_ehci_find_qh (struct grub_ehci *e, grub_usb_transfer_t transfer)
 	  /* Found proper existing (and linked) QH, do setup of QH */
 	  grub_dprintf ("ehci", "find_qh: found, QH=%p\n", qh_iter);
 	  grub_ehci_setup_qh (qh_iter, transfer);
+	  sync_all_caches (e);
 	  return qh_iter;
 	}
 
@@ -1121,7 +1142,7 @@ grub_ehci_free_tds (struct grub_ehci *e, grub_ehci_td_t td,
       token = grub_le_to_cpu32 (td->token);
       to_transfer = (token & GRUB_EHCI_TOTAL_MASK) >> GRUB_EHCI_TOTAL_OFF;
 
-      /* Check state of TD - if it did not transfered
+      /* Check state of TD - if it did not transfer
        * whole data then set last_trans - it should be last executed TD
        * in case when something went wrong. */
       if (transfer && (td->size != to_transfer))
@@ -1200,7 +1221,7 @@ grub_ehci_transaction (struct grub_ehci *e,
   grub_memset ((void *) td, 0, sizeof (struct grub_ehci_td));
 
   /* Don't point to any TD yet, just terminate.  */
-  td->next_td = grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
+  td->next_td = grub_cpu_to_le32_compile_time (GRUB_EHCI_TERMINATE);
   /* Set alternate pointer. When short packet occurs, alternate TD
    * will not be really fetched because it is not active. But don't
    * forget, EHCI will try to fetch alternate TD every scan of AL
@@ -1289,16 +1310,28 @@ grub_ehci_setup_transfer (grub_usb_controller_t dev,
   grub_ehci_td_t td_prev = NULL;
   int i;
   struct grub_ehci_transfer_controller_data *cdata;
+  grub_uint32_t status;
+
+  sync_all_caches (e);
 
   /* Check if EHCI is running and AL is enabled */
-  if ((grub_ehci_oper_read32 (e, GRUB_EHCI_STATUS)
-       & GRUB_EHCI_ST_HC_HALTED) != 0)
+  status = grub_ehci_oper_read32 (e, GRUB_EHCI_STATUS);
+  if ((status & GRUB_EHCI_ST_HC_HALTED) != 0)
     /* XXX: Fix it: Currently we don't do anything to restart EHCI */
-    return GRUB_USB_ERR_INTERNAL;
-  if ((grub_ehci_oper_read32 (e, GRUB_EHCI_STATUS)
+    {
+      grub_dprintf ("ehci", "setup_transfer: halted, status = 0x%x\n",
+		    status);
+      return GRUB_USB_ERR_INTERNAL;
+    }
+  status = grub_ehci_oper_read32 (e, GRUB_EHCI_STATUS);
+  if ((status
        & (GRUB_EHCI_ST_AS_STATUS | GRUB_EHCI_ST_PS_STATUS)) == 0)
     /* XXX: Fix it: Currently we don't do anything to restart EHCI */
-    return GRUB_USB_ERR_INTERNAL;
+    {
+      grub_dprintf ("ehci", "setup_transfer: no AS/PS, status = 0x%x\n",
+		    status);
+      return GRUB_USB_ERR_INTERNAL;
+    }
 
   /* Allocate memory for controller transfer data.  */
   cdata = grub_malloc (sizeof (*cdata));
@@ -1310,6 +1343,7 @@ grub_ehci_setup_transfer (grub_usb_controller_t dev,
   cdata->qh_virt = grub_ehci_find_qh (e, transfer);
   if (!cdata->qh_virt)
     {
+      grub_dprintf ("ehci", "setup_transfer: no QH\n");
       grub_free (cdata);
       return GRUB_USB_ERR_INTERNAL;
     }
@@ -1319,15 +1353,16 @@ grub_ehci_setup_transfer (grub_usb_controller_t dev,
   cdata->td_alt_virt = grub_ehci_alloc_td (e);
   if (!cdata->td_alt_virt)
     {
+      grub_dprintf ("ehci", "setup_transfer: no TDs\n");
       grub_free (cdata);
       return GRUB_USB_ERR_INTERNAL;
     }
   /* Fill whole alternate TD by zeros (= inactive) and set
    * Terminate bits and Halt bit */
   grub_memset ((void *) cdata->td_alt_virt, 0, sizeof (struct grub_ehci_td));
-  cdata->td_alt_virt->next_td = grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
-  cdata->td_alt_virt->alt_next_td = grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
-  cdata->td_alt_virt->token = grub_cpu_to_le32 (GRUB_EHCI_STATUS_HALTED);
+  cdata->td_alt_virt->next_td = grub_cpu_to_le32_compile_time (GRUB_EHCI_TERMINATE);
+  cdata->td_alt_virt->alt_next_td = grub_cpu_to_le32_compile_time (GRUB_EHCI_TERMINATE);
+  cdata->td_alt_virt->token = grub_cpu_to_le32_compile_time (GRUB_EHCI_STATUS_HALTED);
 
   /* Allocate appropriate number of TDs and set */
   for (i = 0; i < transfer->transcnt; i++)
@@ -1345,6 +1380,7 @@ grub_ehci_setup_transfer (grub_usb_controller_t dev,
 	    grub_ehci_free_tds (e, cdata->td_first_virt, NULL, &actual);
 
 	  grub_free (cdata);
+	  grub_dprintf ("ehci", "setup_transfer: no TD\n");
 	  return GRUB_USB_ERR_INTERNAL;
 	}
 
@@ -1364,7 +1400,7 @@ grub_ehci_setup_transfer (grub_usb_controller_t dev,
   cdata->td_last_virt = td;
   cdata->td_last_phys = grub_dma_virt2phys (td, e->td_chunk);
   /* Last TD should not have set alternate TD */
-  cdata->td_last_virt->alt_next_td = grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
+  cdata->td_last_virt->alt_next_td = grub_cpu_to_le32_compile_time (GRUB_EHCI_TERMINATE);
 
   grub_dprintf ("ehci", "setup_transfer: cdata=%p, qh=%p\n",
 		cdata,cdata->qh_virt);
@@ -1377,14 +1413,16 @@ grub_ehci_setup_transfer (grub_usb_controller_t dev,
   /* Start transfer: */
   /* Unlink possible alternate pointer in QH */
   cdata->qh_virt->td_overlay.alt_next_td =
-    grub_cpu_to_le32 (GRUB_EHCI_TERMINATE);
+    grub_cpu_to_le32_compile_time (GRUB_EHCI_TERMINATE);
   /* Link new TDs with QH via next_td */
   cdata->qh_virt->td_overlay.next_td =
     grub_cpu_to_le32 (grub_dma_virt2phys
 		      (cdata->td_first_virt, e->td_chunk));
   /* Reset Active and Halted bits in QH to activate Advance Queue,
    * i.e. reset token */
-  cdata->qh_virt->td_overlay.token = grub_cpu_to_le32 (0);
+  cdata->qh_virt->td_overlay.token = grub_cpu_to_le32_compile_time (0);
+
+  sync_all_caches (e);
 
   /* Finito */
   transfer->controller_data = cdata;
@@ -1408,9 +1446,9 @@ grub_ehci_pre_finish_transfer (grub_usb_transfer_t transfer)
    * safely manipulate with QH TD part. */
   cdata->qh_virt->td_overlay.token = (cdata->qh_virt->td_overlay.token
 				      |
-				      grub_cpu_to_le32
+				      grub_cpu_to_le32_compile_time
 				      (GRUB_EHCI_STATUS_HALTED)) &
-    grub_cpu_to_le32 (~GRUB_EHCI_STATUS_ACTIVE);
+    grub_cpu_to_le32_compile_time (~GRUB_EHCI_STATUS_ACTIVE);
 
   /* Print debug data here if necessary */
 
@@ -1433,6 +1471,8 @@ grub_ehci_parse_notrun (grub_usb_controller_t dev,
   grub_ehci_free_tds (e, cdata->td_first_virt, transfer, actual);
   grub_ehci_free_td (e, cdata->td_alt_virt);
   grub_free (cdata);
+
+  sync_all_caches (e);
 
   /* Additionally, do something with EHCI to make it running (what?) */
   /* Try enable EHCI and AL */
@@ -1469,6 +1509,8 @@ grub_ehci_parse_halt (grub_usb_controller_t dev,
   grub_ehci_free_td (e, cdata->td_alt_virt);
   grub_free (cdata);
 
+  sync_all_caches (e);
+
   /* Evaluation of error code - currently we don't have GRUB USB error
    * codes for some EHCI states, GRUB_USB_ERR_DATA is used for them.
    * Order of evaluation is critical, specially bubble/stall. */
@@ -1502,6 +1544,8 @@ grub_ehci_parse_success (grub_usb_controller_t dev,
   grub_ehci_free_td (e, cdata->td_alt_virt);
   grub_free (cdata);
 
+  sync_all_caches (e);
+
   return GRUB_USB_ERR_NONE;
 }
 
@@ -1514,6 +1558,8 @@ grub_ehci_check_transfer (grub_usb_controller_t dev,
   struct grub_ehci_transfer_controller_data *cdata =
     transfer->controller_data;
   grub_uint32_t token, token_ftd;
+
+  sync_all_caches (e);
 
   grub_dprintf ("ehci",
 		"check_transfer: EHCI STATUS=%08x, cdata=%p, qh=%p\n",
@@ -1581,6 +1627,9 @@ grub_ehci_cancel_transfer (grub_usb_controller_t dev,
   int i;
   grub_uint64_t maxtime;
   grub_uint32_t qh_phys;
+
+  sync_all_caches (e);
+
   grub_uint32_t interrupt =
     cdata->qh_virt->ep_cap & GRUB_EHCI_SMASK_MASK;
 
@@ -1600,6 +1649,7 @@ grub_ehci_cancel_transfer (grub_usb_controller_t dev,
       grub_ehci_free_tds (e, cdata->td_first_virt, transfer, &actual);
       grub_ehci_free_td (e, cdata->td_alt_virt);
       grub_free (cdata);
+      sync_all_caches (e);
       grub_dprintf ("ehci", "cancel_transfer: end - EHCI not running\n");
       return GRUB_USB_ERR_NONE;
     }
@@ -1621,6 +1671,8 @@ grub_ehci_cancel_transfer (grub_usb_controller_t dev,
     }
   /* Unlink QH from AL */
   e->qh_virt[i].qh_hptr = cdata->qh_virt->qh_hptr;
+
+  sync_all_caches (e);
 
   /* If this is an interrupt transfer, we just wait for the periodic
    * schedule to advance a few times and then assume that the EHCI
@@ -1675,6 +1727,8 @@ grub_ehci_cancel_transfer (grub_usb_controller_t dev,
   grub_free (cdata);
 
   grub_dprintf ("ehci", "cancel_transfer: end\n");
+
+  sync_all_caches (e);
 
   return GRUB_USB_ERR_NONE;
 }
@@ -1776,11 +1830,6 @@ grub_ehci_detect_dev (grub_usb_controller_t dev, int port, int *changed)
   grub_uint32_t status, line_state;
 
   status = grub_ehci_port_read (e, port);
-
-  grub_dprintf ("ehci", "detect_dev: EHCI STATUS: %08x\n",
-		grub_ehci_oper_read32 (e, GRUB_EHCI_STATUS));
-  grub_dprintf ("ehci", "detect_dev: iobase=%p, port=%d, status=0x%02x\n",
-		e->iobase, port, status);
 
   /* Connect Status Change bit - it detects change of connection */
   if (status & GRUB_EHCI_PORT_CONNECT_CH)

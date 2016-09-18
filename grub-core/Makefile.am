@@ -26,20 +26,26 @@ CFLAGS_LIBRARY += $(CFLAGS_PLATFORM) -fno-builtin
 CPPFLAGS_LIBRARY += $(CPPFLAGS_PLATFORM)
 CCASFLAGS_LIBRARY += $(CCASFLAGS_PLATFORM)
 
-build-grub-pep2elf: $(top_srcdir)/util/grub-pe2elf.c $(top_srcdir)/grub-core/kern/emu/misc.c $(top_srcdir)/util/misc.c
-	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) -DGRUB_BUILD=1 -DGRUB_TARGET_WORDSIZE=64 -DGRUB_UTIL=1 -DGRUB_BUILD_PROGRAM_NAME=\"build-grub-pep2elf\" $^
+build-grub-pep2elf$(BUILD_EXEEXT): $(top_srcdir)/util/grub-pe2elf.c $(top_srcdir)/grub-core/kern/emu/misc.c $(top_srcdir)/util/misc.c
+	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $(BUILD_LDFLAGS) -DGRUB_BUILD=1 -DGRUB_TARGET_WORDSIZE=64 -DGRUB_UTIL=1 -DGRUB_BUILD_PROGRAM_NAME=\"build-grub-pep2elf\" $^
+CLEANFILES += build-grub-pep2elf$(BUILD_EXEEXT)
 
-build-grub-pe2elf: $(top_srcdir)/util/grub-pe2elf.c $(top_srcdir)/grub-core/kern/emu/misc.c $(top_srcdir)/util/misc.c
-	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) -DGRUB_BUILD=1 -DGRUB_TARGET_WORDSIZE=32 -DGRUB_UTIL=1 -DGRUB_BUILD_PROGRAM_NAME=\"build-grub-pe2elf\" $^
+build-grub-pe2elf$(BUILD_EXEEXT): $(top_srcdir)/util/grub-pe2elf.c $(top_srcdir)/grub-core/kern/emu/misc.c $(top_srcdir)/util/misc.c
+	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $(BUILD_LDFLAGS) -DGRUB_BUILD=1 -DGRUB_TARGET_WORDSIZE=32 -DGRUB_UTIL=1 -DGRUB_BUILD_PROGRAM_NAME=\"build-grub-pe2elf\" $^
+CLEANFILES += build-grub-pe2elf$(BUILD_EXEEXT)
 
 # gentrigtables
-gentrigtables: gentrigtables.c
-	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $< $(BUILD_LIBM)
-CLEANFILES += gentrigtables
+gentrigtables$(BUILD_EXEEXT): gentrigtables.c
+	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $(BUILD_LDFLAGS) $< $(BUILD_LIBM)
+CLEANFILES += gentrigtables$(BUILD_EXEEXT)
+
+build-grub-module-verifier$(BUILD_EXEEXT): $(top_srcdir)/util/grub-module-verifier.c $(top_srcdir)/util/grub-module-verifier32.c $(top_srcdir)/util/grub-module-verifier64.c $(top_srcdir)/grub-core/kern/emu/misc.c $(top_srcdir)/util/misc.c
+	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $(BUILD_LDFLAGS) -DGRUB_BUILD=1 -DGRUB_UTIL=1 -DGRUB_BUILD_PROGRAM_NAME=\"build-grub-module-verifier\" $^
+CLEANFILES += build-grub-module-verifier$(BUILD_EXEEXT)
 
 # trigtables.c
-trigtables.c: gentrigtables gentrigtables.c $(top_srcdir)/configure.ac
-	./gentrigtables > $@
+trigtables.c: gentrigtables$(BUILD_EXEEXT) gentrigtables.c $(top_srcdir)/configure.ac
+	./gentrigtables$(BUILD_EXEEXT) > $@
 CLEANFILES += trigtables.c
 
 # XXX Use Automake's LEX & YACC support
@@ -74,6 +80,11 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i18n.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/kernel.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/list.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/misc.h
+if COND_emu
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/compiler-rt-emu.h
+else
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/compiler-rt.h
+endif
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/mm.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/parser.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/partition.h
@@ -81,9 +92,6 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/term.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/time.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/mm_private.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/net.h
-if !COND_clang
-KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/libgcc.h
-endif
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/memory.h
 
 if COND_i386_pc
@@ -97,7 +105,9 @@ if COND_i386_efi
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/efi.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/disk.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/tsc.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/acpi.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/pci.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/pmtimer.h
 endif
 
 if COND_i386_coreboot
@@ -108,10 +118,12 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/video_fb.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/gfxterm.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/font.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/bufio.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/acpi.h
 endif
 
 if COND_i386_multiboot
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/tsc.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/acpi.h
 endif
 
 if COND_i386_qemu
@@ -150,11 +162,14 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/efi.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/disk.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/tsc.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/pci.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/acpi.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/pmtimer.h
 endif
 
 if COND_ia64_efi
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/efi.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/disk.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/acpi.h
 endif
 
 if COND_mips
@@ -229,11 +244,13 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/arm/efi/loader.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/efi.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/disk.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/arm/system.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/acpi.h
 endif
 
 if COND_arm64_efi
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/efi.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/disk.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/acpi.h
 endif
 
 if COND_emu
@@ -245,9 +262,6 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/emu/hostfile.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/extcmd.h
 if COND_GRUB_EMU_SDL
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/sdl.h
-endif
-if COND_GRUB_EMU_USB
-KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/libusb.h
 endif
 if COND_GRUB_EMU_PCI
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/libpciaccess.h
@@ -292,12 +306,12 @@ grub_emu-grub_emu_init.$(OBJEXT):grub_emu_init.h
 kern/emu/grub_emu_dyn-main.$(OBJEXT):grub_emu_init.h
 grub_emu_dyn-grub_emu_init.$(OBJEXT):grub_emu_init.h
 
-grub_emu_init.h: genemuinitheader.sh $(MOD_FILES)
-	rm -f $@; echo $(MOD_FILES) | sh $(srcdir)/genemuinitheader.sh $(TARGET_NM) > $@
+grub_emu_init.h: genemuinitheader.sh $(MODULE_FILES)
+	rm -f $@; echo $(MODULE_FILES) | sh $(srcdir)/genemuinitheader.sh $(TARGET_NM) > $@
 CLEANFILES += grub_emu_init.h
 
-grub_emu_init.c: grub_emu_init.h genemuinit.sh $(MOD_FILES)
-	rm -f $@; echo $(MOD_FILES) | sh $(srcdir)/genemuinit.sh $(TARGET_NM) > $@
+grub_emu_init.c: grub_emu_init.h genemuinit.sh $(MODULE_FILES)
+	rm -f $@; echo $(MODULE_FILES) | sh $(srcdir)/genemuinit.sh $(TARGET_NM) > $@
 CLEANFILES += grub_emu_init.c
 endif
 
@@ -382,7 +396,7 @@ moddep.lst: syminfo.lst genmoddep.awk video.lst
 platform_DATA += moddep.lst
 CLEANFILES += config.log syminfo.lst moddep.lst
 
-$(MOD_FILES): %.mod : genmod.sh moddep.lst %.module$(EXEEXT)
+$(MOD_FILES): %.mod : genmod.sh moddep.lst %.module$(EXEEXT) build-grub-module-verifier$(BUILD_EXEEXT)
 	TARGET_OBJ2ELF=@TARGET_OBJ2ELF@ sh $^ $@
 platform_DATA += $(MOD_FILES)
 platform_DATA += modinfo.sh

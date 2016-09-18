@@ -102,13 +102,20 @@ grub_util_fd_open (const char *os_dev, int flags)
   if (! (sysctl_oldflags & 0x10)
       && sysctlbyname ("kern.geom.debugflags", NULL , 0, &sysctl_flags, sysctl_size))
     {
-      grub_error (GRUB_ERR_BAD_DEVICE, "cannot set flags of sysctl kern.geom.debugflags");
-      return GRUB_UTIL_FD_INVALID;
+      if (errno == EPERM)
+	/* Running as an unprivileged user; don't worry about restoring
+	   flags, although if we try to write to anything interesting such
+	   as the MBR then we may fail later.  */
+	sysctl_oldflags = 0x10;
+      else
+	{
+	  grub_error (GRUB_ERR_BAD_DEVICE, "cannot set flags of sysctl kern.geom.debugflags");
+	  return GRUB_UTIL_FD_INVALID;
+	}
     }
 
   ret = open (os_dev, flags, S_IROTH | S_IRGRP | S_IRUSR | S_IWUSR);
 
-#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
   if (! (sysctl_oldflags & 0x10)
       && sysctlbyname ("kern.geom.debugflags", NULL , 0, &sysctl_oldflags, sysctl_size))
     {
@@ -116,7 +123,6 @@ grub_util_fd_open (const char *os_dev, int flags)
       close (ret);
       return GRUB_UTIL_FD_INVALID;
     }
-#endif
 
   return ret;
 }

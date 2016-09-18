@@ -365,7 +365,7 @@ grub_reiserfs_set_key_offset (struct grub_reiserfs_key *key,
     key->u.v1.offset = grub_cpu_to_le32 (value);
   else
     key->u.v2.offset_type \
-      = ((key->u.v2.offset_type & grub_cpu_to_le64 (15ULL << 60))
+      = ((key->u.v2.offset_type & grub_cpu_to_le64_compile_time (15ULL << 60))
          | grub_cpu_to_le64 (value & (~0ULL >> 4)));
 }
 
@@ -412,7 +412,7 @@ grub_reiserfs_set_key_type (struct grub_reiserfs_key *key,
     key->u.v1.type = grub_cpu_to_le32 (type);
   else
     key->u.v2.offset_type
-      = ((key->u.v2.offset_type & grub_cpu_to_le64 (~0ULL >> 4))
+      = ((key->u.v2.offset_type & grub_cpu_to_le64_compile_time (~0ULL >> 4))
          | grub_cpu_to_le64 ((grub_uint64_t) type << 60));
 
   assert (grub_reiserfs_get_key_type (key) == grub_type);
@@ -783,12 +783,30 @@ grub_reiserfs_iterate_dir (grub_fshelp_node_t item,
 	  struct grub_reiserfs_key entry_key;
 	  enum grub_fshelp_filetype entry_type;
 	  char *entry_name;
+	  char *entry_name_end = 0;
+	  char c;
 	  
           if (!(entry_state & GRUB_REISERFS_VISIBLE_MASK))
 	    continue;
 
 	  entry_name = (((char *) directory_headers)
 			+ grub_le_to_cpu16 (directory_header->location));
+	  if (entry_number == 0)
+	    {
+	      entry_name_end = (char *) block_header
+		+ grub_le_to_cpu16 (item_headers[block_position].item_location)
+		+ grub_le_to_cpu16 (item_headers[block_position].item_size);
+	    }
+	  else
+	    {
+	      entry_name_end = (((char *) directory_headers)
+			+ grub_le_to_cpu16 (directory_headers[entry_number - 1].location));
+	    }
+	  if (entry_name_end < entry_name || entry_name_end > (char *) block_header + block_size)
+	    {
+	      entry_name_end = (char *) block_header + block_size;
+	    }
+
 	  entry_key.directory_id = directory_header->directory_id;
 	  entry_key.object_id = directory_header->object_id;
 	  entry_key.u.v2.offset_type = 0;
@@ -935,7 +953,7 @@ grub_reiserfs_iterate_dir (grub_fshelp_node_t item,
 	      else
 		{
 		  /* Pseudo file ".." never has stat block.  */
-		  if (grub_strcmp (entry_name, ".."))
+		  if (entry_name_end == entry_name + 2 && grub_memcmp (entry_name, "..", 2) != 0)
 		    grub_dprintf ("reiserfs",
 				  "Warning : %s has no stat block !\n",
 				  entry_name);
@@ -943,18 +961,21 @@ grub_reiserfs_iterate_dir (grub_fshelp_node_t item,
 		  goto next;
 		}
 	    }
+
+	  c = *entry_name_end;
+	  *entry_name_end = 0;
 	  if (hook (entry_name, entry_type, entry_item, hook_data))
 	    {
+	      *entry_name_end = c;
 	      grub_dprintf ("reiserfs", "Found : %s, type=%d\n",
 			    entry_name, entry_type);
 	      ret = 1;
 	      goto found;
 	    }
+	  *entry_name_end = c;
 
 	next:
-	  *entry_name = 0; /* Make sure next entry name (which is just
-			      before this one in disk order) stops before
-			      the current one.  */
+	  ;
         }
 
       if (next_offset == 0)
@@ -997,8 +1018,8 @@ grub_reiserfs_open (struct grub_file *file, const char *name)
   data = grub_reiserfs_mount (file->device->disk);
   if (! data)
     goto fail;
-  key.directory_id = grub_cpu_to_le32 (1);
-  key.object_id = grub_cpu_to_le32 (2);
+  key.directory_id = grub_cpu_to_le32_compile_time (1);
+  key.object_id = grub_cpu_to_le32_compile_time (2);
   key.u.v2.offset_type = 0;
   grub_reiserfs_set_key_type (&key, GRUB_REISERFS_DIRECTORY, 2);
   grub_reiserfs_set_key_offset (&key, 1);
@@ -1090,7 +1111,7 @@ grub_reiserfs_read_real (struct grub_fshelp_node *node,
       switch (found.type)
         {
         case GRUB_REISERFS_DIRECT:
-          block = found.block_number * (block_size  >> GRUB_DISK_SECTOR_BITS);
+          block = ((grub_disk_addr_t) found.block_number) * (block_size  >> GRUB_DISK_SECTOR_BITS);
           grub_dprintf ("reiserfs_blocktype", "D: %u\n", (unsigned) block);
           if (initial_position < current_position + item_size)
             {
@@ -1289,8 +1310,8 @@ grub_reiserfs_dir (grub_device_t device, const char *path,
   data = grub_reiserfs_mount (device->disk);
   if (! data)
     goto fail;
-  root_key.directory_id = grub_cpu_to_le32 (1);
-  root_key.object_id = grub_cpu_to_le32 (2);
+  root_key.directory_id = grub_cpu_to_le32_compile_time (1);
+  root_key.object_id = grub_cpu_to_le32_compile_time (2);
   root_key.u.v2.offset_type = 0;
   grub_reiserfs_set_key_type (&root_key, GRUB_REISERFS_DIRECTORY, 2);
   grub_reiserfs_set_key_offset (&root_key, 1);

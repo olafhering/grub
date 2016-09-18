@@ -27,6 +27,7 @@
 #include <grub/term.h>
 #include <grub/kernel.h>
 #include <grub/mm.h>
+#include <grub/loader.h>
 
 /* The handle of GRUB itself. Filled in by the startup code.  */
 grub_efi_handle_t grub_efi_image_handle;
@@ -156,7 +157,7 @@ grub_efi_get_loaded_image (grub_efi_handle_t image_handle)
 void
 grub_exit (void)
 {
-  grub_efi_fini ();
+  grub_machine_fini (GRUB_LOADER_FLAG_NORETURN);
   efi_call_4 (grub_efi_system_table->boot_services->exit,
               grub_efi_image_handle, GRUB_EFI_SUCCESS, 0, 0);
   for (;;) ;
@@ -205,6 +206,7 @@ grub_efi_set_variable(const char *var, const grub_efi_guid_t *guid,
 			| GRUB_EFI_VARIABLE_BOOTSERVICE_ACCESS
 			| GRUB_EFI_VARIABLE_RUNTIME_ACCESS),
 		       datasize, data);
+  grub_free (var16);
   if (status == GRUB_EFI_SUCCESS)
     return GRUB_ERR_NONE;
 
@@ -236,8 +238,11 @@ grub_efi_get_variable (const char *var, const grub_efi_guid_t *guid,
 
   status = efi_call_5 (r->get_variable, var16, guid, NULL, &datasize, NULL);
 
-  if (!datasize)
-    return NULL;
+  if (status != GRUB_EFI_BUFFER_TOO_SMALL || !datasize)
+    {
+      grub_free (var16);
+      return NULL;
+    }
 
   data = grub_malloc (datasize);
   if (!data)
@@ -309,7 +314,7 @@ grub_efi_modules_addr (void)
 char *
 grub_efi_get_filename (grub_efi_device_path_t *dp0)
 {
-  char *name = 0, *p;
+  char *name = 0, *p, *pi;
   grub_size_t filesize = 0;
   grub_efi_device_path_t *dp;
 
@@ -328,7 +333,7 @@ grub_efi_get_filename (grub_efi_device_path_t *dp0)
 	  grub_efi_uint16_t len;
 	  len = ((GRUB_EFI_DEVICE_PATH_LENGTH (dp) - 4)
 		 / sizeof (grub_efi_char16_t));
-	  filesize += GRUB_MAX_UTF8_PER_UTF16 * len + 1;
+	  filesize += GRUB_MAX_UTF8_PER_UTF16 * len + 2;
 	}
 
       dp = GRUB_EFI_NEXT_DEVICE_PATH (dp);
@@ -356,12 +361,12 @@ grub_efi_get_filename (grub_efi_device_path_t *dp0)
 	  grub_efi_file_path_device_path_t *fp;
 	  grub_efi_uint16_t len;
 
-	  if (p != name)
-	    *p++ = '/';
+	  *p++ = '/';
 
 	  len = ((GRUB_EFI_DEVICE_PATH_LENGTH (dp) - 4)
 		 / sizeof (grub_efi_char16_t));
 	  fp = (grub_efi_file_path_device_path_t *) dp;
+
 	  p = (char *) grub_utf16_to_utf8 ((unsigned char *) p, fp->path_name, len);
 	}
 
@@ -370,10 +375,19 @@ grub_efi_get_filename (grub_efi_device_path_t *dp0)
 
   *p = '\0';
 
-  /* EFI breaks paths with backslashes.  */
-  for (p = name; *p; p++)
-    if (*p == '\\')
-      *p = '/';
+  for (pi = name, p = name; *pi;)
+    {
+      /* EFI breaks paths with backslashes.  */
+      if (*pi == '\\' || *pi == '/')
+	{
+	  *p++ = '/';
+	  while (*pi == '\\' || *pi == '/')
+	    pi++;
+	  continue;
+	}
+      *p++ = *pi++;
+    }
+  *p = '\0';
 
   return name;
 }
@@ -383,6 +397,47 @@ grub_efi_get_device_path (grub_efi_handle_t handle)
 {
   return grub_efi_open_protocol (handle, &device_path_guid,
 				 GRUB_EFI_OPEN_PROTOCOL_GET_PROTOCOL);
+}
+
+/* Return the device path node right before the end node.  */
+grub_efi_device_path_t *
+grub_efi_find_last_device_path (const grub_efi_device_path_t *dp)
+{
+  grub_efi_device_path_t *next, *p;
+
+  if (GRUB_EFI_END_ENTIRE_DEVICE_PATH (dp))
+    return 0;
+
+  for (p = (grub_efi_device_path_t *) dp, next = GRUB_EFI_NEXT_DEVICE_PATH (p);
+       ! GRUB_EFI_END_ENTIRE_DEVICE_PATH (next);
+       p = next, next = GRUB_EFI_NEXT_DEVICE_PATH (next))
+    ;
+
+  return p;
+}
+
+/* Duplicate a device path.  */
+grub_efi_device_path_t *
+grub_efi_duplicate_device_path (const grub_efi_device_path_t *dp)
+{
+  grub_efi_device_path_t *p;
+  grub_size_t total_size = 0;
+
+  for (p = (grub_efi_device_path_t *) dp;
+       ;
+       p = GRUB_EFI_NEXT_DEVICE_PATH (p))
+    {
+      total_size += GRUB_EFI_DEVICE_PATH_LENGTH (p);
+      if (GRUB_EFI_END_ENTIRE_DEVICE_PATH (p))
+	break;
+    }
+
+  p = grub_malloc (total_size);
+  if (! p)
+    return 0;
+
+  grub_memcpy (p, dp, total_size);
+  return p;
 }
 
 static void

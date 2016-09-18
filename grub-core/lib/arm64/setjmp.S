@@ -17,8 +17,10 @@
  */
 
 #include <grub/symbol.h>
+#include <grub/dl.h>
 
 	.file	"setjmp.S"
+GRUB_MOD_LICENSE "GPLv3+"
 	.text
 
 /*
@@ -48,6 +50,7 @@ FUNCTION(grub_longjmp)
 	ldp	x29, x30, [x0], #16
 	ldr	x2, [x0]
 	mov	sp, x2
+	mov	x0, #1
 	cmp	x1, #0
 	csel	x0, x1, x0, ne
 	ret

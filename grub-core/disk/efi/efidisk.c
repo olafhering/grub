@@ -43,47 +43,6 @@ static struct grub_efidisk_data *fd_devices;
 static struct grub_efidisk_data *hd_devices;
 static struct grub_efidisk_data *cd_devices;
 
-/* Duplicate a device path.  */
-static grub_efi_device_path_t *
-duplicate_device_path (const grub_efi_device_path_t *dp)
-{
-  grub_efi_device_path_t *p;
-  grub_size_t total_size = 0;
-
-  for (p = (grub_efi_device_path_t *) dp;
-       ;
-       p = GRUB_EFI_NEXT_DEVICE_PATH (p))
-    {
-      total_size += GRUB_EFI_DEVICE_PATH_LENGTH (p);
-      if (GRUB_EFI_END_ENTIRE_DEVICE_PATH (p))
-	break;
-    }
-
-  p = grub_malloc (total_size);
-  if (! p)
-    return 0;
-
-  grub_memcpy (p, dp, total_size);
-  return p;
-}
-
-/* Return the device path node right before the end node.  */
-static grub_efi_device_path_t *
-find_last_device_path (const grub_efi_device_path_t *dp)
-{
-  grub_efi_device_path_t *next, *p;
-
-  if (GRUB_EFI_END_ENTIRE_DEVICE_PATH (dp))
-    return 0;
-
-  for (p = (grub_efi_device_path_t *) dp, next = GRUB_EFI_NEXT_DEVICE_PATH (p);
-       ! GRUB_EFI_END_ENTIRE_DEVICE_PATH (next);
-       p = next, next = GRUB_EFI_NEXT_DEVICE_PATH (next))
-    ;
-
-  return p;
-}
-
 static struct grub_efidisk_data *
 make_devices (void)
 {
@@ -110,7 +69,7 @@ make_devices (void)
       if (! dp)
 	continue;
 
-      ldp = find_last_device_path (dp);
+      ldp = grub_efi_find_last_device_path (dp);
       if (! ldp)
 	/* This is empty. Why?  */
 	continue;
@@ -126,6 +85,12 @@ make_devices (void)
 	{
 	  /* Uggh.  */
 	  grub_free (handles);
+	  while (devices)
+	    {
+	      d = devices->next;
+	      grub_free (devices);
+	      devices = d;
+	    }
 	  return 0;
 	}
 
@@ -150,11 +115,11 @@ find_parent_device (struct grub_efidisk_data *devices,
   grub_efi_device_path_t *dp, *ldp;
   struct grub_efidisk_data *parent;
 
-  dp = duplicate_device_path (d->device_path);
+  dp = grub_efi_duplicate_device_path (d->device_path);
   if (! dp)
     return 0;
 
-  ldp = find_last_device_path (dp);
+  ldp = grub_efi_find_last_device_path (dp);
   ldp->type = GRUB_EFI_END_DEVICE_PATH_TYPE;
   ldp->subtype = GRUB_EFI_END_ENTIRE_DEVICE_PATH_SUBTYPE;
   ldp->length = sizeof (*ldp);
@@ -180,11 +145,11 @@ is_child (struct grub_efidisk_data *child,
   grub_efi_device_path_t *dp, *ldp;
   int ret;
 
-  dp = duplicate_device_path (child->device_path);
+  dp = grub_efi_duplicate_device_path (child->device_path);
   if (! dp)
     return 0;
 
-  ldp = find_last_device_path (dp);
+  ldp = grub_efi_find_last_device_path (dp);
   ldp->type = GRUB_EFI_END_DEVICE_PATH_TYPE;
   ldp->subtype = GRUB_EFI_END_ENTIRE_DEVICE_PATH_SUBTYPE;
   ldp->length = sizeof (*ldp);
@@ -207,8 +172,8 @@ add_device (struct grub_efidisk_data **devices, struct grub_efidisk_data *d)
     {
       int ret;
 
-      ret = grub_efi_compare_device_paths (find_last_device_path ((*p)->device_path),
-					   find_last_device_path (d->device_path));
+      ret = grub_efi_compare_device_paths (grub_efi_find_last_device_path ((*p)->device_path),
+					   grub_efi_find_last_device_path (d->device_path));
       if (ret == 0)
 	ret = grub_efi_compare_device_paths ((*p)->device_path,
 					     d->device_path);
@@ -528,8 +493,15 @@ grub_efidisk_open (const char *name, struct grub_disk *disk)
   m = d->block_io->media;
   /* FIXME: Probably it is better to store the block size in the disk,
      and total sectors should be replaced with total blocks.  */
-  grub_dprintf ("efidisk", "m = %p, last block = %llx, block size = %x\n",
-		m, (unsigned long long) m->last_block, m->block_size);
+  grub_dprintf ("efidisk",
+		"m = %p, last block = %llx, block size = %x, io align = %x\n",
+		m, (unsigned long long) m->last_block, m->block_size,
+		m->io_align);
+
+  /* Ensure required buffer alignment is a power of two (or is zero). */
+  if (m->io_align & (m->io_align - 1))
+    return grub_error (GRUB_ERR_IO, "invalid buffer alignment %d", m->io_align);
+
   disk->total_sectors = m->last_block + 1;
   /* Don't increase this value due to bug in some EFI.  */
   disk->max_agglomerate = 0xa0000 >> (GRUB_DISK_CACHE_BITS + GRUB_DISK_SECTOR_BITS);
@@ -559,15 +531,42 @@ grub_efidisk_readwrite (struct grub_disk *disk, grub_disk_addr_t sector,
 {
   struct grub_efidisk_data *d;
   grub_efi_block_io_t *bio;
+  grub_efi_status_t status;
+  grub_size_t io_align, num_bytes;
+  char *aligned_buf;
 
   d = disk->data;
   bio = d->block_io;
 
-  return efi_call_5 ((wr ? bio->write_blocks : bio->read_blocks), bio,
-		     bio->media->media_id,
-		     (grub_efi_uint64_t) sector,
-		     (grub_efi_uintn_t) size << disk->log_sector_size,
-		     buf);
+  /* Set alignment to 1 if 0 specified */
+  io_align = bio->media->io_align ? bio->media->io_align : 1;
+  num_bytes = size << disk->log_sector_size;
+
+  if ((grub_addr_t) buf & (io_align - 1))
+    {
+      aligned_buf = grub_memalign (io_align, num_bytes);
+      if (! aligned_buf)
+	return GRUB_EFI_OUT_OF_RESOURCES;
+      if (wr)
+	grub_memcpy (aligned_buf, buf, num_bytes);
+    }
+  else
+    {
+      aligned_buf = buf;
+    }
+
+  status =  efi_call_5 ((wr ? bio->write_blocks : bio->read_blocks), bio,
+			bio->media->media_id, (grub_efi_uint64_t) sector,
+			(grub_efi_uintn_t) num_bytes, aligned_buf);
+
+  if ((grub_addr_t) buf & (io_align - 1))
+    {
+      if (!wr)
+	grub_memcpy (buf, aligned_buf, num_bytes);
+      grub_free (aligned_buf);
+    }
+
+  return status;
 }
 
 static grub_err_t
@@ -582,7 +581,9 @@ grub_efidisk_read (struct grub_disk *disk, grub_disk_addr_t sector,
 
   status = grub_efidisk_readwrite (disk, sector, size, buf, 0);
 
-  if (status != GRUB_EFI_SUCCESS)
+  if (status == GRUB_EFI_NO_MEDIA)
+    return grub_error (GRUB_ERR_OUT_OF_RANGE, N_("no media in `%s'"), disk->name);
+  else if (status != GRUB_EFI_SUCCESS)
     return grub_error (GRUB_ERR_READ_ERROR,
 		       N_("failure reading sector 0x%llx from `%s'"),
 		       (unsigned long long) sector,
@@ -603,7 +604,9 @@ grub_efidisk_write (struct grub_disk *disk, grub_disk_addr_t sector,
 
   status = grub_efidisk_readwrite (disk, sector, size, (char *) buf, 1);
 
-  if (status != GRUB_EFI_SUCCESS)
+  if (status == GRUB_EFI_NO_MEDIA)
+    return grub_error (GRUB_ERR_OUT_OF_RANGE, N_("no media in `%s'"), disk->name);
+  else if (status != GRUB_EFI_SUCCESS)
     return grub_error (GRUB_ERR_WRITE_ERROR,
 		       N_("failure writing sector 0x%llx to `%s'"),
 		       (unsigned long long) sector, disk->name);
@@ -795,7 +798,7 @@ grub_efidisk_get_device_name (grub_efi_handle_t *handle)
   if (! dp)
     return 0;
 
-  ldp = find_last_device_path (dp);
+  ldp = grub_efi_find_last_device_path (dp);
   if (! ldp)
     return 0;
 
@@ -803,7 +806,6 @@ grub_efidisk_get_device_name (grub_efi_handle_t *handle)
       && (GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) == GRUB_EFI_CDROM_DEVICE_PATH_SUBTYPE
 	  || GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) == GRUB_EFI_HARD_DRIVE_DEVICE_PATH_SUBTYPE))
     {
-      int is_cdrom = 0;
       struct grub_efidisk_get_device_name_ctx ctx;
       char *dev_name;
       grub_efi_device_path_t *dup_dp;
@@ -811,21 +813,18 @@ grub_efidisk_get_device_name (grub_efi_handle_t *handle)
 
       /* It is necessary to duplicate the device path so that GRUB
 	 can overwrite it.  */
-      dup_dp = duplicate_device_path (dp);
+      dup_dp = grub_efi_duplicate_device_path (dp);
       if (! dup_dp)
 	return 0;
 
       while (1)
 	{
 	  grub_efi_device_path_t *dup_ldp;
-	  dup_ldp = find_last_device_path (dup_dp);
+	  dup_ldp = grub_efi_find_last_device_path (dup_dp);
 	  if (!(GRUB_EFI_DEVICE_PATH_TYPE (dup_ldp) == GRUB_EFI_MEDIA_DEVICE_PATH_TYPE
 		&& (GRUB_EFI_DEVICE_PATH_SUBTYPE (dup_ldp) == GRUB_EFI_CDROM_DEVICE_PATH_SUBTYPE
 		    || GRUB_EFI_DEVICE_PATH_SUBTYPE (dup_ldp) == GRUB_EFI_HARD_DRIVE_DEVICE_PATH_SUBTYPE)))
 	    break;
-
-	  if (GRUB_EFI_DEVICE_PATH_SUBTYPE (dup_ldp) == GRUB_EFI_CDROM_DEVICE_PATH_SUBTYPE)
-	    is_cdrom = 1;
 
 	  dup_ldp->type = GRUB_EFI_END_DEVICE_PATH_TYPE;
 	  dup_ldp->subtype = GRUB_EFI_END_ENTIRE_DEVICE_PATH_SUBTYPE;
@@ -861,10 +860,13 @@ grub_efidisk_get_device_name (grub_efi_handle_t *handle)
 
 	  if (! ctx.partition_name)
 	    {
+	      /* No partition found. In most cases partition is embed in
+		 the root path anyway, so this is not critical.
+		 This happens only if partition is on partmap that GRUB
+		 doesn't need to access root.
+	       */
 	      grub_disk_close (parent);
-	      if (is_cdrom)
-		return grub_strdup (device_name);
-	      return 0;
+	      return grub_strdup (device_name);
 	    }
 
 	  dev_name = grub_xasprintf ("%s,%s", parent->name,

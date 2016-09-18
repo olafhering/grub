@@ -31,7 +31,6 @@ GRUB_MOD_LICENSE ("GPLv2+");
    desired derived output length DKLEN.  Output buffer is DK which
    must have room for at least DKLEN octets.  The output buffer will
    be filled with the derived data.  */
-#pragma GCC diagnostic ignored "-Wunreachable-code"
 
 gcry_err_code_t
 grub_crypto_pbkdf2 (const struct gcry_md_spec *md,
@@ -52,7 +51,7 @@ grub_crypto_pbkdf2 (const struct gcry_md_spec *md,
   grub_uint8_t *tmp;
   grub_size_t tmplen = Slen + 4;
 
-  if (md->mdlen > GRUB_CRYPTO_MAX_MDLEN)
+  if (md->mdlen > GRUB_CRYPTO_MAX_MDLEN || md->mdlen == 0)
     return GPG_ERR_INV_ARG;
 
   if (c == 0)

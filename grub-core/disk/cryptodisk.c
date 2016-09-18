@@ -25,6 +25,7 @@
 #include <grub/fs.h>
 #include <grub/file.h>
 #include <grub/procfs.h>
+#include <grub/partition.h>
 
 #ifdef GRUB_UTIL
 #include <grub/emu/hostdisk.h>
@@ -110,20 +111,23 @@ grub_crypto_pcbc_decrypt (grub_crypto_cipher_handle_t cipher,
 {
   grub_uint8_t *inptr, *outptr, *end;
   grub_uint8_t ivt[GRUB_CRYPTO_MAX_CIPHER_BLOCKSIZE];
-  if (cipher->cipher->blocksize > GRUB_CRYPTO_MAX_CIPHER_BLOCKSIZE)
-    return GPG_ERR_INV_ARG;
+  grub_size_t blocksize;
   if (!cipher->cipher->decrypt)
     return GPG_ERR_NOT_SUPPORTED;
-  if (size % cipher->cipher->blocksize != 0)
+  blocksize = cipher->cipher->blocksize;
+  if (blocksize == 0 || (((blocksize - 1) & blocksize) != 0)
+      || ((size & (blocksize - 1)) != 0))
+    return GPG_ERR_INV_ARG;
+  if (blocksize > GRUB_CRYPTO_MAX_CIPHER_BLOCKSIZE)
     return GPG_ERR_INV_ARG;
   end = (grub_uint8_t *) in + size;
   for (inptr = in, outptr = out; inptr < end;
-       inptr += cipher->cipher->blocksize, outptr += cipher->cipher->blocksize)
+       inptr += blocksize, outptr += blocksize)
     {
-      grub_memcpy (ivt, inptr, cipher->cipher->blocksize);
+      grub_memcpy (ivt, inptr, blocksize);
       cipher->cipher->decrypt (cipher->ctx, outptr, inptr);
-      grub_crypto_xor (outptr, outptr, iv, cipher->cipher->blocksize);
-      grub_crypto_xor (iv, ivt, outptr, cipher->cipher->blocksize);
+      grub_crypto_xor (outptr, outptr, iv, blocksize);
+      grub_crypto_xor (iv, ivt, outptr, blocksize);
     }
   return GPG_ERR_NO_ERROR;
 }
@@ -135,20 +139,23 @@ grub_crypto_pcbc_encrypt (grub_crypto_cipher_handle_t cipher,
 {
   grub_uint8_t *inptr, *outptr, *end;
   grub_uint8_t ivt[GRUB_CRYPTO_MAX_CIPHER_BLOCKSIZE];
-  if (cipher->cipher->blocksize > GRUB_CRYPTO_MAX_CIPHER_BLOCKSIZE)
-    return GPG_ERR_INV_ARG;
-  if (!cipher->cipher->decrypt)
+  grub_size_t blocksize;
+  if (!cipher->cipher->encrypt)
     return GPG_ERR_NOT_SUPPORTED;
-  if (size % cipher->cipher->blocksize != 0)
+  blocksize = cipher->cipher->blocksize;
+  if (blocksize > GRUB_CRYPTO_MAX_CIPHER_BLOCKSIZE)
+    return GPG_ERR_INV_ARG;
+  if (blocksize == 0 || (((blocksize - 1) & blocksize) != 0)
+      || ((size & (blocksize - 1)) != 0))
     return GPG_ERR_INV_ARG;
   end = (grub_uint8_t *) in + size;
   for (inptr = in, outptr = out; inptr < end;
-       inptr += cipher->cipher->blocksize, outptr += cipher->cipher->blocksize)
+       inptr += blocksize, outptr += blocksize)
     {
-      grub_memcpy (ivt, inptr, cipher->cipher->blocksize);
-      grub_crypto_xor (outptr, outptr, iv, cipher->cipher->blocksize);
+      grub_memcpy (ivt, inptr, blocksize);
+      grub_crypto_xor (outptr, outptr, iv, blocksize);
       cipher->cipher->encrypt (cipher->ctx, outptr, inptr);
-      grub_crypto_xor (iv, ivt, outptr, cipher->cipher->blocksize);
+      grub_crypto_xor (iv, ivt, outptr, blocksize);
     }
   return GPG_ERR_NO_ERROR;
 }
@@ -372,11 +379,13 @@ grub_cryptodisk_endecrypt (struct grub_cryptodisk *dev,
 	  break;
 	case GRUB_CRYPTODISK_MODE_ECB:
 	  if (do_encrypt)
-	    grub_crypto_ecb_encrypt (dev->cipher, data + i, data + i,
-				     (1U << dev->log_sector_size));
+	    err = grub_crypto_ecb_encrypt (dev->cipher, data + i, data + i,
+					   (1U << dev->log_sector_size));
 	  else
-	    grub_crypto_ecb_decrypt (dev->cipher, data + i, data + i,
-				     (1U << dev->log_sector_size));
+	    err = grub_crypto_ecb_decrypt (dev->cipher, data + i, data + i,
+					   (1U << dev->log_sector_size));
+	  if (err)
+	    return err;
 	  break;
 	default:
 	  return GPG_ERR_NOT_IMPLEMENTED;
@@ -710,6 +719,7 @@ grub_cryptodisk_insert (grub_cryptodisk_t newdev, const char *name,
   newdev->id = last_cryptodisk_id++;
   newdev->source_id = source->id;
   newdev->source_dev_id = source->dev->id;
+  newdev->partition_start = grub_partition_get_start (source->partition);
   newdev->next = cryptodisk_list;
   cryptodisk_list = newdev;
 
@@ -732,7 +742,9 @@ grub_cryptodisk_get_by_source_disk (grub_disk_t disk)
   grub_cryptodisk_t dev;
   for (dev = cryptodisk_list; dev != NULL; dev = dev->next)
     if (dev->source_id == disk->id && dev->source_dev_id == disk->dev->id)
-      return dev;
+      if ((disk->partition && grub_partition_get_start (disk->partition) == dev->partition_start) ||
+          (!disk->partition && dev->partition_start == 0))
+        return dev;
   return NULL;
 }
 
@@ -753,6 +765,7 @@ grub_cryptodisk_cheat_insert (grub_cryptodisk_t newdev, const char *name,
   newdev->cheat_fd = GRUB_UTIL_FD_INVALID;
   newdev->source_id = source->id;
   newdev->source_dev_id = source->dev->id;
+  newdev->partition_start = grub_partition_get_start (source->partition);
   newdev->id = last_cryptodisk_id++;
   newdev->next = cryptodisk_list;
   cryptodisk_list = newdev;
@@ -762,25 +775,26 @@ grub_cryptodisk_cheat_insert (grub_cryptodisk_t newdev, const char *name,
 
 void
 grub_util_cryptodisk_get_abstraction (grub_disk_t disk,
-				      void (*cb) (const char *val))
+				      void (*cb) (const char *val, void *data),
+				      void *data)
 {
   grub_cryptodisk_t dev = (grub_cryptodisk_t) disk->data;
 
-  cb ("cryptodisk");
-  cb (dev->modname);
+  cb ("cryptodisk", data);
+  cb (dev->modname, data);
 
   if (dev->cipher)
-    cb (dev->cipher->cipher->modname);
+    cb (dev->cipher->cipher->modname, data);
   if (dev->secondary_cipher)
-    cb (dev->secondary_cipher->cipher->modname);
+    cb (dev->secondary_cipher->cipher->modname, data);
   if (dev->essiv_cipher)
-    cb (dev->essiv_cipher->cipher->modname);
+    cb (dev->essiv_cipher->cipher->modname, data);
   if (dev->hash)
-    cb (dev->hash->modname);
+    cb (dev->hash->modname, data);
   if (dev->essiv_hash)
-    cb (dev->essiv_hash->modname);
+    cb (dev->essiv_hash->modname, data);
   if (dev->iv_hash)
-    cb (dev->iv_hash->modname);
+    cb (dev->iv_hash->modname, data);
 }
 
 const char *
@@ -955,33 +969,43 @@ grub_cmd_cryptomount (grub_extcmd_context_t ctxt, int argc, char **args)
       grub_disk_t disk;
       grub_cryptodisk_t dev;
       char *diskname;
-      char *disklast;
+      char *disklast = NULL;
+      grub_size_t len;
 
       search_uuid = NULL;
       check_boot = state[2].set;
       diskname = args[0];
-      if (diskname[0] == '(' && *(disklast = &diskname[grub_strlen (diskname) - 1]) == ')')
+      len = grub_strlen (diskname);
+      if (len && diskname[0] == '(' && diskname[len - 1] == ')')
 	{
+	  disklast = &diskname[len - 1];
 	  *disklast = '\0';
-	  disk = grub_disk_open (diskname + 1);
-	  *disklast = ')';
+	  diskname++;
 	}
-      else
-	disk = grub_disk_open (diskname);
+
+      disk = grub_disk_open (diskname);
       if (!disk)
-	return grub_errno;
+	{
+	  if (disklast)
+	    *disklast = ')';
+	  return grub_errno;
+	}
 
       dev = grub_cryptodisk_get_by_source_disk (disk);
       if (dev)
 	{
 	  grub_dprintf ("cryptodisk", "already mounted as crypto%lu\n", dev->id);
 	  grub_disk_close (disk);
+	  if (disklast)
+	    *disklast = ')';
 	  return GRUB_ERR_NONE;
 	}
 
-      err = grub_cryptodisk_scan_device_real (args[0], disk);
+      err = grub_cryptodisk_scan_device_real (diskname, disk);
 
       grub_disk_close (disk);
+      if (disklast)
+	*disklast = ')';
 
       return err;
     }

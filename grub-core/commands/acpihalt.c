@@ -26,6 +26,8 @@
 
 #define grub_dprintf(cond, args...) printf ( args )
 #define grub_printf printf
+#define grub_util_fopen fopen
+#define grub_memcmp memcmp
 typedef uint64_t grub_uint64_t;
 typedef uint32_t grub_uint32_t;
 typedef uint16_t grub_uint16_t;
@@ -136,6 +138,49 @@ skip_data_ref_object (const grub_uint8_t *ptr, const grub_uint8_t *end)
 }
 
 static inline grub_uint32_t
+skip_term (const grub_uint8_t *ptr, const grub_uint8_t *end)
+{
+  grub_uint32_t add;
+  const grub_uint8_t *ptr0 = ptr;
+
+  switch(*ptr)
+  {
+    case GRUB_ACPI_OPCODE_ADD:
+    case GRUB_ACPI_OPCODE_AND:
+    case GRUB_ACPI_OPCODE_CONCAT:
+    case GRUB_ACPI_OPCODE_CONCATRES:
+    case GRUB_ACPI_OPCODE_DIVIDE:
+    case GRUB_ACPI_OPCODE_INDEX:
+    case GRUB_ACPI_OPCODE_LSHIFT:
+    case GRUB_ACPI_OPCODE_MOD:
+    case GRUB_ACPI_OPCODE_MULTIPLY:
+    case GRUB_ACPI_OPCODE_NAND:
+    case GRUB_ACPI_OPCODE_NOR:
+    case GRUB_ACPI_OPCODE_OR:
+    case GRUB_ACPI_OPCODE_RSHIFT:
+    case GRUB_ACPI_OPCODE_SUBTRACT:
+    case GRUB_ACPI_OPCODE_TOSTRING:
+    case GRUB_ACPI_OPCODE_XOR:
+      /*
+       * Parameters for these opcodes: TermArg, TermArg Target, see ACPI
+       * spec r5.0, page 828f.
+       */
+      ptr++;
+      ptr += add = skip_term (ptr, end);
+      if (!add)
+        return 0;
+      ptr += add = skip_term (ptr, end);
+      if (!add)
+        return 0;
+      ptr += skip_name_string (ptr, end);
+      break;
+    default:
+      return skip_data_ref_object (ptr, end);
+  }
+  return ptr - ptr0;
+}
+
+static inline grub_uint32_t
 skip_ext_op (const grub_uint8_t *ptr, const grub_uint8_t *end)
 {
   const grub_uint8_t *ptr0 = ptr;
@@ -156,10 +201,10 @@ skip_ext_op (const grub_uint8_t *ptr, const grub_uint8_t *end)
       ptr++;
       ptr += skip_name_string (ptr, end);
       ptr++;
-      ptr += add = skip_data_ref_object (ptr, end);
+      ptr += add = skip_term (ptr, end);
       if (!add)
 	return 0;
-      ptr += add = skip_data_ref_object (ptr, end);
+      ptr += add = skip_term (ptr, end);
       if (!add)
 	return 0;
       break;
@@ -179,6 +224,7 @@ skip_ext_op (const grub_uint8_t *ptr, const grub_uint8_t *end)
     }
   return ptr - ptr0;
 }
+
 
 static int
 get_sleep_type (grub_uint8_t *table, grub_uint8_t *ptr, grub_uint8_t *end,
@@ -202,6 +248,7 @@ get_sleep_type (grub_uint8_t *table, grub_uint8_t *ptr, grub_uint8_t *end,
 	  if (!add)
 	    return -1;
 	  break;
+	case GRUB_ACPI_OPCODE_CREATE_DWORD_FIELD:
 	case GRUB_ACPI_OPCODE_CREATE_WORD_FIELD:
 	case GRUB_ACPI_OPCODE_CREATE_BYTE_FIELD:
 	  {
@@ -214,8 +261,8 @@ get_sleep_type (grub_uint8_t *table, grub_uint8_t *ptr, grub_uint8_t *end,
 	  }
 	case GRUB_ACPI_OPCODE_NAME:
 	  ptr++;
-	  if ((!scope || memcmp (scope, "\\", scope_len) == 0) &&
-	      (memcmp (ptr, "_S5_", 4) == 0 || memcmp (ptr, "\\_S5_", 4) == 0))
+	  if ((!scope || grub_memcmp (scope, "\\", scope_len) == 0) &&
+	      (grub_memcmp (ptr, "_S5_", 4) == 0 || grub_memcmp (ptr, "\\_S5_", 4) == 0))
 	    {
 	      int ll;
 	      grub_uint8_t *ptr2 = ptr;
@@ -250,6 +297,17 @@ get_sleep_type (grub_uint8_t *table, grub_uint8_t *ptr, grub_uint8_t *end,
 	  if (!add)
 	    return -1;
 	  break;
+	case GRUB_ACPI_OPCODE_ALIAS:
+	  ptr++;
+	  /* We need to skip two name strings */
+	  ptr += add = skip_name_string (ptr, end);
+	  if (!add)
+	    return -1;
+	  ptr += add = skip_name_string (ptr, end);
+	  if (!add)
+	    return -1;
+	  break;
+
 	case GRUB_ACPI_OPCODE_SCOPE:
 	  {
 	    int scope_sleep_type;

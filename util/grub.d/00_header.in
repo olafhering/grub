@@ -25,7 +25,7 @@ grub_lang=`echo $LANG | cut -d . -f 1`
 export TEXTDOMAIN=@PACKAGE@
 export TEXTDOMAINDIR="@localedir@"
 
-. "@datadir@/@PACKAGE@/grub-mkconfig_lib"
+. "$pkgdatadir/grub-mkconfig_lib"
 
 # Do this as early as possible, since other commands might depend on it.
 # (e.g. the `loadfont' command might need lvm or raid modules)
@@ -285,7 +285,7 @@ make_timeout ()
     if [ "x${3}" != "x" ] ; then
 	timeout="${2}"
 	style="${3}"
-    elif [ "x${1}" != "x" -a "x${1}" != "x0" ] ; then
+    elif [ "x${1}" != "x" ] && [ "x${1}" != "x0" ] ; then
 	# Handle the deprecated GRUB_HIDDEN_TIMEOUT scheme.
 	timeout="${1}"
 	if [ "x${2}" != "x0" ] ; then
