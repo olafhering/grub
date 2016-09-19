@@ -1,10 +1,10 @@
-From ac63ab0734dd2d413344249e17c7af361737fa11 Mon Sep 17 00:00:00 2001
+From 519c28e1053a5d5e398120a577384d5162b48c77 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:18 +0000
 Subject: Add more debugging to linuxefi
 
 Forwarded: no
-Last-Update: 2013-01-29
+Last-Update: 2016-09-19
 
 Patch-Name: linuxefi_debug.patch
 ---
@@ -12,7 +12,7 @@ Patch-Name: linuxefi_debug.patch
  1 file changed, 25 insertions(+), 3 deletions(-)
 
 diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c
-index ebaf1db..2bf38fa 100644
+index b622b3b..1995a50 100644
 --- a/grub-core/loader/i386/efi/linux.c
 +++ b/grub-core/loader/i386/efi/linux.c
 @@ -19,6 +19,7 @@
@@ -69,7 +69,7 @@ index ebaf1db..2bf38fa 100644
  
 +  grub_dprintf ("linuxefi", "params = %lx\n", (unsigned long) params);
 +
-   memset (params, 0, 16384);
+   grub_memset (params, 0, 16384);
  
    if (grub_file_read (file, &lh, sizeof (lh)) != sizeof (lh))
 @@ -279,6 +296,9 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),

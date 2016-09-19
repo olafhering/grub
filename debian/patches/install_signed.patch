@@ -1,4 +1,4 @@
-From 7650db78b574bff985df3502558cb59b1f122018 Mon Sep 17 00:00:00 2001
+From e228d09dbfe0921d6697d417e7d9d7ae502fbff1 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:22 +0000
 Subject: Install signed images if UEFI Secure Boot is enabled

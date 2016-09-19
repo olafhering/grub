@@ -1,4 +1,4 @@
-From 04f48fe503ee4287e586faf0c92e7e07cb337dda Mon Sep 17 00:00:00 2001
+From 547e20d1bb10f8f7d4c9e803822a1716f593f2c6 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:21 +0000
 Subject: Generate configuration for signed UEFI kernels if available

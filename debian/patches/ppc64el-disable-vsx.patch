@@ -1,4 +1,4 @@
-From 32c712ccdfa973be5332eb3868e5ef6105126fba Mon Sep 17 00:00:00 2001
+From 8d95d2b9ba2d406680bcd01555016d92e5f30ba3 Mon Sep 17 00:00:00 2001
 From: Paulo Flabiano Smorigo <pfsmorigo@linux.vnet.ibm.com>
 Date: Thu, 25 Sep 2014 19:33:39 -0300
 Subject: Disable VSX instruction

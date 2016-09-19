@@ -1,4 +1,4 @@
-From 09ad903eb51e9b3547f5680311cbc96c280bded3 Mon Sep 17 00:00:00 2001
+From e022bb4a1aef299debfbb9dbe85413303d71e77f Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:20 +0000
 Subject: If running under UEFI secure boot, attempt to use linuxefi loader
@@ -14,7 +14,7 @@ Patch-Name: linuxefi_non_sb_fallback.patch
  2 files changed, 44 insertions(+), 1 deletion(-)
 
 diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c
-index f764f49..88e2d34 100644
+index ff29316..de4471b 100644
 --- a/grub-core/loader/i386/efi/linux.c
 +++ b/grub-core/loader/i386/efi/linux.c
 @@ -234,7 +234,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),

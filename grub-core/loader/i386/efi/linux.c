@@ -253,7 +253,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
 
   grub_dprintf ("linuxefi", "params = %lx\n", (unsigned long) params);
 
-  memset (params, 0, 16384);
+  grub_memset (params, 0, 16384);
 
   if (grub_file_read (file, &lh, sizeof (lh)) != sizeof (lh))
     {
@@ -346,7 +346,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
       lh.code32_start = (grub_uint32_t)(grub_addr_t) kernel_mem;
     }
 
-  memcpy(params, &lh, 2 * 512);
+  grub_memcpy (params, &lh, 2 * 512);
 
   params->type_of_loader = 0x21;
 

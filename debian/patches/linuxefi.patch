@@ -1,11 +1,11 @@
-From 5e1bbfdde9e3b1c13163d97b3e0f729e43f8aa47 Mon Sep 17 00:00:00 2001
+From 5cd20151112bfde11cf3ed8b9920797d7cabe325 Mon Sep 17 00:00:00 2001
 From: Matthew Garrett <mjg@redhat.com>
 Date: Mon, 13 Jan 2014 12:13:15 +0000
 Subject: Add "linuxefi" loader which avoids ExitBootServices
 
 Origin: vendor, http://pkgs.fedoraproject.org/cgit/grub2.git/tree/grub2-linuxefi.patch
 Forwarded: no
-Last-Update: 2014-11-18
+Last-Update: 2016-09-19
 
 Patch-Name: linuxefi.patch
 ---
@@ -81,7 +81,7 @@ index 20a47aa..efb15cc 100644
  grub_efi_allocate_pages (grub_efi_physical_address_t address,
 diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c
 new file mode 100644
-index 0000000..ebaf1db
+index 0000000..b622b3b
 --- /dev/null
 +++ b/grub-core/loader/i386/efi/linux.c
 @@ -0,0 +1,371 @@
@@ -323,7 +323,7 @@ index 0000000..ebaf1db
 +      goto fail;
 +    }
 +
-+  memset (params, 0, 16384);
++  grub_memset (params, 0, 16384);
 +
 +  if (grub_file_read (file, &lh, sizeof (lh)) != sizeof (lh))
 +    {
@@ -411,7 +411,7 @@ index 0000000..ebaf1db
 +      lh.code32_start = (grub_uint32_t)(grub_addr_t) kernel_mem;
 +    }
 +
-+  memcpy(params, &lh, 2 * 512);
++  grub_memcpy (params, &lh, 2 * 512);
 +
 +  params->type_of_loader = 0x21;
 +

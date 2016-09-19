@@ -1,4 +1,4 @@
-From 1d64d097747607a1a1bd73b0370e794283d16c45 Mon Sep 17 00:00:00 2001
+From 382eda4503b08fa776451ab04031738c6a848b45 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:28 +0000
 Subject: Add configure option to bypass boot menu if possible
