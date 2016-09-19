@@ -6,6 +6,7 @@ grub2 (2.02~beta3-1) UNRELEASED; urgency=medium
   * Drop "grub-shell: Pass -no-pad to xorriso when building floppy images".
     The floppy images built by grub-shell are no longer over the floppy
     limit, and this patch now itself causes fddboot_test failures.
+  * Build with GCC 6 (closes: #835964).
 
   [ Debconf translations ]
   * [ja] Japanese (Takuma Yamada; closes: #815203, #817084).
