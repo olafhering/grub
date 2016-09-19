@@ -37,7 +37,6 @@ probe_fusionio.patch
 ignore_grub_func_test_failures.patch
 mkconfig_recovery_title.patch
 skip_gettext_strings_test.patch
-grub-shell-no-pad.patch
 install_powerpc_machtypes.patch
 ieee1275-clear-reset.patch
 ppc64el-disable-vsx.patch
