@@ -21,7 +21,7 @@ grub2 (2.02~beta3-1) UNRELEASED; urgency=medium
     packages use it unconditionally (closes: #824875, LP: #1584134).
 
   [ Steve Beattie ]
-  * debian/rules: Disable PIE builds for GRUB modules.
+  * debian/rules: Disable PIE builds for GRUB modules (closes: #837493).
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 20 Feb 2016 02:10:39 +0000
 
