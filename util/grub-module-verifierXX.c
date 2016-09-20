@@ -199,7 +199,8 @@ check_symbols (const struct grub_module_verifier_arch *arch, Elf_Ehdr *e)
       Elf_Shdr *s = find_section (arch, e, ".moddeps");
 
       if (!s)
-	grub_util_error ("no symbol table and no .moddeps section");
+	/*grub_util_error ("no symbol table and no .moddeps section");*/
+	return; /* An empty module happens for all_video.module for Xen */
 
       if (!s->sh_size)
 	grub_util_error ("no symbol table and empty .moddeps section");
