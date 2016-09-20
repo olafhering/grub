@@ -8,6 +8,8 @@ grub2 (2.02~beta3-1) UNRELEASED; urgency=medium
     limit, and this patch now itself causes fddboot_test failures.
   * Build with GCC 6 (closes: #835964).
   * linuxefi.patch: Adjust for libgcc removal.
+  * Apply openSUSE patch to accept empty modules for now so that Xen builds
+    work.
 
   [ Debconf translations ]
   * [ja] Japanese (Takuma Yamada; closes: #815203, #817084).
