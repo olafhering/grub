@@ -269,7 +269,8 @@ debian/stamps/build-grub-rescue-pc: debian/stamps/build-grub-pc
 		--locale-directory=$(CURDIR)/obj/grub-rescue-pc/grub-core/po \
 		--output=$(CURDIR)/obj/grub-rescue-pc/grub-rescue-floppy.img \
 		--compress=xz \
-		-- -no-pad $(CURDIR)/obj/grub-rescue-pc/rescue-disk
+		-no-pad \
+		$(CURDIR)/obj/grub-rescue-pc/rescue-disk
 	touch $@
 
 platform_subst = \
