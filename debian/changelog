@@ -1,4 +1,4 @@
-grub2 (2.02~beta3-1) UNRELEASED; urgency=medium
+grub2 (2.02~beta3-1) unstable; urgency=medium
 
   [ Colin Watson ]
   * New upstream beta release.
@@ -23,7 +23,7 @@ grub2 (2.02~beta3-1) UNRELEASED; urgency=medium
   [ Steve Beattie ]
   * debian/rules: Disable PIE builds for GRUB modules (closes: #837493).
 
- -- Colin Watson <cjwatson@debian.org>  Sat, 20 Feb 2016 02:10:39 +0000
+ -- Colin Watson <cjwatson@debian.org>  Sun, 16 Oct 2016 10:46:46 +0100
 
 grub2 (2.02~beta2-36) unstable; urgency=medium
 
