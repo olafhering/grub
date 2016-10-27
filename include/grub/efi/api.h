@@ -1452,14 +1452,67 @@ typedef struct grub_efi_simple_text_output_interface grub_efi_simple_text_output
 
 typedef grub_uint8_t grub_efi_pxe_packet_t[1472];
 
+typedef struct {
+  grub_uint8_t addr[4];
+} grub_efi_pxe_ipv4_address_t;
+
+typedef struct {
+  grub_uint8_t addr[16];
+} grub_efi_pxe_ipv6_address_t;
+
+typedef struct {
+  grub_uint8_t addr[32];
+} grub_efi_pxe_mac_address_t;
+
+typedef union {
+    grub_uint32_t addr[4];
+    grub_efi_pxe_ipv4_address_t v4;
+    grub_efi_pxe_ipv6_address_t v6;
+} grub_efi_pxe_ip_address_t;
+
+#define GRUB_EFI_PXE_BASE_CODE_MAX_IPCNT 8
+typedef struct {
+    grub_uint8_t filters;
+    grub_uint8_t ip_cnt;
+    grub_uint16_t reserved;
+    grub_efi_pxe_ip_address_t ip_list[GRUB_EFI_PXE_BASE_CODE_MAX_IPCNT];
+} grub_efi_pxe_ip_filter_t;
+
+typedef struct {
+    grub_efi_pxe_ip_address_t ip_addr;
+    grub_efi_pxe_mac_address_t mac_addr;
+} grub_efi_pxe_arp_entry_t;
+
+typedef struct {
+    grub_efi_pxe_ip_address_t ip_addr;
+    grub_efi_pxe_ip_address_t subnet_mask;
+    grub_efi_pxe_ip_address_t gw_addr;
+} grub_efi_pxe_route_entry_t;
+
+
+#define GRUB_EFI_PXE_BASE_CODE_MAX_ARP_ENTRIES 8
+#define GRUB_EFI_PXE_BASE_CODE_MAX_ROUTE_ENTRIES 8
+
 typedef struct grub_efi_pxe_mode
 {
-  grub_uint8_t unused[52];
+  grub_uint8_t started;
+  grub_uint8_t ipv6_available;
+  grub_uint8_t ipv6_supported;
+  grub_uint8_t using_ipv6;
+  grub_uint8_t unused[16];
+  grub_efi_pxe_ip_address_t station_ip;
+  grub_efi_pxe_ip_address_t subnet_mask;
   grub_efi_pxe_packet_t dhcp_discover;
   grub_efi_pxe_packet_t dhcp_ack;
   grub_efi_pxe_packet_t proxy_offer;
   grub_efi_pxe_packet_t pxe_discover;
   grub_efi_pxe_packet_t pxe_reply;
+  grub_efi_pxe_packet_t pxe_bis_reply;
+  grub_efi_pxe_ip_filter_t ip_filter;
+  grub_uint32_t arp_cache_entries;
+  grub_efi_pxe_arp_entry_t arp_cache[GRUB_EFI_PXE_BASE_CODE_MAX_ARP_ENTRIES];
+  grub_uint32_t route_table_entries;
+  grub_efi_pxe_route_entry_t route_table[GRUB_EFI_PXE_BASE_CODE_MAX_ROUTE_ENTRIES];
 } grub_efi_pxe_mode_t;
 
 typedef struct grub_efi_pxe
