@@ -240,6 +240,7 @@ grub_util_find_root_devices_from_poolname (char *poolname)
   argv[2] = poolname;
   argv[3] = NULL;
 
+  setenv ("ZPOOL_VDEV_NAME_PATH", "YES", 1);
   pid = grub_util_exec_pipe (argv, &fd);
   if (!pid)
     return NULL;
