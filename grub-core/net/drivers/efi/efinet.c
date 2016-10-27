@@ -378,11 +378,25 @@ grub_efi_net_config_real (grub_efi_handle_t hnd, char **device,
     if (! pxe)
       continue;
     pxe_mode = pxe->mode;
-    grub_net_configure_by_dhcp_ack (card->name, card, 0,
-				    (struct grub_net_bootp_packet *)
-				    &pxe_mode->dhcp_ack,
-				    sizeof (pxe_mode->dhcp_ack),
-				    1, device, path);
+
+    if (pxe_mode->using_ipv6)
+      {
+	grub_net_configure_by_dhcpv6_reply (card->name, card, 0,
+					    (struct grub_net_dhcp6_packet *)
+					    &pxe_mode->dhcp_ack,
+					    sizeof (pxe_mode->dhcp_ack),
+					    1, device, path);
+	if (grub_errno)
+	  grub_print_error ();
+      }
+    else
+      {
+	grub_net_configure_by_dhcp_ack (card->name, card, 0,
+					(struct grub_net_bootp_packet *)
+					&pxe_mode->dhcp_ack,
+					sizeof (pxe_mode->dhcp_ack),
+					1, device, path);
+      }
     return;
   }
 }
