@@ -19,6 +19,8 @@ grub2 (2.02~beta3-3) UNRELEASED; urgency=medium
     the EFI binaries from shim.
   * debian/control: Breaks shim (<< 0.9+1474479173.6c180c6-0ubuntu1~) due to
     the renamed binaries in the new shim.
+  * debian/postinst.in: call on to update-secureboot-policy on configure to
+    make sure users can disable shim validation if necessary. 
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 01 Nov 2016 10:41:20 +0000
 

@@ -708,6 +708,10 @@ case "$1" in
             cp $i /boot/grub/
           fi
         done
+
+        if type update-secureboot-policy >/dev/null 2>&1; then
+          update-secureboot-policy || true
+        fi
       ;;
 
       grub-ieee1275)
