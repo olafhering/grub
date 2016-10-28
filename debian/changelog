@@ -21,6 +21,8 @@ grub2 (2.02~beta3-3) UNRELEASED; urgency=medium
     the renamed binaries in the new shim.
   * debian/postinst.in: call on to update-secureboot-policy on configure to
     make sure users can disable shim validation if necessary. 
+  * debian/build-efi-images: add loopback and squash4 modules to the signed
+    EFI images.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 01 Nov 2016 10:41:20 +0000
 

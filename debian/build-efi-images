@@ -100,6 +100,7 @@ CD_MODULES="
 	jpeg
 	keystatus
 	loadenv
+	loopback
 	linux
 	lsefi
 	lsefimmap
@@ -119,6 +120,7 @@ CD_MODULES="
 	search_fs_file
 	search_label
 	sleep
+	squash4
 	test
 	true
 	video
