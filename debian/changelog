@@ -1,6 +1,8 @@
 grub2 (2.02~beta3-2) UNRELEASED; urgency=medium
 
   * debian/watch: Switch URL scheme to HTTP.
+  * Fix operator precedence in GRUB_DEVICE UUID tests (closes: #841680,
+    #841741).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 18 Oct 2016 10:18:00 +0100
 

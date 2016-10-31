@@ -46,3 +46,5 @@ grub-install-extra-removable.patch
 mkconfig_other_inits.patch
 syslinux-test-out-of-tree.patch
 accept-empty-module.patch
+uuid-test-precedence-1.patch
+uuid-test-precedence-2.patch
