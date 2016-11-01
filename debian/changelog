@@ -1,4 +1,4 @@
-grub2 (2.02~beta3-3) UNRELEASED; urgency=medium
+grub2 (2.02~beta3-3) unstable; urgency=medium
 
   [ Chad MILLER ]
   * Signal to zpool that it should emit full names of constituent devices
@@ -24,7 +24,7 @@ grub2 (2.02~beta3-3) UNRELEASED; urgency=medium
   * debian/build-efi-images: add loopback and squash4 modules to the signed
     EFI images.
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 01 Nov 2016 10:41:20 +0000
+ -- Colin Watson <cjwatson@debian.org>  Tue, 01 Nov 2016 11:10:52 +0000
 
 grub2 (2.02~beta3-2) unstable; urgency=medium
 
