@@ -1,3 +1,11 @@
+grub2 (2.02~beta3-3) UNRELEASED; urgency=medium
+
+  [ Chad MILLER ]
+  * Signal to zpool that it should emit full names of constituent devices
+    (closes: #824974, LP: #1527727).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 01 Nov 2016 10:41:20 +0000
+
 grub2 (2.02~beta3-2) unstable; urgency=medium
 
   * debian/watch: Switch URL scheme to HTTP.

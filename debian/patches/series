@@ -48,3 +48,4 @@ syslinux-test-out-of-tree.patch
 accept-empty-module.patch
 uuid-test-precedence-1.patch
 uuid-test-precedence-2.patch
+zpool_full_device_name.patch
