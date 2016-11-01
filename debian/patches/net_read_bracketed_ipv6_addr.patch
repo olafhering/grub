@@ -1,4 +1,4 @@
-From 7071c338fd441b330e110e5676da4db5cd27ec99 Mon Sep 17 00:00:00 2001
+From 04ca2e68ad31216cad59129f746a831cdb497a7f Mon Sep 17 00:00:00 2001
 From: Aaron Miller <aaronmiller@fb.com>
 Date: Thu, 27 Oct 2016 17:39:49 -0400
 Subject: net: read bracketed ipv6 addrs and port numbers

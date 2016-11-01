@@ -2019,13 +2019,22 @@ main (int argc, char *argv[])
 	char *dst = grub_util_path_concat (2, efidir, efi_file);
 	if (uefi_secure_boot)
 	  {
-	    const char *shim_signed = "/usr/lib/shim/shim.efi.signed";
+	    char *shim_signed = NULL;
+	    char *mok_signed = NULL, *mok_file = NULL;
+	    char *fb_signed = NULL, *fb_file = NULL;
 	    char *config_dst;
 	    FILE *config_dst_f;
 
+	    shim_signed = xasprintf ("/usr/lib/shim/shim%s.efi.signed", efi_suffix);
+	    mok_signed = xasprintf ("mm%s.efi.signed", efi_suffix);
+	    mok_file = xasprintf ("mm%s.efi", efi_suffix);
+	    fb_signed = xasprintf ("fb%s.efi.signed", efi_suffix);
+	    fb_file = xasprintf ("fb%s.efi", efi_suffix);
+
 	    if (grub_util_is_regular (shim_signed))
 	      {
-		char *chained_base, *chained_dst, *mok_signed;
+		char *chained_base, *chained_dst;
+		char *mok_src, *mok_dst, *fb_src, *fb_dst;
 		if (!removable)
 		  {
 		    free (efi_file);
@@ -2037,16 +2046,29 @@ main (int argc, char *argv[])
 		chained_base = xasprintf ("grub%s.efi", efi_suffix);
 		chained_dst = grub_util_path_concat (2, efidir, chained_base);
 		grub_install_copy_file (efi_signed, chained_dst, 1);
-		/* Not critical, so not an error if it's not present (as it
-		   won't be for older releases); but if we have it, make
-		   sure it's installed.  */
-		mok_signed = grub_util_path_concat (2, efidir,
-						    "MokManager.efi");
-		grub_install_copy_file ("/usr/lib/shim/MokManager.efi.signed",
-					mok_signed, 0);
-		free (mok_signed);
 		free (chained_dst);
 		free (chained_base);
+
+		/* Not critical, so not an error if they are not present (as it
+		   won't be for older releases); but if we have them, make
+		   sure they are installed.  */
+		mok_src = grub_util_path_concat (2, "/usr/lib/shim/",
+						    mok_signed);
+		mok_dst = grub_util_path_concat (2, efidir,
+						    mok_file);
+		grub_install_copy_file (mok_src,
+					mok_dst, 0);
+		free (mok_src);
+		free (mok_dst);
+
+		fb_src = grub_util_path_concat (2, "/usr/lib/shim/",
+						    fb_signed);
+		fb_dst = grub_util_path_concat (2, efidir,
+						    fb_file);
+		grub_install_copy_file (fb_src,
+					fb_dst, 0);
+		free (fb_src);
+		free (fb_dst);
 	      }
 	    else
 	      grub_install_copy_file (efi_signed, dst, 1);

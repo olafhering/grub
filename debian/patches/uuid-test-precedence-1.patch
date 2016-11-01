@@ -1,4 +1,4 @@
-From 19e4a51ac15ce912d9229aada26ec154e0112781 Mon Sep 17 00:00:00 2001
+From a395d8f8362076f1fba38952cde6d91a4cedc785 Mon Sep 17 00:00:00 2001
 From: Mike Gilbert <floppym@gentoo.org>
 Date: Sat, 5 Mar 2016 17:30:48 -0500
 Subject: 10_linux: Fix grouping of tests for GRUB_DEVICE

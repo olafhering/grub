@@ -1,4 +1,4 @@
-From 52fe7e7ada869f93864200deb5e0ee081baf7296 Mon Sep 17 00:00:00 2001
+From 5c2497b5c2468d6b79f960f547e61cec69c93adc Mon Sep 17 00:00:00 2001
 From: Andrei Borzenkov <arvidjaar@gmail.com>
 Date: Sun, 6 Mar 2016 08:54:19 +0300
 Subject: 20_linux_xen: fix test for GRUB_DEVICE

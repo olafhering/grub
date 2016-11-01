@@ -1,4 +1,4 @@
-From ac66d3e88abfe05c1bb4429a071cd60f3d134981 Mon Sep 17 00:00:00 2001
+From af2b65e8b95ef23d0f113654fe6969f4c26e1591 Mon Sep 17 00:00:00 2001
 From: Michael Matz <matz@suse.com>
 Date: Tue, 20 Sep 2016 11:50:37 +0100
 Subject: Accept empty modules
