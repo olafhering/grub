@@ -23,12 +23,15 @@
 #include <grub/efi/api.h>
 #include <grub/efi/efi.h>
 #include <grub/i18n.h>
+#include <grub/net/netbuff.h>
 
 GRUB_MOD_LICENSE ("GPLv3+");
 
 /* GUID.  */
 static grub_efi_guid_t net_io_guid = GRUB_EFI_SIMPLE_NETWORK_GUID;
 static grub_efi_guid_t pxe_io_guid = GRUB_EFI_PXE_GUID;
+static grub_efi_guid_t ip4_config_guid = GRUB_EFI_IP4_CONFIG2_PROTOCOL_GUID;
+static grub_efi_guid_t ip6_config_guid = GRUB_EFI_IP6_CONFIG_PROTOCOL_GUID;
 
 static grub_err_t
 send_card_buffer (struct grub_net_card *dev,
@@ -324,6 +327,382 @@ grub_efinet_findcards (void)
   grub_free (handles);
 }
 
+static grub_efi_handle_t
+grub_efi_locate_device_path (grub_efi_guid_t *protocol, grub_efi_device_path_t *device_path,
+			    grub_efi_device_path_t **r_device_path)
+{
+  grub_efi_handle_t handle;
+  grub_efi_status_t status;
+
+  status = efi_call_3 (grub_efi_system_table->boot_services->locate_device_path,
+		      protocol, &device_path, &handle);
+
+  if (status != GRUB_EFI_SUCCESS)
+    return 0;
+
+  if (r_device_path)
+    *r_device_path = device_path;
+
+  return handle;
+}
+
+static grub_efi_ipv4_address_t *
+grub_dns_server_ip4_address (grub_efi_device_path_t *dp, grub_efi_uintn_t *num_dns)
+{
+  grub_efi_handle_t hnd;
+  grub_efi_status_t status;
+  grub_efi_ip4_config2_protocol_t *conf;
+  grub_efi_ipv4_address_t *addrs;
+  grub_efi_uintn_t data_size = 1 * sizeof (grub_efi_ipv4_address_t);
+
+  hnd = grub_efi_locate_device_path (&ip4_config_guid, dp, NULL);
+
+  if (!hnd)
+    return 0;
+
+  conf = grub_efi_open_protocol (hnd, &ip4_config_guid,
+				GRUB_EFI_OPEN_PROTOCOL_GET_PROTOCOL);
+
+  if (!conf)
+    return 0;
+
+  addrs  = grub_malloc (data_size);
+  if (!addrs)
+    return 0;
+
+  status = efi_call_4 (conf->get_data, conf,
+		      GRUB_EFI_IP4_CONFIG2_DATA_TYPE_DNSSERVER,
+		      &data_size, addrs);
+
+  if (status == GRUB_EFI_BUFFER_TOO_SMALL)
+    {
+      grub_free (addrs);
+      addrs  = grub_malloc (data_size);
+      if (!addrs)
+	return 0;
+
+      status = efi_call_4 (conf->get_data,  conf,
+			  GRUB_EFI_IP4_CONFIG2_DATA_TYPE_DNSSERVER,
+			  &data_size, addrs);
+    }
+
+  if (status != GRUB_EFI_SUCCESS)
+    {
+      grub_free (addrs);
+      return 0;
+    }
+
+  *num_dns = data_size / sizeof (grub_efi_ipv4_address_t);
+  return addrs;
+}
+
+static grub_efi_ipv6_address_t *
+grub_dns_server_ip6_address (grub_efi_device_path_t *dp, grub_efi_uintn_t *num_dns)
+{
+  grub_efi_handle_t hnd;
+  grub_efi_status_t status;
+  grub_efi_ip6_config_protocol_t *conf;
+  grub_efi_ipv6_address_t *addrs;
+  grub_efi_uintn_t data_size = 1 * sizeof (grub_efi_ipv6_address_t);
+
+  hnd = grub_efi_locate_device_path (&ip6_config_guid, dp, NULL);
+
+  if (!hnd)
+    return 0;
+
+  conf = grub_efi_open_protocol (hnd, &ip6_config_guid,
+				GRUB_EFI_OPEN_PROTOCOL_GET_PROTOCOL);
+
+  if (!conf)
+    return 0;
+
+  addrs  = grub_malloc (data_size);
+  if (!addrs)
+    return 0;
+
+  status = efi_call_4 (conf->get_data, conf,
+		      GRUB_EFI_IP6_CONFIG_DATA_TYPE_DNSSERVER,
+		      &data_size, addrs);
+
+  if (status == GRUB_EFI_BUFFER_TOO_SMALL)
+    {
+      grub_free (addrs);
+      addrs  = grub_malloc (data_size);
+      if (!addrs)
+	return 0;
+
+      status = efi_call_4 (conf->get_data,  conf,
+			  GRUB_EFI_IP6_CONFIG_DATA_TYPE_DNSSERVER,
+			  &data_size, addrs);
+    }
+
+  if (status != GRUB_EFI_SUCCESS)
+    {
+      grub_free (addrs);
+      return 0;
+    }
+
+  *num_dns = data_size / sizeof (grub_efi_ipv6_address_t);
+  return addrs;
+}
+
+static struct grub_net_buff *
+grub_efinet_create_dhcp_ack_from_device_path (grub_efi_device_path_t *dp, int *use_ipv6)
+{
+  grub_efi_uint16_t uri_len;
+  grub_efi_device_path_t *ldp, *ddp;
+  grub_efi_uri_device_path_t *uri_dp;
+  struct grub_net_buff *nb;
+  grub_err_t err;
+
+  ddp = grub_efi_duplicate_device_path (dp);
+  ldp = grub_efi_find_last_device_path (ddp);
+
+  if (GRUB_EFI_DEVICE_PATH_TYPE (ldp) != GRUB_EFI_MESSAGING_DEVICE_PATH_TYPE
+      || GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) != GRUB_EFI_URI_DEVICE_PATH_SUBTYPE)
+    {
+      grub_free (ddp);
+      return NULL;
+    }
+
+  uri_len = GRUB_EFI_DEVICE_PATH_LENGTH (ldp) > 4 ? GRUB_EFI_DEVICE_PATH_LENGTH (ldp) - 4  : 0;
+
+  if (!uri_len)
+    {
+      grub_free (ddp);
+      return NULL;
+    }
+
+  uri_dp = (grub_efi_uri_device_path_t *) ldp;
+
+  ldp->type = GRUB_EFI_END_DEVICE_PATH_TYPE;
+  ldp->subtype = GRUB_EFI_END_ENTIRE_DEVICE_PATH_SUBTYPE;
+  ldp->length = sizeof (*ldp);
+
+  ldp = grub_efi_find_last_device_path (ddp);
+
+  if (GRUB_EFI_DEVICE_PATH_TYPE (ldp) != GRUB_EFI_MESSAGING_DEVICE_PATH_TYPE
+      || (GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) != GRUB_EFI_IPV4_DEVICE_PATH_SUBTYPE
+          && GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) != GRUB_EFI_IPV6_DEVICE_PATH_SUBTYPE))
+    {
+      grub_free (ddp);
+      return NULL;
+    }
+
+  nb = grub_netbuff_alloc (512);
+  if (!nb)
+    return NULL;
+
+  if (GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) == GRUB_EFI_IPV4_DEVICE_PATH_SUBTYPE)
+    {
+      grub_efi_ipv4_device_path_t *ipv4 = (grub_efi_ipv4_device_path_t *) ldp;
+      struct grub_net_bootp_packet *bp;
+      grub_uint8_t *ptr;
+      grub_efi_ipv4_address_t *dns;
+      grub_efi_uintn_t num_dns;
+
+      bp = (struct grub_net_bootp_packet *) nb->tail;
+      err = grub_netbuff_put (nb, sizeof (*bp) + 4);
+      if (err)
+	{
+	  grub_free (ddp);
+	  grub_netbuff_free (nb);
+	  return NULL;
+	}
+
+      if (sizeof(bp->boot_file) < uri_len)
+	{
+	  grub_free (ddp);
+	  grub_netbuff_free (nb);
+	  return NULL;
+	}
+      grub_memcpy (bp->boot_file, uri_dp->uri, uri_len);
+      grub_memcpy (&bp->your_ip, ipv4->local_ip_address, sizeof (bp->your_ip));
+      grub_memcpy (&bp->server_ip, ipv4->remote_ip_address, sizeof (bp->server_ip));
+
+      bp->vendor[0] = GRUB_NET_BOOTP_RFC1048_MAGIC_0;
+      bp->vendor[1] = GRUB_NET_BOOTP_RFC1048_MAGIC_1;
+      bp->vendor[2] = GRUB_NET_BOOTP_RFC1048_MAGIC_2;
+      bp->vendor[3] = GRUB_NET_BOOTP_RFC1048_MAGIC_3;
+
+      ptr = nb->tail;
+      err = grub_netbuff_put (nb, sizeof (ipv4->subnet_mask) + 2);
+      if (err)
+	{
+	  grub_free (ddp);
+	  grub_netbuff_free (nb);
+	  return NULL;
+	}
+      *ptr++ = GRUB_NET_BOOTP_NETMASK;
+      *ptr++ = sizeof (ipv4->subnet_mask);
+      grub_memcpy (ptr, ipv4->subnet_mask, sizeof (ipv4->subnet_mask));
+
+      ptr = nb->tail;
+      err = grub_netbuff_put (nb, sizeof (ipv4->gateway_ip_address) + 2);
+      if (err)
+	{
+	  grub_free (ddp);
+	  grub_netbuff_free (nb);
+	  return NULL;
+	}
+      *ptr++ = GRUB_NET_BOOTP_ROUTER;
+      *ptr++ = sizeof (ipv4->gateway_ip_address);
+      grub_memcpy (ptr, ipv4->gateway_ip_address, sizeof (ipv4->gateway_ip_address));
+
+      ptr = nb->tail;
+      err = grub_netbuff_put (nb, sizeof ("HTTPClient") + 1);
+      if (err)
+	{
+	  grub_free (ddp);
+	  grub_netbuff_free (nb);
+	  return NULL;
+	}
+      *ptr++ = GRUB_NET_BOOTP_VENDOR_CLASS_IDENTIFIER;
+      *ptr++ = sizeof ("HTTPClient") - 1;
+      grub_memcpy (ptr, "HTTPClient", sizeof ("HTTPClient") - 1);
+
+      dns = grub_dns_server_ip4_address (dp, &num_dns);
+      if (dns)
+	{
+	  grub_efi_uintn_t size_dns = sizeof (*dns) * num_dns;
+
+	  ptr = nb->tail;
+	  err = grub_netbuff_put (nb, size_dns + 2);
+	  if (err)
+	    {
+	      grub_free (ddp);
+	      grub_netbuff_free (nb);
+	      return NULL;
+	    }
+	  *ptr++ = GRUB_NET_BOOTP_DNS;
+	  *ptr++ = size_dns;
+	  grub_memcpy (ptr, dns, size_dns);
+	  grub_free (dns);
+	}
+
+      ptr = nb->tail;
+      err = grub_netbuff_put (nb, 1);
+      if (err)
+	{
+	  grub_free (ddp);
+	  grub_netbuff_free (nb);
+	  return NULL;
+	}
+      *ptr = GRUB_NET_BOOTP_END;
+      *use_ipv6 = 0;
+
+      ldp->type = GRUB_EFI_END_DEVICE_PATH_TYPE;
+      ldp->subtype = GRUB_EFI_END_ENTIRE_DEVICE_PATH_SUBTYPE;
+      ldp->length = sizeof (*ldp);
+      ldp = grub_efi_find_last_device_path (ddp);
+
+      if (GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) ==  GRUB_EFI_MAC_ADDRESS_DEVICE_PATH_SUBTYPE)
+	{
+	  grub_efi_mac_address_device_path_t *mac = (grub_efi_mac_address_device_path_t *) ldp;
+	  bp->hw_type = mac->if_type;
+	  bp->hw_len = sizeof (bp->mac_addr);
+	  grub_memcpy (bp->mac_addr, mac->mac_address, bp->hw_len);
+	}
+    }
+  else
+    {
+      grub_efi_ipv6_device_path_t *ipv6 = (grub_efi_ipv6_device_path_t *) ldp;
+
+      struct grub_net_dhcp6_packet *d6p;
+      struct grub_net_dhcp6_option *opt;
+      struct grub_net_dhcp6_option_iana *iana;
+      struct grub_net_dhcp6_option_iaaddr *iaaddr;
+      grub_efi_ipv6_address_t *dns;
+      grub_efi_uintn_t num_dns;
+
+      d6p = (struct grub_net_dhcp6_packet *)nb->tail;
+      err = grub_netbuff_put (nb, sizeof(*d6p));
+      if (err)
+	{
+	  grub_free (ddp);
+	  grub_netbuff_free (nb);
+	  return NULL;
+	}
+      d6p->message_type = GRUB_NET_DHCP6_REPLY;
+
+      opt = (struct grub_net_dhcp6_option *)nb->tail;
+      err = grub_netbuff_put (nb, sizeof(*opt));
+      if (err)
+	{
+	  grub_free (ddp);
+	  grub_netbuff_free (nb);
+	  return NULL;
+	}
+      opt->code = grub_cpu_to_be16_compile_time (GRUB_NET_DHCP6_OPTION_IA_NA);
+      opt->len = grub_cpu_to_be16_compile_time (sizeof(*iana) + sizeof(*opt) + sizeof(*iaaddr));
+
+      err = grub_netbuff_put (nb, sizeof(*iana));
+      if (err)
+	{
+	  grub_free (ddp);
+	  grub_netbuff_free (nb);
+	  return NULL;
+	}
+
+      opt = (struct grub_net_dhcp6_option *)nb->tail;
+      err = grub_netbuff_put (nb, sizeof(*opt));
+      if (err)
+	{
+	  grub_free (ddp);
+	  grub_netbuff_free (nb);
+	  return NULL;
+	}
+      opt->code = grub_cpu_to_be16_compile_time (GRUB_NET_DHCP6_OPTION_IAADDR);
+      opt->len = grub_cpu_to_be16_compile_time (sizeof (*iaaddr));
+
+      iaaddr = (struct grub_net_dhcp6_option_iaaddr *)nb->tail;
+      err = grub_netbuff_put (nb, sizeof(*iaaddr));
+      if (err)
+	{
+	  grub_free (ddp);
+	  grub_netbuff_free (nb);
+	  return NULL;
+	}
+      grub_memcpy (iaaddr->addr, ipv6->local_ip_address, sizeof(ipv6->local_ip_address));
+
+      opt = (struct grub_net_dhcp6_option *)nb->tail;
+      err = grub_netbuff_put (nb, sizeof(*opt) + uri_len);
+      if (err)
+	{
+	  grub_free (ddp);
+	  grub_netbuff_free (nb);
+	  return NULL;
+	}
+      opt->code = grub_cpu_to_be16_compile_time (GRUB_NET_DHCP6_OPTION_BOOTFILE_URL);
+      opt->len = grub_cpu_to_be16 (uri_len);
+      grub_memcpy (opt->data, uri_dp->uri, uri_len);
+
+      dns = grub_dns_server_ip6_address (dp, &num_dns);
+      if (dns)
+	{
+	  grub_efi_uintn_t size_dns = sizeof (*dns) * num_dns;
+
+	  opt = (struct grub_net_dhcp6_option *)nb->tail;
+	  err = grub_netbuff_put (nb, sizeof(*opt) + size_dns);
+	  if (err)
+	  {
+	    grub_free (ddp);
+	    grub_netbuff_free (nb);
+	    return NULL;
+	  }
+	  opt->code = grub_cpu_to_be16_compile_time (GRUB_NET_DHCP6_OPTION_DNS_SERVERS);
+	  opt->len = grub_cpu_to_be16 (size_dns);
+	  grub_memcpy (opt->data, dns, size_dns);
+	  grub_free (dns);
+	}
+
+      *use_ipv6 = 1;
+    }
+
+  grub_free (ddp);
+  return nb;
+}
+
 static void
 grub_efi_net_config_real (grub_efi_handle_t hnd, char **device,
 			  char **path)
@@ -340,6 +719,11 @@ grub_efi_net_config_real (grub_efi_handle_t hnd, char **device,
     grub_efi_device_path_t *cdp;
     struct grub_efi_pxe *pxe;
     struct grub_efi_pxe_mode *pxe_mode;
+    grub_uint8_t *packet_buf;
+    grub_size_t packet_bufsz ;
+    int ipv6;
+    struct grub_net_buff *nb = NULL;
+
     if (card->driver != &efidriver)
       continue;
     cdp = grub_efi_get_device_path (card->efi_handle);
@@ -359,11 +743,21 @@ grub_efi_net_config_real (grub_efi_handle_t hnd, char **device,
 	ldp = grub_efi_find_last_device_path (dp);
 	if (GRUB_EFI_DEVICE_PATH_TYPE (ldp) != GRUB_EFI_MESSAGING_DEVICE_PATH_TYPE
 	    || (GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) != GRUB_EFI_IPV4_DEVICE_PATH_SUBTYPE
-		&& GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) != GRUB_EFI_IPV6_DEVICE_PATH_SUBTYPE))
+		&& GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) != GRUB_EFI_IPV6_DEVICE_PATH_SUBTYPE
+		&& GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) != GRUB_EFI_URI_DEVICE_PATH_SUBTYPE))
 	  continue;
 	dup_dp = grub_efi_duplicate_device_path (dp);
 	if (!dup_dp)
 	  continue;
+
+	if (GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) == GRUB_EFI_URI_DEVICE_PATH_SUBTYPE)
+	  {
+	    dup_ldp = grub_efi_find_last_device_path (dup_dp);
+	    dup_ldp->type = GRUB_EFI_END_DEVICE_PATH_TYPE;
+	    dup_ldp->subtype = GRUB_EFI_END_ENTIRE_DEVICE_PATH_SUBTYPE;
+	    dup_ldp->length = sizeof (*dup_ldp);
+	  }
+
 	dup_ldp = grub_efi_find_last_device_path (dup_dp);
 	dup_ldp->type = GRUB_EFI_END_DEVICE_PATH_TYPE;
 	dup_ldp->subtype = GRUB_EFI_END_ENTIRE_DEVICE_PATH_SUBTYPE;
@@ -375,14 +769,47 @@ grub_efi_net_config_real (grub_efi_handle_t hnd, char **device,
       }
     pxe = grub_efi_open_protocol (hnd, &pxe_io_guid,
 				  GRUB_EFI_OPEN_PROTOCOL_GET_PROTOCOL);
-    if (! pxe)
-      continue;
-    pxe_mode = pxe->mode;
-    grub_net_configure_by_dhcp_ack (card->name, card, 0,
-				    (struct grub_net_bootp_packet *)
-				    &pxe_mode->dhcp_ack,
-				    sizeof (pxe_mode->dhcp_ack),
-				    1, device, path);
+    if (!pxe)
+      {
+	nb = grub_efinet_create_dhcp_ack_from_device_path (dp, &ipv6);
+	if (!nb)
+	  {
+	    grub_print_error ();
+	    continue;
+	  }
+	packet_buf = nb->head;
+	packet_bufsz = nb->tail - nb->head;
+      }
+    else
+      {
+	pxe_mode = pxe->mode;
+	packet_buf = (grub_uint8_t *) &pxe_mode->dhcp_ack;
+	packet_bufsz = sizeof (pxe_mode->dhcp_ack);
+	ipv6 = pxe_mode->using_ipv6;
+      }
+
+    if (ipv6)
+      {
+	grub_net_configure_by_dhcpv6_reply (card->name, card, 0,
+					    (struct grub_net_dhcp6_packet *)
+					    packet_buf,
+					    packet_bufsz,
+					    1, device, path);
+	if (grub_errno)
+	  grub_print_error ();
+      }
+    else
+      {
+	grub_net_configure_by_dhcp_ack (card->name, card, 0,
+					(struct grub_net_bootp_packet *)
+					packet_buf,
+					packet_bufsz,
+					1, device, path);
+      }
+
+    if (nb)
+      grub_netbuff_free (nb);
+
     return;
   }
 }

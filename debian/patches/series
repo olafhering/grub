@@ -49,3 +49,10 @@ accept-empty-module.patch
 uuid-test-precedence-1.patch
 uuid-test-precedence-2.patch
 zpool_full_device_name.patch
+misc-fix-invalid-char-strtol.patch
+net_read_bracketed_ipv6_addr.patch
+bootp_new_net_bootp6_command.patch
+efinet_uefi_ipv6_pxe_support.patch
+bootp_process_dhcpack_http_boot.patch
+efinet_set_network_from_uefi_devpath.patch
+efinet_set_dns_from_uefi_proto.patch
