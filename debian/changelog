@@ -1,3 +1,10 @@
+grub2 (2.02~beta3-4) UNRELEASED; urgency=medium
+
+  * Drop build-dependency on libxen-dev, unnecessary now that upstream has
+    taken a copy of the necessary public headers.
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 05 Nov 2016 14:37:18 +0000
+
 grub2 (2.02~beta3-3) unstable; urgency=medium
 
   [ Chad MILLER ]
