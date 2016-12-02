@@ -23,6 +23,7 @@
 #include <grub/emu/config.h>
 
 #include <string.h>
+#include <dirent.h>
 
 #pragma GCC diagnostic ignored "-Wmissing-prototypes"
 #pragma GCC diagnostic ignored "-Wmissing-declarations"
@@ -193,6 +194,7 @@ add_tar_file (const char *from,
     return;
 
   mtime = grub_util_get_mtime (from);
+  mtime = 0;
 
   optr = tcn = xmalloc (strlen (to) + 1);
   for (iptr = to; *iptr == '/'; iptr++);
@@ -203,24 +205,48 @@ add_tar_file (const char *from,
 
   if (grub_util_is_directory (from))
     {
+#ifdef __linux__
+      int n;
+      struct dirent **namelist;
+
+      n = scandir(from, &namelist, NULL, alphasort);
+      if (n < 0)
+        return;
+      while (n--) {
+	char *fp, *tfp;
+        if (!(strcmp (namelist[n]->d_name, "..") == 0 || strcmp (namelist[n]->d_name, ".") == 0))
+          {
+            fp = grub_util_path_concat (2, from, namelist[n]->d_name);
+            tfp = xasprintf ("%s/%s", to, namelist[n]->d_name);
+            add_tar_file (fp, tfp);
+            free (fp);
+          }
+        free(namelist[n]);
+      }
+      free(namelist);
+#else
       grub_util_fd_dir_t d;
       grub_util_fd_dirent_t de;
 
       d = grub_util_fd_opendir (from);
 
+
       while ((de = grub_util_fd_readdir (d)))
 	{
 	  char *fp, *tfp;
+
 	  if (strcmp (de->d_name, ".") == 0)
 	    continue;
 	  if (strcmp (de->d_name, "..") == 0)
 	    continue;
 	  fp = grub_util_path_concat (2, from, de->d_name);
+
 	  tfp = xasprintf ("%s/%s", to, de->d_name);
 	  add_tar_file (fp, tfp);
 	  free (fp);
 	}
       grub_util_fd_closedir (d);
+#endif
       free (tcn);
       return;
     }
