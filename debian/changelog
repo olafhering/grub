@@ -1,7 +1,12 @@
 grub2 (2.02~beta3-4) UNRELEASED; urgency=medium
 
+  [ Colin Watson ]
   * Drop build-dependency on libxen-dev, unnecessary now that upstream has
     taken a copy of the necessary public headers.
+
+  [ dann frazier ]
+  * Add grub2/update_nvram template to allow users to disable NVRAM
+    updates during package upgrades (LP: #1642298).
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 05 Nov 2016 14:37:18 +0000
 

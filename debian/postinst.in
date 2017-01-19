@@ -299,6 +299,13 @@ running_in_container()
   type systemd-detect-virt >/dev/null 2>&1 && systemd-detect-virt --quiet --container
 }
 
+no_nvram_arg() {
+    db_get grub2/update_nvram
+    if [ "$RET" = false ]; then
+        echo "--no-nvram"
+    fi
+}
+
 run_grub_install()
 {
     if ! grub-install $@ ; then
@@ -698,7 +705,8 @@ case "$1" in
           if [ "$RET" = true ]; then
             FORCE_EXTRA_REMOVABLE="--force-extra-removable"
           fi
-          run_grub_install --target="$target" "$FORCE_EXTRA_REMOVABLE"
+          NO_NVRAM="$(no_nvram_arg)"
+          run_grub_install --target="$target" "$FORCE_EXTRA_REMOVABLE" "$NO_NVRAM"
         fi
 
         # /boot/grub/ has more chances of being accessible by GRUB
@@ -720,7 +728,8 @@ case "$1" in
             # Output may be empty; if so, just update the core image but
             # don't install it to any PReP partition.
             prep_bootdev="$(/usr/lib/grub/powerpc-ieee1275/prep-bootdev)"
-            run_grub_install --target=powerpc-ieee1275 $prep_bootdev
+            NO_NVRAM="$(no_nvram_arg)"
+            run_grub_install --target=powerpc-ieee1275 $prep_bootdev "$NO_NVRAM"
           ;;
         esac
       ;;

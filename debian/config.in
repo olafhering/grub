@@ -78,4 +78,9 @@ case @PACKAGE@ in
     db_input low grub2/force_efi_extra_removable || true
   ;;
 esac
+case @PACKAGE@ in
+  grub-*efi*|grub-ieee1275)
+    db_input low grub2/update_nvram || true
+  ;;
+esac
 db_go

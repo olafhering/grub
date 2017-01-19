@@ -24,6 +24,16 @@ _Description: Force extra installation to the EFI removable media path?
  GRUB is configured successfully to be able to boot any other OS installations
  correctly.
 
+Template: grub2/update_nvram
+Type: boolean
+Default: true
+_Description: Update NVRAM variables to automatically boot into Debian?
+ GRUB can configure your platform's NVRAM variables so that it boots into
+ Debian automatically when powered on. However, you may prefer to disable
+ this behavior and avoid changes to your boot configuration. For example,
+ if your NVRAM variables have been setup such that your system contacts a
+ PXE server on every boot, this would preserve that behavior.
+
 # still unused
 Template: grub2/kfreebsd_cmdline
 Type: string
