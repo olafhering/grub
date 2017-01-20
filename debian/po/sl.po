@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-12-19 11:58+0100\n"
+"PO-Revision-Date: 2017-01-20 08:53+0100\n"
 "Last-Translator: Vanja Cvelbar <cvelbar@gmail.com>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "Language: sl\n"
@@ -17,9 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
-"X-Poedit-Language: Slovenian\n"
-"X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.6.10\n"
 
 #. Type: boolean
 #. Description
@@ -362,7 +361,7 @@ msgstr ""
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Želite posodobiti spremenljivke NVRAM za samodejni zagon v Debian?"
 
 #. Type: boolean
 #. Description
@@ -374,6 +373,11 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB lahko nastavi spremenljivke NVRAM vašega računalniškega okolja tako, da "
+"samodejno zažene Debian ob vklopu. V primeru, da tega ne želite, lahko to "
+"onemogočite in preprečite spremembo vaše zagonske konfiguracije. Na primer, "
+"če so spremenljivke NVRAM nastavljene tako, da vaš sistem ob vsakem zagonu "
+"komunicira s strežnikom PXE, bo ta nastavitev ohranjena."
 
 #. Type: string
 #. Description
