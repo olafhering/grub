@@ -1,14 +1,14 @@
 # Thai translation of grub.
-# Copyright (C) 2010-2014 Software in the Public Interest, Inc.
+# Copyright (C) 2010-2017 Software in the Public Interest, Inc.
 # This file is distributed under the same license as the grub package.
-# Theppitak Karoonboonyanan <thep@debian.org>, 2010-2014.
+# Theppitak Karoonboonyanan <thep@debian.org>, 2010-2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-12-15 12:54+0700\n"
+"PO-Revision-Date: 2017-01-20 14:46+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@debian.org>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
 "Language: th\n"
@@ -343,7 +343,7 @@ msgstr ""
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "ปรับข้อมูลตัวแปร NVRAM ให้บูตเข้าเดเบียนโดยอัตโนมัติหรือไม่?"
 
 #. Type: boolean
 #. Description
@@ -355,6 +355,11 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB สามารถตั้งค่าตัวแปร NVRAM "
+"ของแพลตฟอร์มของคุณเพื่อให้บูตเข้าสู่เดเบียนโดยอัตโนมัติเมื่อเปิดเครื่องได้ อย่างไรก็ดี "
+"คุณอาจต้องการปิดการกระทำนี้และไม่เปลี่ยนค่าตั้งการบูตของคุณก็ได้ ตัวอย่างเช่น ถ้าตัวแปร NVRAM "
+"ของคุณได้ถูกตั้งค่าไว้ให้ระบบติดต่อไปยังเซิร์ฟเวอร์ PXE ทุกครั้งที่บูต คุณก็อาจเลือกไม่ปรับตัวแปร "
+"NVRAM นี้ และระบบก็จะคงพฤติกรรมเดิมนั้นไว้"
 
 #. Type: string
 #. Description

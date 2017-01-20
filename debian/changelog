@@ -12,6 +12,7 @@ grub2 (2.02~beta3-4) UNRELEASED; urgency=medium
   * [ro] Romanian (Andrei POPESCU).
   * [kk] Kazakh (Baurzhan Muftakhidinov).
   * [lt] Lithuanian (Rimas Kudelis).
+  * [th] Thai (Theppitak Karoonboonyanan).
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 05 Nov 2016 14:37:18 +0000
 
