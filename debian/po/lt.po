@@ -1,13 +1,13 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Rimas Kudelis <rq@akl.lt>, 2012, 2014.
+# Rimas Kudelis <rq@akl.lt>, 2012, 2014, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-12-14 10:37+0300\n"
+"PO-Revision-Date: 2017-01-20 09:03+0300\n"
 "Last-Translator: Rimas Kudelis <rq@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "Language: lt\n"
@@ -364,6 +364,8 @@ msgstr ""
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
 msgstr ""
+"Ar nustatyti NVRAM parametrus taip, kad būtų automatiškai paleidžiama "
+"„Debian“ sistema?"
 
 #. Type: boolean
 #. Description
@@ -375,6 +377,11 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"„GRUB“ paleidyklė gali nustatyti jūsų sistemos NVRAM parametrus, kad ją "
+"įjungus, būtų automatiškai paleidžiama „Debian“ sistema. Būna situacijų, kai "
+"tai nepageidautina, pavyzdžiui, jei jūsų sistemos NVRAM parametrai nustatyti "
+"taip, kad kaskart pasileisdama, ji susisiektų su PXE serveriu, ir jūs "
+"nenorite šio scenarijaus keisti."
 
 #. Type: string
 #. Description
