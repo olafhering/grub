@@ -31,7 +31,7 @@ _Description: Update NVRAM variables to automatically boot into Debian?
  GRUB can configure your platform's NVRAM variables so that it boots into
  Debian automatically when powered on. However, you may prefer to disable
  this behavior and avoid changes to your boot configuration. For example,
- if your NVRAM variables have been setup such that your system contacts a
+ if your NVRAM variables have been set up such that your system contacts a
  PXE server on every boot, this would preserve that behavior.
 
 # still unused
