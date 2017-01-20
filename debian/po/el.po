@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
-"POT-Creation-Date: 2014-12-13 20:23+0000\n"
+"POT-Creation-Date: 2017-01-20 00:29+0000\n"
 "PO-Revision-Date: 2012-08-17 14:44+0300\n"
 "Last-Translator: pankgeorg<pankgeorg@gmail.com>\n"
 "Language-Team: Greek <debian-l10n-greek@lists.debian.org>\n"
@@ -67,8 +67,8 @@ msgid ""
 "by issuing the following command as root:"
 msgstr ""
 "Όποια κι αν είναι η απόφασή σας, μπορείτε να αντικαταστήσετε αργότερα το "
-"προηγούμενο αντίγραφο του MBR με τη βοήθεια του GRUB 2, εκτελώντας ως χρήστης "
-"root την ακόλουθη εντολή:  "
+"προηγούμενο αντίγραφο του MBR με τη βοήθεια του GRUB 2, εκτελώντας ως "
+"χρήστης root την ακόλουθη εντολή:  "
 
 #. Type: multiselect
 #. Description
@@ -143,10 +143,10 @@ msgid ""
 msgstr ""
 "Ο φορτωτής εκκίνησης GRUB είχε εγκατασταθεί προηγουμένως σε έναν δίσκο που "
 "δεν είναι πλέον παρών στο σύστημα ή που ο μοναδικός κωδικός αναγνώρισής του "
-"έχει για κάποιο λόγο αλλάξει. Είναι σημαντικό να βεβαιωθείτε ότι το "
-"κύριο εγκατεστημένο αντίγραφο του GRUB παραμένει συγχρονισμένο με τις"
-"ενότητεςτου GRUB στο αρχείο grub.cfg. Παρακαλώ ελέγξτε ξανά για να"
-"σιγουρευτείτε ότι το GRUB έχει εγγραφεί στις κατάλληλες εκκινήσιμες συσκευές."
+"έχει για κάποιο λόγο αλλάξει. Είναι σημαντικό να βεβαιωθείτε ότι το κύριο "
+"εγκατεστημένο αντίγραφο του GRUB παραμένει συγχρονισμένο με τιςενότητεςτου "
+"GRUB στο αρχείο grub.cfg. Παρακαλώ ελέγξτε ξανά για νασιγουρευτείτε ότι το "
+"GRUB έχει εγγραφεί στις κατάλληλες εκκινήσιμες συσκευές."
 
 #. Type: text
 #. Description
@@ -184,15 +184,14 @@ msgid ""
 "Do you want to continue anyway? If you do, your computer may not start up "
 "properly."
 msgstr ""
-"Θέλετε να συνεχίσετε παρόλα αυτά; Αν ναι, είναι πιθανόν ο υπολογιστής σας "
-"να μην μπορεί να εκκινήσει κανονικά."
+"Θέλετε να συνεχίσετε παρόλα αυτά; Αν ναι, είναι πιθανόν ο υπολογιστής σας να "
+"μην μπορεί να εκκινήσει κανονικά."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "Writing GRUB to boot device failed - try again?"
-msgstr ""
-"Η εγγραφή του GRUB στη συσκευή εκκίνησης απέτυχε - Επανάληψη;"
+msgstr "Η εγγραφή του GRUB στη συσκευή εκκίνησης απέτυχε - Επανάληψη;"
 
 #. Type: boolean
 #. Description
@@ -227,8 +226,8 @@ msgstr ""
 "συνεχίσετε, το πρόγραμμα εκκίνησης πιθανόν να μην έχει ρυθμιστεί σωστά και "
 "στην επανεκκίνηση του υπολογιστή σας θα χρησιμοποιήσει οτιδήποτε υπήρχε από "
 "πριν στον τομέα εκκίνησης. Αν υπάρχει μια προηγούμενη έκδοση του GRUB 2 στον "
-"τομέα εκκίνησης, πιθανόν να μην μπορεί να φορτώσει κάποιες ενότητες αλλά ούτε"
-"να χειριστεί το τρέχον αρχείο ρυθμίσεων."
+"τομέα εκκίνησης, πιθανόν να μην μπορεί να φορτώσει κάποιες ενότητες αλλά "
+"ούτενα χειριστεί το τρέχον αρχείο ρυθμίσεων."
 
 #. Type: boolean
 #. Description
@@ -307,9 +306,9 @@ msgid ""
 "You should generally finish the conversion to GRUB 2 unless these boot "
 "records were created by a GRUB 2 installation on some other operating system."
 msgstr ""
-"Στη γενική περίπτωση θα πρέπει να τελειώσετε την μετατροπή σε GRUB 2 εκτός"
-"κι αν αυτά τα αρχεία εκκίνησης έχουν δημιουργηθεί από μια εγκατάσταση του "
-"GRUB 2 σε ένα άλλο λειτουργικό σύστημα."
+"Στη γενική περίπτωση θα πρέπει να τελειώσετε την μετατροπή σε GRUB 2 εκτόςκι "
+"αν αυτά τα αρχεία εκκίνησης έχουν δημιουργηθεί από μια εγκατάσταση του GRUB "
+"2 σε ένα άλλο λειτουργικό σύστημα."
 
 #. Type: string
 #. Description
@@ -351,8 +350,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
-"Να γίνει εξαναγκασμένη εγκατάσταση στην αποσπώμενη EFI συσκευή;"
+msgstr "Να γίνει εξαναγκασμένη εγκατάσταση στην αποσπώμενη EFI συσκευή;"
 
 #. Type: boolean
 #. Description
@@ -367,23 +365,40 @@ msgid ""
 "OS installations correctly."
 msgstr ""
 "Μερικά συστήματα που βασίζουνται στο EFI είναι ελλειπώς ανεπτυγμένα και δεν "
-"διαχειρίζονται τα νέα προγράμματα εκκίνησης σωστά. Αν εξαναγκάσετε το σύστημα "
-"να κάνει εγκατάσταση του GRUB στην αποσπώμενη EFI συσκευή, είναι βέβαιο ότι "
-"αυτό το σύστημα θα δύναται να εκκινεί το Debian σωστά, ακόμα και να "
-"εμφανιστεί τέτοιο πρόβλημα. Παρόλα αυτά, ίσβς αφαιρέσει τη δυνατότητα να "
+"διαχειρίζονται τα νέα προγράμματα εκκίνησης σωστά. Αν εξαναγκάσετε το "
+"σύστημα να κάνει εγκατάσταση του GRUB στην αποσπώμενη EFI συσκευή, είναι "
+"βέβαιο ότι αυτό το σύστημα θα δύναται να εκκινεί το Debian σωστά, ακόμα και "
+"να εμφανιστεί τέτοιο πρόβλημα. Παρόλα αυτά, ίσβς αφαιρέσει τη δυνατότητα να "
 "εκκινείτε οποιοδήποτε άλλο λειτουργικό σύστημα που ίσως εξαρτάται από αυτή "
 "τη συσκευή. Αν υπάρχει άλλο λειτουργικό σύστημα, θα χρειαστεί να σιγουρέψετε "
 "ότι ο GRUB είναι σωστά ρυθμισμένος να φορτώνει όλα τα άλλα λειτουργικά. "
 
-#. Type: string
+#. Type: boolean
 #. Description
 #: ../templates.in:4001
+msgid "Update NVRAM variables to automatically boot into Debian?"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../templates.in:4001
+msgid ""
+"GRUB can configure your platform's NVRAM variables so that it boots into "
+"Debian automatically when powered on. However, you may prefer to disable "
+"this behavior and avoid changes to your boot configuration. For example, if "
+"your NVRAM variables have been set up such that your system contacts a PXE "
+"server on every boot, this would preserve that behavior."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../templates.in:5001
 msgid "kFreeBSD command line:"
 msgstr "Γραμμή εντολών kFreeBSD:"
 
 #. Type: string
 #. Description
-#: ../templates.in:4001
+#: ../templates.in:5001
 msgid ""
 "The following kFreeBSD command line was extracted from /etc/default/grub or "
 "the `kopt' parameter in GRUB Legacy's menu.lst. Please verify that it is "
@@ -396,13 +411,13 @@ msgstr ""
 
 #. Type: string
 #. Description
-#: ../templates.in:5001
+#: ../templates.in:6001
 msgid "kFreeBSD default command line:"
 msgstr "Προκαθορισμένη γραμμή εντολών kFreeBSD:"
 
 #. Type: string
 #. Description
-#: ../templates.in:5001
+#: ../templates.in:6001
 msgid ""
 "The following string will be used as kFreeBSD parameters for the default "
 "menu entry but not for the recovery mode."
@@ -413,13 +428,13 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../templates.in:6001
+#: ../templates.in:7001
 msgid "/boot/grub/device.map has been regenerated"
 msgstr "Το αρχείο /boot/grub/device.map έχει αναδημιουργηθεί"
 
 #. Type: note
 #. Description
-#: ../templates.in:6001
+#: ../templates.in:7001
 msgid ""
 "The file /boot/grub/device.map has been rewritten to use stable device "
 "names. In most cases, this should significantly reduce the need to change it "
@@ -432,7 +447,7 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../templates.in:6001
+#: ../templates.in:7001
 msgid ""
 "However, since more than one disk is present in the system, it is possible "
 "that the system is depending on the old device map. Please check whether "
@@ -447,7 +462,7 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../templates.in:6001
+#: ../templates.in:7001
 msgid ""
 "If you do not understand this message, or if there are no custom boot menu "
 "entries, you can ignore this message."
