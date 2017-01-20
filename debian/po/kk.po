@@ -1,14 +1,14 @@
 # Kazakh translation for grub2.
 # Copyright (C) 2010 The Grub team
 # This file is distributed under the same license as the PACKAGE package.
-# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2010-2011.
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2010-2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: master\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-12-14 20:02+0600\n"
+"PO-Revision-Date: 2017-01-20 08:44+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #. Type: boolean
 #. Description
@@ -355,7 +355,7 @@ msgstr ""
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Debian ішіне автожүктелу үшін NVRAM айнымалыларын жаңарту керек пе?"
 
 #. Type: boolean
 #. Description
@@ -367,6 +367,11 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB сіздің платформаңыз іске қосылған кезде Debian ішіне автожүктелетіндей "
+"етіп NVRAM айнымалыларын баптай алады. Алайда, сіз бұл өзгерісті сөндіріп, "
+"жүктелу баптауларын өзгертпеуді қалауыңыз мүмкін. Мысалы, NVRAM айнымалылары "
+"жүйеңіз әр жүктелген кезде PXE серверімен байланысатындай бапталған болса, "
+"онда осындай әрекет сақталады."
 
 #. Type: string
 #. Description
