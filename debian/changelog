@@ -8,6 +8,9 @@ grub2 (2.02~beta3-4) UNRELEASED; urgency=medium
   * Add grub2/update_nvram template to allow users to disable NVRAM
     updates during package upgrades (LP: #1642298).
 
+  [ Debconf translations ]
+  * [ro] Romanian (Andrei POPESCU).
+
  -- Colin Watson <cjwatson@debian.org>  Sat, 05 Nov 2016 14:37:18 +0000
 
 grub2 (2.02~beta3-3) unstable; urgency=medium

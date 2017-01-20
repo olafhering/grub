@@ -368,7 +368,7 @@ msgstr ""
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Doriți modificarea variabilelor NVRAM pentru a porni Debian automat?"
 
 #. Type: boolean
 #. Description
@@ -380,6 +380,11 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUP poate configura variabilelor NVRAM ale platformei dumneavoastră astfel "
+"încât să pornească automat în Debian. Este posibil să nu doriți această "
+"modificare a configurației de pornire. De exemplu în situația în care ați "
+"configurat sistemul astfel încât să contacteze un server PXE la pornire "
+"această opțiune va păstra această configurație."
 
 #. Type: string
 #. Description
