@@ -2,35 +2,36 @@
 # Copyright © 2010 Free Software Foundation, Inc.
 # Clytie Siddall <clytie@riverland.net.au>, 2010.
 # Hai Lang <hailangvn@gmail.com>, 2012.
+# Trần Ngọc Quân <vnwildman@gmail.com>, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2012-04-23 20:48+0700\n"
-"Last-Translator: Hai Lang <hailangvn@gmail.com>\n"
-"Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
+"PO-Revision-Date: 2017-01-21 08:26+0700\n"
+"Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
+"Language-Team: Vietnamese <debian-l10n-vietnamese@lists.debian.org>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: LocFactoryEditor 1.8\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
 msgid "Chainload from menu.lst?"
-msgstr "Nạp dãy từ menu.lst ?"
+msgstr "Nạp dãy (chainload) từ menu.lst?"
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:2001
 msgid "GRUB upgrade scripts have detected a GRUB Legacy setup in /boot/grub."
 msgstr ""
-"Văn lệnh nâng cấp GRUB phát hiện được một thiết lập GRUB Thừa Tự (GRUB "
-"Legacy) trong « /boot/grub »."
+"Văn lệnh nâng cấp GRUB phát hiện được một thiết lập GRUB Cũ (GRUB Legacy) "
+"trong “/boot/grub”."
 
 #. Type: boolean
 #. Description
@@ -41,9 +42,9 @@ msgid ""
 "from your existing GRUB Legacy setup. This step can be automatically "
 "performed now."
 msgstr ""
-"Để thay thế phiên bản Thừa Tự của GRUB trong hệ thống này, nên điều chỉnh /"
-"boot/grub/menu.lst để nạp ảnh khởi động GRUB 2 từ thiết lập GRUB Thừa Tự đã "
-"có. Bước này có thể được tự động thực hiện ngay bây giờ."
+"Để thay thế phiên bản Cũ của GRUB trong hệ thống này, nên điều chỉnh /boot/"
+"grub/menu.lst để nạp ảnh khởi động GRUB 2 từ thiết lập GRUB Cũ đã có. Bước "
+"này có thể được tự động thực hiện ngay bây giờ."
 
 #. Type: boolean
 #. Description
@@ -170,7 +171,7 @@ msgstr "Việc ghi GRUB vào thiết bị khởi động bị lỗi - tiếp t�
 #. Description
 #: ../grub-pc.templates.in:7001 ../grub-pc.templates.in:8001
 msgid "GRUB failed to install to the following devices:"
-msgstr "GRUB không cài đặt được vào những thiết bị theo đây:"
+msgstr "GRUB gặp lỗi khi cài đặt vào những thiết bị sau đây:"
 
 #. Type: boolean
 #. Description
@@ -179,13 +180,13 @@ msgid ""
 "Do you want to continue anyway? If you do, your computer may not start up "
 "properly."
 msgstr ""
-"Bạn vẫn muốn tiếp tục không? Nếu có thì máy tính có thể không khởi động đúng."
+"Bạn vẫn muốn tiếp tục không? Nếu có thì máy tính có thể không khởi động được."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:8001
 msgid "Writing GRUB to boot device failed - try again?"
-msgstr "Lỗi khi ghi GRUB vào thiế bị khởi động - thử lại nhé?"
+msgstr "Gặp lỗi khi ghi GRUB vào thiết bị khởi động - thử lại nhé?"
 
 #. Type: boolean
 #. Description
@@ -197,13 +198,13 @@ msgid ""
 msgstr ""
 "Có thể là bạn cài đặt được GRUB vào một thiết bị khác (trước tiên nên kiểm "
 "tra nếu hệ thống sẽ khởi động từ thiết bị đó). Không thì tiến trình nâng cấp "
-"từ GRUB Cũ (Legacy) sẽ bị thôi."
+"từ GRUB Cũ (Legacy) sẽ bị bãi bỏ."
 
 #. Type: boolean
 #. Description
 #: ../grub-pc.templates.in:9001
 msgid "Continue without installing GRUB?"
-msgstr "Tiếp tục lại mà không cài đặt GRUB ?"
+msgstr "Tiếp tục lại mà không cài đặt GRUB?"
 
 #. Type: boolean
 #. Description
@@ -259,7 +260,7 @@ msgstr ""
 #. Description
 #: ../grub-pc.templates.in:11001
 msgid "Finish conversion to GRUB 2 now?"
-msgstr "Kết thúc chuyển đổi sang GRUB2 ngay bây giờ ?"
+msgstr "Kết thúc chuyển đổi sang GRUB2 ngay bây giờ?"
 
 #. Type: boolean
 #. Description
@@ -312,8 +313,8 @@ msgid ""
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "Dòng lệnh Linux theo đây đã được trích ra từ /etc/default/grub hoặc từ tham "
-"số `kopt' trong menu.lst của GRUB Thừa Tự. Hãy kiểm tra rằng nó vẫn đúng, và "
-"sửa đổi nó nếu cần. Dòng lệnh có thể được để trống."
+"số “kopt” trong menu.lst của GRUB Cũ. Hãy kiểm tra rằng nó vẫn đúng, và sửa "
+"đổi nó nếu cần. Dòng lệnh có thể được để trống."
 
 #. Type: string
 #. Description
@@ -335,7 +336,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
+msgstr "Buộc cài đặt thêm cho đường dẫn thiết bị di động đa phương tiện EFI?"
 
 #. Type: boolean
 #. Description
@@ -349,12 +350,19 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"Một số hệ thống dựa trên EFI có lỗi và không thể xử lý bootloader mới một "
+"cách chính xác. Nếu bạn buộc cài đặt GRUB thêm vào đường dẫn thiết bị di "
+"động đa phương tiện EFI, nó có thể đảm bảo rằng hệ thống này sẽ khởi động "
+"Debian một cách đúng đắn bất chấp trục trặc. Tuy vậy, nó có thể làm mất đi "
+"khả năng khởi động các hệ điều hành khác cái mà cũng phụ thuộc vào đường dẫn "
+"này. Nếu thế, bạn sẽ cần chắc chắn là GRUB được cấu hình thành công để có "
+"thể khới động bất kỳ OS đã cài đặt nào một cách chính xác."
 
 #. Type: boolean
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Cập nhật các biến NVRAM để tự động khởi động vào Debian?"
 
 #. Type: boolean
 #. Description
@@ -366,6 +374,11 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB có thể cấu hình các biến NVRAM của nền tảng vậy thì nó khởi động vào "
+"Debian một cách tự động không bật máy. Tuy nhiên, bạn có lẽ ưa thích tắt "
+"cách hành xử này và tránh thay đổi đến cấu hình khởi động của bạn. Ví dụ, "
+"nếu biến NVRAM của bạn đã được cài đặt như thế hệ thống liên lạc với máy "
+"phục vụ PXE mỗi lần khởi động, điều này sẽ ngăn ngừa cách hành xử đó."
 
 #. Type: string
 #. Description
@@ -382,8 +395,8 @@ msgid ""
 "correct, and modify it if necessary. The command line is allowed to be empty."
 msgstr ""
 "Dòng lệnh kFreeBSD sau đây đã được trích ra từ /etc/default/grub hoặc từ "
-"tham số `kopt' trong menu.lst của GRUB Thừa Tự. Hãy kiểm tra rằng nó vẫn "
-"đúng, và sửa đổi nó nếu cần. Dòng lệnh có thể được để trống."
+"tham số “kopt” trong menu.lst của GRUB Cũ. Hãy kiểm tra rằng nó vẫn đúng, và "
+"sửa đổi nó nếu cần. Dòng lệnh có thể được để trống."
 
 #. Type: string
 #. Description
@@ -415,10 +428,10 @@ msgid ""
 "names. In most cases, this should significantly reduce the need to change it "
 "in future, and boot menu entries generated by GRUB should not be affected."
 msgstr ""
-"Tập tin /boot/grub/device.map đã được ghi nhớ lại để sử dụng tên thiết bị "
-"kiểu ổn định. Trong phần lớn các trường hợp, bản cập nhật này nên giảm một "
-"cách đáng kể sự cần sửa đổi về sau, và không nên tác động trình đơn khởi "
-"động được GRUB tạo."
+"Tập tin /boot/grub/device.map đã được ghi lại để sử dụng tên thiết bị kiểu "
+"ổn định. Trong phần lớn các trường hợp, bản cập nhật này nên giảm một cách "
+"đáng kể sự cần sửa đổi về sau, và không nên tác động trình đơn khởi động "
+"được GRUB tạo."
 
 #. Type: note
 #. Description
@@ -452,4 +465,4 @@ msgstr ""
 #~ "MBR, chỉ cần chạy (dưới người chủ) câu lệnh theo đây:"
 
 #~ msgid "GRUB installation failed. Continue?"
-#~ msgstr "Lỗi cài đặt GRUB. Tiếp tục ?"
+#~ msgstr "Lỗi cài đặt GRUB. Tiếp tục?"
