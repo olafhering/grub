@@ -1,21 +1,21 @@
 # Bulgarian translation of grub2 debconf messages.
 # Copyright (C) grub2 packagers.
 # This file is distributed under the same license as the grub2 package.
-# Damyan Ivanov <dmn@debian.org>, 2009, 2010, 2011, 2014.
+# Damyan Ivanov <dmn@debian.org>, 2009, 2010, 2011, 2014, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-12-11 23:45+0200\n"
+"PO-Revision-Date: 2017-01-20 21:19+0200\n"
 "Last-Translator: Damyan Ivanov <dmn@debian.org>\n"
 "Language-Team: Български <dict@fsa-bg.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #. Type: boolean
@@ -365,7 +365,7 @@ msgstr ""
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Промяна на параметрите в NVRAM за автоматично зареждане на Дебиан?"
 
 #. Type: boolean
 #. Description
@@ -377,6 +377,10 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB може да настрои параметрите в NVRAM на системата така че при включване "
+"на захранването да се зарежда Дебиан. Ако имате специални нужди като "
+"например връзка с PXE сървър при начално зареждане може да предпочетете да "
+"не се правят промени."
 
 #. Type: string
 #. Description

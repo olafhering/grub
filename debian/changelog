@@ -16,6 +16,7 @@ grub2 (2.02~beta3-4) UNRELEASED; urgency=medium
   * [sl] Slovenian (Vanja Cvelbar).
   * [pl] Polish (Łukasz Dulny).
   * [eu] Basque (Iñaki Larrañaga Murgoitio; closes: #851981).
+  * [bg] Bulgarian (Damyan Ivanov; closes: #852024).
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 05 Nov 2016 14:37:18 +0000
 
