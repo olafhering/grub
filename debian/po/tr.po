@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: debian-installer\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-12-21 21:54+0200\n"
+"PO-Revision-Date: 2017-01-20 15:18+0300\n"
 "Last-Translator: Mert Dirik <mertdirik@gmail.com>\n"
 "Language-Team: Debian L10n Turkish <debian-l10n-turkish@lists.debian.org>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #. Type: boolean
 #. Description
@@ -367,7 +367,7 @@ msgstr ""
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "NVRAM değişkenleri Debian'ı önyükleyecek şekilde güncellensin mi?"
 
 #. Type: boolean
 #. Description
@@ -379,6 +379,12 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB, platform NVRAM değişkenlerini, bilgisayarınız açıldığında otomatik "
+"olarak Debian'ı başlatacak şekilde yapılandırılabilir. Bu davranışı devre "
+"dışı bırakarak önyükleme yapılandırmasında herhangi bir değişiklik "
+"yapılmamasını sağlayabilirsiniz. Bu durumda, örneğin NVRAM değişkenleri her "
+"açılışta PXE sunucuları ile iletişim kuracak şekilde ayarlanmışsa bu "
+"davranış aynı şekilde devam edecektir."
 
 #. Type: string
 #. Description
