@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Piarres Beobide <pi@beobide.net>, 2008.
-# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2008, 2009, 2010.
-# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2011, 2014.
+# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2008, 2009, 2010, 2011, 2014, 2017.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2_2.02~beta2-18\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-12-16 09:10+0100\n"
+"PO-Revision-Date: 2017-01-20 15:48+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Type: boolean
@@ -365,7 +365,7 @@ msgstr ""
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Eguneratu NVRAM-eko aldagaiak automatikoki Debian abiarazteko?"
 
 #. Type: boolean
 #. Description
@@ -377,6 +377,11 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB-ek ordenagailuaren NVRAM-eko aldagaiak konfigura ditzake piztean Debian "
+"batera automatikoki abiarazteko. Hala ere, portaera hau desgaitzea nahi izan "
+"dezakezu, eta abioaren konfigurazioaren aldaketak saihestu. Adibidez, NVRAM-"
+"eko aldagaiak konfiguratu egin badira abio bakoitzean sistemak PXE "
+"zerbitzari batekin konektatzeko, honek portaera hori mantenduko luke."
 
 #. Type: string
 #. Description
