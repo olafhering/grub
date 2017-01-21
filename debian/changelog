@@ -19,6 +19,7 @@ grub2 (2.02~beta3-4) UNRELEASED; urgency=medium
   * [bg] Bulgarian (Damyan Ivanov; closes: #852024).
   * [de] German (Helge Kreutzmann; closes: #852027).
   * [vi] Vietnamese (Trần Ngọc Quân).
+  * [ko] Korean (Changwoo Ryu; closes: #852061).
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 05 Nov 2016 14:37:18 +0000
 

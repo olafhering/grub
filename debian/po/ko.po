@@ -1,11 +1,11 @@
-# Changwoo Ryu <cwryu@debian.org>, 2014.
+# Changwoo Ryu <cwryu@debian.org>, 2014, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub_debian\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-04-23 04:55+0900\n"
+"PO-Revision-Date: 2017-01-21 17:41+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
 "Language: ko\n"
@@ -323,7 +323,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
+msgstr "EFI 이동식 미디어 경로에 추가로 강제 설치하시겠습니까?"
 
 #. Type: boolean
 #. Description
@@ -337,12 +337,17 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"일부 EFI 기반 시스템에는 버그 때문에 새로운 부트로더를 제대로 처리하지 못합니"
+"다. GRUB을 EFI 이동식 미디어 경로에 추가로 강제 설치하면, 이러한 버그가 있더"
+"라도 데비안 부팅이 제대로 된다고 보장할 수 있습니다. 하지만 이 경로에 의존하"
+"는 다른 운영체제가 있으면 그 운영체제로 부팅할 수 없게 됩니다. 이런 경우 다"
+"른 운영체제로 부팅할 수 있도록 GRUB을 설정하십시오."
 
 #. Type: boolean
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "데비안으로 자동 부팅하도록 NVRAM 변수를 업데이트하시겠습니까?"
 
 #. Type: boolean
 #. Description
@@ -354,6 +359,10 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB에서 이 플랫폼의 NVRAM 변수를 설정해서 전원을 켰을 때 데비안으로 부팅하도"
+"록 설정할 수 있습니다. 아니면 이 기능을 사용하지 않고 부팅 설정을 바꾸지 싶"
+"지 않을 수도 있습니다. 예를 들어 부팅할 때마다 PXE 서버에 연결하도록 NVRAM 변"
+"수가 설정되어 있고, 이 기능을 사용하지 않으면 계속 그렇게 동작할 것입니다."
 
 #. Type: string
 #. Description
