@@ -2,20 +2,20 @@
 # This file is distributed under the same license as the grub-pc package.
 #
 # Michał Kułach <michal.kulach@gmail.com>, 2012.
-# Łukasz Dulny <BartekChom@poczta.onet.pl>, 2014.
+# Łukasz Dulny <BartekChom@poczta.onet.pl>, 2014, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-12-14 10:28+0100\n"
+"PO-Revision-Date: 2017-01-20 14:11+0100\n"
 "Last-Translator: Łukasz Dulny <BartekChom@poczta.onet.pl>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
@@ -370,7 +370,7 @@ msgstr ""
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Zaktualizować zmienne NVRAM, aby automatycznie ładować Debiana?"
 
 #. Type: boolean
 #. Description
@@ -382,6 +382,11 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB może skonfigurować zmienne NVRAM platformy tak, aby automatycznie "
+"ładowała Debiana po uruchomieniu. Można też wyłączyć to zachowanie i nie "
+"zmieniać konfiguracji rozruchu. To pozwala na przykład pozostawić ustawienia "
+"zmiennych NVRAM takie, że system kontaktuje się z serwerem PXE przy każdym "
+"uruchomieniu."
 
 #. Type: string
 #. Description
