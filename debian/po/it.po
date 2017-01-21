@@ -1,13 +1,13 @@
 # Italian (it) translation of debconf templates for grub2
 # This file is distributed under the same license as the grub2 package.
-# Luca Monducci <luca.mo@tiscali.it>, 2007-2014.
+# Luca Monducci <luca.mo@tiscali.it>, 2007-2017.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 2.02~beta2-18 italian debconf templates\n"
+"Project-Id-Version: grub2 2.02~beta3-4 italian debconf templates\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-12-19 21:49+0100\n"
+"PO-Revision-Date: 2017-01-21 11:39+0100\n"
 "Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
 "Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
 "Language: it\n"
@@ -362,7 +362,7 @@ msgstr ""
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Aggiornare le variabili NVRAM per avviare automaticamente Debian?"
 
 #. Type: boolean
 #. Description
@@ -374,6 +374,12 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB può configurare le variabili NVRAM della propria piattaforma in modo da "
+"avviare automaticamente Debian all'accensione. Tuttavia, si potrebbe non "
+"volere questo comportamento ed evitare modifiche alla propria configurazione "
+"d'avvio. Per esempio, se le variabili NVRAM sono state impostate in modo che "
+"il sistema contatti un server PXE a ogni avvio, è possibile preservare tale "
+"impostazione."
 
 #. Type: string
 #. Description
@@ -438,7 +444,7 @@ msgid ""
 "there are any custom boot menu entries that rely on GRUB's (hdN) drive "
 "numbering, and update them if necessary."
 msgstr ""
-"Comunque, visto che sul sistema ci sono più dischi, è possibile che il "
+"Tuttavia, visto che sul sistema ci sono più dischi, è possibile che il "
 "sistema sia dipendente dalla vecchia mappa dei device. Controllare se nel "
 "menu di GRUB ci sono delle voci personalizzate che usano la numerazione dei "
 "dischi di GRUB (hdN) e, se necessario, aggiornarle."
@@ -450,7 +456,7 @@ msgid ""
 "If you do not understand this message, or if there are no custom boot menu "
 "entries, you can ignore this message."
 msgstr ""
-"Se non si capisce questo messaggio o non ci sono voci di menu "
+"Se non si capisce questo messaggio oppure se non ci sono voci di menu "
 "personalizzate, ignorare questo messaggio."
 
 #~ msgid ""
