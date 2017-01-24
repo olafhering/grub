@@ -4,18 +4,20 @@
 #
 # Jordi Mallach <jordi@debian.org>, 2009, 2010, 2011.
 # Juan Andrés Gimeno Crespo <juagicre@gmail.com>, 2009.
+# Innocent De Marchi <tangram.peces.gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 1.99-5\n"
+"Project-Id-Version: grub2 2.02~beta3-4\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2011-05-30 22:57+0200\n"
-"Last-Translator: Jordi Mallach <jordi@debian.org>\n"
+"PO-Revision-Date: 2017-01-23 17:31+0100\n"
+"Last-Translator: Innocent De Marchi <tangram.peces@gmail.com>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #. Type: boolean
 #. Description
@@ -123,7 +125,7 @@ msgid ""
 "not recommended."
 msgstr ""
 "Nota: també és possible instaŀlar el GRUB a registres d'arrencada de "
-"particions, i s'ofereixen algunes particions addients. Tanmateix, això força "
+"particions, i s'ofereixen algunes particions adients. Tanmateix, això força "
 "al GRUB a usar el mecanisme de llistes de blocs, que fa que siga menys "
 "fiable, per la qual cosa no és recomanable."
 
@@ -341,6 +343,7 @@ msgstr ""
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
 msgstr ""
+"Forçar la instal·lació addicional de EFI per la ruta a mitjans extraïbles?"
 
 #. Type: boolean
 #. Description
@@ -354,12 +357,19 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"Alguns sistemes basats en EFI tenen errors i no gestionen correctament els "
+"nous carregadors d'arrencada. Si forçau la instal·lació del GRUB en mitjans "
+"extraïbles, això hauria de garantir que el sistema arranqui correctament amb "
+"Debian tot i aquest problema. Però pot impedir que es pugui arrencar un "
+"altre sistema operatiu que també depengui de la mateixa ruta. En aquest cas, "
+"heu d'assegurar-vos que GRUB està correctament configurat per a arrencar "
+"qualsevol altre sistema operatiu correctament."
 
 #. Type: boolean
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Actualitzar les variables NVRAM per arrancar automàticament Debian?"
 
 #. Type: boolean
 #. Description
@@ -371,6 +381,12 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB pot configurar les variables NVRAM de la vostra plataforma per iniciar "
+"automàticament Debian quan s'engegui. També pot ésser que desitgeu "
+"deshabilitar aquest possibilitat i evitar canvis en la configuració de "
+"l'arrencada. Per exemple, si les variables NVRAM estan configurades de "
+"manera que el vostre sistema connecta amb un servidor PXE cada vegada que "
+"arranca, això hauria de conservar aquest comportament."
 
 #. Type: string
 #. Description
