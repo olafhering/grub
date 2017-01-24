@@ -1,4 +1,4 @@
-grub2 (2.02~beta3-4) UNRELEASED; urgency=medium
+grub2 (2.02~beta3-4) unstable; urgency=medium
 
   [ Colin Watson ]
   * Drop build-dependency on libxen-dev, unnecessary now that upstream has
@@ -36,7 +36,7 @@ grub2 (2.02~beta3-4) UNRELEASED; urgency=medium
   * [da] Danish (Joe Hansen; closes: #852349).
   * [nl] Dutch (Frans Spiesschaert; closes: #852403).
 
- -- Colin Watson <cjwatson@debian.org>  Sat, 05 Nov 2016 14:37:18 +0000
+ -- Colin Watson <cjwatson@debian.org>  Tue, 24 Jan 2017 11:39:45 +0000
 
 grub2 (2.02~beta3-3) unstable; urgency=medium
 
