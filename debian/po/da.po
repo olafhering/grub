@@ -1,5 +1,5 @@
 # Danish translation grub2.
-# Copyright (C) 2015 grub2 & nedenstående oversættere.
+# Copyright (C) 2017 grub2 & nedenstående oversættere.
 # This file is distributed under the same license as the grub2 package.
 # Joe Hansen <joedalton2@yahoo.dk>, 2010, 2011, 2015.
 # Korrekturlæst Kenneth Nielsen, Keld Jørn Simonsen, Torben Grøn Helligsø.
@@ -21,10 +21,10 @@ msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2015-03-27 17:30+01:00\n"
+"PO-Revision-Date: 2017-01-23 11:30+01:00\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
-"Language-Team: Danish <debian-l10n-danish@lists.debian.org> \n"
-"Language: \n"
+"Language-Team: Danish <debian-l10n-danish@lists.debian.org>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -375,7 +375,7 @@ msgstr ""
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Opdater NVRAM-variabler til automatisk at starte i Debian?"
 
 #. Type: boolean
 #. Description
@@ -387,6 +387,11 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB kan konfigurere din platforms NVRAM-variabler, så de starter i Debian "
+"automatisk når tændt. Du kan dog foretrække at deaktivere denne opførsel og "
+"undgå ændringer til din opstartskonfiguration. For eksempel hvis dine NVRAM-"
+"variabler er blevet sat sådan op, at dit system kontakter en PXE-server ved "
+"hver opstart, vil dette bevare denne opførsel."
 
 #. Type: string
 #. Description

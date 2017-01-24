@@ -31,6 +31,7 @@ grub2 (2.02~beta3-4) UNRELEASED; urgency=medium
   * [hr] Croatian (Tomislav Krznar).
   * [ca] Catalan (Innocent De Marchi; closes: #852331).
   * [fr] French (Baptiste Jammet; closes: #852341).
+  * [da] Danish (Joe Hansen; closes: #852349).
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 05 Nov 2016 14:37:18 +0000
 
