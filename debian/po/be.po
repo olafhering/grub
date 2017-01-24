@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: be\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-12-15 05:50+0300\n"
+"PO-Revision-Date: 2017-01-23 11:22+0300\n"
 "Last-Translator: Viktar Siarheichyk <vics@fsfe.org>\n"
 "Language-Team: Debian l10n team for Belarusian <debian-l10n-belarusian@lists."
 "debian.org>\n"
@@ -369,7 +369,7 @@ msgstr ""
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Абнавіць зменныя NVRAM для аўтаматычнага запуску Debian?"
 
 #. Type: boolean
 #. Description
@@ -381,6 +381,11 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB можа так сканфігураваць зменныя NVRAM вашай платформы, каб яна "
+"аўтаматычна запускала Debian пры ўключэнні. Аднак магчыма, вам спатрэбіцца "
+"адключыць гэта і не змяняць вашу канфігурацыю запуску. Напрыклад, калі вашы "
+"зменныя NVRAM настроеныя, каб ваша сістэма кантактавала сервер PXE пры "
+"кожным запуску, гэта захавае такі рэжым."
 
 #. Type: string
 #. Description
