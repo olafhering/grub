@@ -1,14 +1,14 @@
 # Czech translation of grub2 debconf messages.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the grub2 package.
-# Miroslav Kure <kurem@debian.cz>, 2008 -- 2014
+# Miroslav Kure <kurem@debian.cz>, 2008 -- 2017
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-12-21 10:32+0100\n"
+"PO-Revision-Date: 2017-01-22 11:18+0100\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "Language: cs\n"
@@ -357,7 +357,7 @@ msgstr ""
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Aktualizovat proměnné v NVRAM pro automatické zvedení Debianu?"
 
 #. Type: boolean
 #. Description
@@ -369,6 +369,11 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB může nakonfigurovat NVRAM proměnné na vaší platformě tak, že se po "
+"zapnutí rovnou zavede Debian. Možná ale máte důvod toto chování nepovolit a "
+"do zavádění nezasahavat. Jedním takovým případem by mohla být situace, kdy "
+"máte NVRAM proměnné nastavené tak, aby při každém zavádění kontaktovaly PXE "
+"server."
 
 #. Type: string
 #. Description

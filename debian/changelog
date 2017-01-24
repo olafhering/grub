@@ -23,6 +23,7 @@ grub2 (2.02~beta3-4) UNRELEASED; urgency=medium
   * [ru] Russian (Yuri Kozlov; closes: #852064).
   * [tr] Turkish (Mert Dirik).
   * [it] Italian (Luca Monducci; closes: #852073).
+  * [cs] Czech (Miroslav Kure; closes: #852189).
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 05 Nov 2016 14:37:18 +0000
 
