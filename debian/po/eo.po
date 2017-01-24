@@ -1,21 +1,21 @@
 # grub2 po-debconf translation to Esperanto
-# Copyright (C) 2010, 2011, 2014 Software in the Public Interest
+# Copyright (C) 2010, 2011, 2014, 2017 Software in the Public Interest
 # This file is distributed under the same license as the grub2 package.
-# Felipe Castro <fefcas@gmail.com>, 2010, 2011, 2014.
+# Felipe Castro <fefcas@gmail.com>, 2010, 2011, 2014, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2 2.02-18\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-12-13 21:14-0300\n"
+"PO-Revision-Date: 2017-01-23 10:57-0300\n"
 "Last-Translator: Felipe Castro <fefcas@gmail.com>\n"
 "Language-Team: Esperanto <debian-l10n-esperanto@lists.debian.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #. Type: boolean
 #. Description
@@ -358,7 +358,7 @@ msgstr ""
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Ĉu ĝisdatigi variablojn NVRAM por aŭtomate ekŝargi al Debian?"
 
 #. Type: boolean
 #. Description
@@ -370,6 +370,11 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB povas agordi la variablojn NVRAM de via platformo por ke ĝi ekŝargu al "
+"Debian aŭtomate post ŝaltiĝo. Tamen, eble vi preferos malpermesi tiun ĉi "
+"konduton kaj eviti ŝanĝojn al la ekŝarga agordo. Ekzemple, se viaj variabloj "
+"NVRAM estis agordita por ke via sistemo kontaktu servilon PXE ĉe ĉiu "
+"ekŝargo, ne ŝanĝu ilin por teni la konduton. "
 
 #. Type: string
 #. Description
