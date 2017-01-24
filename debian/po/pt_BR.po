@@ -2,15 +2,15 @@
 # Copyright (C) 2009 THE grub2'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the grub2 package.
 # Flamarion Jorge <jorge.flamarion@gmail.com>, 2009, 2010, 2011.
-# Adriano Rafael Gomes <adrianorg@arg.eti.br>, 2014.
+# Adriano Rafael Gomes <adrianorg@debian.org>, 2014-2017.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub2 2.02~beta2-18\n"
+"Project-Id-Version: grub2 2.02~beta3-4\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-12-21 21:37-0200\n"
-"Last-Translator: Adriano Rafael Gomes <adrianorg@arg.eti.br>\n"
+"PO-Revision-Date: 2017-01-20 21:56-0200\n"
+"Last-Translator: Adriano Rafael Gomes <adrianorg@debian.org>\n"
 "Language-Team: Brazilian Portuguese <debian-l10n-portuguese@lists.debian."
 "org>\n"
 "Language: pt_BR\n"
@@ -373,7 +373,7 @@ msgstr ""
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Atualizar variáveis NVRAM para inicializar automaticamente no Debian?"
 
 #. Type: boolean
 #. Description
@@ -385,6 +385,12 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"O GRUB pode configurar as variáveis NVRAM da sua plataforma de forma que ela "
+"inicialize automaticamente no Debian quando for ligada. No entanto, você "
+"pode preferir desabilitar esse comportamento e evitar mudanças na sua "
+"configuração de inicialização. Por exemplo, se as suas variáveis NVRAM "
+"tiverem sido configuradas de forma que o seu sistema contate um servidor PXE "
+"a cada inicialização, isso preservaria tal comportamento."
 
 #. Type: string
 #. Description
