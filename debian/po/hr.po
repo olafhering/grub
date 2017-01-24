@@ -2,22 +2,23 @@
 # Copyright (C) 2010 Josip Rodin
 # This file is distributed under the same license as the grub2 package.
 # Josip Rodin <joy+ditrans@linux.hr>, 2010.
-# Tomislav Krznar <tomislav.krznar@gmail.com>, 2012.
+# Tomislav Krznar <tomislav.krznar@gmail.com>, 2012, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2 1.97-2\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2012-03-22 16:37+0100\n"
+"PO-Revision-Date: 2017-01-23 17:16+0100\n"
 "Last-Translator: Tomislav Krznar <tomislav.krznar@gmail.com>\n"
-"Language-Team: Hrvatski <lokalizacija@linux.hr>\n"
+"Language-Team: hrvatski <lokalizacija@linux.hr>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #. Type: boolean
 #. Description
@@ -335,7 +336,7 @@ msgstr ""
 #. Description
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
-msgstr ""
+msgstr "Prisilno dodatno instalirati u EFI direktorij prijenosnog medija?"
 
 #. Type: boolean
 #. Description
@@ -349,12 +350,19 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"Neki EFI sustavi imaju bugove i ne rade ispravno s novim boot učitavačima. "
+"Ako prisilno dodatno instalirate GRUB u EFI direktorij prijenosnog medija, "
+"sustav bi trebao ispravno učitati Debian unatoč navedenom problemu. Međutim, "
+"to može onemogućiti učitavanje ostalih operacijskih sustava koji također "
+"ovise o ovom direktoriju. Ako je tako, morat ćete osigurati da je GRUB "
+"uspješno postavljen za ispravno učitavanje ostalih instaliranih operacijskih "
+"sustava."
 
 #. Type: boolean
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Ažurirati NVRAM varijable za automatsko učitavanje Debiana?"
 
 #. Type: boolean
 #. Description
@@ -366,6 +374,11 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB može postaviti NVRAM varijable vaše platforme da se automatski učita "
+"Debian pri uključivanju. Međutim, možda će vam biti praktičnije onemogućiti "
+"ovakvo ponašanje i izbjeći promjene vaših postavki. Na primjer, ako su vaše "
+"NVRAM varijable postavljene tako da se vaš sustav povezuje s PXE "
+"poslužiteljem pri svakom učitavanju, ovo će očuvati takvo ponašanje."
 
 #. Type: string
 #. Description
