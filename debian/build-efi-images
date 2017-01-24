@@ -30,6 +30,9 @@ outdir="$3"
 platform="$4"
 efi_name="$5"
 
+# mkfs.msdos may not be on the default PATH.
+export PATH="$PATH:/sbin:/usr/sbin"
+
 workdir=
 
 cleanup () {

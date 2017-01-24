@@ -3,6 +3,8 @@ grub2 (2.02~beta3-4) UNRELEASED; urgency=medium
   [ Colin Watson ]
   * Drop build-dependency on libxen-dev, unnecessary now that upstream has
     taken a copy of the necessary public headers.
+  * Ensure that build-efi-images has a suitable PATH for running mkfs.msdos
+    (thanks, Luca Boccassi; closes: #852001).
 
   [ dann frazier ]
   * Add grub2/update_nvram template to allow users to disable NVRAM
