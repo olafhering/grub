@@ -8,13 +8,14 @@ msgstr ""
 "Project-Id-Version: grub_debian\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2012-01-20 11:29+0600\n"
-"Last-Translator: Sahran <sahran.ug@gmail.com>\n"
+"PO-Revision-Date: 2017-01-26 21:24-0500\n"
+"Last-Translator: Abduqadir Abliz <sahran.ug@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "Language: Uyghur\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
 
 #. Type: boolean
 #. Description
@@ -338,6 +339,7 @@ msgstr ""
 #: ../templates.in:3001
 msgid "Force extra installation to the EFI removable media path?"
 msgstr ""
+"مەزكۇر EFI كۆچمە ۋاسىتە يولىنى مەجبۇرىي ھالدا نورمىدىن ئارتۇق ئورنىتامدۇ؟"
 
 #. Type: boolean
 #. Description
@@ -351,12 +353,21 @@ msgid ""
 "make sure that GRUB is configured successfully to be able to boot any other "
 "OS installations correctly."
 msgstr ""
+"بىر قىسىم EFI ئاساسىدىكى سىستېمىلاردا مەسىلە بار ئۇنىڭ ئۈستىگە يېڭى "
+"يېتەكلەشنى يۈكلەش پىروگراممىسىنى توغرا بىر تەرەپ قىلالمايدۇ. ئەگەر GRUB نى "
+"EFI  كۆچمە ۋاسىتە يولىغا مەجبۇرىي ھالدا نورمىدىن ئارتۇق ئورناتقاندا، بۇ "
+"سىستېمىنىڭ Debian نى نورمال قوزغىتىشقا كاپالەتلىك قىلىش كېرەك، گەرچە بۇنداق "
+"مەسىلە بولسىمۇ ئەمما ئۇ باشقا مەشغۇلات سىستېمىسى يېتەكلەشتە تايىنىدىغان "
+"يولنى ئۆچۈرۈۋېتىشى مۇمكىن. ئەگەر شۇنداق بولسا، باشقا مەشغۇلات سىستېمىسىنى "
+"ئورنىتىشنى نورمال قوزغىتىش ئۈچۈن GRUB نىڭ مۇۋەپپەقىيەتلىك سەپلەنگەنلىكىگە "
+"كاپالەتلىك قىلىڭ."
 
 #. Type: boolean
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
 msgstr ""
+"مەزكۇر NVRAM ئۆزگەرگۈچى قىممىتىنى يېڭىلاپ Debian گە ئۆزلۈكىدىن يېتەكلەمدۇ؟"
 
 #. Type: boolean
 #. Description
@@ -368,6 +379,12 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"مەزكۇر GRUB سۇپىڭىزنىڭ NVRAM قىممىتىنى سەپلەپ، توك چاتقاندا Debian گە "
+"ئۆزلۈكىدىن يېتەكلەشكە قولايلىق يارىتىدۇ. ئەمما يېتەكلەش سەپلىمىسىنى "
+"ئۆزگەرتىشتىن ساقلىنىش ئۈچۈن بۇ قىلمىشنى چەكلەشنى ئۈمىد قىلىشىڭىز مۇمكىن. "
+"مەسىلەن، ئەگەر سىزنىڭ NVRAM ئۆزگەرگۈچى قىممىتىڭىز سىستېما ھەر قېتىم "
+"قوزغالغاندا PXE مۇلازىمېتىر بىلەن باغلىنىدىغان قىلىپ تەڭشەلگەن بولسا، بۇ "
+"قىلمىشنى ساقلاپ قالىدۇ."
 
 #. Type: string
 #. Description
