@@ -9,7 +9,7 @@
 #   - Updates
 #       Gary Ariel Sandi Vigabriel <gary.gsv@gmail.com>, 2009
 #       Francisco Javier Cuadrado <fcocuadrado@gmail.com>, 2009, 2010, 2011
-# 	Manuel "Venturi" Porras Peralta <venturi@openmailbox.org>, 2014.
+# 		Manuel "Venturi" Porras Peralta <venturi@openmailbox.org>, 2014, 2017
 #
 #   - Revisions
 #       Innocent De Marchi <tangram.peces@gmail.com>, 2010
@@ -37,7 +37,7 @@ msgstr ""
 "Project-Id-Version: grub2 1.99-5\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-12-11 23:57+0100\n"
+"PO-Revision-Date: 2017-01-28 17:07+0100\n"
 "Last-Translator: Manuel \"Venturi\" Porras Peralta <venturi@openmailbox."
 "org>\n"
 "Language-Team: Español; Castellano <debian-l10n-spanish@lists.debian.org>\n"
@@ -46,7 +46,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #. Type: boolean
 #. Description
@@ -402,6 +402,8 @@ msgstr ""
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
 msgstr ""
+"¿Desea actualizar las variables NVRAM para que se carguen automáticamente en "
+"Debian?"
 
 #. Type: boolean
 #. Description
@@ -413,6 +415,12 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"GRUB puede configurar las variables NVRAM de su plataforma para que se "
+"carguen automáticamente en Debian cuando se enciende. Aún así, puede "
+"preferir desactivar este comportamiento y no realizar cambios a su "
+"configuración de arranque. Por ejemplo, si las variables NVRAM se han "
+"configurado de forma que su sistema contacta con un servidor PXE en cada "
+"arranque, esto conservaría ese comportamiento."
 
 #. Type: string
 #. Description

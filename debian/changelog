@@ -2,6 +2,7 @@ grub2 (2.02~beta3-5) UNRELEASED; urgency=medium
 
   [ Debconf translations ]
   * [ug] Uyghur (Abduqadir Abliz).
+  * [es] Spanish (Manuel "Venturi" Porras Peralta; closes: #852977).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 27 Jan 2017 11:14:31 +0000
 
