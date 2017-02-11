@@ -1,4 +1,4 @@
-grub2 (2.02~beta3-5) UNRELEASED; urgency=medium
+grub2 (2.02~beta3-5) unstable; urgency=medium
 
   [ Steve McIntyre ]
   * Make grub-install check for errors from efibootmgr (closes: #853234).
@@ -10,7 +10,7 @@ grub2 (2.02~beta3-5) UNRELEASED; urgency=medium
   * [ug] Uyghur (Abduqadir Abliz).
   * [es] Spanish (Manuel "Venturi" Porras Peralta; closes: #852977).
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 27 Jan 2017 11:14:31 +0000
+ -- Colin Watson <cjwatson@debian.org>  Sat, 11 Feb 2017 15:09:19 +0000
 
 grub2 (2.02~beta3-4) unstable; urgency=medium
 
