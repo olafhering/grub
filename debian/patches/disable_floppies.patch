@@ -13,7 +13,7 @@ Patch-Name: disable_floppies.patch
  1 file changed, 12 insertions(+)
 
 diff --git a/grub-core/kern/emu/hostdisk.c b/grub-core/kern/emu/hostdisk.c
-index 87e3e25..d66e12d 100644
+index 87e3e2512..d66e12d85 100644
 --- a/grub-core/kern/emu/hostdisk.c
 +++ b/grub-core/kern/emu/hostdisk.c
 @@ -532,6 +532,18 @@ read_device_map (const char *dev_map)

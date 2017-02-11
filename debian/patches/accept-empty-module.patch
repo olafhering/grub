@@ -20,7 +20,7 @@ Patch-Name: accept-empty-module.patch
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/util/grub-module-verifierXX.c b/util/grub-module-verifierXX.c
-index 9c04caa..f908940 100644
+index 9c04caa63..f90894006 100644
 --- a/util/grub-module-verifierXX.c
 +++ b/util/grub-module-verifierXX.c
 @@ -199,7 +199,8 @@ check_symbols (const struct grub_module_verifier_arch *arch, Elf_Ehdr *e)

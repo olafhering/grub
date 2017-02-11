@@ -1,5 +1,11 @@
 grub2 (2.02~beta3-5) UNRELEASED; urgency=medium
 
+  [ Steve McIntyre ]
+  * Make grub-install check for errors from efibootmgr (closes: #853234).
+    There are probably still underlying issues in other similar reported
+    bugs, but they're more effectively tracked elsewhere (e.g. efibootmgr)
+    at this point (closes: #756253, #852513).
+
   [ Debconf translations ]
   * [ug] Uyghur (Abduqadir Abliz).
   * [es] Spanish (Manuel "Venturi" Porras Peralta; closes: #852977).

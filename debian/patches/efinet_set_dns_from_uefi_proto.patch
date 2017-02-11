@@ -35,7 +35,7 @@ Patch-Name: efinet_set_dns_from_uefi_proto.patch
  2 files changed, 239 insertions(+)
 
 diff --git a/grub-core/net/drivers/efi/efinet.c b/grub-core/net/drivers/efi/efinet.c
-index 2d3b00f..82a28fb 100644
+index 2d3b00f0e..82a28fb6e 100644
 --- a/grub-core/net/drivers/efi/efinet.c
 +++ b/grub-core/net/drivers/efi/efinet.c
 @@ -30,6 +30,8 @@ GRUB_MOD_LICENSE ("GPLv3+");
@@ -244,7 +244,7 @@ index 2d3b00f..82a28fb 100644
      }
  
 diff --git a/include/grub/efi/api.h b/include/grub/efi/api.h
-index d5a1256..99ba068 100644
+index d5a12569b..99ba068e3 100644
 --- a/include/grub/efi/api.h
 +++ b/include/grub/efi/api.h
 @@ -334,6 +334,16 @@

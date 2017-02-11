@@ -45,7 +45,7 @@ Patch-Name: maybe_quiet.patch
  9 files changed, 111 insertions(+), 6 deletions(-)
 
 diff --git a/config.h.in b/config.h.in
-index 9e8f991..d2c4ce8 100644
+index 9e8f9911b..d2c4ce8e5 100644
 --- a/config.h.in
 +++ b/config.h.in
 @@ -12,6 +12,8 @@
@@ -58,7 +58,7 @@ index 9e8f991..d2c4ce8 100644
  /* We don't need those.  */
  #define MINILZO_CFG_SKIP_LZO_PTR 1
 diff --git a/configure.ac b/configure.ac
-index ce24e5b..596bbe7 100644
+index ce24e5ba3..596bbe78e 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1797,6 +1797,17 @@ else
@@ -91,7 +91,7 @@ index ce24e5b..596bbe7 100644
  echo "*******************************************************"
  ]
 diff --git a/grub-core/boot/i386/pc/boot.S b/grub-core/boot/i386/pc/boot.S
-index 2bd0b2d..451c8be 100644
+index 2bd0b2d28..451c8bea5 100644
 --- a/grub-core/boot/i386/pc/boot.S
 +++ b/grub-core/boot/i386/pc/boot.S
 @@ -19,6 +19,9 @@
@@ -123,7 +123,7 @@ index 2bd0b2d..451c8be 100644
  	movw	$disk_address_packet, %si
  
 diff --git a/grub-core/boot/i386/pc/diskboot.S b/grub-core/boot/i386/pc/diskboot.S
-index 1ee4cf5..31096ce 100644
+index 1ee4cf5b2..31096ce5a 100644
 --- a/grub-core/boot/i386/pc/diskboot.S
 +++ b/grub-core/boot/i386/pc/diskboot.S
 @@ -18,6 +18,9 @@
@@ -203,7 +203,7 @@ index 1ee4cf5..31096ce 100644
  
  notification_step:	.asciz "."
 diff --git a/grub-core/kern/main.c b/grub-core/kern/main.c
-index 9cad0c4..5613cd5 100644
+index 9cad0c448..5613cd553 100644
 --- a/grub-core/kern/main.c
 +++ b/grub-core/kern/main.c
 @@ -264,15 +264,25 @@ reclaim_module_space (void)
@@ -246,7 +246,7 @@ index 9cad0c4..5613cd5 100644
    grub_rescue_run ();
  }
 diff --git a/grub-core/kern/rescue_reader.c b/grub-core/kern/rescue_reader.c
-index dcd7d44..03826cf 100644
+index dcd7d4439..03826cf63 100644
 --- a/grub-core/kern/rescue_reader.c
 +++ b/grub-core/kern/rescue_reader.c
 @@ -78,7 +78,9 @@ grub_rescue_read_line (char **line, int cont,
@@ -260,7 +260,7 @@ index dcd7d44..03826cf 100644
    while (1)
      {
 diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
-index 78a70a8..e924f64 100644
+index 78a70a8bf..e924f6448 100644
 --- a/grub-core/normal/main.c
 +++ b/grub-core/normal/main.c
 @@ -389,6 +389,15 @@ static grub_err_t
@@ -290,7 +290,7 @@ index 78a70a8..e924f64 100644
    while (1)
      {
 diff --git a/grub-core/normal/menu.c b/grub-core/normal/menu.c
-index 9d0ad4c..1f3447a 100644
+index 9d0ad4c95..1f3447ad3 100644
 --- a/grub-core/normal/menu.c
 +++ b/grub-core/normal/menu.c
 @@ -826,12 +826,18 @@ run_menu (grub_menu_t menu, int nested, int *auto_boot)
@@ -337,7 +337,7 @@ index 9d0ad4c..1f3447a 100644
        if (auto_boot)
  	grub_menu_execute_with_fallback (menu, e, autobooted,
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index 0e5c550..d203c37 100644
+index 0e5c550b2..d203c37a6 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -21,6 +21,7 @@ prefix="@prefix@"

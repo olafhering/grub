@@ -56,3 +56,4 @@ efinet_uefi_ipv6_pxe_support.patch
 bootp_process_dhcpack_http_boot.patch
 efinet_set_network_from_uefi_devpath.patch
 efinet_set_dns_from_uefi_proto.patch
+grub-install-efibootmgr-check.patch

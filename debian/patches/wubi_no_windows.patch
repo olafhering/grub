@@ -19,7 +19,7 @@ Patch-Name: wubi_no_windows.patch
  1 file changed, 19 insertions(+)
 
 diff --git a/util/grub.d/30_os-prober.in b/util/grub.d/30_os-prober.in
-index b7e1147..271044f 100644
+index b7e1147c4..271044f59 100644
 --- a/util/grub.d/30_os-prober.in
 +++ b/util/grub.d/30_os-prober.in
 @@ -110,6 +110,8 @@ EOF

@@ -24,7 +24,7 @@ Patch-Name: bootp_process_dhcpack_http_boot.patch
  2 files changed, 66 insertions(+), 2 deletions(-)
 
 diff --git a/grub-core/net/bootp.c b/grub-core/net/bootp.c
-index a70b4de..802ce7b 100644
+index a70b4de06..802ce7bad 100644
 --- a/grub-core/net/bootp.c
 +++ b/grub-core/net/bootp.c
 @@ -207,6 +207,11 @@ parse_dhcp_vendor (const char *name, const void *vend, int limit, int *mask)
@@ -116,7 +116,7 @@ index a70b4de..802ce7b 100644
    
    inter->dhcp_ack = grub_malloc (size);
 diff --git a/include/grub/net.h b/include/grub/net.h
-index 38a3973..e4bf678 100644
+index 38a3973f3..e4bf678db 100644
 --- a/include/grub/net.h
 +++ b/include/grub/net.h
 @@ -517,6 +517,7 @@ enum

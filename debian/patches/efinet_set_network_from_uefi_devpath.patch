@@ -34,7 +34,7 @@ Patch-Name: efinet_set_network_from_uefi_devpath.patch
  2 files changed, 270 insertions(+), 9 deletions(-)
 
 diff --git a/grub-core/net/drivers/efi/efinet.c b/grub-core/net/drivers/efi/efinet.c
-index fc90415..2d3b00f 100644
+index fc90415f2..2d3b00f0e 100644
 --- a/grub-core/net/drivers/efi/efinet.c
 +++ b/grub-core/net/drivers/efi/efinet.c
 @@ -23,6 +23,7 @@
@@ -358,7 +358,7 @@ index fc90415..2d3b00f 100644
    }
  }
 diff --git a/include/grub/efi/api.h b/include/grub/efi/api.h
-index 92f9b5a..d5a1256 100644
+index 92f9b5a6f..d5a12569b 100644
 --- a/include/grub/efi/api.h
 +++ b/include/grub/efi/api.h
 @@ -825,6 +825,8 @@ struct grub_efi_ipv4_device_path

@@ -17,7 +17,7 @@ Patch-Name: uuid-test-precedence-1.patch
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index fd9dc1a..f7de2e1 100644
+index fd9dc1a21..f7de2e1c5 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -65,7 +65,7 @@ esac

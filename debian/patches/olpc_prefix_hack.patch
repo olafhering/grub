@@ -11,7 +11,7 @@ Patch-Name: olpc_prefix_hack.patch
  1 file changed, 11 insertions(+)
 
 diff --git a/grub-core/kern/ieee1275/init.c b/grub-core/kern/ieee1275/init.c
-index 1259022..9d163ab 100644
+index 12590225e..9d163abcd 100644
 --- a/grub-core/kern/ieee1275/init.c
 +++ b/grub-core/kern/ieee1275/init.c
 @@ -73,6 +73,7 @@ grub_exit (void)

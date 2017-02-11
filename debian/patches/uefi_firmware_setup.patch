@@ -14,7 +14,7 @@ Patch-Name: uefi_firmware_setup.patch
  create mode 100644 util/grub.d/30_uefi-firmware.in
 
 diff --git a/Makefile.util.def b/Makefile.util.def
-index 51b8e10..7b8755d 100644
+index 51b8e101d..7b8755dbd 100644
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
 @@ -510,6 +510,12 @@ script = {
@@ -32,7 +32,7 @@ index 51b8e10..7b8755d 100644
    installdir = grubconf;
 diff --git a/util/grub.d/30_uefi-firmware.in b/util/grub.d/30_uefi-firmware.in
 new file mode 100644
-index 0000000..3c9f533
+index 000000000..3c9f533d8
 --- /dev/null
 +++ b/util/grub.d/30_uefi-firmware.in
 @@ -0,0 +1,46 @@

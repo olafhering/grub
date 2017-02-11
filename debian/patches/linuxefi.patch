@@ -18,7 +18,7 @@ Patch-Name: linuxefi.patch
  create mode 100644 grub-core/loader/i386/efi/linux.c
 
 diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
-index 58b4208..2344a5e 100644
+index 58b4208b0..2344a5e63 100644
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
 @@ -1731,6 +1731,14 @@ module = {
@@ -37,7 +37,7 @@ index 58b4208..2344a5e 100644
    efi = loader/efi/chainloader.c;
    i386_pc = loader/i386/pc/chainloader.c;
 diff --git a/grub-core/kern/efi/mm.c b/grub-core/kern/efi/mm.c
-index 20a47aa..efb15cc 100644
+index 20a47aaf5..efb15cc1b 100644
 --- a/grub-core/kern/efi/mm.c
 +++ b/grub-core/kern/efi/mm.c
 @@ -49,6 +49,38 @@ static grub_efi_uintn_t finish_desc_size;
@@ -81,7 +81,7 @@ index 20a47aa..efb15cc 100644
  grub_efi_allocate_pages (grub_efi_physical_address_t address,
 diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c
 new file mode 100644
-index 0000000..b622b3b
+index 000000000..b622b3b71
 --- /dev/null
 +++ b/grub-core/loader/i386/efi/linux.c
 @@ -0,0 +1,371 @@
@@ -457,7 +457,7 @@ index 0000000..b622b3b
 +  grub_unregister_command (cmd_initrd);
 +}
 diff --git a/include/grub/efi/efi.h b/include/grub/efi/efi.h
-index 1b8f88f..2245632 100644
+index 1b8f88f09..22456327e 100644
 --- a/include/grub/efi/efi.h
 +++ b/include/grub/efi/efi.h
 @@ -40,6 +40,9 @@ void EXPORT_FUNC(grub_efi_stall) (grub_efi_uintn_t microseconds);
@@ -471,7 +471,7 @@ index 1b8f88f..2245632 100644
  				       grub_efi_uintn_t pages);
  int
 diff --git a/include/grub/i386/linux.h b/include/grub/i386/linux.h
-index da0ca3b..fc36bda 100644
+index da0ca3b83..fc36bdaf3 100644
 --- a/include/grub/i386/linux.h
 +++ b/include/grub/i386/linux.h
 @@ -139,6 +139,7 @@ struct linux_kernel_header

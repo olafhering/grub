@@ -20,7 +20,7 @@ Patch-Name: zpool_full_device_name.patch
  1 file changed, 1 insertion(+)
 
 diff --git a/grub-core/osdep/unix/getroot.c b/grub-core/osdep/unix/getroot.c
-index 1079a91..2d855f5 100644
+index 1079a919d..2d855f515 100644
 --- a/grub-core/osdep/unix/getroot.c
 +++ b/grub-core/osdep/unix/getroot.c
 @@ -238,6 +238,7 @@ grub_util_find_root_devices_from_poolname (char *poolname)

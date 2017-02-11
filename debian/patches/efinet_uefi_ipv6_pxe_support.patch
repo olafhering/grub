@@ -17,7 +17,7 @@ Patch-Name: efinet_uefi_ipv6_pxe_support.patch
  2 files changed, 73 insertions(+), 6 deletions(-)
 
 diff --git a/grub-core/net/drivers/efi/efinet.c b/grub-core/net/drivers/efi/efinet.c
-index 5388f95..fc90415 100644
+index 5388f952b..fc90415f2 100644
 --- a/grub-core/net/drivers/efi/efinet.c
 +++ b/grub-core/net/drivers/efi/efinet.c
 @@ -378,11 +378,25 @@ grub_efi_net_config_real (grub_efi_handle_t hnd, char **device,
@@ -52,7 +52,7 @@ index 5388f95..fc90415 100644
    }
  }
 diff --git a/include/grub/efi/api.h b/include/grub/efi/api.h
-index c7c9f0e..92f9b5a 100644
+index c7c9f0e1d..92f9b5a6f 100644
 --- a/include/grub/efi/api.h
 +++ b/include/grub/efi/api.h
 @@ -1452,14 +1452,67 @@ typedef struct grub_efi_simple_text_output_interface grub_efi_simple_text_output

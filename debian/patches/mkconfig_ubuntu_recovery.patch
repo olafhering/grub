@@ -23,7 +23,7 @@ Patch-Name: mkconfig_ubuntu_recovery.patch
  3 files changed, 26 insertions(+), 3 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index a85b134..ce24e5b 100644
+index a85b134ec..ce24e5ba3 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1786,6 +1786,17 @@ fi
@@ -45,7 +45,7 @@ index a85b134..ce24e5b 100644
  
  AC_SUBST([FONT_SOURCE])
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index f7c2667..d4852f3 100644
+index f7c26673b..d4852f3fa 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -20,6 +20,7 @@ set -e
@@ -93,7 +93,7 @@ index f7c2667..d4852f3 100644
  
    list=`echo $list | tr ' ' '\n' | fgrep -vx "$linux" | tr '\n' ' '`
 diff --git a/util/grub.d/30_os-prober.in b/util/grub.d/30_os-prober.in
-index 515a68c..775ceb2 100644
+index 515a68c7a..775ceb2e0 100644
 --- a/util/grub.d/30_os-prober.in
 +++ b/util/grub.d/30_os-prober.in
 @@ -220,7 +220,7 @@ EOF

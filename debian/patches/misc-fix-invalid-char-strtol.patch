@@ -14,7 +14,7 @@ Patch-Name: misc-fix-invalid-char-strtol.patch
  1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/grub-core/kern/misc.c b/grub-core/kern/misc.c
-index d1a54df..3a14d67 100644
+index d1a54df6c..3a14d679e 100644
 --- a/grub-core/kern/misc.c
 +++ b/grub-core/kern/misc.c
 @@ -394,9 +394,13 @@ grub_strtoull (const char *str, char **end, int base)

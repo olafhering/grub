@@ -14,7 +14,7 @@ Patch-Name: linuxefi_require_shim.patch
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c
-index 1995a50..ff29316 100644
+index 1995a5089..ff293166c 100644
 --- a/grub-core/loader/i386/efi/linux.c
 +++ b/grub-core/loader/i386/efi/linux.c
 @@ -63,7 +63,7 @@ grub_linuxefi_secure_validate (void *data, grub_uint32_t size)

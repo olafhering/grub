@@ -14,7 +14,7 @@ Patch-Name: skip_gettext_strings_test.patch
  1 file changed, 3 insertions(+)
 
 diff --git a/tests/gettext_strings_test.in b/tests/gettext_strings_test.in
-index 5c305e7..15405cf 100644
+index 5c305e75b..15405cfcd 100644
 --- a/tests/gettext_strings_test.in
 +++ b/tests/gettext_strings_test.in
 @@ -1,5 +1,8 @@

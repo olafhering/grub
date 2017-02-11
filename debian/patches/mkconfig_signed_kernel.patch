@@ -12,7 +12,7 @@ Patch-Name: mkconfig_signed_kernel.patch
  1 file changed, 15 insertions(+)
 
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index 13af9ea..0e5c550 100644
+index 13af9ea2e..0e5c550b2 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -151,8 +151,16 @@ linux_entry ()

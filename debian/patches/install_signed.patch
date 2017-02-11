@@ -19,7 +19,7 @@ Patch-Name: install_signed.patch
  1 file changed, 145 insertions(+), 47 deletions(-)
 
 diff --git a/util/grub-install.c b/util/grub-install.c
-index b993c98..af83922 100644
+index b993c9895..af839225f 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
 @@ -80,6 +80,7 @@ static char *label_color;

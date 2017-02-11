@@ -21,7 +21,7 @@ Patch-Name: mkconfig_recovery_title.patch
  7 files changed, 17 insertions(+), 7 deletions(-)
 
 diff --git a/docs/grub.texi b/docs/grub.texi
-index efe9c6e..82cf7bb 100644
+index efe9c6e59..82cf7bbf6 100644
 --- a/docs/grub.texi
 +++ b/docs/grub.texi
 @@ -1504,6 +1504,11 @@ a console is restricted or limited.
@@ -37,7 +37,7 @@ index efe9c6e..82cf7bb 100644
  
  The following options are still accepted for compatibility with existing
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-index 2dc9aa8..c3ea64d 100644
+index 2dc9aa8b8..c3ea64d07 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
 @@ -189,6 +189,10 @@ GRUB_ACTUAL_DEFAULT="$GRUB_DEFAULT"
@@ -62,7 +62,7 @@ index 2dc9aa8..c3ea64d 100644
  if test "x${grub_cfg}" != "x"; then
    rm -f "${grub_cfg}.new"
 diff --git a/util/grub.d/10_hurd.in b/util/grub.d/10_hurd.in
-index 59a9a48..7fa3a3f 100644
+index 59a9a48a2..7fa3a3fbd 100644
 --- a/util/grub.d/10_hurd.in
 +++ b/util/grub.d/10_hurd.in
 @@ -88,8 +88,8 @@ hurd_entry () {
@@ -77,7 +77,7 @@ index 59a9a48..7fa3a3f 100644
  	  title="$(gettext_printf "%s, with Hurd %s" "${OS}" "${kernel_base}")"
  	  oldtitle="$OS using $kernel_base"
 diff --git a/util/grub.d/10_kfreebsd.in b/util/grub.d/10_kfreebsd.in
-index 9d8e8fd..8301d36 100644
+index 9d8e8fd85..8301d361a 100644
 --- a/util/grub.d/10_kfreebsd.in
 +++ b/util/grub.d/10_kfreebsd.in
 @@ -76,7 +76,7 @@ kfreebsd_entry ()
@@ -90,7 +90,7 @@ index 9d8e8fd..8301d36 100644
  	  title="$(gettext_printf "%s, with kFreeBSD %s" "${os}" "${version}")"
        fi
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index c219e30..788cdc1 100644
+index c219e3069..788cdc182 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -116,7 +116,7 @@ linux_entry ()
@@ -103,7 +103,7 @@ index c219e30..788cdc1 100644
  	      title="$(gettext_printf "%s, with Linux %s" "${os}" "${version}")" ;;
        esac
 diff --git a/util/grub.d/10_netbsd.in b/util/grub.d/10_netbsd.in
-index 874f599..bb29cc0 100644
+index 874f59969..bb29cc046 100644
 --- a/util/grub.d/10_netbsd.in
 +++ b/util/grub.d/10_netbsd.in
 @@ -102,7 +102,7 @@ netbsd_entry ()
@@ -116,7 +116,7 @@ index 874f599..bb29cc0 100644
  	  title="$(gettext_printf "%s, with kernel %s (via %s)" "${OS}" "$(echo ${kernel} | sed -e 's,^.*/,,')" "${loader}")"
        fi
 diff --git a/util/grub.d/20_linux_xen.in b/util/grub.d/20_linux_xen.in
-index 971e464..8aab55e 100644
+index 971e46488..8aab55e93 100644
 --- a/util/grub.d/20_linux_xen.in
 +++ b/util/grub.d/20_linux_xen.in
 @@ -95,7 +95,7 @@ linux_entry ()

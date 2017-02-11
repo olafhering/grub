@@ -14,7 +14,7 @@ Patch-Name: ignore_grub_func_test_failures.patch
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/tests/grub_func_test.in b/tests/grub_func_test.in
-index c8cc263..f458f74 100644
+index c8cc26376..f458f741e 100644
 --- a/tests/grub_func_test.in
 +++ b/tests/grub_func_test.in
 @@ -16,6 +16,8 @@ out=`echo all_functional_test | @builddir@/grub-shell --timeout=3600 --files="/b

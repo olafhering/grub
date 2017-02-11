@@ -21,7 +21,7 @@ Patch-Name: ppc64el-disable-vsx.patch
  1 file changed, 12 insertions(+)
 
 diff --git a/grub-core/kern/powerpc/ieee1275/startup.S b/grub-core/kern/powerpc/ieee1275/startup.S
-index 21c884b..de9a960 100644
+index 21c884b43..de9a9601a 100644
 --- a/grub-core/kern/powerpc/ieee1275/startup.S
 +++ b/grub-core/kern/powerpc/ieee1275/startup.S
 @@ -20,6 +20,8 @@

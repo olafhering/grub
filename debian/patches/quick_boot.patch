@@ -33,7 +33,7 @@ Patch-Name: quick_boot.patch
  7 files changed, 141 insertions(+), 13 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 596bbe7..48364fe 100644
+index 596bbe78e..48364fe06 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1808,6 +1808,17 @@ else
@@ -55,7 +55,7 @@ index 596bbe7..48364fe 100644
  
  AC_SUBST([FONT_SOURCE])
 diff --git a/docs/grub.texi b/docs/grub.texi
-index 82f6fa4..efe9c6e 100644
+index 82f6fa459..efe9c6e59 100644
 --- a/docs/grub.texi
 +++ b/docs/grub.texi
 @@ -1490,6 +1490,20 @@ This option may be set to a list of GRUB module names separated by spaces.
@@ -80,7 +80,7 @@ index 82f6fa4..efe9c6e 100644
  
  The following options are still accepted for compatibility with existing
 diff --git a/grub-core/normal/menu.c b/grub-core/normal/menu.c
-index 1f3447a..906a480 100644
+index 1f3447ad3..906a480a2 100644
 --- a/grub-core/normal/menu.c
 +++ b/grub-core/normal/menu.c
 @@ -604,6 +604,30 @@ run_menu (grub_menu_t menu, int nested, int *auto_boot)
@@ -115,7 +115,7 @@ index 1f3447a..906a480 100644
  	{
  	  pos = grub_term_save_pos ();
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-index c05f0d1..2dc9aa8 100644
+index c05f0d1f3..2dc9aa8b8 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
 @@ -239,7 +239,8 @@ export GRUB_DEFAULT \
@@ -129,7 +129,7 @@ index c05f0d1..2dc9aa8 100644
  if test "x${grub_cfg}" != "x"; then
    rm -f "${grub_cfg}.new"
 diff --git a/util/grub.d/00_header.in b/util/grub.d/00_header.in
-index 93a9023..674a761 100644
+index 93a90233e..674a76140 100644
 --- a/util/grub.d/00_header.in
 +++ b/util/grub.d/00_header.in
 @@ -21,6 +21,8 @@ prefix="@prefix@"
@@ -258,7 +258,7 @@ index 93a9023..674a761 100644
  EOF
  }
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index d203c37..b32cc53 100644
+index d203c37a6..b32cc53b0 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -22,6 +22,7 @@ exec_prefix="@exec_prefix@"
@@ -280,7 +280,7 @@ index d203c37..b32cc53 100644
        save_default_entry | grub_add_tab
    fi
 diff --git a/util/grub.d/30_os-prober.in b/util/grub.d/30_os-prober.in
-index 271044f..da5f288 100644
+index 271044f59..da5f28876 100644
 --- a/util/grub.d/30_os-prober.in
 +++ b/util/grub.d/30_os-prober.in
 @@ -20,12 +20,26 @@ set -e

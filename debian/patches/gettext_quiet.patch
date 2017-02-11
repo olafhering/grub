@@ -13,7 +13,7 @@ Patch-Name: gettext_quiet.patch
  1 file changed, 5 insertions(+)
 
 diff --git a/grub-core/gettext/gettext.c b/grub-core/gettext/gettext.c
-index 4880cef..3098e89 100644
+index 4880cefe3..3098e8918 100644
 --- a/grub-core/gettext/gettext.c
 +++ b/grub-core/gettext/gettext.c
 @@ -427,6 +427,11 @@ grub_gettext_init_ext (struct grub_gettext_context *ctx,

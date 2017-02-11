@@ -17,7 +17,7 @@ Patch-Name: bootp_new_net_bootp6_command.patch
  3 files changed, 1018 insertions(+), 1 deletion(-)
 
 diff --git a/grub-core/net/bootp.c b/grub-core/net/bootp.c
-index a088244..a70b4de 100644
+index a088244b4..a70b4de06 100644
 --- a/grub-core/net/bootp.c
 +++ b/grub-core/net/bootp.c
 @@ -24,6 +24,98 @@
@@ -969,7 +969,7 @@ index a088244..a70b4de 100644
 +  grub_unregister_command (cmd_bootp6);
  }
 diff --git a/grub-core/net/ip.c b/grub-core/net/ip.c
-index 8c56baa..2a239b5 100644
+index 8c56baaf7..2a239b5bb 100644
 --- a/grub-core/net/ip.c
 +++ b/grub-core/net/ip.c
 @@ -238,6 +238,45 @@ handle_dgram (struct grub_net_buff *nb,
@@ -1019,7 +1019,7 @@ index 8c56baa..2a239b5 100644
        {
  	const struct grub_net_bootp_packet *bootp;
 diff --git a/include/grub/net.h b/include/grub/net.h
-index ccc169c..38a3973 100644
+index ccc169c2d..38a3973f3 100644
 --- a/include/grub/net.h
 +++ b/include/grub/net.h
 @@ -442,6 +442,66 @@ struct grub_net_bootp_packet

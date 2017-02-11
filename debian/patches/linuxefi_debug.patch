@@ -12,7 +12,7 @@ Patch-Name: linuxefi_debug.patch
  1 file changed, 25 insertions(+), 3 deletions(-)
 
 diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c
-index b622b3b..1995a50 100644
+index b622b3b71..1995a5089 100644
 --- a/grub-core/loader/i386/efi/linux.c
 +++ b/grub-core/loader/i386/efi/linux.c
 @@ -19,6 +19,7 @@

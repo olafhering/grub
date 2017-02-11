@@ -13,7 +13,7 @@ Patch-Name: blacklist_1440x900x32.patch
  1 file changed, 9 insertions(+)
 
 diff --git a/grub-core/video/i386/pc/vbe.c b/grub-core/video/i386/pc/vbe.c
-index b7f9119..4b1bd7d 100644
+index b7f911926..4b1bd7d5e 100644
 --- a/grub-core/video/i386/pc/vbe.c
 +++ b/grub-core/video/i386/pc/vbe.c
 @@ -1054,6 +1054,15 @@ grub_video_vbe_setup (unsigned int width, unsigned int height,

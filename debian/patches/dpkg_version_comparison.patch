@@ -12,7 +12,7 @@ Patch-Name: dpkg_version_comparison.patch
  1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/util/grub-mkconfig_lib.in b/util/grub-mkconfig_lib.in
-index 60b31ca..3a4684e 100644
+index 60b31cadd..3a4684e78 100644
 --- a/util/grub-mkconfig_lib.in
 +++ b/util/grub-mkconfig_lib.in
 @@ -238,8 +238,9 @@ version_test_numeric ()

@@ -28,7 +28,7 @@ Patch-Name: restore_mkdevicemap.patch
  create mode 100644 util/grub-mkdevicemap.c
 
 diff --git a/Makefile.util.def b/Makefile.util.def
-index ed9b4c6..51b8e10 100644
+index ed9b4c697..51b8e101d 100644
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
 @@ -315,6 +315,23 @@ program = {
@@ -57,7 +57,7 @@ index ed9b4c6..51b8e10 100644
    mansection = 8;
 diff --git a/docs/man/grub-mkdevicemap.h2m b/docs/man/grub-mkdevicemap.h2m
 new file mode 100644
-index 0000000..96cd6ee
+index 000000000..96cd6ee72
 --- /dev/null
 +++ b/docs/man/grub-mkdevicemap.h2m
 @@ -0,0 +1,4 @@
@@ -67,7 +67,7 @@ index 0000000..96cd6ee
 +.BR grub-probe (8)
 diff --git a/include/grub/util/deviceiter.h b/include/grub/util/deviceiter.h
 new file mode 100644
-index 0000000..8537497
+index 000000000..85374978c
 --- /dev/null
 +++ b/include/grub/util/deviceiter.h
 @@ -0,0 +1,14 @@
@@ -87,7 +87,7 @@ index 0000000..8537497
 +#endif /* ! GRUB_DEVICEITER_MACHINE_UTIL_HEADER */
 diff --git a/util/deviceiter.c b/util/deviceiter.c
 new file mode 100644
-index 0000000..23d49ae
+index 000000000..23d49aecd
 --- /dev/null
 +++ b/util/deviceiter.c
 @@ -0,0 +1,1021 @@
@@ -1114,7 +1114,7 @@ index 0000000..23d49ae
 +}
 diff --git a/util/devicemap.c b/util/devicemap.c
 new file mode 100644
-index 0000000..c618644
+index 000000000..c61864420
 --- /dev/null
 +++ b/util/devicemap.c
 @@ -0,0 +1,13 @@
@@ -1133,7 +1133,7 @@ index 0000000..c618644
 +}
 diff --git a/util/grub-mkdevicemap.c b/util/grub-mkdevicemap.c
 new file mode 100644
-index 0000000..c4bbdbf
+index 000000000..c4bbdbf69
 --- /dev/null
 +++ b/util/grub-mkdevicemap.c
 @@ -0,0 +1,181 @@

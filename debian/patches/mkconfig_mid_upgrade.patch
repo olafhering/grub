@@ -20,7 +20,7 @@ Patch-Name: mkconfig_mid_upgrade.patch
  1 file changed, 7 insertions(+)
 
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-index acd233c..4650f4b 100644
+index acd233c59..4650f4bc8 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
 @@ -102,6 +102,13 @@ do

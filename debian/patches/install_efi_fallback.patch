@@ -17,7 +17,7 @@ Patch-Name: install_efi_fallback.patch
  1 file changed, 17 insertions(+), 2 deletions(-)
 
 diff --git a/grub-core/osdep/linux/platform.c b/grub-core/osdep/linux/platform.c
-index 775b6c0..35f1bcc 100644
+index 775b6c031..35f1bcc0e 100644
 --- a/grub-core/osdep/linux/platform.c
 +++ b/grub-core/osdep/linux/platform.c
 @@ -19,10 +19,12 @@

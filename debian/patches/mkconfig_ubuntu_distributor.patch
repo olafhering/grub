@@ -16,7 +16,7 @@ Patch-Name: mkconfig_ubuntu_distributor.patch
  1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index d4852f3..13af9ea 100644
+index d4852f3fa..13af9ea2e 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -32,7 +32,14 @@ CLASS="--class gnu-linux --class gnu --class os"
