@@ -1,4 +1,4 @@
-grub2 (2.02-1) UNRELEASED; urgency=medium
+grub2 (2.02-1) unstable; urgency=medium
 
   * New upstream release.
     - xen: Fix wrong register in relocator (closes: #799480).
@@ -10,7 +10,7 @@ grub2 (2.02-1) UNRELEASED; urgency=medium
   * [sr@latin] Serbian Latin (Karolina Kalic; closes: #691289).
   * [pt] Portuguese (Rui Branco - DebianPT; closes: #864171).
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 23 Jun 2017 10:09:11 +0100
+ -- Colin Watson <cjwatson@debian.org>  Fri, 23 Jun 2017 13:47:39 +0100
 
 grub2 (2.02~beta3-5) unstable; urgency=medium
 
