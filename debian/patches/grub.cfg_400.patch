@@ -1,4 +1,4 @@
-From 51c63468fbf98e22f18120b5bc25f7e0f170c0df Mon Sep 17 00:00:00 2001
+From 5b2df103b96325d7d9ae4b4d05af3d5c31c78bd0 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Mon, 13 Jan 2014 12:12:55 +0000
 Subject: Make grub.cfg world-readable if it contains no passwords
@@ -9,7 +9,7 @@ Patch-Name: grub.cfg_400.patch
  1 file changed, 4 insertions(+)
 
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-index 203b07696..acd233c59 100644
+index f8496d28b..54fbe5288 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
 @@ -265,6 +265,10 @@ for i in "${grub_mkconfig_dir}"/* ; do

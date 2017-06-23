@@ -1,4 +1,4 @@
-From ec5b5793aa6befcc44bb8328a26ff34e24979b59 Mon Sep 17 00:00:00 2001
+From 09f5ea05e6f353673ea72e7ef66a0cd6992359b6 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:26 +0000
 Subject: Add configure option to reduce visual clutter at boot time
@@ -58,10 +58,10 @@ index 9e8f9911b..d2c4ce8e5 100644
  /* We don't need those.  */
  #define MINILZO_CFG_SKIP_LZO_PTR 1
 diff --git a/configure.ac b/configure.ac
-index ce24e5ba3..596bbe78e 100644
+index d4978ad5d..dd2fbd01c 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1797,6 +1797,17 @@ else
+@@ -1830,6 +1830,17 @@ else
  fi
  AC_SUBST([UBUNTU_RECOVERY])
  
@@ -79,7 +79,7 @@ index ce24e5ba3..596bbe78e 100644
  LIBS=""
  
  AC_SUBST([FONT_SOURCE])
-@@ -2048,5 +2059,10 @@ echo "Without liblzma (no support for XZ-compressed mips images) ($liblzma_excus
+@@ -2081,5 +2092,10 @@ echo "Without liblzma (no support for XZ-compressed mips images) ($liblzma_excus
  else
  echo "With liblzma from $LIBLZMA (support for XZ-compressed mips images)"
  fi
@@ -337,7 +337,7 @@ index 9d0ad4c95..1f3447ad3 100644
        if (auto_boot)
  	grub_menu_execute_with_fallback (menu, e, autobooted,
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index 0e5c550b2..d203c37a6 100644
+index 60467460b..67d57ecfd 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -21,6 +21,7 @@ prefix="@prefix@"

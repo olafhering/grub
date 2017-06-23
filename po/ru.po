@@ -2,21 +2,22 @@
 # Copyright (C) 2009, 2010 Free Software Foundation, Inc.
 # This file is distributed under the same license as the grub package.
 #
-# Yuri Kozlov <yuray@komyakino.ru>, 2009, 2010, 2011, 2012, 2013, 2014.
+# Yuri Kozlov <yuray@komyakino.ru>, 2009, 2010, 2011, 2012, 2013, 2014, 2017.
 # Vladimir 'φ-coder/phcoder' Serbinenko <phcoder@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: grub 2.02-pre2\n"
+"Project-Id-Version: grub 2.02-pre3\n"
 "Report-Msgid-Bugs-To: bug-grub@gnu.org\n"
-"POT-Creation-Date: 2016-02-28 14:23+0100\n"
-"PO-Revision-Date: 2013-12-31 10:57+0400\n"
+"POT-Creation-Date: 2017-04-25 16:28+0200\n"
+"PO-Revision-Date: 2017-02-17 21:25+0300\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
-"Language-Team: Russian <gnu@mx.ru>\n"
+"Language-Team: Russian <gnu@d07.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -95,10 +96,10 @@ msgstr ""
 #: grub-core/commands/verify.c:928 grub-core/efiemu/loadcore.c:350
 #: grub-core/kern/elf.c:117 grub-core/kern/elfXX.c:29
 #: grub-core/kern/elfXX.c:156 grub-core/loader/arm/linux.c:316
-#: grub-core/loader/arm64/fdt.c:148 grub-core/loader/arm64/linux.c:294
-#: grub-core/loader/arm64/xen_boot.c:345 grub-core/loader/efi/chainloader.c:266
-#: grub-core/loader/efi/chainloader.c:287
-#: grub-core/loader/efi/chainloader.c:319 grub-core/loader/i386/bsd.c:1270
+#: grub-core/loader/arm64/fdt.c:126 grub-core/loader/arm64/linux.c:294
+#: grub-core/loader/arm64/xen_boot.c:345 grub-core/loader/efi/chainloader.c:270
+#: grub-core/loader/efi/chainloader.c:291
+#: grub-core/loader/efi/chainloader.c:323 grub-core/loader/i386/bsd.c:1270
 #: grub-core/loader/i386/bsd.c:2110 grub-core/loader/i386/bsdXX.c:20
 #: grub-core/loader/i386/bsdXX.c:36 grub-core/loader/i386/bsdXX.c:63
 #: grub-core/loader/i386/bsdXX.c:357 grub-core/loader/i386/bsdXX.c:376
@@ -108,28 +109,28 @@ msgstr ""
 #: grub-core/loader/i386/coreboot/chainloader.c:148
 #: grub-core/loader/i386/coreboot/chainloader.c:170
 #: grub-core/loader/i386/linux.c:705 grub-core/loader/i386/linux.c:812
-#: grub-core/loader/i386/linux.c:1020 grub-core/loader/i386/multiboot_mbi.c:162
+#: grub-core/loader/i386/linux.c:1023 grub-core/loader/i386/multiboot_mbi.c:171
 #: grub-core/loader/i386/pc/chainloader.c:186
 #: grub-core/loader/i386/pc/linux.c:149 grub-core/loader/i386/pc/linux.c:320
 #: grub-core/loader/i386/pc/linux.c:360 grub-core/loader/i386/pc/plan9.c:456
 #: grub-core/loader/i386/pc/plan9.c:539 grub-core/loader/i386/pc/plan9.c:555
-#: grub-core/loader/i386/xen.c:670 grub-core/loader/i386/xen_fileXX.c:39
-#: grub-core/loader/i386/xen_fileXX.c:178
-#: grub-core/loader/i386/xen_fileXX.c:324 grub-core/loader/ia64/efi/linux.c:464
+#: grub-core/loader/i386/xen.c:928 grub-core/loader/i386/xen_file.c:72
+#: grub-core/loader/i386/xen_fileXX.c:43 grub-core/loader/i386/xen_fileXX.c:186
+#: grub-core/loader/i386/xen_fileXX.c:339 grub-core/loader/ia64/efi/linux.c:464
 #: grub-core/loader/ia64/efi/linux.c:512 grub-core/loader/linux.c:286
 #: grub-core/loader/macho.c:84 grub-core/loader/macho.c:109
 #: grub-core/loader/machoXX.c:33 grub-core/loader/machoXX.c:46
 #: grub-core/loader/machoXX.c:76 grub-core/loader/machoXX.c:116
 #: grub-core/loader/machoXX.c:131 grub-core/loader/machoXX.c:147
 #: grub-core/loader/machoXX.c:196 grub-core/loader/machoXX.c:317
-#: grub-core/loader/multiboot.c:381 grub-core/loader/multiboot_elfxx.c:118
-#: grub-core/loader/multiboot_elfxx.c:181
-#: grub-core/loader/multiboot_elfxx.c:228 grub-core/loader/multiboot_mbi2.c:124
+#: grub-core/loader/multiboot.c:421 grub-core/loader/multiboot_elfxx.c:154
+#: grub-core/loader/multiboot_elfxx.c:217
+#: grub-core/loader/multiboot_elfxx.c:261 grub-core/loader/multiboot_mbi2.c:129
 #: grub-core/loader/xnu.c:728 grub-core/loader/xnu.c:786
 #: grub-core/loader/xnu.c:807 grub-core/loader/xnu.c:862
 #: grub-core/loader/xnu.c:905 grub-core/loader/xnu.c:943
 #: grub-core/loader/xnu_resume.c:68 grub-core/loader/xnu_resume.c:153
-#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:1851
+#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:1921
 #, c-format
 msgid "premature end of file %s"
 msgstr "преждевременный конец файла %s"
@@ -152,23 +153,22 @@ msgid "error: %s.\n"
 msgstr "ошибка: %s.\n"
 
 #: grub-core/commands/acpihalt.c:368 grub-core/kern/emu/misc.c:93
-#: grub-core/kern/emu/misc.c:103 grub-core/kern/emu/misc.c:131
+#: grub-core/kern/emu/misc.c:103 grub-core/kern/emu/misc.c:132
 #: grub-core/kern/emu/mm.c:34 grub-core/kern/emu/mm.c:62
 #: grub-core/kern/mm.c:374 grub-core/lib/relocator.c:1282
 #: grub-core/lib/relocator.c:1439 grub-core/lib/relocator.c:1538
 #: grub-core/loader/arm/linux.c:421 grub-core/loader/arm/linux.c:480
 #: grub-core/loader/arm64/linux.c:229 grub-core/loader/arm64/linux.c:285
 #: grub-core/loader/arm64/linux.c:304 grub-core/loader/arm64/xen_boot.c:333
-#: grub-core/loader/arm64/xen_boot.c:356 grub-core/loader/efi/chainloader.c:279
-#: grub-core/net/drivers/ieee1275/ofnet.c:432 grub-core/osdep/unix/dl.c:48
-#: grub-core/osdep/windows/dl.c:46 grub-core/script/lexer.c:156
-#: grub-core/script/lexer.c:182
+#: grub-core/loader/arm64/xen_boot.c:356 grub-core/loader/efi/chainloader.c:283
+#: grub-core/osdep/unix/dl.c:48 grub-core/osdep/windows/dl.c:46
+#: grub-core/script/lexer.c:156 grub-core/script/lexer.c:182
 msgid "out of memory"
 msgstr "недостаточно памяти"
 
-#: grub-core/commands/acpihalt.c:374 grub-core/disk/cryptodisk.c:586
-#: grub-core/disk/cryptodisk.c:631 grub-core/kern/emu/hostdisk.c:307
-#: grub-core/kern/emu/hostfs.c:149 grub-core/kern/emu/misc.c:197
+#: grub-core/commands/acpihalt.c:374 grub-core/disk/cryptodisk.c:587
+#: grub-core/disk/cryptodisk.c:632 grub-core/kern/emu/hostdisk.c:307
+#: grub-core/kern/emu/hostfs.c:149 grub-core/kern/emu/misc.c:198
 #: grub-core/osdep/linux/ofpath.c:152 grub-core/osdep/linux/ofpath.c:371
 #: grub-core/osdep/linux/ofpath.c:384 util/glue-efi.c:80 util/glue-efi.c:94
 #: util/grub-editenv.c:155 util/grub-fstest.c:577
@@ -199,23 +199,23 @@ msgstr "Вывести список устройств."
 #: grub-core/loader/arm/linux.c:360 grub-core/loader/arm/linux.c:402
 #: grub-core/loader/arm/linux.c:463 grub-core/loader/arm64/linux.c:208
 #: grub-core/loader/arm64/linux.c:261 grub-core/loader/arm64/xen_boot.c:385
-#: grub-core/loader/arm64/xen_boot.c:434 grub-core/loader/efi/chainloader.c:206
+#: grub-core/loader/arm64/xen_boot.c:434 grub-core/loader/efi/chainloader.c:210
 #: grub-core/loader/i386/bsd.c:1456 grub-core/loader/i386/bsd.c:1801
 #: grub-core/loader/i386/bsd.c:2079
-#: grub-core/loader/i386/coreboot/chainloader.c:437
-#: grub-core/loader/i386/linux.c:694 grub-core/loader/i386/linux.c:1056
+#: grub-core/loader/i386/coreboot/chainloader.c:438
+#: grub-core/loader/i386/linux.c:694 grub-core/loader/i386/linux.c:1059
 #: grub-core/loader/i386/pc/chainloader.c:274
 #: grub-core/loader/i386/pc/freedos.c:105 grub-core/loader/i386/pc/linux.c:138
 #: grub-core/loader/i386/pc/linux.c:398 grub-core/loader/i386/pc/ntldr.c:85
 #: grub-core/loader/i386/pc/plan9.c:408
 #: grub-core/loader/i386/pc/pxechainloader.c:94
-#: grub-core/loader/i386/pc/truecrypt.c:96 grub-core/loader/i386/xen.c:402
-#: grub-core/loader/i386/xen.c:529 grub-core/loader/i386/xen.c:588
-#: grub-core/loader/i386/xen.c:598 grub-core/loader/i386/xnu.c:488
+#: grub-core/loader/i386/pc/truecrypt.c:96 grub-core/loader/i386/xen.c:640
+#: grub-core/loader/i386/xen.c:764 grub-core/loader/i386/xen.c:840
+#: grub-core/loader/i386/xen.c:850 grub-core/loader/i386/xnu.c:488
 #: grub-core/loader/ia64/efi/linux.c:500 grub-core/loader/ia64/efi/linux.c:575
 #: grub-core/loader/mips/linux.c:238 grub-core/loader/mips/linux.c:421
-#: grub-core/loader/multiboot.c:267 grub-core/loader/multiboot.c:319
-#: grub-core/loader/multiboot.c:329
+#: grub-core/loader/multiboot.c:307 grub-core/loader/multiboot.c:359
+#: grub-core/loader/multiboot.c:369
 #: grub-core/loader/powerpc/ieee1275/linux.c:269
 #: grub-core/loader/powerpc/ieee1275/linux.c:340
 #: grub-core/loader/sparc64/ieee1275/linux.c:305
@@ -223,7 +223,7 @@ msgstr "Вывести список устройств."
 #: grub-core/loader/xnu.c:455 grub-core/loader/xnu.c:769
 #: grub-core/loader/xnu.c:883 grub-core/loader/xnu.c:1268
 #: grub-core/loader/xnu.c:1418 grub-core/loader/xnu.c:1444
-#: grub-core/video/readers/jpeg.c:811 grub-core/video/readers/png.c:1123
+#: grub-core/video/readers/jpeg.c:812 grub-core/video/readers/png.c:1123
 msgid "filename expected"
 msgstr "ожидается имя файла"
 
@@ -238,13 +238,13 @@ msgstr "ожидается имя файла"
 #: grub-core/commands/syslinuxcfg.c:186 grub-core/commands/syslinuxcfg.c:194
 #: grub-core/commands/syslinuxcfg.c:200 grub-core/commands/syslinuxcfg.c:206
 #: grub-core/commands/testload.c:163 grub-core/efiemu/main.c:312
-#: grub-core/kern/emu/main.c:99 grub-core/kern/emu/main.c:102
+#: grub-core/kern/emu/main.c:100 grub-core/kern/emu/main.c:103
 #: grub-core/loader/i386/bsd.c:2131 grub-core/loader/i386/bsd.c:2134
 #: grub-core/loader/i386/bsd.c:2137
-#: grub-core/loader/i386/coreboot/chainloader.c:504
+#: grub-core/loader/i386/coreboot/chainloader.c:505
 #: grub-core/loader/ia64/efi/linux.c:630 include/grub/util/install.h:62
 #: util/grub-glue-efi.c:52 util/grub-glue-efi.c:54 util/grub-glue-efi.c:56
-#: util/grub-install.c:254 util/grub-install.c:301 util/grub-mkfont.c:939
+#: util/grub-install.c:254 util/grub-install.c:301 util/grub-mkfont.c:936
 #: util/grub-mkimage.c:68 util/grub-mkimage.c:75 util/grub-mkimage.c:77
 #: util/grub-mkimage.c:80 util/grub-mklayout.c:52 util/grub-mklayout.c:54
 #: util/grub-mkrescue.c:97 util/grub-mkrescue.c:101 util/grub-mkrescue.c:104
@@ -266,10 +266,10 @@ msgstr "Показать список блоков."
 #: grub-core/commands/legacycfg.c:574 grub-core/loader/arm64/linux.c:215
 #: grub-core/loader/i386/bsd.c:1793 grub-core/loader/i386/bsd.c:1894
 #: grub-core/loader/i386/bsd.c:2001 grub-core/loader/i386/bsd.c:2034
-#: grub-core/loader/i386/bsd.c:2083 grub-core/loader/i386/linux.c:1062
-#: grub-core/loader/i386/pc/linux.c:404 grub-core/loader/i386/xen.c:536
-#: grub-core/loader/i386/xen.c:603 grub-core/loader/ia64/efi/linux.c:581
-#: grub-core/loader/mips/linux.c:424 grub-core/loader/multiboot.c:333
+#: grub-core/loader/i386/bsd.c:2083 grub-core/loader/i386/linux.c:1065
+#: grub-core/loader/i386/pc/linux.c:404 grub-core/loader/i386/xen.c:771
+#: grub-core/loader/i386/xen.c:855 grub-core/loader/ia64/efi/linux.c:581
+#: grub-core/loader/mips/linux.c:424 grub-core/loader/multiboot.c:373
 #: grub-core/loader/powerpc/ieee1275/linux.c:346
 #: grub-core/loader/sparc64/ieee1275/linux.c:386 grub-core/loader/xnu.c:563
 #: grub-core/loader/xnu.c:656 grub-core/loader/xnu.c:772
@@ -318,7 +318,7 @@ msgstr "Показать содержимое файла."
 #: grub-core/commands/iorw.c:85 grub-core/commands/memrw.c:84
 #: grub-core/commands/password.c:75 grub-core/commands/password_pbkdf2.c:94
 #: grub-core/commands/regexp.c:113 grub-core/commands/verify.c:767
-#: grub-core/mmap/mmap.c:517 grub-core/net/dns.c:630
+#: grub-core/mmap/mmap.c:517 grub-core/net/dns.c:639
 msgid "two arguments expected"
 msgstr "ожидается два аргумента"
 
@@ -630,7 +630,7 @@ msgstr "Базовый каталог для списка хэшей."
 #. TRANSLATORS: platform here isn't identifier. It can be translated.
 #: grub-core/commands/hashsum.c:35 grub-core/commands/ls.c:150
 #: grub-core/commands/macbless.c:226 grub-core/commands/syslinuxcfg.c:51
-#: grub-core/commands/syslinuxcfg.c:54 grub-core/kern/emu/main.c:105
+#: grub-core/commands/syslinuxcfg.c:54 grub-core/kern/emu/main.c:106
 #: include/grub/util/install.h:48 include/grub/util/install.h:51
 #: include/grub/util/install.h:54 include/grub/util/install.h:57
 #: util/grub-install.c:250 util/grub-install.c:252 util/grub-install.c:297
@@ -753,17 +753,17 @@ msgstr "Не показывать сообщения."
 #: grub-core/fs/zfs/zfsinfo.c:279 grub-core/fs/zfs/zfsinfo.c:358
 #: grub-core/gettext/gettext.c:492 grub-core/kern/corecmd.c:65
 #: grub-core/kern/corecmd.c:79 grub-core/mmap/mmap.c:430
-#: grub-core/net/dns.c:704 grub-core/net/dns.c:736 grub-core/net/net.c:694
+#: grub-core/net/dns.c:713 grub-core/net/dns.c:745 grub-core/net/net.c:694
 #: grub-core/net/net.c:1052 grub-core/normal/context.c:194
 #: grub-core/script/execute.c:130 grub-core/term/gfxterm_background.c:136
 msgid "one argument expected"
 msgstr "ожидается один аргумент"
 
-#: grub-core/commands/hdparm.c:439
+#: grub-core/commands/hdparm.c:440
 msgid "[OPTIONS] DISK"
 msgstr "[ПАРАМЕТРЫ] ДИСК"
 
-#: grub-core/commands/hdparm.c:440
+#: grub-core/commands/hdparm.c:441
 msgid "Get/set ATA disk parameters."
 msgstr "Получить/Задать параметры ATA-диска."
 
@@ -957,9 +957,9 @@ msgid "filename or tempo and notes expected"
 msgstr "ожидается имя файла или темп и ноты"
 
 #: grub-core/commands/i386/pc/play.c:113 grub-core/commands/i386/pc/play.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid tempo in %s"
-msgstr "Неверная команда %s.\n"
+msgstr "Неверный темп в %s"
 
 #: grub-core/commands/i386/pc/play.c:151 grub-core/commands/macbless.c:172
 #: grub-core/fs/archelp.c:260 grub-core/fs/bfs.c:621 grub-core/fs/bfs.c:704
@@ -1123,7 +1123,7 @@ msgid "Write 32-bit VALUE to PORT."
 msgstr "Записать 32-битное ЗНАЧЕНИЕ в ПОРТ."
 
 #: grub-core/commands/keylayouts.c:215 grub-core/commands/loadenv.c:60
-#: grub-core/commands/nativedisk.c:187 grub-core/efiemu/main.c:235
+#: grub-core/commands/nativedisk.c:188 grub-core/efiemu/main.c:235
 #: grub-core/font/font.c:428 grub-core/gfxmenu/gfxmenu.c:63
 #: grub-core/kern/device.c:42 grub-core/kern/dl.c:740
 #, c-format
@@ -1314,11 +1314,11 @@ msgstr "сбойная память (BadRAM)"
 
 #: grub-core/commands/lsmmap.c:40
 msgid "persistent RAM"
-msgstr ""
+msgstr "сохраняющаяся память"
 
 #: grub-core/commands/lsmmap.c:41
 msgid "persistent RAM (legacy)"
-msgstr ""
+msgstr "сохраняющаяся память (старая)"
 
 #: grub-core/commands/lsmmap.c:42
 msgid "RAM holding coreboot tables"
@@ -1532,17 +1532,17 @@ msgstr "Тип памяти: неизвестен."
 msgid "Print Memory information."
 msgstr "Показать информацию о памяти."
 
-#: grub-core/commands/nativedisk.c:116 grub-core/commands/probe.c:118
+#: grub-core/commands/nativedisk.c:117 grub-core/commands/probe.c:118
 #: grub-core/commands/probe.c:124 util/grub-probe.c:394
 #, c-format
 msgid "%s does not support UUIDs"
 msgstr "%s не поддерживает UUID"
 
-#: grub-core/commands/nativedisk.c:322
+#: grub-core/commands/nativedisk.c:323
 msgid "[MODULE1 MODULE2 ...]"
 msgstr "[МОДУЛЬ1 МОДУЛЬ2 …]"
 
-#: grub-core/commands/nativedisk.c:323
+#: grub-core/commands/nativedisk.c:324
 msgid ""
 "Switch to native disk drivers. If no modules are specified default set (pata,"
 "ahci,usbms,ohci,uhci,ehci) is used"
@@ -1874,7 +1874,6 @@ msgid "root directory of the syslinux disk [default=/]."
 msgstr "корневой каталог диска syslinux [по умолчанию /]."
 
 #: grub-core/commands/syslinuxcfg.c:53 util/grub-syslinux2cfg.c:72
-#, fuzzy
 msgid ""
 "current directory of syslinux [default is parent directory of input file]."
 msgstr ""
@@ -2255,14 +2254,14 @@ msgstr ""
 "Преобразовать 64-бит UUID в формат, пригодный для XNU. Если указан -l, то "
 "оставить в нижнем регистре, как это делает blkid."
 
-#: grub-core/disk/arc/arcdisk.c:248 grub-core/disk/efi/efidisk.c:588
+#: grub-core/disk/arc/arcdisk.c:248 grub-core/disk/efi/efidisk.c:597
 #: grub-core/disk/i386/pc/biosdisk.c:498 grub-core/disk/i386/pc/biosdisk.c:543
 #: grub-core/disk/ieee1275/nand.c:198 grub-core/disk/ieee1275/ofdisk.c:586
 #, c-format
 msgid "failure reading sector 0x%llx from `%s'"
 msgstr "ошибка при чтении сектора 0x%llx на «%s»"
 
-#: grub-core/disk/arc/arcdisk.c:284 grub-core/disk/efi/efidisk.c:611
+#: grub-core/disk/arc/arcdisk.c:284 grub-core/disk/efi/efidisk.c:620
 #: grub-core/disk/i386/pc/biosdisk.c:548 grub-core/disk/ieee1275/ofdisk.c:606
 #, c-format
 msgid "failure writing sector 0x%llx to `%s'"
@@ -2283,12 +2282,12 @@ msgstr "Смонтировать все тома с установленным �
 
 #. TRANSLATORS: The first %s is the file being looked at, the second %s is
 #. the error message.
-#: grub-core/disk/cryptodisk.c:525 grub-core/kern/emu/hostdisk.c:152
+#: grub-core/disk/cryptodisk.c:526 grub-core/kern/emu/hostdisk.c:152
 #: grub-core/kern/emu/hostdisk.c:262 grub-core/kern/emu/hostdisk.c:434
-#: grub-core/kern/emu/misc.c:165 grub-core/kern/emu/misc.c:171
-#: grub-core/kern/emu/misc.c:193 grub-core/osdep/bsd/getroot.c:92
+#: grub-core/kern/emu/misc.c:166 grub-core/kern/emu/misc.c:172
+#: grub-core/kern/emu/misc.c:194 grub-core/osdep/bsd/getroot.c:92
 #: grub-core/osdep/bsd/getroot.c:168 grub-core/osdep/hurd/getroot.c:68
-#: grub-core/osdep/linux/blocklist.c:65 grub-core/osdep/linux/getroot.c:144
+#: grub-core/osdep/linux/blocklist.c:65 grub-core/osdep/linux/getroot.c:150
 #: grub-core/osdep/linux/hostdisk.c:194 grub-core/osdep/linux/hostdisk.c:420
 #: grub-core/osdep/linux/ofpath.c:325 grub-core/osdep/linux/ofpath.c:330
 #: grub-core/osdep/linux/ofpath.c:367 grub-core/osdep/linux/ofpath.c:380
@@ -2299,8 +2298,8 @@ msgstr "Смонтировать все тома с установленным �
 #: util/grub-fstest.c:568 util/grub-install-common.c:91
 #: util/grub-install-common.c:93 util/grub-install-common.c:100
 #: util/grub-install-common.c:517 util/grub-menulst2cfg.c:53
-#: util/grub-menulst2cfg.c:68 util/grub-mkimage.c:282 util/grub-mklayout.c:504
-#: util/grub-mklayout.c:516 util/grub-mknetdir.c:130 util/grub-mknetdir.c:148
+#: util/grub-menulst2cfg.c:68 util/grub-mkimage.c:283 util/grub-mklayout.c:504
+#: util/grub-mklayout.c:516 util/grub-mknetdir.c:131 util/grub-mknetdir.c:149
 #: util/grub-mkrescue.c:617 util/grub-mkrescue.c:621 util/grub-mkrescue.c:858
 #: util/grub-mkrescue.c:862 util/grub-mkstandalone.c:253 util/grub-mount.c:498
 #: util/grub-render-label.c:169 util/grub-script-check.c:175
@@ -2312,7 +2311,7 @@ msgstr "Смонтировать все тома с установленным �
 msgid "cannot open `%s': %s"
 msgstr "не удалось открыть «%s»: %s"
 
-#: grub-core/disk/cryptodisk.c:582 grub-core/disk/cryptodisk.c:627
+#: grub-core/disk/cryptodisk.c:583 grub-core/disk/cryptodisk.c:628
 #: grub-core/kern/emu/hostdisk.c:270 grub-core/kern/emu/hostfs.c:142
 #: grub-core/osdep/linux/hostdisk.c:455 util/grub-editenv.c:143
 #: util/grub-editenv.c:149 util/grub-fstest.c:320 util/misc.c:111
@@ -2320,11 +2319,11 @@ msgstr "не удалось открыть «%s»: %s"
 msgid "cannot seek `%s': %s"
 msgstr "невозможно сместиться в «%s»: %s"
 
-#: grub-core/disk/cryptodisk.c:1143
+#: grub-core/disk/cryptodisk.c:1144
 msgid "SOURCE|-u UUID|-a|-b"
 msgstr "ИСТОЧНИК|-u UUID|-a|-b"
 
-#: grub-core/disk/cryptodisk.c:1144
+#: grub-core/disk/cryptodisk.c:1145
 msgid "Mount a crypto device."
 msgstr "Смонтировать крипто-устройство."
 
@@ -2347,10 +2346,10 @@ msgstr ""
 msgid "physical volume %s not found"
 msgstr "физический том %s не найден"
 
-#: grub-core/disk/efi/efidisk.c:585 grub-core/disk/efi/efidisk.c:608
-#, fuzzy, c-format
+#: grub-core/disk/efi/efidisk.c:594 grub-core/disk/efi/efidisk.c:617
+#, c-format
 msgid "no media in `%s'"
-msgstr "истекло время ожидания при чтении «%s»"
+msgstr "нет носителя в «%s»"
 
 #: grub-core/disk/geli.c:75
 msgid "Couldn't load sha256"
@@ -2435,28 +2434,28 @@ msgid "Make a virtual drive from a file."
 msgstr "Создать виртуальный привод из файла."
 
 #: grub-core/efiemu/i386/loadcore32.c:111
-#: grub-core/efiemu/i386/loadcore64.c:124 grub-core/kern/arm/dl.c:251
-#: grub-core/kern/arm64/dl.c:177 grub-core/kern/i386/dl.c:75
-#: grub-core/kern/ia64/dl.c:136 grub-core/kern/mips/dl.c:257
-#: grub-core/kern/powerpc/dl.c:161 grub-core/kern/sparc64/dl.c:179
-#: grub-core/kern/x86_64/dl.c:109 util/grub-mkimagexx.c:694
-#: util/grub-mkimagexx.c:812 util/grub-mkimagexx.c:875
-#: util/grub-mkimagexx.c:951 util/grub-mkimagexx.c:998
-#: util/grub-mkimagexx.c:1094 util/grub-mkimagexx.c:1309
-#: util/grub-mkimagexx.c:1340 util/grub-mkimagexx.c:1372
-#: util/grub-mkimagexx.c:1403
+#: grub-core/efiemu/i386/loadcore64.c:124 grub-core/kern/arm/dl.c:256
+#: grub-core/kern/arm64/dl.c:187 grub-core/kern/i386/dl.c:75
+#: grub-core/kern/ia64/dl.c:140 grub-core/kern/mips/dl.c:258
+#: grub-core/kern/powerpc/dl.c:161 grub-core/kern/sparc64/dl.c:180
+#: grub-core/kern/x86_64/dl.c:109 util/grub-mkimagexx.c:692
+#: util/grub-mkimagexx.c:811 util/grub-mkimagexx.c:874
+#: util/grub-mkimagexx.c:955 util/grub-mkimagexx.c:1049
+#: util/grub-mkimagexx.c:1151 util/grub-mkimagexx.c:1367
+#: util/grub-mkimagexx.c:1404 util/grub-mkimagexx.c:1436
+#: util/grub-mkimagexx.c:1467
 #, c-format
 msgid "relocation 0x%x is not implemented yet"
 msgstr "возможность перемещения 0x%x ещё не реализована"
 
 #: grub-core/efiemu/loadcore.c:200 grub-core/efiemu/loadcore.c:237
-#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:1926
+#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:1996
 msgid "no symbol table"
 msgstr "отсутствует таблица символов"
 
 #: grub-core/efiemu/loadcore.c:346 grub-core/kern/dl.c:609
 #: grub-core/loader/ia64/efi/linux.c:386 grub-core/loader/mips/linux.c:248
-#: grub-core/loader/multiboot_elfxx.c:72
+#: grub-core/loader/multiboot_elfxx.c:76
 #: grub-core/loader/powerpc/ieee1275/linux.c:280
 #: grub-core/loader/sparc64/ieee1275/linux.c:320
 msgid "this ELF file is not of the right type"
@@ -2906,7 +2905,7 @@ msgstr "показать эту справку"
 msgid "give a short usage message"
 msgstr "показать короткую справку по использованию"
 
-#: grub-core/gnulib/argp-parse.c:83 util/grub-mkfont.c:949
+#: grub-core/gnulib/argp-parse.c:83 util/grub-mkfont.c:946
 msgid "NAME"
 msgstr "ИМЯ"
 
@@ -2914,7 +2913,7 @@ msgstr "ИМЯ"
 msgid "set the program name"
 msgstr "задать имя программы"
 
-#: grub-core/gnulib/argp-parse.c:84 grub-core/kern/emu/main.c:108
+#: grub-core/gnulib/argp-parse.c:84 grub-core/kern/emu/main.c:109
 msgid "SECS"
 msgstr "СЕКУНД"
 
@@ -3097,13 +3096,13 @@ msgstr "файл lzop повреждён"
 msgid "xz file corrupted or unsupported block options"
 msgstr "файл xz повреждён или имеются неподдерживаемые параметры блока"
 
-#: grub-core/kern/arm/dl.c:272 grub-core/kern/arm64/dl.c:49
+#: grub-core/kern/arm/dl.c:277 grub-core/kern/arm64/dl.c:44
 #: grub-core/kern/i386/dl.c:36 grub-core/kern/ia64/dl.c:41
 #: grub-core/kern/mips/dl.c:48 grub-core/kern/powerpc/dl.c:36
 #: grub-core/kern/sparc64/dl.c:36 grub-core/kern/x86_64/dl.c:36
 #: grub-core/loader/i386/bsd.c:1439 grub-core/loader/i386/bsdXX.c:49
 #: grub-core/loader/ia64/efi/linux.c:382 grub-core/loader/mips/linux.c:298
-#: grub-core/loader/multiboot.c:177 grub-core/loader/multiboot_elfxx.c:69
+#: grub-core/loader/multiboot.c:217 grub-core/loader/multiboot_elfxx.c:73
 #: grub-core/loader/powerpc/ieee1275/linux.c:294
 #: grub-core/loader/sparc64/ieee1275/linux.c:331
 msgid "invalid arch-dependent ELF magic"
@@ -3137,7 +3136,7 @@ msgstr "Вывести список устройств или файлов."
 msgid "Insert a module."
 msgstr "Вставить модуль."
 
-#: grub-core/kern/disk.c:236 grub-core/net/net.c:1381
+#: grub-core/kern/disk.c:236 grub-core/net/net.c:1390
 #, c-format
 msgid "disk `%s' not found"
 msgstr "диск «%s» не найден"
@@ -3148,7 +3147,7 @@ msgstr "попытка чтения или записи вне пределов 
 
 #: grub-core/kern/dl.c:212 grub-core/kern/elf.c:61 grub-core/kern/elf.c:79
 #: grub-core/loader/i386/bsdXX.c:46 grub-core/loader/ia64/efi/linux.c:376
-#: grub-core/loader/multiboot_elfxx.c:65
+#: grub-core/loader/multiboot_elfxx.c:69
 msgid "invalid arch-independent ELF magic"
 msgstr "неверный архитектурно-независимый отличительный идентификатор ELF"
 
@@ -3158,7 +3157,7 @@ msgid "device count exceeds limit"
 msgstr "превышен предел счётчика устройств"
 
 #: grub-core/kern/emu/hostdisk.c:342 util/editenv.c:54 util/grub-editenv.c:197
-#: util/grub-fstest.c:191 util/grub-mkfont.c:799 util/misc.c:114
+#: util/grub-fstest.c:191 util/grub-mkfont.c:796 util/misc.c:114
 #: util/misc.c:129 util/setup.c:713
 #, c-format
 msgid "cannot write to `%s': %s"
@@ -3201,59 +3200,58 @@ msgstr ""
 msgid "can't open `%s': %s"
 msgstr "не удалось открыть «%s»: %s"
 
-#: grub-core/kern/emu/main.c:98 util/grub-fstest.c:516 util/grub-mount.c:452
+#: grub-core/kern/emu/main.c:99 util/grub-fstest.c:516 util/grub-mount.c:452
 msgid "DEVICE_NAME"
 msgstr "ИМЯ_УСТРОЙСТВА"
 
-#: grub-core/kern/emu/main.c:98 grub-core/loader/i386/bsd.c:135
+#: grub-core/kern/emu/main.c:99 grub-core/loader/i386/bsd.c:135
 #: grub-core/loader/i386/bsd.c:168 util/grub-fstest.c:516 util/grub-mount.c:452
 msgid "Set root device."
 msgstr "Задать корневое устройство."
 
 #. TRANSLATORS: There are many devices in device map.
-#: grub-core/kern/emu/main.c:101 util/grub-probe.c:685 util/grub-setup.c:85
+#: grub-core/kern/emu/main.c:102 util/grub-probe.c:685 util/grub-setup.c:85
 #, c-format
 msgid "use FILE as the device map [default=%s]"
 msgstr "использовать ФАЙЛ в качестве карты устройств [по умолчанию %s]"
 
 #. TRANSLATORS: There are many devices in device map.
-#: grub-core/kern/emu/main.c:104
-#, fuzzy
+#: grub-core/kern/emu/main.c:105
 msgid "use FILE as memdisk"
-msgstr "встраивать ФАЙЛ как образ виртуального диска"
+msgstr "использовать ФАЙЛ как memdisk"
 
-#: grub-core/kern/emu/main.c:106 util/grub-setup.c:83
+#: grub-core/kern/emu/main.c:107 util/grub-setup.c:83
 #, c-format
 msgid "use GRUB files in the directory DIR [default=%s]"
 msgstr "использовать файлы GRUB в каталоге, заданном в КАТ [по умолчанию %s]"
 
-#: grub-core/kern/emu/main.c:107 include/grub/util/install.h:65
+#: grub-core/kern/emu/main.c:108 include/grub/util/install.h:65
 #: util/grub-editenv.c:58 util/grub-fstest.c:525 util/grub-glue-efi.c:58
-#: util/grub-macbless.c:104 util/grub-mkfont.c:965 util/grub-mkimage.c:83
+#: util/grub-macbless.c:104 util/grub-mkfont.c:962 util/grub-mkimage.c:83
 #: util/grub-mklayout.c:56 util/grub-mount.c:458 util/grub-probe.c:687
 #: util/grub-render-label.c:74 util/grub-script-check.c:52 util/grub-setup.c:90
 #: util/grub-syslinux2cfg.c:78
 msgid "print verbose messages."
 msgstr "показывать подробные сообщения."
 
-#: grub-core/kern/emu/main.c:108
+#: grub-core/kern/emu/main.c:109
 msgid "wait until a debugger will attach"
 msgstr "подождать пока подключиться отладчик"
 
-#: grub-core/kern/emu/main.c:170 util/grub-macbless.c:143
+#: grub-core/kern/emu/main.c:171 util/grub-macbless.c:143
 #: util/grub-mkrelpath.c:61 util/grub-probe.c:826 util/grub-script-check.c:75
 #: util/grub-setup.c:203
 #, c-format
 msgid "Unknown extra argument `%s'."
 msgstr "Неизвестный дополнительный параметр «%s»."
 
-#: grub-core/kern/emu/main.c:184
+#: grub-core/kern/emu/main.c:185
 msgid "GRUB emulator."
 msgstr "Эмулятор GRUB."
 
-#: grub-core/kern/emu/main.c:212 util/grub-editenv.c:261
-#: util/grub-glue-efi.c:110 util/grub-macbless.c:173 util/grub-mkfont.c:1180
-#: util/grub-mkimage.c:256 util/grub-mklayout.c:494
+#: grub-core/kern/emu/main.c:213 util/grub-editenv.c:261
+#: util/grub-glue-efi.c:110 util/grub-macbless.c:173 util/grub-mkfont.c:1177
+#: util/grub-mkimage.c:257 util/grub-mklayout.c:494
 #: util/grub-mkpasswd-pbkdf2.c:132 util/grub-mkrelpath.c:96
 #: util/grub-probe.c:815 util/grub-render-label.c:152
 #: util/grub-script-check.c:160 util/grub-setup.c:262
@@ -3262,7 +3260,7 @@ msgid "Error in parsing command line arguments\n"
 msgstr "Ошибка при разборе аргументов командной строки\n"
 
 #. TRANSLATORS: In this case GRUB tells user what he has to do.
-#: grub-core/kern/emu/main.c:247
+#: grub-core/kern/emu/main.c:248
 #, c-format
 msgid "Run `gdb %s %d', and set ARGS.HOLD to zero.\n"
 msgstr "Запустите «gdb %s %d», и установите значение ARGS.HOLD равным нулю.\n"
@@ -3283,7 +3281,7 @@ msgstr "%s: информация:"
 msgid "%s: error:"
 msgstr "%s: ошибка:"
 
-#: grub-core/kern/emu/misc.c:173
+#: grub-core/kern/emu/misc.c:174
 #, c-format
 msgid "file `%s' is too big"
 msgstr "файл «%s» слишком большой"
@@ -3366,11 +3364,11 @@ msgstr "Не удалось выполнить перезагрузку"
 
 #: grub-core/lib/random.c:113
 msgid "[LENGTH]"
-msgstr ""
+msgstr "[ДЛИНА]"
 
 #: grub-core/lib/random.c:114
 msgid "Hexdump random data."
-msgstr ""
+msgstr "Шестнадцатеричный дамп произвольных данных."
 
 #: grub-core/loader/arm/linux.c:242
 msgid "device tree must be supplied (see `devicetree' command)"
@@ -3380,13 +3378,13 @@ msgstr "должно быть указано дерево устройств (с
 msgid "invalid zImage"
 msgstr "неверный zImage"
 
-#: grub-core/loader/arm/linux.c:449 grub-core/loader/arm64/fdt.c:154
+#: grub-core/loader/arm/linux.c:449 grub-core/loader/arm64/fdt.c:132
 msgid "invalid device tree"
 msgstr "неверное дерево устройств"
 
 #: grub-core/loader/arm/linux.c:513 grub-core/loader/arm64/linux.c:344
-#: grub-core/loader/i386/linux.c:1140 grub-core/loader/i386/pc/linux.c:477
-#: grub-core/loader/i386/xen.c:696 grub-core/loader/i386/xen.c:698
+#: grub-core/loader/i386/linux.c:1143 grub-core/loader/i386/pc/linux.c:477
+#: grub-core/loader/i386/xen.c:956 grub-core/loader/i386/xen.c:958
 #: grub-core/loader/ia64/efi/linux.c:627 grub-core/loader/mips/linux.c:493
 #: grub-core/loader/powerpc/ieee1275/linux.c:382
 #: grub-core/loader/sparc64/ieee1275/linux.c:510
@@ -3394,8 +3392,8 @@ msgid "Load Linux."
 msgstr "Загрузить Linux."
 
 #: grub-core/loader/arm/linux.c:515 grub-core/loader/arm64/linux.c:346
-#: grub-core/loader/i386/linux.c:1142 grub-core/loader/i386/pc/linux.c:480
-#: grub-core/loader/i386/xen.c:700 grub-core/loader/ia64/efi/linux.c:630
+#: grub-core/loader/i386/linux.c:1145 grub-core/loader/i386/pc/linux.c:480
+#: grub-core/loader/i386/xen.c:960 grub-core/loader/ia64/efi/linux.c:630
 #: grub-core/loader/mips/linux.c:495
 #: grub-core/loader/powerpc/ieee1275/linux.c:384
 #: grub-core/loader/sparc64/ieee1275/linux.c:512
@@ -3403,36 +3401,32 @@ msgid "Load initrd."
 msgstr "Загрузить initrd."
 
 #. TRANSLATORS: DTB stands for device tree blob.
-#: grub-core/loader/arm/linux.c:518 grub-core/loader/arm64/fdt.c:179
+#: grub-core/loader/arm/linux.c:518 grub-core/loader/arm64/fdt.c:157
 msgid "Load DTB file."
 msgstr "Загрузить файл DTB."
 
 #: grub-core/loader/arm64/linux.c:57
-#, fuzzy
 msgid ""
 "plain image kernel not supported - rebuild with CONFIG_(U)EFI_STUB enabled"
 msgstr ""
-"обычный образ ядра не поддерживается — пересоберите его включённым "
+"обычный образ ядра не поддерживается — пересоберите его с включённым "
 "параметром CONFIG_(U)EFI_STUB"
 
 #: grub-core/loader/arm64/xen_boot.c:144
 msgid "failed to get FDT"
-msgstr ""
+msgstr "не удалось получить FDT"
 
 #: grub-core/loader/arm64/xen_boot.c:392
-#, fuzzy
 msgid "you need to load the Xen Hypervisor first"
-msgstr "сначала вам нужно загрузить ядро"
+msgstr "сначала нужно загрузить Xen Hypervisor"
 
 #: grub-core/loader/arm64/xen_boot.c:488
-#, fuzzy
 msgid "Load a xen hypervisor."
-msgstr "%s, с гипервизором Xen"
+msgstr "Загрузить гипервизор xen."
 
 #: grub-core/loader/arm64/xen_boot.c:491
-#, fuzzy
 msgid "Load a xen module."
-msgstr "Загрузить модуль."
+msgstr "Загрузить модуль xen."
 
 #: grub-core/loader/efi/appleloader.c:231
 msgid "[OPTS]"
@@ -3445,7 +3439,7 @@ msgstr "[ПАРАМЕТРЫ]"
 msgid "Boot BIOS-based system."
 msgstr "Загрузить систему, указанную в BIOS"
 
-#: grub-core/loader/efi/chainloader.c:411
+#: grub-core/loader/efi/chainloader.c:415
 #: grub-core/loader/i386/pc/chainloader.c:287
 msgid "Load another boot loader."
 msgstr "Загрузить другой загрузчик."
@@ -3607,7 +3601,7 @@ msgstr "Загрузить виртуальный диск kOpenBSD."
 #. by coreboot and must be translated in
 #. sync with coreboot. If unsure,
 #. let it untranslated.
-#: grub-core/loader/i386/coreboot/chainloader.c:509
+#: grub-core/loader/i386/coreboot/chainloader.c:510
 msgid "Load another coreboot payload"
 msgstr "Загрузить другой coreboot payload"
 
@@ -3680,11 +3674,11 @@ msgstr "Загрузить образ PXE."
 msgid "Load Truecrypt ISO."
 msgstr "Загрузить Truecrypt ISO."
 
-#: grub-core/loader/i386/xen.c:542 grub-core/loader/i386/xen.c:608
+#: grub-core/loader/i386/xen.c:777 grub-core/loader/i386/xen.c:861
 msgid "initrd already loaded"
 msgstr "initrd уже загружен"
 
-#: grub-core/loader/i386/xen.c:702
+#: grub-core/loader/i386/xen.c:962
 msgid "Load module."
 msgstr "Загрузить модуль."
 
@@ -3724,23 +3718,23 @@ msgstr "ФАЙЛ [АРГУМЕНТЫ…]"
 msgid "Display FPSWA version."
 msgstr "Показать версию FPSWA."
 
-#: grub-core/loader/multiboot.c:193
+#: grub-core/loader/multiboot.c:233
 msgid "WARNING: no console will be available to OS"
 msgstr "ПРЕДУПРЕЖДЕНИЕ: консоль в ОС будет недоступна"
 
-#: grub-core/loader/multiboot.c:397
+#: grub-core/loader/multiboot.c:437
 msgid "Load a multiboot 2 kernel."
 msgstr "Загрузить ядро multiboot 2."
 
-#: grub-core/loader/multiboot.c:400
+#: grub-core/loader/multiboot.c:440
 msgid "Load a multiboot 2 module."
 msgstr "Загрузить модуль multiboot 2."
 
-#: grub-core/loader/multiboot.c:403
+#: grub-core/loader/multiboot.c:443
 msgid "Load a multiboot kernel."
 msgstr "Загрузить ядро multiboot."
 
-#: grub-core/loader/multiboot.c:406
+#: grub-core/loader/multiboot.c:446
 msgid "Load a multiboot module."
 msgstr "Загрузить модуль multiboot."
 
@@ -3821,118 +3815,118 @@ msgstr "С[K|M|G] ПО[K|M|G]"
 msgid "Remove any memory regions in specified range."
 msgstr "Удалить все области памяти в указанном диапазоне."
 
-#: grub-core/net/bootp.c:317
+#: grub-core/net/bootp.c:324
 msgid "four arguments expected"
 msgstr "ожидается четыре аргумента"
 
-#: grub-core/net/bootp.c:325 grub-core/net/net.c:1155
+#: grub-core/net/bootp.c:332 grub-core/net/net.c:1155
 #, c-format
 msgid "unrecognised network interface `%s'"
 msgstr "нераспознанный сетевой интерфейс «%s»"
 
-#: grub-core/net/bootp.c:328
+#: grub-core/net/bootp.c:335
 msgid "no DHCP info found"
 msgstr "информация о DHCP не найдена"
 
-#: grub-core/net/bootp.c:331 grub-core/net/bootp.c:343
+#: grub-core/net/bootp.c:338 grub-core/net/bootp.c:350
 msgid "no DHCP options found"
 msgstr "параметры DHCP не найдены"
 
-#: grub-core/net/bootp.c:350 grub-core/net/bootp.c:360
+#: grub-core/net/bootp.c:357 grub-core/net/bootp.c:367
 #, c-format
 msgid "no DHCP option %d found"
 msgstr "параметр DHCP %d не найден"
 
-#: grub-core/net/bootp.c:420
+#: grub-core/net/bootp.c:431
 #, c-format
 msgid "unrecognised DHCP option format specification `%s'"
 msgstr "неопознанный формат указания параметра DHCP «%s»"
 
-#: grub-core/net/bootp.c:444
+#: grub-core/net/bootp.c:455
 msgid "no network card found"
 msgstr "сетевая карта не найдена"
 
-#: grub-core/net/bootp.c:566 grub-core/net/net.c:389
+#: grub-core/net/bootp.c:577 grub-core/net/net.c:389
 #, c-format
 msgid "couldn't autoconfigure %s"
 msgstr "не удалось выполнить автоматическую настройку %s"
 
-#: grub-core/net/bootp.c:580
+#: grub-core/net/bootp.c:591
 msgid "[CARD]"
 msgstr "[КАРТА]"
 
-#: grub-core/net/bootp.c:581
+#: grub-core/net/bootp.c:592
 msgid "perform a bootp autoconfiguration"
 msgstr "выполнить автоматическую настройку по bootp"
 
-#: grub-core/net/bootp.c:583
+#: grub-core/net/bootp.c:594
 msgid "VAR INTERFACE NUMBER DESCRIPTION"
 msgstr "ПЕРЕМЕННАЯ ИНТЕРФЕЙС НОМЕР ОПИСАНИЕ"
 
-#: grub-core/net/bootp.c:584
+#: grub-core/net/bootp.c:595
 msgid ""
 "retrieve DHCP option and save it into VAR. If VAR is - then print the value."
 msgstr ""
 "получить параметр DHCP и сохранить его в ПЕРЕМЕННУЮ. Если значение "
 "ПЕРЕМЕННОЙ равно -, то показать значение."
 
-#: grub-core/net/dns.c:450
+#: grub-core/net/dns.c:459
 msgid "no DNS servers configured"
 msgstr "не настроены серверы DNS"
 
-#: grub-core/net/dns.c:513
+#: grub-core/net/dns.c:522
 msgid "domain name component is too long"
 msgstr "компонент доменного имени слишком длинен"
 
-#: grub-core/net/dns.c:609 grub-core/net/dns.c:657
+#: grub-core/net/dns.c:618 grub-core/net/dns.c:666
 msgid "no DNS record found"
 msgstr "не найдена DNS-запись"
 
-#: grub-core/net/dns.c:617
+#: grub-core/net/dns.c:626
 msgid "no DNS reply received"
 msgstr "не получен ответ DNS"
 
-#: grub-core/net/dns.c:673
+#: grub-core/net/dns.c:682
 msgid "only ipv4"
 msgstr "только ipv4"
 
-#: grub-core/net/dns.c:677
+#: grub-core/net/dns.c:686
 msgid "only ipv6"
 msgstr "только ipv6"
 
-#: grub-core/net/dns.c:681
+#: grub-core/net/dns.c:690
 msgid "prefer ipv4"
 msgstr "предпочитать ipv4"
 
-#: grub-core/net/dns.c:685
+#: grub-core/net/dns.c:694
 msgid "prefer ipv6"
 msgstr "предпочитать ipv6"
 
-#: grub-core/net/dns.c:718
+#: grub-core/net/dns.c:727
 msgid "invalid argument"
 msgstr "неверный аргумент"
 
-#: grub-core/net/dns.c:750
+#: grub-core/net/dns.c:759
 msgid "ADDRESS DNSSERVER"
 msgstr "АДРЕС СЕРВЕР_DNS"
 
-#: grub-core/net/dns.c:751
+#: grub-core/net/dns.c:760
 msgid "Perform a DNS lookup"
 msgstr "Выполнить поиск в DNS"
 
-#: grub-core/net/dns.c:753 grub-core/net/dns.c:756
+#: grub-core/net/dns.c:762 grub-core/net/dns.c:765
 msgid "DNSSERVER"
 msgstr "СЕРВЕР_DNS"
 
-#: grub-core/net/dns.c:754
+#: grub-core/net/dns.c:763
 msgid "Add a DNS server"
 msgstr "Добавить сервер DNS"
 
-#: grub-core/net/dns.c:757
+#: grub-core/net/dns.c:766
 msgid "Remove a DNS server"
 msgstr "Удалить сервер DNS"
 
-#: grub-core/net/dns.c:759
+#: grub-core/net/dns.c:768
 msgid "List DNS servers"
 msgstr "Список серверов DNS"
 
@@ -3943,6 +3937,19 @@ msgstr "Список серверов DNS"
 #: grub-core/net/drivers/uboot/ubootnet.c:62
 msgid "couldn't send network packet"
 msgstr "не удалось послать сетевой пакет"
+
+#: grub-core/net/drivers/ieee1275/ofnet.c:319
+#: grub-core/net/drivers/ieee1275/ofnet.c:352
+msgid "interpret is not supported"
+msgstr "интерпретация не поддерживается"
+
+#: grub-core/net/drivers/ieee1275/ofnet.c:329
+msgid "alloc-mem failed"
+msgstr "ошибка в alloc-mem"
+
+#: grub-core/net/drivers/ieee1275/ofnet.c:363
+msgid "free-mem failed"
+msgstr "ошибка в free-mem"
 
 #: grub-core/net/http.c:105
 msgid "unsupported HTTP response"
@@ -3955,7 +3962,7 @@ msgstr "неподдерживаемый ответ HTTP"
 msgid "unsupported HTTP error %d: %s"
 msgstr "неподдерживаемая ошибка HTTP %d: %s"
 
-#: grub-core/net/http.c:430 grub-core/net/tftp.c:420
+#: grub-core/net/http.c:429 grub-core/net/tftp.c:420
 #, c-format
 msgid "time out opening `%s'"
 msgstr "истекло время ожидания при открытии «%s»"
@@ -4025,59 +4032,59 @@ msgstr "Неизвестный тип адреса %d\n"
 msgid "no server is specified"
 msgstr "сервер не указан"
 
-#: grub-core/net/net.c:1628
+#: grub-core/net/net.c:1637
 #, c-format
 msgid "timeout reading `%s'"
 msgstr "истекло время ожидания при чтении «%s»"
 
 #. TRANSLATORS: HWADDRESS stands for
 #. "hardware address".
-#: grub-core/net/net.c:1752
+#: grub-core/net/net.c:1762
 msgid "SHORTNAME CARD ADDRESS [HWADDRESS]"
 msgstr "КОРОТКОЕ_ИМЯ КАРТА АДРЕС [АППАРАТНЫЙ_АДРЕС]"
 
-#: grub-core/net/net.c:1753
+#: grub-core/net/net.c:1763
 msgid "Add a network address."
 msgstr "Добавить сетевой адрес."
 
-#: grub-core/net/net.c:1756
+#: grub-core/net/net.c:1766
 msgid "[CARD [HWADDRESS]]"
 msgstr "[КАРТА [АППАРАТНЫЙ_АДРЕС]]"
 
-#: grub-core/net/net.c:1757
+#: grub-core/net/net.c:1767
 msgid "Perform an IPV6 autoconfiguration"
 msgstr "Выполнить автоматическую настройку IPV6"
 
-#: grub-core/net/net.c:1760 grub-core/net/net.c:1767
+#: grub-core/net/net.c:1770 grub-core/net/net.c:1777
 msgid "SHORTNAME"
 msgstr "КОРОТКОЕ_ИМЯ"
 
-#: grub-core/net/net.c:1761
+#: grub-core/net/net.c:1771
 msgid "Delete a network address."
 msgstr "Удалить сетевой адрес."
 
 #. TRANSLATORS: "gw" is a keyword.
-#: grub-core/net/net.c:1764
+#: grub-core/net/net.c:1774
 msgid "SHORTNAME NET [INTERFACE| gw GATEWAY]"
 msgstr "КОРОТКОЕ_ИМЯ СЕТЬ [ИНТЕРФЕЙС| gw ШЛЮЗ]"
 
-#: grub-core/net/net.c:1765
+#: grub-core/net/net.c:1775
 msgid "Add a network route."
 msgstr "Добавить сетевой маршрут."
 
-#: grub-core/net/net.c:1768
+#: grub-core/net/net.c:1778
 msgid "Delete a network route."
 msgstr "Удалить сетевой маршрут."
 
-#: grub-core/net/net.c:1770
+#: grub-core/net/net.c:1780
 msgid "list network routes"
 msgstr "вывести список сетевых маршрутов"
 
-#: grub-core/net/net.c:1772
+#: grub-core/net/net.c:1782
 msgid "list network cards"
 msgstr "вывести список сетевых карт"
 
-#: grub-core/net/net.c:1774
+#: grub-core/net/net.c:1784
 msgid "list network addresses"
 msgstr "вывести список сетевых адресов"
 
@@ -4432,11 +4439,11 @@ msgstr "для вашей платформы процедуры SGI не под�
 msgid "no random number generator is available for your OS"
 msgstr "для вашей ОС генератор случайных чисел недоступен"
 
-#: grub-core/osdep/devmapper/getroot.c:75
+#: grub-core/osdep/devmapper/getroot.c:81
 msgid "Failed to create `device-mapper' tree"
 msgstr "Не удалось создать дерево «device-mapper»"
 
-#: grub-core/osdep/devmapper/getroot.c:191
+#: grub-core/osdep/devmapper/getroot.c:197
 #: grub-core/osdep/freebsd/getroot.c:202
 #, c-format
 msgid "can't mount encrypted volume `%s': %s"
@@ -4557,43 +4564,42 @@ msgid "blocksize is not divisible by 512"
 msgstr "размер блока не делится на 512"
 
 #: grub-core/osdep/linux/blocklist.c:86
-#, fuzzy
 msgid "invalid zero blocksize"
-msgstr "неверный размер блока"
+msgstr "неверный нулевой размер блока"
 
 #: grub-core/osdep/linux/blocklist.c:90 util/setup.c:669
 msgid "can't retrieve blocklists"
 msgstr "не удалось получить список блоков"
 
-#: grub-core/osdep/linux/getroot.c:148
+#: grub-core/osdep/linux/getroot.c:154
 #, c-format
 msgid "ioctl RAID_VERSION error: %s"
 msgstr "ошибка ioctl RAID_VERSION: %s"
 
-#: grub-core/osdep/linux/getroot.c:154 grub-core/osdep/linux/getroot.c:158
+#: grub-core/osdep/linux/getroot.c:160 grub-core/osdep/linux/getroot.c:164
 #, c-format
 msgid "unsupported RAID version: %d.%d"
 msgstr "неподдерживаемая версия RAID: %d.%d"
 
-#: grub-core/osdep/linux/getroot.c:163
+#: grub-core/osdep/linux/getroot.c:169
 #, c-format
 msgid "ioctl GET_ARRAY_INFO error: %s"
 msgstr "ошибка ioctl GET_ARRAY_INFO: %s"
 
-#: grub-core/osdep/linux/getroot.c:172
+#: grub-core/osdep/linux/getroot.c:178
 #, c-format
 msgid "ioctl GET_DISK_INFO error: %s"
 msgstr "ошибка ioctl GET_DISK_INFO: %s"
 
-#: grub-core/osdep/linux/getroot.c:579 grub-core/osdep/linux/getroot.c:649
-#: grub-core/osdep/linux/hostdisk.c:126 grub-core/osdep/unix/getroot.c:248
-#: grub-core/osdep/unix/getroot.c:629 grub-core/osdep/unix/platform.c:91
+#: grub-core/osdep/linux/getroot.c:608 grub-core/osdep/linux/getroot.c:678
+#: grub-core/osdep/linux/hostdisk.c:126 grub-core/osdep/unix/getroot.c:250
+#: grub-core/osdep/unix/getroot.c:631 grub-core/osdep/unix/platform.c:91
 #: grub-core/osdep/unix/platform.c:99
 #, c-format
 msgid "Unable to open stream from %s: %s"
 msgstr "Не удалось открыть поток из %s: %s"
 
-#: grub-core/osdep/linux/getroot.c:1004
+#: grub-core/osdep/linux/getroot.c:1033
 #, c-format
 msgid "unknown kind of RAID device `%s'"
 msgstr "неизвестный тип RAID-устройства «%s»"
@@ -4605,17 +4611,17 @@ msgstr ""
 "«obppath» не найден в родительских каталогах «%s», обнаружение имени по "
 "IEEE1275 отсутствует"
 
-#: grub-core/osdep/linux/ofpath.c:179 grub-core/osdep/unix/getroot.c:492
-#: grub-core/osdep/unix/getroot.c:516 grub-core/osdep/unix/relpath.c:49
+#: grub-core/osdep/linux/ofpath.c:179 grub-core/osdep/unix/getroot.c:494
+#: grub-core/osdep/unix/getroot.c:518 grub-core/osdep/unix/relpath.c:49
 #: util/grub-install.c:972 util/grub-install.c:1305 util/grub-probe.c:267
 #, c-format
 msgid "failed to get canonical path of `%s'"
 msgstr "не удалось получить канонический путь «%s»"
 
 #: grub-core/osdep/linux/ofpath.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "unknown device type %s"
-msgstr "неизвестный тип устройства %s\n"
+msgstr "неизвестный тип устройства %s"
 
 #: grub-core/osdep/linux/ofpath.c:560 util/ieee1275/grub-ofpathname.c:39
 #, c-format
@@ -4633,13 +4639,13 @@ msgstr "Не удалось выполнить fork: %s"
 msgid "Unable to create pipe: %s"
 msgstr "Не удалось создать канал: %s"
 
-#: grub-core/osdep/unix/getroot.c:413 grub-core/osdep/unix/getroot.c:467
-#: grub-core/osdep/unix/getroot.c:476
+#: grub-core/osdep/unix/getroot.c:415 grub-core/osdep/unix/getroot.c:469
+#: grub-core/osdep/unix/getroot.c:478
 msgid "cannot restore the original directory"
 msgstr "не удалось восстановить первоначальный каталог"
 
 #. TRANSLATORS: "stat" comes from the name of POSIX function.
-#: grub-core/osdep/unix/getroot.c:538 grub-core/osdep/unix/hostdisk.c:61
+#: grub-core/osdep/unix/getroot.c:540 grub-core/osdep/unix/hostdisk.c:61
 #: grub-core/osdep/unix/relpath.c:73 grub-core/osdep/unix/relpath.c:97
 #: util/getroot.c:160 util/getroot.c:162 util/grub-install.c:770
 #: util/grub-macbless.c:70
@@ -5313,7 +5319,7 @@ msgstr "Вычислить XNU UUID для устройства."
 
 #. TRANSLATORS: bitmaps are images like e.g. in JPEG.
 #: util/grub-fstest.c:517 util/grub-fstest.c:518 util/grub-fstest.c:519
-#: util/grub-mkfont.c:941 util/grub-mkfont.c:954 util/grub-mkfont.c:955
+#: util/grub-mkfont.c:938 util/grub-mkfont.c:951 util/grub-mkfont.c:952
 #: util/grub-mkpasswd-pbkdf2.c:46 util/grub-mkpasswd-pbkdf2.c:47
 #: util/grub-mkpasswd-pbkdf2.c:48
 msgid "NUM"
@@ -5380,7 +5386,7 @@ msgstr "Неверная команда %s.\n"
 msgid "IMAGE_PATH COMMANDS"
 msgstr "ПУТЬ_К_ОБРАЗУ КОМАНДЫ"
 
-#: util/grub-fstest.c:725 util/grub-mount.c:552
+#: util/grub-fstest.c:725 util/grub-mount.c:553
 msgid "Debug tool for filesystem driver."
 msgstr "Инструмент отладки драйвера файловой системы."
 
@@ -5447,9 +5453,9 @@ msgid "Unrecognized compression `%s'"
 msgstr "Тип сжатия «%s» не распознано"
 
 #: util/grub-install-common.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "unknown target format %s"
-msgstr "неизвестный целевой формат %s\n"
+msgstr "неизвестный целевой формат %s"
 
 #: util/grub-install-common.c:831
 #, c-format
@@ -5487,9 +5493,11 @@ msgstr "ЦЕЛЬ"
 
 #. TRANSLATORS: "TARGET" as in "target platform".
 #: util/grub-install.c:258
-#, fuzzy, c-format
+#, c-format
 msgid "install GRUB for TARGET platform [default=%s]; available targets: %s"
-msgstr "установить GRUB для ЦЕЛЕВОЙ платформы [по умолчанию %s]"
+msgstr ""
+"установить GRUB для ЦЕЛЕВОЙ платформы [по умолчанию %s]; доступные "
+"платформы: %s"
 
 #. TRANSLATORS: "may break" doesn't just mean that option wouldn't have any
 #. effect but that it will make the resulting install unbootable from HDD.
@@ -5640,9 +5648,9 @@ msgid "cannot find a GRUB drive for %s.  Check your device.map"
 msgstr "не удалось найти привод GRUB для %s. Проверьте device.map"
 
 #: util/grub-install.c:1073
-#, fuzzy, c-format
+#, c-format
 msgid "%s doesn't look like an EFI partition"
-msgstr "%s не похоже на раздел EFI.\n"
+msgstr "%s не похоже на раздел EFI"
 
 #: util/grub-install.c:1109 util/grub-install.c:1579
 msgid "You've found a bug"
@@ -5654,13 +5662,13 @@ msgid "filesystem on %s is neither HFS nor HFS+"
 msgstr "файловая система на %s не является HFS или HFS+"
 
 #: util/grub-install.c:1273
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "attempt to install to encrypted disk without cryptodisk enabled. Set `%s' in "
 "file `%s'"
 msgstr ""
 "попытка установки на шифрованный диск без включённого cryptodisk. Задайте "
-"«%s» в файле «%s»."
+"«%s» в файле «%s»"
 
 #: util/grub-install.c:1384 util/grub-install.c:1733 util/grub-install.c:1833
 #, c-format
@@ -5695,16 +5703,16 @@ msgstr ""
 "раздел PReP не пуст. Если вы уверены, что хотите использовать его, запустите "
 "dd для его очистки: «%s»"
 
-#: util/grub-install.c:1869
+#: util/grub-install.c:1870
 msgid "EFI bootloader id isn't specified."
 msgstr "Не указан загрузчик EFI."
 
-#: util/grub-install.c:1898
+#: util/grub-install.c:1899
 msgid "WARNING: no platform-specific install was performed"
 msgstr ""
 "ПРЕДУПРЕЖДЕНИЕ: никаких специальных установок для платформы не произведено"
 
-#: util/grub-install.c:1905
+#: util/grub-install.c:1906
 msgid "Installation finished. No error reported."
 msgstr "Установка завершена. Ошибок нет."
 
@@ -5755,7 +5763,7 @@ msgstr " (крайний слева)"
 msgid " (rightmost)"
 msgstr " (крайний справа)"
 
-#: util/grub-mkfont.c:484
+#: util/grub-mkfont.c:481
 #, c-format
 msgid "Out of range substitution (%d, %d)\n"
 msgstr "Подстановка вне диапазона (%d, %d)\n"
@@ -5763,32 +5771,32 @@ msgstr "Подстановка вне диапазона (%d, %d)\n"
 #. TRANSLATORS: "lookup" is taken directly from font specifications
 #. which are formulated as "Under condition X replace LOOKUP with
 #. SUBSTITUITION".  "
-#: util/grub-mkfont.c:509
+#: util/grub-mkfont.c:506
 #, c-format
 msgid "Out of range lookup: %d\n"
 msgstr "Поиск вне диапазона: %d\n"
 
-#: util/grub-mkfont.c:517
+#: util/grub-mkfont.c:514
 #, c-format
 msgid "Unsupported substitution type: %d\n"
 msgstr "Неподдерживаемый тип подстановки: %d\n"
 
-#: util/grub-mkfont.c:553
+#: util/grub-mkfont.c:550
 #, c-format
 msgid "Unsupported substitution specification: %d\n"
 msgstr "Неподдерживаемое подстановочное обозначение: %d\n"
 
-#: util/grub-mkfont.c:585
+#: util/grub-mkfont.c:582
 #, c-format
 msgid "Unsupported coverage specification: %d\n"
 msgstr "Неподдерживаемая подстановочная зона действия: %d\n"
 
-#: util/grub-mkfont.c:625
+#: util/grub-mkfont.c:622
 #, c-format
 msgid "WARNING: unsupported font feature parameters: %x\n"
 msgstr "ПРЕДУПРЕЖДЕНИЕ: неподдерживаемые параметры свойств шрифта: %x\n"
 
-#: util/grub-mkfont.c:939 util/grub-mkrescue.c:98 util/grub-mkstandalone.c:48
+#: util/grub-mkfont.c:936 util/grub-mkrescue.c:98 util/grub-mkstandalone.c:48
 #: util/grub-kbdcomp.in:29
 msgid "save output in FILE [required]"
 msgstr "сохранить вывод в ФАЙЛ [требуется]"
@@ -5796,50 +5804,50 @@ msgstr "сохранить вывод в ФАЙЛ [требуется]"
 #. TRANSLATORS: some font files may have multiple faces (fonts).
 #. This option is used to chose among them, the first face being '0'.
 #. Rarely used.
-#: util/grub-mkfont.c:945
+#: util/grub-mkfont.c:942
 msgid "select face index"
 msgstr "выбрать индекс начертания"
 
-#: util/grub-mkfont.c:946
+#: util/grub-mkfont.c:943
 msgid "FROM-TO[,FROM-TO]"
 msgstr "ИЗ-В[,ИЗ-В]"
 
 #. TRANSLATORS: It refers to the range of characters in font.
-#: util/grub-mkfont.c:948
+#: util/grub-mkfont.c:945
 msgid "set font range"
 msgstr "назначить диапазон шрифта"
 
 #. TRANSLATORS: "family name" for font is just a generic name without suffix
 #. like "Bold".
-#: util/grub-mkfont.c:952
+#: util/grub-mkfont.c:949
 msgid "set font family name"
 msgstr "назначить гарнитуру шрифта"
 
-#: util/grub-mkfont.c:953
+#: util/grub-mkfont.c:950
 msgid "SIZE"
 msgstr "РАЗМЕР"
 
-#: util/grub-mkfont.c:953
+#: util/grub-mkfont.c:950
 msgid "set font size"
 msgstr "назначить размер шрифта"
 
-#: util/grub-mkfont.c:954
+#: util/grub-mkfont.c:951
 msgid "set font descent"
 msgstr "назначить спуск шрифта"
 
-#: util/grub-mkfont.c:955
+#: util/grub-mkfont.c:952
 msgid "set font ascent"
 msgstr "назначить подъём шрифта"
 
-#: util/grub-mkfont.c:956
+#: util/grub-mkfont.c:953
 msgid "convert to bold font"
 msgstr "преобразовать в жирный шрифт"
 
-#: util/grub-mkfont.c:957
+#: util/grub-mkfont.c:954
 msgid "force autohint"
 msgstr "принудительный автохинтинг"
 
-#: util/grub-mkfont.c:958
+#: util/grub-mkfont.c:955
 msgid "disable hinting"
 msgstr "отключить хинтинг"
 
@@ -5847,46 +5855,45 @@ msgstr "отключить хинтинг"
 #. some sizes. This option forces rerendering even if
 #. pre-rendered bitmap is available.
 #.
-#: util/grub-mkfont.c:964
+#: util/grub-mkfont.c:961
 msgid "ignore bitmap strikes when loading"
 msgstr "игнорировать заданный в битовой карте размер при загрузке"
 
 #. TRANSLATORS: It refers to the range of characters in font.
-#: util/grub-mkfont.c:1062 util/grub-mkfont.c:1078
+#: util/grub-mkfont.c:1059 util/grub-mkfont.c:1075
 msgid "invalid font range"
 msgstr "неверный диапазон шрифта"
 
-#: util/grub-mkfont.c:1154
+#: util/grub-mkfont.c:1151
 msgid "[OPTIONS] FONT_FILES"
 msgstr "[ПАРАМЕТРЫ] ФАЙЛЫ_ШРИФТА"
 
-#: util/grub-mkfont.c:1155
+#: util/grub-mkfont.c:1152
 msgid "Convert common font file formats into PF2"
 msgstr "Преобразует файлы шрифтов распространённых форматов в PF2"
 
-#: util/grub-mkfont.c:1185 util/grub-mkrescue.c:479
+#: util/grub-mkfont.c:1182 util/grub-mkrescue.c:479
 #: util/grub-mkstandalone.c:306 util/grub-kbdcomp.in:70
 msgid "output file must be specified"
 msgstr "требуется указать выходной файл"
 
-#: util/grub-mkfont.c:1188
+#: util/grub-mkfont.c:1185
 msgid "FT_Init_FreeType fails"
 msgstr "FT_Init_FreeType завершилась с ошибкой"
 
-#: util/grub-mkfont.c:1202
+#: util/grub-mkfont.c:1199
 #, c-format
 msgid "can't open file %s, index %d: error %d"
 msgstr "не удалось открыть файл %s, индекс %d: ошибка %d"
 
-#: util/grub-mkfont.c:1232
+#: util/grub-mkfont.c:1229
 #, c-format
 msgid "can't set %dx%d font size: Freetype error %d: %s"
 msgstr "не удалось задать размер шрифта %dx%d: ошибка Freetype %d: %s"
 
 #: util/grub-mkimage.c:67
-#, fuzzy
 msgid "set prefix directory"
-msgstr "назначить префикс-каталог [по умолчанию %s]"
+msgstr "назначить префикс-каталог"
 
 #. TRANSLATORS: "memdisk" here isn't an identifier, it can be translated.
 #. "embed" is a verb (command description).  "
@@ -5940,16 +5947,15 @@ msgstr "[ПАРАМЕТР]… [МОДУЛИ]"
 msgid "Make a bootable image of GRUB."
 msgstr "Создаёт загрузочный образ GRUB."
 
-#: util/grub-mkimage.c:263 util/grub-mkstandalone.c:309
+#: util/grub-mkimage.c:264 util/grub-mkstandalone.c:309
 msgid "Target format not specified (use the -O option)."
 msgstr "Целевой формат не указан (используйте параметр -O)."
 
-#: util/grub-mkimage.c:272
-#, fuzzy
+#: util/grub-mkimage.c:273
 msgid "Prefix not specified (use the -p option)."
-msgstr "Целевой формат не указан (используйте параметр -O)."
+msgstr "Префикс не указан (используйте параметр -p)."
 
-#: util/grub-mkimagexx.c:1745
+#: util/grub-mkimagexx.c:1815
 #, c-format
 msgid ""
 "`%s' is miscompiled: its start address is 0x%llx instead of 0x%llx: ld.gold "
@@ -6001,13 +6007,13 @@ msgstr ""
 "Подготавливает образы для сетевой загрузки GRUB в net_directory/subdir; "
 "предполагается, что net_directory является корнем TFTP."
 
-#: util/grub-mknetdir.c:143
-#, fuzzy, c-format
+#: util/grub-mknetdir.c:144
+#, c-format
 msgid "unsupported platform %s"
-msgstr "неподдерживаемая платформа %s\n"
+msgstr "неподдерживаемая платформа %s"
 
 #. TRANSLATORS: First %s is replaced by platform name. Second one by filename.
-#: util/grub-mknetdir.c:162
+#: util/grub-mknetdir.c:163
 #, c-format
 msgid ""
 "Netboot directory for %s created. Configure your DHCP server to point to %s\n"
@@ -6162,11 +6168,11 @@ msgstr ""
 "Принимается синтаксис с начальной точкой (например, /boot/grub/grub.cfg=./"
 "grub.cfg)"
 
-#: util/grub-mount.c:551
+#: util/grub-mount.c:552
 msgid "IMAGE1 [IMAGE2 ...] MOUNTPOINT"
 msgstr "ОБРАЗ1 [ОБРАЗ2 …] ТОЧКА_МОНТИРОВАНИЯ"
 
-#: util/grub-mount.c:574
+#: util/grub-mount.c:575
 msgid "need an image and mountpoint"
 msgstr "требуется образ и точка монтирования"
 
@@ -6176,12 +6182,12 @@ msgstr "указанный аргумент является системным 
 
 #: util/grub-probe.c:688
 msgid "separate items in output using ASCII NUL characters"
-msgstr ""
+msgstr "разделение элементов в выводе символами ASCII NUL"
 
 #: util/grub-probe.c:706
-#, fuzzy, c-format
+#, c-format
 msgid "[default=%s]"
-msgstr "установить ШРИФТЫ [по умолчанию %s]"
+msgstr "[по умолчанию %s]"
 
 #: util/grub-probe.c:708
 msgid "print TARGET"
@@ -6299,7 +6305,6 @@ msgstr ""
 "корневой каталог — как он будет виден во время выполнения [по умолчанию /]."
 
 #: util/grub-syslinux2cfg.c:69
-#, fuzzy
 msgid ""
 "current directory of syslinux as it will be seen on runtime  [default is "
 "parent directory of input file]."
@@ -6320,9 +6325,9 @@ msgid "cannot compress the kernel image"
 msgstr "не удалось сжать образ ядра"
 
 #: util/mkimage.c:682 util/mkimage.c:974
-#, fuzzy, c-format
+#, c-format
 msgid "unknown compression %d"
-msgstr "неизвестный тип сжатия %d\n"
+msgstr "неизвестный тип сжатия %d"
 
 #: util/mkimage.c:985
 msgid "Decompressor is too big"
@@ -6575,9 +6580,8 @@ msgid "%s: You must run this as root\\n"
 msgstr "%s: Вы должны запускать программу имея права суперпользователя\\n"
 
 #: util/grub-mkconfig.in:130
-#, fuzzy
 msgid "%s: Not found.\\n"
-msgstr "%s: не найдено"
+msgstr "%s: не найдено.\\n"
 
 #: util/grub-mkconfig.in:238
 msgid "Generating grub configuration file ..."
@@ -6596,7 +6600,7 @@ msgstr ""
 "и /etc/grub.d/* ошибки отсутствуют или пошлите сообщение об ошибке\n"
 "в прикреплённым файлом %s."
 
-#: util/grub-mkconfig.in:282
+#: util/grub-mkconfig.in:283
 msgid "done"
 msgstr "завершено"
 
@@ -7363,9 +7367,6 @@ msgstr "%s пока не поддерживается grub-mkconfig.\\n"
 
 #~ msgid "cannot stat %s"
 #~ msgstr "не удалось выполнить stat для %s"
-
-#~ msgid "seek failed"
-#~ msgstr "перемещение по файлу завершилось неудачно"
 
 #~ msgid "read failed"
 #~ msgstr "чтение завершилось неудачно"

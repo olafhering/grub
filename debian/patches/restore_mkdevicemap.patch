@@ -1,4 +1,4 @@
-From 9f2b1f47479fe5d49d931bc13ed848cc241103fe Mon Sep 17 00:00:00 2001
+From 7611a560ab6cd5edc3eefd20b291239deceb448f Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Mon, 13 Jan 2014 12:13:01 +0000
 Subject: Restore grub-mkdevicemap
@@ -28,7 +28,7 @@ Patch-Name: restore_mkdevicemap.patch
  create mode 100644 util/grub-mkdevicemap.c
 
 diff --git a/Makefile.util.def b/Makefile.util.def
-index ed9b4c697..51b8e101d 100644
+index f9caccb97..c939deb92 100644
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
 @@ -315,6 +315,23 @@ program = {

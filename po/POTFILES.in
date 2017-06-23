@@ -361,6 +361,7 @@
 ./grub-core/kern/dl.c
 ./grub-core/kern/efi/acpi.c
 ./grub-core/kern/efi/efi.c
+./grub-core/kern/efi/fdt.c
 ./grub-core/kern/efi/init.c
 ./grub-core/kern/efi/mm.c
 ./grub-core/kern/elf.c
@@ -601,6 +602,7 @@
 ./grub-core/lib/uboot/datetime.c
 ./grub-core/lib/uboot/halt.c
 ./grub-core/lib/uboot/reboot.c
+./grub-core/lib/x86_64/efi/relocator.c
 ./grub-core/lib/xen/datetime.c
 ./grub-core/lib/xen/halt.c
 ./grub-core/lib/xen/reboot.c
@@ -834,6 +836,7 @@
 ./grub-core/tests/signature_test.c
 ./grub-core/tests/signatures.h
 ./grub-core/tests/sleep_test.c
+./grub-core/tests/strtoull_test.c
 ./grub-core/tests/test_blockarg.c
 ./grub-core/tests/video_checksum.c
 ./grub-core/tests/videotest_checksum.c
@@ -1239,6 +1242,7 @@
 ./include/xen/arch-x86/xen-x86_32.h
 ./include/xen/arch-x86/xen-x86_64.h
 ./include/xen/arch-x86/xen.h
+./include/xen/elfnote.h
 ./include/xen/event_channel.h
 ./include/xen/grant_table.h
 ./include/xen/io/blkif.h

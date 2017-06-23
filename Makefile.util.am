@@ -338,7 +338,7 @@ CLEANFILES += grub-macbless.8
 endif
 grub_macbless_SOURCES  = util/grub-macbless.c grub-core/osdep/init.c grub-core/kern/emu/argp_common.c 
 nodist_grub_macbless_SOURCES  = 
-grub_macbless_LDADD  = libgrubmods.a libgrubgcry.a libgrubkern.a grub-core/gnulib/libgnu.a $(LIBINTL) $(LIBDEVMAPPER) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM) 
+grub_macbless_LDADD  = libgrubmods.a libgrubgcry.a libgrubkern.a grub-core/gnulib/libgnu.a $(LIBINTL) $(LIBDEVMAPPER) $(LIBUTIL) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM) 
 grub_macbless_CFLAGS  = $(AM_CFLAGS) $(CFLAGS_PROGRAM) 
 grub_macbless_LDFLAGS  = $(AM_LDFLAGS) $(LDFLAGS_PROGRAM) 
 grub_macbless_CPPFLAGS  = $(AM_CPPFLAGS) $(CPPFLAGS_PROGRAM) 

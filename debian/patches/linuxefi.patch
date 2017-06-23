@@ -1,4 +1,4 @@
-From 5cd20151112bfde11cf3ed8b9920797d7cabe325 Mon Sep 17 00:00:00 2001
+From d79fad08a0b4dc85dc9994f9019965802469a63f Mon Sep 17 00:00:00 2001
 From: Matthew Garrett <mjg@redhat.com>
 Date: Mon, 13 Jan 2014 12:13:15 +0000
 Subject: Add "linuxefi" loader which avoids ExitBootServices
@@ -18,10 +18,10 @@ Patch-Name: linuxefi.patch
  create mode 100644 grub-core/loader/i386/efi/linux.c
 
 diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
-index 58b4208b0..2344a5e63 100644
+index 2dfa22a92..68e47a727 100644
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -1731,6 +1731,14 @@ module = {
+@@ -1734,6 +1734,14 @@ module = {
  };
  
  module = {
@@ -457,7 +457,7 @@ index 000000000..b622b3b71
 +  grub_unregister_command (cmd_initrd);
 +}
 diff --git a/include/grub/efi/efi.h b/include/grub/efi/efi.h
-index 1b8f88f09..22456327e 100644
+index 5e87950fd..62a3d9726 100644
 --- a/include/grub/efi/efi.h
 +++ b/include/grub/efi/efi.h
 @@ -40,6 +40,9 @@ void EXPORT_FUNC(grub_efi_stall) (grub_efi_uintn_t microseconds);

@@ -1,4 +1,4 @@
-From 1742785b839b12f570796e594b0c589a2973e59b Mon Sep 17 00:00:00 2001
+From d5ad199f937b895af78d2cbea263690a1252e9c5 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Mon, 13 Jan 2014 12:13:32 +0000
 Subject: Ignore functional test failures for now as they are broken

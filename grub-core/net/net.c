@@ -1427,6 +1427,15 @@ grub_net_open_real (const char *name)
 		continue;
 	    }
 
+	  if (grub_strncmp (prefdev, "pxe", sizeof ("pxe") - 1) == 0 &&
+	      (!prefdev[sizeof ("pxe") - 1] || (prefdev[sizeof("pxe") - 1] == ':')))
+	    {
+	      grub_free (prefdev);
+	      prefdev = grub_strdup ("tftp");
+	      if (!prefdev)
+		continue;
+	    }
+
 	  comma = grub_strchr (prefdev, ',');
 	  if (comma)
 	    *comma = '\0';
@@ -1753,6 +1762,7 @@ grub_net_seek_real (struct grub_file *file, grub_off_t offset)
     file->device->net->packs.last = NULL;
     file->device->net->offset = 0;
     file->device->net->eof = 0;
+    file->device->net->stall = 0;
     err = file->device->net->protocol->open (file, file->device->net->name);
     if (err)
       return err;

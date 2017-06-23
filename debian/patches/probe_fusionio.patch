@@ -1,4 +1,4 @@
-From b34432cbcbbdfdb06cd3bec345db4bdfd75c75f1 Mon Sep 17 00:00:00 2001
+From 7cd8928f79552001c4a16c8cefeaacf2f29bc671 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:31 +0000
 Subject: Probe FusionIO devices
@@ -14,10 +14,10 @@ Patch-Name: probe_fusionio.patch
  2 files changed, 32 insertions(+)
 
 diff --git a/grub-core/osdep/linux/getroot.c b/grub-core/osdep/linux/getroot.c
-index 10480b646..08e98a1d5 100644
+index 90d92d3ad..7adc0f30e 100644
 --- a/grub-core/osdep/linux/getroot.c
 +++ b/grub-core/osdep/linux/getroot.c
-@@ -921,6 +921,19 @@ grub_util_part_to_disk (const char *os_dev, struct stat *st,
+@@ -950,6 +950,19 @@ grub_util_part_to_disk (const char *os_dev, struct stat *st,
  	  *pp = '\0';
  	  return path;
  	}

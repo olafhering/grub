@@ -1,8 +1,7 @@
-This is grub-dev.info, produced by makeinfo version 6.1 from
+This is grub-dev.info, produced by makeinfo version 6.3 from
 grub-dev.texi.
 
-This developer manual is for GNU GRUB (version 2.02~beta3, 2 September
-2015).
+This developer manual is for GNU GRUB (version 2.02, 2 September 2015).
 
    Copyright (C) 1999,2000,2001,2002,2004,2005,2006,2008,2009,2010,2011
 Free Software Foundation, Inc.
@@ -26,10 +25,10 @@ This is the developer documentation of GNU GRUB, the GRand Unified
 Bootloader, a flexible and powerful boot loader program for a wide range
 of architectures.
 
-   This edition documents version 2.02~beta3.
+   This edition documents version 2.02.
 
-   This developer manual is for GNU GRUB (version 2.02~beta3, 2
-September 2015).
+   This developer manual is for GNU GRUB (version 2.02, 2 September
+2015).
 
    Copyright (C) 1999,2000,2001,2002,2004,2005,2006,2008,2009,2010,2011
 Free Software Foundation, Inc.
@@ -2477,40 +2476,40 @@ Index
 
 
 Tag Table:
-Node: Top647
-Node: Getting the source code1752
-Node: Coding style2713
-Node: Naming Conventions3122
-Node: Functions3407
-Node: Variables4281
-Node: Types5396
-Node: Macros5997
-Node: Comments6329
-Node: Multi-Line Comments7091
-Node: Finding your way around7722
-Node: Contributing Changes11038
-Node: Getting started12128
-Node: Typical Developer Experience16180
-Node: When you are approved for write access to project's files17222
-Node: Porting18655
-Node: Error Handling30418
-Node: Stack and heap size35510
-Node: BIOS port memory map38143
-Node: Video Subsystem38992
-Node: Video API39464
-Node: Example usage of Video API59859
-Node: Bitmap API61433
-Node: PFF2 Font File Format63950
-Node: Introduction64190
-Node: File Structure65693
-Node: Font Metrics70611
-Node: Graphical Menu Software Design71759
-Node: Introduction_272051
-Node: Startup Sequence72785
-Node: GUI Components73636
-Node: Command Line Window76236
-Node: Copying This Manual77188
-Node: GNU Free Documentation License77444
-Node: Index99837
+Node: Top641
+Node: Getting the source code1734
+Node: Coding style2695
+Node: Naming Conventions3104
+Node: Functions3389
+Node: Variables4263
+Node: Types5378
+Node: Macros5979
+Node: Comments6311
+Node: Multi-Line Comments7073
+Node: Finding your way around7704
+Node: Contributing Changes11020
+Node: Getting started12110
+Node: Typical Developer Experience16162
+Node: When you are approved for write access to project's files17204
+Node: Porting18637
+Node: Error Handling30400
+Node: Stack and heap size35492
+Node: BIOS port memory map38125
+Node: Video Subsystem38974
+Node: Video API39446
+Node: Example usage of Video API59841
+Node: Bitmap API61415
+Node: PFF2 Font File Format63932
+Node: Introduction64172
+Node: File Structure65675
+Node: Font Metrics70593
+Node: Graphical Menu Software Design71741
+Node: Introduction_272033
+Node: Startup Sequence72767
+Node: GUI Components73618
+Node: Command Line Window76218
+Node: Copying This Manual77170
+Node: GNU Free Documentation License77426
+Node: Index99819
 
 End Tag Table

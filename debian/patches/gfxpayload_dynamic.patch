@@ -1,4 +1,4 @@
-From b8abd22d1aff08c42d512d8ae749315341fdd2e5 Mon Sep 17 00:00:00 2001
+From 3ddbdf3931d911b8f5bcf1475d09cd43b9dd3569 Mon Sep 17 00:00:00 2001
 From: Evan Broder <evan@ebroder.net>
 Date: Mon, 13 Jan 2014 12:13:29 +0000
 Subject: Add configure option to enable gfxpayload=keep dynamically
@@ -21,10 +21,10 @@ Patch-Name: gfxpayload_dynamic.patch
  create mode 100644 grub-core/commands/i386/pc/hwmatch.c
 
 diff --git a/configure.ac b/configure.ac
-index 48364fe06..622b8fd31 100644
+index e508f9c43..7f1431352 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1819,6 +1819,17 @@ else
+@@ -1852,6 +1852,17 @@ else
  fi
  AC_SUBST([QUICK_BOOT])
  
@@ -43,10 +43,10 @@ index 48364fe06..622b8fd31 100644
  
  AC_SUBST([FONT_SOURCE])
 diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
-index 2344a5e63..6b047109b 100644
+index 68e47a727..3b389277c 100644
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -888,6 +888,15 @@ module = {
+@@ -890,6 +890,15 @@ module = {
  };
  
  module = {
@@ -215,7 +215,7 @@ index 000000000..c9f7c9f19
 +  grub_unregister_command (cmd);
 +}
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index b32cc53b0..402c5629d 100644
+index 0f8a16837..2983b515f 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -23,6 +23,7 @@ datarootdir="@datarootdir@"

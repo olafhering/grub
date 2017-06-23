@@ -1,4 +1,4 @@
-From 1a8f7cf35457d07bc254407cdd1c55db6bd74e7e Mon Sep 17 00:00:00 2001
+From 56c88e431207238935aee7d7245a458ddb21e3d2 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:02 +0000
 Subject: Silence error messages when translations are unavailable

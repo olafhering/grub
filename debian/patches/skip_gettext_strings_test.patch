@@ -1,4 +1,4 @@
-From a9f38d1eca4f43e587f377e1669acbab4d51bfab Mon Sep 17 00:00:00 2001
+From ff320adca75170e3d6d2c67643e41534a82e774e Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:34 +0000
 Subject: Don't run gettext_strings_test

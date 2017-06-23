@@ -1,4 +1,4 @@
-From 48d6a8df47807ae01338f62c86cf800865d5c169 Mon Sep 17 00:00:00 2001
+From 96fe369c97c953db7eadba07e79ecc5c5e221c12 Mon Sep 17 00:00:00 2001
 From: Steve McIntyre <93sam@debian.org>
 Date: Wed, 3 Dec 2014 01:25:12 +0000
 Subject: Add support for forcing EFI installation to the removable media path
@@ -22,7 +22,7 @@ Patch-Name: grub-install-extra-removable.patch
  1 file changed, 108 insertions(+), 2 deletions(-)
 
 diff --git a/util/grub-install.c b/util/grub-install.c
-index 906469b84..d87d228c9 100644
+index 7a24767c1..1fbb4c7da 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
 @@ -56,6 +56,7 @@
@@ -183,7 +183,7 @@ index 906469b84..d87d228c9 100644
        /* The EFI specification requires that an EFI System Partition must
  	 contain an "EFI" subdirectory, and that OS loaders are stored in
  	 subdirectories below EFI.  Vendors are expected to pick names that do
-@@ -1979,9 +2079,15 @@ main (int argc, char *argv[])
+@@ -1980,9 +2080,15 @@ main (int argc, char *argv[])
  	    fprintf (config_dst_f, "configfile $prefix/grub.cfg\n");
  	    fclose (config_dst_f);
  	    free (config_dst);

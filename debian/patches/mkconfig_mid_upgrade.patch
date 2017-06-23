@@ -1,4 +1,4 @@
-From 9862a15899003ccaa652af79f9cfdb4286200ddd Mon Sep 17 00:00:00 2001
+From 2f97dcc8caba3334636240f4417596c5ac27cc00 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:03 +0000
 Subject: Bail out if trying to run grub-mkconfig during upgrade to 2.00
@@ -20,7 +20,7 @@ Patch-Name: mkconfig_mid_upgrade.patch
  1 file changed, 7 insertions(+)
 
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-index acd233c59..4650f4bc8 100644
+index 54fbe5288..99ba7acba 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
 @@ -102,6 +102,13 @@ do

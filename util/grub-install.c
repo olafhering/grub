@@ -2016,6 +2016,7 @@ main (int argc, char *argv[])
 	  free (mach_kernel);
 	  break;
 	}
+      /* FALLTHROUGH */
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
     case GRUB_INSTALL_PLATFORM_ARM64_EFI:
     case GRUB_INSTALL_PLATFORM_IA64_EFI:

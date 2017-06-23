@@ -1,4 +1,4 @@
-From f00d3163dfde3fb528aee59912748d9d25282a69 Mon Sep 17 00:00:00 2001
+From 7c544945b44ec32779bc94548fabfb386bba3b9f Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Sun, 18 Sep 2016 17:26:00 +0100
 Subject: syslinux_test: Fix out-of-tree build handling
@@ -24,10 +24,10 @@ Patch-Name: syslinux-test-out-of-tree.patch
  3 files changed, 25 insertions(+), 25 deletions(-)
 
 diff --git a/Makefile.am b/Makefile.am
-index 00a9663b3..bc9030350 100644
+index 7795baeb6..f0ab1adc3 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -460,9 +460,3 @@ ChangeLog: FORCE
+@@ -473,9 +473,3 @@ ChangeLog: FORCE
  	fi
  
  EXTRA_DIST += ChangeLog ChangeLog-2015

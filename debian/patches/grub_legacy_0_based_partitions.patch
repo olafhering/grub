@@ -1,4 +1,4 @@
-From ae6b104218c594b928fe5f938547b8388756e92e Mon Sep 17 00:00:00 2001
+From 315f8ffc0e37ebc182f0a8e98a77097c507be290 Mon Sep 17 00:00:00 2001
 From: Robert Millan <rmh@aybabtu.com>
 Date: Mon, 13 Jan 2014 12:12:53 +0000
 Subject: Support running grub-probe in grub-legacy's update-grub
@@ -13,7 +13,7 @@ Patch-Name: grub_legacy_0_based_partitions.patch
  1 file changed, 14 insertions(+)
 
 diff --git a/util/getroot.c b/util/getroot.c
-index 92c0d709b..f874be8a9 100644
+index 847406fba..cdd41153c 100644
 --- a/util/getroot.c
 +++ b/util/getroot.c
 @@ -245,6 +245,20 @@ find_partition (grub_disk_t dsk __attribute__ ((unused)),

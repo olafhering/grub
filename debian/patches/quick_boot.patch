@@ -1,4 +1,4 @@
-From a3af3926010288862bffdfa3b9625c73c42ede0d Mon Sep 17 00:00:00 2001
+From 894139cf8b01c322436e4a22c9453bcee9e33619 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:28 +0000
 Subject: Add configure option to bypass boot menu if possible
@@ -33,10 +33,10 @@ Patch-Name: quick_boot.patch
  7 files changed, 141 insertions(+), 13 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 596bbe78e..48364fe06 100644
+index dd2fbd01c..e508f9c43 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1808,6 +1808,17 @@ else
+@@ -1841,6 +1841,17 @@ else
  fi
  AC_SUBST([QUIET_BOOT])
  
@@ -55,7 +55,7 @@ index 596bbe78e..48364fe06 100644
  
  AC_SUBST([FONT_SOURCE])
 diff --git a/docs/grub.texi b/docs/grub.texi
-index 82f6fa459..efe9c6e59 100644
+index e935af33e..5b2a7bbb2 100644
 --- a/docs/grub.texi
 +++ b/docs/grub.texi
 @@ -1490,6 +1490,20 @@ This option may be set to a list of GRUB module names separated by spaces.
@@ -115,7 +115,7 @@ index 1f3447ad3..906a480a2 100644
  	{
  	  pos = grub_term_save_pos ();
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-index c05f0d1f3..2dc9aa8b8 100644
+index b4f0011b5..fac560464 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
 @@ -239,7 +239,8 @@ export GRUB_DEFAULT \
@@ -258,7 +258,7 @@ index 93a90233e..674a76140 100644
  EOF
  }
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index d203c37a6..b32cc53b0 100644
+index 67d57ecfd..0f8a16837 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -22,6 +22,7 @@ exec_prefix="@exec_prefix@"

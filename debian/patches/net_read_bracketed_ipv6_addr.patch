@@ -1,4 +1,4 @@
-From 04ca2e68ad31216cad59129f746a831cdb497a7f Mon Sep 17 00:00:00 2001
+From 63066c4e9412e709f24a332cf69cebb1f63c43c8 Mon Sep 17 00:00:00 2001
 From: Aaron Miller <aaronmiller@fb.com>
 Date: Thu, 27 Oct 2016 17:39:49 -0400
 Subject: net: read bracketed ipv6 addrs and port numbers
@@ -16,7 +16,7 @@ Patch-Name: net_read_bracketed_ipv6_addr.patch
  4 files changed, 110 insertions(+), 11 deletions(-)
 
 diff --git a/grub-core/net/http.c b/grub-core/net/http.c
-index 4684f8b33..6d99051d3 100644
+index 5aa4ad3be..f182d7b87 100644
 --- a/grub-core/net/http.c
 +++ b/grub-core/net/http.c
 @@ -312,12 +312,14 @@ http_establish (struct grub_file *file, grub_off_t offset, int initial)
@@ -60,7 +60,7 @@ index 4684f8b33..6d99051d3 100644
    ptr = nb->tail;
    err = grub_netbuff_put (nb, 
  			  sizeof ("\r\nUser-Agent: " PACKAGE_STRING "\r\n")
-@@ -391,8 +402,10 @@ http_establish (struct grub_file *file, grub_off_t offset, int initial)
+@@ -390,8 +401,10 @@ http_establish (struct grub_file *file, grub_off_t offset, int initial)
    grub_netbuff_put (nb, 2);
    grub_memcpy (ptr, "\r\n", 2);
  
@@ -74,7 +74,7 @@ index 4684f8b33..6d99051d3 100644
  				  file);
    if (!data->sock)
 diff --git a/grub-core/net/net.c b/grub-core/net/net.c
-index 942459527..fdc83fe32 100644
+index 10773fc34..fbac15e0f 100644
 --- a/grub-core/net/net.c
 +++ b/grub-core/net/net.c
 @@ -437,6 +437,12 @@ parse_ip6 (const char *val, grub_uint64_t *ip, const char **rest)

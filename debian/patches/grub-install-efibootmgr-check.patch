@@ -1,4 +1,4 @@
-From 9bf24c661aac96f62a7aef6ee41da4ca5ccf9b7a Mon Sep 17 00:00:00 2001
+From acfe64a39c7bbb82906e09fc5896ce2e12d91f93 Mon Sep 17 00:00:00 2001
 From: Steve McIntyre <93sam@debian.org>
 Date: Mon, 30 Jan 2017 19:04:51 +0000
 Subject: Make grub-install check for errors from efibootmgr
@@ -136,7 +136,7 @@ index 9f517a1bb..58648e209 100644
  			   const char *efifile_path,
  			   const char *efi_distributor);
 diff --git a/util/grub-install.c b/util/grub-install.c
-index d87d228c9..7a7e67eac 100644
+index 1fbb4c7da..04a520481 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
 @@ -2002,9 +2002,13 @@ main (int argc, char *argv[])
@@ -154,7 +154,7 @@ index d87d228c9..7a7e67eac 100644
  	    }
  
  	  grub_device_close (ins_dev);
-@@ -2094,6 +2098,7 @@ main (int argc, char *argv[])
+@@ -2095,6 +2099,7 @@ main (int argc, char *argv[])
  	{
  	  char * efifile_path;
  	  char * part;
@@ -162,7 +162,7 @@ index d87d228c9..7a7e67eac 100644
  
  	  /* Try to make this image bootable using the EFI Boot Manager, if available.  */
  	  if (!efi_distributor || efi_distributor[0] == '\0')
-@@ -2110,8 +2115,11 @@ main (int argc, char *argv[])
+@@ -2111,8 +2116,11 @@ main (int argc, char *argv[])
  			  efidir_grub_dev->disk->name,
  			  (part ? ",": ""), (part ? : ""));
  	  grub_free (part);

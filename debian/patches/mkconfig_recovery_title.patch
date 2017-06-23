@@ -1,4 +1,4 @@
-From 206fab1ded4d804e132cd21a843baf26c7483dc1 Mon Sep 17 00:00:00 2001
+From 9bbef038c5730c0bc67a23592fef0492dffb7fa1 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:33 +0000
 Subject: Add GRUB_RECOVERY_TITLE option
@@ -21,7 +21,7 @@ Patch-Name: mkconfig_recovery_title.patch
  7 files changed, 17 insertions(+), 7 deletions(-)
 
 diff --git a/docs/grub.texi b/docs/grub.texi
-index efe9c6e59..82cf7bbf6 100644
+index 5b2a7bbb2..f1216d19d 100644
 --- a/docs/grub.texi
 +++ b/docs/grub.texi
 @@ -1504,6 +1504,11 @@ a console is restricted or limited.
@@ -37,7 +37,7 @@ index efe9c6e59..82cf7bbf6 100644
  
  The following options are still accepted for compatibility with existing
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-index 2dc9aa8b8..c3ea64d07 100644
+index fac560464..ad716384b 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
 @@ -189,6 +189,10 @@ GRUB_ACTUAL_DEFAULT="$GRUB_DEFAULT"
@@ -90,7 +90,7 @@ index 9d8e8fd85..8301d361a 100644
  	  title="$(gettext_printf "%s, with kFreeBSD %s" "${os}" "${version}")"
        fi
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index c219e3069..788cdc182 100644
+index 18c859214..704e834d5 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -116,7 +116,7 @@ linux_entry ()
@@ -116,7 +116,7 @@ index 874f59969..bb29cc046 100644
  	  title="$(gettext_printf "%s, with kernel %s (via %s)" "${OS}" "$(echo ${kernel} | sed -e 's,^.*/,,')" "${loader}")"
        fi
 diff --git a/util/grub.d/20_linux_xen.in b/util/grub.d/20_linux_xen.in
-index 971e46488..8aab55e93 100644
+index af05bd276..62d663334 100644
 --- a/util/grub.d/20_linux_xen.in
 +++ b/util/grub.d/20_linux_xen.in
 @@ -95,7 +95,7 @@ linux_entry ()

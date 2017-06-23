@@ -1,4 +1,4 @@
-From 547e20d1bb10f8f7d4c9e803822a1716f593f2c6 Mon Sep 17 00:00:00 2001
+From 9ee2ba67375553ec156937aefc98eddd2b5aae8e Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:21 +0000
 Subject: Generate configuration for signed UEFI kernels if available
@@ -12,7 +12,7 @@ Patch-Name: mkconfig_signed_kernel.patch
  1 file changed, 15 insertions(+)
 
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index 13af9ea2e..0e5c550b2 100644
+index 37c248c54..60467460b 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -151,8 +151,16 @@ linux_entry ()

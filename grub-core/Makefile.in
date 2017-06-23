@@ -9254,7 +9254,7 @@ jpeg_module_OBJECTS = $(am_jpeg_module_OBJECTS) \
 jpeg_module_LINK = $(CCLD) $(jpeg_module_CFLAGS) $(CFLAGS) \
 	$(jpeg_module_LDFLAGS) $(LDFLAGS) -o $@
 am__kernel_exec_SOURCES_DIST = kern/arm64/efi/startup.S \
-	kern/arm64/efi/init.c kern/arm64/cache.c \
+	kern/arm64/efi/init.c kern/efi/fdt.c kern/arm64/cache.c \
 	kern/arm64/cache_flush.S kern/arm64/dl.c \
 	kern/arm64/dl_helper.c disk/efi/efidisk.c kern/efi/efi.c \
 	kern/efi/init.c kern/efi/mm.c term/efi/console.c kern/acpi.c \
@@ -9930,6 +9930,7 @@ am__kernel_exec_SOURCES_DIST = kern/arm64/efi/startup.S \
 @COND_arm64_efi_FALSE@@COND_arm_efi_TRUE@am_kernel_exec_OBJECTS = kern/arm/efi/kernel_exec-startup.$(OBJEXT) \
 @COND_arm64_efi_FALSE@@COND_arm_efi_TRUE@	kern/arm/efi/kernel_exec-init.$(OBJEXT) \
 @COND_arm64_efi_FALSE@@COND_arm_efi_TRUE@	kern/arm/efi/kernel_exec-misc.$(OBJEXT) \
+@COND_arm64_efi_FALSE@@COND_arm_efi_TRUE@	kern/efi/kernel_exec-fdt.$(OBJEXT) \
 @COND_arm64_efi_FALSE@@COND_arm_efi_TRUE@	kern/arm/kernel_exec-dl.$(OBJEXT) \
 @COND_arm64_efi_FALSE@@COND_arm_efi_TRUE@	kern/arm/kernel_exec-dl_helper.$(OBJEXT) \
 @COND_arm64_efi_FALSE@@COND_arm_efi_TRUE@	kern/arm/kernel_exec-cache_armv6.$(OBJEXT) \
@@ -9967,6 +9968,7 @@ am__kernel_exec_SOURCES_DIST = kern/arm64/efi/startup.S \
 @COND_arm64_efi_FALSE@@COND_arm_efi_TRUE@	kern/kernel_exec-term.$(OBJEXT)
 @COND_arm64_efi_TRUE@am_kernel_exec_OBJECTS = kern/arm64/efi/kernel_exec-startup.$(OBJEXT) \
 @COND_arm64_efi_TRUE@	kern/arm64/efi/kernel_exec-init.$(OBJEXT) \
+@COND_arm64_efi_TRUE@	kern/efi/kernel_exec-fdt.$(OBJEXT) \
 @COND_arm64_efi_TRUE@	kern/arm64/kernel_exec-cache.$(OBJEXT) \
 @COND_arm64_efi_TRUE@	kern/arm64/kernel_exec-cache_flush.$(OBJEXT) \
 @COND_arm64_efi_TRUE@	kern/arm64/kernel_exec-dl.$(OBJEXT) \
@@ -11106,13 +11108,15 @@ am__relocator_module_SOURCES_DIST = lib/i386/relocator_asm.S \
 	lib/i386/xen/relocator.S lib/xen/relocator.c \
 	lib/mips/relocator_asm.S lib/mips/relocator.c \
 	lib/powerpc/relocator_asm.S lib/powerpc/relocator.c \
-	lib/x86_64/relocator_asm.S lib/x86_64/xen/relocator.S
+	lib/x86_64/efi/relocator.c lib/x86_64/relocator_asm.S \
+	lib/x86_64/xen/relocator.S
 @COND_i386_coreboot_FALSE@@COND_i386_efi_FALSE@@COND_i386_ieee1275_FALSE@@COND_i386_multiboot_FALSE@@COND_i386_pc_FALSE@@COND_i386_qemu_FALSE@@COND_i386_xen_FALSE@@COND_mips_arc_FALSE@@COND_mips_loongson_FALSE@@COND_mips_qemu_mips_FALSE@@COND_powerpc_ieee1275_FALSE@@COND_x86_64_efi_FALSE@@COND_x86_64_xen_TRUE@am_relocator_module_OBJECTS = lib/x86_64/relocator_module-relocator_asm.$(OBJEXT) \
 @COND_i386_coreboot_FALSE@@COND_i386_efi_FALSE@@COND_i386_ieee1275_FALSE@@COND_i386_multiboot_FALSE@@COND_i386_pc_FALSE@@COND_i386_qemu_FALSE@@COND_i386_xen_FALSE@@COND_mips_arc_FALSE@@COND_mips_loongson_FALSE@@COND_mips_qemu_mips_FALSE@@COND_powerpc_ieee1275_FALSE@@COND_x86_64_efi_FALSE@@COND_x86_64_xen_TRUE@	lib/x86_64/xen/relocator_module-relocator.$(OBJEXT) \
 @COND_i386_coreboot_FALSE@@COND_i386_efi_FALSE@@COND_i386_ieee1275_FALSE@@COND_i386_multiboot_FALSE@@COND_i386_pc_FALSE@@COND_i386_qemu_FALSE@@COND_i386_xen_FALSE@@COND_mips_arc_FALSE@@COND_mips_loongson_FALSE@@COND_mips_qemu_mips_FALSE@@COND_powerpc_ieee1275_FALSE@@COND_x86_64_efi_FALSE@@COND_x86_64_xen_TRUE@	lib/xen/relocator_module-relocator.$(OBJEXT) \
 @COND_i386_coreboot_FALSE@@COND_i386_efi_FALSE@@COND_i386_ieee1275_FALSE@@COND_i386_multiboot_FALSE@@COND_i386_pc_FALSE@@COND_i386_qemu_FALSE@@COND_i386_xen_FALSE@@COND_mips_arc_FALSE@@COND_mips_loongson_FALSE@@COND_mips_qemu_mips_FALSE@@COND_powerpc_ieee1275_FALSE@@COND_x86_64_efi_FALSE@@COND_x86_64_xen_TRUE@	lib/i386/relocator_module-relocator_common_c.$(OBJEXT) \
 @COND_i386_coreboot_FALSE@@COND_i386_efi_FALSE@@COND_i386_ieee1275_FALSE@@COND_i386_multiboot_FALSE@@COND_i386_pc_FALSE@@COND_i386_qemu_FALSE@@COND_i386_xen_FALSE@@COND_mips_arc_FALSE@@COND_mips_loongson_FALSE@@COND_mips_qemu_mips_FALSE@@COND_powerpc_ieee1275_FALSE@@COND_x86_64_efi_FALSE@@COND_x86_64_xen_TRUE@	lib/relocator_module-relocator.$(OBJEXT)
-@COND_i386_coreboot_FALSE@@COND_i386_efi_FALSE@@COND_i386_ieee1275_FALSE@@COND_i386_multiboot_FALSE@@COND_i386_pc_FALSE@@COND_i386_qemu_FALSE@@COND_i386_xen_FALSE@@COND_mips_arc_FALSE@@COND_mips_loongson_FALSE@@COND_mips_qemu_mips_FALSE@@COND_powerpc_ieee1275_FALSE@@COND_x86_64_efi_TRUE@am_relocator_module_OBJECTS = lib/x86_64/relocator_module-relocator_asm.$(OBJEXT) \
+@COND_i386_coreboot_FALSE@@COND_i386_efi_FALSE@@COND_i386_ieee1275_FALSE@@COND_i386_multiboot_FALSE@@COND_i386_pc_FALSE@@COND_i386_qemu_FALSE@@COND_i386_xen_FALSE@@COND_mips_arc_FALSE@@COND_mips_loongson_FALSE@@COND_mips_qemu_mips_FALSE@@COND_powerpc_ieee1275_FALSE@@COND_x86_64_efi_TRUE@am_relocator_module_OBJECTS = lib/x86_64/efi/relocator_module-relocator.$(OBJEXT) \
+@COND_i386_coreboot_FALSE@@COND_i386_efi_FALSE@@COND_i386_ieee1275_FALSE@@COND_i386_multiboot_FALSE@@COND_i386_pc_FALSE@@COND_i386_qemu_FALSE@@COND_i386_xen_FALSE@@COND_mips_arc_FALSE@@COND_mips_loongson_FALSE@@COND_mips_qemu_mips_FALSE@@COND_powerpc_ieee1275_FALSE@@COND_x86_64_efi_TRUE@	lib/x86_64/relocator_module-relocator_asm.$(OBJEXT) \
 @COND_i386_coreboot_FALSE@@COND_i386_efi_FALSE@@COND_i386_ieee1275_FALSE@@COND_i386_multiboot_FALSE@@COND_i386_pc_FALSE@@COND_i386_qemu_FALSE@@COND_i386_xen_FALSE@@COND_mips_arc_FALSE@@COND_mips_loongson_FALSE@@COND_mips_qemu_mips_FALSE@@COND_powerpc_ieee1275_FALSE@@COND_x86_64_efi_TRUE@	lib/efi/relocator_module-relocator.$(OBJEXT) \
 @COND_i386_coreboot_FALSE@@COND_i386_efi_FALSE@@COND_i386_ieee1275_FALSE@@COND_i386_multiboot_FALSE@@COND_i386_pc_FALSE@@COND_i386_qemu_FALSE@@COND_i386_xen_FALSE@@COND_mips_arc_FALSE@@COND_mips_loongson_FALSE@@COND_mips_qemu_mips_FALSE@@COND_powerpc_ieee1275_FALSE@@COND_x86_64_efi_TRUE@	lib/i386/relocator_module-relocator16.$(OBJEXT) \
 @COND_i386_coreboot_FALSE@@COND_i386_efi_FALSE@@COND_i386_ieee1275_FALSE@@COND_i386_multiboot_FALSE@@COND_i386_pc_FALSE@@COND_i386_qemu_FALSE@@COND_i386_xen_FALSE@@COND_mips_arc_FALSE@@COND_mips_loongson_FALSE@@COND_mips_qemu_mips_FALSE@@COND_powerpc_ieee1275_FALSE@@COND_x86_64_efi_TRUE@	lib/i386/relocator_module-relocator32.$(OBJEXT) \
@@ -19748,7 +19752,7 @@ pbkdf2_module_DEPENDENCIES = $(TARGET_OBJ2ELF)
 @COND_mips_loongson_TRUE@relocator_module_SOURCES = lib/mips/relocator_asm.S lib/mips/relocator.c lib/relocator.c  ## platform sources
 @COND_mips_qemu_mips_TRUE@relocator_module_SOURCES = lib/mips/relocator_asm.S lib/mips/relocator.c lib/relocator.c  ## platform sources
 @COND_powerpc_ieee1275_TRUE@relocator_module_SOURCES = lib/powerpc/relocator_asm.S lib/powerpc/relocator.c lib/ieee1275/relocator.c lib/relocator.c  ## platform sources
-@COND_x86_64_efi_TRUE@relocator_module_SOURCES = lib/x86_64/relocator_asm.S lib/efi/relocator.c lib/i386/relocator16.S lib/i386/relocator32.S lib/i386/relocator64.S lib/i386/relocator.c lib/i386/relocator_common_c.c lib/relocator.c  ## platform sources
+@COND_x86_64_efi_TRUE@relocator_module_SOURCES = lib/x86_64/efi/relocator.c lib/x86_64/relocator_asm.S lib/efi/relocator.c lib/i386/relocator16.S lib/i386/relocator32.S lib/i386/relocator64.S lib/i386/relocator.c lib/i386/relocator_common_c.c lib/relocator.c  ## platform sources
 @COND_x86_64_xen_TRUE@relocator_module_SOURCES = lib/x86_64/relocator_asm.S lib/x86_64/xen/relocator.S lib/xen/relocator.c lib/i386/relocator_common_c.c lib/relocator.c  ## platform sources
 @COND_i386_coreboot_TRUE@nodist_relocator_module_SOURCES = ## platform nodist sources
 @COND_i386_efi_TRUE@nodist_relocator_module_SOURCES = ## platform nodist sources
@@ -22850,7 +22854,8 @@ gcry_whirlpool_module_CPPFLAGS = $(AM_CPPFLAGS) $(CPPFLAGS_MODULE) $(CPPFLAGS_GC
 gcry_whirlpool_module_CCASFLAGS = $(AM_CCASFLAGS) $(CCASFLAGS_MODULE) 
 gcry_whirlpool_module_DEPENDENCIES = $(TARGET_OBJ2ELF) 
 @COND_arm64_efi_TRUE@kernel_exec_SOURCES = kern/arm64/efi/startup.S \
-@COND_arm64_efi_TRUE@	kern/arm64/efi/init.c kern/arm64/cache.c \
+@COND_arm64_efi_TRUE@	kern/arm64/efi/init.c kern/efi/fdt.c \
+@COND_arm64_efi_TRUE@	kern/arm64/cache.c \
 @COND_arm64_efi_TRUE@	kern/arm64/cache_flush.S kern/arm64/dl.c \
 @COND_arm64_efi_TRUE@	kern/arm64/dl_helper.c disk/efi/efidisk.c \
 @COND_arm64_efi_TRUE@	kern/efi/efi.c kern/efi/init.c \
@@ -22866,8 +22871,8 @@ gcry_whirlpool_module_DEPENDENCIES = $(TARGET_OBJ2ELF)
 @COND_arm64_efi_TRUE@	kern/rescue_reader.c kern/term.c
 @COND_arm_efi_TRUE@kernel_exec_SOURCES = kern/arm/efi/startup.S \
 @COND_arm_efi_TRUE@	kern/arm/efi/init.c kern/arm/efi/misc.c \
-@COND_arm_efi_TRUE@	kern/arm/dl.c kern/arm/dl_helper.c \
-@COND_arm_efi_TRUE@	kern/arm/cache_armv6.S \
+@COND_arm_efi_TRUE@	kern/efi/fdt.c kern/arm/dl.c \
+@COND_arm_efi_TRUE@	kern/arm/dl_helper.c kern/arm/cache_armv6.S \
 @COND_arm_efi_TRUE@	kern/arm/cache_armv7.S kern/arm/cache.c \
 @COND_arm_efi_TRUE@	kern/arm/compiler-rt.S lib/division.c \
 @COND_arm_efi_TRUE@	disk/efi/efidisk.c kern/efi/efi.c \
@@ -25049,6 +25054,14 @@ kern/arm64/efi/kernel_exec-startup.$(OBJEXT):  \
 kern/arm64/efi/kernel_exec-init.$(OBJEXT):  \
 	kern/arm64/efi/$(am__dirstamp) \
 	kern/arm64/efi/$(DEPDIR)/$(am__dirstamp)
+kern/efi/$(am__dirstamp):
+	@$(MKDIR_P) kern/efi
+	@: > kern/efi/$(am__dirstamp)
+kern/efi/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) kern/efi/$(DEPDIR)
+	@: > kern/efi/$(DEPDIR)/$(am__dirstamp)
+kern/efi/kernel_exec-fdt.$(OBJEXT): kern/efi/$(am__dirstamp) \
+	kern/efi/$(DEPDIR)/$(am__dirstamp)
 kern/arm64/$(am__dirstamp):
 	@$(MKDIR_P) kern/arm64
 	@: > kern/arm64/$(am__dirstamp)
@@ -25073,12 +25086,6 @@ disk/efi/$(DEPDIR)/$(am__dirstamp):
 	@: > disk/efi/$(DEPDIR)/$(am__dirstamp)
 disk/efi/kernel_exec-efidisk.$(OBJEXT): disk/efi/$(am__dirstamp) \
 	disk/efi/$(DEPDIR)/$(am__dirstamp)
-kern/efi/$(am__dirstamp):
-	@$(MKDIR_P) kern/efi
-	@: > kern/efi/$(am__dirstamp)
-kern/efi/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) kern/efi/$(DEPDIR)
-	@: > kern/efi/$(DEPDIR)/$(am__dirstamp)
 kern/efi/kernel_exec-efi.$(OBJEXT): kern/efi/$(am__dirstamp) \
 	kern/efi/$(DEPDIR)/$(am__dirstamp)
 kern/efi/kernel_exec-init.$(OBJEXT): kern/efi/$(am__dirstamp) \
@@ -26748,6 +26755,15 @@ lib/powerpc/relocator_module-relocator_asm.$(OBJEXT):  \
 lib/powerpc/relocator_module-relocator.$(OBJEXT):  \
 	lib/powerpc/$(am__dirstamp) \
 	lib/powerpc/$(DEPDIR)/$(am__dirstamp)
+lib/x86_64/efi/$(am__dirstamp):
+	@$(MKDIR_P) lib/x86_64/efi
+	@: > lib/x86_64/efi/$(am__dirstamp)
+lib/x86_64/efi/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) lib/x86_64/efi/$(DEPDIR)
+	@: > lib/x86_64/efi/$(DEPDIR)/$(am__dirstamp)
+lib/x86_64/efi/relocator_module-relocator.$(OBJEXT):  \
+	lib/x86_64/efi/$(am__dirstamp) \
+	lib/x86_64/efi/$(DEPDIR)/$(am__dirstamp)
 lib/x86_64/$(am__dirstamp):
 	@$(MKDIR_P) lib/x86_64
 	@: > lib/x86_64/$(am__dirstamp)
@@ -27544,6 +27560,7 @@ mostlyclean-compile:
 	-rm -f lib/powerpc/*.$(OBJEXT)
 	-rm -f lib/uboot/*.$(OBJEXT)
 	-rm -f lib/x86_64/*.$(OBJEXT)
+	-rm -f lib/x86_64/efi/*.$(OBJEXT)
 	-rm -f lib/x86_64/xen/*.$(OBJEXT)
 	-rm -f lib/xen/*.$(OBJEXT)
 	-rm -f lib/xzembed/*.$(OBJEXT)
@@ -27893,6 +27910,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@kern/arm64/efi/$(DEPDIR)/kernel_exec-startup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@kern/efi/$(DEPDIR)/kernel_exec-acpi.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@kern/efi/$(DEPDIR)/kernel_exec-efi.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@kern/efi/$(DEPDIR)/kernel_exec-fdt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@kern/efi/$(DEPDIR)/kernel_exec-init.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@kern/efi/$(DEPDIR)/kernel_exec-mm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@kern/emu/$(DEPDIR)/grub_emu-full.Po@am__quote@
@@ -28083,6 +28101,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@lib/uboot/$(DEPDIR)/halt_module-halt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lib/uboot/$(DEPDIR)/reboot_module-reboot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lib/x86_64/$(DEPDIR)/relocator_module-relocator_asm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@lib/x86_64/efi/$(DEPDIR)/relocator_module-relocator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lib/x86_64/xen/$(DEPDIR)/relocator_module-relocator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lib/xen/$(DEPDIR)/datetime_module-datetime.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@lib/xen/$(DEPDIR)/halt_module-halt.Po@am__quote@
@@ -31886,6 +31905,20 @@ kern/arm64/efi/kernel_exec-init.obj: kern/arm64/efi/init.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='kern/arm64/efi/init.c' object='kern/arm64/efi/kernel_exec-init.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kernel_exec_CPPFLAGS) $(CPPFLAGS) $(kernel_exec_CFLAGS) $(CFLAGS) -c -o kern/arm64/efi/kernel_exec-init.obj `if test -f 'kern/arm64/efi/init.c'; then $(CYGPATH_W) 'kern/arm64/efi/init.c'; else $(CYGPATH_W) '$(srcdir)/kern/arm64/efi/init.c'; fi`
+
+kern/efi/kernel_exec-fdt.o: kern/efi/fdt.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kernel_exec_CPPFLAGS) $(CPPFLAGS) $(kernel_exec_CFLAGS) $(CFLAGS) -MT kern/efi/kernel_exec-fdt.o -MD -MP -MF kern/efi/$(DEPDIR)/kernel_exec-fdt.Tpo -c -o kern/efi/kernel_exec-fdt.o `test -f 'kern/efi/fdt.c' || echo '$(srcdir)/'`kern/efi/fdt.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) kern/efi/$(DEPDIR)/kernel_exec-fdt.Tpo kern/efi/$(DEPDIR)/kernel_exec-fdt.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='kern/efi/fdt.c' object='kern/efi/kernel_exec-fdt.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kernel_exec_CPPFLAGS) $(CPPFLAGS) $(kernel_exec_CFLAGS) $(CFLAGS) -c -o kern/efi/kernel_exec-fdt.o `test -f 'kern/efi/fdt.c' || echo '$(srcdir)/'`kern/efi/fdt.c
+
+kern/efi/kernel_exec-fdt.obj: kern/efi/fdt.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kernel_exec_CPPFLAGS) $(CPPFLAGS) $(kernel_exec_CFLAGS) $(CFLAGS) -MT kern/efi/kernel_exec-fdt.obj -MD -MP -MF kern/efi/$(DEPDIR)/kernel_exec-fdt.Tpo -c -o kern/efi/kernel_exec-fdt.obj `if test -f 'kern/efi/fdt.c'; then $(CYGPATH_W) 'kern/efi/fdt.c'; else $(CYGPATH_W) '$(srcdir)/kern/efi/fdt.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) kern/efi/$(DEPDIR)/kernel_exec-fdt.Tpo kern/efi/$(DEPDIR)/kernel_exec-fdt.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='kern/efi/fdt.c' object='kern/efi/kernel_exec-fdt.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kernel_exec_CPPFLAGS) $(CPPFLAGS) $(kernel_exec_CFLAGS) $(CFLAGS) -c -o kern/efi/kernel_exec-fdt.obj `if test -f 'kern/efi/fdt.c'; then $(CYGPATH_W) 'kern/efi/fdt.c'; else $(CYGPATH_W) '$(srcdir)/kern/efi/fdt.c'; fi`
 
 kern/arm64/kernel_exec-cache.o: kern/arm64/cache.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(kernel_exec_CPPFLAGS) $(CPPFLAGS) $(kernel_exec_CFLAGS) $(CFLAGS) -MT kern/arm64/kernel_exec-cache.o -MD -MP -MF kern/arm64/$(DEPDIR)/kernel_exec-cache.Tpo -c -o kern/arm64/kernel_exec-cache.o `test -f 'kern/arm64/cache.c' || echo '$(srcdir)/'`kern/arm64/cache.c
@@ -36605,6 +36638,20 @@ lib/powerpc/relocator_module-relocator.obj: lib/powerpc/relocator.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(relocator_module_CPPFLAGS) $(CPPFLAGS) $(relocator_module_CFLAGS) $(CFLAGS) -c -o lib/powerpc/relocator_module-relocator.obj `if test -f 'lib/powerpc/relocator.c'; then $(CYGPATH_W) 'lib/powerpc/relocator.c'; else $(CYGPATH_W) '$(srcdir)/lib/powerpc/relocator.c'; fi`
 
+lib/x86_64/efi/relocator_module-relocator.o: lib/x86_64/efi/relocator.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(relocator_module_CPPFLAGS) $(CPPFLAGS) $(relocator_module_CFLAGS) $(CFLAGS) -MT lib/x86_64/efi/relocator_module-relocator.o -MD -MP -MF lib/x86_64/efi/$(DEPDIR)/relocator_module-relocator.Tpo -c -o lib/x86_64/efi/relocator_module-relocator.o `test -f 'lib/x86_64/efi/relocator.c' || echo '$(srcdir)/'`lib/x86_64/efi/relocator.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) lib/x86_64/efi/$(DEPDIR)/relocator_module-relocator.Tpo lib/x86_64/efi/$(DEPDIR)/relocator_module-relocator.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='lib/x86_64/efi/relocator.c' object='lib/x86_64/efi/relocator_module-relocator.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(relocator_module_CPPFLAGS) $(CPPFLAGS) $(relocator_module_CFLAGS) $(CFLAGS) -c -o lib/x86_64/efi/relocator_module-relocator.o `test -f 'lib/x86_64/efi/relocator.c' || echo '$(srcdir)/'`lib/x86_64/efi/relocator.c
+
+lib/x86_64/efi/relocator_module-relocator.obj: lib/x86_64/efi/relocator.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(relocator_module_CPPFLAGS) $(CPPFLAGS) $(relocator_module_CFLAGS) $(CFLAGS) -MT lib/x86_64/efi/relocator_module-relocator.obj -MD -MP -MF lib/x86_64/efi/$(DEPDIR)/relocator_module-relocator.Tpo -c -o lib/x86_64/efi/relocator_module-relocator.obj `if test -f 'lib/x86_64/efi/relocator.c'; then $(CYGPATH_W) 'lib/x86_64/efi/relocator.c'; else $(CYGPATH_W) '$(srcdir)/lib/x86_64/efi/relocator.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) lib/x86_64/efi/$(DEPDIR)/relocator_module-relocator.Tpo lib/x86_64/efi/$(DEPDIR)/relocator_module-relocator.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='lib/x86_64/efi/relocator.c' object='lib/x86_64/efi/relocator_module-relocator.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(relocator_module_CPPFLAGS) $(CPPFLAGS) $(relocator_module_CFLAGS) $(CFLAGS) -c -o lib/x86_64/efi/relocator_module-relocator.obj `if test -f 'lib/x86_64/efi/relocator.c'; then $(CYGPATH_W) 'lib/x86_64/efi/relocator.c'; else $(CYGPATH_W) '$(srcdir)/lib/x86_64/efi/relocator.c'; fi`
+
 fs/romfs_module-romfs.o: fs/romfs.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(romfs_module_CPPFLAGS) $(CPPFLAGS) $(romfs_module_CFLAGS) $(CFLAGS) -MT fs/romfs_module-romfs.o -MD -MP -MF fs/$(DEPDIR)/romfs_module-romfs.Tpo -c -o fs/romfs_module-romfs.o `test -f 'fs/romfs.c' || echo '$(srcdir)/'`fs/romfs.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) fs/$(DEPDIR)/romfs_module-romfs.Tpo fs/$(DEPDIR)/romfs_module-romfs.Po
@@ -38518,6 +38565,8 @@ distclean-generic:
 	-rm -f lib/uboot/$(am__dirstamp)
 	-rm -f lib/x86_64/$(DEPDIR)/$(am__dirstamp)
 	-rm -f lib/x86_64/$(am__dirstamp)
+	-rm -f lib/x86_64/efi/$(DEPDIR)/$(am__dirstamp)
+	-rm -f lib/x86_64/efi/$(am__dirstamp)
 	-rm -f lib/x86_64/xen/$(DEPDIR)/$(am__dirstamp)
 	-rm -f lib/x86_64/xen/$(am__dirstamp)
 	-rm -f lib/xen/$(DEPDIR)/$(am__dirstamp)
@@ -38626,7 +38675,7 @@ clean-am: clean-binPROGRAMS clean-checkPROGRAMS clean-generic \
 	clean-platformPROGRAMS clean-sbinPROGRAMS mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR) boot/decompressor/$(DEPDIR) boot/i386/pc/$(DEPDIR) boot/i386/qemu/$(DEPDIR) boot/mips/$(DEPDIR) boot/mips/loongson/$(DEPDIR) boot/sparc64/ieee1275/$(DEPDIR) bus/$(DEPDIR) bus/emu/$(DEPDIR) bus/i386/ieee1275/$(DEPDIR) bus/usb/$(DEPDIR) bus/usb/serial/$(DEPDIR) commands/$(DEPDIR) commands/arc/$(DEPDIR) commands/efi/$(DEPDIR) commands/i386/$(DEPDIR) commands/i386/coreboot/$(DEPDIR) commands/i386/pc/$(DEPDIR) commands/ieee1275/$(DEPDIR) commands/mips/loongson/$(DEPDIR) commands/xen/$(DEPDIR) disk/$(DEPDIR) disk/arc/$(DEPDIR) disk/efi/$(DEPDIR) disk/i386/pc/$(DEPDIR) disk/ieee1275/$(DEPDIR) disk/uboot/$(DEPDIR) disk/xen/$(DEPDIR) efiemu/$(DEPDIR) efiemu/i386/$(DEPDIR) efiemu/i386/pc/$(DEPDIR) font/$(DEPDIR) fs/$(DEPDIR) fs/zfs/$(DEPDIR) gdb/$(DEPDIR) gdb/i386/$(DEPDIR) gettext/$(DEPDIR) gfxmenu/$(DEPDIR) gnulib/$(DEPDIR) hello/$(DEPDIR) hook/$(DEPDIR) io/$(DEPDIR) kern/$(DEPDIR) kern/arm/$(DEPDIR) kern/arm/efi/$(DEPDIR) kern/arm/uboot/$(DEPDIR) kern/arm64/$(DEPDIR) kern/arm64/efi/$(DEPDIR) kern/efi/$(DEPDIR) kern/emu/$(DEPDIR) kern/generic/$(DEPDIR) kern/i386/$(DEPDIR) kern/i386/coreboot/$(DEPDIR) kern/i386/efi/$(DEPDIR) kern/i386/ieee1275/$(DEPDIR) kern/i386/pc/$(DEPDIR) kern/i386/qemu/$(DEPDIR) kern/i386/xen/$(DEPDIR) kern/ia64/$(DEPDIR) kern/ia64/efi/$(DEPDIR) kern/ieee1275/$(DEPDIR) kern/mips/$(DEPDIR) kern/mips/arc/$(DEPDIR) kern/mips/loongson/$(DEPDIR) kern/mips/qemu_mips/$(DEPDIR) kern/powerpc/$(DEPDIR) kern/powerpc/ieee1275/$(DEPDIR) kern/sparc64/$(DEPDIR) kern/sparc64/ieee1275/$(DEPDIR) kern/uboot/$(DEPDIR) kern/x86_64/$(DEPDIR) kern/x86_64/efi/$(DEPDIR) kern/x86_64/xen/$(DEPDIR) kern/xen/$(DEPDIR) lib/$(DEPDIR) lib/arc/$(DEPDIR) lib/efi/$(DEPDIR) lib/emu/$(DEPDIR) lib/i386/$(DEPDIR) lib/i386/pc/$(DEPDIR) lib/i386/xen/$(DEPDIR) lib/ieee1275/$(DEPDIR) lib/libgcrypt-grub/cipher/$(DEPDIR) lib/libgcrypt-grub/mpi/$(DEPDIR) lib/libgcrypt_wrap/$(DEPDIR) lib/minilzo/$(DEPDIR) lib/mips/$(DEPDIR) lib/mips/arc/$(DEPDIR) lib/mips/loongson/$(DEPDIR) lib/mips/qemu_mips/$(DEPDIR) lib/powerpc/$(DEPDIR) lib/uboot/$(DEPDIR) lib/x86_64/$(DEPDIR) lib/x86_64/xen/$(DEPDIR) lib/xen/$(DEPDIR) lib/xzembed/$(DEPDIR) loader/$(DEPDIR) loader/arm/$(DEPDIR) loader/arm64/$(DEPDIR) loader/efi/$(DEPDIR) loader/i386/$(DEPDIR) loader/i386/coreboot/$(DEPDIR) loader/i386/pc/$(DEPDIR) loader/ia64/efi/$(DEPDIR) loader/mips/$(DEPDIR) loader/powerpc/ieee1275/$(DEPDIR) loader/sparc64/ieee1275/$(DEPDIR) mmap/$(DEPDIR) mmap/efi/$(DEPDIR) mmap/i386/$(DEPDIR) mmap/i386/pc/$(DEPDIR) mmap/mips/$(DEPDIR) net/$(DEPDIR) net/drivers/efi/$(DEPDIR) net/drivers/emu/$(DEPDIR) net/drivers/i386/pc/$(DEPDIR) net/drivers/ieee1275/$(DEPDIR) net/drivers/uboot/$(DEPDIR) normal/$(DEPDIR) osdep/$(DEPDIR) osdep/devmapper/$(DEPDIR) osdep/unix/$(DEPDIR) partmap/$(DEPDIR) parttool/$(DEPDIR) script/$(DEPDIR) term/$(DEPDIR) term/arc/$(DEPDIR) term/efi/$(DEPDIR) term/i386/coreboot/$(DEPDIR) term/i386/pc/$(DEPDIR) term/ieee1275/$(DEPDIR) term/uboot/$(DEPDIR) term/xen/$(DEPDIR) tests/$(DEPDIR) tests/lib/$(DEPDIR) video/$(DEPDIR) video/emu/$(DEPDIR) video/fb/$(DEPDIR) video/i386/coreboot/$(DEPDIR) video/i386/pc/$(DEPDIR) video/readers/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) boot/decompressor/$(DEPDIR) boot/i386/pc/$(DEPDIR) boot/i386/qemu/$(DEPDIR) boot/mips/$(DEPDIR) boot/mips/loongson/$(DEPDIR) boot/sparc64/ieee1275/$(DEPDIR) bus/$(DEPDIR) bus/emu/$(DEPDIR) bus/i386/ieee1275/$(DEPDIR) bus/usb/$(DEPDIR) bus/usb/serial/$(DEPDIR) commands/$(DEPDIR) commands/arc/$(DEPDIR) commands/efi/$(DEPDIR) commands/i386/$(DEPDIR) commands/i386/coreboot/$(DEPDIR) commands/i386/pc/$(DEPDIR) commands/ieee1275/$(DEPDIR) commands/mips/loongson/$(DEPDIR) commands/xen/$(DEPDIR) disk/$(DEPDIR) disk/arc/$(DEPDIR) disk/efi/$(DEPDIR) disk/i386/pc/$(DEPDIR) disk/ieee1275/$(DEPDIR) disk/uboot/$(DEPDIR) disk/xen/$(DEPDIR) efiemu/$(DEPDIR) efiemu/i386/$(DEPDIR) efiemu/i386/pc/$(DEPDIR) font/$(DEPDIR) fs/$(DEPDIR) fs/zfs/$(DEPDIR) gdb/$(DEPDIR) gdb/i386/$(DEPDIR) gettext/$(DEPDIR) gfxmenu/$(DEPDIR) gnulib/$(DEPDIR) hello/$(DEPDIR) hook/$(DEPDIR) io/$(DEPDIR) kern/$(DEPDIR) kern/arm/$(DEPDIR) kern/arm/efi/$(DEPDIR) kern/arm/uboot/$(DEPDIR) kern/arm64/$(DEPDIR) kern/arm64/efi/$(DEPDIR) kern/efi/$(DEPDIR) kern/emu/$(DEPDIR) kern/generic/$(DEPDIR) kern/i386/$(DEPDIR) kern/i386/coreboot/$(DEPDIR) kern/i386/efi/$(DEPDIR) kern/i386/ieee1275/$(DEPDIR) kern/i386/pc/$(DEPDIR) kern/i386/qemu/$(DEPDIR) kern/i386/xen/$(DEPDIR) kern/ia64/$(DEPDIR) kern/ia64/efi/$(DEPDIR) kern/ieee1275/$(DEPDIR) kern/mips/$(DEPDIR) kern/mips/arc/$(DEPDIR) kern/mips/loongson/$(DEPDIR) kern/mips/qemu_mips/$(DEPDIR) kern/powerpc/$(DEPDIR) kern/powerpc/ieee1275/$(DEPDIR) kern/sparc64/$(DEPDIR) kern/sparc64/ieee1275/$(DEPDIR) kern/uboot/$(DEPDIR) kern/x86_64/$(DEPDIR) kern/x86_64/efi/$(DEPDIR) kern/x86_64/xen/$(DEPDIR) kern/xen/$(DEPDIR) lib/$(DEPDIR) lib/arc/$(DEPDIR) lib/efi/$(DEPDIR) lib/emu/$(DEPDIR) lib/i386/$(DEPDIR) lib/i386/pc/$(DEPDIR) lib/i386/xen/$(DEPDIR) lib/ieee1275/$(DEPDIR) lib/libgcrypt-grub/cipher/$(DEPDIR) lib/libgcrypt-grub/mpi/$(DEPDIR) lib/libgcrypt_wrap/$(DEPDIR) lib/minilzo/$(DEPDIR) lib/mips/$(DEPDIR) lib/mips/arc/$(DEPDIR) lib/mips/loongson/$(DEPDIR) lib/mips/qemu_mips/$(DEPDIR) lib/powerpc/$(DEPDIR) lib/uboot/$(DEPDIR) lib/x86_64/$(DEPDIR) lib/x86_64/efi/$(DEPDIR) lib/x86_64/xen/$(DEPDIR) lib/xen/$(DEPDIR) lib/xzembed/$(DEPDIR) loader/$(DEPDIR) loader/arm/$(DEPDIR) loader/arm64/$(DEPDIR) loader/efi/$(DEPDIR) loader/i386/$(DEPDIR) loader/i386/coreboot/$(DEPDIR) loader/i386/pc/$(DEPDIR) loader/ia64/efi/$(DEPDIR) loader/mips/$(DEPDIR) loader/powerpc/ieee1275/$(DEPDIR) loader/sparc64/ieee1275/$(DEPDIR) mmap/$(DEPDIR) mmap/efi/$(DEPDIR) mmap/i386/$(DEPDIR) mmap/i386/pc/$(DEPDIR) mmap/mips/$(DEPDIR) net/$(DEPDIR) net/drivers/efi/$(DEPDIR) net/drivers/emu/$(DEPDIR) net/drivers/i386/pc/$(DEPDIR) net/drivers/ieee1275/$(DEPDIR) net/drivers/uboot/$(DEPDIR) normal/$(DEPDIR) osdep/$(DEPDIR) osdep/devmapper/$(DEPDIR) osdep/unix/$(DEPDIR) partmap/$(DEPDIR) parttool/$(DEPDIR) script/$(DEPDIR) term/$(DEPDIR) term/arc/$(DEPDIR) term/efi/$(DEPDIR) term/i386/coreboot/$(DEPDIR) term/i386/pc/$(DEPDIR) term/ieee1275/$(DEPDIR) term/uboot/$(DEPDIR) term/xen/$(DEPDIR) tests/$(DEPDIR) tests/lib/$(DEPDIR) video/$(DEPDIR) video/emu/$(DEPDIR) video/fb/$(DEPDIR) video/i386/coreboot/$(DEPDIR) video/i386/pc/$(DEPDIR) video/readers/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -38675,7 +38724,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR) boot/decompressor/$(DEPDIR) boot/i386/pc/$(DEPDIR) boot/i386/qemu/$(DEPDIR) boot/mips/$(DEPDIR) boot/mips/loongson/$(DEPDIR) boot/sparc64/ieee1275/$(DEPDIR) bus/$(DEPDIR) bus/emu/$(DEPDIR) bus/i386/ieee1275/$(DEPDIR) bus/usb/$(DEPDIR) bus/usb/serial/$(DEPDIR) commands/$(DEPDIR) commands/arc/$(DEPDIR) commands/efi/$(DEPDIR) commands/i386/$(DEPDIR) commands/i386/coreboot/$(DEPDIR) commands/i386/pc/$(DEPDIR) commands/ieee1275/$(DEPDIR) commands/mips/loongson/$(DEPDIR) commands/xen/$(DEPDIR) disk/$(DEPDIR) disk/arc/$(DEPDIR) disk/efi/$(DEPDIR) disk/i386/pc/$(DEPDIR) disk/ieee1275/$(DEPDIR) disk/uboot/$(DEPDIR) disk/xen/$(DEPDIR) efiemu/$(DEPDIR) efiemu/i386/$(DEPDIR) efiemu/i386/pc/$(DEPDIR) font/$(DEPDIR) fs/$(DEPDIR) fs/zfs/$(DEPDIR) gdb/$(DEPDIR) gdb/i386/$(DEPDIR) gettext/$(DEPDIR) gfxmenu/$(DEPDIR) gnulib/$(DEPDIR) hello/$(DEPDIR) hook/$(DEPDIR) io/$(DEPDIR) kern/$(DEPDIR) kern/arm/$(DEPDIR) kern/arm/efi/$(DEPDIR) kern/arm/uboot/$(DEPDIR) kern/arm64/$(DEPDIR) kern/arm64/efi/$(DEPDIR) kern/efi/$(DEPDIR) kern/emu/$(DEPDIR) kern/generic/$(DEPDIR) kern/i386/$(DEPDIR) kern/i386/coreboot/$(DEPDIR) kern/i386/efi/$(DEPDIR) kern/i386/ieee1275/$(DEPDIR) kern/i386/pc/$(DEPDIR) kern/i386/qemu/$(DEPDIR) kern/i386/xen/$(DEPDIR) kern/ia64/$(DEPDIR) kern/ia64/efi/$(DEPDIR) kern/ieee1275/$(DEPDIR) kern/mips/$(DEPDIR) kern/mips/arc/$(DEPDIR) kern/mips/loongson/$(DEPDIR) kern/mips/qemu_mips/$(DEPDIR) kern/powerpc/$(DEPDIR) kern/powerpc/ieee1275/$(DEPDIR) kern/sparc64/$(DEPDIR) kern/sparc64/ieee1275/$(DEPDIR) kern/uboot/$(DEPDIR) kern/x86_64/$(DEPDIR) kern/x86_64/efi/$(DEPDIR) kern/x86_64/xen/$(DEPDIR) kern/xen/$(DEPDIR) lib/$(DEPDIR) lib/arc/$(DEPDIR) lib/efi/$(DEPDIR) lib/emu/$(DEPDIR) lib/i386/$(DEPDIR) lib/i386/pc/$(DEPDIR) lib/i386/xen/$(DEPDIR) lib/ieee1275/$(DEPDIR) lib/libgcrypt-grub/cipher/$(DEPDIR) lib/libgcrypt-grub/mpi/$(DEPDIR) lib/libgcrypt_wrap/$(DEPDIR) lib/minilzo/$(DEPDIR) lib/mips/$(DEPDIR) lib/mips/arc/$(DEPDIR) lib/mips/loongson/$(DEPDIR) lib/mips/qemu_mips/$(DEPDIR) lib/powerpc/$(DEPDIR) lib/uboot/$(DEPDIR) lib/x86_64/$(DEPDIR) lib/x86_64/xen/$(DEPDIR) lib/xen/$(DEPDIR) lib/xzembed/$(DEPDIR) loader/$(DEPDIR) loader/arm/$(DEPDIR) loader/arm64/$(DEPDIR) loader/efi/$(DEPDIR) loader/i386/$(DEPDIR) loader/i386/coreboot/$(DEPDIR) loader/i386/pc/$(DEPDIR) loader/ia64/efi/$(DEPDIR) loader/mips/$(DEPDIR) loader/powerpc/ieee1275/$(DEPDIR) loader/sparc64/ieee1275/$(DEPDIR) mmap/$(DEPDIR) mmap/efi/$(DEPDIR) mmap/i386/$(DEPDIR) mmap/i386/pc/$(DEPDIR) mmap/mips/$(DEPDIR) net/$(DEPDIR) net/drivers/efi/$(DEPDIR) net/drivers/emu/$(DEPDIR) net/drivers/i386/pc/$(DEPDIR) net/drivers/ieee1275/$(DEPDIR) net/drivers/uboot/$(DEPDIR) normal/$(DEPDIR) osdep/$(DEPDIR) osdep/devmapper/$(DEPDIR) osdep/unix/$(DEPDIR) partmap/$(DEPDIR) parttool/$(DEPDIR) script/$(DEPDIR) term/$(DEPDIR) term/arc/$(DEPDIR) term/efi/$(DEPDIR) term/i386/coreboot/$(DEPDIR) term/i386/pc/$(DEPDIR) term/ieee1275/$(DEPDIR) term/uboot/$(DEPDIR) term/xen/$(DEPDIR) tests/$(DEPDIR) tests/lib/$(DEPDIR) video/$(DEPDIR) video/emu/$(DEPDIR) video/fb/$(DEPDIR) video/i386/coreboot/$(DEPDIR) video/i386/pc/$(DEPDIR) video/readers/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) boot/decompressor/$(DEPDIR) boot/i386/pc/$(DEPDIR) boot/i386/qemu/$(DEPDIR) boot/mips/$(DEPDIR) boot/mips/loongson/$(DEPDIR) boot/sparc64/ieee1275/$(DEPDIR) bus/$(DEPDIR) bus/emu/$(DEPDIR) bus/i386/ieee1275/$(DEPDIR) bus/usb/$(DEPDIR) bus/usb/serial/$(DEPDIR) commands/$(DEPDIR) commands/arc/$(DEPDIR) commands/efi/$(DEPDIR) commands/i386/$(DEPDIR) commands/i386/coreboot/$(DEPDIR) commands/i386/pc/$(DEPDIR) commands/ieee1275/$(DEPDIR) commands/mips/loongson/$(DEPDIR) commands/xen/$(DEPDIR) disk/$(DEPDIR) disk/arc/$(DEPDIR) disk/efi/$(DEPDIR) disk/i386/pc/$(DEPDIR) disk/ieee1275/$(DEPDIR) disk/uboot/$(DEPDIR) disk/xen/$(DEPDIR) efiemu/$(DEPDIR) efiemu/i386/$(DEPDIR) efiemu/i386/pc/$(DEPDIR) font/$(DEPDIR) fs/$(DEPDIR) fs/zfs/$(DEPDIR) gdb/$(DEPDIR) gdb/i386/$(DEPDIR) gettext/$(DEPDIR) gfxmenu/$(DEPDIR) gnulib/$(DEPDIR) hello/$(DEPDIR) hook/$(DEPDIR) io/$(DEPDIR) kern/$(DEPDIR) kern/arm/$(DEPDIR) kern/arm/efi/$(DEPDIR) kern/arm/uboot/$(DEPDIR) kern/arm64/$(DEPDIR) kern/arm64/efi/$(DEPDIR) kern/efi/$(DEPDIR) kern/emu/$(DEPDIR) kern/generic/$(DEPDIR) kern/i386/$(DEPDIR) kern/i386/coreboot/$(DEPDIR) kern/i386/efi/$(DEPDIR) kern/i386/ieee1275/$(DEPDIR) kern/i386/pc/$(DEPDIR) kern/i386/qemu/$(DEPDIR) kern/i386/xen/$(DEPDIR) kern/ia64/$(DEPDIR) kern/ia64/efi/$(DEPDIR) kern/ieee1275/$(DEPDIR) kern/mips/$(DEPDIR) kern/mips/arc/$(DEPDIR) kern/mips/loongson/$(DEPDIR) kern/mips/qemu_mips/$(DEPDIR) kern/powerpc/$(DEPDIR) kern/powerpc/ieee1275/$(DEPDIR) kern/sparc64/$(DEPDIR) kern/sparc64/ieee1275/$(DEPDIR) kern/uboot/$(DEPDIR) kern/x86_64/$(DEPDIR) kern/x86_64/efi/$(DEPDIR) kern/x86_64/xen/$(DEPDIR) kern/xen/$(DEPDIR) lib/$(DEPDIR) lib/arc/$(DEPDIR) lib/efi/$(DEPDIR) lib/emu/$(DEPDIR) lib/i386/$(DEPDIR) lib/i386/pc/$(DEPDIR) lib/i386/xen/$(DEPDIR) lib/ieee1275/$(DEPDIR) lib/libgcrypt-grub/cipher/$(DEPDIR) lib/libgcrypt-grub/mpi/$(DEPDIR) lib/libgcrypt_wrap/$(DEPDIR) lib/minilzo/$(DEPDIR) lib/mips/$(DEPDIR) lib/mips/arc/$(DEPDIR) lib/mips/loongson/$(DEPDIR) lib/mips/qemu_mips/$(DEPDIR) lib/powerpc/$(DEPDIR) lib/uboot/$(DEPDIR) lib/x86_64/$(DEPDIR) lib/x86_64/efi/$(DEPDIR) lib/x86_64/xen/$(DEPDIR) lib/xen/$(DEPDIR) lib/xzembed/$(DEPDIR) loader/$(DEPDIR) loader/arm/$(DEPDIR) loader/arm64/$(DEPDIR) loader/efi/$(DEPDIR) loader/i386/$(DEPDIR) loader/i386/coreboot/$(DEPDIR) loader/i386/pc/$(DEPDIR) loader/ia64/efi/$(DEPDIR) loader/mips/$(DEPDIR) loader/powerpc/ieee1275/$(DEPDIR) loader/sparc64/ieee1275/$(DEPDIR) mmap/$(DEPDIR) mmap/efi/$(DEPDIR) mmap/i386/$(DEPDIR) mmap/i386/pc/$(DEPDIR) mmap/mips/$(DEPDIR) net/$(DEPDIR) net/drivers/efi/$(DEPDIR) net/drivers/emu/$(DEPDIR) net/drivers/i386/pc/$(DEPDIR) net/drivers/ieee1275/$(DEPDIR) net/drivers/uboot/$(DEPDIR) normal/$(DEPDIR) osdep/$(DEPDIR) osdep/devmapper/$(DEPDIR) osdep/unix/$(DEPDIR) partmap/$(DEPDIR) parttool/$(DEPDIR) script/$(DEPDIR) term/$(DEPDIR) term/arc/$(DEPDIR) term/efi/$(DEPDIR) term/i386/coreboot/$(DEPDIR) term/i386/pc/$(DEPDIR) term/ieee1275/$(DEPDIR) term/uboot/$(DEPDIR) term/xen/$(DEPDIR) tests/$(DEPDIR) tests/lib/$(DEPDIR) video/$(DEPDIR) video/emu/$(DEPDIR) video/fb/$(DEPDIR) video/i386/coreboot/$(DEPDIR) video/i386/pc/$(DEPDIR) video/readers/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

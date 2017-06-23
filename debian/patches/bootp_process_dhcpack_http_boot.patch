@@ -1,4 +1,4 @@
-From cddc94b4a43ca6a8d8ffdbfaf1f50dd33be8f1ae Mon Sep 17 00:00:00 2001
+From d7f0859d18054be5bb1c762366ac860589d86759 Mon Sep 17 00:00:00 2001
 From: Michael Chang <mchang@suse.com>
 Date: Thu, 27 Oct 2016 17:42:19 -0400
 Subject: bootp: Add processing DHCPACK packet from HTTP Boot
@@ -24,7 +24,7 @@ Patch-Name: bootp_process_dhcpack_http_boot.patch
  2 files changed, 66 insertions(+), 2 deletions(-)
 
 diff --git a/grub-core/net/bootp.c b/grub-core/net/bootp.c
-index a70b4de06..802ce7bad 100644
+index 172528ee8..de9239c16 100644
 --- a/grub-core/net/bootp.c
 +++ b/grub-core/net/bootp.c
 @@ -207,6 +207,11 @@ parse_dhcp_vendor (const char *name, const void *vend, int limit, int *mask)
@@ -39,7 +39,7 @@ index a70b4de06..802ce7bad 100644
  	case GRUB_NET_BOOTP_EXTENSIONS_PATH:
            grub_env_set_net_property (name, "extensionspath", (const char *) ptr,
                                       taglength);
-@@ -278,6 +283,66 @@ grub_net_configure_by_dhcp_ack (const char *name,
+@@ -282,6 +287,66 @@ grub_net_configure_by_dhcp_ack (const char *name,
      }
  #endif
  
@@ -106,7 +106,7 @@ index a70b4de06..802ce7bad 100644
    if (size > OFFSET_OF (boot_file, bp))
      grub_env_set_net_property (name, "boot_file", bp->boot_file,
                                 sizeof (bp->boot_file));
-@@ -339,8 +404,6 @@ grub_net_configure_by_dhcp_ack (const char *name,
+@@ -346,8 +411,6 @@ grub_net_configure_by_dhcp_ack (const char *name,
  	    **path = 0;
  	}
      }

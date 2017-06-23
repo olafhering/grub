@@ -1,4 +1,4 @@
-From 104a8e22f4a4a9fddf59c76c151f8d3b85cdb649 Mon Sep 17 00:00:00 2001
+From 91205616b4dee83f428e015862e19c318dae768d Mon Sep 17 00:00:00 2001
 From: Matthew Garrett <mjg@redhat.com>
 Date: Mon, 13 Jan 2014 12:13:09 +0000
 Subject: Don't permit loading modules on UEFI secure boot
@@ -47,7 +47,7 @@ index e394cd96f..b6535155b 100644
  
    file = grub_file_open (filename);
 diff --git a/grub-core/kern/efi/efi.c b/grub-core/kern/efi/efi.c
-index caf9bcc41..043348b99 100644
+index d467785fc..b677bd280 100644
 --- a/grub-core/kern/efi/efi.c
 +++ b/grub-core/kern/efi/efi.c
 @@ -264,6 +264,34 @@ grub_efi_get_variable (const char *var, const grub_efi_guid_t *guid,
@@ -86,7 +86,7 @@ index caf9bcc41..043348b99 100644
  
  /* Search the mods section from the PE32/PE32+ image. This code uses
 diff --git a/include/grub/efi/efi.h b/include/grub/efi/efi.h
-index 0e6fd86b0..1b8f88f09 100644
+index e9c601f34..5e87950fd 100644
 --- a/include/grub/efi/efi.h
 +++ b/include/grub/efi/efi.h
 @@ -73,6 +73,7 @@ EXPORT_FUNC (grub_efi_set_variable) (const char *var,

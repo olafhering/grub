@@ -1,4 +1,4 @@
-From b33ee019ee758836be1547c81a65a32eb18f1f57 Mon Sep 17 00:00:00 2001
+From 1380980ef4628419f06a03294246692b29c632b1 Mon Sep 17 00:00:00 2001
 From: Ian Campbell <ijc@hellion.org.uk>
 Date: Sat, 6 Sep 2014 12:20:12 +0100
 Subject: grub-install: Install PV Xen binaries into the upstream specified
@@ -28,10 +28,10 @@ v2: Respect bootdir, create /boot/xen as needed.
  1 file changed, 22 insertions(+), 2 deletions(-)
 
 diff --git a/util/grub-install.c b/util/grub-install.c
-index 3261da261..906469b84 100644
+index 57d6aab76..7a24767c1 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
-@@ -2009,6 +2009,28 @@ main (int argc, char *argv[])
+@@ -2010,6 +2010,28 @@ main (int argc, char *argv[])
  	}
        break;
  
@@ -60,7 +60,7 @@ index 3261da261..906469b84 100644
      case GRUB_INSTALL_PLATFORM_MIPSEL_LOONGSON:
      case GRUB_INSTALL_PLATFORM_MIPSEL_QEMU_MIPS:
      case GRUB_INSTALL_PLATFORM_MIPS_QEMU_MIPS:
-@@ -2017,8 +2039,6 @@ main (int argc, char *argv[])
+@@ -2018,8 +2040,6 @@ main (int argc, char *argv[])
      case GRUB_INSTALL_PLATFORM_MIPSEL_ARC:
      case GRUB_INSTALL_PLATFORM_ARM_UBOOT:
      case GRUB_INSTALL_PLATFORM_I386_QEMU:

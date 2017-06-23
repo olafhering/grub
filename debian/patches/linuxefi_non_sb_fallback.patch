@@ -1,4 +1,4 @@
-From e022bb4a1aef299debfbb9dbe85413303d71e77f Mon Sep 17 00:00:00 2001
+From 0130137e1249b6d1a08af7721416c21ae6c46908 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:20 +0000
 Subject: If running under UEFI secure boot, attempt to use linuxefi loader
@@ -27,7 +27,7 @@ index ff293166c..de4471bc8 100644
        goto fail;
      }
 diff --git a/grub-core/loader/i386/linux.c b/grub-core/loader/i386/linux.c
-index fddcc461d..3897f7ad4 100644
+index 083f9417c..4dcd213b6 100644
 --- a/grub-core/loader/i386/linux.c
 +++ b/grub-core/loader/i386/linux.c
 @@ -75,6 +75,8 @@ static grub_size_t maximal_cmdline_size;
@@ -81,7 +81,7 @@ index fddcc461d..3897f7ad4 100644
    if (argc == 0)
      {
        grub_error (GRUB_ERR_BAD_ARGUMENT, N_("filename expected"));
-@@ -1051,6 +1088,12 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
+@@ -1054,6 +1091,12 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
    grub_err_t err;
    struct grub_linux_initrd_context initrd_ctx = { 0, 0, 0 };
  

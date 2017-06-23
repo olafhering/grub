@@ -1,4 +1,4 @@
-From e3bf0a22769d78f67850ac7fe7f4e6adda320595 Mon Sep 17 00:00:00 2001
+From f67c03b94d4473b658247b7c72a0a9c37e0ddab6 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:06 +0000
 Subject: "single" -> "recovery" when friendly-recovery is installed
@@ -23,10 +23,10 @@ Patch-Name: mkconfig_ubuntu_recovery.patch
  3 files changed, 26 insertions(+), 3 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index a85b134ec..ce24e5ba3 100644
+index edd184154..d4978ad5d 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1786,6 +1786,17 @@ fi
+@@ -1819,6 +1819,17 @@ fi
  AC_SUBST([LIBZFS])
  AC_SUBST([LIBNVPAIR])
  
@@ -45,7 +45,7 @@ index a85b134ec..ce24e5ba3 100644
  
  AC_SUBST([FONT_SOURCE])
 diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-index f7c26673b..d4852f3fa 100644
+index 5ff76f59a..37b5180f3 100644
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
 @@ -20,6 +20,7 @@ set -e

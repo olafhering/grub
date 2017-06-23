@@ -1,3 +1,927 @@
+2017-04-25  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Increase version to 2.02.
+
+2017-04-12  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Fix remaining cases of gcc 7 fallthrough warning.
+	They are all intended, so just add the relevant comment.
+
+2017-04-04  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	Add gnulib-fix-gcc7-fallthrough.diff
+	As long as the code is not upstream, add it as explicit patch for the
+	case of gnulib refresh.
+
+2017-04-04  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	i386, x86_64, ppc: fix switch fallthrough cases with GCC7
+	In util/getroot and efidisk slightly modify exitsing comment to mostly
+	retain it but still make GCC7 compliant with respect to fall through
+	annotation.
+
+	In grub-core/lib/xzembed/xz_dec_lzma2.c it adds same comments as
+	upstream.
+
+	In grub-core/tests/setjmp_tets.c declare functions as "noreturn" to
+	suppress GCC7 warning.
+
+	In grub-core/gnulib/regexec.c use new __attribute__, because existing
+	annotation is not recognized by GCC7 parser (which requires that comment
+	immediately precedes case statement).
+
+	Otherwise add FALLTHROUGH comment.
+
+	Closes: 50598
+
+2017-04-04  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	btrfs: avoid "used uninitialized" error with GCC7
+	sblock was local and so considered new variable on every loop
+	iteration.
+
+	Closes: 50597
+
+2017-04-02  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	acpi: add missing efi_call wrapper to acpi command
+	Fixed loading of ACPI tables on EFI (side effect was apparent memory
+	corruption ranging from unpredictable behavior to system reset).
+
+	Reported by Nando Eva <nando4eva@ymail.com>
+
+2017-03-15  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Increment version to GRUB 2.02~rc2.
+
+	Use core2duo for bootcheck test on 64-bit EFI.
+	Obviously pentium2 can't run efi64.
+
+2017-03-14  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	efi: skip iPXE block device.
+	iPXE adds Simple File System Protocol to loaded image handle, as side
+	effect it also adds Block IO protocol (according to comments, to work
+	around some bugs in EDK2). GRUB assumes that every device with Block IO
+	is disk and skips network initialization entirely. But iPXE Block IO
+	implementation is just a stub which always fails for every operation
+	so cannot be used. Attempt to detect and skip such devices.
+
+	We are using media ID which iPXE sets to "iPXE" and block IO size in
+	hope that no real device would announce 1B block ...
+
+	Closes: 50518
+
+2017-03-05  phcoder  <phcoder@gmail.com>
+
+	xen: Fix wrong register in relocator.
+	This fixes chainloading of some GRUB variants.
+
+2017-02-27  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	video_fb: Fix blue collor if using unoptimized blitter.
+	when unmapping the color what matters is the mode of source, not target.
+
+	legacy_initrd: Strip any additional arguments to initrd.
+
+2017-02-26  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	grub-fs-tester: improve squash4 tests
+	1. Make sure files are not multiple of block size. This will ensure tail packing
+	for squash4 and may also trigger more codes paths in other filesystems.
+
+	2. Call mksquashfs with -always-use-fragments to force tail packing.
+
+2017-02-25  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	efi: strip off final NULL from File Path in grub_efi_get_filename
+	UEFI 2.6 9.3.6.4 File Path Media Device Path says that Path Name is
+	"A NULL-terminated Path string including directory and file names".
+
+	Strip final NULL from Path Name in each File Path node when constructing
+	full path. To be on safe side, strip all of them.
+
+	Fixes failure chainloading grub from grub, when loaded grub truncates
+	image path and does not find its grub.cfg.
+
+	https://bugzilla.opensuse.org/show_bug.cgi?id=1026344
+
+	This was triggered by commit ce95549cc54b5d6f494608a7c390dba3aab4fba7;
+	before it we built Path Name without trailing NULL, and apparently all
+	other bootloaders use single File Path node, thus not exposing this bug.
+
+2017-02-24  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	squash4: fix handling of fragments and sparse files
+	1. Do not assume block list and fragment are mutually exclusive. Squash
+	can pack file tail as fragment (unless -no-fragments is specified); so
+	check read offset and read either from block list or from fragments as
+	appropriate.
+
+	2. Support sparse files with zero blocks.
+
+	3. Fix fragment read - frag.offset is absolute fragment position,
+	not offset relative to ino.chunk.
+
+	Reported and tested by Carlo Caione <carlo@endlessm.com>
+
+2017-02-22  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Whitelist sparc64-ieee1275 as having no video modules.
+	ieee1275_fb is not built on sparc64 due to virtual address issues.
+
+2017-02-12  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	script: fix double free in lexer
+	yylex_destroy() already frees scanner.
+
+	Found by: Coverity scan.
+	CID: 176636
+
+2017-02-07  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	xen: Fix parsing of XZ kernel.
+	In case of xz, the uncompressed size is appended to xz data which confuses
+	our xz decompressor. Trim it.
+
+2017-02-07  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	xen: Fix handling of GRUB chainloading.
+	In case of GRUB we put remapper after domain pages and not at 0x0.
+	In this case we use max_addr to put remapper. Unfortunately we increment
+	max_addr as well in this case resulting in virt mapping mapping page
+	at old max_addr and trying to boot using new max_addr.
+
+	Closes 46014.
+
+2017-02-04  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	linguas: Don't skip ko.po.
+	Translation project doesn't require copyright disclaimers. They're independant
+	from us. They're responsible for their copyright story.
+
+2017-02-03  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Fix truncated checksum.h.
+
+	Regenerate checksums.h
+	Screenshots contain version, so we need new checksums.
+
+	Release 2.02-rc1.
+
+	Fix mingw compilation.
+
+2017-02-03  Daniel Kahn Gillmor  <dkg@fifthhorseman.net>
+
+	documentation: Clarify documentation for special environment variable "default".
+	The current documentation for the special environment variable
+	"default" is confusing and unclear.  This patch attempts to clean it
+	up.
+
+	In particular, the current documentation refers to the "number or
+	title", but then in the example it gives, the menu entries and
+	submenus all have numbers *in* their title; furthermore, there is no
+	example given about how to choose the number, or any indication about
+	whether counting is zero-indexed or 1-indexed.
+
+	Having a cleaner example and presenting all variants (numeric, title,
+	and id) should make it clearer to the user.
+
+2017-02-03  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Avoid causing kernel oops in nilfs2 test.
+	1024-byte and 2048-byte blocks don't really work with some kernels, skip
+	them as we don't want any oops'es.
+
+	btrfs: Shorten label by one character.
+	mkfs.btrfs imposes a slightly lower limit than would be possible in btrfs.
+
+2017-02-02  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	grub-fs-tester: Fix mkudffs invocation.
+	With current invocation order of arguments is wrong and path is hardcoded.
+
+	grub-fs-tester: Fix fat test.
+	mkfs.vfat ignores -S when invoked on a disk, including loopback device,
+	so do an mkfs on underlying image.
+
+2017-02-02  Daniel Kiper  <daniel.kiper@oracle.com>
+
+	i386/relocator: Align stack in grub_relocator64_efi relocator
+	Unified Extensible Firmware Interface Specification, Version 2.6,
+	section 2.3.4, x64 Platforms, boot services, says among others:
+	The stack must be 16-byte aligned. So, do it. Otherwise OS may
+	boot only by chance as it happens right now.
+
+2017-02-02  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	i386-ieee1275: Add missing bootcheck target.
+
+	bootcheck-linux-i386: Use -cpu pentium2.
+	Most modern kernels are compiled for i686, so use -cpu pentium2
+	to avoid spurious failures.
+
+	Use -fPIC with arm64 with clang.
+	Currently it doesn't work either way but with -fPIC it should work once
+	clang bug is fixed.
+
+	INSTALL: Fix mention of thumb-clang.
+
+	Fix thumb compilation with clang.
+	According to EABI only STT_FUNC has convention of lowest bit indicating
+	execution mode. R_THM_{JUMP,CALL}* relocations are assumed to be pointing
+	to thumb mode unless they use STT_FUNC.
+
+2017-02-01  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Add missing strtoull_test.c
+	It was forgotten in my local directory.
+
+	arm64: Add support for GOT and PCREL32 relocations.
+
+	mkimage: Fix memory leak.
+
+	arm/arm64: Fix improper use of start address.
+	It was used instead of loading address of current section or of entire buffer.
+
+	ia64: Fix iterator for relocation entries.
+	Don't assume relocation entry size and use sh_entsize properly.
+
+	arm: Fix trampoline generation.
+	We used the wrong pointer in this case. It worked only by accident.
+
+	Fix bootcheck-related files compilation.
+	We need -static as otherwise linker will set interpreter field and ld.so
+	is not available on our initrd's.
+	Strip all sections we don't need on binary tests.
+
+2017-01-31  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Regenerate checksum.h.
+	Screenshots checked.
+	Using unifont from http://ftp.us.debian.org/debian/pool/main/u/unifont/xfonts-unifont_7.0.06-1_all.deb.
+
+	grub-mkfont: Remove leftover debug statement.
+
+	charset: Trim away RLM and LRM.
+	They are not visible but would otherwise end up as [LRM] or [RLM] squares
+	with some fonts.
+
+	gfxterm: Fix clearing of cursor.
+	If ascent is bigger than height - 2, then we draw over character box but then
+	to clear cursor we only draw over character box. So trim ascent if necessarry.
+
+	ia64: Add support for R_IA64_GPREL64I.
+	Recent GCC generates those relocations, so we need to support them.
+
+2017-01-30  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	grub-module-verifier: Add mips to all_video whitelist.
+	On MIPS video is compiled-in. So all_video is empty. Whitelist it.
+
+	Fix -nopie/-nopie check.
+	We don't use lgcc_s but missing lgcc_s or another library cause test to fail.
+	So use -nostdlib.
+	We need to use -Werror to avoid warning-generated case to be accepted.
+	Clang uses -nopie rather than -no-pie. Check both and use whichever one works.
+	Additionally android clang passes -pie to the linker even though it doesn't
+	define __PIE__. So if compilation without no-pie logic fails add -nopie/-no-pie
+	even if __PIE__ is not defined.
+
+	grub-module-verifier: Ignore all_video emptiness on xen.
+	It's intentional that it's empty when no video modules
+	are available.
+
+2017-01-28  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Support arm clang 3.8 amd later.
+	clang 3.8 and later doesn't support -mllvm -use-arm-movt=0
+	whereas older clang doesn't know -mno-movt. So use
+	-mno-movt whenever possible and fallback to mllvm variant.
+
+2017-01-27  Carlo Caione  <carlo@endlessm.com>
+
+	exfat: Support files over 4GiB
+	file size in grub_fat_data was 32-bit on exfat.
+
+2017-01-27  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	Ensure that grub_reboot doesn't return on emu.
+	Use grub_fatal if longjmp fails.
+
+	grub_reboot is marked as noreturn so return would cause
+	a crash.
+
+2017-01-27  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	grub-shell: skip font copying when no font is available.
+
+	Don't use -mlong-calls on arm.
+	We don't really need it and it's flaky and creates
+	bogus symbols with clang.
+
+	configure: Disable movw/movt with clang.
+	Those relocations are not compatible with PE and also
+	not compatible with custom uboot relocator.
+	Disable them.
+
+	grub-fs-tester: Delete directory once we're done.
+
+	grub-fs-tester: Accomodate for slower systems.
+	fstime can be more different with xz squashfs.
+	Allow difference up to 3 seconds.
+	This code is ugly now but rewriting it now is not on the
+	table.
+
+	grub-fs-tester: Accomodate for testing in proot containers.
+	proot creates hidden files with .proot prefix and name
+	derived from real file name. So decrease file name length
+	and path depth. For some reason depth 85 also results in
+	undeleteable directory, so use 84 instead of 85.
+
+2017-01-24  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	osdep/linux: handle autofs entries in /proc/self/mountinfo
+	These entries have placeholder for device name and so are useless for our
+	purpose. grub failed with something like
+
+	grub-install: error: failed to get canonical path of `systemd-1'.
+
+	When we see autofs entry, record it (to keep parent-child relationship) but
+	continue to look for real mount. If it is found, we process it as usual. If
+	only autofs entry exists, attempt to trigger mount by opening mount point
+	and retry. Mount point itself is then kept open to avoid timeout.
+
+	Recent systemd is by default using automount for /boot/efi so this should
+	become more popular problem on EFI systems.
+
+	Closes: 49942
+
+2017-01-08  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	linux: fix "vga=XX deprecated" warning for text mode
+	Arguments were in reverse order which resulted in
+
+	text is deprecated. Use set gfxpayload=vga=0 before linux command instead.
+
+2016-12-22  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	configure: fix check for sys/sysmacros.h under glibc 2.25+
+	glibc 2.25 still includes sys/sysmacros.h in sys/types.h but also emits
+	deprecation warning. So test for sys/types.h succeeds in configure but later
+	compilation fails because we use -Werror by default.
+
+	While this is fixed in current autoconf GIT, we really cannot force everyone
+	to use bleeding edge (that is not even released right now). So run test under
+	-Werror as well to force proper detection.
+
+	This should have no impact on autoconf 2.70+ as AC_HEADER_MAJOR in this version
+	simply checks for header existence.
+
+	Reported and tested by Khem Raj <raj.khem@gmail.com>
+
+2016-12-22  Michael Chang  <mchang@suse.com>
+
+	Fix fwpath in efi netboot
+	The path returned by grub_efi_net_config has already been stripped for the
+	directory part extracted from cached bootp packet. We should just return the
+	result to avoild it be stripped again.
+
+	It fixed the problem that grub.efi as NBP image always looking for grub.cfg and
+	platform directory in upper folder rather than current one it gets loaded while
+	$prefix is empty. The behavior is inconsistent with other architecture and how
+	we would expect empty $prefix going to be in general.
+
+	The only exception to the general rule of empty $prefix is that when loaded
+	from platform directory itself, the platform part is stripped thus upper folder
+	is used for looking up files. It meets the case for how grub-mknetdir lay out
+	the files under tftp root directory, but also hide away this issue to be
+	identified as it appears to be just works.
+
+	Also fix possible memory leak by moving grub_efi_get_filename() call after
+	grub_efi_net_config().
+
+2016-12-15  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	efi: properly terminate filepath with NULL in chainloader
+	EFI File Path Media Device Path is defined as NULL terminated string;
+	but chainloader built file paths without final NULL. This caused error
+	with Secure Boot and Linux Foundation PreLoader on Acer with InsydeH20 BIOS.
+	Apparently firmware failed verification with EFI_INVALID_PARAMETER which is
+	considered fatal error by PreLoader.
+
+	Reported and tested by Giovanni Santini <itachi.sama.amaterasu@gmail.com>
+
+2016-12-14  Magnus Granberg  <zorry@gentoo.org>
+
+	configure: add check for -no-pie if the compiler default to -fPIE
+	When Grub is compile with gcc 6.1 that have --enable-defult-pie set.
+	It fail with.
+	-ffreestanding   -m32 -Wl,-melf_i386 -Wl,--build-id=none  -nostdlib -Wl,-N -Wl,-r,-d   -
+	o trig.module  trig_module-trigtables.o
+	grep 'MARKER' gcry_whirlpool.marker.new > gcry_whirlpool.marker; rm -f
+	gcry_whirlpool.marker.new
+	/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/../../../../x86_64-pc-linux-gnu/bin/ld: -r and -
+	shared may not be used together
+	collect2: error: ld returned 1 exit status
+	Makefile:26993: recipe for target 'trig.module' failed
+
+	Check that compiler supports -no-pie and add it to linker flags.
+
+2016-12-14  Stanislav Kholmanskikh  <stanislav.kholmanskikh@oracle.com>
+
+	ofnet: implement the receive buffer
+	get_card_packet() from ofnet.c allocates a netbuff based on the device's MTU:
+
+	 nb = grub_netbuff_alloc (dev->mtu + 64 + 2);
+
+	In the case when the MTU is large, and the received packet is
+	relatively small, this leads to allocation of significantly more memory,
+	than it's required. An example could be transmission of TFTP packets
+	with 0x400 blksize via a network card with 0x10000 MTU.
+
+	This patch implements a per-card receive buffer in a way similar to efinet.c,
+	and makes get_card_packet() allocate a netbuff of the received data size.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-12-14  Stanislav Kholmanskikh  <stanislav.kholmanskikh@oracle.com>
+
+	ofnet: move the allocation of the transmit buffer into a function
+	In the current code search_net_devices() uses the "alloc-mem" command
+	from the IEEE1275 User Interface for allocation of the transmit buffer
+	for the case when GRUB_IEEE1275_FLAG_VIRT_TO_REAL_BROKEN is set.
+
+	I don't have hardware where this flag is set to verify if this
+	workaround is still needed. However, further changes to ofnet will
+	require to execute this workaround one more time. Therefore, to
+	avoid possible duplication of code I'm moving this piece of
+	code into a function.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-11-24  Alexander Graf  <agraf@suse.de>
+
+	efi: Move fdt helper into own file
+	We only support FDT files with EFI on arm and arm64 systems, not
+	on x86. So move the helper that finds a prepopulated FDT UUID
+	into its own file and only build it for architectures where it
+	also gets called.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-11-22  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	NEWS updates
+
+2016-11-22  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	bootp: export next server IP as environment variable
+	Network boot autoconfiguration sets default server to next server IP
+	(siaddr) from BOOTP/DHCP reply, but manual configuration using net_bootp
+	exports only server name. Unfortunately semantic of server name is not
+	clearly defined. BOOTP RFC 951 defines it only for client request, and
+	DHCP RFC 1541 only mentions it, without any implied usage. It looks like
+	this field is mostly empty in server replies.
+
+	Export next server IP as net_<interface>_next_server variable. This allows
+	grub configuration script to set $root/$prefix based on information obtained
+	by net_bootp.
+
+	Reported and tested by: Nikunj A Dadhania <nikunj@linux.vnet.ibm.com>
+	Cc: nikunj@linux.vnet.ibm.com
+
+	v2: change variable name to net_<interface>_next_server as discussed on the list
+
+2016-11-22  Aaro Koskinen  <aaro.koskinen@iki.fi>
+
+	configure.ac: don't require build time grub-mkfont on powerpc-ieee1275
+	Don't require build time grub-mkfont on powerpc-ieee1275.
+
+2016-11-14  Dirk Mueller  <dmueller@suse.com>
+
+	grub-mknetdir: Add support for ARM64 EFI
+
+2016-11-12  Joonas Lahtinen  <joonas.lahtinen@linux.intel.com>
+
+	.gitignore: Add grub-core/build-grub-module-verifier
+
+2016-11-10  Alexander Graf  <agraf@suse.de>
+
+	arm efi: Use fdt from firmware when available
+	If EFI is nice enough to pass us an FDT using configuration tables on 32bit
+	ARM, we should really try and make use of it.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-11-10  Alexander Graf  <agraf@suse.de>
+
+	arm64: Move firmware fdt search into global function
+	Searching for a device tree that EFI passes to us via configuration tables
+	is nothing architecture specific. Move it into generic code.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-11-05  Corey Hickey  <bugfood-ml@fatooh.org>
+
+	fix detection of non-LUKS CRYPT
+	grub_util_get_dm_abstraction() does a string comparison of insufficient
+	length. When using a UUID such as "CRYPT-PLAIN-sda6_crypt", the function
+	returns GRUB_DEV_ABSTRACTION_LUKS.
+
+	This results in the error:
+	    ./grub-probe: error: disk `cryptouuid/sda6_crypt' not found.
+
+	This appears to be a copy/paste error introduced in:
+	a10e7a5a8918bea6e2632055129fa9b516fe965a
+
+	The bug was (apparently) latent until revealed by:
+	3bca85b4184f74995a7cc2791e432173fde26d34
+
+2016-10-27  Juergen Gross  <jgross@suse.com>
+
+	xen: add capability to load p2m list outside of kernel mapping
+	Modern pvops linux kernels support a p2m list not covered by the
+	kernel mapping. This capability is flagged by an elf-note specifying
+	the virtual address the kernel is expecting the p2m list to be mapped
+	to.
+
+	In case the elf-note is set by the kernel don't place the p2m list
+	into the kernel mapping, but map it to the given address. This will
+	allow to support domains with larger memory, as the kernel mapping is
+	limited to 2GB and a domain with huge memory in the TB range will have
+	a p2m list larger than this.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-10-27  Juergen Gross  <jgross@suse.com>
+
+	xen: modify page table construction
+	Modify the page table construction to allow multiple virtual regions
+	to be mapped. This is done as preparation for removing the p2m list
+	from the initial kernel mapping in order to support huge pv domains.
+
+	This allows a cleaner approach for mapping the relocator page by
+	using this capability.
+
+	The interface to the assembler level of the relocator has to be changed
+	in order to be able to process multiple page table areas.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-10-27  Juergen Gross  <jgross@suse.com>
+
+	xen: add capability to load initrd outside of initial mapping
+	Modern pvops linux kernels support an initrd not covered by the initial
+	mapping. This capability is flagged by an elf-note.
+
+	In case the elf-note is set by the kernel don't place the initrd into
+	the initial mapping. This will allow to load larger initrds and/or
+	support domains with larger memory, as the initial mapping is limited
+	to 2GB and it is containing the p2m list.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-10-27  Juergen Gross  <jgross@suse.com>
+
+	xen: factor out allocation of page tables into separate function
+	Do the allocation of page tables in a separate function. This will
+	allow to do the allocation at different times of the boot preparations
+	depending on the features the kernel is supporting.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-10-27  Juergen Gross  <jgross@suse.com>
+
+	xen: factor out allocation of special pages into separate function
+	Do the allocation of special pages (start info, console and xenbus
+	ring buffers) in a separate function. This will allow to do the
+	allocation at different times of the boot preparations depending on
+	the features the kernel is supporting.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-10-27  Juergen Gross  <jgross@suse.com>
+
+	xen: factor out p2m list allocation into separate function
+	Do the p2m list allocation of the to be loaded kernel in a separate
+	function. This will allow doing the p2m list allocation at different
+	times of the boot preparations depending on the features the kernel
+	is supporting.
+
+	While at this remove superfluous setting of first_p2m_pfn and
+	nr_p2m_frames as those are needed only in case of the p2m list not
+	being mapped by the initial kernel mapping.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-10-27  Juergen Gross  <jgross@suse.com>
+
+	xen: synchronize xen header
+	Get actual version of include/xen/xen.h from the Xen repository in
+	order to be able to use constants defined there.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-10-27  Juergen Gross  <jgross@suse.com>
+
+	xen: add elfnote.h to avoid using numbers instead of constants
+	Various features and parameters of a pv-kernel are specified via
+	elf notes in the kernel image. Those notes are part of the interface
+	between the Xen hypervisor and the kernel.
+
+	Instead of using num,bers in the code when interpreting the elf notes
+	make use of the header supplied by Xen for that purpose.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-10-27  Juergen Gross  <jgross@suse.com>
+
+	xen: reduce number of global variables in xen loader
+	The loader for xen paravirtualized environment is using lots of global
+	variables. Reduce the number by making them either local or by putting
+	them into a single state structure.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-10-27  Juergen Gross  <jgross@suse.com>
+
+	xen: avoid memleaks on error
+	When loading a Xen pv-kernel avoid memory leaks in case of errors.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-10-27  Juergen Gross  <jgross@suse.com>
+
+	xen: make xen loader callable multiple times
+	The loader for xen paravirtualized environment isn't callable multiple
+	times as it won't free any memory in case of failure.
+
+	Call grub_relocator_unload() as other modules do it before allocating
+	a new relocator or when unloading the module.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2016-10-27  Daniel Kiper  <daniel.kiper@oracle.com>
+
+	multiboot2: Add support for relocatable images
+	Currently multiboot2 protocol loads image exactly at address specified in
+	ELF or multiboot2 header. This solution works quite well on legacy BIOS
+	platforms. It is possible because memory regions are placed at predictable
+	addresses (though I was not able to find any spec which says that it is
+	strong requirement, so, it looks that it is just a goodwill of hardware
+	designers). However, EFI platforms are more volatile. Even if required
+	memory regions live at specific addresses then they are sometimes simply
+	not free (e.g. used by boot/runtime services on Dell PowerEdge R820 and
+	OVMF). This means that you are not able to just set up final image
+	destination on build time. You have to provide method to relocate image
+	contents to real load address which is usually different than load address
+	specified in ELF and multiboot2 headers.
+
+	This patch provides all needed machinery to do self relocation in image code.
+	First of all GRUB2 reads min_addr (min. load addr), max_addr (max. load addr),
+	align (required image alignment), preference (it says which memory regions are
+	preferred by image, e.g. none, low, high) from multiboot_header_tag_relocatable
+	header tag contained in binary (at this stage load addresses from multiboot2
+	and/or ELF headers are ignored). Later loader tries to fulfill request (not only
+	that one) and if it succeeds then it informs image about real load address via
+	multiboot_tag_load_base_addr tag. At this stage GRUB2 role is finished. Starting
+	from now executable must cope with relocations itself using whole static and
+	dynamic knowledge provided by boot loader.
+
+	This patch does not provide functionality which could do relocations using
+	ELF relocation data. However, I was asked by Konrad Rzeszutek Wilk and Vladimir
+	'phcoder' Serbinenko to investigate that thing. It looks that relevant machinery
+	could be added to existing code (including this patch) without huge effort.
+	Additionally, ELF relocation could live in parallel with self relocation provided
+	by this patch. However, during research I realized that first of all we should
+	establish the details how ELF relocatable image should look like and how it should
+	be build. At least to build proper test/example files.
+
+	So, this patch just provides support for self relocatable images. If ELF file
+	with relocs is loaded then GRUB2 complains loudly and ignores it. Support for
+	such files will be added later.
+
+	This patch was tested with Xen image which uses that functionality. However, this Xen
+	feature is still under development and new patchset will be released in about 2-3 weeks.
+
+	Reviewed-by: Vladimir Serbinenko <phcoder@gmail.com>
+
+2016-10-27  Daniel Kiper  <daniel.kiper@oracle.com>
+
+	multiboot2: Do not pass memory maps to image if EFI boot services are enabled
+	If image requested EFI boot services then skip multiboot2 memory maps.
+	Main reason for not providing maps is because they will likely be
+	invalid. We do a few allocations after filling them, e.g. for relocator
+	needs. Usually we do not care as we would have finished boot services.
+	If we keep boot services then it is easier/safer to not provide maps.
+	However, if image needs memory maps and they are not provided by bootloader
+	then it should get itself just before ExitBootServices() call.
+
+	Reviewed-by: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+	Reviewed-by: Vladimir Serbinenko <phcoder@gmail.com>
+
+2016-10-27  Daniel Kiper  <daniel.kiper@oracle.com>
+
+	multiboot2: Add tags used to pass ImageHandle to loaded image
+	Add tags used to pass ImageHandle to loaded image if requested.
+	It is used by at least ExitBootServices() function.
+
+	Reviewed-by: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+	Reviewed-by: Vladimir Serbinenko <phcoder@gmail.com>
+
+2016-10-27  Daniel Kiper  <daniel.kiper@oracle.com>
+
+	i386/relocator: Add grub_relocator64_efi relocator
+	Add grub_relocator64_efi relocator. It will be used on EFI 64-bit platforms
+	when multiboot2 compatible image requests MULTIBOOT_TAG_TYPE_EFI_BS. Relocator
+	will set lower parts of %rax and %rbx accordingly to multiboot2 specification.
+	On the other hand processor mode, just before jumping into loaded image, will
+	be set accordingly to Unified Extensible Firmware Interface Specification,
+	Version 2.4 Errata B, section 2.3.4, x64 Platforms, boot services. This way
+	loaded image will be able to use EFI boot services without any issues.
+
+	Reviewed-by: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+	Reviewed-by: Vladimir Serbinenko <phcoder@gmail.com>
+
+2016-10-18  Sakar Arora  <Sakar.Arora@nxp.com>
+
+	net/ip: Fix limit_time calculation in freeing old fragments
+	limit_time underflows when current time is less than 90000ms.
+	This causes packet fragments received during this time, i.e.,
+	till 90000ms pass since timer init, to be rejected.
+
+	Hence, set it to 0 if its less than 90000.
+
+2016-09-28  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	asm-tests/i386-pc: Check that movl is 5 bytes.
+	LLVM 3.9 now emits short form of jump instructions, but it is still using
+	32 bit addresses for some movl instructions. Fortunately it was caught early:
+
+	clang ... boot/i386/pc/boot.S
+	clang -cc1as: fatal error: error in backend: invalid .org offset '440' (at offset '441')
+
+	Add additional check to catch it during configure run and force -no-integrated-as.
+
+	Closes: 49200
+
+	More details in
+	  https://lists.gnu.org/archive/html/grub-devel/2015-02/msg00099.html
+	  https://llvm.org/bugs/show_bug.cgi?id=22662
+
+2016-08-13  Pete Batard  <pete@akeo.ie>
+
+	Add missing va_end() to xasprintf() in grub-emu.
+
+2016-07-27  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	at_keyboard: fix numpad "0" and "." mapping
+	Reported for set 1 by fgndevelop <fgndevelop@posteo.org>. Apparently
+	set 2 was reversed too.
+
+2016-07-26  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	dns: fix buffer overflow for data->addresses in recv_hook
+	We may get more than one response before exiting out of loop in
+	grub_net_dns_lookup, but buffer was allocated for the first response only,
+	so storing answers from subsequent replies wrote past allocated size.
+	We never really use more than the very first address during lookup so there
+	is little point in collecting all of them. Just quit early if we already have
+	some reply.
+
+	Code needs serious redesign to actually collect multiple answers
+	and select the best fit according to requested type (IPv4 or IPv6).
+
+	Reported and tested by Michael Chang <mchang@suse.com>
+
+2016-07-26  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	xfs: accept filesystem with meta_uuid
+	XFS V5 stores UUID in metadata and compares them with superblock UUID.
+	To allow changing of user-visible UUID it stores original value in new
+	superblock field (meta_uuid) and sets incompatible flag to indicate that
+	new field must be used to verify metadata. Our driver currently does not
+	check metadata UUID so simply accept such filesystem.
+
+	Reported-By: Marcos Mello <marcosfrm@outlook.com>
+	Reviewd by Jan Kara <jack@suse.cz>
+
+2016-05-03  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	net: translate pxe prefix to tftp when checking for self-load
+	Commit ba218c1 missed legacy pxe and pxe: prefixes which are
+	translated to tftp, so comparison failed.
+
+2016-04-30  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	net: reset net->stall in grub_net_seek_real
+	If we open new connection, we need to reset stall indication, otherwise
+	nothing will ever be polled (low level code rely on this field being
+	zero when establishing connection).
+
+2016-04-30  Stefan Fritsch  <sf@sfritsch.de>
+
+	http: reset EOF indication in http_seek
+	Otherwise next read will stop polling too early due to stale EOF
+	indicator, returning incomplete data to caller.
+
+2016-04-24  Mike Gilbert  <floppym@gentoo.org>
+
+	build: Use AC_HEADER_MAJOR to find device macros
+	Depending on the OS/libc, device macros are defined in different
+	headers. This change ensures we include the right one.
+
+	sys/types.h - BSD
+	sys/mkdev.h - Sun
+	sys/sysmacros.h - glibc (Linux)
+
+	glibc currently pulls sys/sysmacros.h into sys/types.h, but this may
+	change in a future release.
+
+	https://sourceware.org/ml/libc-alpha/2015-11/msg00253.html
+
+2016-04-09  Michael Chang  <mchang@suse.com>
+
+	http: fix superfluous null line in range request header
+	At least the apache sever is very unhappy with that extra null line and will
+	take more than ten seconds in responding to each range request, which slows
+	down a lot the entire http file transfer process or even time out.
+
+2016-03-22  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	configure: set -fno-pie together with -fno-PIE
+	OpenBSD 5.9 apparently defaults to -fpie. We use -fno-PIE when appropriate
+	already, but that is not enough - it does not turn off -fpie.
+
+	Actually check for -fPIE is not precise enough. __PIE__ is set for both
+	-fpie and -fPIE but with different values. As far as I can tell, both
+	options were introduced at the same time, so both should always be supported.
+
+	This fixes compilation on OpenBSD 5.9 which otherwise created insanely big
+	lzma_decompress.img.
+
+	Reported, suggested and tested by: Jiri B <jirib@devio.us>
+
+2016-03-20  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	bootp: check that interface is not NULL in configure_by_dhcp_ack
+	grub_net_add_addr may fail with OOM and we use returned interface
+	later without any checks.
+
+2016-03-19  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	bootp: fix memory leak in grub_cmd_dhcpopt
+
+2016-03-15  Aaron Luft  <aluft@lifesize.com>
+
+	Remove the variable oldname which is attempting to free stack space.
+	Historically this variable hold previous value of filename that
+	had to be freed if allocated previously. Currently this branch
+	is entered only if filename was not allocated previously so it
+	became redundant. It did not cause real problems because grub_free
+	was not called, but code is confusing and causes compilation error
+	in some cases.
+
+2016-03-13  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	Makefile.util.def: add $LIBINTL to grub-macbless flags
+	Fixes compilation on OpenBSD 5.9.
+
+	Reported by Jiri B <jirib@devio.us>
+
+2016-03-11  Robert Marshall  <rmarshall@redhat.com>
+
+	Failed config now returns exit code (#1252311)
+	Grub would notify the user if the new config was invalid, however, it
+	did not exit properly with exit code 1. Added the proper exit code.
+
+	Resolves: rhbz#1252311
+
+2016-03-11  Michael Chang  <mchang@suse.com>
+
+	xen_file: Fix invalid payload size
+
+2016-03-10  Vladimir Serbinenko  <phcoder@gmail.com>
+
+	multiboot2: Remove useless GRUB_PACKED
+	Reported by: Daniel Kiper
+
+2016-03-06  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	20_linux_xen: fix test for GRUB_DEVICE
+	Same fix as in 082bc9f.
+
+2016-03-06  Mike Gilbert  <floppym@gentoo.org>
+
+	10_linux: Fix grouping of tests for GRUB_DEVICE
+	Commit 7290bb562 causes GRUB_DISABLE_LINUX_UUID to be ignored due to
+	mixing of || and && operators. Add some parens to help with that.
+
+2016-02-28  Andrei Borzenkov  <arvidjaar@gmail.com>
+
+	NEWS update
+
 2016-02-28  Vladimir Serbinenko  <phcoder@gmail.com>
 
 	Release 2.02~beta3

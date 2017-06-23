@@ -1,4 +1,4 @@
-From d0d46eb7e62c78d69b6d712fc1d9aacea39eee06 Mon Sep 17 00:00:00 2001
+From 94166a621993869bb65d9cf4497b4c8fc2efb42d Mon Sep 17 00:00:00 2001
 From: Chad MILLER <chad.miller@canonical.com>
 Date: Thu, 27 Oct 2016 17:15:07 -0400
 Subject: Tell zpool to emit full device names
@@ -20,10 +20,10 @@ Patch-Name: zpool_full_device_name.patch
  1 file changed, 1 insertion(+)
 
 diff --git a/grub-core/osdep/unix/getroot.c b/grub-core/osdep/unix/getroot.c
-index 1079a919d..2d855f515 100644
+index 4bf37b027..d5fde7f86 100644
 --- a/grub-core/osdep/unix/getroot.c
 +++ b/grub-core/osdep/unix/getroot.c
-@@ -238,6 +238,7 @@ grub_util_find_root_devices_from_poolname (char *poolname)
+@@ -240,6 +240,7 @@ grub_util_find_root_devices_from_poolname (char *poolname)
    argv[2] = poolname;
    argv[3] = NULL;
  

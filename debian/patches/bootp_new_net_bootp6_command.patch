@@ -1,4 +1,4 @@
-From 861e000208345d3a453032b956132592da8e7742 Mon Sep 17 00:00:00 2001
+From cf8fbe00f44e93fa47c29a851be5515e4263d6f0 Mon Sep 17 00:00:00 2001
 From: Michael Chang <mchang@suse.com>
 Date: Thu, 27 Oct 2016 17:41:04 -0400
 Subject: bootp: New net_bootp6 command
@@ -17,7 +17,7 @@ Patch-Name: bootp_new_net_bootp6_command.patch
  3 files changed, 1018 insertions(+), 1 deletion(-)
 
 diff --git a/grub-core/net/bootp.c b/grub-core/net/bootp.c
-index a088244b4..a70b4de06 100644
+index 9e2fdb795..172528ee8 100644
 --- a/grub-core/net/bootp.c
 +++ b/grub-core/net/bootp.c
 @@ -24,6 +24,98 @@
@@ -119,7 +119,7 @@ index a088244b4..a70b4de06 100644
  
  static void
  parse_dhcp_vendor (const char *name, const void *vend, int limit, int *mask)
-@@ -263,6 +355,578 @@ grub_net_configure_by_dhcp_ack (const char *name,
+@@ -270,6 +362,578 @@ grub_net_configure_by_dhcp_ack (const char *name,
    return inter;
  }
  
@@ -698,7 +698,7 @@ index a088244b4..a70b4de06 100644
  void
  grub_net_process_dhcp (struct grub_net_buff *nb,
  		       struct grub_net_card *card)
-@@ -295,6 +959,77 @@ grub_net_process_dhcp (struct grub_net_buff *nb,
+@@ -302,6 +966,77 @@ grub_net_process_dhcp (struct grub_net_buff *nb,
      }
  }
  
@@ -776,7 +776,7 @@ index a088244b4..a70b4de06 100644
  static char
  hexdigit (grub_uint8_t val)
  {
-@@ -571,7 +1306,174 @@ grub_cmd_bootp (struct grub_command *cmd __attribute__ ((unused)),
+@@ -582,7 +1317,174 @@ grub_cmd_bootp (struct grub_command *cmd __attribute__ ((unused)),
    return err;
  }
  
@@ -952,7 +952,7 @@ index a088244b4..a70b4de06 100644
  
  void
  grub_bootp_init (void)
-@@ -582,6 +1484,9 @@ grub_bootp_init (void)
+@@ -593,6 +1495,9 @@ grub_bootp_init (void)
    cmd_getdhcp = grub_register_command ("net_get_dhcp_option", grub_cmd_dhcpopt,
  				       N_("VAR INTERFACE NUMBER DESCRIPTION"),
  				       N_("retrieve DHCP option and save it into VAR. If VAR is - then print the value."));
@@ -962,14 +962,14 @@ index a088244b4..a70b4de06 100644
  }
  
  void
-@@ -589,4 +1494,5 @@ grub_bootp_fini (void)
+@@ -600,4 +1505,5 @@ grub_bootp_fini (void)
  {
    grub_unregister_command (cmd_getdhcp);
    grub_unregister_command (cmd_bootp);
 +  grub_unregister_command (cmd_bootp6);
  }
 diff --git a/grub-core/net/ip.c b/grub-core/net/ip.c
-index 8c56baaf7..2a239b5bb 100644
+index aba4f8908..59970ab74 100644
 --- a/grub-core/net/ip.c
 +++ b/grub-core/net/ip.c
 @@ -238,6 +238,45 @@ handle_dgram (struct grub_net_buff *nb,

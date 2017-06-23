@@ -1,4 +1,4 @@
-From ba6688aff1e4549be59177e189fe424a9a5d3ec9 Mon Sep 17 00:00:00 2001
+From 039500b95c62405cd2a5afdd083212f00a8d79b7 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Mon, 13 Jan 2014 12:12:58 +0000
 Subject: If GRUB Legacy is still around, tell packaging to ignore it
@@ -13,7 +13,7 @@ Patch-Name: install_stage2_confusion.patch
  1 file changed, 14 insertions(+)
 
 diff --git a/util/grub-install.c b/util/grub-install.c
-index 6c89c2b0c..b993c9895 100644
+index 9074d3e9e..0e1303ee5 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
 @@ -42,6 +42,7 @@

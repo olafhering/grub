@@ -1,4 +1,4 @@
-From 2102091743e048ef927bcbc91868d601620b0e8e Mon Sep 17 00:00:00 2001
+From 12718be4096147b5cef39900f3d61e1790bbbdd8 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:22 +0000
 Subject: Install signed images if UEFI Secure Boot is enabled
@@ -19,7 +19,7 @@ Patch-Name: install_signed.patch
  1 file changed, 145 insertions(+), 47 deletions(-)
 
 diff --git a/util/grub-install.c b/util/grub-install.c
-index b993c9895..af839225f 100644
+index 0e1303ee5..260dabcfb 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
 @@ -80,6 +80,7 @@ static char *label_color;
@@ -216,7 +216,7 @@ index b993c9895..af839225f 100644
  	{
  	  char *uuid = NULL;
  	  /*  generic method (used on coreboot and ata mod).  */
-@@ -1870,7 +1904,71 @@ main (int argc, char *argv[])
+@@ -1871,7 +1905,71 @@ main (int argc, char *argv[])
      case GRUB_INSTALL_PLATFORM_IA64_EFI:
        {
  	char *dst = grub_util_path_concat (2, efidir, efi_file);
