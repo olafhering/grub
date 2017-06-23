@@ -7,6 +7,7 @@ grub2 (2.02-1) UNRELEASED; urgency=medium
 
   [ Debconf translations ]
   * [sr] Serbian (Karolina Kalic; closes: #691288).
+  * [sr@latin] Serbian Latin (Karolina Kalic; closes: #691289).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 23 Jun 2017 10:09:11 +0100
 
