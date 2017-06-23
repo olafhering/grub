@@ -2,6 +2,8 @@ grub2 (2.02-1) UNRELEASED; urgency=medium
 
   * New upstream release.
     - xen: Fix wrong register in relocator (closes: #799480).
+  * Resolve symlinks for supported init paths as well as for /sbin/init
+    (thanks, Felipe Sateler; closes: #842315).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 23 Jun 2017 10:09:11 +0100
 

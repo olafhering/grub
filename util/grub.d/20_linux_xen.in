@@ -264,7 +264,7 @@ while [ "x${xen_list}" != "x" ] ; do
 	    "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}" "${GRUB_CMDLINE_XEN} ${GRUB_CMDLINE_XEN_DEFAULT}"
 	for supported_init in ${SUPPORTED_INITS}; do
 	    init_path="${supported_init#*:}"
-	    if [ -x "${init_path}" ] && [ "$(readlink -f /sbin/init)" != "${init_path}" ]; then
+	    if [ -x "${init_path}" ] && [ "$(readlink -f /sbin/init)" != "$(readlink -f "${init_path}")" ]; then
 		linux_entry "${OS}" "${version}" "${xen_version}" "init-${supported_init%%:*}" \
 		    "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT} init=${init_path}" "${GRUB_CMDLINE_XEN} ${GRUB_CMDLINE_XEN_DEFAULT}"
 
