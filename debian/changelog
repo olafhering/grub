@@ -5,6 +5,9 @@ grub2 (2.02-1) UNRELEASED; urgency=medium
   * Resolve symlinks for supported init paths as well as for /sbin/init
     (thanks, Felipe Sateler; closes: #842315).
 
+  [ Debconf translations ]
+  * [sr] Serbian (Karolina Kalic; closes: #691288).
+
  -- Colin Watson <cjwatson@debian.org>  Fri, 23 Jun 2017 10:09:11 +0100
 
 grub2 (2.02~beta3-5) unstable; urgency=medium
