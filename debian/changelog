@@ -4,6 +4,9 @@ grub2 (2.02-3) UNRELEASED; urgency=medium
     (debian/upstream/signing-key.asc).
   * Update upstream signing key to a non-expired version.
 
+  [ Debconf translations ]
+  * [sq] Albanian (Silva Arapi; closes: #874497).
+
  -- Colin Watson <cjwatson@debian.org>  Sun, 15 Oct 2017 13:43:06 +0100
 
 grub2 (2.02-2) unstable; urgency=medium
