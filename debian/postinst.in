@@ -724,7 +724,7 @@ case "$1" in
 
       grub-ieee1275)
         case $(dpkg --print-architecture) in
-          ppc64el)
+          powerpc|ppc64|ppc64el)
             # Output may be empty; if so, just update the core image but
             # don't install it to any PReP partition.
             prep_bootdev="$(/usr/lib/grub/powerpc-ieee1275/prep-bootdev)"

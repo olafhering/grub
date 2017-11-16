@@ -3,6 +3,9 @@ grub2 (2.02-3) UNRELEASED; urgency=medium
   * Use current location for upstream signing key
     (debian/upstream/signing-key.asc).
   * Update upstream signing key to a non-expired version.
+  * Install bootinfo.txt and grub.chrp in grub-ieee1275-bin for ppc64, and
+    install and use prep-bootdev on powerpc and ppc64 as well as ppc64el
+    (thanks, John Paul Adrian Glaubitz; closes: #881730).
 
   [ Debconf translations ]
   * [sq] Albanian (Silva Arapi; closes: #874497).
