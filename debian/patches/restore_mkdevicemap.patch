@@ -31,10 +31,11 @@ diff --git a/Makefile.util.def b/Makefile.util.def
 index f9caccb97..c939deb92 100644
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
-@@ -315,6 +315,23 @@ program = {
+@@ -314,6 +314,23 @@ program = {
+   condition = COND_GRUB_MKFONT;
  };
  
- program = {
++program = {
 +  name = grub-mkdevicemap;
 +  installdir = sbin;
 +  mansection = 8;
@@ -51,10 +52,9 @@ index f9caccb97..c939deb92 100644
 +  ldadd = '$(LIBINTL) $(LIBDEVMAPPER) $(LIBUTIL) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
 +};
 +
-+program = {
+ program = {
    name = grub-probe;
    installdir = sbin;
-   mansection = 8;
 diff --git a/docs/man/grub-mkdevicemap.h2m b/docs/man/grub-mkdevicemap.h2m
 new file mode 100644
 index 000000000..96cd6ee72

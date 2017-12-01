@@ -87,10 +87,11 @@ index 452b230da..c9d5e3d0f 100644
  
        for (i = 0; i < install_locales.n_entries; i++)
  	{
-@@ -817,6 +828,19 @@ grub_install_copy_files (const char *src,
+@@ -816,6 +827,19 @@ grub_install_copy_files (const char *src,
+ 	      continue;
  	    }
  	  free (srcf);
- 	  srcf = grub_util_path_concat_ext (4,
++	  srcf = grub_util_path_concat_ext (4,
 +						 locale_langpack_dir,
 +						 install_locales.entries[i],
 +						 "LC_MESSAGES",
@@ -103,10 +104,9 @@ index 452b230da..c9d5e3d0f 100644
 +	      continue;
 +	    }
 +	  free (srcf);
-+	  srcf = grub_util_path_concat_ext (4,
+ 	  srcf = grub_util_path_concat_ext (4,
  						 locale_dir,
  						 install_locales.entries[i],
- 						 "LC_MESSAGES",
 @@ -831,6 +855,8 @@ grub_install_copy_files (const char *src,
  	  grub_util_error (_("cannot find locale `%s'"),
  			   install_locales.entries[i]);

@@ -6,6 +6,8 @@ grub2 (2.02-3) UNRELEASED; urgency=medium
   * Install bootinfo.txt and grub.chrp in grub-ieee1275-bin for ppc64, and
     install and use prep-bootdev on powerpc and ppc64 as well as ppc64el
     (thanks, John Paul Adrian Glaubitz; closes: #881730).
+  * Cherry-pick upstream patch to change the default TSC calibration method
+    to pmtimer on EFI systems (closes: #883193).
 
   [ Debconf translations ]
   * [sq] Albanian (Silva Arapi; closes: #874497).

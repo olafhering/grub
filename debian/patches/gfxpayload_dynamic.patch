@@ -46,10 +46,11 @@ diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
 index 68e47a727..3b389277c 100644
 --- a/grub-core/Makefile.core.def
 +++ b/grub-core/Makefile.core.def
-@@ -890,6 +890,15 @@ module = {
+@@ -889,6 +889,15 @@ module = {
+   common = lib/hexdump.c;
  };
  
- module = {
++module = {
 +  name = hwmatch;
 +  i386_pc = commands/i386/pc/hwmatch.c;
 +  enable = i386_pc;
@@ -58,10 +59,9 @@ index 68e47a727..3b389277c 100644
 +  cppflags = '$(CPPFLAGS_POSIX) $(CPPFLAGS_GNULIB)';
 +};
 +
-+module = {
+ module = {
    name = keystatus;
    common = commands/keystatus.c;
- };
 diff --git a/grub-core/commands/i386/pc/hwmatch.c b/grub-core/commands/i386/pc/hwmatch.c
 new file mode 100644
 index 000000000..c9f7c9f19

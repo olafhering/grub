@@ -17,19 +17,19 @@ diff --git a/Makefile.util.def b/Makefile.util.def
 index c939deb92..168acbe59 100644
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
-@@ -510,6 +510,12 @@ script = {
+@@ -509,6 +509,12 @@ script = {
+   installdir = grubconf;
  };
  
- script = {
++script = {
 +  name = '30_uefi-firmware';
 +  common = util/grub.d/30_uefi-firmware.in;
 +  installdir = grubconf;
 +};
 +
-+script = {
+ script = {
    name = '40_custom';
    common = util/grub.d/40_custom.in;
-   installdir = grubconf;
 diff --git a/util/grub.d/30_uefi-firmware.in b/util/grub.d/30_uefi-firmware.in
 new file mode 100644
 index 000000000..3c9f533d8
