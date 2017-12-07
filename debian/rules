@@ -225,7 +225,7 @@ endif
 
 debian/stamps/build-grub-ieee1275: debian/stamps/configure-grub-ieee1275
 	dh_auto_build
-ifeq ($(DEB_HOST_ARCH_CPU),ppc64el)
+ifneq (,$(filter powerpc ppc64 ppc64el,$(DEB_HOST_ARCH_CPU)))
 	$(CC) $(HOST_CFLAGS) debian/prep-bootdev.c -o debian/prep-bootdev -lparted
 endif
 	touch $@
