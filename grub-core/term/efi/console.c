@@ -182,6 +182,158 @@ const unsigned efi_codes[] =
     GRUB_TERM_KEY_F10, GRUB_TERM_KEY_F11, GRUB_TERM_KEY_F12, GRUB_TERM_ESC
   };
 
+static const int tastatur_deutsch[] = {
+	/* Reihe 1, ohne Shift */
+	['`'] = '^',
+	['1'] = '1',
+	['2'] = '2',
+	['3'] = '3',
+	['4'] = '4',
+	['5'] = '5',
+	['6'] = '6',
+	['7'] = '7',
+	['8'] = '8',
+	['9'] = '9',
+	['0'] = '0',
+	['-'] = 'ß',
+	['='] = '´',
+
+	/* Reihe 2, ohne Shift */
+	['q'] = 'q',
+	['w'] = 'w',
+	['e'] = 'e',
+	['r'] = 'r',
+	['t'] = 't',
+	['y'] = 'z',
+	['u'] = 'u',
+	['i'] = 'i',
+	['o'] = 'o',
+	['p'] = 'p',
+	['['] = 'ü',
+	[']'] = '+',
+
+	/* Reihe 3, ohne Shift */
+	['a'] = 'a',
+	['s'] = 's',
+	['d'] = 'd',
+	['f'] = 'f',
+	['g'] = 'g',
+	['h'] = 'h',
+	['j'] = 'j',
+	['k'] = 'k',
+	['l'] = 'l',
+	[';'] = 'ö',
+	['\''] = 'ä',
+	['\\'] = '#',
+
+	/* Reihe 4, ohne Shift */
+/*	['\\'] = '<', */
+	['z'] = 'y',
+	['x'] = 'x',
+	['c'] = 'c',
+	['v'] = 'v',
+	['b'] = 'b',
+	['n'] = 'n',
+	['m'] = 'm',
+	[','] = ',',
+	['.'] = '.',
+	['/'] = '-',
+
+	/* Reihe 1, mit Shift */
+	['~'] = '\0',
+	['!'] = '!',
+	['@'] = '"',
+	['#'] = '§',
+	['$'] = '$',
+	['%'] = '%',
+	['^'] = '&',
+	['&'] = '/',
+	['*'] = '(',
+	['('] = ')',
+	[')'] = '=',
+	['_'] = '?',
+	['+'] = '`',
+
+	/* Reihe 2, mit Shift */
+	['Q'] = 'Q',
+	['W'] = 'W',
+	['E'] = 'E',
+	['R'] = 'R',
+	['T'] = 'T',
+	['Y'] = 'Z',
+	['U'] = 'U',
+	['I'] = 'I',
+	['O'] = 'O',
+	['P'] = 'P',
+	['{'] = 'Ü',
+	['}'] = '*',
+
+
+	/* Reihe 3, mit Shift */
+	['A'] = 'A',
+	['S'] = 'S',
+	['D'] = 'D',
+	['F'] = 'F',
+	['G'] = 'G',
+	['H'] = 'H',
+	['J'] = 'J',
+	['K'] = 'K',
+	['L'] = 'L',
+	[':'] = 'Ö',
+	['"'] = 'ä',
+	['|'] = '#',
+
+	/* Reihe 4, mit Shift */
+/*	['|'] = '>',*/
+	['Z'] = 'Y',
+	['X'] = 'X',
+	['C'] = 'C',
+	['V'] = 'V',
+	['B'] = 'B',
+	['N'] = 'N',
+	['M'] = 'M',
+	['<'] = ';',
+	['>'] = ':',
+	['?'] = '_',
+
+};
+
+static struct belegung {
+	const char *hinweis;
+	const char *name;
+	const int *map;
+} belegung[] = {
+	{
+		.hinweis = "Tastaturbelegung ist jetzt",
+		.name = "deutsch",
+		.map = tastatur_deutsch,
+	},
+	{
+		.name = "none",
+		.map = NULL,
+	},
+};
+static int *tastatur_belegung;
+
+static int deutsch(grub_efi_char16_t unicode_char)
+{
+  int i, ret;
+  if (!tastatur_belegung) {
+  for (i = 0; belegung[i].map; i++)
+  {
+    if (grub_strcmp("deutsch", belegung[i].name) == 0)
+    {
+      grub_printf("%s %s\n", belegung[i].hinweis ? : "", belegung[i].name);
+      tastatur_belegung = belegung[i].map;
+    }
+  }
+  }
+  ret = i = unicode_char;
+  if (tastatur_belegung && tastatur_belegung[i])
+    ret = tastatur_belegung[i];
+  return ret;
+}
+
 static int
 grub_efi_translate_key (grub_efi_input_key_t key)
 {
@@ -195,7 +347,7 @@ grub_efi_translate_key (grub_efi_input_key_t key)
 	  && key.unicode_char != '\n' && key.unicode_char != '\r')
 	return GRUB_TERM_CTRL | (key.unicode_char - 1 + 'a');
       else
-	return key.unicode_char;
+	return deutsch(key.unicode_char);
     }
   /* Some devices send enter with scan_code 0x0d (F3) and unicode_char 0x0d. */
   else if (key.scan_code == '\r' && key.unicode_char == '\r')
@@ -206,7 +358,7 @@ grub_efi_translate_key (grub_efi_input_key_t key)
   if ((key.unicode_char >= 0x20 && key.unicode_char <= 0x7f)
       || key.unicode_char == '\t' || key.unicode_char == '\b'
       || key.unicode_char == '\n' || key.unicode_char == '\r')
-    return key.unicode_char;
+    return deutsch(key.unicode_char);
 
   return GRUB_TERM_NO_KEY;
 }

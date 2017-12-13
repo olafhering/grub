@@ -20,6 +20,7 @@
 #include <grub/machine/console.h>
 #include <grub/term.h>
 #include <grub/types.h>
+#include <grub/command.h>
 #include <grub/machine/int.h>
 
 static grub_uint8_t grub_console_cur_color = 0x7;
@@ -123,13 +124,6 @@ grub_console_putchar_real (grub_uint8_t c)
 	  pos.y });
 }
 
-static void
-grub_console_putchar (struct grub_term_output *term __attribute__ ((unused)),
-		      const struct grub_unicode_glyph *c)
-{
-  grub_console_putchar_real (c->base);
-}
-
 /*
  * BIOS call "INT 10H Function 09h" to write character and attribute
  *	Call with	%ah = 0x09
@@ -200,6 +194,138 @@ grub_console_setcursor (struct grub_term_output *term __attribute__ ((unused)),
  *			%al = ASCII character
  */
 
+static const int tastatur_deutsch[] = {
+	/* Reihe 1, ohne Shift */
+	['`'] = '^',
+	['1'] = '1',
+	['2'] = '2',
+	['3'] = '3',
+	['4'] = '4',
+	['5'] = '5',
+	['6'] = '6',
+	['7'] = '7',
+	['8'] = '8',
+	['9'] = '9',
+	['0'] = '0',
+	['-'] = 'ß',
+	['='] = '´',
+
+	/* Reihe 2, ohne Shift */
+	['q'] = 'q',
+	['w'] = 'w',
+	['e'] = 'e',
+	['r'] = 'r',
+	['t'] = 't',
+	['y'] = 'z',
+	['u'] = 'u',
+	['i'] = 'i',
+	['o'] = 'o',
+	['p'] = 'p',
+	['['] = 'ü',
+	[']'] = '+',
+
+	/* Reihe 3, ohne Shift */
+	['a'] = 'a',
+	['s'] = 's',
+	['d'] = 'd',
+	['f'] = 'f',
+	['g'] = 'g',
+	['h'] = 'h',
+	['j'] = 'j',
+	['k'] = 'k',
+	['l'] = 'l',
+	[';'] = 'ö',
+	['\''] = 'ä',
+	['\\'] = '#',
+
+	/* Reihe 4, ohne Shift */
+/*	['\\'] = '<', */
+	['z'] = 'y',
+	['x'] = 'x',
+	['c'] = 'c',
+	['v'] = 'v',
+	['b'] = 'b',
+	['n'] = 'n',
+	['m'] = 'm',
+	[','] = ',',
+	['.'] = '.',
+	['/'] = '-',
+
+	/* Reihe 1, mit Shift */
+	['~'] = '\0',
+	['!'] = '!',
+	['@'] = '"',
+	['#'] = '§',
+	['$'] = '$',
+	['%'] = '%',
+	['^'] = '&',
+	['&'] = '/',
+	['*'] = '(',
+	['('] = ')',
+	[')'] = '=',
+	['_'] = '?',
+	['+'] = '`',
+
+	/* Reihe 2, mit Shift */
+	['Q'] = 'Q',
+	['W'] = 'W',
+	['E'] = 'E',
+	['R'] = 'R',
+	['T'] = 'T',
+	['Y'] = 'Z',
+	['U'] = 'U',
+	['I'] = 'I',
+	['O'] = 'O',
+	['P'] = 'P',
+	['{'] = 'Ü',
+	['}'] = '*',
+
+
+	/* Reihe 3, mit Shift */
+	['A'] = 'A',
+	['S'] = 'S',
+	['D'] = 'D',
+	['F'] = 'F',
+	['G'] = 'G',
+	['H'] = 'H',
+	['J'] = 'J',
+	['K'] = 'K',
+	['L'] = 'L',
+	[':'] = 'Ö',
+	['"'] = 'ä',
+	['|'] = '#',
+
+	/* Reihe 4, mit Shift */
+/*	['|'] = '>',*/
+	['Z'] = 'Y',
+	['X'] = 'X',
+	['C'] = 'C',
+	['V'] = 'V',
+	['B'] = 'B',
+	['N'] = 'N',
+	['M'] = 'M',
+	['<'] = ';',
+	['>'] = ':',
+	['?'] = '_',
+
+};
+
+static struct belegung {
+	const char *hinweis;
+	const char *name;
+	const int *map;
+} belegung[] = {
+	{
+		.hinweis = "Tastaturbelegung ist jetzt",
+		.name = "deutsch",
+		.map = tastatur_deutsch,
+	},
+	{
+		.name = "none",
+		.map = NULL,
+	},
+};
+static int *tastatur_belegung;
 static int
 grub_console_getkey (struct grub_term_input *term __attribute__ ((unused)))
 {
@@ -208,6 +334,8 @@ grub_console_getkey (struct grub_term_input *term __attribute__ ((unused)))
   };
   struct grub_bios_int_registers regs;
   unsigned i;
+  int ret, orig;
+  static int prev;
 
   /*
    * Due to a bug in apple's bootcamp implementation, INT 16/AH = 0 would
@@ -220,22 +348,47 @@ grub_console_getkey (struct grub_term_input *term __attribute__ ((unused)))
   regs.flags = GRUB_CPU_INT_FLAGS_DEFAULT;
   grub_bios_interrupt (0x16, &regs);
   if (regs.flags & GRUB_CPU_INT_FLAGS_ZERO)
-    return GRUB_TERM_NO_KEY;
+  {
+    ret =  GRUB_TERM_NO_KEY;
+    goto out;
+  }
 
   regs.eax = 0x0000;
   regs.flags = GRUB_CPU_INT_FLAGS_DEFAULT;
   grub_bios_interrupt (0x16, &regs);
   if (!(regs.eax & 0xff))
-    return ((regs.eax >> 8) & 0xff) | GRUB_TERM_EXTENDED;
+{
+orig =
+    ret =  ((regs.eax >> 8) & 0xff) | GRUB_TERM_EXTENDED;
+    goto out;
+  }
 
   if ((regs.eax & 0xff) >= ' ')
-    return regs.eax & 0xff;
+{
+orig =
+    ret =  regs.eax & 0xff;
+    i = ret;
+    if (tastatur_belegung && tastatur_belegung[i])
+	    ret = tastatur_belegung[i];
+    goto out;
+  }
 
   for (i = 0; i < ARRAY_SIZE (bypass_table); i++)
     if (bypass_table[i] == (regs.eax & 0xffff))
-      return regs.eax & 0xff;
+{
+orig =
+      ret =  regs.eax & 0xff;
+    goto out;
+  }
 
-  return (regs.eax & 0xff) + (('a' - 1) | GRUB_TERM_CTRL);
+orig =
+  ret =  (regs.eax & 0xff) + (('a' - 1) | GRUB_TERM_CTRL);
+out:
+  if (0 && ret != prev) {
+  grub_printf("\n %04x %04x > %08x > %04x\n ", regs.eax, regs.flags, orig, ret);
+  prev = ret;
+  }
+  return ret;
 }
 
 static const struct grub_machine_bios_data_area *bios_data_area =
@@ -274,6 +427,37 @@ grub_console_setcolorstate (struct grub_term_output *term
   }
 }
 
+static grub_err_t
+grub_cmd_tastatur_belegung (struct grub_command *cmd __attribute__ ((unused)),
+		 int argc, char *argv[])
+{
+  int i;
+  if (argc < 1)
+    return grub_error (GRUB_ERR_BAD_ARGUMENT, "layout name required");
+
+  for (i = 0; belegung[i].map; i++)
+  {
+    if (grub_strcmp(argv[0], belegung[i].name) == 0)
+    {
+      grub_printf("%s %s\n", belegung[i].hinweis ? : "", belegung[i].name);
+      tastatur_belegung = belegung[i].map;
+      return GRUB_ERR_NONE;
+    }
+  }
+  return grub_error (GRUB_ERR_BAD_ARGUMENT, "layout %s not found.", argv[0]);
+}
+
+static grub_command_t cmd;
+static void
+grub_console_putchar (struct grub_term_output *term __attribute__ ((unused)),
+		      const struct grub_unicode_glyph *c)
+{
+  if (!cmd)
+    cmd = grub_register_command ("tastatur_belegung", grub_cmd_tastatur_belegung,
+                                0, N_("Set a keyboard layout."));
+  grub_console_putchar_real (c->base);
+}
+
 static struct grub_term_input grub_console_term_input =
   {
     .name = "console",
@@ -305,6 +489,8 @@ grub_console_init (void)
 void
 grub_console_fini (void)
 {
+  if (cmd)
+    grub_unregister_command (cmd);
   grub_term_unregister_input (&grub_console_term_input);
   grub_term_unregister_output (&grub_console_term_output);
 }
