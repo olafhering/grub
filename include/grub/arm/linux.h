@@ -43,7 +43,7 @@ struct linux_arm_kernel_header {
 # define grub_arm_firmware_get_machine_type grub_uboot_get_machine_type
 #elif defined GRUB_MACHINE_EFI
 # include <grub/efi/efi.h>
-# include <grub/machine/loader.h>
+# include <grub/arm/efi/loader.h>
 /* On UEFI platforms - load the images at the lowest available address not
    less than *_PHYS_OFFSET from the first available memory location. */
 # define LINUX_PHYS_OFFSET        (0x00008000)
