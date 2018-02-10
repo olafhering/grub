@@ -1,4 +1,4 @@
-grub2 (2.02-3) UNRELEASED; urgency=medium
+grub2 (2.02-3) unstable; urgency=medium
 
   * Use current location for upstream signing key
     (debian/upstream/signing-key.asc).
@@ -15,7 +15,7 @@ grub2 (2.02-3) UNRELEASED; urgency=medium
   [ Debconf translations ]
   * [sq] Albanian (Silva Arapi; closes: #874497).
 
- -- Colin Watson <cjwatson@debian.org>  Sun, 15 Oct 2017 13:43:06 +0100
+ -- Colin Watson <cjwatson@debian.org>  Sat, 10 Feb 2018 03:00:30 +0000
 
 grub2 (2.02-2) unstable; urgency=medium
 
