@@ -9,6 +9,8 @@ grub2 (2.02-3) UNRELEASED; urgency=medium
   * Cherry-pick upstream patch to change the default TSC calibration method
     to pmtimer on EFI systems (closes: #883193).
   * Move VCS to salsa.debian.org.
+  * Consistently create /boot/grub in the postinst of all grub-<platform>
+    packages (closes: #884883).
 
   [ Debconf translations ]
   * [sq] Albanian (Silva Arapi; closes: #874497).
