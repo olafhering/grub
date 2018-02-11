@@ -1,12 +1,12 @@
 Git Tree
 ========
 
-The grub2 packaging is maintained via the pkg-grub project on alioth:
-https://alioth.debian.org/projects/pkg-grub/
+The grub2 packaging is maintained via the grub-team project on Salsa:
+https://salsa.debian.org/grub-team
 
-The primary git tree is pkg-grub/grub.git. It can be obtained with:
+The primary git tree is grub-team/grub.  It can be obtained with:
 
-     git clone git://anonscm.debian.org/pkg-grub/grub.git
+     git clone https://salsa.debian.org/grub-team/grub
 
 Git Subtrees
 ------------
@@ -24,7 +24,7 @@ And then:
 Git Branches
 ------------
 
-pkg-grub/grub.git uses git-dpm and contains the following branches:
+grub-team/grub uses git-dpm and contains the following branches:
 
 - upstream:
 
@@ -33,7 +33,7 @@ pkg-grub/grub.git uses git-dpm and contains the following branches:
 
 - master:
 
-  The main packaging branch, based on upstream. debian/patches
+  The main packaging branch, based on upstream.  debian/patches
   maintained using git-dpm.
 
 - pristine-tar:
