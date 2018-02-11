@@ -56,3 +56,5 @@ efinet_set_dns_from_uefi_proto.patch
 grub-install-efibootmgr-check.patch
 ext4_feature_encrypt.patch
 tsc_efi_default_to_pmtimer.patch
+freetype-capitalise-variables.patch
+freetype-pkg-config.patch
