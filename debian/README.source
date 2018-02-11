@@ -8,19 +8,18 @@ The primary git tree is pkg-grub/grub.git. It can be obtained with:
 
      git clone git://anonscm.debian.org/pkg-grub/grub.git
 
-Git Submodules
---------------
+Git Subtrees
+------------
 
-grub.git/debian/grub-extras is maintained as a git submodule. After
-cloning the main repository you should run:
+grub.git/debian/grub-extras is maintained using git subtree merges.  To
+update it to a given commit, first ensure that you have the relevant
+upstream remote, e.g.:
 
-    git submodule update --init
+    git remote add -f grub-extras https://git.sv.gnu.org/git/grub-extras.git
 
-To initialise this tree. See git-submodule(1) for more info.
+And then:
 
-If you are using a tool such as git-buildpackage(1) then you will need to tell
-it explicitly that it needs to consider submodules, by passing the
---git-submodules option.
+    git subtree merge -P debian/grub-extras <commit>
 
 Git Branches
 ------------

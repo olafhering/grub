@@ -1,3 +1,10 @@
+grub2 (2.02-4) UNRELEASED; urgency=medium
+
+  * Switch to tracking debian/grub-extras/ using "git subtree" rather than
+    submodules.
+
+ -- Colin Watson <cjwatson@debian.org>  Sun, 11 Feb 2018 23:23:09 +0000
+
 grub2 (2.02-3) unstable; urgency=medium
 
   * Use current location for upstream signing key
