@@ -4,6 +4,8 @@ grub2 (2.02-4) UNRELEASED; urgency=medium
     submodules.
   * Update debian/README.source for Salsa migration.
   * Use pkg-config to find FreeType (closes: #887721).
+  * Change various binary packages' priorities to optional, since "Priority:
+    extra" is now deprecated.
 
  -- Colin Watson <cjwatson@debian.org>  Sun, 11 Feb 2018 23:23:09 +0000
 

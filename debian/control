@@ -1,6 +1,6 @@
 Source: grub2
 Section: admin
-Priority: extra
+Priority: optional
 Maintainer: GRUB Maintainers <pkg-grub-devel@lists.alioth.debian.org>
 Uploaders: Felix Zielcke <fzielcke@z-51.de>, Jordi Mallach <jordi@debian.org>, Colin Watson <cjwatson@debian.org>, Ian Campbell <ijc@debian.org>
 Build-Depends: debhelper (>= 7.4.2~),
@@ -70,7 +70,6 @@ Description: GRand Unified Bootloader, version 2 (dummy package)
 
 
 Package: grub-common
-Priority: optional
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, gettext-base, ${lsb-base-depends}
 Replaces: grub-pc (<< 2.00-4), grub-ieee1275 (<< 2.00-4), grub-efi (<< 1.99-1), grub-coreboot (<< 2.00-4), grub-linuxbios (<< 1.96+20080831-1), grub-efi-ia32 (<< 2.00-4), grub-efi-amd64 (<< 2.00-4), grub-efi-ia64 (<< 2.00-4), grub-yeeloong (<< 2.00-4)
@@ -85,7 +84,6 @@ Description: GRand Unified Bootloader (common files)
  specific to GRUB 2 are here as long as they do not break GRUB Legacy.
 
 Package: grub2-common
-Priority: optional
 # Not Architecture: any because this package contains some things which are
 # only built when there is a real platform (e.g. grub-install), and the rest
 # of the package is not very useful in a utilities-only build.
@@ -120,7 +118,6 @@ Description: GRand Unified Bootloader, version 2 (emulated debug files)
  you are trying to debug GRUB using its GDB stub.
 
 Package: grub-pc-bin
-Priority: optional
 Architecture: any-i386 any-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
 Replaces: grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-pc (<< 1.99-1)
@@ -155,7 +152,6 @@ Description: GRand Unified Bootloader, version 2 (PC/BIOS debug files)
  if you are trying to debug GRUB using its GDB stub.
 
 Package: grub-pc
-Priority: optional
 Architecture: any-i386 any-amd64
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub2-common (= ${binary:Version}), grub-pc-bin (= ${binary:Version}), ucf, freebsd-utils (>= 8.0-4) [kfreebsd-any], ${gfxpayload-depends}
