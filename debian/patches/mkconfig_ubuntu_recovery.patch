@@ -1,4 +1,4 @@
-From f67c03b94d4473b658247b7c72a0a9c37e0ddab6 Mon Sep 17 00:00:00 2001
+From 52451827f71afce9c0249f94ef6403bd3920fcbd Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:06 +0000
 Subject: "single" -> "recovery" when friendly-recovery is installed

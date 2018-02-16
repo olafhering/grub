@@ -1,3 +1,4 @@
+replace-libgcrypt-crc.patch
 olpc_prefix_hack.patch
 core_in_fs.patch
 dpkg_version_comparison.patch

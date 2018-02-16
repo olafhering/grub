@@ -1,4 +1,4 @@
-From 341bf4869788af50fe3756b268ef9a517f01e456 Mon Sep 17 00:00:00 2001
+From 19fa6f0bf72fa0965abae83a32acee837da60311 Mon Sep 17 00:00:00 2001
 From: Robert Millan <rmh@aybabtu.com>
 Date: Mon, 13 Jan 2014 12:12:52 +0000
 Subject: Improve handling of Debian kernel version numbers

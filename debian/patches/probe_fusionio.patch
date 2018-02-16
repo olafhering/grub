@@ -1,4 +1,4 @@
-From 7cd8928f79552001c4a16c8cefeaacf2f29bc671 Mon Sep 17 00:00:00 2001
+From 044b52774e9177cef6cae2b104867ff964d22ab4 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:31 +0000
 Subject: Probe FusionIO devices

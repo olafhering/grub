@@ -1,4 +1,4 @@
-From 2f97dcc8caba3334636240f4417596c5ac27cc00 Mon Sep 17 00:00:00 2001
+From c4092a1d354f4ff35bb38018ee1a3514c34037e2 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:03 +0000
 Subject: Bail out if trying to run grub-mkconfig during upgrade to 2.00

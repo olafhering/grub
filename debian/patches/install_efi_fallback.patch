@@ -1,4 +1,4 @@
-From 2a07511e55684ce70732f66ecbed6019a2f050c1 Mon Sep 17 00:00:00 2001
+From 6adb5d9c36756bf65e8f0d8c95749c427c79d8e1 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:05 +0000
 Subject: Fall back to i386-pc if booted using EFI but -efi is missing

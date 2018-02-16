@@ -1,4 +1,4 @@
-grub2 (2.02-4) UNRELEASED; urgency=medium
+grub2 (2.02+dfsg1-1) UNRELEASED; urgency=medium
 
   * Switch to tracking debian/grub-extras/ using "git subtree" rather than
     submodules.
@@ -6,6 +6,9 @@ grub2 (2.02-4) UNRELEASED; urgency=medium
   * Use pkg-config to find FreeType (closes: #887721).
   * Change various binary packages' priorities to optional, since "Priority:
     extra" is now deprecated.
+  * Repack upstream tarball without grub-core/lib/libgcrypt*/cipher/crc.c,
+    and provide a replacement implementation backported from more recent
+    versions of libgcrypt (closes: #745409).
 
  -- Colin Watson <cjwatson@debian.org>  Sun, 11 Feb 2018 23:23:09 +0000
 
