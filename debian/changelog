@@ -1,4 +1,4 @@
-grub2 (2.02+dfsg1-1) UNRELEASED; urgency=medium
+grub2 (2.02+dfsg1-1) unstable; urgency=medium
 
   * Switch to tracking debian/grub-extras/ using "git subtree" rather than
     submodules.
@@ -14,7 +14,7 @@ grub2 (2.02+dfsg1-1) UNRELEASED; urgency=medium
   * Handle the case where udevadm exists but is non-functional, as warned
     about by Lintian 2.5.75.
 
- -- Colin Watson <cjwatson@debian.org>  Sun, 11 Feb 2018 23:23:09 +0000
+ -- Colin Watson <cjwatson@debian.org>  Sat, 17 Feb 2018 21:28:41 +0000
 
 grub2 (2.02-3) unstable; urgency=medium
 
