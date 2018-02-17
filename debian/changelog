@@ -11,6 +11,8 @@ grub2 (2.02+dfsg1-1) UNRELEASED; urgency=medium
     versions of libgcrypt (closes: #745409).
   * Cherry-pick upstream patch to avoid -Werror=unused-value build failure
     (closes: #890431).
+  * Handle the case where udevadm exists but is non-functional, as warned
+    about by Lintian 2.5.75.
 
  -- Colin Watson <cjwatson@debian.org>  Sun, 11 Feb 2018 23:23:09 +0000
 

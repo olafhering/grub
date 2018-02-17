@@ -184,33 +184,36 @@ camcontrol_size()
   echo "$size"
 }
 
+maybe_udevadm()
+{
+  if which udevadm >/dev/null 2>&1; then
+    udevadm "$@" || true
+  fi
+}
+
 # Returns value in $RET, like a debconf command.
 describe_disk()
 {
-  local disk id base size
+  local disk id sysfs_path disk_basename size model
   disk="$1"
   id="$2"
 
   model=
   case $(uname -s) in
     Linux)
-      if which udevadm >/dev/null 2>&1; then
-        size="$(sysfs_size "/sys$(udevadm info -n "$disk" -q path)")"
-      else
-        base="${disk#/dev/}"
-        base="$(printf %s "$base" | sed 's,/,!,g')"
-        size="$(sysfs_size "/sys/block/$base")"
+      sysfs_path="$(maybe_udevadm info -n "$disk" -q path)"
+      if [ -z "$sysfs_path" ]; then
+        sysfs_path="/block/$(printf %s "${disk#/dev/}" | sed 's,/,!,g')"
       fi
+      size="$(sysfs_size "/sys$sysfs_path")"
 
-      if which udevadm >/dev/null 2>&1; then
-        model="$(udevadm info -n "$disk" -q property | sed -n 's/^ID_MODEL=//p')"
+      model="$(maybe_udevadm info -n "$disk" -q property | sed -n 's/^ID_MODEL=//p')"
+      if [ -z "$model" ]; then
+        model="$(maybe_udevadm info -n "$disk" -q property | sed -n 's/^DM_NAME=//p')"
         if [ -z "$model" ]; then
-          model="$(udevadm info -n "$disk" -q property | sed -n 's/^DM_NAME=//p')"
-          if [ -z "$model" ]; then
-            model="$(udevadm info -n "$disk" -q property | sed -n 's/^MD_NAME=//p')"
-            if [ -z "$model" ] && which dmsetup >/dev/null 2>&1; then
-              model="$(dmsetup info -c --noheadings -o name "$disk" 2>/dev/null || true)"
-            fi
+          model="$(maybe_udevadm info -n "$disk" -q property | sed -n 's/^MD_NAME=//p')"
+          if [ -z "$model" ] && which dmsetup >/dev/null 2>&1; then
+            model="$(dmsetup info -c --noheadings -o name "$disk" 2>/dev/null || true)"
           fi
         fi
       fi
@@ -233,21 +236,21 @@ describe_disk()
 # Returns value in $RET, like a debconf command.
 describe_partition()
 {
-  local disk part id path diskbase partbase size
+  local disk part id path sysfs_path diskbase partbase size
   disk="$1"
   part="$2"
   id="$3"
   path="$4"
 
-  if which udevadm >/dev/null 2>&1; then
-    size="$(sysfs_size "/sys$(udevadm info -n "$part" -q path)")"
-  else
+  sysfs_path="$(maybe_udevadm info -n "$part" -q path)"
+  if [ -z "$sysfs_path" ]; then
     diskbase="${disk#/dev/}"
     diskbase="$(printf %s "$diskbase" | sed 's,/,!,g')"
     partbase="${part#/dev/}"
     partbase="$(printf %s "$partbase" | sed 's,/,!,g')"
-    size="$(sysfs_size "/sys/block/$diskbase/$partbase")"
+    sysfs_path="/block/$diskbase/$partbase"
   fi
+  size="$(sysfs_size "/sys$sysfs_path")"
 
   db_subst grub-pc/partition_description DEVICE "$part"
   db_subst grub-pc/partition_description SIZE "$size"
