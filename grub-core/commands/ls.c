@@ -201,6 +201,8 @@ grub_ls_list_files (char *dirname, int longlist, int all, int human)
       if (grub_errno == GRUB_ERR_UNKNOWN_FS)
 	grub_errno = GRUB_ERR_NONE;
 
+      grub_device_close (dev);
+      dev = NULL;
       grub_normal_print_device_info (device_name);
     }
   else if (fs)

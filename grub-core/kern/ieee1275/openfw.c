@@ -561,3 +561,30 @@ grub_ieee1275_canonicalise_devname (const char *path)
   return NULL;
 }
 
+void
+grub_ieee1275_get_boot_dev (char **boot_dev)
+{
+  char *bootpath;
+  grub_ssize_t bootpath_size;
+
+  if (grub_ieee1275_get_property_length (grub_ieee1275_chosen, "bootpath",
+					 &bootpath_size)
+      || bootpath_size <= 0)
+    {
+      /* Should never happen.  */
+      grub_printf ("/chosen/bootpath property missing!\n");
+      return;
+    }
+
+  bootpath = (char *) grub_malloc ((grub_size_t) bootpath_size + 64);
+  if (! bootpath)
+    {
+      grub_print_error ();
+      return;
+    }
+  grub_ieee1275_get_property (grub_ieee1275_chosen, "bootpath", bootpath,
+                              (grub_size_t) bootpath_size + 1, 0);
+  bootpath[bootpath_size] = '\0';
+
+  *boot_dev = bootpath;
+}
