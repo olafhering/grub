@@ -31,7 +31,7 @@ Build-Depends: debhelper (>= 7.4.2~),
  dosfstools [amd64 arm64],
  mtools [amd64 arm64],
  wamerican,
- libparted-dev [any-ppc64el],
+ libparted-dev [any-powerpc any-ppc64 any-ppc64el],
  pkg-config,
 Build-Conflicts: autoconf2.13, libzfs-dev, libnvpair-dev
 Standards-Version: 3.9.6
