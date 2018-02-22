@@ -74,7 +74,7 @@ ofdisk_hash_find (const char *devpath)
 }
 
 static struct ofdisk_hash_ent *
-ofdisk_hash_add_real (char *devpath)
+ofdisk_hash_add_real (const char *devpath)
 {
   struct ofdisk_hash_ent *p;
   struct ofdisk_hash_ent **head = &ofdisk_hash[ofdisk_hash_fn(devpath)];
@@ -85,13 +85,20 @@ ofdisk_hash_add_real (char *devpath)
   if (!p)
     return NULL;
 
-  p->devpath = devpath;
+  p->devpath = grub_strdup (devpath);
+
+  if (!p->devpath)
+    {
+      grub_free (p);
+      return NULL;
+    }
 
   p->grub_devpath = grub_malloc (sizeof ("ieee1275/")
 				 + 2 * grub_strlen (p->devpath));
 
   if (!p->grub_devpath)
     {
+      grub_free (p->devpath);
       grub_free (p);
       return NULL;
     }
@@ -101,6 +108,7 @@ ofdisk_hash_add_real (char *devpath)
       p->open_path = grub_malloc (grub_strlen (p->devpath) + 3);
       if (!p->open_path)
 	{
+          grub_free (p->devpath);
 	  grub_free (p->grub_devpath);
 	  grub_free (p);
 	  return NULL;
@@ -140,7 +148,7 @@ check_string_removable (const char *str)
 }
 
 static struct ofdisk_hash_ent *
-ofdisk_hash_add (char *devpath, char *curcan)
+ofdisk_hash_add (const char *devpath, const char *curcan)
 {
   struct ofdisk_hash_ent *p, *pcan;
 
@@ -160,8 +168,6 @@ ofdisk_hash_add (char *devpath, char *curcan)
   pcan = ofdisk_hash_find (curcan);
   if (!pcan)
     pcan = ofdisk_hash_add_real (curcan);
-  else
-    grub_free (curcan);
 
   if (check_string_removable (devpath) || check_string_removable (curcan))
     pcan->is_removable = 1;
@@ -191,18 +197,7 @@ dev_iterate_real (const char *name, const char *path)
 
   op = ofdisk_hash_find (path);
   if (!op)
-    {
-      char *name_dup = grub_strdup (name);
-      char *can = grub_strdup (path);
-      if (!name_dup || !can)
-	{
-	  grub_errno = GRUB_ERR_NONE;
-	  grub_free (name_dup);
-	  grub_free (can);
-	  return;
-	}
-      op = ofdisk_hash_add (name_dup, can);
-    }
+    op = ofdisk_hash_add (name, path);
   return;
 }
 
@@ -658,6 +653,7 @@ insert_bootpath (void)
       char *device = grub_ieee1275_get_devname (bootpath);
       op = ofdisk_hash_add (device, NULL);
       op->is_boot = 1;
+      grub_free (device);
     }
   grub_free (type);
   grub_free (bootpath);

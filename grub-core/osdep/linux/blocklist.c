@@ -58,6 +58,11 @@ grub_install_get_blocklist (grub_device_t root_dev,
   struct fiemap fie1;
   int fd;
 
+#ifdef __sparc__
+  if (grub_strstr (container->partmap->name, "gpt"))
+    container_start = 0;
+#endif
+
   /* Write the first two sectors of the core image onto the disk.  */
   grub_util_info ("opening the core image `%s'", core_path);
   fd = open (core_path, O_RDONLY);

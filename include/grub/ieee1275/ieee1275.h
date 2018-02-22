@@ -146,6 +146,8 @@ enum grub_ieee1275_flag
   GRUB_IEEE1275_FLAG_BROKEN_REPEAT,
 
   GRUB_IEEE1275_FLAG_CURSORONOFF_ANSI_BROKEN,
+
+  GRUB_IEEE1275_FLAG_RAW_DEVNAMES,
 };
 
 extern int EXPORT_FUNC(grub_ieee1275_test_flag) (enum grub_ieee1275_flag flag);
@@ -211,6 +213,30 @@ int EXPORT_FUNC(grub_ieee1275_set_color) (grub_ieee1275_ihandle_t ihandle,
 					  int index, int r, int g, int b);
 int EXPORT_FUNC(grub_ieee1275_milliseconds) (grub_uint32_t *msecs);
 
+int EXPORT_FUNC(grub_ieee1275_set_address) (grub_ieee1275_ihandle_t ihandle,
+                                            grub_uint32_t target,
+                                            grub_uint32_t lun);
+
+int EXPORT_FUNC(grub_ieee1275_no_data_command) (grub_ieee1275_ihandle_t ihandle,
+                                                const void *cmd_addr,
+                                                grub_ssize_t *result);
+
+int EXPORT_FUNC(grub_ieee1275_decode_unit4) (grub_ieee1275_ihandle_t ihandle,
+                                             void *addr, grub_size_t size,
+                                             grub_uint32_t *phy_lo,
+                                             grub_uint32_t *phy_hi,
+                                             grub_uint32_t *lun_lo,
+                                             grub_uint32_t *lun_hi);
+
+char *EXPORT_FUNC(grub_ieee1275_encode_uint4) (grub_ieee1275_ihandle_t ihandle,
+                                             grub_uint32_t phy_lo,
+                                             grub_uint32_t phy_hi,
+                                             grub_uint32_t lun_lo,
+                                             grub_uint32_t lun_hi,
+                                             grub_size_t *size);
+
+int EXPORT_FUNC(grub_ieee1275_get_block_size) (grub_ieee1275_ihandle_t ihandle);
+
 
 grub_err_t EXPORT_FUNC(grub_claimmap) (grub_addr_t addr, grub_size_t size);
 
@@ -235,6 +261,7 @@ void EXPORT_FUNC(grub_ieee1275_children_peer) (struct grub_ieee1275_devalias *al
 void EXPORT_FUNC(grub_ieee1275_children_first) (const char *devpath,
 						struct grub_ieee1275_devalias *alias);
 
+void EXPORT_FUNC(grub_ieee1275_get_boot_dev) (char **boot_dev);
 #define FOR_IEEE1275_DEVALIASES(alias) for (grub_ieee1275_devalias_init_iterator (&(alias)); grub_ieee1275_devalias_next (&(alias));)
 
 #define FOR_IEEE1275_DEVCHILDREN(devpath, alias) for (grub_ieee1275_children_first ((devpath), &(alias)); \
