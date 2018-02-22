@@ -200,7 +200,6 @@ save_blocklists (grub_disk_addr_t sector, unsigned offset, unsigned length,
 #endif
 }
 
-#ifdef GRUB_SETUP_BIOS
 /* Context for setup/identify_partmap.  */
 struct identify_partmap_ctx
 {
@@ -236,7 +235,6 @@ identify_partmap (grub_disk_t disk __attribute__ ((unused)),
   ctx->multiple_partmaps = 1;
   return 1;
 }
-#endif
 
 #ifdef GRUB_SETUP_BIOS
 #define SETUP grub_util_bios_setup
@@ -257,9 +255,7 @@ SETUP (const char *dir,
   char *boot_img, *core_img, *boot_path;
   char *root = 0;
   size_t boot_size, core_size;
-#ifdef GRUB_SETUP_BIOS
   grub_uint16_t core_sectors;
-#endif
   grub_device_t root_dev = 0, dest_dev, core_dev;
   grub_util_fd_t fp;
   struct blocklists bl;
@@ -283,10 +279,8 @@ SETUP (const char *dir,
 
   core_path = grub_util_get_path (dir, core_file);
   core_size = grub_util_get_image_size (core_path);
-#ifdef GRUB_SETUP_BIOS
   core_sectors = ((core_size + GRUB_DISK_SECTOR_SIZE - 1)
 		  >> GRUB_DISK_SECTOR_BITS);
-#endif
   if (core_size < GRUB_DISK_SECTOR_SIZE)
     grub_util_error (_("the size of `%s' is too small"), core_path);
 #ifdef GRUB_SETUP_BIOS
@@ -368,8 +362,8 @@ SETUP (const char *dir,
   if (grub_env_set ("root", root) != GRUB_ERR_NONE)
     grub_util_error ("%s", grub_errmsg);
 
-#ifdef GRUB_SETUP_BIOS
   {
+#ifdef GRUB_SETUP_BIOS
     char *tmp_img;
     grub_uint8_t *boot_drive_check;
 
@@ -394,6 +388,7 @@ SETUP (const char *dir,
 	boot_drive_check[0] = 0x90;
 	boot_drive_check[1] = 0x90;
       }
+#endif
 
     struct identify_partmap_ctx ctx = {
       .dest_partmap = NULL,
@@ -409,6 +404,7 @@ SETUP (const char *dir,
 
     grub_partition_iterate (dest_dev->disk, identify_partmap, &ctx);
 
+#ifdef GRUB_SETUP_BIOS
     /* Copy the partition table.  */
     if (ctx.dest_partmap ||
         (!allow_floppy && !grub_util_biosdisk_is_floppy (dest_dev->disk)))
@@ -417,6 +413,7 @@ SETUP (const char *dir,
 	      GRUB_BOOT_MACHINE_PART_END - GRUB_BOOT_MACHINE_WINDOWS_NT_MAGIC);
 
     free (tmp_img);
+#endif
 
     if (ctx.container
 	&& grub_strcmp (ctx.container->partmap->name, "msdos") == 0
@@ -504,10 +501,21 @@ SETUP (const char *dir,
     else
       maxsec = core_sectors;
 
+#ifdef GRUB_SETUP_BIOS
     if (maxsec > ((0x78000 - GRUB_KERNEL_I386_PC_LINK_ADDR)
 		>> GRUB_DISK_SECTOR_BITS))
       maxsec = ((0x78000 - GRUB_KERNEL_I386_PC_LINK_ADDR)
 		>> GRUB_DISK_SECTOR_BITS);
+#endif
+
+#ifdef GRUB_SETUP_SPARC64
+    /* On SPARC we need two extra.  One is because we are combining the
+     * core.img with the boot.img. The other is because the boot sector
+     * starts at 1.
+     */
+    nsec += 2;
+    maxsec += 2;
+#endif
 
     if (is_ldm)
       err = grub_util_ldm_embed (dest_dev->disk, &nsec, maxsec,
@@ -556,9 +564,35 @@ SETUP (const char *dir,
       bl.block--;
     bl.block->start = 0;
     bl.block->len = 0;
+#ifdef GRUB_SETUP_BIOS
     bl.block->segment = 0;
+#endif
 
+#ifdef GRUB_SETUP_SPARC64
+    {
+      /* On SPARC, the block-list entries need to be based off the beginning
+         of the parition, not the beginning of the disk. */
+      struct grub_boot_blocklist *block;
+      block = bl.first_block;
+
+      while (block->len)
+        {
+          block->start -= bl.first_sector;
+          block--;
+        }
+    }
+
+    /* Reserve space for the boot block since it can not be in the
+       Parition table on SPARC */
+    assert (bl.first_block->len > 2);
+    bl.first_block->start += 2;
+    bl.first_block->len -= 2;
+    write_rootdev (root_dev, boot_img, sectors[BOOT_SECTOR + 1] - bl.first_sector);
+#endif
+
+#ifdef GRUB_SETUP_BIOS
     write_rootdev (root_dev, boot_img, bl.first_sector);
+#endif
 
     /* Round up to the nearest sector boundary, and zero the extra memory */
     core_img = xrealloc (core_img, nsec * GRUB_DISK_SECTOR_SIZE);
@@ -568,7 +602,7 @@ SETUP (const char *dir,
     bl.first_block = (struct grub_boot_blocklist *) (core_img
 						     + GRUB_DISK_SECTOR_SIZE
 						     - sizeof (*bl.block));
-
+#if GRUB_SETUP_BIOS
     grub_size_t no_rs_length;
     no_rs_length = grub_target_to_host16 
       (grub_get_unaligned16 (core_img
@@ -599,6 +633,26 @@ SETUP (const char *dir,
       grub_disk_write (dest_dev->disk, sectors[i], 0,
 		       GRUB_DISK_SECTOR_SIZE,
 		       core_img + i * GRUB_DISK_SECTOR_SIZE);
+#endif
+#ifdef GRUB_SETUP_SPARC64
+    {
+      int isec = BOOT_SECTOR;
+
+      /* Write the boot image onto the disk. */
+      if (grub_disk_write (dest_dev->disk, sectors[isec++], 0,
+                           GRUB_DISK_SECTOR_SIZE, boot_img))
+        grub_util_error ("%s", grub_errmsg);
+
+      /* Write the core image onto the disk. */
+      for (i = 0 ; isec < nsec; i++, isec++)
+        {
+          if (grub_disk_write (dest_dev->disk, sectors[isec], 0,
+                               GRUB_DISK_SECTOR_SIZE,
+                               core_img  + i * GRUB_DISK_SECTOR_SIZE))
+            grub_util_error ("%s", grub_errmsg);
+        }
+    }
+#endif
 
     grub_free (sectors);
 
@@ -608,7 +662,6 @@ SETUP (const char *dir,
   }
 
 unable_to_embed:
-#endif
 
   if (dest_dev->disk->dev->id != root_dev->disk->dev->id)
     grub_util_error ("%s", _("embedding is not possible, but this is required for "
@@ -729,15 +782,21 @@ unable_to_embed:
   {
     char *buf, *ptr = core_img;
     size_t len = core_size;
-    grub_uint64_t blk;
+    grub_uint64_t blk, offset = 0;
     grub_partition_t container = core_dev->disk->partition;
     grub_err_t err;
 
     core_dev->disk->partition = 0;
+#ifdef GRUB_SETUP_SPARC64
+    {
+      if (grub_strstr (container->partmap->name, "gpt"))
+        offset = grub_partition_get_start (container);
+    }
+#endif
 
     buf = xmalloc (core_size);
     blk = bl.first_sector;
-    err = grub_disk_read (core_dev->disk, blk, 0, GRUB_DISK_SECTOR_SIZE, buf);
+    err = grub_disk_read (core_dev->disk, blk + offset, 0, GRUB_DISK_SECTOR_SIZE, buf);
     if (err)
       grub_util_error (_("cannot read `%s': %s"), core_dev->disk->name,
 		       grub_errmsg);
@@ -756,7 +815,7 @@ unable_to_embed:
 	if (cur > len)
 	  cur = len;
 
-	err = grub_disk_read (core_dev->disk, blk, 0, cur, buf);
+	err = grub_disk_read (core_dev->disk, blk + offset, 0, cur, buf);
 	if (err)
 	  grub_util_error (_("cannot read `%s': %s"), core_dev->disk->name,
 			   grub_errmsg);
@@ -785,6 +844,10 @@ unable_to_embed:
   if (grub_disk_write (dest_dev->disk, BOOT_SECTOR,
 		       0, GRUB_DISK_SECTOR_SIZE, boot_img))
     grub_util_error ("%s", grub_errmsg);
+
+#ifdef GRUB_SETUP_SPARC64
+ finish:
+#endif
 
   grub_util_biosdisk_flush (root_dev->disk);
   grub_util_biosdisk_flush (dest_dev->disk);
