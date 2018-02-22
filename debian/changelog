@@ -1,6 +1,8 @@
 grub2 (2.02+dfsg1-2) UNRELEASED; urgency=medium
 
   * Build-depend on libparted-dev on powerpc and ppc64 (closes: #891070).
+  * Add support for modern sparc64 hardware (thanks, Eric Snowberg via John
+    Paul Adrian Glaubitz; closes: #854568).
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 22 Feb 2018 09:58:46 +0000
 

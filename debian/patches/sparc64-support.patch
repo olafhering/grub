@@ -1,0 +1,2319 @@
+From 48ab5733b350bb96ae3c3b1513093f8a847be9e9 Mon Sep 17 00:00:00 2001
+From: Eric Snowberg <eric.snowberg@oracle.com>
+Date: Thu, 22 Feb 2018 10:03:46 +0000
+Subject: Add support for modern sparc64 hardware
+
+Origin: other, https://github.com/esnowberg/grub2-sparc/tree/sparc-next-v4
+Bug-Debian: https://bugs.debian.org/854568
+Last-Update: 2017-09-29
+
+Patch-Name: sparc64-support.patch
+---
+ grub-core/Makefile.core.def                |    1 +
+ grub-core/boot/sparc64/ieee1275/boot.S     |   10 +
+ grub-core/commands/ls.c                    |    2 +
+ grub-core/commands/nativedisk.c            |    1 +
+ grub-core/disk/ieee1275/obdisk.c           | 1079 ++++++++++++++++++++++++++++
+ grub-core/disk/ieee1275/ofdisk.c           |   30 +-
+ grub-core/kern/ieee1275/cmain.c            |    3 +
+ grub-core/kern/ieee1275/ieee1275.c         |  199 +++++
+ grub-core/kern/ieee1275/init.c             |   36 +-
+ grub-core/kern/ieee1275/openfw.c           |   27 +
+ grub-core/kern/parser.c                    |    1 -
+ grub-core/kern/sparc64/ieee1275/ieee1275.c |   53 ++
+ grub-core/osdep/linux/blocklist.c          |    5 +
+ grub-core/osdep/linux/ofpath.c             |  194 ++++-
+ include/grub/disk.h                        |    1 +
+ include/grub/ieee1275/ieee1275.h           |   27 +
+ include/grub/ieee1275/obdisk.h             |   25 +
+ include/grub/sparc64/ieee1275/ieee1275.h   |    2 +
+ util/grub-install.c                        |    1 +
+ util/ieee1275/grub-ofpathname.c            |    4 +-
+ util/setup.c                               |   87 ++-
+ 21 files changed, 1733 insertions(+), 55 deletions(-)
+ create mode 100644 grub-core/disk/ieee1275/obdisk.c
+ create mode 100644 include/grub/ieee1275/obdisk.h
+
+diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
+index 3b389277c..e751e334c 100644
+--- a/grub-core/Makefile.core.def
++++ b/grub-core/Makefile.core.def
+@@ -270,6 +270,7 @@ kernel = {
+   sparc64_ieee1275 = kern/sparc64/cache.S;
+   sparc64_ieee1275 = kern/sparc64/dl.c;
+   sparc64_ieee1275 = kern/sparc64/ieee1275/ieee1275.c;
++  sparc64_ieee1275 = disk/ieee1275/obdisk.c;
+ 
+   arm = kern/arm/dl.c;
+   arm = kern/arm/dl_helper.c;
+diff --git a/grub-core/boot/sparc64/ieee1275/boot.S b/grub-core/boot/sparc64/ieee1275/boot.S
+index 586efb401..9ea9b4e06 100644
+--- a/grub-core/boot/sparc64/ieee1275/boot.S
++++ b/grub-core/boot/sparc64/ieee1275/boot.S
+@@ -69,6 +69,10 @@ prom_seek_name:		.asciz "seek"
+ prom_read_name:		.asciz "read"
+ prom_exit_name:		.asciz "exit"
+ grub_name:		.asciz "GRUB "
++#ifdef CDBOOT
++prom_close_name:	.asciz "close"
++#endif
++
+ #define GRUB_NAME_LEN	5
+ 
+ 	.align	4
+@@ -213,6 +217,12 @@ bootpath_known:
+ 	call	prom_call_3_1_o1
+ #ifdef CDBOOT
+ 	 LDUW_ABS(kernel_size, 0x00, %o3)
++
++	GET_ABS(prom_close_name, %o0)
++	mov	1, %g1
++	mov	0, %o5
++	call	prom_call
++	 mov	BOOTDEV_REG, %o1
+ #else
+ 	 mov	512, %o3
+ #endif
+diff --git a/grub-core/commands/ls.c b/grub-core/commands/ls.c
+index 0eaf83652..a7318ab84 100644
+--- a/grub-core/commands/ls.c
++++ b/grub-core/commands/ls.c
+@@ -201,6 +201,8 @@ grub_ls_list_files (char *dirname, int longlist, int all, int human)
+       if (grub_errno == GRUB_ERR_UNKNOWN_FS)
+ 	grub_errno = GRUB_ERR_NONE;
+ 
++      grub_device_close (dev);
++      dev = NULL;
+       grub_normal_print_device_info (device_name);
+     }
+   else if (fs)
+diff --git a/grub-core/commands/nativedisk.c b/grub-core/commands/nativedisk.c
+index 2f56a870e..2f2315d77 100644
+--- a/grub-core/commands/nativedisk.c
++++ b/grub-core/commands/nativedisk.c
+@@ -66,6 +66,7 @@ get_uuid (const char *name, char **uuid, int getnative)
+       /* Firmware disks.  */
+     case GRUB_DISK_DEVICE_BIOSDISK_ID:
+     case GRUB_DISK_DEVICE_OFDISK_ID:
++    case GRUB_DISK_DEVICE_OBDISK_ID:
+     case GRUB_DISK_DEVICE_EFIDISK_ID:
+     case GRUB_DISK_DEVICE_NAND_ID:
+     case GRUB_DISK_DEVICE_ARCDISK_ID:
+diff --git a/grub-core/disk/ieee1275/obdisk.c b/grub-core/disk/ieee1275/obdisk.c
+new file mode 100644
+index 000000000..006bb6f91
+--- /dev/null
++++ b/grub-core/disk/ieee1275/obdisk.c
+@@ -0,0 +1,1079 @@
++/* obdisk.c - Open Boot disk access.  */
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2017 Free Software Foundation, Inc.
++ *
++ *  GRUB is free software: you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation, either version 3 of the License, or
++ *  (at your option) any later version.
++ *
++ *  GRUB is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <grub/disk.h>
++#include <grub/env.h>
++#include <grub/i18n.h>
++#include <grub/kernel.h>
++#include <grub/list.h>
++#include <grub/misc.h>
++#include <grub/mm.h>
++#include <grub/scsicmd.h>
++#include <grub/time.h>
++#include <grub/ieee1275/ieee1275.h>
++#include <grub/ieee1275/obdisk.h>
++
++struct disk_dev
++{
++  struct disk_dev *next;
++  struct disk_dev **prev;
++  /* open boot canonical name */
++  char *name;
++  /* open boot raw disk name to access entire disk */
++  char *raw_name;
++  /* grub encoded device name */
++  char *grub_devpath;
++  /* grub encoded alias name  */
++  char *grub_alias_devpath;
++  /* grub unescaped name */
++  char *grub_decoded_devpath;
++  grub_ieee1275_ihandle_t ihandle;
++  grub_uint32_t block_size;
++  grub_uint64_t num_blocks;
++  unsigned int log_sector_size;
++  grub_uint32_t opened;
++  grub_uint32_t valid;
++  grub_uint32_t boot_dev;
++};
++
++struct parent_dev
++{
++  struct parent_dev *next;
++  struct parent_dev **prev;
++  /* canonical parent name */
++  char *name;
++  char *type;
++  grub_ieee1275_ihandle_t ihandle;
++  grub_uint32_t address_cells;
++};
++
++static struct grub_scsi_test_unit_ready tur =
++{
++  .opcode = grub_scsi_cmd_test_unit_ready,
++  .lun = 0,
++  .reserved1 = 0,
++  .reserved2 = 0,
++  .reserved3 = 0,
++  .control = 0,
++};
++
++static int disks_enumerated = 0;
++static struct disk_dev *disk_devs = NULL;
++static struct parent_dev *parent_devs = NULL;
++
++static const char *block_blacklist[] = {
++  /* Requires addition work in grub before being able to be used */
++  "/iscsi-hba",
++  /* This block device should never be used by grub */
++  "/reboot-memory@0",
++  0
++};
++
++#define STRCMP(a, b) ((a) && (b) && (grub_strcmp (a, b) == 0))
++
++static char *
++strip_ob_partition (char *path)
++{
++  char *sptr;
++
++  sptr = grub_strstr (path, ":");
++
++  if (sptr)
++    *sptr = '\0';
++
++  return path;
++}
++
++static char *
++remove_escaped_commas (char *src)
++{
++  char *iptr;
++
++  for (iptr = src; *iptr; )
++    {
++      if ((*iptr == '\\') && (*(iptr + 1) == ','))
++        {
++          *iptr++ = '_';
++          *iptr++ = '_';
++        }
++      iptr++;
++    }
++
++  return src;
++}
++
++static int
++count_commas (const char *src)
++{
++  int count = 0;
++
++  for ( ; *src; src++)
++    if (*src == ',')
++      count++;
++
++  return count;
++}
++
++static void
++escape_commas (const char *src, char *dest)
++{
++  const char *iptr;
++
++  for (iptr = src; *iptr; )
++    {
++      if (*iptr == ',')
++	*dest++ ='\\';
++
++      *dest++ = *iptr++;
++    }
++
++  *dest = '\0';
++}
++
++static char *
++decode_grub_devname (const char *name)
++{
++  char *devpath = grub_malloc (grub_strlen (name) + 1);
++  char *p, c;
++
++  if (!devpath)
++    return NULL;
++
++  /* Un-escape commas. */
++  p = devpath;
++  while ((c = *name++) != '\0')
++    {
++      if (c == '\\' && *name == ',')
++	{
++	  *p++ = ',';
++	  name++;
++	}
++      else
++	*p++ = c;
++    }
++
++  *p++ = '\0';
++
++  return devpath;
++}
++
++static char *
++encode_grub_devname (const char *path)
++{
++  char *encoding, *optr;
++
++  if (path == NULL)
++    return NULL;
++
++  encoding = grub_malloc (sizeof ("ieee1275/") + count_commas (path) +
++                          grub_strlen (path) + 1);
++
++  if (encoding == NULL)
++    {
++      grub_print_error ();
++      return NULL;
++    }
++
++  optr = grub_stpcpy (encoding, "ieee1275/");
++  escape_commas (path, optr);
++  return encoding;
++}
++
++static char *
++get_parent_devname (const char *devname)
++{
++  char *parent, *pptr;
++
++  parent = grub_strdup (devname);
++
++  if (parent == NULL)
++    {
++      grub_print_error ();
++      return NULL;
++    }
++
++  pptr = grub_strstr (parent, "/disk@");
++
++  if (pptr)
++    *pptr = '\0';
++
++  return parent;
++}
++
++static void
++free_parent_dev (struct parent_dev *parent)
++{
++  if (parent)
++    {
++      grub_free (parent->name);
++      grub_free (parent->type);
++      grub_free (parent);
++    }
++}
++
++static struct parent_dev *
++init_parent (const char *parent)
++{
++  struct parent_dev *op;
++
++  op = grub_zalloc (sizeof (struct parent_dev));
++
++  if (op == NULL)
++    {
++      grub_print_error ();
++      return NULL;
++    }
++
++  op->name = grub_strdup (parent);
++  op->type = grub_malloc (IEEE1275_MAX_PROP_LEN);
++
++  if ((op->name == NULL) || (op->type == NULL))
++    {
++      grub_print_error ();
++      free_parent_dev (op);
++      return NULL;
++    }
++
++  return op;
++}
++
++static struct parent_dev *
++open_new_parent (const char *parent)
++{
++  struct parent_dev *op = init_parent(parent);
++  grub_ieee1275_ihandle_t ihandle;
++  grub_ieee1275_phandle_t phandle;
++  grub_uint32_t address_cells = 2;
++  grub_ssize_t actual = 0;
++
++  if (op == NULL)
++    return NULL;
++
++  grub_ieee1275_open (parent, &ihandle);
++
++  if (ihandle == 0)
++    {
++      grub_error (GRUB_ERR_BAD_DEVICE, "unable to open %s", parent);
++      grub_print_error ();
++      free_parent_dev (op);
++      return NULL;
++    }
++
++  if (grub_ieee1275_instance_to_package (ihandle, &phandle))
++    {
++      grub_error (GRUB_ERR_BAD_DEVICE, "unable to get parent %s", parent);
++      grub_print_error ();
++      free_parent_dev (op);
++      return NULL;
++    }
++
++  /* IEEE Std 1275-1994 page 110: A missing “#address-cells” property
++     signifies that the number of address cells is two. So ignore on error. */
++  grub_ieee1275_get_integer_property (phandle, "#address-cells", &address_cells,
++                                      sizeof (address_cells), 0);
++
++  grub_ieee1275_get_property (phandle, "device_type", op->type,
++                              IEEE1275_MAX_PROP_LEN, &actual);
++  op->ihandle = ihandle;
++  op->address_cells = address_cells;
++  return op;
++}
++
++static struct parent_dev *
++open_parent (const char *parent)
++{
++  struct parent_dev *op;
++
++  if ((op =
++       grub_named_list_find (GRUB_AS_NAMED_LIST (parent_devs), parent)) == NULL)
++  {
++     op = open_new_parent (parent);
++
++    if (op)
++      grub_list_push (GRUB_AS_LIST_P (&parent_devs), GRUB_AS_LIST (op));
++  }
++
++  return op;
++}
++
++static void
++display_parents (void)
++{
++  struct parent_dev *parent;
++
++  grub_printf ("-------------------- PARENTS --------------------\n");
++
++  FOR_LIST_ELEMENTS (parent, parent_devs)
++    {
++      grub_printf ("name: %s\n", parent->name);
++      grub_printf ("type: %s\n", parent->type);
++      grub_printf ("address_cells %x\n", parent->address_cells);
++    }
++
++  grub_printf ("-------------------------------------------------\n");
++}
++
++static char *
++canonicalise_4cell_ua (grub_ieee1275_ihandle_t ihandle, char *unit_address)
++{
++  grub_uint32_t phy_lo, phy_hi, lun_lo, lun_hi;
++  int valid_phy = 0;
++  grub_size_t size;
++  char *canon = NULL;
++
++  valid_phy = grub_ieee1275_decode_unit4 (ihandle, unit_address,
++                                          grub_strlen (unit_address), &phy_lo,
++                                          &phy_hi, &lun_lo, &lun_hi);
++
++  if ((!valid_phy) && (phy_hi != 0xffffffff))
++    canon = grub_ieee1275_encode_uint4 (ihandle, phy_lo, phy_hi,
++                                        lun_lo, lun_hi, &size);
++
++  return canon;
++}
++
++static char *
++canonicalise_disk (const char *devname)
++{
++  char *canon, *parent;
++  struct parent_dev *op;
++
++  canon = grub_ieee1275_canonicalise_devname (devname);
++
++  if (canon == NULL)
++    {
++      /* This should not happen */
++      grub_error (GRUB_ERR_BAD_DEVICE, "canonicalise devname failed");
++      grub_print_error ();
++      return NULL;
++    }
++
++  /* Don't try to open the parent of a virtual device */
++  if (grub_strstr (canon, "virtual-devices"))
++    return canon;
++
++  parent = get_parent_devname (canon);
++
++  if (parent == NULL)
++    return NULL;
++
++  op = open_parent (parent);
++
++  /* Devices with 4 address cells can have many different types of addressing
++     (phy, wwn, and target lun). Use the parents encode-unit / decode-unit
++     to find the true canonical name. */
++  if ((op) && (op->address_cells == 4))
++    {
++      char *unit_address, *real_unit_address, *real_canon;
++
++      unit_address = grub_strstr (canon, "/disk@");
++      unit_address += grub_strlen ("/disk@");
++
++      if (unit_address == NULL)
++        {
++          /* This should not be possible, but return the canonical name for
++             the non-disk block device */
++          grub_free (parent);
++          return (canon);
++        }
++
++      real_unit_address = canonicalise_4cell_ua (op->ihandle, unit_address);
++
++      if (real_unit_address == NULL)
++        {
++          /* This is not an error, since this function could be called with a devalias
++             containing a drive that isn't installed in the system. */
++          grub_free (parent);
++          return NULL;
++        }
++
++      real_canon = grub_malloc (grub_strlen (op->name) + sizeof ("/disk@") +
++                                grub_strlen (real_unit_address));
++
++      grub_snprintf (real_canon, grub_strlen (op->name) + sizeof ("/disk@") +
++                     grub_strlen (real_unit_address), "%s/disk@%s",
++                     op->name, real_unit_address);
++
++      grub_free (canon);
++      canon = real_canon;
++    }
++
++  grub_free (parent);
++  return (canon);
++}
++
++static struct disk_dev *
++add_canon_disk (const char *cname)
++{
++  struct disk_dev *dev;
++
++  dev = grub_zalloc (sizeof (struct disk_dev));
++
++  if (!dev)
++    goto failed;
++
++  if (grub_ieee1275_test_flag (GRUB_IEEE1275_FLAG_RAW_DEVNAMES))
++    {
++    /* Append :nolabel to the end of all SPARC disks.
++
++       nolabel is mutually exclusive with all other
++       arguments and allows a client program to open
++       the entire (raw) disk. Any disk label is ignored. */
++      dev->raw_name = grub_malloc (grub_strlen (cname) + sizeof (":nolabel"));
++
++      if (dev->raw_name == NULL)
++        goto failed;
++
++      grub_snprintf (dev->raw_name, grub_strlen (cname) + sizeof (":nolabel"),
++                     "%s:nolabel", cname);
++    }
++
++  /* Don't use grub_ieee1275_encode_devname here, the devpath in grub.cfg doesn't
++     understand device aliases, which the layer above sometimes sends us. */
++  dev->grub_devpath = encode_grub_devname(cname);
++
++  if (dev->grub_devpath == NULL)
++    goto failed;
++
++  dev->name = grub_strdup (cname);
++
++  if (dev->name == NULL)
++    goto failed;
++
++  dev->valid = 1;
++  grub_list_push (GRUB_AS_LIST_P (&disk_devs), GRUB_AS_LIST (dev));
++  return dev;
++
++failed:
++  grub_print_error ();
++
++  if (dev)
++    {
++      grub_free (dev->name);
++      grub_free (dev->grub_devpath);
++      grub_free (dev->raw_name);
++    }
++
++  grub_free (dev);
++  return NULL;
++}
++
++static grub_err_t
++add_disk (const char *path)
++{
++  grub_err_t rval = GRUB_ERR_NONE;
++  struct disk_dev *dev;
++  char *canon;
++
++  canon = canonicalise_disk (path);
++  dev = grub_named_list_find (GRUB_AS_NAMED_LIST (disk_devs), canon);
++
++  if ((canon != NULL) && (dev == NULL))
++    {
++      struct disk_dev *ob_device;
++
++      ob_device = add_canon_disk (canon);
++
++      if (ob_device == NULL)
++        rval = grub_error (GRUB_ERR_OUT_OF_MEMORY, "failure to add disk");
++    }
++  else if (dev)
++    dev->valid = 1;
++
++  grub_free (canon);
++  return (rval);
++}
++
++static grub_err_t
++grub_obdisk_read (grub_disk_t disk, grub_disk_addr_t sector,
++		  grub_size_t size, char *dest)
++{
++  grub_err_t rval = GRUB_ERR_NONE;
++  struct disk_dev *dev;
++  unsigned long long pos;
++  grub_ssize_t result = 0;
++
++  if (disk->data == NULL)
++    return grub_error (GRUB_ERR_BAD_DEVICE, "invalid disk data");
++
++  dev = (struct disk_dev *)disk->data;
++  pos = sector << disk->log_sector_size;
++  grub_ieee1275_seek (dev->ihandle, pos, &result);
++
++  if (result < 0)
++    {
++      dev->opened = 0;
++      return grub_error (GRUB_ERR_READ_ERROR, "seek error, can't seek block %llu",
++                         (long long) sector);
++    }
++
++  grub_ieee1275_read (dev->ihandle, dest, size << disk->log_sector_size,
++                      &result);
++
++  if (result != (grub_ssize_t) (size  << disk->log_sector_size))
++    {
++      dev->opened = 0;
++      return grub_error (GRUB_ERR_READ_ERROR, N_("failure reading sector 0x%llx "
++                                                 "from `%s'"),
++                         (unsigned long long) sector,
++                         disk->name);
++    }
++  return rval;
++}
++
++static void
++grub_obdisk_close (grub_disk_t disk)
++{
++  disk->data = NULL;
++  disk->id = 0;
++  disk->total_sectors = 0;
++  disk->log_sector_size = 0;
++}
++
++static void
++scan_usb_disk (const char *parent)
++{
++  struct parent_dev *op;
++  grub_ssize_t result;
++
++  op = open_parent (parent);
++
++  if (op == NULL)
++    {
++      grub_error (GRUB_ERR_BAD_DEVICE, "unable to open %s", parent);
++      grub_print_error ();
++      return;
++    }
++
++  if ((grub_ieee1275_set_address (op->ihandle, 0, 0) == 0) &&
++      (grub_ieee1275_no_data_command (op->ihandle, &tur, &result) == 0) &&
++      (result == 0))
++    {
++      char *buf;
++
++      buf = grub_malloc (IEEE1275_MAX_PATH_LEN);
++
++      if (buf == NULL)
++        {
++          grub_error (GRUB_ERR_OUT_OF_MEMORY, "disk scan failure");
++          grub_print_error ();
++          return;
++        }
++
++      grub_snprintf (buf, IEEE1275_MAX_PATH_LEN, "%s/disk@0", parent);
++      add_disk (buf);
++      grub_free (buf);
++    }
++}
++
++static void
++scan_nvme_disk (const char *path)
++{
++  char *buf;
++
++  buf = grub_malloc (IEEE1275_MAX_PATH_LEN);
++
++  if (buf == NULL)
++    {
++      grub_error (GRUB_ERR_OUT_OF_MEMORY, "disk scan failure");
++      grub_print_error ();
++      return;
++    }
++
++  grub_snprintf (buf, IEEE1275_MAX_PATH_LEN, "%s/disk@1", path);
++  add_disk (buf);
++  grub_free (buf);
++}
++
++static void
++scan_sparc_sas_2cell (struct parent_dev *op)
++{
++  grub_ssize_t result;
++  grub_uint8_t tgt;
++  char *buf;
++
++  buf = grub_malloc (IEEE1275_MAX_PATH_LEN);
++
++  if (buf == NULL)
++    {
++      grub_error (GRUB_ERR_OUT_OF_MEMORY, "disk scan failure");
++      grub_print_error ();
++      return;
++    }
++
++  for (tgt = 0; tgt < 0xf; tgt++)
++    {
++
++      if ((grub_ieee1275_set_address(op->ihandle, tgt, 0) == 0) &&
++          (grub_ieee1275_no_data_command (op->ihandle, &tur, &result) == 0) &&
++          (result == 0))
++        {
++
++          grub_snprintf (buf, IEEE1275_MAX_PATH_LEN, "%s/disk@%"
++                         PRIxGRUB_UINT32_T, op->name, tgt);
++
++          add_disk (buf);
++        }
++    }
++}
++
++static void
++scan_sparc_sas_4cell (struct parent_dev *op)
++{
++  grub_uint16_t exp;
++  grub_uint8_t phy;
++  char *buf;
++
++  buf = grub_malloc (IEEE1275_MAX_PATH_LEN);
++
++  if (buf == NULL)
++    {
++      grub_error (GRUB_ERR_OUT_OF_MEMORY, "disk scan failure");
++      grub_print_error ();
++      return;
++    }
++
++  for (exp = 0; exp <= 0x100; exp+=0x100)
++
++    for (phy = 0; phy < 0x20; phy++)
++      {
++        char *canon = NULL;
++
++        grub_snprintf (buf, IEEE1275_MAX_PATH_LEN, "p%" PRIxGRUB_UINT32_T ",0",
++                       exp | phy);
++
++        canon = canonicalise_4cell_ua (op->ihandle, buf);
++
++        if (canon)
++          {
++            grub_snprintf (buf, IEEE1275_MAX_PATH_LEN, "%s/disk@%s",
++                           op->name, canon);
++
++            add_disk (buf);
++            grub_free (canon);
++          }
++      }
++
++  grub_free (buf);
++}
++
++static void
++scan_sparc_sas_disk (const char *parent)
++{
++  struct parent_dev *op;
++
++  op = open_parent (parent);
++
++  if ((op) && (op->address_cells == 4))
++    scan_sparc_sas_4cell (op);
++  else if ((op) && (op->address_cells == 2))
++    scan_sparc_sas_2cell (op);
++}
++
++static void
++iterate_devtree (const struct grub_ieee1275_devalias *alias)
++{
++  struct grub_ieee1275_devalias child;
++
++  if ((grub_strcmp (alias->type, "scsi-2") == 0) ||
++      (grub_strcmp (alias->type, "scsi-sas") == 0))
++    return scan_sparc_sas_disk (alias->path);
++
++  else if (grub_strcmp (alias->type, "nvme") == 0)
++    return scan_nvme_disk (alias->path);
++
++  else if (grub_strcmp (alias->type, "scsi-usb") == 0)
++    return scan_usb_disk (alias->path);
++
++  else if (grub_strcmp (alias->type, "block") == 0)
++    {
++      const char **bl = block_blacklist;
++
++      while (*bl != NULL)
++        {
++          if (grub_strstr (alias->path, *bl))
++            return;
++          bl++;
++        }
++
++      add_disk (alias->path);
++      return;
++    }
++
++  FOR_IEEE1275_DEVCHILDREN (alias->path, child)
++    iterate_devtree (&child);
++}
++
++static void
++unescape_devices (void)
++{
++  struct disk_dev *dev;
++
++  FOR_LIST_ELEMENTS (dev, disk_devs)
++    {
++      grub_free (dev->grub_decoded_devpath);
++
++      if ((dev->grub_alias_devpath) &&
++        (grub_strcmp (dev->grub_alias_devpath, dev->grub_devpath) != 0))
++        dev->grub_decoded_devpath =
++          remove_escaped_commas (grub_strdup (dev->grub_alias_devpath));
++      else
++        dev->grub_decoded_devpath =
++          remove_escaped_commas (grub_strdup (dev->grub_devpath));
++    }
++}
++
++static void
++enumerate_disks (void)
++{
++  struct grub_ieee1275_devalias alias;
++
++  FOR_IEEE1275_DEVCHILDREN("/", alias)
++    iterate_devtree (&alias);
++}
++
++static grub_err_t
++add_bootpath (void)
++{
++  struct disk_dev *ob_device;
++  grub_err_t rval = GRUB_ERR_NONE;
++  char *dev, *alias = NULL;
++  char *type;
++
++  grub_ieee1275_get_boot_dev (&dev);
++  type = grub_ieee1275_get_device_type (dev);
++
++  if (!(type && grub_strcmp (type, "network") == 0))
++    {
++      dev = strip_ob_partition (dev);
++      ob_device = add_canon_disk (dev);
++
++      if (ob_device == NULL)
++        rval =  grub_error (GRUB_ERR_OUT_OF_MEMORY, "failure adding boot device");
++
++      ob_device->valid = 1;
++
++      alias = grub_ieee1275_get_devname (dev);
++
++      if (grub_strcmp (alias, dev) != 0)
++        ob_device->grub_alias_devpath = grub_ieee1275_encode_devname (dev);
++
++      ob_device->boot_dev = 1;
++    }
++
++  grub_free (type);
++  grub_free (dev);
++  grub_free (alias);
++  return rval;
++}
++
++static void
++enumerate_aliases (void)
++{
++  struct grub_ieee1275_devalias alias;
++
++  /* Some block device aliases are not in canonical form
++
++     For example:
++
++     disk3                    /pci@301/pci@1/scsi@0/disk@p3
++     disk2                    /pci@301/pci@1/scsi@0/disk@p2
++     disk1                    /pci@301/pci@1/scsi@0/disk@p1
++     disk                     /pci@301/pci@1/scsi@0/disk@p0
++     disk0                    /pci@301/pci@1/scsi@0/disk@p0
++
++     None of these devices are in canonical form.
++
++     Also, just because there is a devalias, doesn't mean there is a disk
++     at that location.  And a valid boot block device doesn't have to have
++     a devalias at all.
++
++     At this point, all valid disks have been found in the system
++     and devaliases that point to canonical names are stored in the
++     disk_devs list already.  */
++  FOR_IEEE1275_DEVALIASES (alias)
++    {
++      struct disk_dev *dev;
++      char *canon;
++
++      if (grub_strcmp (alias.type, "block") != 0)
++        continue;
++
++      canon = canonicalise_disk (alias.name);
++
++      if (canon == NULL)
++        /* This is not an error, a devalias could point to a
++           nonexistent disk */
++        continue;
++
++      dev = grub_named_list_find (GRUB_AS_NAMED_LIST (disk_devs), canon);
++
++      if (dev)
++        {
++          /* If more than one alias points to the same device,
++             remove the previous one unless it is the boot dev,
++             since the upper level will use the first one. The reason
++             all the others are redone is in the case of hot-plugging
++             a disk.  If the boot disk gets hot-plugged, it will come
++             thru here with a different name without the boot_dev flag
++             set. */
++          if ((dev->boot_dev) && (dev->grub_alias_devpath))
++            continue;
++
++          grub_free (dev->grub_alias_devpath);
++          dev->grub_alias_devpath = grub_ieee1275_encode_devname (alias.path);
++        }
++      grub_free (canon);
++    }
++}
++
++static void
++display_disks (void)
++{
++  struct disk_dev *dev;
++
++  grub_printf ("--------------------- DISKS ---------------------\n");
++
++  FOR_LIST_ELEMENTS (dev, disk_devs)
++    {
++      grub_printf ("name: %s\n", dev->name);
++      grub_printf ("grub_devpath: %s\n", dev->grub_devpath);
++      grub_printf ("grub_alias_devpath: %s\n", dev->grub_alias_devpath);
++      grub_printf ("grub_decoded_devpath: %s\n", dev->grub_decoded_devpath);
++      grub_printf ("valid: %s\n", (dev->valid) ? "yes" : "no");
++      grub_printf ("boot_dev: %s\n", (dev->boot_dev) ? "yes" : "no");
++      grub_printf ("opened: %s\n", (dev->ihandle) ? "yes" : "no");
++      grub_printf ("block size: %" PRIuGRUB_UINT32_T "\n", dev->block_size);
++      grub_printf ("num blocks: %" PRIuGRUB_UINT64_T "\n", dev->num_blocks);
++      grub_printf ("log sector size: %" PRIuGRUB_UINT32_T "\n",
++                   dev->log_sector_size);
++      grub_printf ("\n");
++    }
++
++  grub_printf ("-------------------------------------------------\n");
++}
++
++static void
++display_stats (void)
++{
++  const char *debug = grub_env_get ("debug");
++
++  if (! debug)
++    return;
++
++  if (grub_strword (debug, "all") || grub_strword (debug, "obdisk"))
++    {
++      display_parents ();
++      display_disks ();
++    }
++}
++
++static void
++invalidate_all_disks (void)
++{
++  struct disk_dev *dev = NULL;
++
++  if (disks_enumerated)
++    FOR_LIST_ELEMENTS (dev, disk_devs)
++      dev->valid = 0;
++}
++
++/* This is for backwards compatibility, since the path should be generated
++   correctly now. */
++static struct disk_dev *
++find_legacy_grub_devpath (const char *name)
++{
++  struct disk_dev *dev = NULL;
++  char *canon, *devpath = NULL;
++
++  devpath = decode_grub_devname (name + sizeof ("ieee1275"));
++  canon = canonicalise_disk (devpath);
++
++  if (canon != NULL)
++    dev = grub_named_list_find (GRUB_AS_NAMED_LIST (disk_devs), canon);
++
++  grub_free (devpath);
++  grub_free (canon);
++  return dev;
++}
++
++static void
++enumerate_devices (void)
++{
++  invalidate_all_disks ();
++  enumerate_disks ();
++  enumerate_aliases ();
++  unescape_devices ();
++  disks_enumerated = 1;
++  display_stats ();
++}
++
++static struct disk_dev *
++find_grub_devpath_real (const char *name)
++{
++  struct disk_dev *dev = NULL;
++
++  FOR_LIST_ELEMENTS (dev, disk_devs)
++    {
++      if ((STRCMP (dev->grub_devpath, name))
++        || (STRCMP (dev->grub_alias_devpath, name))
++        || (STRCMP (dev->grub_decoded_devpath, name)))
++        break;
++    }
++
++  return dev;
++}
++
++static struct disk_dev *
++find_grub_devpath (const char *name)
++{
++  struct disk_dev *dev = NULL;
++  int enumerated;
++
++  do {
++    enumerated = disks_enumerated;
++    dev = find_grub_devpath_real (name);
++
++    if (dev)
++      break;
++
++    dev = find_legacy_grub_devpath (name);
++
++    if (dev)
++      break;
++
++    enumerate_devices ();
++  } while (enumerated == 0);
++
++  return dev;
++}
++
++static int
++grub_obdisk_iterate (grub_disk_dev_iterate_hook_t hook, void *hook_data,
++		     grub_disk_pull_t pull)
++{
++  struct disk_dev *dev;
++
++  if (pull != GRUB_DISK_PULL_NONE)
++    return 0;
++
++  enumerate_devices ();
++
++  FOR_LIST_ELEMENTS (dev, disk_devs)
++    {
++      if (dev->valid == 1)
++        if (hook (dev->grub_decoded_devpath, hook_data))
++          return 1;
++    }
++
++  return 0;
++}
++
++static grub_err_t
++grub_obdisk_open (const char *name, grub_disk_t disk)
++{
++  grub_ieee1275_ihandle_t ihandle = 0;
++  struct disk_dev *dev = NULL;
++
++  if (grub_strncmp (name, "ieee1275/", sizeof ("ieee1275/") - 1) != 0)
++    return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "not IEEE1275 device");
++
++  dev = find_grub_devpath (name);
++
++  if (dev == NULL)
++    {
++      grub_printf ("UNKNOWN DEVICE: %s\n", name);
++      return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "%s", name);
++    }
++
++  if (dev->opened == 0)
++    {
++      if (dev->raw_name)
++        grub_ieee1275_open (dev->raw_name, &ihandle);
++      else
++        grub_ieee1275_open (dev->name, &ihandle);
++
++      if (ihandle == 0)
++        {
++          grub_printf ("Can't open device %s\n", name);
++          return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "can't open device %s", name);
++        }
++
++      dev->block_size = grub_ieee1275_get_block_size (ihandle);
++      dev->num_blocks = grub_ieee1275_num_blocks (ihandle);
++
++      if (dev->num_blocks == 0)
++        dev->num_blocks = grub_ieee1275_num_blocks64 (ihandle);
++
++      if (dev->num_blocks == 0)
++        dev->num_blocks = GRUB_DISK_SIZE_UNKNOWN;
++
++      if (dev->block_size != 0)
++        {
++          for (dev->log_sector_size = 0;
++               (1U << dev->log_sector_size) < dev->block_size;
++               dev->log_sector_size++);
++        }
++      else
++        dev->log_sector_size = 9;
++
++      dev->ihandle = ihandle;
++      dev->opened = 1;
++    }
++
++  disk->total_sectors = dev->num_blocks;
++  disk->id = dev->ihandle;
++  disk->data = dev;
++  disk->log_sector_size = dev->log_sector_size;
++  return GRUB_ERR_NONE;
++}
++
++
++static struct grub_disk_dev grub_obdisk_dev =
++  {
++    .name = "obdisk",
++    .id = GRUB_DISK_DEVICE_OBDISK_ID,
++    .iterate = grub_obdisk_iterate,
++    .open = grub_obdisk_open,
++    .close = grub_obdisk_close,
++    .read = grub_obdisk_read,
++    .next = 0
++  };
++
++void
++grub_obdisk_init (void)
++{
++  grub_disk_firmware_fini = grub_obdisk_fini;
++  add_bootpath ();
++  grub_disk_dev_register (&grub_obdisk_dev);
++}
++
++void
++grub_obdisk_fini (void)
++{
++  struct disk_dev *dev;
++
++  FOR_LIST_ELEMENTS (dev, disk_devs)
++    {
++      if (dev->opened)
++          grub_ieee1275_close (dev->ihandle);
++    }
++
++  grub_disk_dev_unregister (&grub_obdisk_dev);
++}
+diff --git a/grub-core/disk/ieee1275/ofdisk.c b/grub-core/disk/ieee1275/ofdisk.c
+index 235c0fe2c..18d2e9512 100644
+--- a/grub-core/disk/ieee1275/ofdisk.c
++++ b/grub-core/disk/ieee1275/ofdisk.c
+@@ -74,7 +74,7 @@ ofdisk_hash_find (const char *devpath)
+ }
+ 
+ static struct ofdisk_hash_ent *
+-ofdisk_hash_add_real (char *devpath)
++ofdisk_hash_add_real (const char *devpath)
+ {
+   struct ofdisk_hash_ent *p;
+   struct ofdisk_hash_ent **head = &ofdisk_hash[ofdisk_hash_fn(devpath)];
+@@ -85,13 +85,20 @@ ofdisk_hash_add_real (char *devpath)
+   if (!p)
+     return NULL;
+ 
+-  p->devpath = devpath;
++  p->devpath = grub_strdup (devpath);
++
++  if (!p->devpath)
++    {
++      grub_free (p);
++      return NULL;
++    }
+ 
+   p->grub_devpath = grub_malloc (sizeof ("ieee1275/")
+ 				 + 2 * grub_strlen (p->devpath));
+ 
+   if (!p->grub_devpath)
+     {
++      grub_free (p->devpath);
+       grub_free (p);
+       return NULL;
+     }
+@@ -101,6 +108,7 @@ ofdisk_hash_add_real (char *devpath)
+       p->open_path = grub_malloc (grub_strlen (p->devpath) + 3);
+       if (!p->open_path)
+ 	{
++          grub_free (p->devpath);
+ 	  grub_free (p->grub_devpath);
+ 	  grub_free (p);
+ 	  return NULL;
+@@ -140,7 +148,7 @@ check_string_removable (const char *str)
+ }
+ 
+ static struct ofdisk_hash_ent *
+-ofdisk_hash_add (char *devpath, char *curcan)
++ofdisk_hash_add (const char *devpath, const char *curcan)
+ {
+   struct ofdisk_hash_ent *p, *pcan;
+ 
+@@ -160,8 +168,6 @@ ofdisk_hash_add (char *devpath, char *curcan)
+   pcan = ofdisk_hash_find (curcan);
+   if (!pcan)
+     pcan = ofdisk_hash_add_real (curcan);
+-  else
+-    grub_free (curcan);
+ 
+   if (check_string_removable (devpath) || check_string_removable (curcan))
+     pcan->is_removable = 1;
+@@ -191,18 +197,7 @@ dev_iterate_real (const char *name, const char *path)
+ 
+   op = ofdisk_hash_find (path);
+   if (!op)
+-    {
+-      char *name_dup = grub_strdup (name);
+-      char *can = grub_strdup (path);
+-      if (!name_dup || !can)
+-	{
+-	  grub_errno = GRUB_ERR_NONE;
+-	  grub_free (name_dup);
+-	  grub_free (can);
+-	  return;
+-	}
+-      op = ofdisk_hash_add (name_dup, can);
+-    }
++    op = ofdisk_hash_add (name, path);
+   return;
+ }
+ 
+@@ -658,6 +653,7 @@ insert_bootpath (void)
+       char *device = grub_ieee1275_get_devname (bootpath);
+       op = ofdisk_hash_add (device, NULL);
+       op->is_boot = 1;
++      grub_free (device);
+     }
+   grub_free (type);
+   grub_free (bootpath);
+diff --git a/grub-core/kern/ieee1275/cmain.c b/grub-core/kern/ieee1275/cmain.c
+index 3e12e6b24..20cbbd761 100644
+--- a/grub-core/kern/ieee1275/cmain.c
++++ b/grub-core/kern/ieee1275/cmain.c
+@@ -108,6 +108,9 @@ grub_ieee1275_find_options (void)
+   if (rc >= 0)
+     {
+       char *ptr;
++
++      if (grub_strncmp (tmp, "sun4v", 5) == 0)
++        grub_ieee1275_set_flag (GRUB_IEEE1275_FLAG_RAW_DEVNAMES);
+       for (ptr = tmp; ptr - tmp < actual; ptr += grub_strlen (ptr) + 1)
+ 	{
+ 	  if (grub_memcmp (ptr, "MacRISC", sizeof ("MacRISC") - 1) == 0
+diff --git a/grub-core/kern/ieee1275/ieee1275.c b/grub-core/kern/ieee1275/ieee1275.c
+index 98217029f..e14170821 100644
+--- a/grub-core/kern/ieee1275/ieee1275.c
++++ b/grub-core/kern/ieee1275/ieee1275.c
+@@ -19,6 +19,7 @@
+ 
+ #include <grub/ieee1275/ieee1275.h>
+ #include <grub/types.h>
++#include <grub/misc.h>
+ 
+ #define IEEE1275_PHANDLE_INVALID  ((grub_ieee1275_cell_t) -1)
+ #define IEEE1275_IHANDLE_INVALID  ((grub_ieee1275_cell_t) 0)
+@@ -482,6 +483,93 @@ grub_ieee1275_close (grub_ieee1275_ihandle_t ihandle)
+   return 0;
+ }
+ 
++int
++grub_ieee1275_decode_unit4 (grub_ieee1275_ihandle_t ihandle,
++                            void *addr, grub_size_t size,
++                            grub_uint32_t *phy_lo, grub_uint32_t *phy_hi,
++                            grub_uint32_t *lun_lo, grub_uint32_t *lun_hi)
++{
++  struct decode_args
++  {
++    struct grub_ieee1275_common_hdr common;
++    grub_ieee1275_cell_t method;
++    grub_ieee1275_cell_t ihandle;
++    grub_ieee1275_cell_t size;
++    grub_ieee1275_cell_t addr;
++    grub_ieee1275_cell_t catch_result;
++    grub_ieee1275_cell_t tgt_h;
++    grub_ieee1275_cell_t tgt_l;
++    grub_ieee1275_cell_t lun_h;
++    grub_ieee1275_cell_t lun_l;
++  }
++  args;
++
++  INIT_IEEE1275_COMMON (&args.common, "call-method", 4, 5);
++  args.method = (grub_ieee1275_cell_t) "decode-unit";
++  args.ihandle = ihandle;
++  args.size = size;
++  args.addr = (grub_ieee1275_cell_t) addr;
++  args.catch_result = 1;
++
++  if ((IEEE1275_CALL_ENTRY_FN (&args) == -1) || (args.catch_result))
++    {
++      grub_error (GRUB_ERR_OUT_OF_RANGE, "decode-unit failed\n");
++      return -1;
++    }
++
++  *phy_lo = args.tgt_l;
++  *phy_hi = args.tgt_h;
++  *lun_lo = args.lun_l;
++  *lun_hi = args.lun_h;
++  return 0;
++}
++
++char *
++grub_ieee1275_encode_uint4 (grub_ieee1275_ihandle_t ihandle,
++                            grub_uint32_t phy_lo, grub_uint32_t phy_hi,
++                            grub_uint32_t lun_lo, grub_uint32_t lun_hi,
++                            grub_size_t *size)
++{
++  char *addr;
++  struct encode_args
++  {
++    struct grub_ieee1275_common_hdr common;
++    grub_ieee1275_cell_t method;
++    grub_ieee1275_cell_t ihandle;
++    grub_ieee1275_cell_t tgt_h;
++    grub_ieee1275_cell_t tgt_l;
++    grub_ieee1275_cell_t lun_h;
++    grub_ieee1275_cell_t lun_l;
++    grub_ieee1275_cell_t catch_result;
++    grub_ieee1275_cell_t size;
++    grub_ieee1275_cell_t addr;
++  }
++  args;
++
++  INIT_IEEE1275_COMMON (&args.common, "call-method", 6, 3);
++  args.method = (grub_ieee1275_cell_t) "encode-unit";
++  args.ihandle = ihandle;
++
++  args.tgt_l = phy_lo;
++  args.tgt_h = phy_hi;
++  args.lun_l = lun_lo;
++  args.lun_h = lun_hi;
++  args.catch_result = 1;
++
++  if ((IEEE1275_CALL_ENTRY_FN (&args) == -1) || (args.catch_result))
++    {
++      grub_error (GRUB_ERR_OUT_OF_RANGE, "encode-unit failed\n");
++      return 0;
++    }
++
++  addr = (void *)args.addr;
++  *size = args.size;
++  addr = grub_strdup ((char *)args.addr);
++  return addr;
++}
++
++
++
+ int
+ grub_ieee1275_claim (grub_addr_t addr, grub_size_t size, unsigned int align,
+ 		     grub_addr_t *result)
+@@ -607,3 +695,114 @@ grub_ieee1275_milliseconds (grub_uint32_t *msecs)
+   *msecs = args.msecs;
+   return 0;
+ }
++
++int
++grub_ieee1275_set_address (grub_ieee1275_ihandle_t ihandle,
++                           grub_uint32_t target, grub_uint32_t lun)
++{
++  struct set_address
++  {
++    struct grub_ieee1275_common_hdr common;
++    grub_ieee1275_cell_t method;
++    grub_ieee1275_cell_t ihandle;
++    grub_ieee1275_cell_t tgt;
++    grub_ieee1275_cell_t lun;
++    grub_ieee1275_cell_t catch_result;
++  }
++  args;
++
++  INIT_IEEE1275_COMMON (&args.common, "call-method", 4, 1);
++
++  /* IEEE Standard for Boot (Initialization Configuration)
++     Firmware: Core Requirements and Practices
++     E.3.2.2 Bus-specific methods for bus nodes
++
++     A package implementing the scsi-2 device type shall implement the
++     following bus-specific method:
++
++     set-address ( unit# target# -- )
++     Sets the SCSI target number (0x0..0xf) and unit number (0..7) to which
++     subsequent commands apply.
++  */
++  args.method = (grub_ieee1275_cell_t) "set-address";
++  args.ihandle = ihandle;
++  args.tgt = target;
++  args.lun = lun;
++
++  if (IEEE1275_CALL_ENTRY_FN (&args) == -1)
++    return -1;
++
++  return args.catch_result;
++}
++
++int
++grub_ieee1275_no_data_command (grub_ieee1275_ihandle_t ihandle,
++                               const void *cmd_addr, grub_ssize_t *result)
++{
++  struct set_address
++  {
++    struct grub_ieee1275_common_hdr common;
++    grub_ieee1275_cell_t method;
++    grub_ieee1275_cell_t ihandle;
++    grub_ieee1275_cell_t cmd_addr;
++    grub_ieee1275_cell_t error;
++    grub_ieee1275_cell_t catch_result;
++  }
++  args;
++
++  INIT_IEEE1275_COMMON (&args.common, "call-method", 3, 2);
++  /* IEEE 1275-1994 Standard for Boot (Initialization Configuration)
++     Firmware: Core Requirements and Practices
++
++     E.3.2.2 Bus-specific methods for bus nodes
++
++     A package implementing the scsi-2 device type shall implement the
++     following bus-specific method:
++
++     no-data-command ( cmd-addr -- error? )
++     Executes a simple SCSI command, automatically retrying under
++     certain conditions.  cmd-addr is the address of a 6-byte command buffer
++     containing an SCSI command that does not have a data transfer phase.
++     Executes the command, retrying indefinitely with the same retry criteria
++     as retry-command.
++
++     error? is nonzero if an error occurred, zero otherwise.
++     NOTE no-data-command is a convenience function. It provides
++     no capabilities that are not present in retry-command, but for
++     those commands that meet its restrictions, it is easier to use.
++   */
++  args.method = (grub_ieee1275_cell_t) "no-data-command";
++  args.ihandle = ihandle;
++  args.cmd_addr = (grub_ieee1275_cell_t) cmd_addr;
++
++  if (IEEE1275_CALL_ENTRY_FN (&args) == -1)
++    return -1;
++
++  if (result)
++    *result = args.error;
++
++  return args.catch_result;
++}
++
++int
++grub_ieee1275_get_block_size (grub_ieee1275_ihandle_t ihandle)
++{
++  struct size_args_ieee1275
++    {
++      struct grub_ieee1275_common_hdr common;
++      grub_ieee1275_cell_t method;
++      grub_ieee1275_cell_t ihandle;
++      grub_ieee1275_cell_t result;
++      grub_ieee1275_cell_t size;
++    } args;
++
++  INIT_IEEE1275_COMMON (&args.common, "call-method", 2, 2);
++  args.method = (grub_ieee1275_cell_t) "block-size";
++  args.ihandle = ihandle;
++  args.result = 1;
++
++  if ((IEEE1275_CALL_ENTRY_FN (&args) == -1) || (args.result))
++    return 0;
++
++  return args.size;
++}
+diff --git a/grub-core/kern/ieee1275/init.c b/grub-core/kern/ieee1275/init.c
+index 9d163abcd..6e87cada6 100644
+--- a/grub-core/kern/ieee1275/init.c
++++ b/grub-core/kern/ieee1275/init.c
+@@ -30,6 +30,9 @@
+ #include <grub/time.h>
+ #include <grub/ieee1275/console.h>
+ #include <grub/ieee1275/ofdisk.h>
++#ifdef __sparc__
++#include <grub/ieee1275/obdisk.h>
++#endif
+ #include <grub/ieee1275/ieee1275.h>
+ #include <grub/net.h>
+ #include <grub/offsets.h>
+@@ -103,29 +106,13 @@ grub_machine_get_bootlocation (char **device __attribute__ ((unused)),
+ void
+ grub_machine_get_bootlocation (char **device, char **path)
+ {
+-  char *bootpath;
+-  grub_ssize_t bootpath_size;
++  char *bootpath = NULL;
+   char *filename;
+   char *type;
+ 
+-  if (grub_ieee1275_get_property_length (grub_ieee1275_chosen, "bootpath",
+-					 &bootpath_size)
+-      || bootpath_size <= 0)
+-    {
+-      /* Should never happen.  */
+-      grub_printf ("/chosen/bootpath property missing!\n");
+-      return;
+-    }
+-
+-  bootpath = (char *) grub_malloc ((grub_size_t) bootpath_size + 64);
+-  if (! bootpath)
+-    {
+-      grub_print_error ();
+-      return;
+-    }
+-  grub_ieee1275_get_property (grub_ieee1275_chosen, "bootpath", bootpath,
+-                              (grub_size_t) bootpath_size + 1, 0);
+-  bootpath[bootpath_size] = '\0';
++  grub_ieee1275_get_boot_dev (&bootpath);
++  if (bootpath == NULL)
++    return;
+ 
+   /* Transform an OF device path to a GRUB path.  */
+ 
+@@ -305,8 +292,11 @@ grub_machine_init (void)
+   grub_console_init_early ();
+   grub_claim_heap ();
+   grub_console_init_lately ();
++#ifdef __sparc__
++  grub_obdisk_init ();
++#else
+   grub_ofdisk_init ();
+-
++#endif
+   grub_parse_cmdline ();
+ 
+ #ifdef __i386__
+@@ -321,7 +311,11 @@ grub_machine_fini (int flags)
+ {
+   if (flags & GRUB_LOADER_FLAG_NORETURN)
+     {
++#ifdef __sparc__
++      grub_obdisk_fini ();
++#else
+       grub_ofdisk_fini ();
++#endif
+       grub_console_fini ();
+     }
+ }
+diff --git a/grub-core/kern/ieee1275/openfw.c b/grub-core/kern/ieee1275/openfw.c
+index ddb778340..81c03cf03 100644
+--- a/grub-core/kern/ieee1275/openfw.c
++++ b/grub-core/kern/ieee1275/openfw.c
+@@ -561,3 +561,30 @@ grub_ieee1275_canonicalise_devname (const char *path)
+   return NULL;
+ }
+ 
++void
++grub_ieee1275_get_boot_dev (char **boot_dev)
++{
++  char *bootpath;
++  grub_ssize_t bootpath_size;
++
++  if (grub_ieee1275_get_property_length (grub_ieee1275_chosen, "bootpath",
++					 &bootpath_size)
++      || bootpath_size <= 0)
++    {
++      /* Should never happen.  */
++      grub_printf ("/chosen/bootpath property missing!\n");
++      return;
++    }
++
++  bootpath = (char *) grub_malloc ((grub_size_t) bootpath_size + 64);
++  if (! bootpath)
++    {
++      grub_print_error ();
++      return;
++    }
++  grub_ieee1275_get_property (grub_ieee1275_chosen, "bootpath", bootpath,
++                              (grub_size_t) bootpath_size + 1, 0);
++  bootpath[bootpath_size] = '\0';
++
++  *boot_dev = bootpath;
++}
+diff --git a/grub-core/kern/parser.c b/grub-core/kern/parser.c
+index 78175aac2..be88baa60 100644
+--- a/grub-core/kern/parser.c
++++ b/grub-core/kern/parser.c
+@@ -30,7 +30,6 @@ static struct grub_parser_state_transition state_transitions[] = {
+   {GRUB_PARSER_STATE_TEXT, GRUB_PARSER_STATE_QUOTE, '\'', 0},
+   {GRUB_PARSER_STATE_TEXT, GRUB_PARSER_STATE_DQUOTE, '\"', 0},
+   {GRUB_PARSER_STATE_TEXT, GRUB_PARSER_STATE_VAR, '$', 0},
+-  {GRUB_PARSER_STATE_TEXT, GRUB_PARSER_STATE_ESC, '\\', 0},
+ 
+   {GRUB_PARSER_STATE_ESC, GRUB_PARSER_STATE_TEXT, 0, 1},
+ 
+diff --git a/grub-core/kern/sparc64/ieee1275/ieee1275.c b/grub-core/kern/sparc64/ieee1275/ieee1275.c
+index 53be692c3..6e5b90a4f 100644
+--- a/grub-core/kern/sparc64/ieee1275/ieee1275.c
++++ b/grub-core/kern/sparc64/ieee1275/ieee1275.c
+@@ -89,3 +89,56 @@ grub_ieee1275_alloc_physmem (grub_addr_t *paddr, grub_size_t size,
+ 
+   return args.catch_result;
+ }
++
++grub_uint64_t
++grub_ieee1275_num_blocks (grub_ieee1275_ihandle_t ihandle)
++{
++  struct nblocks_args_ieee1275
++  {
++    struct grub_ieee1275_common_hdr common;
++    grub_ieee1275_cell_t method;
++    grub_ieee1275_cell_t ihandle;
++    grub_ieee1275_cell_t catch_result;
++    grub_ieee1275_cell_t blocks;
++  }
++  args;
++
++  INIT_IEEE1275_COMMON (&args.common, "call-method", 2, 2);
++  args.method = (grub_ieee1275_cell_t) "#blocks";
++  args.ihandle = ihandle;
++  args.catch_result = 1;
++
++  if ((IEEE1275_CALL_ENTRY_FN (&args) == -1) || (args.catch_result != 0))
++    return -1;
++
++  /* If the number of blocks exceeds the range of an unsigned number,
++     return 0 to alert the caller to try the #blocks64 command. */
++  if (args.blocks >= 0xffffffffULL)
++    return 0;
++
++  return args.blocks;
++}
++grub_uint64_t
++grub_ieee1275_num_blocks64 (grub_ieee1275_ihandle_t ihandle)
++{
++  struct nblocks_args_ieee1275
++  {
++    struct grub_ieee1275_common_hdr common;
++    grub_ieee1275_cell_t method;
++    grub_ieee1275_cell_t ihandle;
++    grub_ieee1275_cell_t catch_result;
++    grub_ieee1275_cell_t hi_blocks;
++    grub_ieee1275_cell_t lo_blocks;
++  }
++  args;
++
++  INIT_IEEE1275_COMMON (&args.common, "call-method", 2, 3);
++  args.method = (grub_ieee1275_cell_t) "#blocks64";
++  args.ihandle = ihandle;
++  args.catch_result = 1;
++
++  if ((IEEE1275_CALL_ENTRY_FN (&args) == -1) || (args.catch_result != 0))
++    return -1;
++
++  return ((args.hi_blocks << 32) | (args.lo_blocks));
++}
+diff --git a/grub-core/osdep/linux/blocklist.c b/grub-core/osdep/linux/blocklist.c
+index c77d6085c..caf8d4ee5 100644
+--- a/grub-core/osdep/linux/blocklist.c
++++ b/grub-core/osdep/linux/blocklist.c
+@@ -58,6 +58,11 @@ grub_install_get_blocklist (grub_device_t root_dev,
+   struct fiemap fie1;
+   int fd;
+ 
++#ifdef __sparc__
++  if (grub_strstr (container->partmap->name, "gpt"))
++    container_start = 0;
++#endif
++
+   /* Write the first two sectors of the core image onto the disk.  */
+   grub_util_info ("opening the core image `%s'", core_path);
+   fd = open (core_path, O_RDONLY);
+diff --git a/grub-core/osdep/linux/ofpath.c b/grub-core/osdep/linux/ofpath.c
+index a79682a5e..8fca2e3be 100644
+--- a/grub-core/osdep/linux/ofpath.c
++++ b/grub-core/osdep/linux/ofpath.c
+@@ -38,6 +38,44 @@
+ #include <errno.h>
+ #include <ctype.h>
+ 
++#ifdef __sparc__
++typedef enum
++  {
++    GRUB_OFPATH_SPARC_WWN_ADDR = 1,
++    GRUB_OFPATH_SPARC_TGT_LUN,
++  } ofpath_sparc_addressing;
++
++struct ofpath_sparc_hba
++{
++  grub_uint32_t device_id;
++  ofpath_sparc_addressing addressing;
++};
++
++static struct ofpath_sparc_hba sparc_lsi_hba[] = {
++  /* Rhea, Jasper 320, LSI53C1020/1030.  */
++  {0x30, GRUB_OFPATH_SPARC_TGT_LUN},
++  /* SAS-1068E.  */
++  {0x50, GRUB_OFPATH_SPARC_TGT_LUN},
++  /* SAS-1064E.  */
++  {0x56, GRUB_OFPATH_SPARC_TGT_LUN},
++  /* Pandora SAS-1068E.  */
++  {0x58, GRUB_OFPATH_SPARC_TGT_LUN},
++  /* Aspen, Invader, LSI SAS-3108.  */
++  {0x5d, GRUB_OFPATH_SPARC_TGT_LUN},
++  /* Niwot, SAS 2108.  */
++  {0x79, GRUB_OFPATH_SPARC_TGT_LUN},
++  /* Erie, Falcon, LSI SAS 2008.  */
++  {0x72, GRUB_OFPATH_SPARC_WWN_ADDR},
++  /* LSI WarpDrive 6203.  */
++  {0x7e, GRUB_OFPATH_SPARC_WWN_ADDR},
++  /* LSI SAS 2308.  */
++  {0x87, GRUB_OFPATH_SPARC_WWN_ADDR},
++  /* LSI SAS 3008.  */
++  {0x97, GRUB_OFPATH_SPARC_WWN_ADDR},
++  {0, 0}
++};
++#endif
++
+ #ifdef OFPATH_STANDALONE
+ #define xmalloc malloc
+ void
+@@ -307,6 +345,50 @@ of_path_of_ide(const char *sys_devname __attribute__((unused)), const char *devi
+   return ret;
+ }
+ 
++static char *
++of_path_of_nvme(const char *sys_devname __attribute__((unused)),
++	        const char *device,
++	        const char *devnode __attribute__((unused)),
++	        const char *devicenode)
++{
++  char *sysfs_path, *of_path, disk[MAX_DISK_CAT];
++  const char *digit_string, *part_end;
++
++  digit_string = trailing_digits (device);
++  part_end = devicenode + strlen (devicenode) - 1;
++
++  if ((digit_string != '\0') && (*part_end == 'p'))
++    {
++      /* We have a partition number, strip it off.  */
++      int part;
++      char *nvmedev, *end;
++
++      nvmedev = strdup (devicenode);
++
++      if (nvmedev == NULL)
++        return NULL;
++
++      end = nvmedev + strlen (nvmedev) - 1;
++      /* Remove the p.  */
++      *end = '\0';
++      sscanf (digit_string, "%d", &part);
++      snprintf (disk, sizeof (disk), "/disk@1:%c", 'a' + (part - 1));
++      sysfs_path = block_device_get_sysfs_path_and_link (nvmedev);
++      free (nvmedev);
++    }
++  else
++    {
++      /* We do not have the parition.  */
++      snprintf (disk, sizeof (disk), "/disk@1");
++      sysfs_path = block_device_get_sysfs_path_and_link (device);
++    }
++
++  of_path = find_obppath (sysfs_path);
++  free (sysfs_path);
++  strcat (of_path, disk);
++  return of_path;
++}
++
+ static int
+ vendor_is_ATA(const char *path)
+ {
+@@ -335,6 +417,66 @@ vendor_is_ATA(const char *path)
+   return (memcmp(bufcont, "ATA", 3) == 0);
+ }
+ 
++#ifdef __sparc__
++static void
++check_hba_identifiers (const char *sysfs_path, int *vendor, int *device_id)
++{
++  char *ed = strstr (sysfs_path, "host");
++  size_t path_size;
++  char *p = NULL, *path = NULL;
++  char buf[8];
++  int fd;
++
++  if (!ed)
++    return;
++
++  p = xstrdup (sysfs_path);
++  ed = strstr (p, "host");
++
++  if (!ed)
++    goto out;
++
++  *ed = '\0';
++
++  path_size = (strlen (p) + sizeof ("vendor"));
++  path = xmalloc (path_size);
++
++  if (!path)
++    goto out;
++
++  snprintf (path, path_size, "%svendor", p);
++  fd = open (path, O_RDONLY);
++
++  if (fd < 0)
++    goto out;
++
++  memset (buf, 0, sizeof (buf));
++
++  if (read (fd, buf, sizeof (buf) - 1) < 0)
++    goto out;
++
++  close (fd);
++  sscanf (buf, "%x", vendor);
++  snprintf (path, path_size, "%sdevice", p);
++  fd = open (path, O_RDONLY);
++
++  if (fd < 0)
++    goto out;
++
++  memset (buf, 0, sizeof (buf));
++
++  if (read (fd, buf, sizeof (buf) - 1) < 0)
++    goto out;
++
++  close (fd);
++  sscanf (buf, "%x", device_id);
++
++out:
++  free (path);
++  free (p);
++}
++#endif
++
+ static void
+ check_sas (const char *sysfs_path, int *tgt, unsigned long int *sas_address)
+ {
+@@ -396,7 +538,7 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
+ {
+   const char *p, *digit_string, *disk_name;
+   int host, bus, tgt, lun;
+-  unsigned long int sas_address;
++  unsigned long int sas_address = 0;
+   char *sysfs_path, disk[MAX_DISK_CAT - sizeof ("/fp@0,0")];
+   char *of_path;
+ 
+@@ -413,9 +555,11 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
+     }
+ 
+   of_path = find_obppath(sysfs_path);
+-  free (sysfs_path);
+   if (!of_path)
+-    return NULL;
++    {
++      free (sysfs_path);
++      return NULL;
++    }
+ 
+   if (strstr (of_path, "qlc"))
+     strcat (of_path, "/fp@0,0");
+@@ -444,6 +588,45 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
+     }
+   else
+     {
++#ifdef __sparc__
++      ofpath_sparc_addressing addressing = GRUB_OFPATH_SPARC_TGT_LUN;
++      int vendor = 0, device_id = 0;
++      char *optr = disk;
++
++      check_hba_identifiers (sysfs_path, &vendor, &device_id);
++
++      /* LSI Logic Vendor ID */
++      if (vendor == 0x1000)
++        {
++          struct ofpath_sparc_hba *lsi_hba;
++
++          /* Over time different OF addressing schemes have been supported.
++             There is no generic addressing scheme that works across
++             every HBA. */
++          for (lsi_hba = sparc_lsi_hba; lsi_hba->device_id; lsi_hba++)
++            if (lsi_hba->device_id == device_id)
++              {
++                addressing = lsi_hba->addressing;
++                break;
++              }
++        }
++
++      if (addressing == GRUB_OFPATH_SPARC_WWN_ADDR)
++        optr += snprintf (disk, sizeof (disk), "/%s@w%lx,%x", disk_name,
++                          sas_address, lun);
++      else
++        optr += snprintf (disk, sizeof (disk), "/%s@%x,%x", disk_name, tgt,
++                          lun);
++
++      if (*digit_string != '\0')
++        {
++          int part;
++
++          sscanf (digit_string, "%d", &part);
++          snprintf (optr, sizeof (disk) - (optr - disk - 1), ":%c", 'a'
++                    + (part - 1));
++        }
++#else
+       if (lun == 0)
+         {
+           int sas_id = 0;
+@@ -491,7 +674,9 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
+             }
+ 	  free (lunstr);
+         }
++#endif
+     }
++  free (sysfs_path);
+   strcat(of_path, disk);
+   return of_path;
+ }
+@@ -537,6 +722,9 @@ grub_util_devname_to_ofpath (const char *sys_devname)
+     /* All the models I've seen have a devalias "floppy".
+        New models have no floppy at all. */
+     ofpath = xstrdup ("floppy");
++  else if (device[0] == 'n' && device[1] == 'v' && device[2] == 'm'
++           && device[3] == 'e')
++    ofpath = of_path_of_nvme (name_buf, device, devnode, devicenode);
+   else
+     {
+       grub_util_warn (_("unknown device type %s"), device);
+diff --git a/include/grub/disk.h b/include/grub/disk.h
+index b385af826..bd58b11d5 100644
+--- a/include/grub/disk.h
++++ b/include/grub/disk.h
+@@ -49,6 +49,7 @@ enum grub_disk_dev_id
+     GRUB_DISK_DEVICE_CBFSDISK_ID,
+     GRUB_DISK_DEVICE_UBOOTDISK_ID,
+     GRUB_DISK_DEVICE_XEN,
++    GRUB_DISK_DEVICE_OBDISK_ID,
+   };
+ 
+ struct grub_disk;
+diff --git a/include/grub/ieee1275/ieee1275.h b/include/grub/ieee1275/ieee1275.h
+index 8e4251303..27b173678 100644
+--- a/include/grub/ieee1275/ieee1275.h
++++ b/include/grub/ieee1275/ieee1275.h
+@@ -146,6 +146,8 @@ enum grub_ieee1275_flag
+   GRUB_IEEE1275_FLAG_BROKEN_REPEAT,
+ 
+   GRUB_IEEE1275_FLAG_CURSORONOFF_ANSI_BROKEN,
++
++  GRUB_IEEE1275_FLAG_RAW_DEVNAMES,
+ };
+ 
+ extern int EXPORT_FUNC(grub_ieee1275_test_flag) (enum grub_ieee1275_flag flag);
+@@ -211,6 +213,30 @@ int EXPORT_FUNC(grub_ieee1275_set_color) (grub_ieee1275_ihandle_t ihandle,
+ 					  int index, int r, int g, int b);
+ int EXPORT_FUNC(grub_ieee1275_milliseconds) (grub_uint32_t *msecs);
+ 
++int EXPORT_FUNC(grub_ieee1275_set_address) (grub_ieee1275_ihandle_t ihandle,
++                                            grub_uint32_t target,
++                                            grub_uint32_t lun);
++
++int EXPORT_FUNC(grub_ieee1275_no_data_command) (grub_ieee1275_ihandle_t ihandle,
++                                                const void *cmd_addr,
++                                                grub_ssize_t *result);
++
++int EXPORT_FUNC(grub_ieee1275_decode_unit4) (grub_ieee1275_ihandle_t ihandle,
++                                             void *addr, grub_size_t size,
++                                             grub_uint32_t *phy_lo,
++                                             grub_uint32_t *phy_hi,
++                                             grub_uint32_t *lun_lo,
++                                             grub_uint32_t *lun_hi);
++
++char *EXPORT_FUNC(grub_ieee1275_encode_uint4) (grub_ieee1275_ihandle_t ihandle,
++                                             grub_uint32_t phy_lo,
++                                             grub_uint32_t phy_hi,
++                                             grub_uint32_t lun_lo,
++                                             grub_uint32_t lun_hi,
++                                             grub_size_t *size);
++
++int EXPORT_FUNC(grub_ieee1275_get_block_size) (grub_ieee1275_ihandle_t ihandle);
++
+ 
+ grub_err_t EXPORT_FUNC(grub_claimmap) (grub_addr_t addr, grub_size_t size);
+ 
+@@ -235,6 +261,7 @@ void EXPORT_FUNC(grub_ieee1275_children_peer) (struct grub_ieee1275_devalias *al
+ void EXPORT_FUNC(grub_ieee1275_children_first) (const char *devpath,
+ 						struct grub_ieee1275_devalias *alias);
+ 
++void EXPORT_FUNC(grub_ieee1275_get_boot_dev) (char **boot_dev);
+ #define FOR_IEEE1275_DEVALIASES(alias) for (grub_ieee1275_devalias_init_iterator (&(alias)); grub_ieee1275_devalias_next (&(alias));)
+ 
+ #define FOR_IEEE1275_DEVCHILDREN(devpath, alias) for (grub_ieee1275_children_first ((devpath), &(alias)); \
+diff --git a/include/grub/ieee1275/obdisk.h b/include/grub/ieee1275/obdisk.h
+new file mode 100644
+index 000000000..3d6fa0e62
+--- /dev/null
++++ b/include/grub/ieee1275/obdisk.h
+@@ -0,0 +1,25 @@
++/*
++ *  GRUB  --  GRand Unified Bootloader
++ *  Copyright (C) 2017  Free Software Foundation, Inc.
++ *
++ *  GRUB is free software: you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation, either version 3 of the License, or
++ *  (at your option) any later version.
++ *
++ *  GRUB is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef GRUB_OBDISK_HEADER
++#define GRUB_OBDISK_HEADER	1
++
++extern void grub_obdisk_init (void);
++extern void grub_obdisk_fini (void);
++
++#endif
+diff --git a/include/grub/sparc64/ieee1275/ieee1275.h b/include/grub/sparc64/ieee1275/ieee1275.h
+index 32c77f80f..4b18468d8 100644
+--- a/include/grub/sparc64/ieee1275/ieee1275.h
++++ b/include/grub/sparc64/ieee1275/ieee1275.h
+@@ -42,6 +42,8 @@ extern int EXPORT_FUNC(grub_ieee1275_claim_vaddr) (grub_addr_t vaddr,
+ extern int EXPORT_FUNC(grub_ieee1275_alloc_physmem) (grub_addr_t *paddr,
+ 						     grub_size_t size,
+ 						     grub_uint32_t align);
++extern grub_uint64_t EXPORT_FUNC(grub_ieee1275_num_blocks) (grub_uint32_t ihandle);
++extern grub_uint64_t EXPORT_FUNC(grub_ieee1275_num_blocks64) (grub_uint32_t ihandle);
+ 
+ extern grub_addr_t EXPORT_VAR (grub_ieee1275_original_stack);
+ 
+diff --git a/util/grub-install.c b/util/grub-install.c
+index 04a520481..0b97c1ac0 100644
+--- a/util/grub-install.c
++++ b/util/grub-install.c
+@@ -1616,6 +1616,7 @@ main (int argc, char *argv[])
+ 		{
+ 		  grub_util_fprint_full_disk_name (load_cfg_f, g, dev);
+ 		  fprintf (load_cfg_f, " ");
++		  free (g);
+ 		}
+ 	      if (dev != grub_dev)
+ 		grub_device_close (dev);
+diff --git a/util/ieee1275/grub-ofpathname.c b/util/ieee1275/grub-ofpathname.c
+index 8e5d766cb..300fbddad 100644
+--- a/util/ieee1275/grub-ofpathname.c
++++ b/util/ieee1275/grub-ofpathname.c
+@@ -46,7 +46,9 @@ int main(int argc, char **argv)
+     }
+ 
+   of_path = grub_util_devname_to_ofpath (argv[1]);
+-  printf("%s\n", of_path);
++
++  if (of_path)
++    printf ("%s\n", of_path);
+ 
+   free (of_path);
+ 
+diff --git a/util/setup.c b/util/setup.c
+index 3b5c46fde..15e7de0a7 100644
+--- a/util/setup.c
++++ b/util/setup.c
+@@ -200,7 +200,6 @@ save_blocklists (grub_disk_addr_t sector, unsigned offset, unsigned length,
+ #endif
+ }
+ 
+-#ifdef GRUB_SETUP_BIOS
+ /* Context for setup/identify_partmap.  */
+ struct identify_partmap_ctx
+ {
+@@ -236,7 +235,6 @@ identify_partmap (grub_disk_t disk __attribute__ ((unused)),
+   ctx->multiple_partmaps = 1;
+   return 1;
+ }
+-#endif
+ 
+ #ifdef GRUB_SETUP_BIOS
+ #define SETUP grub_util_bios_setup
+@@ -257,9 +255,7 @@ SETUP (const char *dir,
+   char *boot_img, *core_img, *boot_path;
+   char *root = 0;
+   size_t boot_size, core_size;
+-#ifdef GRUB_SETUP_BIOS
+   grub_uint16_t core_sectors;
+-#endif
+   grub_device_t root_dev = 0, dest_dev, core_dev;
+   grub_util_fd_t fp;
+   struct blocklists bl;
+@@ -283,10 +279,8 @@ SETUP (const char *dir,
+ 
+   core_path = grub_util_get_path (dir, core_file);
+   core_size = grub_util_get_image_size (core_path);
+-#ifdef GRUB_SETUP_BIOS
+   core_sectors = ((core_size + GRUB_DISK_SECTOR_SIZE - 1)
+ 		  >> GRUB_DISK_SECTOR_BITS);
+-#endif
+   if (core_size < GRUB_DISK_SECTOR_SIZE)
+     grub_util_error (_("the size of `%s' is too small"), core_path);
+ #ifdef GRUB_SETUP_BIOS
+@@ -368,8 +362,8 @@ SETUP (const char *dir,
+   if (grub_env_set ("root", root) != GRUB_ERR_NONE)
+     grub_util_error ("%s", grub_errmsg);
+ 
+-#ifdef GRUB_SETUP_BIOS
+   {
++#ifdef GRUB_SETUP_BIOS
+     char *tmp_img;
+     grub_uint8_t *boot_drive_check;
+ 
+@@ -394,6 +388,7 @@ SETUP (const char *dir,
+ 	boot_drive_check[0] = 0x90;
+ 	boot_drive_check[1] = 0x90;
+       }
++#endif
+ 
+     struct identify_partmap_ctx ctx = {
+       .dest_partmap = NULL,
+@@ -409,6 +404,7 @@ SETUP (const char *dir,
+ 
+     grub_partition_iterate (dest_dev->disk, identify_partmap, &ctx);
+ 
++#ifdef GRUB_SETUP_BIOS
+     /* Copy the partition table.  */
+     if (ctx.dest_partmap ||
+         (!allow_floppy && !grub_util_biosdisk_is_floppy (dest_dev->disk)))
+@@ -417,6 +413,7 @@ SETUP (const char *dir,
+ 	      GRUB_BOOT_MACHINE_PART_END - GRUB_BOOT_MACHINE_WINDOWS_NT_MAGIC);
+ 
+     free (tmp_img);
++#endif
+ 
+     if (ctx.container
+ 	&& grub_strcmp (ctx.container->partmap->name, "msdos") == 0
+@@ -504,10 +501,21 @@ SETUP (const char *dir,
+     else
+       maxsec = core_sectors;
+ 
++#ifdef GRUB_SETUP_BIOS
+     if (maxsec > ((0x78000 - GRUB_KERNEL_I386_PC_LINK_ADDR)
+ 		>> GRUB_DISK_SECTOR_BITS))
+       maxsec = ((0x78000 - GRUB_KERNEL_I386_PC_LINK_ADDR)
+ 		>> GRUB_DISK_SECTOR_BITS);
++#endif
++
++#ifdef GRUB_SETUP_SPARC64
++    /* On SPARC we need two extra.  One is because we are combining the
++     * core.img with the boot.img. The other is because the boot sector
++     * starts at 1.
++     */
++    nsec += 2;
++    maxsec += 2;
++#endif
+ 
+     if (is_ldm)
+       err = grub_util_ldm_embed (dest_dev->disk, &nsec, maxsec,
+@@ -556,9 +564,35 @@ SETUP (const char *dir,
+       bl.block--;
+     bl.block->start = 0;
+     bl.block->len = 0;
++#ifdef GRUB_SETUP_BIOS
+     bl.block->segment = 0;
++#endif
+ 
++#ifdef GRUB_SETUP_SPARC64
++    {
++      /* On SPARC, the block-list entries need to be based off the beginning
++         of the parition, not the beginning of the disk. */
++      struct grub_boot_blocklist *block;
++      block = bl.first_block;
++
++      while (block->len)
++        {
++          block->start -= bl.first_sector;
++          block--;
++        }
++    }
++
++    /* Reserve space for the boot block since it can not be in the
++       Parition table on SPARC */
++    assert (bl.first_block->len > 2);
++    bl.first_block->start += 2;
++    bl.first_block->len -= 2;
++    write_rootdev (root_dev, boot_img, sectors[BOOT_SECTOR + 1] - bl.first_sector);
++#endif
++
++#ifdef GRUB_SETUP_BIOS
+     write_rootdev (root_dev, boot_img, bl.first_sector);
++#endif
+ 
+     /* Round up to the nearest sector boundary, and zero the extra memory */
+     core_img = xrealloc (core_img, nsec * GRUB_DISK_SECTOR_SIZE);
+@@ -568,7 +602,7 @@ SETUP (const char *dir,
+     bl.first_block = (struct grub_boot_blocklist *) (core_img
+ 						     + GRUB_DISK_SECTOR_SIZE
+ 						     - sizeof (*bl.block));
+-
++#if GRUB_SETUP_BIOS
+     grub_size_t no_rs_length;
+     no_rs_length = grub_target_to_host16 
+       (grub_get_unaligned16 (core_img
+@@ -599,6 +633,26 @@ SETUP (const char *dir,
+       grub_disk_write (dest_dev->disk, sectors[i], 0,
+ 		       GRUB_DISK_SECTOR_SIZE,
+ 		       core_img + i * GRUB_DISK_SECTOR_SIZE);
++#endif
++#ifdef GRUB_SETUP_SPARC64
++    {
++      int isec = BOOT_SECTOR;
++
++      /* Write the boot image onto the disk. */
++      if (grub_disk_write (dest_dev->disk, sectors[isec++], 0,
++                           GRUB_DISK_SECTOR_SIZE, boot_img))
++        grub_util_error ("%s", grub_errmsg);
++
++      /* Write the core image onto the disk. */
++      for (i = 0 ; isec < nsec; i++, isec++)
++        {
++          if (grub_disk_write (dest_dev->disk, sectors[isec], 0,
++                               GRUB_DISK_SECTOR_SIZE,
++                               core_img  + i * GRUB_DISK_SECTOR_SIZE))
++            grub_util_error ("%s", grub_errmsg);
++        }
++    }
++#endif
+ 
+     grub_free (sectors);
+ 
+@@ -608,7 +662,6 @@ SETUP (const char *dir,
+   }
+ 
+ unable_to_embed:
+-#endif
+ 
+   if (dest_dev->disk->dev->id != root_dev->disk->dev->id)
+     grub_util_error ("%s", _("embedding is not possible, but this is required for "
+@@ -729,15 +782,21 @@ unable_to_embed:
+   {
+     char *buf, *ptr = core_img;
+     size_t len = core_size;
+-    grub_uint64_t blk;
++    grub_uint64_t blk, offset = 0;
+     grub_partition_t container = core_dev->disk->partition;
+     grub_err_t err;
+ 
+     core_dev->disk->partition = 0;
++#ifdef GRUB_SETUP_SPARC64
++    {
++      if (grub_strstr (container->partmap->name, "gpt"))
++        offset = grub_partition_get_start (container);
++    }
++#endif
+ 
+     buf = xmalloc (core_size);
+     blk = bl.first_sector;
+-    err = grub_disk_read (core_dev->disk, blk, 0, GRUB_DISK_SECTOR_SIZE, buf);
++    err = grub_disk_read (core_dev->disk, blk + offset, 0, GRUB_DISK_SECTOR_SIZE, buf);
+     if (err)
+       grub_util_error (_("cannot read `%s': %s"), core_dev->disk->name,
+ 		       grub_errmsg);
+@@ -756,7 +815,7 @@ unable_to_embed:
+ 	if (cur > len)
+ 	  cur = len;
+ 
+-	err = grub_disk_read (core_dev->disk, blk, 0, cur, buf);
++	err = grub_disk_read (core_dev->disk, blk + offset, 0, cur, buf);
+ 	if (err)
+ 	  grub_util_error (_("cannot read `%s': %s"), core_dev->disk->name,
+ 			   grub_errmsg);
+@@ -786,6 +845,10 @@ unable_to_embed:
+ 		       0, GRUB_DISK_SECTOR_SIZE, boot_img))
+     grub_util_error ("%s", grub_errmsg);
+ 
++#ifdef GRUB_SETUP_SPARC64
++ finish:
++#endif
++
+   grub_util_biosdisk_flush (root_dev->disk);
+   grub_util_biosdisk_flush (dest_dev->disk);
+ 

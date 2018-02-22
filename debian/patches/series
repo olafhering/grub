@@ -60,3 +60,4 @@ tsc_efi_default_to_pmtimer.patch
 freetype-capitalise-variables.patch
 freetype-pkg-config.patch
 fix-yylex-build.patch
+sparc64-support.patch
