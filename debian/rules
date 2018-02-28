@@ -23,6 +23,10 @@ export HOST_LDFLAGS
 export TARGET_CPPFLAGS := -Wno-unused-but-set-variable
 export TARGET_LDFLAGS := -no-pie
 
+ifneq (,$(filter sparc sparc64,$(DEB_HOST_ARCH_CPU)))
+export TARGET_CCASFLAGS := -fno-PIE
+endif
+
 ifeq (,$(shell which qemu-system-i386 2>/dev/null))
 with_check := no
 else
