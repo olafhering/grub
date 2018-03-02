@@ -1,6 +1,9 @@
 grub2 (2.02+dfsg1-3) UNRELEASED; urgency=medium
 
   * sparc64: Don't use devspec to determine the OBP path (closes: #854568).
+  * ieee1275: Fix crash in of_path_of_nvme when of_path is empty (closes:
+    #891773).
+  * sparc64: Limit nvme of_path_of_nvme to just SPARC.
 
  -- Colin Watson <cjwatson@debian.org>  Thu, 01 Mar 2018 13:07:46 +0000
 

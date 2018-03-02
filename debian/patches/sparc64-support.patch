@@ -1,11 +1,11 @@
-From dd461b9e1558e0bdf11858aed5b37f415c8b845a Mon Sep 17 00:00:00 2001
+From 7e6fab33dda2b8d510c477cd4159a360be7e3c0b Mon Sep 17 00:00:00 2001
 From: Eric Snowberg <eric.snowberg@oracle.com>
 Date: Thu, 22 Feb 2018 10:03:46 +0000
 Subject: Add support for modern sparc64 hardware
 
 Origin: other, https://github.com/esnowberg/grub2-sparc/tree/sparc-next-v4
 Bug-Debian: https://bugs.debian.org/854568
-Last-Update: 2018-03-01
+Last-Update: 2018-03-02
 
 Patch-Name: sparc64-support.patch
 ---
@@ -22,7 +22,7 @@ Patch-Name: sparc64-support.patch
  grub-core/kern/parser.c                    |    1 -
  grub-core/kern/sparc64/ieee1275/ieee1275.c |   53 ++
  grub-core/osdep/linux/blocklist.c          |    5 +
- grub-core/osdep/linux/ofpath.c             |  197 ++++-
+ grub-core/osdep/linux/ofpath.c             |  204 +++++-
  include/grub/disk.h                        |    1 +
  include/grub/ieee1275/ieee1275.h           |   27 +
  include/grub/ieee1275/obdisk.h             |   25 +
@@ -30,7 +30,7 @@ Patch-Name: sparc64-support.patch
  util/grub-install.c                        |    1 +
  util/ieee1275/grub-ofpathname.c            |    4 +-
  util/setup.c                               |   87 ++-
- 21 files changed, 1736 insertions(+), 55 deletions(-)
+ 21 files changed, 1743 insertions(+), 55 deletions(-)
  create mode 100644 grub-core/disk/ieee1275/obdisk.c
  create mode 100644 include/grub/ieee1275/obdisk.h
 
@@ -1706,7 +1706,7 @@ index c77d6085c..caf8d4ee5 100644
    grub_util_info ("opening the core image `%s'", core_path);
    fd = open (core_path, O_RDONLY);
 diff --git a/grub-core/osdep/linux/ofpath.c b/grub-core/osdep/linux/ofpath.c
-index a79682a5e..7091b1836 100644
+index a79682a5e..5155b0620 100644
 --- a/grub-core/osdep/linux/ofpath.c
 +++ b/grub-core/osdep/linux/ofpath.c
 @@ -38,6 +38,44 @@
@@ -1771,10 +1771,11 @@ index a79682a5e..7091b1836 100644
  
        if (fd < 0 || fstat (fd, &st) < 0)
  	{
-@@ -307,6 +348,50 @@ of_path_of_ide(const char *sys_devname __attribute__((unused)), const char *devi
+@@ -307,6 +348,55 @@ of_path_of_ide(const char *sys_devname __attribute__((unused)), const char *devi
    return ret;
  }
  
++#ifdef __sparc__
 +static char *
 +of_path_of_nvme(const char *sys_devname __attribute__((unused)),
 +	        const char *device,
@@ -1787,7 +1788,7 @@ index a79682a5e..7091b1836 100644
 +  digit_string = trailing_digits (device);
 +  part_end = devicenode + strlen (devicenode) - 1;
 +
-+  if ((digit_string != '\0') && (*part_end == 'p'))
++  if ((*digit_string != '\0') && (*part_end == 'p'))
 +    {
 +      /* We have a partition number, strip it off.  */
 +      int part;
@@ -1814,15 +1815,19 @@ index a79682a5e..7091b1836 100644
 +    }
 +
 +  of_path = find_obppath (sysfs_path);
++
++  if (of_path)
++    strcat (of_path, disk);
++
 +  free (sysfs_path);
-+  strcat (of_path, disk);
 +  return of_path;
 +}
++#endif
 +
  static int
  vendor_is_ATA(const char *path)
  {
-@@ -335,6 +420,66 @@ vendor_is_ATA(const char *path)
+@@ -335,6 +425,66 @@ vendor_is_ATA(const char *path)
    return (memcmp(bufcont, "ATA", 3) == 0);
  }
  
@@ -1889,7 +1894,7 @@ index a79682a5e..7091b1836 100644
  static void
  check_sas (const char *sysfs_path, int *tgt, unsigned long int *sas_address)
  {
-@@ -396,7 +541,7 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
+@@ -396,7 +546,7 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
  {
    const char *p, *digit_string, *disk_name;
    int host, bus, tgt, lun;
@@ -1898,7 +1903,7 @@ index a79682a5e..7091b1836 100644
    char *sysfs_path, disk[MAX_DISK_CAT - sizeof ("/fp@0,0")];
    char *of_path;
  
-@@ -413,9 +558,11 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
+@@ -413,9 +563,11 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
      }
  
    of_path = find_obppath(sysfs_path);
@@ -1912,7 +1917,7 @@ index a79682a5e..7091b1836 100644
  
    if (strstr (of_path, "qlc"))
      strcat (of_path, "/fp@0,0");
-@@ -444,6 +591,45 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
+@@ -444,6 +596,45 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
      }
    else
      {
@@ -1958,7 +1963,7 @@ index a79682a5e..7091b1836 100644
        if (lun == 0)
          {
            int sas_id = 0;
-@@ -491,7 +677,9 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
+@@ -491,7 +682,9 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
              }
  	  free (lunstr);
          }
@@ -1968,13 +1973,15 @@ index a79682a5e..7091b1836 100644
    strcat(of_path, disk);
    return of_path;
  }
-@@ -537,6 +725,9 @@ grub_util_devname_to_ofpath (const char *sys_devname)
+@@ -537,6 +730,11 @@ grub_util_devname_to_ofpath (const char *sys_devname)
      /* All the models I've seen have a devalias "floppy".
         New models have no floppy at all. */
      ofpath = xstrdup ("floppy");
++#ifdef __sparc__
 +  else if (device[0] == 'n' && device[1] == 'v' && device[2] == 'm'
 +           && device[3] == 'e')
 +    ofpath = of_path_of_nvme (name_buf, device, devnode, devicenode);
++#endif
    else
      {
        grub_util_warn (_("unknown device type %s"), device);
