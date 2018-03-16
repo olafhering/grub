@@ -1,4 +1,4 @@
-From 044b52774e9177cef6cae2b104867ff964d22ab4 Mon Sep 17 00:00:00 2001
+From 5b9981361cc915381282119b22a982ca59256588 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:31 +0000
 Subject: Probe FusionIO devices
@@ -38,7 +38,7 @@ index 90d92d3ad..7adc0f30e 100644
  
    return path;
 diff --git a/util/deviceiter.c b/util/deviceiter.c
-index 23d49aecd..bc68b2549 100644
+index a4971ef42..dddc50da7 100644
 --- a/util/deviceiter.c
 +++ b/util/deviceiter.c
 @@ -383,6 +383,12 @@ get_nvme_disk_name (char *name, int controller, int namespace)

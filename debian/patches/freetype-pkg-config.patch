@@ -1,4 +1,4 @@
-From b2605b329bdcf705cbbaa97c6155f4fdfa6c9295 Mon Sep 17 00:00:00 2001
+From 3eec911197081a63d9dae28f1784ad01a06fb60a Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Tue, 30 Jan 2018 21:54:17 +0000
 Subject: build: Use pkg-config to find FreeType

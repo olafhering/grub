@@ -1,3 +1,11 @@
+grub2 (2.02+dfsg1-4) UNRELEASED; urgency=medium
+
+  * Adjust restore_mkdevicemap.patch to fix format-overflow warning with GCC
+    7 (the overflow was in fact impossible in practice, but GCC couldn't
+    prove that).
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 16 Mar 2018 10:56:50 +0000
+
 grub2 (2.02+dfsg1-3) unstable; urgency=medium
 
   * sparc64: Don't use devspec to determine the OBP path (closes: #854568).

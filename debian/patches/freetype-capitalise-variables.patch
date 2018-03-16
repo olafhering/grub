@@ -1,4 +1,4 @@
-From 1ec0f1afd93a8278a0df9ce6058c8e54710ccde4 Mon Sep 17 00:00:00 2001
+From ba84c8d1b4830e9fcb14d9f0e4a36e03ac40a09d Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Tue, 30 Jan 2018 14:08:26 +0000
 Subject: build: Capitalise *freetype_* variables

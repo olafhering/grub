@@ -1,4 +1,4 @@
-From 8aeda5b858c0334e1b35d17a34295289621fb7fc Mon Sep 17 00:00:00 2001
+From de91fba78b8d8bcc8dff5a5d15d763bd883bbda6 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Mon, 13 Jan 2014 12:13:01 +0000
 Subject: Restore grub-mkdevicemap
@@ -10,7 +10,7 @@ would be very complicated.
 
 Author: Dimitri John Ledkov <dimitri.ledkov@canonical.com>
 Forwarded: no
-Last-Update: 2016-09-18
+Last-Update: 2018-03-16
 
 Patch-Name: restore_mkdevicemap.patch
 ---
@@ -87,7 +87,7 @@ index 000000000..85374978c
 +#endif /* ! GRUB_DEVICEITER_MACHINE_UTIL_HEADER */
 diff --git a/util/deviceiter.c b/util/deviceiter.c
 new file mode 100644
-index 000000000..23d49aecd
+index 000000000..a4971ef42
 --- /dev/null
 +++ b/util/deviceiter.c
 @@ -0,0 +1,1021 @@
@@ -641,7 +641,7 @@ index 000000000..23d49aecd
 +  /* Floppies.  */
 +  for (i = 0; i < floppy_disks; i++)
 +    {
-+      char name[16];
++      char name[32];
 +      struct stat st;
 +
 +      get_floppy_disk_name (name, i);
