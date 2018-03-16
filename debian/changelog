@@ -3,6 +3,8 @@ grub2 (2.02+dfsg1-4) UNRELEASED; urgency=medium
   * Adjust restore_mkdevicemap.patch to fix format-overflow warning with GCC
     7 (the overflow was in fact impossible in practice, but GCC couldn't
     prove that).
+  * Cherry-pick upstream patch to disable -Wformat-truncation on GCC >= 7 in
+    printf_unit_test.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 16 Mar 2018 10:56:50 +0000
 
