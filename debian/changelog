@@ -1,4 +1,4 @@
-grub2 (2.02+dfsg1-4) UNRELEASED; urgency=medium
+grub2 (2.02+dfsg1-4) unstable; urgency=medium
 
   * Adjust restore_mkdevicemap.patch to fix format-overflow warning with GCC
     7 (the overflow was in fact impossible in practice, but GCC couldn't
@@ -7,7 +7,7 @@ grub2 (2.02+dfsg1-4) UNRELEASED; urgency=medium
     printf_unit_test.
   * Build with GCC 7 (closes: #892397).
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 16 Mar 2018 10:56:50 +0000
+ -- Colin Watson <cjwatson@debian.org>  Sun, 01 Apr 2018 10:49:48 +0100
 
 grub2 (2.02+dfsg1-3) unstable; urgency=medium
 
