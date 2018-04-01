@@ -5,6 +5,7 @@ grub2 (2.02+dfsg1-4) UNRELEASED; urgency=medium
     prove that).
   * Cherry-pick upstream patch to disable -Wformat-truncation on GCC >= 7 in
     printf_unit_test.
+  * Build with GCC 7 (closes: #892397).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 16 Mar 2018 10:56:50 +0000
 
