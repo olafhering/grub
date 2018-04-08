@@ -12,6 +12,7 @@ grub2 (2.02+dfsg1-5) UNRELEASED; urgency=medium
     (patch by Linn Crosetto <linn@hpe.com>)
   * Add patch to fix lockdown mode
     (patch by Luca Boccassi <bluca@debian.org>)
+  * Build monolithic EFI binaries for signing (closes: #851994)
 
  -- Philipp Hahn <hahn@univention.de>  Wed, 27 Jun 2018 09:13:55 +0200
 

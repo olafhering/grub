@@ -103,17 +103,20 @@ DEFAULT_HIDDEN_TIMEOUT :=
 DEFAULT_HIDDEN_TIMEOUT_BOOL := false
 endif
 
+# Secure Boot
+debian/stamps/build-grub-efi-ia32 install/grub-efi-ia32: export SB_PLATFORM := i386-efi
+debian/stamps/build-grub-efi-ia32 install/grub-efi-ia32: export SB_EFI_NAME := ia32
+debian/stamps/build-grub-efi-amd64 install/grub-efi-amd64: export SB_PLATFORM := x86_64-efi
+debian/stamps/build-grub-efi-amd64 install/grub-efi-amd64: export SB_EFI_NAME := x64
+debian/stamps/build-grub-efi-arm64 install/grub-efi-arm64: export SB_PLATFORM := arm64-efi
+debian/stamps/build-grub-efi-arm64 install/grub-efi-arm64: export SB_EFI_NAME := aa64
 SB_PACKAGE :=
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 ifeq ($(DEB_HOST_ARCH),amd64)
 SB_PACKAGE := grub-efi-amd64
-SB_PLATFORM := x86_64-efi
-SB_EFI_NAME := x64
 endif
 ifeq ($(DEB_HOST_ARCH),arm64)
 SB_PACKAGE := grub-efi-arm64
-SB_PLATFORM := arm64-efi
-SB_EFI_NAME := aa64
 endif
 endif
 
@@ -190,8 +193,17 @@ debian/stamps/configure-grub-firmware-qemu: debian/stamps/autogen
 	dh_auto_configure -- $(confflags) --with-platform=qemu
 	touch $@
 
-debian/stamps/build-grub-none debian/stamps/build-grub-efi-ia32 debian/stamps/build-grub-efi-amd64 debian/stamps/build-grub-efi-ia64 debian/stamps/build-grub-efi-arm debian/stamps/build-grub-efi-arm64 debian/stamps/build-grub-coreboot debian/stamps/build-grub-emu debian/stamps/build-grub-uboot debian/stamps/build-grub-xen-i386 debian/stamps/build-grub-xen-amd64 debian/stamps/build-grub-yeeloong: debian/stamps/build-%: debian/stamps/configure-%
+debian/stamps/build-grub-none debian/stamps/build-grub-efi-ia64 debian/stamps/build-grub-efi-arm debian/stamps/build-grub-coreboot debian/stamps/build-grub-emu debian/stamps/build-grub-uboot debian/stamps/build-grub-xen-i386 debian/stamps/build-grub-xen-amd64 debian/stamps/build-grub-yeeloong: debian/stamps/build-%: debian/stamps/configure-%
 	dh_auto_build
+	touch $@
+
+debian/stamps/build-grub-efi-ia32 debian/stamps/build-grub-efi-amd64 debian/stamps/build-grub-efi-arm64: debian/stamps/build-%: debian/stamps/configure-% debian/stamps/build-grub-$(COMMON_PLATFORM)
+	dh_auto_build
+	debian/build-efi-images \
+		obj/grub-$(COMMON_PLATFORM)/grub-mkimage \
+		obj/$(package)/grub-core \
+		obj/monolithic/$(package) \
+		$(SB_PLATFORM) $(SB_EFI_NAME)
 	touch $@
 
 debian/stamps/build-grub-xen-host-i386: PVBOOT_ARCH := i386
@@ -301,6 +313,12 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 		dh_auto_install -Bobj/grub-xen-amd64 --destdir=debian/tmp-$(package); \
 	else \
 		dh_auto_install --destdir=debian/tmp-$(package); \
+	fi
+
+	set -e ; \
+	if [ -d "obj/monolithic/$(package)" ] ; then \
+	install -m 0755 -d debian/$(package_bin)/usr/lib/grub/$(SB_PLATFORM)/monolithic ; \
+	install -m 0644 -t debian/$(package_bin)/usr/lib/grub/$(SB_PLATFORM)/monolithic obj/monolithic/$(package)/*.efi ; \
 	fi
 
 	set -e ; \
@@ -489,14 +507,8 @@ TARNAME := grub2_$(deb_version)_$(DEB_HOST_ARCH).tar.gz
 override_dh_builddeb:
 	dh_builddeb -- -Zxz
 ifneq (,$(SB_PACKAGE))
-	debian/build-efi-images \
-		obj/grub-$(COMMON_PLATFORM)/grub-mkimage \
-		obj/$(SB_PACKAGE)/grub-core \
-		debian/grub2-images/$(deb_version) \
-		$(SB_PLATFORM) $(SB_EFI_NAME)
-	echo $(deb_version) \
-		> debian/grub2-images/$(deb_version)/version
-	cd debian/grub2-images && tar czvf ../../../$(TARNAME) .
+	echo $(deb_version) > obj/monolithic/$(SB_PACKAGE)/version
+	tar -c -f ../$(TARNAME) -a -C obj/monolithic/$(SB_PACKAGE) -v .
 	dpkg-distaddfile $(TARNAME) raw-uefi -
 endif
 
@@ -515,9 +527,6 @@ override_dh_clean:
 	done
 	rm -f debian/grub-common.maintscript
 	rm -rf debian/tmp-*/
-ifneq (,$(SB_PACKAGE))
-	rm -rf debian/grub2-images
-endif
 
 	# make sure PO files are always up-to-date
 	debconf-updatepo
