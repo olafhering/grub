@@ -288,6 +288,12 @@ Description: GRand Unified Bootloader, version 2 (EFI-IA32 version)
  EFI-IA32 architecture, such as the one provided by Intel Macs (that is, unless
  a BIOS interface has been activated).
 
+Package: grub-efi-ia32-signed-template
+Architecture: any-i386 any-amd64
+Description: GRand Unified Bootloader, version 2 (EFI-IA32 signing template)
+ This package contains template files for grub-efi-amd64-signed.
+ This is only needed for Secure Boot signing.
+
 Package: grub-efi-amd64-bin
 Architecture: i386 kopensolaris-i386 any-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version}), efibootmgr [linux-any]
@@ -338,6 +344,12 @@ Description: GRand Unified Bootloader, version 2 (EFI-AMD64 version)
  This package contains a version of GRUB that has been built for use with
  EFI-AMD64 architecture, such as the one provided by Intel Macs (that is, unless
  a BIOS interface has been activated).
+
+Package: grub-efi-amd64-signed-template
+Architecture: i386 kopensolaris-i386 any-amd64
+Description: GRand Unified Bootloader, version 2 (EFI-AMD64 signing template)
+ This package contains template files for grub-efi-amd64-signed.
+ This is only needed for Secure Boot signing.
 
 Package: grub-efi-ia64-bin
 Architecture: any-ia64
@@ -478,6 +490,12 @@ Description: GRand Unified Bootloader, version 2 (ARM64 UEFI version)
  .
  This package contains a version of GRUB that has been built for use on
  ARM64 systems with UEFI.
+
+Package: grub-efi-arm64-signed-template
+Architecture: any-arm64
+Description: GRand Unified Bootloader, version 2 (ARM64 UEFI signing template)
+ This package contains template files for grub-efi-amd64-signed.
+ This is only needed for Secure Boot signing.
 
 Package: grub-ieee1275-bin
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-ppc64el any-sparc any-sparc64

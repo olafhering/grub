@@ -16,6 +16,7 @@ HOST_CPPFLAGS := $(shell dpkg-buildflags --get CPPFLAGS)
 HOST_CFLAGS := -Wall -Wno-error=unused-result $(shell dpkg-buildflags --get CFLAGS | perl -pe 's/-O3\b/-O2/')
 HOST_LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
 
+export DEB_HOST_ARCH
 unexport CFLAGS
 export HOST_CPPFLAGS
 export HOST_CFLAGS
@@ -319,6 +320,7 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 	if [ -d "obj/monolithic/$(package)" ] ; then \
 	install -m 0755 -d debian/$(package_bin)/usr/lib/grub/$(SB_PLATFORM)/monolithic ; \
 	install -m 0644 -t debian/$(package_bin)/usr/lib/grub/$(SB_PLATFORM)/monolithic obj/monolithic/$(package)/*.efi ; \
+	debian/signing-template.generate "$(package)" ; \
 	fi
 
 	set -e ; \
@@ -474,7 +476,7 @@ endif
 
 override_dh_installdocs:
 	dh_installdocs $(patsubst %,-p%,$(filter grub-common grub-rescue-pc grub-firmware-qemu grub-xen-host,$(BUILD_PACKAGES))) -A AUTHORS NEWS README THANKS TODO
-	dh_installdocs --remaining-packages --link-doc=grub-common
+	dh_installdocs $(patsubst %,-N%,$(filter grub-efi-%-signed-template,$(BUILD_PACKAGES))) --remaining-packages --link-doc=grub-common
 
 ifeq ($(FLICKER_FREE_BOOT),yes)
 override_dh_installinit:
@@ -485,7 +487,7 @@ override_dh_installinit:
 endif
 
 override_dh_bugfiles:
-	dh_bugfiles -A
+	dh_bugfiles $(patsubst %,-N%,$(filter grub-efi-%-signed-template,$(BUILD_PACKAGES))) -A
 
 override_dh_strip:
 	dh_strip -X/usr/bin/grub-emu
