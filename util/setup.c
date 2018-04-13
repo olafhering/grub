@@ -497,6 +497,7 @@ SETUP (const char *dir,
 
     if (fs && !fs->fs_embed)
       {
+      if (0)
 	grub_util_warn (_("File system `%s' doesn't support embedding"),
 			fs->name);
 	goto unable_to_embed;
@@ -701,12 +702,14 @@ unable_to_embed:
   core_dev = root_dev;
 #endif
 
+#if 0
   grub_util_warn ("%s", _("Embedding is not possible.  GRUB can only be installed in this "
 			  "setup by using blocklists.  However, blocklists are UNRELIABLE and "
 			  "their use is discouraged."));
   if (! force)
     /* TRANSLATORS: Here GRUB refuses to continue with blocklist install.  */
     grub_util_error ("%s", _("will not proceed with blocklists"));
+#endif
 
   /* The core image must be put on a filesystem unfortunately.  */
   grub_util_info ("will leave the core image on the filesystem");
