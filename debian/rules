@@ -121,6 +121,12 @@ SB_PACKAGE := grub-efi-arm64
 endif
 endif
 
+# Downstream distributions that want to support SB and build images, but do not
+# rebuild grub, need a programmatic way to get the vendor, as it's used by build-efi-images
+# to create the monolithic Grub image and thus is needed to create the partitions on the EFI
+# media. Add it to the control file user metadata: XB-Efi-Vendor: $vendor
+SB_EFI_VENDOR ?= $(shell dpkg-vendor --query vendor | tr '[:upper:]' '[:lower:]')
+
 %:
 	dh $@ --parallel
 
@@ -204,7 +210,7 @@ debian/stamps/build-grub-efi-ia32 debian/stamps/build-grub-efi-amd64 debian/stam
 		obj/grub-$(COMMON_PLATFORM)/grub-mkimage \
 		obj/$(package)/grub-core \
 		obj/monolithic/$(package) \
-		$(SB_PLATFORM) $(SB_EFI_NAME)
+		$(SB_PLATFORM) $(SB_EFI_NAME) $(SB_EFI_VENDOR)
 	touch $@
 
 debian/stamps/build-grub-xen-host-i386: PVBOOT_ARCH := i386
@@ -503,7 +509,7 @@ LEGACY_DOC_BR := grub-doc (<< 0.97-32), grub-legacy-doc (<< 0.97-59)
 endif
 
 override_dh_gencontrol:
-	dh_gencontrol -- -Vlegacy-doc-br="$(LEGACY_DOC_BR)" $(substvars)
+	dh_gencontrol -- -Vlegacy-doc-br="$(LEGACY_DOC_BR)" -V"efi:Vendor=$(SB_EFI_VENDOR)" $(substvars)
 
 TARNAME := grub2_$(deb_version)_$(DEB_HOST_ARCH).tar.gz
 
