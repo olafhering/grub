@@ -18,6 +18,7 @@ grub2 (2.02+dfsg1-5) UNRELEASED; urgency=medium
 
   [ Luca Boccassi ]
   * template packages: install changelog and copyright
+  * Override lintian error about template rules file
 
  -- Philipp Hahn <hahn@univention.de>  Wed, 27 Jun 2018 09:13:55 +0200
 
