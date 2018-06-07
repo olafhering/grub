@@ -476,7 +476,8 @@ endif
 
 override_dh_installdocs:
 	dh_installdocs $(patsubst %,-p%,$(filter grub-common grub-rescue-pc grub-firmware-qemu grub-xen-host,$(BUILD_PACKAGES))) -A AUTHORS NEWS README THANKS TODO
-	dh_installdocs $(patsubst %,-N%,$(filter grub-efi-%-signed-template,$(BUILD_PACKAGES))) --remaining-packages --link-doc=grub-common
+	dh_installdocs $(patsubst %,-p%,$(filter grub-efi-%-signed-template,$(BUILD_PACKAGES)))
+	dh_installdocs --remaining-packages --link-doc=grub-common
 
 ifeq ($(FLICKER_FREE_BOOT),yes)
 override_dh_installinit:

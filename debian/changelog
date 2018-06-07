@@ -16,6 +16,9 @@ grub2 (2.02+dfsg1-5) UNRELEASED; urgency=medium
   * Add template for signing monolithic EFI binaries
   * debian/build-efi-images: Use correct EFI vendor (closes: #769172)
 
+  [ Luca Boccassi ]
+  * template packages: install changelog and copyright
+
  -- Philipp Hahn <hahn@univention.de>  Wed, 27 Jun 2018 09:13:55 +0200
 
 grub2 (2.02+dfsg1-4) unstable; urgency=medium
