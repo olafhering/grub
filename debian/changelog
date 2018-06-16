@@ -1,7 +1,7 @@
 grub2 (2.02+dfsg1-5) UNRELEASED; urgency=medium
 
-  * Change Maintainer to parted-maintainers@alioth-lists.debian.net,
-    following Alioth lists migration.
+  * Change Maintainer to pkg-grub-devel@alioth-lists.debian.net, following
+    Alioth lists migration.
 
  -- Colin Watson <cjwatson@debian.org>  Wed, 18 Apr 2018 14:26:37 +0100
 
