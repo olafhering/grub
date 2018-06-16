@@ -13,10 +13,10 @@ Last-Update: 2013-12-25
 
 Patch-Name: gfxpayload_dynamic.patch
 ---
- configure.ac                         |  11 +++
- grub-core/Makefile.core.def          |   9 +++
- grub-core/commands/i386/pc/hwmatch.c | 146 +++++++++++++++++++++++++++++++++++
- util/grub.d/10_linux.in              |  37 ++++++++-
+ configure.ac                         |  11 ++
+ grub-core/Makefile.core.def          |   9 ++
+ grub-core/commands/i386/pc/hwmatch.c | 146 +++++++++++++++++++++++++++
+ util/grub.d/10_linux.in              |  37 ++++++-
  4 files changed, 200 insertions(+), 3 deletions(-)
  create mode 100644 grub-core/commands/i386/pc/hwmatch.c
 

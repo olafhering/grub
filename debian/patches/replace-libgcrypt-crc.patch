@@ -16,10 +16,10 @@ Last-Update: 2018-02-16
 
 Patch-Name: replace-libgcrypt-crc.patch
 ---
- grub-core/lib/libgcrypt-grub/cipher/bufhelp.h | 435 ++++++++++++++
- grub-core/lib/libgcrypt-grub/cipher/crc.c     | 826 ++++++++++++++++++++++++++
- grub-core/lib/libgcrypt/cipher/bufhelp.h      | 432 ++++++++++++++
- grub-core/lib/libgcrypt/cipher/crc.c          | 793 +++++++++++++++++++++++++
+ grub-core/lib/libgcrypt-grub/cipher/bufhelp.h | 435 +++++++++
+ grub-core/lib/libgcrypt-grub/cipher/crc.c     | 826 ++++++++++++++++++
+ grub-core/lib/libgcrypt/cipher/bufhelp.h      | 432 +++++++++
+ grub-core/lib/libgcrypt/cipher/crc.c          | 793 +++++++++++++++++
  4 files changed, 2486 insertions(+)
  create mode 100644 grub-core/lib/libgcrypt-grub/cipher/bufhelp.h
  create mode 100644 grub-core/lib/libgcrypt-grub/cipher/crc.c

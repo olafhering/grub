@@ -9,9 +9,9 @@ number
 
 Patch-Name: net_read_bracketed_ipv6_addr.patch
 ---
- grub-core/net/http.c | 21 +++++++++---
- grub-core/net/net.c  | 93 ++++++++++++++++++++++++++++++++++++++++++++++++----
- grub-core/net/tftp.c |  6 +++-
+ grub-core/net/http.c | 21 ++++++++--
+ grub-core/net/net.c  | 93 +++++++++++++++++++++++++++++++++++++++++---
+ grub-core/net/tftp.c |  6 ++-
  include/grub/net.h   |  1 +
  4 files changed, 110 insertions(+), 11 deletions(-)
 

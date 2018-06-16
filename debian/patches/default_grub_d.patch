@@ -9,7 +9,7 @@ Last-Update: 2014-01-28
 
 Patch-Name: default_grub_d.patch
 ---
- grub-core/osdep/unix/config.c | 114 ++++++++++++++++++++++++++++++++++--------
+ grub-core/osdep/unix/config.c | 114 +++++++++++++++++++++++++++-------
  util/grub-mkconfig.in         |   5 ++
  2 files changed, 98 insertions(+), 21 deletions(-)
 

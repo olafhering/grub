@@ -17,9 +17,9 @@ Patch-Name: restore_mkdevicemap.patch
  Makefile.util.def              |   17 +
  docs/man/grub-mkdevicemap.h2m  |    4 +
  include/grub/util/deviceiter.h |   14 +
- util/deviceiter.c              | 1021 ++++++++++++++++++++++++++++++++++++++++
+ util/deviceiter.c              | 1021 ++++++++++++++++++++++++++++++++
  util/devicemap.c               |   13 +
- util/grub-mkdevicemap.c        |  181 +++++++
+ util/grub-mkdevicemap.c        |  181 ++++++
  6 files changed, 1250 insertions(+)
  create mode 100644 docs/man/grub-mkdevicemap.h2m
  create mode 100644 include/grub/util/deviceiter.h

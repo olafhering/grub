@@ -13,23 +13,23 @@ Patch-Name: sparc64-support.patch
  grub-core/boot/sparc64/ieee1275/boot.S     |   10 +
  grub-core/commands/ls.c                    |    2 +
  grub-core/commands/nativedisk.c            |    1 +
- grub-core/disk/ieee1275/obdisk.c           | 1079 ++++++++++++++++++++++++++++
+ grub-core/disk/ieee1275/obdisk.c           | 1079 ++++++++++++++++++++
  grub-core/disk/ieee1275/ofdisk.c           |   30 +-
  grub-core/kern/ieee1275/cmain.c            |    3 +
- grub-core/kern/ieee1275/ieee1275.c         |  199 +++++
+ grub-core/kern/ieee1275/ieee1275.c         |  199 ++++
  grub-core/kern/ieee1275/init.c             |   36 +-
  grub-core/kern/ieee1275/openfw.c           |   27 +
  grub-core/kern/parser.c                    |    1 -
- grub-core/kern/sparc64/ieee1275/ieee1275.c |   53 ++
+ grub-core/kern/sparc64/ieee1275/ieee1275.c |   53 +
  grub-core/osdep/linux/blocklist.c          |    5 +
- grub-core/osdep/linux/ofpath.c             |  204 +++++-
+ grub-core/osdep/linux/ofpath.c             |  204 +++-
  include/grub/disk.h                        |    1 +
  include/grub/ieee1275/ieee1275.h           |   27 +
  include/grub/ieee1275/obdisk.h             |   25 +
  include/grub/sparc64/ieee1275/ieee1275.h   |    2 +
  util/grub-install.c                        |    1 +
  util/ieee1275/grub-ofpathname.c            |    4 +-
- util/setup.c                               |   87 ++-
+ util/setup.c                               |   87 +-
  21 files changed, 1743 insertions(+), 55 deletions(-)
  create mode 100644 grub-core/disk/ieee1275/obdisk.c
  create mode 100644 include/grub/ieee1275/obdisk.h

@@ -62,3 +62,4 @@ freetype-pkg-config.patch
 fix-yylex-build.patch
 sparc64-support.patch
 printf-unit-test-gcc7.patch
+xen-multiboot2.patch

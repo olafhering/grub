@@ -10,8 +10,8 @@ Last-Update: 2016-09-19
 Patch-Name: linuxefi.patch
 ---
  grub-core/Makefile.core.def       |   8 +
- grub-core/kern/efi/mm.c           |  32 ++++
- grub-core/loader/i386/efi/linux.c | 371 ++++++++++++++++++++++++++++++++++++++
+ grub-core/kern/efi/mm.c           |  32 +++
+ grub-core/loader/i386/efi/linux.c | 371 ++++++++++++++++++++++++++++++
  include/grub/efi/efi.h            |   3 +
  include/grub/i386/linux.h         |   1 +
  5 files changed, 415 insertions(+)

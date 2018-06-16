@@ -23,13 +23,13 @@ Last-Update: 2015-09-04
 
 Patch-Name: quick_boot.patch
 ---
- configure.ac                | 11 +++++++
- docs/grub.texi              | 14 +++++++++
- grub-core/normal/menu.c     | 24 ++++++++++++++
+ configure.ac                | 11 ++++++
+ docs/grub.texi              | 14 +++++++
+ grub-core/normal/menu.c     | 24 ++++++++++++
  util/grub-mkconfig.in       |  3 +-
- util/grub.d/00_header.in    | 77 ++++++++++++++++++++++++++++++++++++++-------
- util/grub.d/10_linux.in     |  4 +++
- util/grub.d/30_os-prober.in | 21 +++++++++++++
+ util/grub.d/00_header.in    | 77 +++++++++++++++++++++++++++++++------
+ util/grub.d/10_linux.in     |  4 ++
+ util/grub.d/30_os-prober.in | 21 ++++++++++
  7 files changed, 141 insertions(+), 13 deletions(-)
 
 diff --git a/configure.ac b/configure.ac

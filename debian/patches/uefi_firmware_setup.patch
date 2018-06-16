@@ -8,8 +8,8 @@ Last-Update: 2015-09-04
 
 Patch-Name: uefi_firmware_setup.patch
 ---
- Makefile.util.def               |  6 ++++++
- util/grub.d/30_uefi-firmware.in | 46 +++++++++++++++++++++++++++++++++++++++++
+ Makefile.util.def               |  6 +++++
+ util/grub.d/30_uefi-firmware.in | 46 +++++++++++++++++++++++++++++++++
  2 files changed, 52 insertions(+)
  create mode 100644 util/grub.d/30_uefi-firmware.in
 

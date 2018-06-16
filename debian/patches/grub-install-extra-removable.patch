@@ -18,7 +18,7 @@ Last-Update: 2014-12-20
 
 Patch-Name: grub-install-extra-removable.patch
 ---
- util/grub-install.c | 110 +++++++++++++++++++++++++++++++++++++++++++++++++++-
+ util/grub-install.c | 110 +++++++++++++++++++++++++++++++++++++++++++-
  1 file changed, 108 insertions(+), 2 deletions(-)
 
 diff --git a/util/grub-install.c b/util/grub-install.c

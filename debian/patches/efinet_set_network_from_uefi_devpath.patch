@@ -29,7 +29,7 @@ Signed-off-by: Ken Lin <ken.lin@hpe.com>
 
 Patch-Name: efinet_set_network_from_uefi_devpath.patch
 ---
- grub-core/net/drivers/efi/efinet.c | 268 +++++++++++++++++++++++++++++++++++--
+ grub-core/net/drivers/efi/efinet.c | 268 ++++++++++++++++++++++++++++-
  include/grub/efi/api.h             |  11 ++
  2 files changed, 270 insertions(+), 9 deletions(-)
 

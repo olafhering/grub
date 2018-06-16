@@ -11,8 +11,8 @@ Signed-off-by: Ken Lin <ken.lin@hpe.com>
 
 Patch-Name: bootp_new_net_bootp6_command.patch
 ---
- grub-core/net/bootp.c | 908 +++++++++++++++++++++++++++++++++++++++++++++++++-
- grub-core/net/ip.c    |  39 +++
+ grub-core/net/bootp.c | 908 +++++++++++++++++++++++++++++++++++++++++-
+ grub-core/net/ip.c    |  39 ++
  include/grub/net.h    |  72 ++++
  3 files changed, 1018 insertions(+), 1 deletion(-)
 

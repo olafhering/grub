@@ -30,8 +30,8 @@ Signed-off-by: Ken Lin <ken.lin@hpe.com>
 
 Patch-Name: efinet_set_dns_from_uefi_proto.patch
 ---
- grub-core/net/drivers/efi/efinet.c | 163 +++++++++++++++++++++++++++++++++++++
- include/grub/efi/api.h             |  76 +++++++++++++++++
+ grub-core/net/drivers/efi/efinet.c | 163 +++++++++++++++++++++++++++++
+ include/grub/efi/api.h             |  76 ++++++++++++++
  2 files changed, 239 insertions(+)
 
 diff --git a/grub-core/net/drivers/efi/efinet.c b/grub-core/net/drivers/efi/efinet.c
