@@ -695,10 +695,8 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
   using_linuxefi = 0;
   if (grub_efi_secure_boot ())
     {
-      /* Try linuxefi first, which will require a successful signature check
-	 and then hand over to the kernel without calling ExitBootServices.
-	 If that fails, however, fall back to calling ExitBootServices
-	 ourselves and then booting an unsigned kernel.  */
+      /* linuxefi requires a successful signature check and then hand over
+	 to the kernel without calling ExitBootServices. */
       grub_dl_t mod;
       grub_command_t linuxefi_cmd;
 
@@ -720,7 +718,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
 		  return GRUB_ERR_NONE;
 		}
 	      grub_dprintf ("linux", "linuxefi failed (%d)\n", grub_errno);
-	      grub_errno = GRUB_ERR_NONE;
+	      goto fail;
 	    }
 	}
     }

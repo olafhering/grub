@@ -1,12 +1,19 @@
 grub2 (2.02+dfsg1-5) UNRELEASED; urgency=medium
 
+  [ Colin Watson ]
   * Change Maintainer to pkg-grub-devel@alioth-lists.debian.net, following
     Alioth lists migration.
   * Backport from upstream:
     - Use grub-file to figure out whether multiboot2 should be used for
       Xen.gz (closes: #898947).
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 18 Apr 2018 14:26:37 +0100
+  [ Philipp Hahn ]
+  * Disallow unsigned kernels if UEFI Secure Boot is enabled
+    (patch by Linn Crosetto <linn@hpe.com>)
+  * Add patch to fix lockdown mode
+    (patch by Luca Boccassi <bluca@debian.org>)
+
+ -- Philipp Hahn <hahn@univention.de>  Wed, 27 Jun 2018 09:13:55 +0200
 
 grub2 (2.02+dfsg1-4) unstable; urgency=medium
 
