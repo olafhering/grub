@@ -63,3 +63,5 @@ fix-yylex-build.patch
 sparc64-support.patch
 printf-unit-test-gcc7.patch
 xen-multiboot2.patch
+linuxefi_disable_sb_fallback.patch
+fix_lockdown.patch

@@ -21,7 +21,7 @@ set -e
 # Make EFI boot images for signing.
 
 if [ $# -lt 5 ]; then
-	echo "usage: $0 GRUB-MKIMAGE GRUB-CORE OUTPUT-DIRECTORY PLATFORM EFI-NAME"
+	echo "usage: $0 GRUB-MKIMAGE GRUB-CORE OUTPUT-DIRECTORY PLATFORM EFI-NAME [EFI-VENDOR]"
 fi
 
 grub_mkimage="$1"
@@ -29,6 +29,7 @@ grub_core="$2"
 outdir="$3"
 platform="$4"
 efi_name="$5"
+efi_vendor="${6:-$(dpkg-vendor --query vendor | tr '[:upper:]' '[:lower:]')}"
 
 # mkfs.msdos may not be on the default PATH.
 export PATH="$PATH:/sbin:/usr/sbin"
@@ -134,7 +135,7 @@ CD_MODULES="
 
 # Platform-specific modules
 case $platform in
-    x86_64-efi)
+    x86_64-efi|i386-efi)
 	CD_MODULES="$CD_MODULES
 	linuxefi
 	"
@@ -158,7 +159,7 @@ NET_MODULES="$CD_MODULES
 	-p /boot/grub \
 	$CD_MODULES
 "$grub_mkimage" -O "$platform" -o "$outdir/grub$efi_name.efi" \
-	-d "$grub_core" -p /EFI/ubuntu $GRUB_MODULES
+	-d "$grub_core" -p "/EFI/$efi_vendor" $GRUB_MODULES
 "$grub_mkimage" -O "$platform" -o "$outdir/grubnet$efi_name.efi" \
 	-d "$grub_core" -c "$workdir/grub-bootstrap.cfg" \
 	-m "$workdir/memdisk-netboot.fat" -p /grub $NET_MODULES

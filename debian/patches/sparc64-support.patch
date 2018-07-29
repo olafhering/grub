@@ -13,23 +13,23 @@ Patch-Name: sparc64-support.patch
  grub-core/boot/sparc64/ieee1275/boot.S     |   10 +
  grub-core/commands/ls.c                    |    2 +
  grub-core/commands/nativedisk.c            |    1 +
- grub-core/disk/ieee1275/obdisk.c           | 1079 ++++++++++++++++++++
+ grub-core/disk/ieee1275/obdisk.c           | 1079 ++++++++++++++++++++++++++++
  grub-core/disk/ieee1275/ofdisk.c           |   30 +-
  grub-core/kern/ieee1275/cmain.c            |    3 +
- grub-core/kern/ieee1275/ieee1275.c         |  199 ++++
+ grub-core/kern/ieee1275/ieee1275.c         |  199 +++++
  grub-core/kern/ieee1275/init.c             |   36 +-
  grub-core/kern/ieee1275/openfw.c           |   27 +
  grub-core/kern/parser.c                    |    1 -
- grub-core/kern/sparc64/ieee1275/ieee1275.c |   53 +
+ grub-core/kern/sparc64/ieee1275/ieee1275.c |   53 ++
  grub-core/osdep/linux/blocklist.c          |    5 +
- grub-core/osdep/linux/ofpath.c             |  204 +++-
+ grub-core/osdep/linux/ofpath.c             |  204 +++++-
  include/grub/disk.h                        |    1 +
  include/grub/ieee1275/ieee1275.h           |   27 +
  include/grub/ieee1275/obdisk.h             |   25 +
  include/grub/sparc64/ieee1275/ieee1275.h   |    2 +
  util/grub-install.c                        |    1 +
  util/ieee1275/grub-ofpathname.c            |    4 +-
- util/setup.c                               |   87 +-
+ util/setup.c                               |   87 ++-
  21 files changed, 1743 insertions(+), 55 deletions(-)
  create mode 100644 grub-core/disk/ieee1275/obdisk.c
  create mode 100644 include/grub/ieee1275/obdisk.h
@@ -1299,11 +1299,10 @@ index 98217029f..e14170821 100644
  
  #define IEEE1275_PHANDLE_INVALID  ((grub_ieee1275_cell_t) -1)
  #define IEEE1275_IHANDLE_INVALID  ((grub_ieee1275_cell_t) 0)
-@@ -482,6 +483,93 @@ grub_ieee1275_close (grub_ieee1275_ihandle_t ihandle)
-   return 0;
+@@ -483,6 +484,93 @@ grub_ieee1275_close (grub_ieee1275_ihandle_t ihandle)
  }
  
-+int
+ int
 +grub_ieee1275_decode_unit4 (grub_ieee1275_ihandle_t ihandle,
 +                            void *addr, grub_size_t size,
 +                            grub_uint32_t *phy_lo, grub_uint32_t *phy_hi,
@@ -1390,9 +1389,10 @@ index 98217029f..e14170821 100644
 +
 +
 +
- int
++int
  grub_ieee1275_claim (grub_addr_t addr, grub_size_t size, unsigned int align,
  		     grub_addr_t *result)
+ {
 @@ -607,3 +695,114 @@ grub_ieee1275_milliseconds (grub_uint32_t *msecs)
    *msecs = args.msecs;
    return 0;

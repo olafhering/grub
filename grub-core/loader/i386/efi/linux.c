@@ -27,6 +27,7 @@
 #include <grub/i18n.h>
 #include <grub/lib/cmdline.h>
 #include <grub/efi/efi.h>
+#include <stddef.h>
 
 GRUB_MOD_LICENSE ("GPLv3+");
 
@@ -346,7 +347,9 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
       lh.code32_start = (grub_uint32_t)(grub_addr_t) kernel_mem;
     }
 
-  grub_memcpy (params, &lh, 2 * 512);
+  /* do not overwrite below boot_params->hdr to avoid setting the sentinel byte */
+  start = offsetof (struct linux_kernel_params, setup_sects);
+  grub_memcpy ((grub_uint8_t *)params + start, (grub_uint8_t *)&lh + start, 2 * 512 - start);
 
   params->type_of_loader = 0x21;
 
