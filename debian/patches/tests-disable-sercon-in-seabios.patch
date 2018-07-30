@@ -1,0 +1,36 @@
+From cee25a7f278d0ba0b62b6e9e3972492fb68b8ab3 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Mon, 30 Jul 2018 12:27:39 +0100
+Subject: tests: Disable sercon in SeaBIOS
+
+SeaBIOS 1.11.0 added support for VGA emulation over a serial port, which
+interferes with grub-shell.  Turn it off.
+
+Signed-off-by: Colin Watson <cjwatson@ubuntu.com>
+
+Forwarded: https://lists.gnu.org/archive/html/grub-devel/2018-07/msg00113.html
+Last-Update: 2018-07-30
+
+Patch-Name: tests-disable-sercon-in-seabios.patch
+---
+ tests/util/grub-shell.in | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/tests/util/grub-shell.in b/tests/util/grub-shell.in
+index 814f36c6b..8270e8277 100644
+--- a/tests/util/grub-shell.in
++++ b/tests/util/grub-shell.in
+@@ -369,6 +369,13 @@ test -z "$debug" || echo "GRUB ROM directory: ${rom_directory}" >&2
+ 
+ if test -z "$debug"; then
+   qemuopts="${qemuopts} -nographic -monitor file:/dev/null"
++  # SeaBIOS 1.11.0 added support for VGA emulation over a serial port.  If
++  # this is configured in SeaBIOS, then -nographic causes some extra junk to
++  # end up on the serial console, which interferes with our tests.  This
++  # workaround unfortunately causes qemu to issue a warning 'externally
++  # provided fw_cfg item names should be prefixed with "opt/"', but there
++  # doesn't seem to be a better option.
++  qemuopts="${qemuopts} -fw_cfg name=etc/sercon-port,string=0"
+ fi
+ 
+ if [ x$boot != xnet ] && [ x$boot != xemu ]; then

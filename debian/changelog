@@ -6,6 +6,9 @@ grub2 (2.02+dfsg1-5) UNRELEASED; urgency=medium
   * Backport from upstream:
     - Use grub-file to figure out whether multiboot2 should be used for
       Xen.gz (closes: #898947).
+  * Fix some test failures:
+    - Disable sercon in SeaBIOS.
+    - Fix qemu options for UHCI test.
 
   [ Philipp Hahn ]
   * Disallow unsigned kernels if UEFI Secure Boot is enabled
