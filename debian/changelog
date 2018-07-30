@@ -1,4 +1,4 @@
-grub2 (2.02+dfsg1-5) UNRELEASED; urgency=medium
+grub2 (2.02+dfsg1-5) unstable; urgency=medium
 
   [ Colin Watson ]
   * Change Maintainer to pkg-grub-devel@alioth-lists.debian.net, following
@@ -25,7 +25,7 @@ grub2 (2.02+dfsg1-5) UNRELEASED; urgency=medium
   * Override lintian error about template rules file
   * Add XB-Efi-Vendor metadata to efi-*-bin packages
 
- -- Philipp Hahn <hahn@univention.de>  Wed, 27 Jun 2018 09:13:55 +0200
+ -- Colin Watson <cjwatson@debian.org>  Mon, 30 Jul 2018 13:33:23 +0100
 
 grub2 (2.02+dfsg1-4) unstable; urgency=medium
 
