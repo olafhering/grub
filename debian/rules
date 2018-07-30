@@ -324,9 +324,9 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 
 	set -e ; \
 	if [ -d "obj/monolithic/$(package)" ] ; then \
-	install -m 0755 -d debian/$(package_bin)/usr/lib/grub/$(SB_PLATFORM)/monolithic ; \
-	install -m 0644 -t debian/$(package_bin)/usr/lib/grub/$(SB_PLATFORM)/monolithic obj/monolithic/$(package)/*.efi ; \
-	debian/signing-template.generate "$(package)" ; \
+		install -m 0755 -d debian/$(package_bin)/usr/lib/grub/$(SB_PLATFORM)/monolithic ; \
+		install -m 0644 -t debian/$(package_bin)/usr/lib/grub/$(SB_PLATFORM)/monolithic obj/monolithic/$(package)/*.efi ; \
+		debian/signing-template.generate "$(package)" ; \
 	fi
 
 	set -e ; \
