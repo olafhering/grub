@@ -19,8 +19,8 @@ Last-Update: 2016-09-19
 Patch-Name: syslinux-test-out-of-tree.patch
 ---
  Makefile.am                            |  6 ------
- tests/syslinux/ubuntu10.04_grub.cfg.in | 30 +++++++++++++++---------------
- tests/syslinux_test.in                 | 14 ++++++++++----
+ tests/syslinux/ubuntu10.04_grub.cfg.in | 30 +++++++++++++-------------
+ tests/syslinux_test.in                 | 14 ++++++++----
  3 files changed, 25 insertions(+), 25 deletions(-)
 
 diff --git a/Makefile.am b/Makefile.am

@@ -10,7 +10,7 @@ Last-Update: 2013-12-20
 Patch-Name: linuxefi_non_sb_fallback.patch
 ---
  grub-core/loader/i386/efi/linux.c |  2 +-
- grub-core/loader/i386/linux.c     | 43 +++++++++++++++++++++++++++++++++++++++
+ grub-core/loader/i386/linux.c     | 43 +++++++++++++++++++++++++++++++
  2 files changed, 44 insertions(+), 1 deletion(-)
 
 diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c

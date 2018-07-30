@@ -21,8 +21,8 @@ Last-Update: 2018-02-11
 
 Patch-Name: freetype-pkg-config.patch
 ---
- INSTALL      | 11 +++++----
- configure.ac | 74 +++++++++++++++++++++++++-----------------------------------
+ INSTALL      | 11 ++++----
+ configure.ac | 74 ++++++++++++++++++++++------------------------------
  2 files changed, 37 insertions(+), 48 deletions(-)
 
 diff --git a/INSTALL b/INSTALL

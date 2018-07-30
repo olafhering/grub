@@ -17,11 +17,11 @@ Last-Update: 2014-10-15
 Patch-Name: install_powerpc_machtypes.patch
 ---
  grub-core/osdep/basic/platform.c   |  5 +++
- grub-core/osdep/linux/platform.c   | 72 ++++++++++++++++++++++++++++++++++++++
- grub-core/osdep/unix/platform.c    | 28 +++++++++++----
- grub-core/osdep/windows/platform.c |  6 ++++
+ grub-core/osdep/linux/platform.c   | 72 ++++++++++++++++++++++++++++++
+ grub-core/osdep/unix/platform.c    | 28 +++++++++---
+ grub-core/osdep/windows/platform.c |  6 +++
  include/grub/util/install.h        |  3 ++
- util/grub-install.c                | 11 ++++++
+ util/grub-install.c                | 11 +++++
  6 files changed, 119 insertions(+), 6 deletions(-)
 
 diff --git a/grub-core/osdep/basic/platform.c b/grub-core/osdep/basic/platform.c

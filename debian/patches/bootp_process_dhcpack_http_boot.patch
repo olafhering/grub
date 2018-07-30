@@ -19,7 +19,7 @@ Signed-off-by: Ken Lin <ken.lin@hpe.com>
 
 Patch-Name: bootp_process_dhcpack_http_boot.patch
 ---
- grub-core/net/bootp.c | 67 +++++++++++++++++++++++++++++++++++++++++++++++++--
+ grub-core/net/bootp.c | 67 +++++++++++++++++++++++++++++++++++++++++--
  include/grub/net.h    |  1 +
  2 files changed, 66 insertions(+), 2 deletions(-)
 
