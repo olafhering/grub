@@ -6,6 +6,7 @@ grub2 (2.02+dfsg1-5) UNRELEASED; urgency=medium
   * Backport from upstream:
     - Use grub-file to figure out whether multiboot2 should be used for
       Xen.gz (closes: #898947).
+    - x86-64: Treat R_X86_64_PLT32 as R_X86_64_PC32.
   * Fix some test failures:
     - Disable sercon in SeaBIOS.
     - Fix qemu options for UHCI test.

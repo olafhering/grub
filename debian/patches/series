@@ -67,3 +67,4 @@ linuxefi_disable_sb_fallback.patch
 fix_lockdown.patch
 tests-disable-sercon-in-seabios.patch
 tests-fix-uhci-qemu-options.patch
+R_X86_64_PLT32.patch
