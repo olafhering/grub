@@ -502,7 +502,7 @@ Description: GRand Unified Bootloader, version 2 (ARM64 UEFI version)
 Package: grub-efi-arm64-signed-template
 Architecture: arm64
 Description: GRand Unified Bootloader, version 2 (ARM64 UEFI signing template)
- This package contains template files for grub-efi-amd64-signed.
+ This package contains template files for grub-efi-arm64-signed.
  This is only needed for Secure Boot signing.
 
 Package: grub-ieee1275-bin
