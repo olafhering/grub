@@ -1,11 +1,11 @@
-grub2 (2.02+dfsg1-6) UNRELEASED; urgency=medium
+grub2 (2.02+dfsg1-6) unstable; urgency=medium
 
   * Only build *-signed packages on their native architecture for now, since
     otherwise we end up with clashing source packages (closes: #906596).
   * Refer to source packages in Built-Using, not binary packages (closes:
     #907483).
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 28 Aug 2018 16:11:06 +0100
+ -- Colin Watson <cjwatson@debian.org>  Tue, 28 Aug 2018 16:17:21 +0100
 
 grub2 (2.02+dfsg1-5) unstable; urgency=medium
 
