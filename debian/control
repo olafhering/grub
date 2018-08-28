@@ -291,9 +291,9 @@ Description: GRand Unified Bootloader, version 2 (EFI-IA32 version)
  a BIOS interface has been activated).
 
 Package: grub-efi-ia32-signed-template
-Architecture: any-i386 any-amd64
+Architecture: i386
 Description: GRand Unified Bootloader, version 2 (EFI-IA32 signing template)
- This package contains template files for grub-efi-amd64-signed.
+ This package contains template files for grub-efi-ia32-signed.
  This is only needed for Secure Boot signing.
 
 Package: grub-efi-amd64-bin
@@ -350,7 +350,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-AMD64 version)
  a BIOS interface has been activated).
 
 Package: grub-efi-amd64-signed-template
-Architecture: i386 kopensolaris-i386 any-amd64
+Architecture: amd64
 Description: GRand Unified Bootloader, version 2 (EFI-AMD64 signing template)
  This package contains template files for grub-efi-amd64-signed.
  This is only needed for Secure Boot signing.
@@ -500,7 +500,7 @@ Description: GRand Unified Bootloader, version 2 (ARM64 UEFI version)
  ARM64 systems with UEFI.
 
 Package: grub-efi-arm64-signed-template
-Architecture: any-arm64
+Architecture: arm64
 Description: GRand Unified Bootloader, version 2 (ARM64 UEFI signing template)
  This package contains template files for grub-efi-amd64-signed.
  This is only needed for Secure Boot signing.
