@@ -10,7 +10,7 @@ Rules-Requires-Root: no
 
 Package: @pkg_signed@
 Architecture: @arch@
-Built-Using: @pkg_unsigned@ (= @version_binary@)
+Built-Using: grub2 (= @version_binary@)
 Description: GRand Unified Bootloader, version 2 (@arch@ UEFI signed by Debian)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
  cleaner design than its predecessors, and provides the following new features:
