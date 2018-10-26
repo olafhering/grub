@@ -89,9 +89,9 @@ Package: grub2-common
 # of the package is not very useful in a utilities-only build.
 Architecture: any-i386 any-amd64 any-powerpc any-ppc64 any-ppc64el any-sparc any-sparc64 any-mipsel any-ia64 any-arm any-arm64
 Depends: grub-common (= ${binary:Version}), dpkg (>= 1.15.4) | install-info, ${shlibs:Depends}, ${misc:Depends}
-Replaces: grub, grub-legacy, ${legacy-doc-br}, grub-common (<< 1.99-1), grub-pc (<< 2.00-4), grub-ieee1275 (<< 2.00-4), grub-efi (<< 1.99-1), grub-coreboot (<< 2.00-4), grub-linuxbios (<< 1.99-1), grub-efi-ia32 (<< 2.00-4), grub-efi-amd64 (<< 2.00-4), grub-efi-ia64 (<< 2.00-4), grub-yeeloong (<< 2.00-4)
+Replaces: grub, grub-legacy, ${legacy-doc-br}, grub-common (<< 1.99-1), grub-pc (<< 2.02+dfsg1-7), grub-coreboot (<< 2.02+dfsg1-7), grub-efi-ia32 (<< 2.02+dfsg1-7), grub-efi-amd64 (<< 2.02+dfsg1-7), grub-efi-ia64 (<< 2.02+dfsg1-7), grub-efi-arm (<< 2.02+dfsg1-7), grub-efi-arm64 (<< 2.02+dfsg1-7), grub-ieee1275 (<< 2.02+dfsg1-7), grub-uboot (<< 2.02+dfsg1-7), grub-xen (<< 2.02+dfsg1-7), grub-yeeloong (<< 2.02+dfsg1-7)
 Conflicts: grub-legacy
-Breaks: grub (<< 0.97-54), ${legacy-doc-br}, shim (<< 0.9+1474479173.6c180c6-0ubuntu1~)
+Breaks: grub (<< 0.97-54), ${legacy-doc-br}, shim (<< 0.9+1474479173.6c180c6-0ubuntu1~), grub-pc (<< 2.02+dfsg1-7), grub-coreboot (<< 2.02+dfsg1-7), grub-efi-ia32 (<< 2.02+dfsg1-7), grub-efi-amd64 (<< 2.02+dfsg1-7), grub-efi-ia64 (<< 2.02+dfsg1-7), grub-efi-arm (<< 2.02+dfsg1-7), grub-efi-arm64 (<< 2.02+dfsg1-7), grub-ieee1275 (<< 2.02+dfsg1-7), grub-uboot (<< 2.02+dfsg1-7), grub-xen (<< 2.02+dfsg1-7), grub-yeeloong (<< 2.02+dfsg1-7)
 Multi-Arch: foreign
 Description: GRand Unified Bootloader (common files for version 2)
  This package contains common files shared by the distinct flavours of GRUB.

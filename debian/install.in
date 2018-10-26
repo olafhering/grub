@@ -1,2 +1,0 @@
-../../debian/kernel/zz-update-grub	etc/kernel/postinst.d
-../../debian/kernel/zz-update-grub	etc/kernel/postrm.d
