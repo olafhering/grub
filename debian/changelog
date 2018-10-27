@@ -1,4 +1,4 @@
-grub2 (2.02+dfsg1-7) UNRELEASED; urgency=medium
+grub2 (2.02+dfsg1-7) unstable; urgency=medium
 
   * Move kernel maintainer script snippets into grub2-common (thanks,
     Bastian Blank; closes: #910959).
@@ -7,7 +7,7 @@ grub2 (2.02+dfsg1-7) UNRELEASED; urgency=medium
   * Remove dh_builddeb override to use xz compression; this has been the
     default since dpkg 1.17.0.
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 26 Oct 2018 13:52:12 +0100
+ -- Colin Watson <cjwatson@debian.org>  Sat, 27 Oct 2018 13:06:32 +0100
 
 grub2 (2.02+dfsg1-6) unstable; urgency=medium
 
