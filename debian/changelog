@@ -2,6 +2,8 @@ grub2 (2.02+dfsg1-7) UNRELEASED; urgency=medium
 
   * Move kernel maintainer script snippets into grub2-common (thanks,
     Bastian Blank; closes: #910959).
+  * Add cryptodisk and gcry_* modules to signed UEFI images (closes:
+    #908162, LP: #1565950).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 26 Oct 2018 13:52:12 +0100
 
