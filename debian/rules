@@ -514,7 +514,7 @@ override_dh_gencontrol:
 TARNAME := grub2_$(deb_version)_$(DEB_HOST_ARCH).tar.gz
 
 override_dh_builddeb:
-	dh_builddeb -- -Zxz
+	dh_builddeb
 ifneq (,$(SB_PACKAGE))
 	echo $(deb_version) > obj/monolithic/$(SB_PACKAGE)/version
 	tar -c -f ../$(TARNAME) -a -C obj/monolithic/$(SB_PACKAGE) -v .
