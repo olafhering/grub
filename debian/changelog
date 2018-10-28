@@ -4,6 +4,7 @@ grub2 (2.02+dfsg1-8) UNRELEASED; urgency=medium
     try to explain better how they fit together and which one should be used
     (based loosely on work by Justin B Rye, for which thanks; closes:
     #630224).
+  * Skip flaky grub_cmd_set_date test (closes: #906470).
 
   [ Debconf translations ]
   * [sv] Swedish (Martin Bagge and Anders Jonsson; closes: #851964).
