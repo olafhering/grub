@@ -1,3 +1,12 @@
+grub2 (2.02+dfsg1-8) UNRELEASED; urgency=medium
+
+  * Revise grub-<platform>-bin and grub-<platform> package descriptions to
+    try to explain better how they fit together and which one should be used
+    (based loosely on work by Justin B Rye, for which thanks; closes:
+    #630224).
+
+ -- Colin Watson <cjwatson@debian.org>  Sun, 28 Oct 2018 18:55:15 +0000
+
 grub2 (2.02+dfsg1-7) unstable; urgency=medium
 
   * Move kernel maintainer script snippets into grub2-common (thanks,
