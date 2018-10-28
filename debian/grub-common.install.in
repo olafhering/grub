@@ -1,5 +1,6 @@
 ../../debian/apport/source_grub2.py	usr/share/apport/package-hooks/
 ../../debian/grub.d			etc
+../../debian/init-select.cfg		etc/default/grub.d
 
 etc/bash_completion.d
 etc/grub.d

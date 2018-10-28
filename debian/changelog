@@ -5,6 +5,10 @@ grub2 (2.02+dfsg1-8) UNRELEASED; urgency=medium
     (based loosely on work by Justin B Rye, for which thanks; closes:
     #630224).
   * Skip flaky grub_cmd_set_date test (closes: #906470).
+  * Work around bug in obsolete init-select package: add Conflicts/Replaces
+    from grub-common, and take over /etc/default/grub.d/init-select.cfg with
+    a no-op stub (thanks to Guillem Jover for the suggestion; closes:
+    #863801).
 
   [ Debconf translations ]
   * [sv] Swedish (Martin Bagge and Anders Jonsson; closes: #851964).
