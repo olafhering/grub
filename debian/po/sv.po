@@ -1,17 +1,17 @@
 # translation of grub2 debconf messages to Swedish
 # Swedish translation for grub2.
-# Copyright (C) 2007, 2008, 2009, 2010, 2014 Free Software Foundation, Inc.
+# Copyright (C) 2007, 2008, 2009, 2010, 2014, 2017 Free Software Foundation, Inc.
 # This file is distributed under the same license as the grub2 package.
 #
 # Daniel Nylander <po@danielnylander.se>, 2007.
 # Martin Ågren <martin.agren@gmail.com>, 2008, 2009.
-# Martin Bagge <brother@bsnet.se>, 2010, 2014
+# Martin Bagge <brother@bsnet.se>, 2010, 2014, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: grub2_sv\n"
 "Report-Msgid-Bugs-To: grub2@packages.debian.org\n"
 "POT-Creation-Date: 2017-01-20 00:29+0000\n"
-"PO-Revision-Date: 2014-12-15 16:53+0100\n"
+"PO-Revision-Date: 2017-01-21 15:16+0100\n"
 "Last-Translator: Martin Bagge / brother <brother@bsnet.se>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #. Type: boolean
 #. Description
@@ -97,8 +97,8 @@ msgid ""
 "modules or grub.cfg."
 msgstr ""
 "Att köra grub-install automatiskt är rekommenderat i de flesta situationer "
-"för att förhindra att den installerade GRUB-huvudavbildningen för att hamna "
-"i ett förhållande där GRUB-moduler eller grub.cfg inte är i korrekt läge."
+"för att förhindra den installerade GRUB-huvudavbildningen från att hamna i "
+"ett förhållande där GRUB-moduler eller grub.cfg inte är i korrekt läge."
 
 #. Type: multiselect
 #. Description
@@ -365,7 +365,7 @@ msgstr ""
 #. Description
 #: ../templates.in:4001
 msgid "Update NVRAM variables to automatically boot into Debian?"
-msgstr ""
+msgstr "Uppdatera NVRAM-variabler för att automatiskt starta Debian?"
 
 #. Type: boolean
 #. Description
@@ -377,6 +377,10 @@ msgid ""
 "your NVRAM variables have been set up such that your system contacts a PXE "
 "server on every boot, this would preserve that behavior."
 msgstr ""
+"Grub kan ställa in systemets NVRAM-variabler så att det kan starta Debian "
+"automatiskt. Det kan tänkas att du inte vill ha detta läge aktivt och "
+"undvika att ändra inställningarna för systemstart. Exempelvis om dina NVRAM-"
+"variabler är satta till att systemet kontaktar en PXE-server vid varje start."
 
 #. Type: string
 #. Description

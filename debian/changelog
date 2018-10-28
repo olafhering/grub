@@ -5,6 +5,9 @@ grub2 (2.02+dfsg1-8) UNRELEASED; urgency=medium
     (based loosely on work by Justin B Rye, for which thanks; closes:
     #630224).
 
+  [ Debconf translations ]
+  * [sv] Swedish (Martin Bagge and Anders Jonsson; closes: #851964).
+
  -- Colin Watson <cjwatson@debian.org>  Sun, 28 Oct 2018 18:55:15 +0000
 
 grub2 (2.02+dfsg1-7) unstable; urgency=medium
