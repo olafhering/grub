@@ -11,6 +11,8 @@ grub2 (2.02+dfsg1-8) UNRELEASED; urgency=medium
     #863801).
   * Build-depend on dosfstools and mtools on non-Linux variants of
     i386/amd64/arm64 as well, to match debian/rules.
+  * Cherry-pick from upstream:
+    - i386/linux: Add support for ext_lfb_base (LP: #1785033).
 
   [ Debconf translations ]
   * [sv] Swedish (Martin Bagge and Anders Jonsson; closes: #851964).
