@@ -45,11 +45,12 @@ case @PACKAGE@ in
   ;;
 esac
 
-for x in /etc/default/grub /etc/default/grub.d/*.cfg ; do
-  if [ -e "$x" ]; then
-    . "$x"
-  fi
-done
+# This deliberately doesn't include /etc/default/grub.d/*.cfg, since we're
+# only sourcing this configuration file in order to prompt for values to
+# write back to /etc/default/grub.
+if [ -e /etc/default/grub ]; then
+  . /etc/default/grub
+fi
 
 if [ "${GRUB_CMDLINE_LINUX+set}" = set ]; then
   db_set grub2/linux_cmdline "$GRUB_CMDLINE_LINUX"

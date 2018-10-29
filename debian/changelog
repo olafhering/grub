@@ -13,6 +13,9 @@ grub2 (2.02+dfsg1-8) UNRELEASED; urgency=medium
     i386/amd64/arm64 as well, to match debian/rules.
   * Cherry-pick from upstream:
     - i386/linux: Add support for ext_lfb_base (LP: #1785033).
+  * Don't source /etc/default/grub.d/*.cfg in config maintainer scripts,
+    since otherwise we incorrectly merge settings from there into
+    /etc/default/grub (closes: #872637, LP: #1797894).
 
   [ Debconf translations ]
   * [sv] Swedish (Martin Bagge and Anders Jonsson; closes: #851964).
