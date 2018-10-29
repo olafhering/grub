@@ -17,6 +17,7 @@ grub2 (2.02+dfsg1-8) UNRELEASED; urgency=medium
     since otherwise we incorrectly merge settings from there into
     /etc/default/grub (closes: #872637, LP: #1797894).
   * Add xfs module to signed UEFI images (closes: #911147, LP: #1652822).
+  * Cope with / being on a ZFS root dataset (closes: #886178).
 
   [ Debconf translations ]
   * [sv] Swedish (Martin Bagge and Anders Jonsson; closes: #851964).
