@@ -9,6 +9,8 @@ grub2 (2.02+dfsg1-8) UNRELEASED; urgency=medium
     from grub-common, and take over /etc/default/grub.d/init-select.cfg with
     a no-op stub (thanks to Guillem Jover for the suggestion; closes:
     #863801).
+  * Build-depend on dosfstools and mtools on non-Linux variants of
+    i386/amd64/arm64 as well, to match debian/rules.
 
   [ Debconf translations ]
   * [sv] Swedish (Martin Bagge and Anders Jonsson; closes: #851964).
