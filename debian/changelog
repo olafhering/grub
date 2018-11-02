@@ -2,6 +2,8 @@ grub2 (2.02+dfsg1-9) UNRELEASED; urgency=medium
 
   * Sync Maintainer/Uploaders in debian/signing-template/control.in with the
     main packaging.
+  * Tell reportbug to submit bug reports against unsigned packages rather
+    than generated signed packages.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 02 Nov 2018 12:50:38 +0000
 
