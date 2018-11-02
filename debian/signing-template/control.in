@@ -1,7 +1,8 @@
 Source: @pkg_signed@
 Section: admin
 Priority: optional
-Maintainer: Philipp Matthias Hahn <pmhahn@debian.org>
+Maintainer: GRUB Maintainers <pkg-grub-devel@alioth-lists.debian.net>
+Uploaders: Felix Zielcke <fzielcke@z-51.de>, Jordi Mallach <jordi@debian.org>, Colin Watson <cjwatson@debian.org>, Ian Campbell <ijc@debian.org>
 Standards-Version: 3.9.8
 Build-Depends: debhelper (>= 10.1~),
  sbsigntool [amd64 arm64 i386],
