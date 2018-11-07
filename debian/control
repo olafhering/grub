@@ -35,7 +35,7 @@ Build-Depends: debhelper (>= 7.4.2~),
  pkg-config,
 Build-Conflicts: autoconf2.13, libzfs-dev, libnvpair-dev
 Standards-Version: 3.9.6
-Homepage: http://www.gnu.org/software/grub/
+Homepage: https://www.gnu.org/software/grub/
 Vcs-Git: https://salsa.debian.org/grub-team/grub.git
 Vcs-Browser: https://salsa.debian.org/grub-team/grub
 

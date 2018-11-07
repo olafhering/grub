@@ -1,5 +1,5 @@
 Name: GNU GRUB
-Source: http://www.gnu.org/software/grub/
+Source: https://www.gnu.org/software/grub/
 Files-Excluded: grub-core/lib/libgcrypt*/cipher/crc.c
 
 Files: *
