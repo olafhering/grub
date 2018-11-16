@@ -43,7 +43,7 @@ confflags = \
 	--disable-grub-emu-usb
 substvars =
 
-AUTOGEN_DEB_FILES = config templates preinst postinst postrm dirs install links maintscript
+AUTOGEN_DEB_FILES = config templates preinst postinst postrm dirs install links maintscript bash-completion
 
 BUILD_PACKAGES := $(strip $(shell dh_listpackages))
 # REAL_PACKAGES build an actual grub variant (and therefore have both configure
@@ -128,7 +128,7 @@ endif
 SB_EFI_VENDOR ?= $(shell dpkg-vendor --query vendor | tr '[:upper:]' '[:lower:]')
 
 %:
-	dh $@ --parallel
+	dh $@ --with=bash_completion --parallel
 
 override_dh_auto_configure: $(patsubst %,configure/%,$(BUILD_PACKAGES))
 
@@ -421,20 +421,23 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 	# files.
 	mkdir -p debian/tmp-$(package)/usr/share/locale
 
+common_subst = \
+	if [ -e debian/grub-common.$(1) ]; then \
+		sed 's/@COMMON_PLATFORM@/$(COMMON_PLATFORM)/g' \
+			debian/grub-common.$(1) >> debian/grub-common.$(2).new; \
+	fi
+
 install/grub-common:
 	set -e ; for i in $(AUTOGEN_DEB_FILES) ; do \
-		if [ -e debian/grub-common.$$i.in ] ; then \
-			cat debian/grub-common.$$i.in \
-				> debian/grub-common.$$i ; \
-		fi ; \
-		if [ -e debian/grub-common.$$i.$(DEB_HOST_ARCH_CPU).in ] ; then \
-			cat debian/grub-common.$$i.$(DEB_HOST_ARCH_CPU).in \
-				>> debian/grub-common.$$i ; \
-		fi ; \
-		if [ -e debian/grub-common.$$i.$(DEB_HOST_ARCH_OS).in ] ; then \
-			cat debian/grub-common.$$i.$(DEB_HOST_ARCH_OS).in \
-				>> debian/grub-common.$$i ; \
-		fi ; \
+		> debian/grub-common.$$i.new; \
+		$(call common_subst,$$i.in,$$i); \
+		$(call common_subst,$$i.$(DEB_HOST_ARCH_CPU).in,$$i); \
+		$(call common_subst,$$i.$(DEB_HOST_ARCH_OS).in,$$i); \
+		if [ -s debian/grub-common.$$i.new ] ; then \
+			mv debian/grub-common.$$i.new debian/grub-common.$$i; \
+		else \
+			rm -f debian/grub-common.$$i.new; \
+		fi; \
 	done
 ifeq (yes,$(shell dpkg-vendor --derives-from Ubuntu && echo yes))
 	install -D -m 0755 debian/grub-common.pm-sleep \
@@ -534,7 +537,7 @@ override_dh_clean:
 	for i in $(AUTOGEN_DEB_FILES) ; do \
 		rm -f debian/grub-{pc,efi-*,ieee1275,coreboot,uboot,xen,yeeloong,emu}{,-bin,-dbg}.$$i ; \
 	done
-	rm -f debian/grub-common.maintscript
+	rm -f debian/grub-common.bash-completion debian/grub-common.maintscript
 	rm -rf debian/tmp-*/
 
 	# make sure PO files are always up-to-date

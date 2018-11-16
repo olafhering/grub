@@ -71,3 +71,4 @@ R_X86_64_PLT32.patch
 skip-grub_cmd_set_date.patch
 add_ext_lfb_base_support.patch
 zfs-root-dataset.patch
+bash-completion-drop-have-checks.patch

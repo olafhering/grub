@@ -2,7 +2,6 @@
 ../../debian/grub.d			etc
 ../../debian/init-select.cfg		etc/default/grub.d
 
-etc/bash_completion.d
 etc/grub.d
 usr/bin/grub-editenv
 usr/bin/grub-file

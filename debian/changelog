@@ -5,6 +5,8 @@ grub2 (2.02+dfsg1-9) UNRELEASED; urgency=medium
   * Tell reportbug to submit bug reports against unsigned packages rather
     than generated signed packages.
   * Update Homepage, debian/copyright Source, and debian/watch to use HTTPS.
+  * Move bash completions to /usr/share/bash-completion/completions/grub and
+    add appropriate symlinks (closes: #912852).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 02 Nov 2018 12:50:38 +0000
 

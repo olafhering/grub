@@ -33,6 +33,7 @@ Build-Depends: debhelper (>= 7.4.2~),
  wamerican,
  libparted-dev [any-powerpc any-ppc64 any-ppc64el],
  pkg-config,
+ bash-completion,
 Build-Conflicts: autoconf2.13, libzfs-dev, libnvpair-dev
 Standards-Version: 3.9.6
 Homepage: https://www.gnu.org/software/grub/
