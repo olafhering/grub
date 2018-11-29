@@ -18,26 +18,33 @@
 
 #include <grub/fdt.h>
 #include <grub/mm.h>
-#include <grub/cpu/fdtload.h>
 #include <grub/err.h>
 #include <grub/dl.h>
 #include <grub/command.h>
 #include <grub/file.h>
 #include <grub/efi/efi.h>
+#include <grub/efi/fdtload.h>
+#include <grub/efi/memory.h>
 
 static void *loaded_fdt;
 static void *fdt;
+
+#define FDT_ADDR_CELLS_STRING "#address-cells"
+#define FDT_SIZE_CELLS_STRING "#size-cells"
+#define FDT_ADDR_SIZE_EXTRA ((2 * grub_fdt_prop_entry_size (sizeof(grub_uint32_t))) + \
+                             sizeof (FDT_ADDR_CELLS_STRING) + \
+                             sizeof (FDT_SIZE_CELLS_STRING))
 
 void *
 grub_fdt_load (grub_size_t additional_size)
 {
   void *raw_fdt;
-  grub_size_t size;
+  unsigned int size;
 
   if (fdt)
     {
       size = GRUB_EFI_BYTES_TO_PAGES (grub_fdt_get_totalsize (fdt));
-      grub_efi_free_pages ((grub_efi_physical_address_t) fdt, size);
+      grub_efi_free_pages ((grub_addr_t) fdt, size);
     }
 
   if (loaded_fdt)
@@ -45,12 +52,15 @@ grub_fdt_load (grub_size_t additional_size)
   else
     raw_fdt = grub_efi_get_firmware_fdt();
 
-  size =
-    raw_fdt ? grub_fdt_get_totalsize (raw_fdt) : GRUB_FDT_EMPTY_TREE_SZ;
+  if (raw_fdt)
+      size = grub_fdt_get_totalsize (raw_fdt);
+  else
+      size = GRUB_FDT_EMPTY_TREE_SZ + FDT_ADDR_SIZE_EXTRA;
+
   size += additional_size;
 
-  grub_dprintf ("linux", "allocating %ld bytes for fdt\n", size);
-  fdt = grub_efi_allocate_pages (0, GRUB_EFI_BYTES_TO_PAGES (size));
+  grub_dprintf ("linux", "allocating %d bytes for fdt\n", size);
+  fdt = grub_efi_allocate_any_pages (GRUB_EFI_BYTES_TO_PAGES (size));
   if (!fdt)
     return NULL;
 
@@ -62,6 +72,8 @@ grub_fdt_load (grub_size_t additional_size)
   else
     {
       grub_fdt_create_empty_tree (fdt, size);
+      grub_fdt_set_prop32 (fdt, 0, FDT_ADDR_CELLS_STRING, 2);
+      grub_fdt_set_prop32 (fdt, 0, FDT_SIZE_CELLS_STRING, 2);
     }
   return fdt;
 }
@@ -88,7 +100,7 @@ grub_fdt_unload (void) {
   if (!fdt) {
     return;
   }
-  grub_efi_free_pages ((grub_efi_physical_address_t) fdt,
+  grub_efi_free_pages ((grub_addr_t) fdt,
 		       GRUB_EFI_BYTES_TO_PAGES (grub_fdt_get_totalsize (fdt)));
   fdt = NULL;
 }

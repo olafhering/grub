@@ -27,9 +27,10 @@
 #include <grub/misc.h>
 #include <grub/mm.h>
 #include <grub/types.h>
-#include <grub/cpu/fdtload.h>
 #include <grub/cpu/linux.h>
 #include <grub/efi/efi.h>
+#include <grub/efi/fdtload.h>
+#include <grub/efi/memory.h>
 #include <grub/efi/pe32.h>	/* required by struct xen_hypervisor_header */
 #include <grub/i18n.h>
 #include <grub/lib/cmdline.h>
@@ -66,7 +67,7 @@ typedef enum module_type module_type_t;
 
 struct xen_hypervisor_header
 {
-  struct grub_arm64_linux_kernel_header efi_head;
+  struct linux_arm64_kernel_header efi_head;
 
   /* This is always PE\0\0.  */
   grub_uint8_t signature[GRUB_PE32_SIGNATURE_SIZE];
@@ -253,9 +254,9 @@ xen_boot (void)
   if (err)
     return err;
 
-  return grub_arm64_uefi_boot_image (xen_hypervisor->start,
-				     xen_hypervisor->size,
-				     xen_hypervisor->cmdline);
+  return grub_armxx_efi_linux_boot_image (xen_hypervisor->start,
+					  xen_hypervisor->size,
+					  xen_hypervisor->cmdline);
 }
 
 static void
@@ -324,10 +325,9 @@ xen_boot_binary_load (struct xen_boot_binary *binary, grub_file_t file,
   grub_dprintf ("xen_loader", "Xen_boot file size: 0x%lx\n", binary->size);
 
   binary->start
-    = (grub_addr_t) grub_efi_allocate_pages (0,
-					     GRUB_EFI_BYTES_TO_PAGES
-					     (binary->size +
-					      binary->align));
+    = (grub_addr_t) grub_efi_allocate_any_pages (GRUB_EFI_BYTES_TO_PAGES
+						 (binary->size +
+						  binary->align));
   if (!binary->start)
     {
       grub_error (GRUB_ERR_OUT_OF_MEMORY, N_("out of memory"));
@@ -441,8 +441,8 @@ grub_cmd_xen_hypervisor (grub_command_t cmd __attribute__ ((unused)),
 
   if (grub_file_read (file, &sh, sizeof (sh)) != (long) sizeof (sh))
     goto fail;
-  if (grub_arm64_uefi_check_image
-      ((struct grub_arm64_linux_kernel_header *) &sh) != GRUB_ERR_NONE)
+  if (grub_armxx_efi_linux_check_image
+      ((struct linux_armxx_kernel_header *) &sh) != GRUB_ERR_NONE)
     goto fail;
   grub_file_seek (file, 0);
 

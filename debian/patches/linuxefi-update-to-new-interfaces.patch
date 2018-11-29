@@ -1,0 +1,42 @@
+From b514a78aa2a834535b083d346434a419ef5da18a Mon Sep 17 00:00:00 2001
+From: Leif Lindholm <leif.lindholm@linaro.org>
+Date: Thu, 15 Nov 2018 01:03:00 +0000
+Subject: i386/efi: update loader to new interfaces
+
+This updates the non-upstream loader/i386/efi/linux.c to build
+correctly with the patches in this branch appled.
+
+Signed-off-by: Leif Lindholm <leif.lindholm@linaro.org>
+
+Bug-Debian: https://bugs.debian.org/907596
+Bug-Debian: https://bugs.debian.org/909420
+Bug-Debian: https://bugs.debian.org/915091
+Last-Update: 2018-12-06
+
+Patch-Name: linuxefi-update-to-new-interfaces.patch
+---
+ grub-core/loader/i386/efi/linux.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c
+index 0e2796763..c2d77510f 100644
+--- a/grub-core/loader/i386/efi/linux.c
++++ b/grub-core/loader/i386/efi/linux.c
+@@ -201,7 +201,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+ 		int argc, char *argv[])
+ {
+   grub_file_t file = 0;
+-  struct linux_kernel_header lh;
++  struct linux_i386_kernel_header lh;
+   grub_ssize_t len, start, filelen;
+   void *kernel;
+ 
+@@ -312,7 +312,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+   start = (lh.setup_sects + 1) * 512;
+   len = grub_file_size(file) - start;
+ 
+-  kernel_mem = grub_efi_allocate_pages(lh.pref_address,
++  kernel_mem = grub_efi_allocate_fixed(lh.pref_address,
+ 				       BYTES_TO_PAGES(lh.init_size));
+ 
+   if (!kernel_mem)

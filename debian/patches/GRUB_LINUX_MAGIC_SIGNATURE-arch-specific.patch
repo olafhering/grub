@@ -1,0 +1,117 @@
+From 63630fac4d3e315d1626936160f947dc04f15755 Mon Sep 17 00:00:00 2001
+From: Leif Lindholm <leif.lindholm@linaro.org>
+Date: Thu, 1 Feb 2018 18:18:51 +0000
+Subject: make GRUB_LINUX_MAGIC_SIGNATURE architecture-specific
+
+Rename GRUB_LINUX_MAGIC_SIGNATURE GRUB_LINUX_I386_MAGIC_SIGNATURE,
+to be usable in code that supports more than one image type.
+
+Signed-off-by: Leif Lindholm <leif.lindholm@linaro.org>
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+Origin: upstream, https://git.savannah.gnu.org/cgit/grub.git/commit/?id=3245f02d9d7274e942426541cf73dc73e7298f02
+Bug-Debian: https://bugs.debian.org/907596
+Bug-Debian: https://bugs.debian.org/909420
+Last-Update: 2018-12-06
+
+Patch-Name: GRUB_LINUX_MAGIC_SIGNATURE-arch-specific.patch
+---
+ grub-core/commands/file.c        | 4 ++--
+ grub-core/loader/i386/linux.c    | 2 +-
+ grub-core/loader/i386/pc/linux.c | 6 +++---
+ grub-core/loader/i386/xen_file.c | 2 +-
+ include/grub/i386/linux.h        | 2 +-
+ 5 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/grub-core/commands/file.c b/grub-core/commands/file.c
+index 12fba99e0..474666d3a 100644
+--- a/grub-core/commands/file.c
++++ b/grub-core/commands/file.c
+@@ -508,7 +508,7 @@ grub_cmd_file (grub_extcmd_context_t ctxt, int argc, char **args)
+ 
+ 	/* FIXME: some really old kernels (< 1.3.73) will fail this.  */
+ 	if (lh.header !=
+-	    grub_cpu_to_le32_compile_time (GRUB_LINUX_MAGIC_SIGNATURE)
++	    grub_cpu_to_le32_compile_time (GRUB_LINUX_I386_MAGIC_SIGNATURE)
+ 	    || grub_le_to_cpu16 (lh.version) < 0x0200)
+ 	  break;
+ 
+@@ -521,7 +521,7 @@ grub_cmd_file (grub_extcmd_context_t ctxt, int argc, char **args)
+ 	/* FIXME: 2.03 is not always good enough (Linux 2.4 can be 2.03 and
+ 	   still not support 32-bit boot.  */
+ 	if (lh.header !=
+-	    grub_cpu_to_le32_compile_time (GRUB_LINUX_MAGIC_SIGNATURE)
++	    grub_cpu_to_le32_compile_time (GRUB_LINUX_I386_MAGIC_SIGNATURE)
+ 	    || grub_le_to_cpu16 (lh.version) < 0x0203)
+ 	  break;
+ 
+diff --git a/grub-core/loader/i386/linux.c b/grub-core/loader/i386/linux.c
+index adffe589c..4d043fd6f 100644
+--- a/grub-core/loader/i386/linux.c
++++ b/grub-core/loader/i386/linux.c
+@@ -762,7 +762,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+ 
+   /* FIXME: 2.03 is not always good enough (Linux 2.4 can be 2.03 and
+      still not support 32-bit boot.  */
+-  if (lh.header != grub_cpu_to_le32_compile_time (GRUB_LINUX_MAGIC_SIGNATURE)
++  if (lh.header != grub_cpu_to_le32_compile_time (GRUB_LINUX_I386_MAGIC_SIGNATURE)
+       || grub_le_to_cpu16 (lh.version) < 0x0203)
+     {
+       grub_error (GRUB_ERR_BAD_OS, "version too old for 32-bit boot"
+diff --git a/grub-core/loader/i386/pc/linux.c b/grub-core/loader/i386/pc/linux.c
+index a293b17aa..31a687644 100644
+--- a/grub-core/loader/i386/pc/linux.c
++++ b/grub-core/loader/i386/pc/linux.c
+@@ -169,7 +169,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+ 
+   maximal_cmdline_size = 256;
+ 
+-  if (lh.header == grub_cpu_to_le32_compile_time (GRUB_LINUX_MAGIC_SIGNATURE)
++  if (lh.header == grub_cpu_to_le32_compile_time (GRUB_LINUX_I386_MAGIC_SIGNATURE)
+       && grub_le_to_cpu16 (lh.version) >= 0x0200)
+     {
+       grub_linux_is_bzimage = (lh.loadflags & GRUB_LINUX_FLAG_BIG_KERNEL);
+@@ -322,7 +322,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+       goto fail;
+     }
+ 
+-  if (lh.header != grub_cpu_to_le32_compile_time (GRUB_LINUX_MAGIC_SIGNATURE)
++  if (lh.header != grub_cpu_to_le32_compile_time (GRUB_LINUX_I386_MAGIC_SIGNATURE)
+       || grub_le_to_cpu16 (lh.version) < 0x0200)
+     /* Clear the heap space.  */
+     grub_memset (grub_linux_real_chunk
+@@ -407,7 +407,7 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
+ 
+   lh = (struct linux_kernel_header *) grub_linux_real_chunk;
+ 
+-  if (!(lh->header == grub_cpu_to_le32_compile_time (GRUB_LINUX_MAGIC_SIGNATURE)
++  if (!(lh->header == grub_cpu_to_le32_compile_time (GRUB_LINUX_I386_MAGIC_SIGNATURE)
+ 	&& grub_le_to_cpu16 (lh->version) >= 0x0200))
+     {
+       grub_error (GRUB_ERR_BAD_OS, "the kernel is too old for initrd");
+diff --git a/grub-core/loader/i386/xen_file.c b/grub-core/loader/i386/xen_file.c
+index 99fad4cad..6e76e16aa 100644
+--- a/grub-core/loader/i386/xen_file.c
++++ b/grub-core/loader/i386/xen_file.c
+@@ -43,7 +43,7 @@ grub_xen_file (grub_file_t file)
+     goto fail;
+ 
+   if (lh.boot_flag != grub_cpu_to_le16_compile_time (0xaa55)
+-      || lh.header != grub_cpu_to_le32_compile_time (GRUB_LINUX_MAGIC_SIGNATURE)
++      || lh.header != grub_cpu_to_le32_compile_time (GRUB_LINUX_I386_MAGIC_SIGNATURE)
+       || grub_le_to_cpu16 (lh.version) < 0x0208)
+     {
+       grub_error (GRUB_ERR_BAD_OS, "version too old for xen boot");
+diff --git a/include/grub/i386/linux.h b/include/grub/i386/linux.h
+index 7647f4907..ed6c941a8 100644
+--- a/include/grub/i386/linux.h
++++ b/include/grub/i386/linux.h
+@@ -19,7 +19,7 @@
+ #ifndef GRUB_I386_LINUX_HEADER
+ #define GRUB_I386_LINUX_HEADER	1
+ 
+-#define GRUB_LINUX_MAGIC_SIGNATURE	0x53726448      /* "HdrS" */
++#define GRUB_LINUX_I386_MAGIC_SIGNATURE	0x53726448      /* "HdrS" */
+ #define GRUB_LINUX_DEFAULT_SETUP_SECTS	4
+ #define GRUB_LINUX_INITRD_MAX_ADDRESS	0x37FFFFFF
+ #define GRUB_LINUX_MAX_SETUP_SECTS	64

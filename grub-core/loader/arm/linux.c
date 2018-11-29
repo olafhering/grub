@@ -46,9 +46,6 @@ static void *fdt_addr;
 
 typedef void (*kernel_entry_t) (int, unsigned long, void *);
 
-#define LINUX_ZIMAGE_OFFSET	0x24
-#define LINUX_ZIMAGE_MAGIC	0x016f2818
-
 #define LINUX_PHYS_OFFSET        (0x00008000)
 #define LINUX_INITRD_PHYS_OFFSET (LINUX_PHYS_OFFSET + 0x02000000)
 #define LINUX_FDT_PHYS_OFFSET    (LINUX_INITRD_PHYS_OFFSET - 0x10000)
@@ -274,15 +271,6 @@ linux_boot (void)
    */
   linuxmain = (kernel_entry_t) linux_addr;
 
-#ifdef GRUB_MACHINE_EFI
-  {
-    grub_err_t err;
-    err = grub_efi_prepare_platform();
-    if (err != GRUB_ERR_NONE)
-      return err;
-  }
-#endif
-
   grub_arm_disable_caches_mmu ();
 
   linuxmain (0, machine_type, fdt_addr);
@@ -296,17 +284,12 @@ linux_boot (void)
 static grub_err_t
 linux_load (const char *filename, grub_file_t file)
 {
+  struct linux_arm_kernel_header *lh;
   int size;
 
   size = grub_file_size (file);
 
-#ifdef GRUB_MACHINE_EFI
-  linux_addr = (grub_addr_t) grub_efi_allocate_loader_memory (LINUX_PHYS_OFFSET, size);
-  if (!linux_addr)
-    return grub_errno;
-#else
   linux_addr = LINUX_ADDRESS;
-#endif
   grub_dprintf ("loader", "Loading Linux to 0x%08x\n",
 		(grub_addr_t) linux_addr);
 
@@ -318,9 +301,10 @@ linux_load (const char *filename, grub_file_t file)
       return grub_errno;
     }
 
-  if (size > LINUX_ZIMAGE_OFFSET + 4
-      && *(grub_uint32_t *) (linux_addr + LINUX_ZIMAGE_OFFSET)
-      == LINUX_ZIMAGE_MAGIC)
+  lh = (void *) linux_addr;
+
+  if ((grub_size_t) size > sizeof (*lh) &&
+      lh->magic == GRUB_LINUX_ARM_MAGIC_SIGNATURE)
     ;
   else if (size > 0x8000 && *(grub_uint32_t *) (linux_addr) == 0xea000006
 	   && machine_type == GRUB_ARM_MACHINE_TYPE_RASPBERRY_PI)
@@ -410,20 +394,7 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
 
   size = grub_get_initrd_size (&initrd_ctx);
 
-#ifdef GRUB_MACHINE_EFI
-  if (initrd_start)
-    grub_efi_free_pages (initrd_start,
-			 (initrd_end - initrd_start + 0xfff) >> 12);
-  initrd_start = (grub_addr_t) grub_efi_allocate_loader_memory (LINUX_INITRD_PHYS_OFFSET, size);
-
-  if (!initrd_start)
-    {
-      grub_error (GRUB_ERR_OUT_OF_MEMORY, N_("out of memory"));
-      goto fail;
-    }
-#else
   initrd_start = LINUX_INITRD_ADDRESS;
-#endif
 
   grub_dprintf ("loader", "Loading initrd to 0x%08x\n",
 		(grub_addr_t) initrd_start);

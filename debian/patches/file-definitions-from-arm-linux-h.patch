@@ -1,0 +1,62 @@
+From 40f36f3fdd00853c6621846d70d42a0c863c730c Mon Sep 17 00:00:00 2001
+From: Leif Lindholm <leif.lindholm@linaro.org>
+Date: Mon, 25 Jun 2018 18:01:28 +0100
+Subject: commands/file: Use definitions from arm/linux.h
+
+Clean up code for matching IS_ARM slightly by making use of struct
+linux_arm_kernel_header and GRUB_LINUX_ARM_MAGIC_SIGNATURE.
+
+Signed-off-by: Leif Lindholm <leif.lindholm@linaro.org>
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+Origin: upstream, https://git.savannah.gnu.org/cgit/grub.git/commit/?id=40dc61ed75e08e7dc2951bdae5c59fecb15bbb72
+Bug-Debian: https://bugs.debian.org/907596
+Bug-Debian: https://bugs.debian.org/909420
+Last-Update: 2018-12-06
+
+Patch-Name: file-definitions-from-arm-linux-h.patch
+---
+ grub-core/commands/file.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
+
+diff --git a/grub-core/commands/file.c b/grub-core/commands/file.c
+index 63c84499b..ab0c9fb96 100644
+--- a/grub-core/commands/file.c
++++ b/grub-core/commands/file.c
+@@ -27,6 +27,7 @@
+ #include <grub/elf.h>
+ #include <grub/xen_file.h>
+ #include <grub/efi/pe32.h>
++#include <grub/arm/linux.h>
+ #include <grub/i386/linux.h>
+ #include <grub/xnu.h>
+ #include <grub/machoload.h>
+@@ -383,21 +384,19 @@ grub_cmd_file (grub_extcmd_context_t ctxt, int argc, char **args)
+       }
+     case IS_ARM_LINUX:
+       {
+-	grub_uint32_t sig, sig_pi;
+-	if (grub_file_read (file, &sig_pi, 4) != 4)
++	struct linux_arm_kernel_header lh;
++
++	if (grub_file_read (file, &lh, sizeof (lh)) != sizeof (lh))
+ 	  break;
+-	/* Raspberry pi.  */
+-	if (sig_pi == grub_cpu_to_le32_compile_time (0xea000006))
++	/* Short forward branch in A32 state (for Raspberry pi kernels). */
++	if (lh.code0 == grub_cpu_to_le32_compile_time (0xea000006))
+ 	  {
+ 	    ret = 1;
+ 	    break;
+ 	  }
+ 
+-	if (grub_file_seek (file, 0x24) == (grub_size_t) -1)
+-	  break;
+-	if (grub_file_read (file, &sig, 4) != 4)
+-	  break;
+-	if (sig == grub_cpu_to_le32_compile_time (0x016f2818))
++	if (lh.magic ==
++	    grub_cpu_to_le32_compile_time (GRUB_LINUX_ARM_MAGIC_SIGNATURE))
+ 	  {
+ 	    ret = 1;
+ 	    break;

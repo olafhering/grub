@@ -1,0 +1,47 @@
+From 3395876d56f423a28d478c3898972aed6aa76d88 Mon Sep 17 00:00:00 2001
+From: Leif Lindholm <leif.lindholm@linaro.org>
+Date: Thu, 1 Feb 2018 18:18:54 +0000
+Subject: arm64: align linux kernel magic macro naming with i386
+
+Change GRUB_ARM64_LINUX_MAGIC to GRUB_LINUX_ARM64_MAGIC_SIGNATURE.
+
+Signed-off-by: Leif Lindholm <leif.lindholm@linaro.org>
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+Origin: upstream, https://git.savannah.gnu.org/cgit/grub.git/commit/?id=7fd9722d0c5e9c5a85b782ef435c80085da308b2
+Bug-Debian: https://bugs.debian.org/907596
+Bug-Debian: https://bugs.debian.org/909420
+Last-Update: 2018-12-06
+
+Patch-Name: arm64-align-linux-magic-macro-with-i386.patch
+---
+ grub-core/loader/arm64/linux.c | 2 +-
+ include/grub/arm64/linux.h     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/grub-core/loader/arm64/linux.c b/grub-core/loader/arm64/linux.c
+index 79f25a711..ebe1e730d 100644
+--- a/grub-core/loader/arm64/linux.c
++++ b/grub-core/loader/arm64/linux.c
+@@ -50,7 +50,7 @@ static grub_addr_t initrd_end;
+ grub_err_t
+ grub_arm64_uefi_check_image (struct linux_arm64_kernel_header * lh)
+ {
+-  if (lh->magic != GRUB_ARM64_LINUX_MAGIC)
++  if (lh->magic != GRUB_LINUX_ARM64_MAGIC_SIGNATURE)
+     return grub_error(GRUB_ERR_BAD_OS, "invalid magic number");
+ 
+   if ((lh->code0 & 0xffff) != GRUB_PE32_MAGIC)
+diff --git a/include/grub/arm64/linux.h b/include/grub/arm64/linux.h
+index abe7e9cc3..b06347624 100644
+--- a/include/grub/arm64/linux.h
++++ b/include/grub/arm64/linux.h
+@@ -21,7 +21,7 @@
+ 
+ #include <grub/efi/efi.h>
+ 
+-#define GRUB_ARM64_LINUX_MAGIC 0x644d5241 /* 'ARM\x64' */
++#define GRUB_LINUX_ARM64_MAGIC_SIGNATURE 0x644d5241 /* 'ARM\x64' */
+ 
+ /* From linux/Documentation/arm64/booting.txt */
+ struct linux_arm64_kernel_header
