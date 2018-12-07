@@ -10,6 +10,7 @@ grub2 (2.02+dfsg1-9) UNRELEASED; urgency=medium
   * Apply patch series (mostly) from upstream to switch the arm loader over
     to use the arm64 loader code and improve arm/arm64 initrd handling
     (closes: #907596, #909420, #915091).
+  * Build with GCC 8 (closes: #915735).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 02 Nov 2018 12:50:38 +0000
 

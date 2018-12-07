@@ -97,3 +97,4 @@ efi-restrict-arm-arm64-linux-loader-initrd-placement.patch
 fdt-move-prop_entry_size-to-fdt-h.patch
 efi-fdt-set-address-size-cells-to-2-for-empty-tree.patch
 linuxefi-update-to-new-interfaces.patch
+gcc-8-packed-not-aligned.patch
