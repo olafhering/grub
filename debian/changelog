@@ -8,10 +8,12 @@ grub2 (2.02+dfsg1-9) UNRELEASED; urgency=medium
   * Update Homepage, debian/copyright Source, and debian/watch to use HTTPS.
   * Move bash completions to /usr/share/bash-completion/completions/grub and
     add appropriate symlinks (closes: #912852).
+  * Build with GCC 8 (closes: #915735).
+
+  [ Leif Lindholm ]
   * Apply patch series (mostly) from upstream to switch the arm loader over
     to use the arm64 loader code and improve arm/arm64 initrd handling
     (closes: #907596, #909420, #915091).
-  * Build with GCC 8 (closes: #915735).
 
   [ Matthew Garrett ]
   * Don't enforce Shim signature validation if Secure Boot is disabled.
