@@ -1,5 +1,6 @@
 grub2 (2.02+dfsg1-9) UNRELEASED; urgency=medium
 
+  [ Colin Watson ]
   * Sync Maintainer/Uploaders in debian/signing-template/control.in with the
     main packaging.
   * Tell reportbug to submit bug reports against unsigned packages rather
@@ -11,6 +12,9 @@ grub2 (2.02+dfsg1-9) UNRELEASED; urgency=medium
     to use the arm64 loader code and improve arm/arm64 initrd handling
     (closes: #907596, #909420, #915091).
   * Build with GCC 8 (closes: #915735).
+
+  [ Matthew Garrett ]
+  * Don't enforce Shim signature validation if Secure Boot is disabled.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 02 Nov 2018 12:50:38 +0000
 
