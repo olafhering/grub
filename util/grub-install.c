@@ -524,6 +524,7 @@ have_bootdev (enum grub_install_plat pl)
 
     case GRUB_INSTALL_PLATFORM_I386_XEN:
     case GRUB_INSTALL_PLATFORM_X86_64_XEN:
+    case GRUB_INSTALL_PLATFORM_I386_XEN_PVH:
       return 0;
 
       /* pacify warning.  */
@@ -1026,6 +1027,7 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_ARM_UBOOT:
     case GRUB_INSTALL_PLATFORM_I386_XEN:
     case GRUB_INSTALL_PLATFORM_X86_64_XEN:
+    case GRUB_INSTALL_PLATFORM_I386_XEN_PVH:
       break;
 
     case GRUB_INSTALL_PLATFORM_I386_QEMU:
@@ -1071,6 +1073,7 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_MIPS_QEMU_MIPS:
     case GRUB_INSTALL_PLATFORM_I386_XEN:
     case GRUB_INSTALL_PLATFORM_X86_64_XEN:
+    case GRUB_INSTALL_PLATFORM_I386_XEN_PVH:
       free (install_device);
       install_device = NULL;
       break;
@@ -1606,6 +1609,7 @@ main (int argc, char *argv[])
 		  case GRUB_INSTALL_PLATFORM_ARM_UBOOT:
 		  case GRUB_INSTALL_PLATFORM_I386_XEN:
 		  case GRUB_INSTALL_PLATFORM_X86_64_XEN:
+		  case GRUB_INSTALL_PLATFORM_I386_XEN_PVH:
 		    grub_util_warn ("%s", _("no hints available for your platform. Expect reduced performance"));
 		    break;
 		    /* pacify warning.  */
@@ -1696,6 +1700,7 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_POWERPC_IEEE1275:
     case GRUB_INSTALL_PLATFORM_I386_XEN:
     case GRUB_INSTALL_PLATFORM_X86_64_XEN:
+    case GRUB_INSTALL_PLATFORM_I386_XEN_PVH:
       core_name = "core.elf";
       snprintf (mkimage_target, sizeof (mkimage_target),
 		"%s-%s",
@@ -1787,6 +1792,7 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_SPARC64_IEEE1275:
     case GRUB_INSTALL_PLATFORM_I386_XEN:
     case GRUB_INSTALL_PLATFORM_X86_64_XEN:
+    case GRUB_INSTALL_PLATFORM_I386_XEN_PVH:
       break;
       /* pacify warning.  */
     case GRUB_INSTALL_PLATFORM_MAX:
@@ -2155,6 +2161,7 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_MIPSEL_ARC:
     case GRUB_INSTALL_PLATFORM_ARM_UBOOT:
     case GRUB_INSTALL_PLATFORM_I386_QEMU:
+    case GRUB_INSTALL_PLATFORM_I386_XEN_PVH:
       grub_util_warn ("%s",
 		      _("WARNING: no platform-specific install was performed"));
       break;
