@@ -1,4 +1,4 @@
-grub2 (2.02+dfsg1-9) UNRELEASED; urgency=medium
+grub2 (2.02+dfsg1-9) unstable; urgency=medium
 
   [ Colin Watson ]
   * Sync Maintainer/Uploaders in debian/signing-template/control.in with the
@@ -18,7 +18,7 @@ grub2 (2.02+dfsg1-9) UNRELEASED; urgency=medium
   [ Matthew Garrett ]
   * Don't enforce Shim signature validation if Secure Boot is disabled.
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 02 Nov 2018 12:50:38 +0000
+ -- Colin Watson <cjwatson@debian.org>  Fri, 07 Dec 2018 10:38:37 +0000
 
 grub2 (2.02+dfsg1-8) unstable; urgency=medium
 
