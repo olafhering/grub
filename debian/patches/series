@@ -99,3 +99,4 @@ efi-fdt-set-address-size-cells-to-2-for-empty-tree.patch
 linuxefi-update-to-new-interfaces.patch
 gcc-8-packed-not-aligned.patch
 linuxefi-skip-validation-without-secure-boot.patch
+efi-fdt-do-not-copy-random-memory.patch
