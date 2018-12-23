@@ -1169,10 +1169,7 @@ grub_install_generate_image (const char *dir, const char *prefix,
 	int header_size;
 	int reloc_addr;
 
-	if (image_target->voidp_sizeof == 4)
-	  header_size = EFI32_HEADER_SIZE;
-	else
-	  header_size = EFI64_HEADER_SIZE;
+	header_size = image_target->vaddr_offset;
 
 	reloc_addr = ALIGN_UP (header_size + core_size,
 			       image_target->section_align);
