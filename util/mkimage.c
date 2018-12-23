@@ -39,6 +39,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <grub/efi/memory.h>
 #include <grub/efi/pe32.h>
 #include <grub/uboot/image.h>
 #include <grub/arm/reloc.h>
@@ -584,7 +585,7 @@ static const struct grub_install_image_target_desc image_targets[] =
       .decompressor_uncompressed_size = TARGET_NO_FIELD,
       .decompressor_uncompressed_addr = TARGET_NO_FIELD,
       .section_align = GRUB_PE32_SECTION_ALIGNMENT,
-      .vaddr_offset = EFI64_HEADER_SIZE,
+      .vaddr_offset = GRUB_EFI_PAGE_SIZE,
       .pe_target = GRUB_PE32_MACHINE_ARM64,
       .elf_target = EM_AARCH64,
     },
