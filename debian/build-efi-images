@@ -167,6 +167,7 @@ GRUB_MODULES="$CD_MODULES
 	gcry_tiger
 	gcry_twofish
 	gcry_whirlpool
+	luks
 	lvm
 	mdraid09
 	mdraid1x
