@@ -5,6 +5,11 @@ grub2 (2.02+dfsg1-10) UNRELEASED; urgency=medium
     - grub-core/loader/efi/fdt.c: do not copy random memory
   * Add luks modules to signed UEFI images (pointed out by Alex Griffin and
     Hervé Werner; closes: #908162, LP: #1565950).
+  * Keep track of the previous version of /usr/share/grub/default/grub and
+    set UCF_FORCE_CONFFOLD=1 when running ucf if it hasn't changed; ucf
+    can't figure this out for itself since we apply debconf-based
+    customisations on top of the template configuration file (closes:
+    #812574, LP: #564853).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 21 Dec 2018 21:20:48 +0000
 

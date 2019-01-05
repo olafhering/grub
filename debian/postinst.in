@@ -385,7 +385,19 @@ case "$1" in
       ;;
     esac
 
-    ucf --three-way --debconf-ok --sum-file=/usr/share/grub/default/grub.md5sum ${tmp_default_grub} /etc/default/grub
+    # If the template configuration file hasn't changed, then no conflict is
+    # possible.  ucf can't figure this out for itself since we apply
+    # debconf-based customisations on top of the template configuration
+    # file.
+    if [ -e /var/lib/grub/ucf/grub.previous ] && \
+       cmp -s /usr/share/grub/default/grub /var/lib/grub/ucf/grub.previous; then
+      ucf_env=UCF_FORCE_CONFFOLD=1
+    else
+      ucf_env=
+    fi
+
+    env $ucf_env ucf --three-way --debconf-ok --sum-file=/usr/share/grub/default/grub.md5sum "$tmp_default_grub" /etc/default/grub
+    cp -a /usr/share/grub/default/grub /var/lib/grub/ucf/grub.previous
     package="$(ucfq --with-colons /etc/default/grub | cut -d : -f 2)"
     if echo $package | grep -q "^grub-" ; then
       ucfr --force @PACKAGE@ /etc/default/grub

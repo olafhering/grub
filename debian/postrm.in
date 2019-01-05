@@ -11,6 +11,7 @@ case "$1" in
     if which ucfr >/dev/null ; then
 	ucfr --purge @PACKAGE@ /etc/default/grub || true
     fi
+    rm -f /var/lib/grub/ucf/grub.previous
 
     case @PACKAGE@ in
       grub-pc)
