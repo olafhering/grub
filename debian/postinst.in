@@ -760,6 +760,8 @@ case "$1" in
             run_grub_install --target=i386-xen
           ;;
         esac
+        # Similarly, the PVH boot loader is usable regardless of arch.
+        run_grub_install --target=i386-xen_pvh
       ;;
     esac
 
