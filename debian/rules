@@ -188,11 +188,15 @@ debian/stamps/configure-grub-efi-ia64 debian/stamps/configure-grub-efi-arm debia
 	dh_auto_configure -- $(confflags) --with-platform=efi
 	touch $@
 
-debian/stamps/configure-grub-xen-%: debian/stamps/autogen
+debian/stamps/configure-grub-xen-i386 debian/stamps/configure-grub-xen-amd64: debian/stamps/autogen
 	mkdir -p debian/stamps obj/$(package)
 	dh_auto_configure -- $(confflags) --with-platform=xen --target=$(subst debian/stamps/configure-grub-xen-,,$@) --program-prefix=""
 	touch $@
-debian/stamps/configure-grub-xen: debian/stamps/configure-grub-xen-i386 debian/stamps/configure-grub-xen-amd64
+debian/stamps/configure-grub-xen-pvh-i386: debian/stamps/autogen
+	mkdir -p debian/stamps obj/$(package)
+	dh_auto_configure -- $(confflags) --with-platform=xen_pvh --target=i386 --program-prefix=""
+	touch $@
+debian/stamps/configure-grub-xen: debian/stamps/configure-grub-xen-i386 debian/stamps/configure-grub-xen-amd64 debian/stamps/configure-grub-xen-pvh-i386
 	touch $@
 
 debian/stamps/configure-grub-firmware-qemu: debian/stamps/autogen
@@ -200,7 +204,7 @@ debian/stamps/configure-grub-firmware-qemu: debian/stamps/autogen
 	dh_auto_configure -- $(confflags) --with-platform=qemu
 	touch $@
 
-debian/stamps/build-grub-none debian/stamps/build-grub-efi-ia64 debian/stamps/build-grub-efi-arm debian/stamps/build-grub-coreboot debian/stamps/build-grub-emu debian/stamps/build-grub-uboot debian/stamps/build-grub-xen-i386 debian/stamps/build-grub-xen-amd64 debian/stamps/build-grub-yeeloong: debian/stamps/build-%: debian/stamps/configure-%
+debian/stamps/build-grub-none debian/stamps/build-grub-efi-ia64 debian/stamps/build-grub-efi-arm debian/stamps/build-grub-coreboot debian/stamps/build-grub-emu debian/stamps/build-grub-uboot debian/stamps/build-grub-xen-i386 debian/stamps/build-grub-xen-amd64 debian/stamps/build-grub-xen-pvh-i386 debian/stamps/build-grub-yeeloong: debian/stamps/build-%: debian/stamps/configure-%
 	dh_auto_build
 	touch $@
 
@@ -214,8 +218,10 @@ debian/stamps/build-grub-efi-ia32 debian/stamps/build-grub-efi-amd64 debian/stam
 	touch $@
 
 debian/stamps/build-grub-xen-host-i386: PVBOOT_ARCH := i386
+debian/stamps/build-grub-xen-host-i386: debian/stamps/build-grub-xen-i386
 debian/stamps/build-grub-xen-host-amd64: PVBOOT_ARCH := x86_64
-debian/stamps/build-grub-xen-host-%: debian/stamps/build-grub-xen-%
+debian/stamps/build-grub-xen-host-amd64: debian/stamps/build-grub-xen-amd64
+debian/stamps/build-grub-xen-host-i386 debian/stamps/build-grub-xen-host-amd64:
 	target=$(subst debian/stamps/build-grub-xen-host-,,$@) ; \
 	obj_dir=$(CURDIR)/obj/grub-xen-$${target} ; \
 	grub_dir=`mktemp -d` ; \
@@ -236,7 +242,26 @@ debian/stamps/build-grub-xen-host-%: debian/stamps/build-grub-xen-%
 		-o $(CURDIR)/obj/$(package)/grub-$(PVBOOT_ARCH)-xen.bin
 	touch $@
 
-debian/stamps/build-grub-xen-host: debian/stamps/build-grub-xen-host-i386 debian/stamps/build-grub-xen-host-amd64
+debian/stamps/build-grub-xen-host-pvh-i386: debian/stamps/build-grub-xen-pvh-i386
+	target=$(subst debian/stamps/build-grub-xen-host-,,$@) ; \
+	obj_dir=$(CURDIR)/obj/grub-xen-$${target} ; \
+	grub_dir=`mktemp -d` ; \
+	grub_memdisk=`mktemp` ; \
+	trap "rm -rf $${grub_dir} $${grub_memdisk}" EXIT HUP INT QUIT TERM ; \
+	mkdir -p $${grub_dir}/boot/grub ; \
+	mkdir -p $(CURDIR)/obj/$(package) ; \
+	cp -a debian/grub-xen-host_grub-pvh.cfg $${grub_dir}/grub.cfg ; \
+	tar -cf - -C $${grub_dir} grub.cfg > $${grub_memdisk} ; \
+	$${obj_dir}/grub-mkimage \
+		-O i386-xen_pvh \
+		-c $(CURDIR)/debian/grub-xen-host_grub-bootstrap.cfg \
+		-d $${obj_dir}/grub-core \
+		$${obj_dir}/grub-core/*.mod \
+		-m $${grub_memdisk} \
+		-o $(CURDIR)/obj/$(package)/grub-i386-xen_pvh.bin
+	touch $@
+
+debian/stamps/build-grub-xen-host: debian/stamps/build-grub-xen-host-i386 debian/stamps/build-grub-xen-host-amd64 debian/stamps/build-grub-xen-host-pvh-i386
 	touch $@
 
 debian/stamps/build-grub-pc: debian/stamps/configure-grub-pc
@@ -253,7 +278,7 @@ ifneq (,$(filter powerpc ppc64 ppc64el,$(DEB_HOST_ARCH_CPU)))
 endif
 	touch $@
 
-debian/stamps/build-grub-xen: debian/stamps/build-grub-xen-i386 debian/stamps/build-grub-xen-amd64
+debian/stamps/build-grub-xen: debian/stamps/build-grub-xen-i386 debian/stamps/build-grub-xen-amd64 debian/stamps/build-grub-xen-pvh-i386
 	touch $@
 
 debian/stamps/build-grub-firmware-qemu: debian/stamps/configure-grub-firmware-qemu
@@ -318,6 +343,7 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 	if [ "$@" = "install/grub-xen" ] ; then \
 		dh_auto_install -Bobj/grub-xen-i386 --destdir=debian/tmp-$(package); \
 		dh_auto_install -Bobj/grub-xen-amd64 --destdir=debian/tmp-$(package); \
+		dh_auto_install -Bobj/grub-xen-pvh-i386 --destdir=debian/tmp-$(package); \
 	else \
 		dh_auto_install --destdir=debian/tmp-$(package); \
 	fi
