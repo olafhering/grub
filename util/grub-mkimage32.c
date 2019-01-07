@@ -17,6 +17,8 @@
 # define ELF_R_SYM(val)		ELF32_R_SYM(val)
 # define ELF_R_TYPE(val)		ELF32_R_TYPE(val)
 # define ELF_ST_TYPE(val)		ELF32_ST_TYPE(val)
-#define XEN_NOTE_SIZE 132
+
+#define XEN_NOTE_SIZE		132
+#define XEN_PVH_NOTE_SIZE	20
 
 #include "grub-mkimagexx.c"

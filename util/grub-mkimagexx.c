@@ -48,6 +48,8 @@
 #include <grub/util/install.h>
 #include <grub/util/mkimage.h>
 
+#include <xen/elfnote.h>
+
 #pragma GCC diagnostic ignored "-Wcast-align"
 
 /* These structures are defined according to the CHRP binding to IEEE1275,
@@ -206,12 +208,12 @@ SUFFIX (grub_mkimage_generate_elf) (const struct grub_install_image_target_desc 
       phnum++;
       footer_size += sizeof (struct grub_ieee1275_note);
     }
-  if (image_target->id == IMAGE_XEN)
+  if (image_target->id == IMAGE_XEN || image_target->id == IMAGE_XEN_PVH)
     {
       phnum++;
       shnum++;
       string_size += sizeof (".xen");
-      footer_size += XEN_NOTE_SIZE;
+      footer_size += (image_target->id == IMAGE_XEN) ? XEN_NOTE_SIZE : XEN_PVH_NOTE_SIZE;
     }
   header_size = ALIGN_UP (sizeof (*ehdr) + phnum * sizeof (*phdr)
 			  + shnum * sizeof (*shdr) + string_size, align);
@@ -312,7 +314,7 @@ SUFFIX (grub_mkimage_generate_elf) (const struct grub_install_image_target_desc 
       note_ptr = (Elf_Nhdr *) ptr;
       note_ptr->n_namesz = grub_host_to_target32 (sizeof (GRUB_XEN_NOTE_NAME));
       note_ptr->n_descsz = grub_host_to_target32 (sizeof (PACKAGE_NAME));
-      note_ptr->n_type = grub_host_to_target32 (6);
+      note_ptr->n_type = grub_host_to_target32 (XEN_ELFNOTE_GUEST_OS);
       ptr += sizeof (Elf_Nhdr);
       memcpy (ptr, GRUB_XEN_NOTE_NAME, sizeof (GRUB_XEN_NOTE_NAME));
       ptr += ALIGN_UP (sizeof (GRUB_XEN_NOTE_NAME), 4);
@@ -323,7 +325,7 @@ SUFFIX (grub_mkimage_generate_elf) (const struct grub_install_image_target_desc 
       note_ptr = (Elf_Nhdr *) ptr;
       note_ptr->n_namesz = grub_host_to_target32 (sizeof (GRUB_XEN_NOTE_NAME));
       note_ptr->n_descsz = grub_host_to_target32 (sizeof ("generic"));
-      note_ptr->n_type = grub_host_to_target32 (8);
+      note_ptr->n_type = grub_host_to_target32 (XEN_ELFNOTE_LOADER);
       ptr += sizeof (Elf_Nhdr);
       memcpy (ptr, GRUB_XEN_NOTE_NAME, sizeof (GRUB_XEN_NOTE_NAME));
       ptr += ALIGN_UP (sizeof (GRUB_XEN_NOTE_NAME), 4);
@@ -334,7 +336,7 @@ SUFFIX (grub_mkimage_generate_elf) (const struct grub_install_image_target_desc 
       note_ptr = (Elf_Nhdr *) ptr;
       note_ptr->n_namesz = grub_host_to_target32 (sizeof (GRUB_XEN_NOTE_NAME));
       note_ptr->n_descsz = grub_host_to_target32 (sizeof ("xen-3.0"));
-      note_ptr->n_type = grub_host_to_target32 (5);
+      note_ptr->n_type = grub_host_to_target32 (XEN_ELFNOTE_XEN_VERSION);
       ptr += sizeof (Elf_Nhdr);
       memcpy (ptr, GRUB_XEN_NOTE_NAME, sizeof (GRUB_XEN_NOTE_NAME));
       ptr += ALIGN_UP (sizeof (GRUB_XEN_NOTE_NAME), 4);
@@ -345,7 +347,7 @@ SUFFIX (grub_mkimage_generate_elf) (const struct grub_install_image_target_desc 
       note_ptr = (Elf_Nhdr *) ptr;
       note_ptr->n_namesz = grub_host_to_target32 (sizeof (GRUB_XEN_NOTE_NAME));
       note_ptr->n_descsz = grub_host_to_target32 (image_target->voidp_sizeof);
-      note_ptr->n_type = grub_host_to_target32 (1);
+      note_ptr->n_type = grub_host_to_target32 (XEN_ELFNOTE_ENTRY);
       ptr += sizeof (Elf_Nhdr);
       memcpy (ptr, GRUB_XEN_NOTE_NAME, sizeof (GRUB_XEN_NOTE_NAME));
       ptr += ALIGN_UP (sizeof (GRUB_XEN_NOTE_NAME), 4);
@@ -356,7 +358,7 @@ SUFFIX (grub_mkimage_generate_elf) (const struct grub_install_image_target_desc 
       note_ptr = (Elf_Nhdr *) ptr;
       note_ptr->n_namesz = grub_host_to_target32 (sizeof (GRUB_XEN_NOTE_NAME));
       note_ptr->n_descsz = grub_host_to_target32 (image_target->voidp_sizeof);
-      note_ptr->n_type = grub_host_to_target32 (3);
+      note_ptr->n_type = grub_host_to_target32 (XEN_ELFNOTE_VIRT_BASE);
       ptr += sizeof (Elf_Nhdr);
       memcpy (ptr, GRUB_XEN_NOTE_NAME, sizeof (GRUB_XEN_NOTE_NAME));
       ptr += ALIGN_UP (sizeof (GRUB_XEN_NOTE_NAME), 4);
@@ -369,7 +371,7 @@ SUFFIX (grub_mkimage_generate_elf) (const struct grub_install_image_target_desc 
 	  note_ptr = (Elf_Nhdr *) ptr;
 	  note_ptr->n_namesz = grub_host_to_target32 (sizeof (GRUB_XEN_NOTE_NAME));
 	  note_ptr->n_descsz = grub_host_to_target32 (sizeof ("yes,bimodal"));
-	  note_ptr->n_type = grub_host_to_target32 (9);
+	  note_ptr->n_type = grub_host_to_target32 (XEN_ELFNOTE_PAE_MODE);
 	  ptr += sizeof (Elf_Nhdr);
 	  memcpy (ptr, GRUB_XEN_NOTE_NAME, sizeof (GRUB_XEN_NOTE_NAME));
 	  ptr += ALIGN_UP (sizeof (GRUB_XEN_NOTE_NAME), 4);
@@ -386,6 +388,39 @@ SUFFIX (grub_mkimage_generate_elf) (const struct grub_install_image_target_desc 
       phdr->p_vaddr = 0;
       phdr->p_paddr = 0;
       phdr->p_filesz = grub_host_to_target32 (XEN_NOTE_SIZE);
+      phdr->p_memsz = 0;
+      phdr->p_offset = grub_host_to_target32 (header_size + program_size);
+    }
+
+  if (image_target->id == IMAGE_XEN_PVH)
+    {
+      char *note_start = (elf_img + program_size + header_size);
+      Elf_Nhdr *note_ptr;
+      char *ptr = (char *) note_start;
+
+      grub_util_info ("adding XEN NOTE segment");
+
+      /* Phys32 Entry.  */
+      note_ptr = (Elf_Nhdr *) ptr;
+      note_ptr->n_namesz = grub_host_to_target32 (sizeof (GRUB_XEN_NOTE_NAME));
+      note_ptr->n_descsz = grub_host_to_target32 (image_target->voidp_sizeof);
+      note_ptr->n_type = grub_host_to_target32 (XEN_ELFNOTE_PHYS32_ENTRY);
+      ptr += sizeof (Elf_Nhdr);
+      memcpy (ptr, GRUB_XEN_NOTE_NAME, sizeof (GRUB_XEN_NOTE_NAME));
+      ptr += ALIGN_UP (sizeof (GRUB_XEN_NOTE_NAME), 4);
+      memset (ptr, 0, image_target->voidp_sizeof);
+      *(grub_uint32_t *) ptr = GRUB_KERNEL_I386_XEN_PVH_LINK_ADDR;
+      ptr += image_target->voidp_sizeof;
+
+      assert (XEN_PVH_NOTE_SIZE == (ptr - note_start));
+
+      phdr++;
+      phdr->p_type = grub_host_to_target32 (PT_NOTE);
+      phdr->p_flags = grub_host_to_target32 (PF_R);
+      phdr->p_align = grub_host_to_target32 (image_target->voidp_sizeof);
+      phdr->p_vaddr = 0;
+      phdr->p_paddr = 0;
+      phdr->p_filesz = grub_host_to_target32 (XEN_PVH_NOTE_SIZE);
       phdr->p_memsz = 0;
       phdr->p_offset = grub_host_to_target32 (header_size + program_size);
     }
@@ -465,7 +500,7 @@ SUFFIX (grub_mkimage_generate_elf) (const struct grub_install_image_target_desc 
     shdr->sh_entsize = grub_host_to_target32 (0);
     shdr++;
 
-    if (image_target->id == IMAGE_XEN)
+    if (image_target->id == IMAGE_XEN || image_target->id == IMAGE_XEN_PVH)
       {
 	memcpy (ptr, ".xen", sizeof (".xen"));
 	shdr->sh_name = grub_host_to_target32 (ptr - str_start);
@@ -473,7 +508,10 @@ SUFFIX (grub_mkimage_generate_elf) (const struct grub_install_image_target_desc 
 	shdr->sh_type = grub_host_to_target32 (SHT_PROGBITS);
 	shdr->sh_addr = grub_host_to_target_addr (target_addr + kernel_size);
 	shdr->sh_offset = grub_host_to_target_addr (program_size + header_size);
-	shdr->sh_size = grub_host_to_target32 (XEN_NOTE_SIZE);
+	if (image_target->id == IMAGE_XEN)
+	  shdr->sh_size = grub_host_to_target32 (XEN_NOTE_SIZE);
+	else
+	  shdr->sh_size = grub_host_to_target32 (XEN_PVH_NOTE_SIZE);
 	shdr->sh_link = grub_host_to_target32 (0);
 	shdr->sh_info = grub_host_to_target32 (0);
 	shdr->sh_addralign = grub_host_to_target32 (image_target->voidp_sizeof);

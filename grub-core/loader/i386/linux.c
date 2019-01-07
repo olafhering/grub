@@ -35,6 +35,7 @@
 #include <grub/i18n.h>
 #include <grub/lib/cmdline.h>
 #include <grub/linux.h>
+#include <grub/machine/kernel.h>
 
 GRUB_MOD_LICENSE ("GPLv3+");
 
@@ -558,6 +559,10 @@ grub_linux_boot (void)
 	  linux_params.video_height = 25;
 	}
     }
+
+#ifdef GRUB_KERNEL_USE_RSDP_ADDR
+  linux_params.acpi_rsdp_addr = grub_le_to_cpu64 (grub_rsdp_addr);
+#endif
 
   mmap_size = find_mmap_size ();
   /* Make sure that each size is aligned to a page boundary.  */

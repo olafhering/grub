@@ -10,6 +10,7 @@ grub2 (2.02+dfsg1-10) UNRELEASED; urgency=medium
     can't figure this out for itself since we apply debconf-based
     customisations on top of the template configuration file (closes:
     #812574, LP: #564853).
+  * Backport Xen PVH guest support from upstream (closes: #776450).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 21 Dec 2018 21:20:48 +0000
 
