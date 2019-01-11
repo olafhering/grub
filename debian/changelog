@@ -1,4 +1,4 @@
-grub2 (2.02+dfsg1-10) UNRELEASED; urgency=medium
+grub2 (2.02+dfsg1-10) unstable; urgency=medium
 
   * Apply patch from Heinrich Schuchardt (mentioned in #916695 though
     unrelated):
@@ -13,7 +13,7 @@ grub2 (2.02+dfsg1-10) UNRELEASED; urgency=medium
   * Backport Xen PVH guest support from upstream (closes: #776450).  Thanks
     to Hans van Kranenburg for testing.
 
- -- Colin Watson <cjwatson@debian.org>  Fri, 21 Dec 2018 21:20:48 +0000
+ -- Colin Watson <cjwatson@debian.org>  Fri, 11 Jan 2019 15:24:20 +0000
 
 grub2 (2.02+dfsg1-9) unstable; urgency=medium
 
