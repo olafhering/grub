@@ -120,3 +120,5 @@ xen-pvh-elfnote-defines.patch
 xen-pvh-mkimage.patch
 xen-pvh-install.patch
 xen-pvh-configure.patch
+mkimage-simplify-header-size-logic.patch
+mkimage-arm64-efi-align-first-section-to-page.patch

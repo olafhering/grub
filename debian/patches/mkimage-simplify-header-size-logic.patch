@@ -1,0 +1,47 @@
+From f2b469a2eb0114805d3294c48d2cb4a73db43f92 Mon Sep 17 00:00:00 2001
+From: Alexander Graf <agraf@suse.de>
+Date: Sun, 23 Dec 2018 03:52:06 +0100
+Subject: mkimage: Simplify header size logic
+
+For EFI images, we always have the following layout:
+
+  [PE header]
+  [padding]
+  [first section (which also is the entry point)]
+
+Currently there are 2 places where we define how big header+padding are:
+in the .vaddr_offset member of our target image definition struct as well
+as in code in grub_install_generate_image().
+
+Remove the latter, so that we only have a single place to modify if we
+need to change the padding.
+
+Signed-off-by: Alexander Graf <agraf@suse.de>
+Reviewed-by: Leif Lindholm <leif.lindholm@linaro.org>
+Tested-by: Leif Lindholm <leif.lindholm@linaro.org>
+
+Origin: other, https://lists.gnu.org/archive/html/grub-devel/2018-12/msg00054.html
+Bug-Debian: https://bugs.debian.org/919012
+Last-Update: 2019-01-12
+
+Patch-Name: mkimage-simplify-header-size-logic.patch
+---
+ util/mkimage.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/util/mkimage.c b/util/mkimage.c
+index c3bd23479..412e85f26 100644
+--- a/util/mkimage.c
++++ b/util/mkimage.c
+@@ -1169,10 +1169,7 @@ grub_install_generate_image (const char *dir, const char *prefix,
+ 	int header_size;
+ 	int reloc_addr;
+ 
+-	if (image_target->voidp_sizeof == 4)
+-	  header_size = EFI32_HEADER_SIZE;
+-	else
+-	  header_size = EFI64_HEADER_SIZE;
++	header_size = image_target->vaddr_offset;
+ 
+ 	reloc_addr = ALIGN_UP (header_size + core_size,
+ 			       image_target->section_align);
