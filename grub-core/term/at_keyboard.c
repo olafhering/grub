@@ -244,6 +244,14 @@ grub_at_keyboard_getkey (struct grub_term_input *term __attribute__ ((unused)))
   return ret;
 }
 
+static grub_err_t
+grub_keyboard_controller_mod_init (struct grub_term_input *term __attribute__ ((unused))) {
+  if (KEYBOARD_COMMAND_ISREADY (grub_inb (KEYBOARD_REG_STATUS)))
+    grub_keyboard_controller_init ();
+
+  return GRUB_ERR_NONE;
+}
+
 static void
 grub_keyboard_controller_init (void)
 {
@@ -314,6 +322,7 @@ grub_at_restore_hw (void)
 static struct grub_term_input grub_at_keyboard_term =
   {
     .name = "at_keyboard",
+    .init = grub_keyboard_controller_mod_init,
     .fini = grub_keyboard_controller_fini,
     .getkey = grub_at_keyboard_getkey
   };
