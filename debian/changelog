@@ -1,7 +1,11 @@
 grub2 (2.02+dfsg1-11) UNRELEASED; urgency=medium
 
+  [ Colin Watson ]
   * Apply patches from Alexander Graf to set arm64-efi code offset to
     EFI_PAGE_SIZE (closes: #919012).
+
+  [ Steve McIntyre ]
+  * Make grub-efi-amd64-signed recommend shim-signed (closes: #919067).
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 12 Jan 2019 10:44:52 +0000
 
