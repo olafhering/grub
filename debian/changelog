@@ -4,6 +4,7 @@ grub2 (2.02+dfsg1-11) UNRELEASED; urgency=medium
   * Apply patches from Alexander Graf to set arm64-efi code offset to
     EFI_PAGE_SIZE (closes: #919012).
   * Upgrade to debhelper v10.
+  * Set Rules-Requires-Root: no.
 
   [ Steve McIntyre ]
   * Make grub-efi-amd64-signed recommend shim-signed (closes: #919067).

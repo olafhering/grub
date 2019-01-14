@@ -37,6 +37,7 @@ Standards-Version: 3.9.6
 Homepage: https://www.gnu.org/software/grub/
 Vcs-Git: https://salsa.debian.org/grub-team/grub.git
 Vcs-Browser: https://salsa.debian.org/grub-team/grub
+Rules-Requires-Root: no
 
 Package: grub2
 Section: oldlibs
