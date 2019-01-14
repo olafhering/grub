@@ -17,7 +17,6 @@ HOST_CFLAGS := -Wall -Wno-error=unused-result $(shell dpkg-buildflags --get CFLA
 HOST_LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
 
 export DEB_HOST_ARCH
-unexport CFLAGS
 export HOST_CPPFLAGS
 export HOST_CFLAGS
 export HOST_LDFLAGS
@@ -27,6 +26,12 @@ export TARGET_LDFLAGS := -no-pie
 ifneq (,$(filter sparc sparc64,$(DEB_HOST_ARCH_CPU)))
 export TARGET_CCASFLAGS := -fno-PIE
 endif
+
+# Ensure that debhelper doesn't try to set these; we need to be careful
+# about HOST_* vs. TARGET_*.
+export CPPFLAGS :=
+export CFLAGS :=
+export LDFLAGS :=
 
 ifeq (,$(shell which qemu-system-i386 2>/dev/null))
 with_check := no
@@ -39,6 +44,7 @@ CC := gcc-8
 confflags = \
 	PACKAGE_VERSION="$(deb_version)" PACKAGE_STRING="GRUB $(deb_version)" \
 	CC=$(CC) TARGET_CC=$(CC) \
+	--libdir=\$${prefix}/lib --libexecdir=\$${prefix}/lib \
 	--enable-grub-mkfont \
 	--disable-grub-emu-usb
 substvars =
@@ -128,7 +134,7 @@ endif
 SB_EFI_VENDOR ?= $(shell dpkg-vendor --query vendor | tr '[:upper:]' '[:lower:]')
 
 %:
-	dh $@ --with=bash_completion --parallel
+	dh $@ --with=bash_completion
 
 override_dh_auto_configure: $(patsubst %,configure/%,$(BUILD_PACKAGES))
 
@@ -152,7 +158,7 @@ install/grub-emu: package_bin = grub-emu
 install/grub-emu: package_dbg = grub-emu-dbg
 install/%: export DH_OPTIONS = -p$(package) -Bobj/$(patsubst grub-common,grub-$(COMMON_PLATFORM),$(package))
 
-debian/stamps/autogen: autogen.sh configure.ac Makefile.util.def grub-core/Makefile.core.def
+override_dh_autoreconf:
 	mkdir -p debian/stamps
 	rm -rf debian/grub-extras-enabled
 	mkdir debian/grub-extras-enabled
@@ -161,7 +167,6 @@ debian/stamps/autogen: autogen.sh configure.ac Makefile.util.def grub-core/Makef
 	done
 	env -u DH_OPTIONS GRUB_CONTRIB=$(CURDIR)/debian/grub-extras-enabled \
 		dh_autoreconf -- ./autogen.sh
-	touch $@
 
 debian/stamps/configure-grub-common: debian/stamps/configure-grub-$(COMMON_PLATFORM)
 	touch $@
@@ -169,37 +174,37 @@ debian/stamps/configure-grub-common: debian/stamps/configure-grub-$(COMMON_PLATF
 debian/stamps/build-grub-common: debian/stamps/build-grub-$(COMMON_PLATFORM)
 	touch $@
 
-debian/stamps/configure-grub-none debian/stamps/configure-grub-pc debian/stamps/configure-grub-ieee1275 debian/stamps/configure-grub-coreboot debian/stamps/configure-grub-emu debian/stamps/configure-grub-uboot debian/stamps/configure-grub-yeeloong: debian/stamps/autogen
+debian/stamps/configure-grub-none debian/stamps/configure-grub-pc debian/stamps/configure-grub-ieee1275 debian/stamps/configure-grub-coreboot debian/stamps/configure-grub-emu debian/stamps/configure-grub-uboot debian/stamps/configure-grub-yeeloong:
 	mkdir -p debian/stamps obj/$(package)
 	dh_auto_configure -- $(confflags) --with-platform=$(subst grub-,,$(package))
 	touch $@
 
 # This name scheme leaves room for things like amd32 someday
-debian/stamps/configure-grub-efi-ia32: debian/stamps/autogen
+debian/stamps/configure-grub-efi-ia32:
 	mkdir -p debian/stamps obj/$(package)
 	dh_auto_configure -- $(confflags) --with-platform=efi --target=i386-pe --program-prefix=""
 	touch $@
-debian/stamps/configure-grub-efi-amd64: debian/stamps/autogen
+debian/stamps/configure-grub-efi-amd64:
 	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=efi --target=amd64-pe --program-prefix=""
 	touch $@
-debian/stamps/configure-grub-efi-ia64 debian/stamps/configure-grub-efi-arm debian/stamps/configure-grub-efi-arm64: debian/stamps/autogen
+debian/stamps/configure-grub-efi-ia64 debian/stamps/configure-grub-efi-arm debian/stamps/configure-grub-efi-arm64:
 	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=efi
 	touch $@
 
-debian/stamps/configure-grub-xen-i386 debian/stamps/configure-grub-xen-amd64: debian/stamps/autogen
+debian/stamps/configure-grub-xen-i386 debian/stamps/configure-grub-xen-amd64:
 	mkdir -p debian/stamps obj/$(package)
 	dh_auto_configure -- $(confflags) --with-platform=xen --target=$(subst debian/stamps/configure-grub-xen-,,$@) --program-prefix=""
 	touch $@
-debian/stamps/configure-grub-xen-pvh-i386: debian/stamps/autogen
+debian/stamps/configure-grub-xen-pvh-i386:
 	mkdir -p debian/stamps obj/$(package)
 	dh_auto_configure -- $(confflags) --with-platform=xen_pvh --target=i386 --program-prefix=""
 	touch $@
 debian/stamps/configure-grub-xen: debian/stamps/configure-grub-xen-i386 debian/stamps/configure-grub-xen-amd64 debian/stamps/configure-grub-xen-pvh-i386
 	touch $@
 
-debian/stamps/configure-grub-firmware-qemu: debian/stamps/autogen
+debian/stamps/configure-grub-firmware-qemu:
 	mkdir -p debian/stamps $(subst debian/stamps/configure-,obj/,$@)
 	dh_auto_configure -- $(confflags) --with-platform=qemu
 	touch $@
@@ -555,7 +560,6 @@ override_dh_auto_clean:
 	-rm -f contrib grub-core/contrib
 
 override_dh_clean:
-	dh_autoreconf_clean
 	dh_clean
 
 	chmod +x debian/{bug-script,grub.d/*,legacy/*,kernel/*}

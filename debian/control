@@ -3,10 +3,8 @@ Section: admin
 Priority: optional
 Maintainer: GRUB Maintainers <pkg-grub-devel@alioth-lists.debian.net>
 Uploaders: Felix Zielcke <fzielcke@z-51.de>, Jordi Mallach <jordi@debian.org>, Colin Watson <cjwatson@debian.org>, Ian Campbell <ijc@debian.org>
-Build-Depends: debhelper (>= 7.4.2~),
+Build-Depends: debhelper (>= 10~),
  patchutils,
- dh-autoreconf,
- automake,
  python,
  flex,
  bison,
