@@ -1,4 +1,3 @@
-.pc
 00_header
 10_*
 20_linux_xen
@@ -28,7 +27,6 @@ config.sub
 configure
 core_compress_test
 DISTLIST
-debian/grub-extras/*/conf/*.mk
 docs/*.info
 docs/stamp-vti
 docs/version.texi
