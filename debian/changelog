@@ -9,6 +9,9 @@ grub2 (2.02+dfsg1-11) UNRELEASED; urgency=medium
   [ Steve McIntyre ]
   * Make grub-efi-amd64-signed recommend shim-signed (closes: #919067).
 
+  [ Debconf translations ]
+  * [de] German (Helge Kreutzmann and Holger Wansing; closes: #921018).
+
  -- Colin Watson <cjwatson@debian.org>  Sat, 12 Jan 2019 10:44:52 +0000
 
 grub2 (2.02+dfsg1-10) unstable; urgency=medium
