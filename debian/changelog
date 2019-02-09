@@ -9,6 +9,10 @@ grub2 (2.02+dfsg1-11) UNRELEASED; urgency=medium
   [ Steve McIntyre ]
   * Make grub-efi-amd64-signed recommend shim-signed (closes: #919067).
 
+  [ Jeroen Dekkers ]
+  * Initialize keyboard in at_keyboard module init if keyboard is ready
+    (closes: #741464).
+
   [ Debconf translations ]
   * [de] German (Helge Kreutzmann and Holger Wansing; closes: #921018).
 

@@ -122,3 +122,4 @@ xen-pvh-install.patch
 xen-pvh-configure.patch
 mkimage-simplify-header-size-logic.patch
 mkimage-arm64-efi-align-first-section-to-page.patch
+at-keyboard-module-init.patch
