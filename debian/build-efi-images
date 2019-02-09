@@ -99,6 +99,7 @@ CD_MODULES="
 	gfxterm_background
 	gzio
 	halt
+	help
 	hfsplus
 	iso9660
 	jpeg
@@ -106,6 +107,7 @@ CD_MODULES="
 	loadenv
 	loopback
 	linux
+	ls
 	lsefi
 	lsefimmap
 	lsefisystab
