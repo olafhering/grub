@@ -21,6 +21,16 @@
 
 	.text
 	.align	4
+	/* The a.out header, as binutils decided to drop a.out
+         */
+	.word 0x1030107                        /* A_MAGIC */
+	.word 512 - GRUB_BOOT_AOUT_HEADER_SIZE /* text size */
+	.word 0                                /* data size */
+	.word 0                                /* bss size */
+	.word 0                                /* symbol table size */
+	.word _start                           /* entry point */
+	.word 0                                /* text relocations */
+	.word 0                                /* data relocations */
 	.globl	_start
 _start:
 	/* OF CIF entry point arrives in %o4 */
@@ -41,9 +51,9 @@ pic_base:
 	 * After loading in that block we will execute it by jumping to the
 	 * load address plus the size of the prepended A.OUT header (32 bytes).
 	 */
-	.org GRUB_BOOT_MACHINE_BOOT_DEVPATH
+	.org GRUB_BOOT_MACHINE_BOOT_DEVPATH + GRUB_BOOT_AOUT_HEADER_SIZE
 boot_path:
-	.org GRUB_BOOT_MACHINE_KERNEL_BYTE
+	.org GRUB_BOOT_MACHINE_KERNEL_BYTE + GRUB_BOOT_AOUT_HEADER_SIZE
 boot_path_end:
 kernel_byte:		.xword (2 << 9)
 kernel_address:		.word  GRUB_BOOT_MACHINE_KERNEL_ADDR
@@ -52,7 +62,7 @@ kernel_address:		.word  GRUB_BOOT_MACHINE_KERNEL_ADDR
 #define boot_path_end (_start + 1024)
 #include <grub/offsets.h>
 
-	.org 8
+	.org 8 + GRUB_BOOT_AOUT_HEADER_SIZE
 kernel_byte:		.xword (2 << 9)
 kernel_size:	        .word  512
 kernel_address:		.word  GRUB_BOOT_SPARC64_IEEE1275_IMAGE_ADDRESS
