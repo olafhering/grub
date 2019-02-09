@@ -14,6 +14,10 @@ grub2 (2.02+dfsg1-11) UNRELEASED; urgency=medium
   * Initialize keyboard in at_keyboard module init if keyboard is ready
     (closes: #741464).
 
+  [ John Paul Adrian Glaubitz ]
+  * Include a.out header in assembly of sparc64 boot loader (closes:
+    #921249).
+
   [ Debconf translations ]
   * [de] German (Helge Kreutzmann and Holger Wansing; closes: #921018).
 

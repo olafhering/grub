@@ -124,3 +124,4 @@ mkimage_arm-efi_Use_EFI32_HEADER_SIZE.patch
 mkimage_Align_efi_sections_on_4k_boundary.patch
 mkimage_clarify_file_alignment_efi.patch
 at-keyboard-module-init.patch
+sparc64-aout-fix.patch
