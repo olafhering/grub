@@ -1,0 +1,78 @@
+From 6427cc7c960f320163674e549d5e64f2a5ce65c0 Mon Sep 17 00:00:00 2001
+From: Alexander Graf <agraf@suse.de>
+Date: Mon, 28 Jan 2019 14:35:29 +0100
+Subject: mkimage: Clarify file alignment in efi case
+
+There are a few spots in the PE generation code for EFI binaries that uses
+the section alignment rather than file alignment, even though the alignment
+is really only file bound.
+
+Replace those cases with the file alignment constant instead.
+
+Reported-by: Daniel Kiper <dkiper@net-space.pl>
+Signed-off-by: Alexander Graf <agraf@suse.de>
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+Tested-by: Julien ROBIN <julien.robin28@free.fr>
+
+Origin: upstream, https://git.savannah.gnu.org/cgit/grub.git/commit/?id=9223eff8f8025511938c7eec908d60bdaa74106a
+Bug-Debian: https://bugs.debian.org/919012
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/1812317
+Last-Update: 2019-02-09
+
+Patch-Name: mkimage_clarify_file_alignment_efi.patch
+---
+ util/mkimage.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/util/mkimage.c b/util/mkimage.c
+index 7621c911d..7f366c3d2 100644
+--- a/util/mkimage.c
++++ b/util/mkimage.c
+@@ -66,14 +66,14 @@
+ 				    + sizeof (struct grub_pe32_coff_header) \
+ 				    + sizeof (struct grub_pe32_optional_header) \
+ 				    + 4 * sizeof (struct grub_pe32_section_table), \
+-				    GRUB_PE32_SECTION_ALIGNMENT)
++				    GRUB_PE32_FILE_ALIGNMENT)
+ 
+ #define EFI64_HEADER_SIZE ALIGN_UP (GRUB_PE32_MSDOS_STUB_SIZE		\
+ 				    + GRUB_PE32_SIGNATURE_SIZE		\
+ 				    + sizeof (struct grub_pe32_coff_header) \
+ 				    + sizeof (struct grub_pe64_optional_header) \
+ 				    + 4 * sizeof (struct grub_pe32_section_table), \
+-				    GRUB_PE32_SECTION_ALIGNMENT)
++				    GRUB_PE32_FILE_ALIGNMENT)
+ 
+ static const struct grub_install_image_target_desc image_targets[] =
+   {
+@@ -1170,10 +1170,10 @@ grub_install_generate_image (const char *dir, const char *prefix,
+ 	  header_size = EFI64_HEADER_SIZE;
+ 
+ 	reloc_addr = ALIGN_UP (header_size + core_size,
+-			       image_target->section_align);
++			       GRUB_PE32_FILE_ALIGNMENT);
+ 
+ 	pe_size = ALIGN_UP (reloc_addr + layout.reloc_size,
+-			    image_target->section_align);
++			    GRUB_PE32_FILE_ALIGNMENT);
+ 	pe_img = xmalloc (reloc_addr + layout.reloc_size);
+ 	memset (pe_img, 0, header_size);
+ 	memcpy ((char *) pe_img + header_size, core_img, core_size);
+@@ -1223,7 +1223,7 @@ grub_install_generate_image (const char *dir, const char *prefix,
+ 
+ 	    o->image_base = 0;
+ 	    o->section_alignment = grub_host_to_target32 (image_target->section_align);
+-	    o->file_alignment = grub_host_to_target32 (image_target->section_align);
++	    o->file_alignment = grub_host_to_target32 (GRUB_PE32_FILE_ALIGNMENT);
+ 	    o->image_size = grub_host_to_target32 (pe_size);
+ 	    o->header_size = grub_host_to_target32 (header_size);
+ 	    o->subsystem = grub_host_to_target16 (GRUB_PE32_SUBSYSTEM_EFI_APPLICATION);
+@@ -1258,7 +1258,7 @@ grub_install_generate_image (const char *dir, const char *prefix,
+ 	    o->code_base = grub_cpu_to_le32 (header_size);
+ 	    o->image_base = 0;
+ 	    o->section_alignment = grub_host_to_target32 (image_target->section_align);
+-	    o->file_alignment = grub_host_to_target32 (image_target->section_align);
++	    o->file_alignment = grub_host_to_target32 (GRUB_PE32_FILE_ALIGNMENT);
+ 	    o->image_size = grub_host_to_target32 (pe_size);
+ 	    o->header_size = grub_host_to_target32 (header_size);
+ 	    o->subsystem = grub_host_to_target16 (GRUB_PE32_SUBSYSTEM_EFI_APPLICATION);

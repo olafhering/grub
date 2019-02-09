@@ -120,6 +120,7 @@ xen-pvh-elfnote-defines.patch
 xen-pvh-mkimage.patch
 xen-pvh-install.patch
 xen-pvh-configure.patch
-mkimage-simplify-header-size-logic.patch
-mkimage-arm64-efi-align-first-section-to-page.patch
+mkimage_arm-efi_Use_EFI32_HEADER_SIZE.patch
+mkimage_Align_efi_sections_on_4k_boundary.patch
+mkimage_clarify_file_alignment_efi.patch
 at-keyboard-module-init.patch

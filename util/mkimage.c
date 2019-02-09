@@ -39,7 +39,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <grub/efi/memory.h>
 #include <grub/efi/pe32.h>
 #include <grub/uboot/image.h>
 #include <grub/arm/reloc.h>
@@ -67,14 +66,14 @@
 				    + sizeof (struct grub_pe32_coff_header) \
 				    + sizeof (struct grub_pe32_optional_header) \
 				    + 4 * sizeof (struct grub_pe32_section_table), \
-				    GRUB_PE32_SECTION_ALIGNMENT)
+				    GRUB_PE32_FILE_ALIGNMENT)
 
 #define EFI64_HEADER_SIZE ALIGN_UP (GRUB_PE32_MSDOS_STUB_SIZE		\
 				    + GRUB_PE32_SIGNATURE_SIZE		\
 				    + sizeof (struct grub_pe32_coff_header) \
 				    + sizeof (struct grub_pe64_optional_header) \
 				    + 4 * sizeof (struct grub_pe32_section_table), \
-				    GRUB_PE32_SECTION_ALIGNMENT)
+				    GRUB_PE32_FILE_ALIGNMENT)
 
 static const struct grub_install_image_target_desc image_targets[] =
   {
@@ -564,12 +563,7 @@ static const struct grub_install_image_target_desc image_targets[] =
       .decompressor_uncompressed_size = TARGET_NO_FIELD,
       .decompressor_uncompressed_addr = TARGET_NO_FIELD,
       .section_align = GRUB_PE32_SECTION_ALIGNMENT,
-      .vaddr_offset = ALIGN_UP (GRUB_PE32_MSDOS_STUB_SIZE
-                                + GRUB_PE32_SIGNATURE_SIZE
-                                + sizeof (struct grub_pe32_coff_header)
-                                + sizeof (struct grub_pe32_optional_header)
-                                + 4 * sizeof (struct grub_pe32_section_table),
-                                GRUB_PE32_SECTION_ALIGNMENT),
+      .vaddr_offset = EFI32_HEADER_SIZE,
       .pe_target = GRUB_PE32_MACHINE_ARMTHUMB_MIXED,
       .elf_target = EM_ARM,
     },
@@ -585,7 +579,7 @@ static const struct grub_install_image_target_desc image_targets[] =
       .decompressor_uncompressed_size = TARGET_NO_FIELD,
       .decompressor_uncompressed_addr = TARGET_NO_FIELD,
       .section_align = GRUB_PE32_SECTION_ALIGNMENT,
-      .vaddr_offset = GRUB_EFI_PAGE_SIZE,
+      .vaddr_offset = EFI64_HEADER_SIZE,
       .pe_target = GRUB_PE32_MACHINE_ARM64,
       .elf_target = EM_AARCH64,
     },
@@ -1170,13 +1164,16 @@ grub_install_generate_image (const char *dir, const char *prefix,
 	int header_size;
 	int reloc_addr;
 
-	header_size = image_target->vaddr_offset;
+	if (image_target->voidp_sizeof == 4)
+	  header_size = EFI32_HEADER_SIZE;
+	else
+	  header_size = EFI64_HEADER_SIZE;
 
 	reloc_addr = ALIGN_UP (header_size + core_size,
-			       image_target->section_align);
+			       GRUB_PE32_FILE_ALIGNMENT);
 
 	pe_size = ALIGN_UP (reloc_addr + layout.reloc_size,
-			    image_target->section_align);
+			    GRUB_PE32_FILE_ALIGNMENT);
 	pe_img = xmalloc (reloc_addr + layout.reloc_size);
 	memset (pe_img, 0, header_size);
 	memcpy ((char *) pe_img + header_size, core_img, core_size);
@@ -1226,7 +1223,7 @@ grub_install_generate_image (const char *dir, const char *prefix,
 
 	    o->image_base = 0;
 	    o->section_alignment = grub_host_to_target32 (image_target->section_align);
-	    o->file_alignment = grub_host_to_target32 (image_target->section_align);
+	    o->file_alignment = grub_host_to_target32 (GRUB_PE32_FILE_ALIGNMENT);
 	    o->image_size = grub_host_to_target32 (pe_size);
 	    o->header_size = grub_host_to_target32 (header_size);
 	    o->subsystem = grub_host_to_target16 (GRUB_PE32_SUBSYSTEM_EFI_APPLICATION);
@@ -1261,7 +1258,7 @@ grub_install_generate_image (const char *dir, const char *prefix,
 	    o->code_base = grub_cpu_to_le32 (header_size);
 	    o->image_base = 0;
 	    o->section_alignment = grub_host_to_target32 (image_target->section_align);
-	    o->file_alignment = grub_host_to_target32 (image_target->section_align);
+	    o->file_alignment = grub_host_to_target32 (GRUB_PE32_FILE_ALIGNMENT);
 	    o->image_size = grub_host_to_target32 (pe_size);
 	    o->header_size = grub_host_to_target32 (header_size);
 	    o->subsystem = grub_host_to_target16 (GRUB_PE32_SUBSYSTEM_EFI_APPLICATION);
