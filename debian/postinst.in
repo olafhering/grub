@@ -1,6 +1,18 @@
 #!/bin/bash
 set -e
 
+# Apply a sed expression using extended regular expressions in place to a
+# file, if it exists.  The file is the first argument in order to work
+# neatly with apply_conf_tweaks.
+sed_conf()
+{
+  if [ -e "$1" ]; then
+    sed -i -re "$2" "$1"
+  fi
+}
+
+# Substitute a debconf answer into a configuration file with the syntax of
+# /etc/default/grub.
 merge_debconf_into_conf()
 {
   local tmpfile; tmpfile="$1"
@@ -16,6 +28,21 @@ merge_debconf_into_conf()
     echo >> "$tmpfile"
     echo "${setting}=\"${value}\"" >> "$tmpfile"
   fi
+}
+
+# Apply the same configuration tweak to multiple files.
+apply_conf_tweaks()
+{
+  local files; files="$1"
+  local cmd; cmd="$2"
+  local file
+  shift 2
+
+  for file in $files; do
+    if [ -e "$file" ]; then
+      "$cmd" "$file" "$@"
+    fi
+  done
 }
 
 get_wubi_device()
@@ -371,16 +398,37 @@ case "$1" in
     trap "rm -f ${tmp_default_grub}" EXIT
     cp -p /usr/share/grub/default/grub ${tmp_default_grub}
 
-    merge_debconf_into_conf "$tmp_default_grub" GRUB_CMDLINE_LINUX grub2/linux_cmdline
-    merge_debconf_into_conf "$tmp_default_grub" GRUB_CMDLINE_LINUX_DEFAULT grub2/linux_cmdline_default
+    # Apply configuration from debconf to both the template configuration
+    # file (so that any ucf conflict resolution is shown with the configured
+    # values in place) and to /etc/default/grub (in order that debconf
+    # changes are effective even if we have to use UCF_FORCE_CONFFOLD=1).
+    #
+    # The config script takes care to read current values from
+    # /etc/default/grub before possibly prompting the user to change them,
+    # so this should comply with policy's strictures on configuration file
+    # handling: the debconf prompts constitute an explicit administrator
+    # request to change the configuration file.
+    #
+    # If the administrator changes their answers to any of these debconf
+    # questions in the same run as a change to the template, then they'll
+    # get a spurious ucf conflict.  To fix this, we'd need to keep track of
+    # the old answers, substitute the old answers into $tmp_default_grub,
+    # and substitute the new answers into /etc/default/grub.  Fortunately,
+    # debconf won't normally ask these questions again during an upgrade, so
+    # this should be rare in practice.
+
+    conf_files="$tmp_default_grub /etc/default/grub"
+
+    apply_conf_tweaks "$conf_files" merge_debconf_into_conf GRUB_CMDLINE_LINUX grub2/linux_cmdline
+    apply_conf_tweaks "$conf_files" merge_debconf_into_conf GRUB_CMDLINE_LINUX_DEFAULT grub2/linux_cmdline_default
 
     case @PACKAGE@ in
       grub-pc)
-        merge_debconf_into_conf "$tmp_default_grub" GRUB_TIMEOUT grub-pc/timeout
-        sed -i -e 's/^\(GRUB_TIMEOUT=\)"\([0-9][0-9]*\)"/\1\2/' "$tmp_default_grub"
+        apply_conf_tweaks "$conf_files" merge_debconf_into_conf GRUB_TIMEOUT grub-pc/timeout
+        apply_conf_tweaks "$conf_files" sed_conf 's/^(GRUB_TIMEOUT=)"([0-9][0-9]*)"/\1\2/'
         db_get grub-pc/hidden_timeout
         if [ "$RET" = false ]; then
-          sed -i -e 's/^GRUB_HIDDEN_TIMEOUT=/#&/' "$tmp_default_grub"
+          apply_conf_tweaks "$conf_files" sed_conf 's/^GRUB_HIDDEN_TIMEOUT=/#&/'
         fi
       ;;
     esac
@@ -390,7 +438,8 @@ case "$1" in
     # debconf-based customisations on top of the template configuration
     # file.
     if [ -e /var/lib/grub/ucf/grub.previous ] && \
-       cmp -s /usr/share/grub/default/grub /var/lib/grub/ucf/grub.previous; then
+       cmp -s /usr/share/grub/default/grub /var/lib/grub/ucf/grub.previous && \
+       [ -e /etc/default/grub ]; then
       ucf_env=UCF_FORCE_CONFFOLD=1
     else
       ucf_env=

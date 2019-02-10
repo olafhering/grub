@@ -6,6 +6,9 @@ grub2 (2.02+dfsg1-11) UNRELEASED; urgency=medium
   * Upgrade to debhelper v10.
   * Set Rules-Requires-Root: no.
   * Add help and ls modules to signed UEFI images (closes: #919955).
+  * Fix application of answers from dpkg-reconfigure to /etc/default/grub
+    (based loosely on a patch by Steve Langasek, for which thanks; closes:
+    #921702).
 
   [ Steve McIntyre ]
   * Make grub-efi-amd64-signed recommend shim-signed (closes: #919067).
