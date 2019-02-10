@@ -18,6 +18,10 @@ grub2 (2.02+dfsg1-11) UNRELEASED; urgency=medium
   * Include a.out header in assembly of sparc64 boot loader (closes:
     #921249).
 
+  [ Hervé Werner ]
+  * Fix setup on Secure Boot systems where cryptodisk is in use (closes:
+    #917117).
+
   [ Debconf translations ]
   * [de] German (Helge Kreutzmann and Holger Wansing; closes: #921018).
 

@@ -1502,6 +1502,23 @@ main (int argc, char *argv[])
 	  || uefi_secure_boot)
 	{
 	  char *uuid = NULL;
+
+	  if (uefi_secure_boot && config.is_cryptodisk_enabled)
+	    {
+	      if (grub_dev->disk)
+		probe_cryptodisk_uuid (grub_dev->disk);
+
+	      for (curdrive = grub_drives + 1; *curdrive; curdrive++)
+		{
+		  grub_device_t dev = grub_device_open (*curdrive);
+		  if (!dev)
+		    continue;
+		  if (dev->disk)
+		    probe_cryptodisk_uuid (dev->disk);
+		  grub_device_close (dev);
+		}
+	    }
+
 	  /*  generic method (used on coreboot and ata mod).  */
 	  if (!force_file_id && grub_fs->uuid && grub_fs->uuid (grub_dev,
 								&uuid))
