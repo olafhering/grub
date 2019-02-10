@@ -1,4 +1,4 @@
-grub2 (2.02+dfsg1-11) UNRELEASED; urgency=medium
+grub2 (2.02+dfsg1-11) unstable; urgency=medium
 
   [ Colin Watson ]
   * Apply patches from Alexander Graf to set arm64-efi code offset to
@@ -28,7 +28,7 @@ grub2 (2.02+dfsg1-11) UNRELEASED; urgency=medium
   [ Debconf translations ]
   * [de] German (Helge Kreutzmann and Holger Wansing; closes: #921018).
 
- -- Colin Watson <cjwatson@debian.org>  Sat, 12 Jan 2019 10:44:52 +0000
+ -- Colin Watson <cjwatson@debian.org>  Sun, 10 Feb 2019 18:53:41 +0000
 
 grub2 (2.02+dfsg1-10) unstable; urgency=medium
 
