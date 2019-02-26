@@ -114,8 +114,21 @@ grub_install_get_default_arm_platform (void)
   grub_util_info ("Looking for /sys/firmware/efi ..");
   if (is_not_empty_directory ("/sys/firmware/efi"))
     {
+      const char *pkglibdir = grub_util_get_pkglibdir ();
+      const char *platform;
+      char *pd;
+      int found;
+
       grub_util_info ("...found");
-      return "arm-efi";
+      platform = "arm-efi";
+
+      pd = grub_util_path_concat (2, pkglibdir, platform);
+      found = grub_util_is_directory (pd);
+      free (pd);
+      if (found)
+	return platform;
+      else
+	grub_util_info ("... but %s platform not available", platform);
     }
 
   grub_util_info ("... not found");
