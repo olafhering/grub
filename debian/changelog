@@ -13,6 +13,9 @@ grub2 (2.02+dfsg1-12) UNRELEASED; urgency=medium
   [ Leif Lindholm ]
   * arm64/efi: Fix grub_efi_get_ram_base().
 
+  [ Steve McIntyre ]
+  * grub-install: Check for arm-efi as a default target (closes: #922104).
+
  -- Colin Watson <cjwatson@debian.org>  Tue, 26 Feb 2019 09:51:36 +0000
 
 grub2 (2.02+dfsg1-11) unstable; urgency=medium

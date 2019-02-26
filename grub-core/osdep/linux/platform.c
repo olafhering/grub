@@ -101,6 +101,41 @@ read_platform_size (void)
 }
 
 const char *
+grub_install_get_default_arm_platform (void)
+{
+  /*
+   * On Linux, we need the efivars kernel modules. If no EFI is available this
+   * module just does nothing besides a small hello and if we detect efi we'll
+   * load it anyway later. So it should be safe to try to load it here.
+   */
+  grub_util_exec_redirect_all ((const char * []){ "modprobe", "efivars", NULL },
+			       NULL, NULL, "/dev/null");
+
+  grub_util_info ("Looking for /sys/firmware/efi ..");
+  if (is_not_empty_directory ("/sys/firmware/efi"))
+    {
+      const char *pkglibdir = grub_util_get_pkglibdir ();
+      const char *platform;
+      char *pd;
+      int found;
+
+      grub_util_info ("...found");
+      platform = "arm-efi";
+
+      pd = grub_util_path_concat (2, pkglibdir, platform);
+      found = grub_util_is_directory (pd);
+      free (pd);
+      if (found)
+	return platform;
+      else
+	grub_util_info ("... but %s platform not available", platform);
+    }
+
+  grub_util_info ("... not found");
+  return "arm-uboot";
+}
+
+const char *
 grub_install_get_default_x86_platform (void)
 { 
   /*
