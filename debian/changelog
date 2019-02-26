@@ -1,5 +1,6 @@
 grub2 (2.02+dfsg1-12) UNRELEASED; urgency=medium
 
+  [ Colin Watson ]
   * Remove code to migrate grub-pc/install_devices to persistent device
     names under /dev/disk/by-id/.  This migration happened in
     1.98+20100702-1, which was in squeeze (four stable releases ago), so we
@@ -8,6 +9,9 @@ grub2 (2.02+dfsg1-12) UNRELEASED; urgency=medium
     grub-pc/install_devices_disks_changed and the user chooses not to
     install to any devices, so that we can recover from temporary bugs that
     cause /dev/disk/by-id/ paths to change (closes: #919029).
+
+  [ Leif Lindholm ]
+  * arm64/efi: Fix grub_efi_get_ram_base().
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 26 Feb 2019 09:51:36 +0000
 
