@@ -129,3 +129,4 @@ uefi-secure-boot-cryptomount.patch
 arm64-fix-grub_efi_get_ram_base.patch
 grub-install-arm-default-target.patch
 install_efi_fallback_arm.patch
+freebsd-ebr-partition-offset.patch
