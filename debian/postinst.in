@@ -578,7 +578,14 @@ case "$1" in
               fi
             done
 
-            if [ "$question" != grub-pc/install_devices ]; then
+            if [ "$question" != grub-pc/install_devices ] && [ "$RET" ]; then
+              # XXX cjwatson 2019-02-26: The description of
+              # grub-pc/install_devices_disks_changed ought to explain that
+              # selecting no devices will leave the configuration unchanged
+              # so that you'll be prompted again next time, but it's a bit
+              # close to the Debian 10 release to be introducing new
+              # translatable text.  For now, it should be sufficient to
+              # avoid losing configuration data.
               db_set grub-pc/install_devices "$RET"
               db_fset grub-pc/install_devices seen true
             fi
@@ -619,7 +626,7 @@ case "$1" in
               fi
             fi
 
-            db_get grub-pc/install_devices
+            db_get "$question"
             if [ -z "$RET" ]; then
               # Reset the seen flag if the current answer is false, since
               # otherwise we'll loop with no indication of why.
