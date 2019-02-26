@@ -9,6 +9,8 @@ grub2 (2.02+dfsg1-12) UNRELEASED; urgency=medium
     grub-pc/install_devices_disks_changed and the user chooses not to
     install to any devices, so that we can recover from temporary bugs that
     cause /dev/disk/by-id/ paths to change (closes: #919029).
+  * debian/signing-template.json.in: Add trusted_certs key (empty, since
+    GRUB has no hardcoded list of trusted certificates).
 
   [ Leif Lindholm ]
   * arm64/efi: Fix grub_efi_get_ram_base().

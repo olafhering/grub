@@ -1,4 +1,5 @@
 {"@pkg_unsigned@": {
+	"trusted_certs": [],
 	"files": [
 		{"sig_type": "efi", "file": "usr/lib/grub/@efi_platform@/monolithic/gcd@efi@.efi"},
 		{"sig_type": "efi", "file": "usr/lib/grub/@efi_platform@/monolithic/grubnet@efi@.efi"},
