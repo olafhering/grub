@@ -11,6 +11,7 @@ grub2 (2.02+dfsg1-12) UNRELEASED; urgency=medium
     cause /dev/disk/by-id/ paths to change (closes: #919029).
   * debian/signing-template.json.in: Add trusted_certs key (empty, since
     GRUB has no hardcoded list of trusted certificates).
+  * util: Detect more I/O errors (closes: #922741).
 
   [ Leif Lindholm ]
   * arm64/efi: Fix grub_efi_get_ram_base().
