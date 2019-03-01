@@ -1,4 +1,4 @@
-grub2 (2.02+dfsg1-12) UNRELEASED; urgency=medium
+grub2 (2.02+dfsg1-12) unstable; urgency=medium
 
   [ Colin Watson ]
   * Remove code to migrate grub-pc/install_devices to persistent device
@@ -23,7 +23,7 @@ grub2 (2.02+dfsg1-12) UNRELEASED; urgency=medium
   * osdep/freebsd: Fix partition calculation for EBR entries (closes:
     #923253).
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 26 Feb 2019 09:51:36 +0000
+ -- Colin Watson <cjwatson@debian.org>  Fri, 01 Mar 2019 12:34:45 +0000
 
 grub2 (2.02+dfsg1-11) unstable; urgency=medium
 
