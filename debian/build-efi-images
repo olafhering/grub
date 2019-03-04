@@ -121,6 +121,7 @@ CD_MODULES="
 	password_pbkdf2
 	png
 	reboot
+	regexp
 	search
 	search_fs_uuid
 	search_fs_file

@@ -1,3 +1,9 @@
+grub2 (2.02+dfsg1-13) UNRELEASED; urgency=medium
+
+  * Add regexp module to signed UEFI images.
+
+ -- Colin Watson <cjwatson@debian.org>  Mon, 04 Mar 2019 17:25:27 +0000
+
 grub2 (2.02+dfsg1-12) unstable; urgency=medium
 
   [ Colin Watson ]
