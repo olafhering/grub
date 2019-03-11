@@ -41,6 +41,11 @@ configuring the GRUB.
 * Other standard GNU/Unix tools
 * a libc with large file support (e.g. glibc 2.1 or later)
 
+On Unix-based systems, you also need:
+
+* libefivar (recommended)
+* libefiboot (recommended; your OS may ship this together with libefivar)
+
 On GNU/Linux, you also need:
 
 * libdevmapper 1.02.34 or later (recommended)
