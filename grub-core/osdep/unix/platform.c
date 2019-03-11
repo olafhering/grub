@@ -19,15 +19,12 @@
 #include <config.h>
 
 #include <grub/util/install.h>
-#include <grub/emu/hostdisk.h>
 #include <grub/util/misc.h>
 #include <grub/misc.h>
 #include <grub/i18n.h>
 #include <grub/emu/exec.h>
 #include <sys/types.h>
-#include <dirent.h>
 #include <string.h>
-#include <errno.h>
 
 static char *
 get_ofpathname (const char *dev)
@@ -78,102 +75,19 @@ get_ofpathname (const char *dev)
 		   dev);
 }
 
-static int
-grub_install_remove_efi_entries_by_distributor (const char *efi_distributor)
-{
-  int fd;
-  pid_t pid = grub_util_exec_pipe ((const char * []){ "efibootmgr", NULL }, &fd);
-  char *line = NULL;
-  size_t len = 0;
-  int rc = 0;
-
-  if (!pid)
-    {
-      grub_util_warn (_("Unable to open stream from %s: %s"),
-		      "efibootmgr", strerror (errno));
-      return errno;
-    }
-
-  FILE *fp = fdopen (fd, "r");
-  if (!fp)
-    {
-      grub_util_warn (_("Unable to open stream from %s: %s"),
-		      "efibootmgr", strerror (errno));
-      return errno;
-    }
-
-  line = xmalloc (80);
-  len = 80;
-  while (1)
-    {
-      int ret;
-      char *bootnum;
-      ret = getline (&line, &len, fp);
-      if (ret == -1)
-	break;
-      if (grub_memcmp (line, "Boot", sizeof ("Boot") - 1) != 0
-	  || line[sizeof ("Boot") - 1] < '0'
-	  || line[sizeof ("Boot") - 1] > '9')
-	continue;
-      if (!strcasestr (line, efi_distributor))
-	continue;
-      bootnum = line + sizeof ("Boot") - 1;
-      bootnum[4] = '\0';
-      if (!verbosity)
-	rc = grub_util_exec ((const char * []){ "efibootmgr", "-q",
-	      "-b", bootnum,  "-B", NULL });
-      else
-	rc = grub_util_exec ((const char * []){ "efibootmgr",
-	      "-b", bootnum, "-B", NULL });
-    }
-
-  free (line);
-  return rc;
-}
-
 int
 grub_install_register_efi (grub_device_t efidir_grub_dev,
 			   const char *efifile_path,
 			   const char *efi_distributor)
 {
-  const char * efidir_disk;
-  int efidir_part;
-  int ret;
-  efidir_disk = grub_util_biosdisk_get_osdev (efidir_grub_dev->disk);
-  efidir_part = efidir_grub_dev->disk->partition ? efidir_grub_dev->disk->partition->number + 1 : 1;
-
-  if (grub_util_exec_redirect_null ((const char * []){ "efibootmgr", "--version", NULL }))
-    {
-      /* TRANSLATORS: This message is shown when required executable `%s'
-	 isn't found.  */
-      grub_util_error (_("%s: not found"), "efibootmgr");
-    }
-
-  /* On Linux, we need the efivars kernel modules.  */
-#ifdef __linux__
-  grub_util_exec ((const char * []){ "modprobe", "-q", "efivars", NULL });
+#ifdef HAVE_EFIVAR
+  return grub_install_efivar_register_efi (efidir_grub_dev, efifile_path,
+					   efi_distributor);
+#else
+  grub_util_error ("%s",
+		   _("GRUB was not built with efivar support; "
+		     "cannot register EFI boot entry"));
 #endif
-  /* Delete old entries from the same distributor.  */
-  ret = grub_install_remove_efi_entries_by_distributor (efi_distributor);
-  if (ret)
-    return ret;
-
-  char *efidir_part_str = xasprintf ("%d", efidir_part);
-
-  if (!verbosity)
-    ret = grub_util_exec ((const char * []){ "efibootmgr", "-q",
-	  "-c", "-d", efidir_disk,
-	  "-p", efidir_part_str, "-w",
-	  "-L", efi_distributor, "-l", 
-	  efifile_path, NULL });
-  else
-    ret = grub_util_exec ((const char * []){ "efibootmgr",
-	  "-c", "-d", efidir_disk,
-	  "-p", efidir_part_str, "-w",
-	  "-L", efi_distributor, "-l", 
-	  efifile_path, NULL });
-  free (efidir_part_str);
-  return ret;
 }
 
 void
