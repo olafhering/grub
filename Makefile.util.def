@@ -558,6 +558,8 @@ program = {
   common = grub-core/osdep/compress.c;
   extra_dist = grub-core/osdep/unix/compress.c;
   extra_dist = grub-core/osdep/basic/compress.c;
+  common = grub-core/osdep/efivar.c;
+  extra_dist = grub-core/osdep/unix/efivar.c;
   common = util/editenv.c;
   common = grub-core/osdep/blocklist.c;
   common = grub-core/osdep/config.c;
@@ -571,12 +573,15 @@ program = {
   common = grub-core/kern/emu/argp_common.c;
   common = grub-core/osdep/init.c;
 
+  cflags = '$(EFIVAR_CFLAGS)';
+
   ldadd = '$(LIBLZMA)';
   ldadd = libgrubmods.a;
   ldadd = libgrubgcry.a;
   ldadd = libgrubkern.a;
   ldadd = grub-core/lib/gnulib/libgnu.a;
   ldadd = '$(LIBINTL) $(LIBDEVMAPPER) $(LIBUTIL) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
+  ldadd = '$(EFIVAR_LIBS)';
 
   condition = COND_HAVE_EXEC;
 };
@@ -605,6 +610,8 @@ program = {
   extra_dist = grub-core/osdep/basic/no_platform.c;
   extra_dist = grub-core/osdep/unix/platform.c;
   common = grub-core/osdep/compress.c;
+  common = grub-core/osdep/efivar.c;
+  extra_dist = grub-core/osdep/unix/efivar.c;
   common = util/editenv.c;
   common = grub-core/osdep/blocklist.c;
   common = grub-core/osdep/config.c;
@@ -618,12 +625,15 @@ program = {
   common = grub-core/kern/emu/argp_common.c;
   common = grub-core/osdep/init.c;
 
+  cflags = '$(EFIVAR_CFLAGS)';
+
   ldadd = '$(LIBLZMA)';
   ldadd = libgrubmods.a;
   ldadd = libgrubgcry.a;
   ldadd = libgrubkern.a;
   ldadd = grub-core/lib/gnulib/libgnu.a;
   ldadd = '$(LIBINTL) $(LIBDEVMAPPER) $(LIBUTIL) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
+  ldadd = '$(EFIVAR_LIBS)';
 };
 
 program = {
@@ -645,6 +655,8 @@ program = {
   common = grub-core/osdep/platform.c;
   common = grub-core/osdep/platform_unix.c;
   common = grub-core/osdep/compress.c;
+  common = grub-core/osdep/efivar.c;
+  extra_dist = grub-core/osdep/unix/efivar.c;
   common = util/editenv.c;
   common = grub-core/osdep/blocklist.c;
   common = grub-core/osdep/config.c;
@@ -657,12 +669,15 @@ program = {
   common = grub-core/kern/emu/argp_common.c;
   common = grub-core/osdep/init.c;
 
+  cflags = '$(EFIVAR_CFLAGS)';
+
   ldadd = '$(LIBLZMA)';
   ldadd = libgrubmods.a;
   ldadd = libgrubgcry.a;
   ldadd = libgrubkern.a;
   ldadd = grub-core/lib/gnulib/libgnu.a;
   ldadd = '$(LIBINTL) $(LIBDEVMAPPER) $(LIBUTIL) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
+  ldadd = '$(EFIVAR_LIBS)';
 };
 
 program = {
@@ -684,6 +699,8 @@ program = {
   common = grub-core/osdep/platform.c;
   common = grub-core/osdep/platform_unix.c;
   common = grub-core/osdep/compress.c;
+  common = grub-core/osdep/efivar.c;
+  extra_dist = grub-core/osdep/unix/efivar.c;
   common = util/editenv.c;
   common = grub-core/osdep/blocklist.c;
   common = grub-core/osdep/config.c;
@@ -693,12 +710,15 @@ program = {
   common = grub-core/kern/emu/argp_common.c;
   common = grub-core/osdep/init.c;
 
+  cflags = '$(EFIVAR_CFLAGS)';
+
   ldadd = '$(LIBLZMA)';
   ldadd = libgrubmods.a;
   ldadd = libgrubgcry.a;
   ldadd = libgrubkern.a;
   ldadd = grub-core/lib/gnulib/libgnu.a;
   ldadd = '$(LIBINTL) $(LIBDEVMAPPER) $(LIBUTIL) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
+  ldadd = '$(EFIVAR_LIBS)';
 };
 
 script = {
