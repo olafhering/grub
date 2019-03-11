@@ -2059,7 +2059,7 @@ main (int argc, char *argv[])
 					       "\\System\\Library\\CoreServices",
 					       efi_distributor);
 	      if (ret)
-	        grub_util_error (_("efibootmgr failed to register the boot entry: %s"),
+	        grub_util_error (_("failed to register the EFI boot entry: %s"),
 				 strerror (ret));
 	    }
 
@@ -2173,7 +2173,7 @@ main (int argc, char *argv[])
 	  ret = grub_install_register_efi (efidir_grub_dev,
 					   efifile_path, efi_distributor);
 	  if (ret)
-	    grub_util_error (_("efibootmgr failed to register the boot entry: %s"),
+	    grub_util_error (_("failed to register the EFI boot entry: %s"),
 			     strerror (ret));
 	}
       break;

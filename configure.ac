@@ -443,6 +443,18 @@ AC_CHECK_HEADER([util.h], [
 ])
 AC_SUBST([LIBUTIL])
 
+case "$host_os" in
+  cygwin | windows* | mingw32* | aros*)
+    ;;
+  *)
+    # For setting EFI variables in grub-install.
+    PKG_CHECK_MODULES([EFIVAR], [efivar efiboot], [
+      AC_DEFINE([HAVE_EFIVAR], [1],
+                [Define to 1 if you have the efivar and efiboot libraries.])
+    ], [:])
+    ;;
+esac
+
 AC_CACHE_CHECK([whether -Wtrampolines work], [grub_cv_host_cc_wtrampolines], [
   SAVED_CFLAGS="$CFLAGS"
   CFLAGS="$HOST_CFLAGS -Wtrampolines -Werror"
