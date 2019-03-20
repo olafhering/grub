@@ -1,3 +1,10 @@
+grub2 (2.02+dfsg1-14) UNRELEASED; urgency=medium
+
+  * Make signed packages depend on a matching version of grub-common, in an
+    attempt to prevent incorrect testing migrations (closes: #924814).
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 20 Mar 2019 00:38:30 +0000
+
 grub2 (2.02+dfsg1-13) unstable; urgency=medium
 
   * Add regexp module to signed UEFI images.

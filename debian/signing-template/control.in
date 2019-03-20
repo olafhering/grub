@@ -11,6 +11,7 @@ Rules-Requires-Root: no
 
 Package: @pkg_signed@
 Architecture: @arch@
+Depends: grub-common (= @version_binary@)
 Recommends: shim-signed [amd64]
 Built-Using: grub2 (= @version_binary@)
 Description: GRand Unified Bootloader, version 2 (@arch@ UEFI signed by Debian)
