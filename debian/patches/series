@@ -131,3 +131,4 @@ grub-install-arm-default-target.patch
 install_efi_fallback_arm.patch
 freebsd-ebr-partition-offset.patch
 util-check-errors.patch
+xfs-sparse-inodes.patch
