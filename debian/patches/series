@@ -132,3 +132,5 @@ install_efi_fallback_arm.patch
 freebsd-ebr-partition-offset.patch
 util-check-errors.patch
 xfs-sparse-inodes.patch
+vsnprintf-upper-case-hex.patch
+efi-variable-storage-minimise-writes.patch
