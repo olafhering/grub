@@ -1,4 +1,4 @@
-grub2 (2.02+dfsg1-14) UNRELEASED; urgency=medium
+grub2 (2.02+dfsg1-14) unstable; urgency=medium
 
   * Make signed packages depend on a matching version of grub-common, in an
     attempt to prevent incorrect testing migrations (closes: #924814).
@@ -6,7 +6,7 @@ grub2 (2.02+dfsg1-14) UNRELEASED; urgency=medium
     - xfs: Accept filesystem with sparse inodes (closes: #924760).
   * Minimise writes to EFI variable storage (closes: #891434).
 
- -- Colin Watson <cjwatson@debian.org>  Wed, 20 Mar 2019 00:38:30 +0000
+ -- Colin Watson <cjwatson@debian.org>  Sat, 23 Mar 2019 09:47:10 +0000
 
 grub2 (2.02+dfsg1-13) unstable; urgency=medium
 
