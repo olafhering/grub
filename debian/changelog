@@ -1,3 +1,10 @@
+grub2 (2.02+dfsg1-15) UNRELEASED; urgency=medium
+
+  * Build-depend on libefiboot-dev and libefivar-dev, for EFI variable
+    storage changes.
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 23 Mar 2019 09:52:25 +0000
+
 grub2 (2.02+dfsg1-14) unstable; urgency=medium
 
   * Make signed packages depend on a matching version of grub-common, in an
