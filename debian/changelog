@@ -1,8 +1,8 @@
-grub2 (2.02+dfsg1-16) UNRELEASED; urgency=medium
+grub2 (2.02+dfsg1-16) unstable; urgency=medium
 
   * Fix -Wcast-align diagnostics on ARM.
 
- -- Colin Watson <cjwatson@debian.org>  Sat, 23 Mar 2019 13:48:59 +0000
+ -- Colin Watson <cjwatson@debian.org>  Sat, 23 Mar 2019 23:28:17 +0000
 
 grub2 (2.02+dfsg1-15) unstable; urgency=medium
 
