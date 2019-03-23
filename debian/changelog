@@ -1,10 +1,10 @@
-grub2 (2.02+dfsg1-15) UNRELEASED; urgency=medium
+grub2 (2.02+dfsg1-15) unstable; urgency=medium
 
   * Build-depend on libefiboot-dev and libefivar-dev, for EFI variable
     storage changes.
   * Drop now-unnecessary dependencies on efibootmgr.
 
- -- Colin Watson <cjwatson@debian.org>  Sat, 23 Mar 2019 09:52:25 +0000
+ -- Colin Watson <cjwatson@debian.org>  Sat, 23 Mar 2019 09:56:35 +0000
 
 grub2 (2.02+dfsg1-14) unstable; urgency=medium
 
