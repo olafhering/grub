@@ -1,4 +1,4 @@
-From 649e5a39cc5ddf42f6853a0bf818685a625f7cab Mon Sep 17 00:00:00 2001
+From 3ddfe605a6a472100f529c3d7465bf4eb7fe954d Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 11 Mar 2019 11:17:43 +0000
 Subject: Minimise writes to EFI variable storage
@@ -51,11 +51,11 @@ Patch-Name: efi-variable-storage-minimise-writes.patch
  Makefile.util.def               |  20 ++
  configure.ac                    |  12 +
  grub-core/osdep/efivar.c        |   3 +
- grub-core/osdep/unix/efivar.c   | 503 ++++++++++++++++++++++++++++++++
+ grub-core/osdep/unix/efivar.c   | 508 ++++++++++++++++++++++++++++++++
  grub-core/osdep/unix/platform.c | 100 +------
  include/grub/util/install.h     |   5 +
  util/grub-install.c             |   4 +-
- 8 files changed, 557 insertions(+), 95 deletions(-)
+ 8 files changed, 562 insertions(+), 95 deletions(-)
  create mode 100644 grub-core/osdep/efivar.c
  create mode 100644 grub-core/osdep/unix/efivar.c
 
@@ -213,10 +213,10 @@ index 000000000..d2750e252
 +#endif
 diff --git a/grub-core/osdep/unix/efivar.c b/grub-core/osdep/unix/efivar.c
 new file mode 100644
-index 000000000..2991c71db
+index 000000000..4a58328b4
 --- /dev/null
 +++ b/grub-core/osdep/unix/efivar.c
-@@ -0,0 +1,503 @@
+@@ -0,0 +1,508 @@
 +/*
 + *  GRUB  --  GRand Unified Bootloader
 + *  Copyright (C) 2013,2019 Free Software Foundation, Inc.
@@ -445,57 +445,62 @@ index 000000000..2991c71db
 +  else if (newlist)
 +    {
 +      for (i = 0; i < nentries; ++i)
-+	free (newlist[i]);
++	free_efi_variable (newlist[i]);
 +      free (newlist);
 +    }
 +  return rc;
 +}
 +
++#define GET_ORDER(data, i) \
++  ((uint16_t) ((data)[(i) * 2]) + ((data)[(i) * 2 + 1] << 8))
++#define SET_ORDER(data, i, num) \
++  do { \
++    (data)[(i) * 2] = (num) & 0xFF; \
++    (data)[(i) * 2 + 1] = ((num) >> 8) & 0xFF; \
++  } while (0)
++
 +static void
 +remove_from_boot_order (struct efi_variable *order, uint16_t num)
 +{
-+  uint16_t *data;
 +  unsigned int old_i, new_i;
 +
 +  /* We've got an array (in order->data) of the order.  Squeeze out any
 +     instance of the entry we're deleting by shifting the remainder down.  */
-+  data = (uint16_t *) order->data;
-+
 +  for (old_i = 0, new_i = 0;
 +       old_i < order->data_size / sizeof (uint16_t);
 +       ++old_i)
 +    {
-+      if (data[old_i] != num) {
-+	if (new_i != old_i)
-+	  data[new_i] = data[old_i];
-+	new_i++;
-+      }
++      uint16_t old_num = GET_ORDER (order->data, old_i);
++      if (old_num != num)
++	{
++	  if (new_i != old_i)
++	    SET_ORDER (order->data, new_i, old_num);
++	  ++new_i;
++	}
 +    }
 +
-+  order->data_size = sizeof (data[0]) * new_i;
++  order->data_size = new_i * sizeof (uint16_t);
 +}
 +
 +static void
 +add_to_boot_order (struct efi_variable *order, uint16_t num)
 +{
-+  uint16_t *data;
 +  int i;
 +  size_t new_data_size;
-+  uint16_t *new_data;
++  uint8_t *new_data;
 +
 +  /* Check whether this entry is already in the boot order.  If it is, leave
 +     it alone.  */
-+  data = (uint16_t *) order->data;
 +  for (i = 0; i < order->data_size / sizeof (uint16_t); ++i)
-+    if (data[i] == num)
++    if (GET_ORDER (order->data, i) == num)
 +      return;
 +
 +  new_data_size = order->data_size + sizeof (uint16_t);
 +  new_data = xmalloc (new_data_size);
-+  new_data[0] = num;
-+  memcpy (new_data + 1, order->data, order->data_size);
++  SET_ORDER (new_data, 0, num);
++  memcpy (new_data + sizeof (uint16_t), order->data, order->data_size);
 +  free (order->data);
-+  order->data = (uint8_t *) new_data;
++  order->data = new_data;
 +  order->data_size = new_data_size;
 +}
 +
