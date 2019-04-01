@@ -247,7 +247,7 @@ Description: GRand Unified Bootloader, version 2 (Coreboot version)
 Package: grub-efi-ia32-bin
 Architecture: any-i386 any-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
-Recommends: grub-efi-ia32-signed,
+Recommends: grub-efi-ia32-signed, efibootmgr [linux-any]
 Replaces: grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-efi, grub-efi-ia32 (<< 1.99-1)
 Multi-Arch: foreign
 XB-Efi-Vendor: ${efi:Vendor}
@@ -308,7 +308,7 @@ Description: GRand Unified Bootloader, version 2 (EFI-IA32 signing template)
 Package: grub-efi-amd64-bin
 Architecture: i386 kopensolaris-i386 any-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
-Recommends: grub-efi-amd64-signed,
+Recommends: grub-efi-amd64-signed, efibootmgr [linux-any]
 Replaces: grub2 (<< ${source:Version}), grub-common (<= 1.97~beta2-1), grub-efi-amd64 (<< 1.99-1)
 Multi-Arch: foreign
 XB-Efi-Vendor: ${efi:Vendor}
@@ -418,6 +418,7 @@ Description: GRand Unified Bootloader, version 2 (IA64 version)
 Package: grub-efi-arm-bin
 Architecture: any-arm
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
+Recommends: efibootmgr [linux-any]
 Multi-Arch: foreign
 XB-Efi-Vendor: ${efi:Vendor}
 Description: GRand Unified Bootloader, version 2 (ARM UEFI modules)
@@ -468,7 +469,7 @@ Description: GRand Unified Bootloader, version 2 (ARM UEFI version)
 Package: grub-efi-arm64-bin
 Architecture: any-arm64
 Depends: ${shlibs:Depends}, ${misc:Depends}, grub-common (= ${binary:Version})
-Recommends: grub-efi-arm64-signed,
+Recommends: grub-efi-arm64-signed, efibootmgr [linux-any]
 Multi-Arch: foreign
 XB-Efi-Vendor: ${efi:Vendor}
 Description: GRand Unified Bootloader, version 2 (ARM64 UEFI modules)
