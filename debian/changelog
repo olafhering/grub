@@ -1,9 +1,9 @@
-grub2 (2.02+dfsg1-17) UNRELEASED; urgency=medium
+grub2 (2.02+dfsg1-17) unstable; urgency=medium
 
   * Make grub-efi-*-bin recommend efibootmgr.  We don't actually use it any
     more, but it's helpful for debugging.
 
- -- Colin Watson <cjwatson@debian.org>  Mon, 01 Apr 2019 10:14:22 +0100
+ -- Colin Watson <cjwatson@debian.org>  Mon, 15 Apr 2019 18:38:30 +0100
 
 grub2 (2.02+dfsg1-16) unstable; urgency=medium
 
