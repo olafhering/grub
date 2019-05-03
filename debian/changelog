@@ -1,3 +1,12 @@
+grub2 (2.02+dfsg1-18) UNRELEASED; urgency=medium
+
+  * Apply patches from Alexander Graf to fix grub-efi-arm crash (closes:
+    #927269):
+    - arm: Move trampolines into code section
+    - arm: Align section alignment with manual relocation offset code
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 03 May 2019 10:31:26 +0100
+
 grub2 (2.02+dfsg1-17) unstable; urgency=medium
 
   * Make grub-efi-*-bin recommend efibootmgr.  We don't actually use it any

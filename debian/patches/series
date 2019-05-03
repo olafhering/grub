@@ -134,3 +134,5 @@ util-check-errors.patch
 xfs-sparse-inodes.patch
 vsnprintf-upper-case-hex.patch
 efi-variable-storage-minimise-writes.patch
+arm-move-trampolines-into-code-section.patch
+arm-align-section-alignment-with-manual-reloc-offset.patch
