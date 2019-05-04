@@ -7,6 +7,8 @@ grub2 (2.02+dfsg1-18) UNRELEASED; urgency=medium
   * Make grub2-common Breaks+Replaces grub-cloud-amd64 (<< 0.0.4) to work
     around that package shipping colliding configuration file names in
     stretch-backports (closes: #919915).
+  * Apply patch from Peter Jones to forbid the "devicetree" command when
+    Secure Boot is enabled (closes: #927888).
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 03 May 2019 10:31:26 +0100
 
