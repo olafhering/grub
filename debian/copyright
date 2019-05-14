@@ -1,4 +1,5 @@
-Name: GNU GRUB
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: GNU GRUB
 Source: https://www.gnu.org/software/grub/
 Files-Excluded: grub-core/lib/libgcrypt*/cipher/crc.c
 
