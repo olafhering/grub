@@ -94,7 +94,7 @@ read_crypto_list (const char *prefix)
       return;
     }
 
-  file = grub_file_open (filename);
+  file = grub_file_open (filename, GRUB_FILE_TYPE_GRUB_MODULE_LIST);
   grub_free (filename);
   if (!file)
     {
@@ -147,8 +147,8 @@ read_crypto_list (const char *prefix)
       if (! cur->modname)
 	{
 	  grub_errno = GRUB_ERR_NONE;
-	  grub_free (cur);
 	  grub_free (cur->name);
+	  grub_free (cur);
 	  continue;
 	}
       cur->next = crypto_specs;

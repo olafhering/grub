@@ -77,11 +77,19 @@ grub_util_get_fd_size (grub_util_fd_t fd, const char *name, unsigned *log_secsiz
 int
 grub_util_fd_seek (grub_util_fd_t fd, grub_uint64_t off)
 {
+#if SIZEOF_OFF_T == 8
   off_t offset = (off_t) off;
 
   if (lseek (fd, offset, SEEK_SET) != offset)
     return -1;
+#elif SIZEOF_OFF64_T == 8
+  off64_t offset = (off64_t) off;
 
+  if (lseek64 (fd, offset, SEEK_SET) != offset)
+    return -1;
+#else
+#error "No large file support"
+#endif
   return 0;
 }
 
@@ -169,20 +177,22 @@ grub_util_fd_strerror (void)
 
 static int allow_fd_syncs = 1;
 
-void
+int
 grub_util_fd_sync (grub_util_fd_t fd)
 {
   if (allow_fd_syncs)
-    fsync (fd);
+    return fsync (fd);
+  return 0;
 }
 
-void
+int
 grub_util_file_sync (FILE *f)
 {
-  fflush (f);
+  if (fflush (f) != 0)
+    return -1;
   if (!allow_fd_syncs)
-    return;
-  fsync (fileno (f));
+    return 0;
+  return fsync (fileno (f));
 }
 
 void
@@ -191,10 +201,10 @@ grub_util_disable_fd_syncs (void)
   allow_fd_syncs = 0;
 }
 
-void
+int
 grub_util_fd_close (grub_util_fd_t fd)
 {
-  close (fd);
+  return close (fd);
 }
 
 char *

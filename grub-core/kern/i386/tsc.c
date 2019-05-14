@@ -65,10 +65,10 @@ grub_tsc_init (void)
 
   tsc_boot_time = grub_get_tsc ();
 
-#ifdef GRUB_MACHINE_XEN
+#if defined (GRUB_MACHINE_XEN) || defined (GRUB_MACHINE_XEN_PVH)
   (void) (grub_tsc_calibrate_from_xen () || calibrate_tsc_hardcode());
 #elif defined (GRUB_MACHINE_EFI)
-  (void) (grub_tsc_calibrate_from_pit () || grub_tsc_calibrate_from_pmtimer () || grub_tsc_calibrate_from_efi() || calibrate_tsc_hardcode());
+  (void) (grub_tsc_calibrate_from_pmtimer () || grub_tsc_calibrate_from_pit () || grub_tsc_calibrate_from_efi() || calibrate_tsc_hardcode());
 #elif defined (GRUB_MACHINE_COREBOOT)
   (void) (grub_tsc_calibrate_from_pmtimer () || grub_tsc_calibrate_from_pit () || calibrate_tsc_hardcode());
 #else

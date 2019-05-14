@@ -38,16 +38,25 @@ void *EXPORT_FUNC(grub_efi_open_protocol) (grub_efi_handle_t handle,
 int EXPORT_FUNC(grub_efi_set_text_mode) (int on);
 void EXPORT_FUNC(grub_efi_stall) (grub_efi_uintn_t microseconds);
 void *
-EXPORT_FUNC(grub_efi_allocate_pages) (grub_efi_physical_address_t address,
+EXPORT_FUNC(grub_efi_allocate_pages_real) (grub_efi_physical_address_t address,
+				           grub_efi_uintn_t pages,
+					   grub_efi_allocate_type_t alloctype,
+					   grub_efi_memory_type_t memtype);
+void *
+EXPORT_FUNC(grub_efi_allocate_fixed) (grub_efi_physical_address_t address,
 				      grub_efi_uintn_t pages);
+void *
+EXPORT_FUNC(grub_efi_allocate_any_pages) (grub_efi_uintn_t pages);
 void EXPORT_FUNC(grub_efi_free_pages) (grub_efi_physical_address_t address,
 				       grub_efi_uintn_t pages);
+grub_efi_uintn_t EXPORT_FUNC(grub_efi_find_mmap_size) (void);
 int
 EXPORT_FUNC(grub_efi_get_memory_map) (grub_efi_uintn_t *memory_map_size,
 				      grub_efi_memory_descriptor_t *memory_map,
 				      grub_efi_uintn_t *map_key,
 				      grub_efi_uintn_t *descriptor_size,
 				      grub_efi_uint32_t *descriptor_version);
+void grub_efi_memory_fini (void);
 grub_efi_loaded_image_t *EXPORT_FUNC(grub_efi_get_loaded_image) (grub_efi_handle_t image_handle);
 void EXPORT_FUNC(grub_efi_print_device_path) (grub_efi_device_path_t *dp);
 char *EXPORT_FUNC(grub_efi_get_filename) (grub_efi_device_path_t *dp);
@@ -81,8 +90,13 @@ extern void (*EXPORT_VAR(grub_efi_net_config)) (grub_efi_handle_t hnd,
 						char **device,
 						char **path);
 
-#if defined(__arm__) || defined(__aarch64__)
+#if defined(__arm__) || defined(__aarch64__) || defined(__riscv)
 void *EXPORT_FUNC(grub_efi_get_firmware_fdt)(void);
+grub_err_t EXPORT_FUNC(grub_efi_get_ram_base)(grub_addr_t *);
+#include <grub/cpu/linux.h>
+grub_err_t grub_arch_efi_linux_check_image(struct linux_arch_kernel_header *lh);
+grub_err_t grub_arch_efi_linux_boot_image(grub_addr_t addr, grub_size_t size,
+                                           char *args);
 #endif
 
 grub_addr_t grub_efi_modules_addr (void);

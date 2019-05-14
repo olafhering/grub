@@ -101,7 +101,20 @@ KERNEL_HEADER_FILES += $(top_builddir)/include/grub/machine/int.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/tsc.h
 endif
 
+if COND_i386_xen_pvh
+KERNEL_HEADER_FILES += $(top_builddir)/include/grub/machine/kernel.h
+KERNEL_HEADER_FILES += $(top_builddir)/include/grub/machine/int.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/tsc.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/terminfo.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/extcmd.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/loader.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/lib/arg.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/xen.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/xen/hypercall.h
+endif
+
 if COND_i386_efi
+KERNEL_HEADER_FILES += $(top_builddir)/include/grub/machine/kernel.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/efi.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/disk.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/tsc.h
@@ -111,8 +124,9 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/pmtimer.h
 endif
 
 if COND_i386_coreboot
+KERNEL_HEADER_FILES += $(top_builddir)/include/grub/machine/kernel.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/tsc.h
-KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/coreboot/lbio.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/coreboot/lbio.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/video.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/video_fb.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/gfxterm.h
@@ -122,6 +136,7 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/acpi.h
 endif
 
 if COND_i386_multiboot
+KERNEL_HEADER_FILES += $(top_builddir)/include/grub/machine/kernel.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/tsc.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/acpi.h
 endif
@@ -132,6 +147,7 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/tsc.h
 endif
 
 if COND_i386_ieee1275
+KERNEL_HEADER_FILES += $(top_builddir)/include/grub/machine/kernel.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/ieee1275/ieee1275.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/terminfo.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/extcmd.h
@@ -140,6 +156,7 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/tsc.h
 endif
 
 if COND_i386_xen
+KERNEL_HEADER_FILES += $(top_builddir)/include/grub/machine/kernel.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/xen.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/xen/hypercall.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/terminfo.h
@@ -158,6 +175,7 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/loader.h
 endif
 
 if COND_x86_64_efi
+KERNEL_HEADER_FILES += $(top_builddir)/include/grub/machine/kernel.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/efi.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/disk.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i386/tsc.h
@@ -239,8 +257,21 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/lib/arg.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/arm/system.h
 endif
 
+if COND_arm_coreboot
+KERNEL_HEADER_FILES += $(top_builddir)/include/grub/keyboard_layouts.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/arm/system.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/video.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/video_fb.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/gfxterm.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/font.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/bufio.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/fdt.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/dma.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/arm/coreboot/kernel.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/fdtbus.h
+endif
+
 if COND_arm_efi
-KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/arm/efi/loader.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/efi.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/disk.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/arm/system.h
@@ -248,6 +279,18 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/acpi.h
 endif
 
 if COND_arm64_efi
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/efi.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/disk.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/acpi.h
+endif
+
+if COND_riscv32_efi
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/efi.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/disk.h
+KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/acpi.h
+endif
+
+if COND_riscv64_efi
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/efi.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/efi/disk.h
 KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/acpi.h
@@ -278,7 +321,7 @@ BUILT_SOURCES += symlist.h
 
 symlist.c: symlist.h gensymlist.sh
 	$(TARGET_CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS_KERNEL) $(CPPFLAGS) -DGRUB_SYMBOL_GENERATOR=1 symlist.h > symlist.p || (rm -f symlist.p; exit 1)
-	cat symlist.p | /bin/sh $(srcdir)/gensymlist.sh $(top_builddir)/config.h $(KERNEL_HEADER_FILES) >$@ || (rm -f $@; exit 1)
+	cat symlist.p | $(SHELL) $(srcdir)/gensymlist.sh $(top_builddir)/config.h $(KERNEL_HEADER_FILES) >$@ || (rm -f $@; exit 1)
 	rm -f symlist.p
 CLEANFILES += symlist.c
 BUILT_SOURCES += symlist.c
@@ -357,6 +400,16 @@ terminal.lst: $(MARKER_FILES)
 	done) | sort -u > $@
 platform_DATA += terminal.lst
 CLEANFILES += terminal.lst
+
+fdt.lst: $(MARKER_FILES)
+	(for pp in $^; do \
+	  b=`basename $$pp .marker`; \
+	  sed -n \
+	    -e "/FDT_DRIVER_LIST_MARKER *( *\"/{s/.*( *\"\([^\"]*\)\".*/i\1: $$b/;p;}" \
+	    -e "/FDT_DRIVER_LIST_MARKER *( *\"/{s/.*( *\"\([^\"]*\)\".*/o\1: $$b/;p;}" $$pp; \
+	done) | sort -u > $@
+platform_DATA += fdt.lst
+CLEANFILES += fdt.lst
 
 parttool.lst: $(MARKER_FILES)
 	(for pp in $^; do \

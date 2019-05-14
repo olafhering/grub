@@ -323,6 +323,7 @@ check_xorriso (const char *val)
   char *buf = NULL;
   size_t len = 0;
   int ret = 0;
+  int wstatus = 0;
 
   argv[0] = xorriso;
   argv[1] = "-as";
@@ -347,8 +348,10 @@ check_xorriso (const char *val)
     }
 
   close (fd);
-  waitpid (pid, NULL, 0);
+  waitpid (pid, &wstatus, 0);
   free (buf);
+  if (!WIFEXITED (wstatus) || WEXITSTATUS(wstatus) != 0)
+    return 0;
   return ret;
 }
 
@@ -426,6 +429,7 @@ main (int argc, char *argv[])
   char **argp_argv;
   int xorriso_tail_argc;
   char **xorriso_tail_argv;
+  int rv;
 
   grub_util_host_init (&argc, &argv);
   grub_util_disable_fd_syncs ();
@@ -477,6 +481,10 @@ main (int argc, char *argv[])
 
   if (!output_image)
     grub_util_error ("%s", _("output file must be specified"));
+
+  if (!check_xorriso ("graft-points")) {
+    grub_util_error ("%s", _("xorriso not found"));
+  }
 
   grub_init_all ();
   grub_hostfs_init ();
@@ -530,6 +538,8 @@ main (int argc, char *argv[])
 	  || source_dirs[GRUB_INSTALL_PLATFORM_IA64_EFI]
 	  || source_dirs[GRUB_INSTALL_PLATFORM_ARM_EFI]
 	  || source_dirs[GRUB_INSTALL_PLATFORM_ARM64_EFI]
+	  || source_dirs[GRUB_INSTALL_PLATFORM_RISCV32_EFI]
+	  || source_dirs[GRUB_INSTALL_PLATFORM_RISCV64_EFI]
 	  || source_dirs[GRUB_INSTALL_PLATFORM_X86_64_EFI])
 	system_area = SYS_AREA_COMMON;
       else if (source_dirs[GRUB_INSTALL_PLATFORM_SPARC64_IEEE1275])
@@ -727,7 +737,9 @@ main (int argc, char *argv[])
       || source_dirs[GRUB_INSTALL_PLATFORM_X86_64_EFI]
       || source_dirs[GRUB_INSTALL_PLATFORM_IA64_EFI]
       || source_dirs[GRUB_INSTALL_PLATFORM_ARM_EFI]
-      || source_dirs[GRUB_INSTALL_PLATFORM_ARM64_EFI])
+      || source_dirs[GRUB_INSTALL_PLATFORM_ARM64_EFI]
+      || source_dirs[GRUB_INSTALL_PLATFORM_RISCV32_EFI]
+      || source_dirs[GRUB_INSTALL_PLATFORM_RISCV64_EFI])
     {
       char *efidir = grub_util_make_temporary_dir ();
       char *efidir_efi = grub_util_path_concat (2, efidir, "efi");
@@ -762,6 +774,16 @@ main (int argc, char *argv[])
 			     imgname);
       free (imgname);
 
+      imgname = grub_util_path_concat (2, efidir_efi_boot, "bootriscv32.efi");
+      make_image_fwdisk_abs (GRUB_INSTALL_PLATFORM_RISCV32_EFI, "riscv32-efi",
+			     imgname);
+      free (imgname);
+
+      imgname = grub_util_path_concat (2, efidir_efi_boot, "bootriscv64.efi");
+      make_image_fwdisk_abs (GRUB_INSTALL_PLATFORM_RISCV64_EFI, "riscv64-efi",
+			     imgname);
+      free (imgname);
+
       if (source_dirs[GRUB_INSTALL_PLATFORM_I386_EFI])
 	{
 	  imgname = grub_util_path_concat (2, efidir_efi_boot, "boot.efi");
@@ -787,7 +809,6 @@ main (int argc, char *argv[])
       free (efidir_efi_boot);
 
       efiimgfat = grub_util_path_concat (2, iso9660_dir, "efi.img");
-      int rv;
       rv = grub_util_exec ((const char * []) { "mformat", "-C", "-f", "2880", "-L", "16", "-i",
 	    efiimgfat, "::", NULL });
       if (rv != 0)
@@ -960,7 +981,9 @@ main (int argc, char *argv[])
 
   xorriso_argv[xorriso_argc] = NULL;
 
-  grub_util_exec ((const char *const *)xorriso_argv);
+  rv = grub_util_exec ((const char *const *)xorriso_argv);
+  if (rv != 0)
+    grub_util_error ("`%s` invocation failed\n", "xorriso");
 
   grub_util_unlink_recursive (iso9660_dir);
 

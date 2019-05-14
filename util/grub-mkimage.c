@@ -71,6 +71,7 @@ static struct argp_option options[] = {
    N_("embed FILE as a memdisk image\n"
       "Implies `-p (memdisk)/boot/grub' and overrides any prefix supplied previously,"
       " but the prefix itself can be overridden by later options"), 0},
+  {"dtb",  'D', N_("FILE"), 0, N_("embed FILE as a device tree (DTB)\n"), 0},
    /* TRANSLATORS: "embed" is a verb (command description).  "*/
   {"config",   'c', N_("FILE"), 0, N_("embed FILE as an early config"), 0},
    /* TRANSLATORS: "embed" is a verb (command description).  "*/
@@ -117,6 +118,7 @@ struct arguments
   char *dir;
   char *prefix;
   char *memdisk;
+  char *dtb;
   char **pubkeys;
   size_t npubkeys;
   char *font;
@@ -174,6 +176,13 @@ argp_parser (int key, char *arg, struct argp_state *state)
 	free (arguments->prefix);
 
       arguments->prefix = xstrdup ("(memdisk)/boot/grub");
+      break;
+
+    case 'D':
+      if (arguments->dtb)
+	free (arguments->dtb);
+
+      arguments->dtb = xstrdup (arg);
       break;
 
     case 'k':
@@ -300,10 +309,14 @@ main (int argc, char *argv[])
 			       arguments.memdisk, arguments.pubkeys,
 			       arguments.npubkeys, arguments.config,
 			       arguments.image_target, arguments.note,
-			       arguments.comp);
+			       arguments.comp, arguments.dtb);
 
-  grub_util_file_sync  (fp);
-  fclose (fp);
+  if (grub_util_file_sync (fp) < 0)
+    grub_util_error (_("cannot sync `%s': %s"), arguments.output ? : "stdout",
+		     strerror (errno));
+  if (fclose (fp) == EOF)
+    grub_util_error (_("cannot close `%s': %s"), arguments.output ? : "stdout",
+		     strerror (errno));
 
   for (i = 0; i < arguments.nmodules; i++)
     free (arguments.modules[i]);

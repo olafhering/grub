@@ -51,13 +51,13 @@ grub_mkimage_load_image64 (const char *kernel_path,
 void
 grub_mkimage_generate_elf32 (const struct grub_install_image_target_desc *image_target,
 			     int note, char **core_img, size_t *core_size,
-			     Elf32_Addr target_addr, grub_size_t align,
-			     size_t kernel_size, size_t bss_size);
+			     Elf32_Addr target_addr,
+			     struct grub_mkimage_layout *layout);
 void
 grub_mkimage_generate_elf64 (const struct grub_install_image_target_desc *image_target,
 			     int note, char **core_img, size_t *core_size,
-			     Elf64_Addr target_addr, grub_size_t align,
-			     size_t kernel_size, size_t bss_size);
+			     Elf64_Addr target_addr,
+			     struct grub_mkimage_layout *layout);
 
 struct grub_install_image_target_desc
 {
@@ -71,7 +71,8 @@ struct grub_install_image_target_desc
     IMAGE_I386_IEEE1275,
     IMAGE_LOONGSON_ELF, IMAGE_QEMU, IMAGE_PPC, IMAGE_YEELOONG_FLASH,
     IMAGE_FULOONG2F_FLASH, IMAGE_I386_PC_PXE, IMAGE_MIPS_ARC,
-    IMAGE_QEMU_MIPS_FLASH, IMAGE_UBOOT, IMAGE_XEN, IMAGE_I386_PC_ELTORITO
+    IMAGE_QEMU_MIPS_FLASH, IMAGE_UBOOT, IMAGE_XEN, IMAGE_I386_PC_ELTORITO,
+    IMAGE_XEN_PVH
   } id;
   enum
     {

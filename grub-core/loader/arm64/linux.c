@@ -26,11 +26,13 @@
 #include <grub/mm.h>
 #include <grub/types.h>
 #include <grub/cpu/linux.h>
-#include <grub/cpu/fdtload.h>
 #include <grub/efi/efi.h>
+#include <grub/efi/fdtload.h>
+#include <grub/efi/memory.h>
 #include <grub/efi/pe32.h>
 #include <grub/i18n.h>
 #include <grub/lib/cmdline.h>
+#include <grub/verify.h>
 
 GRUB_MOD_LICENSE ("GPLv3+");
 
@@ -47,18 +49,16 @@ static grub_addr_t initrd_start;
 static grub_addr_t initrd_end;
 
 grub_err_t
-grub_arm64_uefi_check_image (struct grub_arm64_linux_kernel_header * lh)
+grub_arch_efi_linux_check_image (struct linux_arch_kernel_header * lh)
 {
-  if (lh->magic != GRUB_ARM64_LINUX_MAGIC)
+  if (lh->magic != GRUB_LINUX_ARMXX_MAGIC_SIGNATURE)
     return grub_error(GRUB_ERR_BAD_OS, "invalid magic number");
 
-  if ((lh->code0 & 0xffff) != GRUB_EFI_PE_MAGIC)
+  if ((lh->code0 & 0xffff) != GRUB_PE32_MAGIC)
     return grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET,
 		       N_("plain image kernel not supported - rebuild with CONFIG_(U)EFI_STUB enabled"));
 
   grub_dprintf ("linux", "UEFI stub kernel:\n");
-  grub_dprintf ("linux", "text_offset = 0x%012llx\n",
-		(long long unsigned) lh->text_offset);
   grub_dprintf ("linux", "PE/COFF header @ %08x\n", lh->hdr_offset);
 
   return GRUB_ERR_NONE;
@@ -71,7 +71,7 @@ finalize_params_linux (void)
 
   void *fdt;
 
-  fdt = grub_fdt_load (0x400);
+  fdt = grub_fdt_load (GRUB_EFI_LINUX_FDT_EXTRA_SPACE);
 
   if (!fdt)
     goto failure;
@@ -86,8 +86,8 @@ finalize_params_linux (void)
   /* Set initrd info */
   if (initrd_start && initrd_end > initrd_start)
     {
-      grub_dprintf ("linux", "Initrd @ 0x%012lx-0x%012lx\n",
-		    initrd_start, initrd_end);
+      grub_dprintf ("linux", "Initrd @ %p-%p\n",
+		    (void *) initrd_start, (void *) initrd_end);
 
       retval = grub_fdt_set_prop64 (fdt, node, "linux,initrd-start",
 				    initrd_start);
@@ -110,7 +110,7 @@ failure:
 }
 
 grub_err_t
-grub_arm64_uefi_boot_image (grub_addr_t addr, grub_size_t size, char *args)
+grub_arch_efi_linux_boot_image (grub_addr_t addr, grub_size_t size, char *args)
 {
   grub_efi_memory_mapped_device_path_t *mempath;
   grub_efi_handle_t image_handle;
@@ -148,8 +148,7 @@ grub_arm64_uefi_boot_image (grub_addr_t addr, grub_size_t size, char *args)
   loaded_image->load_options_size = len =
     (grub_strlen (args) + 1) * sizeof (grub_efi_char16_t);
   loaded_image->load_options =
-    grub_efi_allocate_pages (0,
-			     GRUB_EFI_BYTES_TO_PAGES (loaded_image->load_options_size));
+    grub_efi_allocate_any_pages (GRUB_EFI_BYTES_TO_PAGES (loaded_image->load_options_size));
   if (!loaded_image->load_options)
     return grub_errno;
 
@@ -162,7 +161,7 @@ grub_arm64_uefi_boot_image (grub_addr_t addr, grub_size_t size, char *args)
 
   /* When successful, not reached */
   b->unload_image (image_handle);
-  grub_efi_free_pages ((grub_efi_physical_address_t) loaded_image->load_options,
+  grub_efi_free_pages ((grub_addr_t) loaded_image->load_options,
 		       GRUB_EFI_BYTES_TO_PAGES (loaded_image->load_options_size));
 
   return grub_errno;
@@ -174,8 +173,8 @@ grub_linux_boot (void)
   if (finalize_params_linux () != GRUB_ERR_NONE)
     return grub_errno;
 
-  return (grub_arm64_uefi_boot_image((grub_addr_t)kernel_addr,
-                                     kernel_size, linux_args));
+  return (grub_arch_efi_linux_boot_image((grub_addr_t)kernel_addr,
+                                          kernel_size, linux_args));
 }
 
 static grub_err_t
@@ -189,10 +188,46 @@ grub_linux_unload (void)
   initrd_start = initrd_end = 0;
   grub_free (linux_args);
   if (kernel_addr)
-    grub_efi_free_pages ((grub_efi_physical_address_t) kernel_addr,
+    grub_efi_free_pages ((grub_addr_t) kernel_addr,
 			 GRUB_EFI_BYTES_TO_PAGES (kernel_size));
   grub_fdt_unload ();
   return GRUB_ERR_NONE;
+}
+
+/*
+ * As per linux/Documentation/arm/Booting
+ * ARM initrd needs to be covered by kernel linear mapping,
+ * so place it in the first 512MB of DRAM.
+ *
+ * As per linux/Documentation/arm64/booting.txt
+ * ARM64 initrd needs to be contained entirely within a 1GB aligned window
+ * of up to 32GB of size that covers the kernel image as well.
+ * Since the EFI stub loader will attempt to load the kernel near start of
+ * RAM, place the buffer in the first 32GB of RAM.
+ */
+#ifdef __arm__
+#define INITRD_MAX_ADDRESS_OFFSET (512U * 1024 * 1024)
+#else /* __aarch64__ */
+#define INITRD_MAX_ADDRESS_OFFSET (32ULL * 1024 * 1024 * 1024)
+#endif
+
+/*
+ * This function returns a pointer to a legally allocated initrd buffer,
+ * or NULL if unsuccessful
+ */
+static void *
+allocate_initrd_mem (int initrd_pages)
+{
+  grub_addr_t max_addr;
+
+  if (grub_efi_get_ram_base (&max_addr) != GRUB_ERR_NONE)
+    return NULL;
+
+  max_addr += INITRD_MAX_ADDRESS_OFFSET - 1;
+
+  return grub_efi_allocate_pages_real (max_addr, initrd_pages,
+				       GRUB_EFI_ALLOCATE_MAX_ADDRESS,
+				       GRUB_EFI_LOADER_DATA);
 }
 
 static grub_err_t
@@ -223,7 +258,8 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
   grub_dprintf ("linux", "Loading initrd\n");
 
   initrd_pages = (GRUB_EFI_BYTES_TO_PAGES (initrd_size));
-  initrd_mem = grub_efi_allocate_pages (0, initrd_pages);
+  initrd_mem = allocate_initrd_mem (initrd_pages);
+
   if (!initrd_mem)
     {
       grub_error (GRUB_ERR_OUT_OF_MEMORY, N_("out of memory"));
@@ -241,8 +277,7 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
  fail:
   grub_initrd_close (&initrd_ctx);
   if (initrd_mem && !initrd_start)
-    grub_efi_free_pages ((grub_efi_physical_address_t) initrd_mem,
-			 initrd_pages);
+    grub_efi_free_pages ((grub_addr_t) initrd_mem, initrd_pages);
 
   return grub_errno;
 }
@@ -252,7 +287,8 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
 		int argc, char *argv[])
 {
   grub_file_t file = 0;
-  struct grub_arm64_linux_kernel_header lh;
+  struct linux_arch_kernel_header lh;
+  grub_err_t err;
 
   grub_dl_ref (my_mod);
 
@@ -262,7 +298,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
       goto fail;
     }
 
-  file = grub_file_open (argv[0]);
+  file = grub_file_open (argv[0], GRUB_FILE_TYPE_LINUX_KERNEL);
   if (!file)
     goto fail;
 
@@ -271,13 +307,13 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
   if (grub_file_read (file, &lh, sizeof (lh)) < (long) sizeof (lh))
     return grub_errno;
 
-  if (grub_arm64_uefi_check_image (&lh) != GRUB_ERR_NONE)
+  if (grub_arch_efi_linux_check_image (&lh) != GRUB_ERR_NONE)
     goto fail;
 
   grub_loader_unset();
 
   grub_dprintf ("linux", "kernel file size: %lld\n", (long long) kernel_size);
-  kernel_addr = grub_efi_allocate_pages (0, GRUB_EFI_BYTES_TO_PAGES (kernel_size));
+  kernel_addr = grub_efi_allocate_any_pages (GRUB_EFI_BYTES_TO_PAGES (kernel_size));
   grub_dprintf ("linux", "kernel numpages: %lld\n",
 		(long long) GRUB_EFI_BYTES_TO_PAGES (kernel_size));
   if (!kernel_addr)
@@ -305,9 +341,12 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
       goto fail;
     }
   grub_memcpy (linux_args, LINUX_IMAGE, sizeof (LINUX_IMAGE));
-  grub_create_loader_cmdline (argc, argv,
-			      linux_args + sizeof (LINUX_IMAGE) - 1,
-			      cmdline_size);
+  err = grub_create_loader_cmdline (argc, argv,
+				    linux_args + sizeof (LINUX_IMAGE) - 1,
+				    cmdline_size,
+				    GRUB_VERIFY_KERNEL_CMDLINE);
+  if (err)
+    goto fail;
 
   if (grub_errno == GRUB_ERR_NONE)
     {
@@ -329,7 +368,7 @@ fail:
     grub_free (linux_args);
 
   if (kernel_addr && !loaded)
-    grub_efi_free_pages ((grub_efi_physical_address_t) kernel_addr,
+    grub_efi_free_pages ((grub_addr_t) kernel_addr,
 			 GRUB_EFI_BYTES_TO_PAGES (kernel_size));
 
   return grub_errno;

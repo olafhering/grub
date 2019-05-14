@@ -104,7 +104,7 @@ const unsigned efi_codes[] =
     GRUB_TERM_KEY_DC, GRUB_TERM_KEY_PPAGE, GRUB_TERM_KEY_NPAGE, GRUB_TERM_KEY_F1,
     GRUB_TERM_KEY_F2, GRUB_TERM_KEY_F3, GRUB_TERM_KEY_F4, GRUB_TERM_KEY_F5,
     GRUB_TERM_KEY_F6, GRUB_TERM_KEY_F7, GRUB_TERM_KEY_F8, GRUB_TERM_KEY_F9,
-    GRUB_TERM_KEY_F10, GRUB_TERM_KEY_F11, GRUB_TERM_KEY_F12, '\e'
+    GRUB_TERM_KEY_F10, GRUB_TERM_KEY_F11, GRUB_TERM_KEY_F12, GRUB_TERM_ESC
   };
 
 static int
@@ -122,6 +122,9 @@ grub_efi_translate_key (grub_efi_input_key_t key)
       else
 	return key.unicode_char;
     }
+  /* Some devices send enter with scan_code 0x0d (F3) and unicode_char 0x0d. */
+  else if (key.scan_code == '\r' && key.unicode_char == '\r')
+    return key.unicode_char;
   else if (key.scan_code < ARRAY_SIZE (efi_codes))
     return efi_codes[key.scan_code];
 

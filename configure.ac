@@ -31,7 +31,7 @@ dnl (such as BUILD_CC, BUILD_CFLAGS, etc.) for the build type and variables
 dnl with the prefix "TARGET_" (such as TARGET_CC, TARGET_CFLAGS, etc.) are
 dnl used for the target type. See INSTALL for full list of variables.
 
-AC_INIT([GRUB],[2.02],[bug-grub@gnu.org])
+AC_INIT([GRUB],[2.04~rc1],[bug-grub@gnu.org])
 
 AC_CONFIG_AUX_DIR([build-aux])
 
@@ -45,10 +45,14 @@ save_program_prefix="${program_prefix}"
 AC_CANONICAL_TARGET
 program_prefix="${save_program_prefix}"
 
-AM_INIT_AUTOMAKE([1.10.1])
-AC_PREREQ(2.60)
+AM_INIT_AUTOMAKE([1.11])
+AC_PREREQ(2.63)
 AC_CONFIG_SRCDIR([include/grub/dl.h])
 AC_CONFIG_HEADER([config-util.h])
+
+# Explicitly check for pkg-config early on, since otherwise conditional
+# calls are problematic.
+PKG_PROG_PKG_CONFIG
 
 # Program name transformations
 AC_ARG_PROGRAM
@@ -100,6 +104,12 @@ case "$target_cpu" in
   aarch64*)
 		target_cpu=arm64
 		;;
+  riscv32*)
+		target_cpu=riscv32
+		;;
+  riscv64*)
+		target_cpu=riscv64
+		;;
 esac
 
 # Specify the platform (such as firmware).
@@ -123,6 +133,8 @@ if test "x$with_platform" = x; then
     ia64-*) platform=efi ;;
     arm-*) platform=uboot ;;
     arm64-*) platform=efi ;;
+    riscv32-*) platform=efi ;;
+    riscv64-*) platform=efi ;;
     *)
       AC_MSG_WARN([unsupported CPU: "$target_cpu" - only building utilities])
       platform=none
@@ -147,6 +159,7 @@ case "$target_cpu"-"$platform" in
   i386-efi) ;;
   x86_64-efi) ;;
   i386-xen) ;;
+  i386-xen_pvh) ;;
   x86_64-xen) ;;
   i386-pc) ;;
   i386-multiboot) ;;
@@ -167,8 +180,11 @@ case "$target_cpu"-"$platform" in
   mipsel-fuloong) platform=loongson ;;
   mipsel-loongson) ;;
   arm-uboot) ;;
+  arm-coreboot) ;;
   arm-efi) ;;
   arm64-efi) ;;
+  riscv32-efi) ;;
+  riscv64-efi) ;;
   *-emu) ;;
   *-none) ;;
   *) AC_MSG_ERROR([platform "$platform" is not supported for target CPU "$target_cpu"]) ;;
@@ -203,7 +219,8 @@ case "$host_os" in
 esac
 
 case "$host_os" in
-  cygwin | windows* | mingw32*)	have_exec=n ;;
+  cygwin) have_exec=y ;;
+  windows* | mingw32*) have_exec=n ;;
   aros*) have_exec=n ;;
   *) have_exec=y;;
 esac
@@ -213,6 +230,7 @@ case "$platform" in
   multiboot)	machine_CPPFLAGS="$machine_CPPFLAGS -DGRUB_MACHINE_MULTIBOOT=1" ;;
   efi)		machine_CPPFLAGS="$machine_CPPFLAGS -DGRUB_MACHINE_EFI=1" ;;
   xen)		machine_CPPFLAGS="$machine_CPPFLAGS -DGRUB_MACHINE_XEN=1" ;;
+  xen_pvh)	machine_CPPFLAGS="$machine_CPPFLAGS -DGRUB_MACHINE_XEN_PVH=1" ;;
   ieee1275)	machine_CPPFLAGS="$machine_CPPFLAGS -DGRUB_MACHINE_IEEE1275=1" ;;
   uboot)	machine_CPPFLAGS="$machine_CPPFLAGS -DGRUB_MACHINE_UBOOT=1" ;;
   qemu)		machine_CPPFLAGS="$machine_CPPFLAGS -DGRUB_MACHINE_QEMU=1" ;;
@@ -275,7 +293,7 @@ fi
 
 AC_SUBST(bootdirname)
 AC_DEFINE_UNQUOTED(GRUB_BOOT_DIR_NAME, "$bootdirname",
-    [Default boot directory name]")
+    [Default boot directory name])
 
 AC_ARG_WITH([grubdir],
             AS_HELP_STRING([--with-grubdir=DIR],
@@ -335,6 +353,7 @@ gl_EARLY
 AC_PROG_CXX
 AM_PROG_CC_C_O
 AM_PROG_AS
+AM_PATH_PYTHON([2.6])
 
 # Must be GCC.
 test "x$GCC" = xyes || AC_MSG_ERROR([GCC is required])
@@ -343,6 +362,7 @@ AC_CHECK_PROG(HAVE_CXX, $CXX, yes, no)
 
 AC_GNU_SOURCE
 AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.18.3])
 AC_SYS_LARGEFILE
 
 # Identify characteristics of the host architecture.
@@ -373,7 +393,10 @@ case "$host_os" in
      ;;
   *)
      AC_CHECK_SIZEOF(off_t)
-     test x"$ac_cv_sizeof_off_t" = x8 || AC_MSG_ERROR([Large file support is required]);;
+     if test x"$ac_cv_sizeof_off_t" != x8 ; then
+       AC_CHECK_SIZEOF(off64_t)
+       test x"$ac_cv_sizeof_off64_t" = x8 || AC_MSG_ERROR([Large file support is required])
+     fi;;
 esac
 
 if test x$USE_NLS = xno; then
@@ -455,6 +478,16 @@ case "$build_os" in
   *)					BUILD_EXEEXT= ;;
 esac
 AC_SUBST(BUILD_EXEEXT)
+
+# In some build environments like termux /bin/sh is not a valid
+# shebang. Use $SHELL instead if it's executable and /bin/sh isn't
+BUILD_SHEBANG=/bin/sh
+for she in /bin/sh "$SHELL"; do
+  if test -x "$she" ; then
+    BUILD_SHEBANG="$she"
+  fi
+done
+AC_SUBST(BUILD_SHEBANG)
 
 # For gnulib.
 gl_INIT
@@ -806,6 +839,16 @@ if test x"$platform" != xemu ; then
        AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
 		         [grub_cv_target_cc_soft_float="-mgeneral-regs-only"], [])
     fi
+    if test "x$target_cpu" = xriscv32; then
+       CFLAGS="$TARGET_CFLAGS -march=rv32imac -mabi=ilp32 -Werror"
+       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
+		         [grub_cv_target_cc_soft_float="-march=rv32imac -mabi=ilp32"], [])
+    fi
+    if test "x$target_cpu" = xriscv64; then
+       CFLAGS="$TARGET_CFLAGS -march=rv64imac -mabi=lp64 -Werror"
+       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
+		         [grub_cv_target_cc_soft_float="-march=rv64imac -mabi=lp64"], [])
+    fi
     if test "x$target_cpu" = xia64; then
        CFLAGS="$TARGET_CFLAGS -mno-inline-float-divide -mno-inline-sqrt -Werror"
        AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
@@ -1121,7 +1164,7 @@ AC_SUBST(TARGET_LDFLAGS_OLDMAGIC)
 
 LDFLAGS="$TARGET_LDFLAGS"
 
-if test "$target_cpu" = x86_64 || test "$target_cpu" = sparc64 ; then
+if test "$target_cpu" = x86_64 || test "$target_cpu" = sparc64 || test "$target_cpu" = riscv64 ; then
   # Use large model to support 4G memory
   AC_CACHE_CHECK([whether option -mcmodel=large works], grub_cv_cc_mcmodel, [
     CFLAGS="$TARGET_CFLAGS -mcmodel=large"
@@ -1131,7 +1174,7 @@ if test "$target_cpu" = x86_64 || test "$target_cpu" = sparc64 ; then
   ])
   if test "x$grub_cv_cc_mcmodel" = xyes; then
     TARGET_CFLAGS="$TARGET_CFLAGS -mcmodel=large"
-  elif test "$target_cpu" = sparc64; then
+  elif test "$target_cpu" = sparc64 || test "$target_cpu" = riscv64; then
     TARGET_CFLAGS="$TARGET_CFLAGS -mcmodel=medany"
   fi
 fi
@@ -1185,12 +1228,12 @@ if test "x$target_cpu" = xarm; then
 fi
 
 AC_CACHE_CHECK([whether option -Qn works], grub_cv_target_cc_qn, [
-  CFLAGS="$TARGET_CFLAGS -Qn -Werror"
+  CFLAGS="$TARGET_CFLAGS -Qn -Qunused-arguments -Werror"
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
 		    [grub_cv_target_cc_qn=yes],
 		    [grub_cv_target_cc_qn=no])])
 if test "x$grub_cv_target_cc_qn" = xyes; then
-  TARGET_CFLAGS="$TARGET_CFLAGS -Qn"
+  TARGET_CFLAGS="$TARGET_CFLAGS -Qn -Qunused-arguments"
 fi
 
 #
@@ -1352,7 +1395,7 @@ AC_SUBST(TARGET_NMFLAGS_DEFINED_ONLY)
 if test "$platform" != emu; then
 AC_CACHE_CHECK([whether -nostdinc -isystem works], [grub_cv_cc_isystem], [
   SAVED_CPPFLAGS="$CPPFLAGS"
-  CPPFLAGS="$TARGET_CPPFLAGS -nostdinc -isystem `$TARGET_CC -print-file-name=include`"
+  CPPFLAGS="$TARGET_CPPFLAGS -nostdlib -nostdinc -isystem `$TARGET_CC -print-file-name=include`"
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdarg.h>
 #include <stddef.h>
 int va_arg_func (int fixed, va_list args);]], [[]])],
@@ -1493,29 +1536,22 @@ if test x"$enable_grub_mkfont" = xno ; then
   grub_mkfont_excuse="explicitly disabled"
 fi
 
-if test x"$grub_mkfont_excuse" = x ; then
-  # Check for freetype libraries.
-  AC_CHECK_TOOLS([FREETYPE], [freetype-config])
-  if test "x$FREETYPE" = x ; then
-    grub_mkfont_excuse=["need freetype2 library"]
-  fi
-fi
-
 unset ac_cv_header_ft2build_h
 
 if test x"$grub_mkfont_excuse" = x ; then
   # Check for freetype libraries.
-  freetype_cflags=`$FREETYPE --cflags`
-  freetype_libs=`$FREETYPE --libs`
-  SAVED_CPPFLAGS="$CPPFLAGS"
-  SAVED_LIBS="$LIBS"
-  CPPFLAGS="$CPPFLAGS $freetype_cflags"
-  LIBS="$LIBS $freetype_libs"
-  AC_CHECK_HEADERS([ft2build.h], [],
-  	[grub_mkfont_excuse=["need freetype2 headers"]])
-  AC_LINK_IFELSE([AC_LANG_CALL([], [FT_Load_Glyph])], [], [grub_mkfont_excuse=["freetype2 library unusable"]])
-  CPPFLAGS="$SAVED_CPPFLAGS"
-  LIBS="$SAVED_LIBS"
+  PKG_CHECK_MODULES([FREETYPE], [freetype2], [
+    SAVED_CPPFLAGS="$CPPFLAGS"
+    SAVED_LIBS="$LIBS"
+    CPPFLAGS="$CPPFLAGS $FREETYPE_CFLAGS"
+    LIBS="$LIBS $FREETYPE_LIBS"
+    AC_CHECK_HEADERS([ft2build.h], [],
+      [grub_mkfont_excuse=["need freetype2 headers"]])
+    AC_LINK_IFELSE([AC_LANG_CALL([], [FT_Load_Glyph])], [],
+      [grub_mkfont_excuse=["freetype2 library unusable"]])
+    CPPFLAGS="$SAVED_CPPFLAGS"
+    LIBS="$SAVED_LIBS"
+  ], [grub_mkfont_excuse=["need freetype2 library"]])
 fi
 
 if test x"$enable_grub_mkfont" = xyes && test x"$grub_mkfont_excuse" != x ; then
@@ -1527,8 +1563,6 @@ else
 enable_grub_mkfont=no
 fi
 AC_SUBST([enable_grub_mkfont])
-AC_SUBST([freetype_cflags])
-AC_SUBST([freetype_libs])
 
 SAVED_CC="$CC"
 SAVED_CPP="$CPP"
@@ -1558,25 +1592,21 @@ AC_SUBST([BUILD_WORDS_BIGENDIAN])
 
 if test x"$grub_build_mkfont_excuse" = x ; then
   # Check for freetype libraries.
-  AC_CHECK_PROGS([BUILD_FREETYPE], [freetype-config])
-  if test "x$BUILD_FREETYPE" = x ; then
-    grub_build_mkfont_excuse=["need freetype2 library"]
-  fi
-fi
-
-if test x"$grub_build_mkfont_excuse" = x ; then
-  # Check for freetype libraries.
-  build_freetype_cflags=`$BUILD_FREETYPE --cflags`
-  build_freetype_libs=`$BUILD_FREETYPE --libs`
-  SAVED_CPPFLAGS_2="$CPPFLAGS"
-  SAVED_LIBS="$LIBS"
-  CPPFLAGS="$CPPFLAGS $build_freetype_cflags"
-  LIBS="$LIBS $build_freetype_libs"
-  AC_CHECK_HEADERS([ft2build.h], [],
-  	[grub_build_mkfont_excuse=["need freetype2 headers"]])
-  AC_LINK_IFELSE([AC_LANG_CALL([], [FT_Load_Glyph])], [], [grub_build_mkfont_excuse=["freetype2 library unusable"]])
-  LIBS="$SAVED_LIBS"
-  CPPFLAGS="$SAVED_CPPFLAGS_2"
+  SAVED_PKG_CONFIG="$PKG_CONFIG"
+  test -z "$BUILD_PKG_CONFIG" || PKG_CONFIG="$BUILD_PKG_CONFIG"
+  PKG_CHECK_MODULES([BUILD_FREETYPE], [freetype2], [
+    SAVED_CPPFLAGS_2="$CPPFLAGS"
+    SAVED_LIBS="$LIBS"
+    CPPFLAGS="$CPPFLAGS $BUILD_FREETYPE_CFLAGS"
+    LIBS="$LIBS $BUILD_FREETYPE_LIBS"
+    AC_CHECK_HEADERS([ft2build.h], [],
+      [grub_build_mkfont_excuse=["need freetype2 headers"]])
+    AC_LINK_IFELSE([AC_LANG_CALL([], [FT_Load_Glyph])], [],
+      [grub_build_mkfont_excuse=["freetype2 library unusable"]])
+    LIBS="$SAVED_LIBS"
+    CPPFLAGS="$SAVED_CPPFLAGS_2"
+  ], [grub_build_mkfont_excuse=["need freetype2 library"]])
+  PKG_CONFIG="$SAVED_PKG_CONFIG"
 fi
 
 if test x"$enable_build_grub_mkfont" = xyes && test x"$grub_build_mkfont_excuse" != x ; then
@@ -1594,9 +1624,6 @@ if test x"$enable_build_grub_mkfont" = xno && ( test "x$platform" = xqemu || tes
     AC_MSG_ERROR([qemu, coreboot and loongson ports need build-time grub-mkfont ($grub_build_mkfont_excuse)])
   fi
 fi
-
-AC_SUBST([build_freetype_cflags])
-AC_SUBST([build_freetype_libs])
 
 CC="$SAVED_CC"
 CPP="$SAVED_CPP"
@@ -1893,6 +1920,7 @@ AM_CONDITIONAL([COND_i386_coreboot], [test x$target_cpu = xi386 -a x$platform = 
 AM_CONDITIONAL([COND_i386_multiboot], [test x$target_cpu = xi386 -a x$platform = xmultiboot])
 AM_CONDITIONAL([COND_x86_64_efi], [test x$target_cpu = xx86_64 -a x$platform = xefi])
 AM_CONDITIONAL([COND_i386_xen], [test x$target_cpu = xi386 -a x$platform = xxen])
+AM_CONDITIONAL([COND_i386_xen_pvh], [test x$target_cpu = xi386 -a x$platform = xxen_pvh])
 AM_CONDITIONAL([COND_x86_64_xen], [test x$target_cpu = xx86_64 -a x$platform = xxen])
 AM_CONDITIONAL([COND_mips_loongson], [test x$target_cpu = xmipsel -a x$platform = xloongson])
 AM_CONDITIONAL([COND_mips_qemu_mips], [test "(" x$target_cpu = xmips -o x$target_cpu = xmipsel ")"  -a x$platform = xqemu_mips])
@@ -1905,9 +1933,14 @@ AM_CONDITIONAL([COND_mipsel], [test x$target_cpu = xmipsel])
 AM_CONDITIONAL([COND_mipseb], [test x$target_cpu = xmips])
 AM_CONDITIONAL([COND_arm], [test x$target_cpu = xarm ])
 AM_CONDITIONAL([COND_arm_uboot], [test x$target_cpu = xarm -a x$platform = xuboot])
+AM_CONDITIONAL([COND_arm_coreboot], [test x$target_cpu = xarm -a x$platform = xcoreboot])
 AM_CONDITIONAL([COND_arm_efi], [test x$target_cpu = xarm -a x$platform = xefi])
 AM_CONDITIONAL([COND_arm64], [test x$target_cpu = xarm64 ])
 AM_CONDITIONAL([COND_arm64_efi], [test x$target_cpu = xarm64 -a x$platform = xefi])
+AM_CONDITIONAL([COND_riscv32], [test x$target_cpu = xriscv32 ])
+AM_CONDITIONAL([COND_riscv64], [test x$target_cpu = xriscv64 ])
+AM_CONDITIONAL([COND_riscv32_efi], [test x$target_cpu = xriscv32 -a x$platform = xefi])
+AM_CONDITIONAL([COND_riscv64_efi], [test x$target_cpu = xriscv64 -a x$platform = xefi])
 
 AM_CONDITIONAL([COND_HOST_HURD], [test x$host_kernel = xhurd])
 AM_CONDITIONAL([COND_HOST_LINUX], [test x$host_kernel = xlinux])
@@ -1982,7 +2015,7 @@ fi
 
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([grub-core/Makefile])
-AC_CONFIG_FILES([grub-core/gnulib/Makefile])
+AC_CONFIG_FILES([grub-core/lib/gnulib/Makefile])
 AC_CONFIG_FILES([po/Makefile.in])
 AC_CONFIG_FILES([docs/Makefile])
 AC_CONFIG_FILES([util/bash-completion.d/Makefile])

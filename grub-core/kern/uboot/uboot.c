@@ -39,48 +39,13 @@
  * returns:	0 if the call not found, 1 if serviced
  */
 
-extern int (*grub_uboot_syscall_ptr) (int, int *, ...);
 extern int grub_uboot_syscall (int, int *, ...);
-extern grub_addr_t grub_uboot_search_hint;
 
 static struct sys_info uboot_sys_info;
 static struct mem_region uboot_mem_info[5];
 static struct device_info * devices;
 static int num_devices;
 
-int
-grub_uboot_api_init (void)
-{
-  struct api_signature *start, *end;
-  struct api_signature *p;
-
-  if (grub_uboot_search_hint)
-    {
-      /* Extended search range to work around Trim Slice U-Boot issue */
-      start = (struct api_signature *) ((grub_uboot_search_hint & ~0x000fffff)
-					- 0x00500000);
-      end =
-	(struct api_signature *) ((grub_addr_t) start + UBOOT_API_SEARCH_LEN -
-				  API_SIG_MAGLEN + 0x00500000);
-    }
-  else
-    {
-      start = 0;
-      end = (struct api_signature *) (256 * 1024 * 1024);
-    }
-
-  /* Structure alignment is (at least) 8 bytes */
-  for (p = start; p < end; p = (void *) ((grub_addr_t) p + 8))
-    {
-      if (grub_memcmp (&(p->magic), API_SIG_MAGIC, API_SIG_MAGLEN) == 0)
-	{
-	  grub_uboot_syscall_ptr = p->syscall;
-	  return p->version;
-	}
-    }
-
-  return 0;
-}
 
 /*
  * All functions below are wrappers around the grub_uboot_syscall() function
@@ -273,6 +238,22 @@ grub_uboot_dev_read (struct device_info *dev, void *buf, grub_size_t blocks,
 
   if (!grub_uboot_syscall (API_DEV_READ, &retval, dev, buf,
 			   &blocks, &start, real_blocks))
+    return -1;
+
+  return retval;
+}
+
+int
+grub_uboot_dev_write (struct device_info *dev, const void *buf,
+		      grub_size_t blocks, grub_uint32_t start)
+{
+  int retval;
+
+  if (!OPEN_DEV (dev))
+    return -1;
+
+  if (!grub_uboot_syscall (API_DEV_WRITE, &retval, dev, buf,
+			   &blocks, &start))
     return -1;
 
   return retval;

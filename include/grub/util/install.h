@@ -29,6 +29,8 @@
 #define GRUB_INSTALL_OPTIONS					  \
   { "modules",      GRUB_INSTALL_OPTIONS_MODULES, N_("MODULES"),	  \
     0, N_("pre-load specified modules MODULES"), 1 },			  \
+  { "dtb",      GRUB_INSTALL_OPTIONS_DTB, N_("FILE"),	  \
+    0, N_("embed a specific DTB"), 1 },			  \
   { "install-modules", GRUB_INSTALL_OPTIONS_INSTALL_MODULES,	  \
     N_("MODULES"), 0,							  \
     N_("install only MODULES and their dependencies [default=all]"), 1 }, \
@@ -98,7 +100,11 @@ enum grub_install_plat
     GRUB_INSTALL_PLATFORM_MIPS_QEMU_MIPS,
     GRUB_INSTALL_PLATFORM_I386_XEN,
     GRUB_INSTALL_PLATFORM_X86_64_XEN,
+    GRUB_INSTALL_PLATFORM_I386_XEN_PVH,
     GRUB_INSTALL_PLATFORM_ARM64_EFI,
+    GRUB_INSTALL_PLATFORM_ARM_COREBOOT,
+    GRUB_INSTALL_PLATFORM_RISCV32_EFI,
+    GRUB_INSTALL_PLATFORM_RISCV64_EFI,
     GRUB_INSTALL_PLATFORM_MAX
   };
 
@@ -115,7 +121,8 @@ enum grub_install_options {
   GRUB_INSTALL_OPTIONS_LOCALE_DIRECTORY,
   GRUB_INSTALL_OPTIONS_THEMES_DIRECTORY,
   GRUB_INSTALL_OPTIONS_GRUB_MKIMAGE,
-  GRUB_INSTALL_OPTIONS_INSTALL_CORE_COMPRESS
+  GRUB_INSTALL_OPTIONS_INSTALL_CORE_COMPRESS,
+  GRUB_INSTALL_OPTIONS_DTB
 };
 
 extern char *grub_install_source_directory;
@@ -176,7 +183,7 @@ grub_install_generate_image (const char *dir, const char *prefix,
 			     char *config_path,
 			     const struct grub_install_image_target_desc *image_target,
 			     int note,
-			     grub_compression_t comp);
+			     grub_compression_t comp, const char *dtb_file);
 
 const struct grub_install_image_target_desc *
 grub_install_get_image_target (const char *arg);
@@ -204,9 +211,12 @@ void
 grub_install_create_envblk_file (const char *name);
 
 const char *
+grub_install_get_default_arm_platform (void);
+
+const char *
 grub_install_get_default_x86_platform (void);
 
-void
+int
 grub_install_register_efi (grub_device_t efidir_grub_dev,
 			   const char *efifile_path,
 			   const char *efi_distributor);
