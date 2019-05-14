@@ -21,4 +21,6 @@
 #define XEN_NOTE_SIZE		132
 #define XEN_PVH_NOTE_SIZE	20
 
+#ifndef GRUB_MKIMAGEXX
 #include "grub-mkimagexx.c"
+#endif

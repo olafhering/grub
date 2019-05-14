@@ -1,4 +1,4 @@
-From 3ddfe605a6a472100f529c3d7465bf4eb7fe954d Mon Sep 17 00:00:00 2001
+From 3b968756ecc7c4d97d63d65e3fe258a3df9652a0 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 11 Mar 2019 11:17:43 +0000
 Subject: Minimise writes to EFI variable storage
@@ -60,7 +60,7 @@ Patch-Name: efi-variable-storage-minimise-writes.patch
  create mode 100644 grub-core/osdep/unix/efivar.c
 
 diff --git a/INSTALL b/INSTALL
-index b370d7753..5862e458a 100644
+index 8acb40902..342c158e9 100644
 --- a/INSTALL
 +++ b/INSTALL
 @@ -41,6 +41,11 @@ configuring the GRUB.
@@ -76,10 +76,10 @@ index b370d7753..5862e458a 100644
  
  * libdevmapper 1.02.34 or later (recommended)
 diff --git a/Makefile.util.def b/Makefile.util.def
-index fa39d8bd1..58f8284cb 100644
+index 8a24b23f0..59e41423b 100644
 --- a/Makefile.util.def
 +++ b/Makefile.util.def
-@@ -548,6 +548,8 @@ program = {
+@@ -558,6 +558,8 @@ program = {
    common = grub-core/osdep/compress.c;
    extra_dist = grub-core/osdep/unix/compress.c;
    extra_dist = grub-core/osdep/basic/compress.c;
@@ -88,7 +88,7 @@ index fa39d8bd1..58f8284cb 100644
    common = util/editenv.c;
    common = grub-core/osdep/blocklist.c;
    common = grub-core/osdep/config.c;
-@@ -561,12 +563,15 @@ program = {
+@@ -571,12 +573,15 @@ program = {
    common = grub-core/kern/emu/argp_common.c;
    common = grub-core/osdep/init.c;
  
@@ -98,13 +98,13 @@ index fa39d8bd1..58f8284cb 100644
    ldadd = libgrubmods.a;
    ldadd = libgrubgcry.a;
    ldadd = libgrubkern.a;
-   ldadd = grub-core/gnulib/libgnu.a;
+   ldadd = grub-core/lib/gnulib/libgnu.a;
    ldadd = '$(LIBINTL) $(LIBDEVMAPPER) $(LIBUTIL) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
 +  ldadd = '$(EFIVAR_LIBS)';
  
    condition = COND_HAVE_EXEC;
  };
-@@ -595,6 +600,8 @@ program = {
+@@ -605,6 +610,8 @@ program = {
    extra_dist = grub-core/osdep/basic/no_platform.c;
    extra_dist = grub-core/osdep/unix/platform.c;
    common = grub-core/osdep/compress.c;
@@ -113,7 +113,7 @@ index fa39d8bd1..58f8284cb 100644
    common = util/editenv.c;
    common = grub-core/osdep/blocklist.c;
    common = grub-core/osdep/config.c;
-@@ -608,12 +615,15 @@ program = {
+@@ -618,12 +625,15 @@ program = {
    common = grub-core/kern/emu/argp_common.c;
    common = grub-core/osdep/init.c;
  
@@ -123,13 +123,13 @@ index fa39d8bd1..58f8284cb 100644
    ldadd = libgrubmods.a;
    ldadd = libgrubgcry.a;
    ldadd = libgrubkern.a;
-   ldadd = grub-core/gnulib/libgnu.a;
+   ldadd = grub-core/lib/gnulib/libgnu.a;
    ldadd = '$(LIBINTL) $(LIBDEVMAPPER) $(LIBUTIL) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
 +  ldadd = '$(EFIVAR_LIBS)';
  };
  
  program = {
-@@ -635,6 +645,8 @@ program = {
+@@ -645,6 +655,8 @@ program = {
    common = grub-core/osdep/platform.c;
    common = grub-core/osdep/platform_unix.c;
    common = grub-core/osdep/compress.c;
@@ -138,7 +138,7 @@ index fa39d8bd1..58f8284cb 100644
    common = util/editenv.c;
    common = grub-core/osdep/blocklist.c;
    common = grub-core/osdep/config.c;
-@@ -647,12 +659,15 @@ program = {
+@@ -657,12 +669,15 @@ program = {
    common = grub-core/kern/emu/argp_common.c;
    common = grub-core/osdep/init.c;
  
@@ -148,13 +148,13 @@ index fa39d8bd1..58f8284cb 100644
    ldadd = libgrubmods.a;
    ldadd = libgrubgcry.a;
    ldadd = libgrubkern.a;
-   ldadd = grub-core/gnulib/libgnu.a;
+   ldadd = grub-core/lib/gnulib/libgnu.a;
    ldadd = '$(LIBINTL) $(LIBDEVMAPPER) $(LIBUTIL) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
 +  ldadd = '$(EFIVAR_LIBS)';
  };
  
  program = {
-@@ -674,6 +689,8 @@ program = {
+@@ -684,6 +699,8 @@ program = {
    common = grub-core/osdep/platform.c;
    common = grub-core/osdep/platform_unix.c;
    common = grub-core/osdep/compress.c;
@@ -163,7 +163,7 @@ index fa39d8bd1..58f8284cb 100644
    common = util/editenv.c;
    common = grub-core/osdep/blocklist.c;
    common = grub-core/osdep/config.c;
-@@ -683,12 +700,15 @@ program = {
+@@ -693,12 +710,15 @@ program = {
    common = grub-core/kern/emu/argp_common.c;
    common = grub-core/osdep/init.c;
  
@@ -173,17 +173,17 @@ index fa39d8bd1..58f8284cb 100644
    ldadd = libgrubmods.a;
    ldadd = libgrubgcry.a;
    ldadd = libgrubkern.a;
-   ldadd = grub-core/gnulib/libgnu.a;
+   ldadd = grub-core/lib/gnulib/libgnu.a;
    ldadd = '$(LIBINTL) $(LIBDEVMAPPER) $(LIBUTIL) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
 +  ldadd = '$(EFIVAR_LIBS)';
  };
  
  script = {
 diff --git a/configure.ac b/configure.ac
-index 5b7423be3..3b97f2ba1 100644
+index e3dca49fa..800c51ee1 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -426,6 +426,18 @@ AC_CHECK_HEADER([util.h], [
+@@ -443,6 +443,18 @@ AC_CHECK_HEADER([util.h], [
  ])
  AC_SUBST([LIBUTIL])
  
@@ -726,7 +726,7 @@ index 000000000..4a58328b4
 +
 +#endif /* HAVE_EFIVAR */
 diff --git a/grub-core/osdep/unix/platform.c b/grub-core/osdep/unix/platform.c
-index f9c376c35..b561174ea 100644
+index 9c439326a..b561174ea 100644
 --- a/grub-core/osdep/unix/platform.c
 +++ b/grub-core/osdep/unix/platform.c
 @@ -19,15 +19,12 @@
@@ -756,7 +756,7 @@ index f9c376c35..b561174ea 100644
 -  pid_t pid = grub_util_exec_pipe ((const char * []){ "efibootmgr", NULL }, &fd);
 -  char *line = NULL;
 -  size_t len = 0;
--  int error = 0;
+-  int rc = 0;
 -
 -  if (!pid)
 -    {
@@ -791,15 +791,15 @@ index f9c376c35..b561174ea 100644
 -      bootnum = line + sizeof ("Boot") - 1;
 -      bootnum[4] = '\0';
 -      if (!verbosity)
--	error = grub_util_exec ((const char * []){ "efibootmgr", "-q",
+-	rc = grub_util_exec ((const char * []){ "efibootmgr", "-q",
 -	      "-b", bootnum,  "-B", NULL });
 -      else
--	error = grub_util_exec ((const char * []){ "efibootmgr",
+-	rc = grub_util_exec ((const char * []){ "efibootmgr",
 -	      "-b", bootnum, "-B", NULL });
 -    }
 -
 -  free (line);
--  return error;
+-  return rc;
 -}
 -
  int
@@ -809,7 +809,7 @@ index f9c376c35..b561174ea 100644
  {
 -  const char * efidir_disk;
 -  int efidir_part;
--  int error = 0;
+-  int ret;
 -  efidir_disk = grub_util_biosdisk_get_osdev (efidir_grub_dev->disk);
 -  efidir_part = efidir_grub_dev->disk->partition ? efidir_grub_dev->disk->partition->number + 1 : 1;
 -
@@ -832,34 +832,34 @@ index f9c376c35..b561174ea 100644
 +		     "cannot register EFI boot entry"));
  #endif
 -  /* Delete old entries from the same distributor.  */
--  error = grub_install_remove_efi_entries_by_distributor (efi_distributor);
--  if (error)
--    return error;
+-  ret = grub_install_remove_efi_entries_by_distributor (efi_distributor);
+-  if (ret)
+-    return ret;
 -
 -  char *efidir_part_str = xasprintf ("%d", efidir_part);
 -
 -  if (!verbosity)
--    error = grub_util_exec ((const char * []){ "efibootmgr", "-q",
+-    ret = grub_util_exec ((const char * []){ "efibootmgr", "-q",
 -	  "-c", "-d", efidir_disk,
 -	  "-p", efidir_part_str, "-w",
 -	  "-L", efi_distributor, "-l", 
 -	  efifile_path, NULL });
 -  else
--    error = grub_util_exec ((const char * []){ "efibootmgr",
+-    ret = grub_util_exec ((const char * []){ "efibootmgr",
 -	  "-c", "-d", efidir_disk,
 -	  "-p", efidir_part_str, "-w",
 -	  "-L", efi_distributor, "-l", 
 -	  efifile_path, NULL });
 -  free (efidir_part_str);
--  return error;
+-  return ret;
  }
  
  void
 diff --git a/include/grub/util/install.h b/include/grub/util/install.h
-index 5783cc4bc..961a2613b 100644
+index 8aeb5c4f2..a521f1663 100644
 --- a/include/grub/util/install.h
 +++ b/include/grub/util/install.h
-@@ -213,6 +213,11 @@ grub_install_get_default_x86_platform (void);
+@@ -219,6 +219,11 @@ grub_install_get_default_x86_platform (void);
  const char *
  grub_install_get_default_powerpc_machtype (void);
  
@@ -872,24 +872,24 @@ index 5783cc4bc..961a2613b 100644
  grub_install_register_efi (grub_device_t efidir_grub_dev,
  			   const char *efifile_path,
 diff --git a/util/grub-install.c b/util/grub-install.c
-index 55491589f..04d8250c9 100644
+index 6462d3c70..d66de7f8e 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
-@@ -2031,7 +2031,7 @@ main (int argc, char *argv[])
- 					 "\\System\\Library\\CoreServices",
- 					 efi_distributor);
- 	      if (error)
+@@ -2059,7 +2059,7 @@ main (int argc, char *argv[])
+ 					       "\\System\\Library\\CoreServices",
+ 					       efi_distributor);
+ 	      if (ret)
 -	        grub_util_error (_("efibootmgr failed to register the boot entry: %s"),
 +	        grub_util_error (_("failed to register the EFI boot entry: %s"),
- 				 strerror (error));
+ 				 strerror (ret));
  	    }
  
-@@ -2143,7 +2143,7 @@ main (int argc, char *argv[])
- 	  error = grub_install_register_efi (efidir_grub_dev,
- 					     efifile_path, efi_distributor);
- 	  if (error)
+@@ -2173,7 +2173,7 @@ main (int argc, char *argv[])
+ 	  ret = grub_install_register_efi (efidir_grub_dev,
+ 					   efifile_path, efi_distributor);
+ 	  if (ret)
 -	    grub_util_error (_("efibootmgr failed to register the boot entry: %s"),
 +	    grub_util_error (_("failed to register the EFI boot entry: %s"),
- 			     strerror (error));
+ 			     strerror (ret));
  	}
        break;

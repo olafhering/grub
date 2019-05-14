@@ -475,8 +475,8 @@ probe_mods (grub_disk_t disk)
   if (raid_level >= 0)
     {
       grub_install_push_module ("diskfilter");
-      if (disk->dev->raidname)
-	grub_install_push_module (disk->dev->raidname (disk));
+      if (disk->dev->disk_raidname)
+	grub_install_push_module (disk->dev->disk_raidname (disk));
     }
   if (raid_level == 5)
     grub_install_push_module ("raid5rec");
@@ -484,8 +484,8 @@ probe_mods (grub_disk_t disk)
     grub_install_push_module ("raid6rec");
 
   /* In case of LVM/RAID, check the member devices as well.  */
-  if (disk->dev->memberlist)
-    list = disk->dev->memberlist (disk);
+  if (disk->dev->disk_memberlist)
+    list = disk->dev->disk_memberlist (disk);
   while (list)
     {
       probe_mods (list->disk);
@@ -506,6 +506,8 @@ have_bootdev (enum grub_install_plat pl)
     case GRUB_INSTALL_PLATFORM_IA64_EFI:
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
     case GRUB_INSTALL_PLATFORM_ARM64_EFI:
+    case GRUB_INSTALL_PLATFORM_RISCV32_EFI:
+    case GRUB_INSTALL_PLATFORM_RISCV64_EFI:
     case GRUB_INSTALL_PLATFORM_I386_IEEE1275:
     case GRUB_INSTALL_PLATFORM_SPARC64_IEEE1275:
     case GRUB_INSTALL_PLATFORM_POWERPC_IEEE1275:
@@ -515,6 +517,7 @@ have_bootdev (enum grub_install_plat pl)
 
     case GRUB_INSTALL_PLATFORM_I386_QEMU:
     case GRUB_INSTALL_PLATFORM_I386_COREBOOT:
+    case GRUB_INSTALL_PLATFORM_ARM_COREBOOT:
     case GRUB_INSTALL_PLATFORM_I386_MULTIBOOT:
     case GRUB_INSTALL_PLATFORM_MIPSEL_QEMU_MIPS:
     case GRUB_INSTALL_PLATFORM_MIPS_QEMU_MIPS:
@@ -540,9 +543,9 @@ probe_cryptodisk_uuid (grub_disk_t disk)
   grub_disk_memberlist_t list = NULL, tmp;
 
   /* In case of LVM/RAID, check the member devices as well.  */
-  if (disk->dev->memberlist)
+  if (disk->dev->disk_memberlist)
     {
-      list = disk->dev->memberlist (disk);
+      list = disk->dev->disk_memberlist (disk);
     }
   while (list)
     {
@@ -743,7 +746,7 @@ is_prep_partition (grub_device_t dev)
       if (grub_disk_read (dev->disk, p->offset, p->index,
 			  sizeof (gptdata), &gptdata) == 0)
 	{
-	  const grub_gpt_part_type_t template = {
+	  const grub_gpt_part_guid_t template = {
 	    grub_cpu_to_le32_compile_time (0x9e1a2d38),
 	    grub_cpu_to_le16_compile_time (0xc612),
 	    grub_cpu_to_le16_compile_time (0x4316),
@@ -1018,6 +1021,8 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_X86_64_EFI:
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
     case GRUB_INSTALL_PLATFORM_ARM64_EFI:
+    case GRUB_INSTALL_PLATFORM_RISCV32_EFI:
+    case GRUB_INSTALL_PLATFORM_RISCV64_EFI:
     case GRUB_INSTALL_PLATFORM_IA64_EFI:
     case GRUB_INSTALL_PLATFORM_I386_IEEE1275:
     case GRUB_INSTALL_PLATFORM_SPARC64_IEEE1275:
@@ -1032,6 +1037,7 @@ main (int argc, char *argv[])
 
     case GRUB_INSTALL_PLATFORM_I386_QEMU:
     case GRUB_INSTALL_PLATFORM_I386_COREBOOT:
+    case GRUB_INSTALL_PLATFORM_ARM_COREBOOT:
     case GRUB_INSTALL_PLATFORM_I386_MULTIBOOT:
     case GRUB_INSTALL_PLATFORM_MIPSEL_LOONGSON:
     case GRUB_INSTALL_PLATFORM_MIPSEL_QEMU_MIPS:
@@ -1062,11 +1068,14 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_X86_64_EFI:
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
     case GRUB_INSTALL_PLATFORM_ARM64_EFI:
+    case GRUB_INSTALL_PLATFORM_RISCV32_EFI:
+    case GRUB_INSTALL_PLATFORM_RISCV64_EFI:
     case GRUB_INSTALL_PLATFORM_IA64_EFI:
     case GRUB_INSTALL_PLATFORM_I386_IEEE1275:
     case GRUB_INSTALL_PLATFORM_ARM_UBOOT:
     case GRUB_INSTALL_PLATFORM_I386_QEMU:
     case GRUB_INSTALL_PLATFORM_I386_COREBOOT:
+    case GRUB_INSTALL_PLATFORM_ARM_COREBOOT:
     case GRUB_INSTALL_PLATFORM_I386_MULTIBOOT:
     case GRUB_INSTALL_PLATFORM_MIPSEL_LOONGSON:
     case GRUB_INSTALL_PLATFORM_MIPSEL_QEMU_MIPS:
@@ -1114,6 +1123,8 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_X86_64_EFI:
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
     case GRUB_INSTALL_PLATFORM_ARM64_EFI:
+    case GRUB_INSTALL_PLATFORM_RISCV32_EFI:
+    case GRUB_INSTALL_PLATFORM_RISCV64_EFI:
     case GRUB_INSTALL_PLATFORM_IA64_EFI:
       is_efi = 1;
       break;
@@ -1227,6 +1238,14 @@ main (int argc, char *argv[])
 	case GRUB_INSTALL_PLATFORM_ARM64_EFI:
 	  efi_suffix = "aa64";
 	  efi_suffix_upper = "AA64";
+	  break;
+	case GRUB_INSTALL_PLATFORM_RISCV32_EFI:
+	  efi_suffix = "riscv32";
+	  efi_suffix_upper = "RISCV32";
+	  break;
+	case GRUB_INSTALL_PLATFORM_RISCV64_EFI:
+	  efi_suffix = "riscv64";
+	  efi_suffix_upper = "RISCV64";
 	  break;
 	default:
 	  break;
@@ -1520,8 +1539,8 @@ main (int argc, char *argv[])
 	    }
 
 	  /*  generic method (used on coreboot and ata mod).  */
-	  if (!force_file_id && grub_fs->uuid && grub_fs->uuid (grub_dev,
-								&uuid))
+	  if (!force_file_id
+	      && grub_fs->fs_uuid && grub_fs->fs_uuid (grub_dev, &uuid))
 	    {
 	      grub_print_error ();
 	      grub_errno = 0;
@@ -1602,6 +1621,8 @@ main (int argc, char *argv[])
 		  case GRUB_INSTALL_PLATFORM_X86_64_EFI:
 		  case GRUB_INSTALL_PLATFORM_ARM_EFI:
 		  case GRUB_INSTALL_PLATFORM_ARM64_EFI:
+		  case GRUB_INSTALL_PLATFORM_RISCV32_EFI:
+		  case GRUB_INSTALL_PLATFORM_RISCV64_EFI:
 		  case GRUB_INSTALL_PLATFORM_IA64_EFI:
 		    g = grub_util_guess_efi_drive (*curdev);
 		    break;
@@ -1616,6 +1637,7 @@ main (int argc, char *argv[])
 		  case GRUB_INSTALL_PLATFORM_MIPSEL_LOONGSON:
 		  case GRUB_INSTALL_PLATFORM_I386_QEMU:
 		  case GRUB_INSTALL_PLATFORM_I386_COREBOOT:
+		  case GRUB_INSTALL_PLATFORM_ARM_COREBOOT:
 		  case GRUB_INSTALL_PLATFORM_I386_MULTIBOOT:
 		  case GRUB_INSTALL_PLATFORM_MIPSEL_QEMU_MIPS:
 		  case GRUB_INSTALL_PLATFORM_MIPS_QEMU_MIPS:
@@ -1694,6 +1716,8 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_X86_64_EFI:
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
     case GRUB_INSTALL_PLATFORM_ARM64_EFI:
+    case GRUB_INSTALL_PLATFORM_RISCV32_EFI:
+    case GRUB_INSTALL_PLATFORM_RISCV64_EFI:
     case GRUB_INSTALL_PLATFORM_IA64_EFI:
       core_name = "core.efi";
       snprintf (mkimage_target, sizeof (mkimage_target),
@@ -1712,6 +1736,7 @@ main (int argc, char *argv[])
       break;
 
     case GRUB_INSTALL_PLATFORM_I386_COREBOOT:
+    case GRUB_INSTALL_PLATFORM_ARM_COREBOOT:
     case GRUB_INSTALL_PLATFORM_I386_MULTIBOOT:
     case GRUB_INSTALL_PLATFORM_I386_IEEE1275:
     case GRUB_INSTALL_PLATFORM_POWERPC_IEEE1275:
@@ -1796,10 +1821,13 @@ main (int argc, char *argv[])
       break;
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
     case GRUB_INSTALL_PLATFORM_ARM64_EFI:
+    case GRUB_INSTALL_PLATFORM_RISCV32_EFI:
+    case GRUB_INSTALL_PLATFORM_RISCV64_EFI:
     case GRUB_INSTALL_PLATFORM_IA64_EFI:
     case GRUB_INSTALL_PLATFORM_MIPSEL_QEMU_MIPS:
     case GRUB_INSTALL_PLATFORM_MIPS_QEMU_MIPS:
     case GRUB_INSTALL_PLATFORM_I386_COREBOOT:
+    case GRUB_INSTALL_PLATFORM_ARM_COREBOOT:
     case GRUB_INSTALL_PLATFORM_I386_MULTIBOOT:
     case GRUB_INSTALL_PLATFORM_I386_PC:
     case GRUB_INSTALL_PLATFORM_MIPSEL_ARC:
@@ -2026,13 +2054,13 @@ main (int argc, char *argv[])
 	  if (!removable && update_nvram)
 	    {
 	      /* Try to make this image bootable using the EFI Boot Manager, if available.  */
-	      int error = 0;
-	      error = grub_install_register_efi (efidir_grub_dev,
-					 "\\System\\Library\\CoreServices",
-					 efi_distributor);
-	      if (error)
+	      int ret;
+	      ret = grub_install_register_efi (efidir_grub_dev,
+					       "\\System\\Library\\CoreServices",
+					       efi_distributor);
+	      if (ret)
 	        grub_util_error (_("failed to register the EFI boot entry: %s"),
-				 strerror (error));
+				 strerror (ret));
 	    }
 
 	  grub_device_close (ins_dev);
@@ -2043,6 +2071,8 @@ main (int argc, char *argv[])
       /* FALLTHROUGH */
     case GRUB_INSTALL_PLATFORM_ARM_EFI:
     case GRUB_INSTALL_PLATFORM_ARM64_EFI:
+    case GRUB_INSTALL_PLATFORM_RISCV32_EFI:
+    case GRUB_INSTALL_PLATFORM_RISCV64_EFI:
     case GRUB_INSTALL_PLATFORM_IA64_EFI:
       {
 	char *dst = grub_util_path_concat (2, efidir, efi_file);
@@ -2123,7 +2153,7 @@ main (int argc, char *argv[])
 	{
 	  char * efifile_path;
 	  char * part;
-	  int error = 0;
+	  int ret;
 
 	  /* Try to make this image bootable using the EFI Boot Manager, if available.  */
 	  if (!efi_distributor || efi_distributor[0] == '\0')
@@ -2140,11 +2170,11 @@ main (int argc, char *argv[])
 			  efidir_grub_dev->disk->name,
 			  (part ? ",": ""), (part ? : ""));
 	  grub_free (part);
-	  error = grub_install_register_efi (efidir_grub_dev,
-					     efifile_path, efi_distributor);
-	  if (error)
+	  ret = grub_install_register_efi (efidir_grub_dev,
+					   efifile_path, efi_distributor);
+	  if (ret)
 	    grub_util_error (_("failed to register the EFI boot entry: %s"),
-			     strerror (error));
+			     strerror (ret));
 	}
       break;
 
@@ -2174,6 +2204,7 @@ main (int argc, char *argv[])
     case GRUB_INSTALL_PLATFORM_MIPSEL_QEMU_MIPS:
     case GRUB_INSTALL_PLATFORM_MIPS_QEMU_MIPS:
     case GRUB_INSTALL_PLATFORM_I386_COREBOOT:
+    case GRUB_INSTALL_PLATFORM_ARM_COREBOOT:
     case GRUB_INSTALL_PLATFORM_I386_MULTIBOOT:
     case GRUB_INSTALL_PLATFORM_MIPSEL_ARC:
     case GRUB_INSTALL_PLATFORM_ARM_UBOOT:

@@ -1,6 +1,6 @@
-# serial 64
+# serial 68
 
-# Copyright (C) 1996-2001, 2003-2013 Free Software Foundation, Inc.
+# Copyright (C) 1996-2001, 2003-2019 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -13,6 +13,7 @@ AC_PREREQ([2.50])
 
 AC_DEFUN([gl_REGEX],
 [
+  AC_REQUIRE([AC_CANONICAL_HOST]) dnl for cross-compiles
   AC_ARG_WITH([included-regex],
     [AS_HELP_STRING([--without-included-regex],
                     [don't compile regex; this is the default on systems
@@ -28,6 +29,7 @@ AC_DEFUN([gl_REGEX],
     # If cross compiling, assume the test would fail and use the included
     # regex.c.
     AC_CHECK_DECLS_ONCE([alarm])
+    AC_CHECK_HEADERS_ONCE([malloc.h])
     AC_CACHE_CHECK([for working re_compile_pattern],
                    [gl_cv_func_re_compile_pattern_working],
       [AC_RUN_IFELSE(
@@ -37,9 +39,19 @@ AC_DEFUN([gl_REGEX],
             #include <locale.h>
             #include <limits.h>
             #include <string.h>
-            #if HAVE_DECL_ALARM
-            # include <unistd.h>
+
+            #if defined M_CHECK_ACTION || HAVE_DECL_ALARM
             # include <signal.h>
+            # include <unistd.h>
+            #endif
+
+            #if HAVE_MALLOC_H
+            # include <malloc.h>
+            #endif
+
+            #ifdef M_CHECK_ACTION
+            /* Exit with distinguishable exit code.  */
+            static void sigabrt_no_core (int sig) { raise (SIGTERM); }
             #endif
           ]],
           [[int result = 0;
@@ -49,15 +61,22 @@ AC_DEFUN([gl_REGEX],
             const char *s;
             struct re_registers regs;
 
+            /* Some builds of glibc go into an infinite loop on this
+               test.  Use alarm to force death, and mallopt to avoid
+               malloc recursion in diagnosing the corrupted heap. */
 #if HAVE_DECL_ALARM
-            /* Some builds of glibc go into an infinite loop on this test.  */
             signal (SIGALRM, SIG_DFL);
             alarm (2);
 #endif
+#ifdef M_CHECK_ACTION
+            signal (SIGABRT, sigabrt_no_core);
+            mallopt (M_CHECK_ACTION, 2);
+#endif
+
             if (setlocale (LC_ALL, "en_US.UTF-8"))
               {
                 {
-                  /* http://sourceware.org/ml/libc-hacker/2006-09/msg00008.html
+                  /* https://sourceware.org/ml/libc-hacker/2006-09/msg00008.html
                      This test needs valgrind to catch the bug on Debian
                      GNU/Linux 3.1 x86, but it might catch the bug better
                      on other platforms and it shouldn't hurt to try the
@@ -75,26 +94,39 @@ AC_DEFUN([gl_REGEX],
                                       0, sizeof data - 1, &regs)
                            != -1)
                     result |= 1;
+                  regfree (&regex);
                 }
 
                 {
                   /* This test is from glibc bug 15078.
                      The test case is from Andreas Schwab in
-                     <http://www.sourceware.org/ml/libc-alpha/2013-01/msg00967.html>.
+                     <https://sourceware.org/ml/libc-alpha/2013-01/msg00967.html>.
                      */
                   static char const pat[] = "[^x]x";
                   static char const data[] =
-                    "\xe1\x80\x80\xe1\x80\xbb\xe1\x80\xbd\xe1\x80\x94\xe1\x80"
-                    "\xba\xe1\x80\xaf\xe1\x80\x95\xe1\x80\xbax";
+                    /* <U1000><U103B><U103D><U1014><U103A><U102F><U1015><U103A> */
+                    "\xe1\x80\x80"
+                    "\xe1\x80\xbb"
+                    "\xe1\x80\xbd"
+                    "\xe1\x80\x94"
+                    "\xe1\x80\xba"
+                    "\xe1\x80\xaf"
+                    "\xe1\x80\x95"
+                    "\xe1\x80\xba"
+                    "x";
                   re_set_syntax (0);
                   memset (&regex, 0, sizeof regex);
                   s = re_compile_pattern (pat, sizeof pat - 1, &regex);
                   if (s)
                     result |= 1;
-                  else if (re_search (&regex, data, sizeof data - 1,
-                                      0, sizeof data - 1, 0)
-                           != 21)
-                    result |= 1;
+                  else
+                    {
+                      i = re_search (&regex, data, sizeof data - 1,
+                                     0, sizeof data - 1, 0);
+                      if (i != 0 && i != 21)
+                        result |= 1;
+                    }
+                  regfree (&regex);
                 }
 
                 if (! setlocale (LC_ALL, "C"))
@@ -166,7 +198,7 @@ AC_DEFUN([gl_REGEX],
               result |= 16;
 
             /* Catch a bug reported by Vin Shelton in
-               http://lists.gnu.org/archive/html/bug-coreutils/2007-06/msg00089.html
+               https://lists.gnu.org/r/bug-coreutils/2007-06/msg00089.html
                */
             re_set_syntax (RE_SYNTAX_POSIX_BASIC
                            & ~RE_CONTEXT_INVALID_DUP
@@ -179,6 +211,17 @@ AC_DEFUN([gl_REGEX],
             /* REG_STARTEND was added to glibc on 2004-01-15.
                Reject older versions.  */
             if (! REG_STARTEND)
+              result |= 64;
+
+            /* Matching with the compiled form of this regexp would provoke
+               an assertion failure prior to glibc-2.28:
+                 regexec.c:1375: pop_fail_stack: Assertion 'num >= 0' failed
+               With glibc-2.28, compilation fails and reports the invalid
+               back reference.  */
+            re_set_syntax (RE_SYNTAX_POSIX_EGREP);
+            memset (&regex, 0, sizeof regex);
+            s = re_compile_pattern ("0|()0|\\1|0", 10, &regex);
+            if (!s || strcmp (s, "Invalid back reference"))
               result |= 64;
 
 #if 0
@@ -195,13 +238,19 @@ AC_DEFUN([gl_REGEX],
 
             return result;
           ]])],
-       [gl_cv_func_re_compile_pattern_working=yes],
-       [gl_cv_func_re_compile_pattern_working=no],
-       dnl When crosscompiling, assume it is not working.
-       [gl_cv_func_re_compile_pattern_working=no])])
-    case $gl_cv_func_re_compile_pattern_working in #(
-    yes) ac_use_included_regex=no;; #(
-    no) ac_use_included_regex=yes;;
+        [gl_cv_func_re_compile_pattern_working=yes],
+        [gl_cv_func_re_compile_pattern_working=no],
+        [case "$host_os" in
+                   # Guess no on native Windows.
+           mingw*) gl_cv_func_re_compile_pattern_working="guessing no" ;;
+                   # Otherwise, assume it is not working.
+           *)      gl_cv_func_re_compile_pattern_working="guessing no" ;;
+         esac
+        ])
+      ])
+    case "$gl_cv_func_re_compile_pattern_working" in #(
+      *yes) ac_use_included_regex=no;; #(
+      *no) ac_use_included_regex=yes;;
     esac
     ;;
   *) AC_MSG_ERROR([Invalid value for --with-included-regex: $with_included_regex])
@@ -255,7 +304,8 @@ AC_DEFUN([gl_PREREQ_REGEX],
   AC_REQUIRE([AC_C_RESTRICT])
   AC_REQUIRE([AC_TYPE_MBSTATE_T])
   AC_REQUIRE([gl_EEMALLOC])
+  AC_REQUIRE([gl_GLIBC21])
   AC_CHECK_HEADERS([libintl.h])
-  AC_CHECK_FUNCS_ONCE([isblank iswctype wcscoll])
+  AC_CHECK_FUNCS_ONCE([isblank iswctype])
   AC_CHECK_DECLS([isblank], [], [], [[#include <ctype.h>]])
 ])

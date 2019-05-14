@@ -20,6 +20,10 @@
 #define GRUB_FDT_HEADER	1
 
 #include <grub/types.h>
+#include <grub/symbol.h>
+
+/* Space required when preparing the /chosen node after boot has been called. */
+#define GRUB_EFI_LINUX_FDT_EXTRA_SPACE 0x400
 
 #define FDT_MAGIC 0xD00DFEED
 
@@ -100,16 +104,22 @@ struct grub_fdt_empty_tree {
 #define grub_fdt_set_size_dt_struct(fdt, value)	\
 	grub_fdt_set_header(fdt, size_dt_struct, value)
 
-int grub_fdt_create_empty_tree (void *fdt, unsigned int size);
-int grub_fdt_check_header (void *fdt, unsigned int size);
-int grub_fdt_check_header_nosize (void *fdt);
-int grub_fdt_find_subnode (const void *fdt, unsigned int parentoffset,
-			   const char *name);
-int grub_fdt_add_subnode (void *fdt, unsigned int parentoffset,
+int EXPORT_FUNC(grub_fdt_create_empty_tree) (void *fdt, unsigned int size);
+int EXPORT_FUNC(grub_fdt_check_header) (const void *fdt, unsigned int size);
+int EXPORT_FUNC(grub_fdt_check_header_nosize) (const void *fdt);
+int EXPORT_FUNC(grub_fdt_find_subnode) (const void *fdt, unsigned int parentoffset,
+					const char *name);
+int EXPORT_FUNC(grub_fdt_first_node) (const void *fdt, unsigned int parentoffset);
+int EXPORT_FUNC(grub_fdt_next_node) (const void *fdt, unsigned int currentoffset);
+int EXPORT_FUNC(grub_fdt_add_subnode) (void *fdt, unsigned int parentoffset,
 			  const char *name);
+const char *
+EXPORT_FUNC(grub_fdt_get_nodename) (const void *fdt, unsigned int nodeoffset);
+const void *EXPORT_FUNC(grub_fdt_get_prop) (const void *fdt, unsigned int nodeoffset, const char *name,
+					    grub_uint32_t *len);
 
-int grub_fdt_set_prop (void *fdt, unsigned int nodeoffset, const char *name,
-		      const void *val, grub_uint32_t len);
+int EXPORT_FUNC(grub_fdt_set_prop) (void *fdt, unsigned int nodeoffset, const char *name,
+				    const void *val, grub_uint32_t len);
 #define grub_fdt_set_prop32(fdt, nodeoffset, name, val)	\
 ({ \
   grub_uint32_t _val = grub_cpu_to_be32(val); \

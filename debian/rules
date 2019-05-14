@@ -429,6 +429,17 @@ install/grub-pc install/grub-efi-ia32 install/grub-efi-amd64 install/grub-efi-ia
 		echo "$(package_bin): binary-from-other-architecture *efiemu64.o" \
 			>> debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin) ; \
 	fi
+	case $@ in \
+		install/grub-efi*) \
+			(echo "# These aren't Windows executables, and these features wouldn't be very useful." \
+			 echo "$(package_bin): portable-executable-missing-security-features *.efi ASLR DEP/NX") \
+				>> debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin) ;; \
+	esac
+	if [ "$@" = "install/grub-emu" ]; then \
+		(echo "# This seems to be due to a readelf bug: https://bugs.debian.org/929585"; \
+		 echo "$(package_bin): binary-or-shlib-defines-rpath usr/lib/grub/*-emu/macho.mod 0x0") \
+			>> debian/$(package_bin)/usr/share/lintian/overrides/$(package_bin); \
+	fi
 
 	mkdir -p debian/$(package_dbg)/usr/share/lintian/overrides
 	echo "$(package_dbg): unstripped-binary-or-object *.module" \

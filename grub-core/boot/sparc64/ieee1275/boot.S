@@ -21,16 +21,24 @@
 
 	.text
 	.align	4
-	/* The a.out header, as binutils decided to drop a.out
-         */
-	.word 0x1030107                        /* A_MAGIC */
-	.word 512 - GRUB_BOOT_AOUT_HEADER_SIZE /* text size */
-	.word 0                                /* data size */
-	.word 0                                /* bss size */
-	.word 0                                /* symbol table size */
-	.word _start                           /* entry point */
-	.word 0                                /* text relocations */
-	.word 0                                /* data relocations */
+	/*
+	 * We're writing the a.out header ourselves as newer
+	 * upstream versions of binutils no longer support
+	 * the a.out format on sparc64.
+	 *
+	 * The boot loader fits into 512 bytes with 32 bytes
+	 * used for the a.out header, hence the text segment
+	 * size is 512 - 32. There is no data segment and no
+	 * code relocation, thus those fields remain zero.
+	 */
+	.word	0x1030107                        /* Magic number. */
+	.word	512 - GRUB_BOOT_AOUT_HEADER_SIZE /* Size of text segment. */
+	.word	0                                /* Size of initialized data. */
+	.word	0                                /* Size of uninitialized data. */
+	.word	0                                /* Size of symbol table || checksum. */
+	.word	_start                           /* Entry point. */
+	.word	0                                /* Size of text relocation. */
+	.word	0                                /* Size of data relocation. */
 	.globl	_start
 _start:
 	/* OF CIF entry point arrives in %o4 */
@@ -40,7 +48,7 @@ pic_base:
 
 #ifndef CDBOOT
 	/* The offsets to these locations are defined by the
-	 * GRUB_BOOT_MACHINE_foo macros in include/grub/sparc/ieee1275/boot.h,
+	 * GRUB_BOOT_MACHINE_foo macros in include/grub/sparc64/ieee1275/boot.h,
 	 * and grub-setup uses this to patch these next three values as needed.
 	 *
 	 * The boot_path will be the OF device path of the partition where the
@@ -50,6 +58,10 @@ pic_base:
 	 *
 	 * After loading in that block we will execute it by jumping to the
 	 * load address plus the size of the prepended A.OUT header (32 bytes).
+	 *
+	 * Since this assembly code includes the 32 bytes long a.out header,
+	 * we need to move the actual code entry point forward by the size
+	 * of the a.out header, i.e. += GRUB_BOOT_AOUT_HEADER_SIZE.
 	 */
 	.org GRUB_BOOT_MACHINE_BOOT_DEVPATH + GRUB_BOOT_AOUT_HEADER_SIZE
 boot_path:

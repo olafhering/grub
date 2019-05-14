@@ -1,4 +1,4 @@
-From c009126d6256205355a392dc7002ed1dac2dc59f Mon Sep 17 00:00:00 2001
+From c4cc2acf6bc4e3eb7ec57bbb613d21872bacf8ae Mon Sep 17 00:00:00 2001
 From: Steve McIntyre <93sam@debian.org>
 Date: Wed, 3 Dec 2014 01:25:12 +0000
 Subject: Add support for forcing EFI installation to the removable media path
@@ -22,7 +22,7 @@ Patch-Name: grub-install-extra-removable.patch
  1 file changed, 108 insertions(+), 2 deletions(-)
 
 diff --git a/util/grub-install.c b/util/grub-install.c
-index 7a24767c1..1fbb4c7da 100644
+index f511cfc72..5f3217ae4 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
 @@ -56,6 +56,7 @@
@@ -64,7 +64,7 @@ index 7a24767c1..1fbb4c7da 100644
    {0, 0, 0, 0, 0, 0}
  };
  
-@@ -835,6 +844,91 @@ fill_core_services (const char *core_services)
+@@ -839,6 +848,91 @@ fill_core_services (const char *core_services)
    free (sysv_plist);
  }
  
@@ -156,7 +156,7 @@ index 7a24767c1..1fbb4c7da 100644
  int
  main (int argc, char *argv[])
  {
-@@ -852,6 +946,7 @@ main (int argc, char *argv[])
+@@ -856,6 +950,7 @@ main (int argc, char *argv[])
    char *relative_grubdir;
    char **efidir_device_names = NULL;
    grub_device_t efidir_grub_dev = NULL;
@@ -164,7 +164,7 @@ index 7a24767c1..1fbb4c7da 100644
    char *efidir_grub_devname;
    int efidir_is_mac = 0;
    int is_prep = 0;
-@@ -884,6 +979,9 @@ main (int argc, char *argv[])
+@@ -888,6 +983,9 @@ main (int argc, char *argv[])
        bootloader_id = xstrdup ("grub");
      }
  
@@ -174,7 +174,7 @@ index 7a24767c1..1fbb4c7da 100644
    if (!grub_install_source_directory)
      {
        if (!target)
-@@ -1093,6 +1191,8 @@ main (int argc, char *argv[])
+@@ -1107,6 +1205,8 @@ main (int argc, char *argv[])
        if (!efidir_is_mac && grub_strcmp (fs->name, "fat") != 0)
  	grub_util_error (_("%s doesn't look like an EFI partition"), efidir);
  
@@ -183,7 +183,7 @@ index 7a24767c1..1fbb4c7da 100644
        /* The EFI specification requires that an EFI System Partition must
  	 contain an "EFI" subdirectory, and that OS loaders are stored in
  	 subdirectories below EFI.  Vendors are expected to pick names that do
-@@ -1980,9 +2080,15 @@ main (int argc, char *argv[])
+@@ -2021,9 +2121,15 @@ main (int argc, char *argv[])
  	    fprintf (config_dst_f, "configfile $prefix/grub.cfg\n");
  	    fclose (config_dst_f);
  	    free (config_dst);

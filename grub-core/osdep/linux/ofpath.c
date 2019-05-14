@@ -52,28 +52,30 @@ struct ofpath_sparc_hba
 };
 
 static struct ofpath_sparc_hba sparc_lsi_hba[] = {
-  /* Rhea, Jasper 320, LSI53C1020/1030.  */
+  /* Rhea, Jasper 320, LSI53C1020/1030. */
   {0x30, GRUB_OFPATH_SPARC_TGT_LUN},
-  /* SAS-1068E.  */
+  /* SAS-1068E. */
   {0x50, GRUB_OFPATH_SPARC_TGT_LUN},
-  /* SAS-1064E.  */
+  /* SAS-1064E. */
   {0x56, GRUB_OFPATH_SPARC_TGT_LUN},
-  /* Pandora SAS-1068E.  */
+  /* Pandora SAS-1068E. */
   {0x58, GRUB_OFPATH_SPARC_TGT_LUN},
-  /* Aspen, Invader, LSI SAS-3108.  */
+  /* Aspen, Invader, LSI SAS-3108. */
   {0x5d, GRUB_OFPATH_SPARC_TGT_LUN},
-  /* Niwot, SAS 2108.  */
+  /* Niwot, SAS 2108. */
   {0x79, GRUB_OFPATH_SPARC_TGT_LUN},
-  /* Erie, Falcon, LSI SAS 2008.  */
+  /* Erie, Falcon, LSI SAS 2008. */
   {0x72, GRUB_OFPATH_SPARC_WWN_ADDR},
-  /* LSI WarpDrive 6203.  */
+  /* LSI WarpDrive 6203. */
   {0x7e, GRUB_OFPATH_SPARC_WWN_ADDR},
-  /* LSI SAS 2308.  */
+  /* LSI SAS 2308. */
   {0x87, GRUB_OFPATH_SPARC_WWN_ADDR},
-  /* LSI SAS 3008.  */
+  /* LSI SAS 3008. */
   {0x97, GRUB_OFPATH_SPARC_WWN_ADDR},
   {0, 0}
 };
+
+static const int LSI_VENDOR_ID = 0x1000;
 #endif
 
 #ifdef OFPATH_STANDALONE
@@ -363,17 +365,17 @@ of_path_of_nvme(const char *sys_devname __attribute__((unused)),
 
   if ((*digit_string != '\0') && (*part_end == 'p'))
     {
-      /* We have a partition number, strip it off.  */
+      /* We have a partition number, strip it off. */
       int part;
       char *nvmedev, *end;
 
       nvmedev = strdup (devicenode);
 
-      if (nvmedev == NULL)
+      if (!nvmedev)
         return NULL;
 
       end = nvmedev + strlen (nvmedev) - 1;
-      /* Remove the p.  */
+      /* Remove the p. */
       *end = '\0';
       sscanf (digit_string, "%d", &part);
       snprintf (disk, sizeof (disk), "/disk@1:%c", 'a' + (part - 1));
@@ -382,7 +384,7 @@ of_path_of_nvme(const char *sys_devname __attribute__((unused)),
     }
   else
     {
-      /* We do not have the parition.  */
+      /* We do not have the parition. */
       snprintf (disk, sizeof (disk), "/disk@1");
       sysfs_path = block_device_get_sysfs_path_and_link (device);
     }
@@ -431,7 +433,7 @@ check_hba_identifiers (const char *sysfs_path, int *vendor, int *device_id)
 {
   char *ed = strstr (sysfs_path, "host");
   size_t path_size;
-  char *p = NULL, *path = NULL;
+  char *p, *path;
   char buf[8];
   int fd;
 
@@ -440,9 +442,6 @@ check_hba_identifiers (const char *sysfs_path, int *vendor, int *device_id)
 
   p = xstrdup (sysfs_path);
   ed = strstr (p, "host");
-
-  if (!ed)
-    goto out;
 
   *ed = '\0';
 
@@ -465,6 +464,7 @@ check_hba_identifiers (const char *sysfs_path, int *vendor, int *device_id)
 
   close (fd);
   sscanf (buf, "%x", vendor);
+
   snprintf (path, path_size, "%sdevice", p);
   fd = open (path, O_RDONLY);
 
@@ -479,7 +479,7 @@ check_hba_identifiers (const char *sysfs_path, int *vendor, int *device_id)
   close (fd);
   sscanf (buf, "%x", device_id);
 
-out:
+ out:
   free (path);
   free (p);
 }
@@ -564,10 +564,7 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
 
   of_path = find_obppath(sysfs_path);
   if (!of_path)
-    {
-      free (sysfs_path);
-      return NULL;
-    }
+    goto out;
 
   if (strstr (of_path, "qlc"))
     strcat (of_path, "/fp@0,0");
@@ -603,14 +600,15 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
 
       check_hba_identifiers (sysfs_path, &vendor, &device_id);
 
-      /* LSI Logic Vendor ID */
-      if (vendor == 0x1000)
+      if (vendor == LSI_VENDOR_ID)
         {
           struct ofpath_sparc_hba *lsi_hba;
 
-          /* Over time different OF addressing schemes have been supported.
-             There is no generic addressing scheme that works across
-             every HBA. */
+	  /*
+	   * Over time different OF addressing schemes have been supported.
+	   * There is no generic addressing scheme that works across
+	   * every HBA.
+	   */
           for (lsi_hba = sparc_lsi_hba; lsi_hba->device_id; lsi_hba++)
             if (lsi_hba->device_id == device_id)
               {
@@ -684,8 +682,10 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
         }
 #endif
     }
-  free (sysfs_path);
   strcat(of_path, disk);
+
+ out:
+  free (sysfs_path);
   return of_path;
 }
 

@@ -1,4 +1,4 @@
-From 614ea0626131fc49f82d80e6459a200b8bc8e591 Mon Sep 17 00:00:00 2001
+From 07aa820944e43e3e01a4ce9fcadd907e6986df73 Mon Sep 17 00:00:00 2001
 From: Matthew Garrett <mjg59@google.com>
 Date: Wed, 5 Dec 2018 15:07:21 -0800
 Subject: Don't enforce Shim signature validation if Secure Boot is disabled
@@ -17,10 +17,10 @@ Patch-Name: linuxefi-skip-validation-without-secure-boot.patch
  1 file changed, 6 insertions(+)
 
 diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c
-index c2d77510f..0f4b0b4ab 100644
+index 7d94369be..34605dfed 100644
 --- a/grub-core/loader/i386/efi/linux.c
 +++ b/grub-core/loader/i386/efi/linux.c
-@@ -58,6 +58,12 @@ grub_linuxefi_secure_validate (void *data, grub_uint32_t size)
+@@ -59,6 +59,12 @@ grub_linuxefi_secure_validate (void *data, grub_uint32_t size)
    grub_efi_shim_lock_t *shim_lock;
    grub_efi_status_t status;
  

@@ -1,4 +1,4 @@
-From 61f1b949b4b9302b664553cdc5c77cb6fea8f897 Mon Sep 17 00:00:00 2001
+From 71074c74c1fa3cd956bfbee5e87078a4dccda3f9 Mon Sep 17 00:00:00 2001
 From: Alexander Graf <agraf@csgraf.de>
 Date: Tue, 30 Apr 2019 22:43:56 +0200
 Subject: arm: Move trampolines into code section
@@ -28,56 +28,56 @@ Last-Update: 2019-05-03
 
 Patch-Name: arm-move-trampolines-into-code-section.patch
 ---
- util/grub-mkimagexx.c | 32 +++++++++++++++-----------------
- 1 file changed, 15 insertions(+), 17 deletions(-)
+ util/grub-mkimagexx.c | 28 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
 diff --git a/util/grub-mkimagexx.c b/util/grub-mkimagexx.c
-index 6c02faffb..2f80e5abc 100644
+index a79034e7b..470fbf4dd 100644
 --- a/util/grub-mkimagexx.c
 +++ b/util/grub-mkimagexx.c
-@@ -1860,6 +1860,21 @@ SUFFIX (locate_sections) (Elf_Ehdr *e, const char *kernel_path,
+@@ -2197,25 +2197,10 @@ SUFFIX (locate_sections) (Elf_Ehdr *e, const char *kernel_path,
  	  }
        }
  
-+#ifdef MKIMAGE_ELF32
-+  if (image_target->elf_target == EM_ARM)
-+    {
-+      grub_size_t tramp;
-+
-+      layout->kernel_size = ALIGN_UP (layout->kernel_size, 16);
-+
-+      tramp = arm_get_trampoline_size (e, sections, section_entsize,
-+				       num_sections, image_target);
-+
-+      layout->tramp_off = layout->kernel_size;
-+      layout->kernel_size += ALIGN_UP (tramp, 16);
-+    }
-+#endif
-+
-   layout->kernel_size = ALIGN_UP (layout->kernel_size + image_target->vaddr_offset,
- 			      image_target->section_align)
-     - image_target->vaddr_offset;
-@@ -1876,23 +1891,6 @@ SUFFIX (locate_sections) (Elf_Ehdr *e, const char *kernel_path,
- 					      strtab,
- 					      image_target);
- 
--#ifdef MKIMAGE_ELF32
--  if (image_target->elf_target == EM_ARM)
--    {
--      grub_size_t tramp;
+-  layout->kernel_size = ALIGN_UP (layout->kernel_size + image_target->vaddr_offset,
+-			      image_target->section_align)
+-    - image_target->vaddr_offset;
+-  layout->exec_size = layout->kernel_size;
+-
+-  /* .data */
+-  for (i = 0, s = smd->sections;
+-       i < smd->num_sections;
+-       i++, s = (Elf_Shdr *) ((char *) s + smd->section_entsize))
+-    if (SUFFIX (is_data_section) (s, image_target))
+-      layout->kernel_size = SUFFIX (put_section) (s, i, layout->kernel_size, smd,
+-						  image_target);
+-
+ #ifdef MKIMAGE_ELF32
+   if (image_target->elf_target == EM_ARM)
+     {
+       grub_size_t tramp;
 -      layout->kernel_size = ALIGN_UP (layout->kernel_size + image_target->vaddr_offset,
 -				      image_target->section_align) - image_target->vaddr_offset;
--
--      layout->kernel_size = ALIGN_UP (layout->kernel_size, 16);
--
--      tramp = arm_get_trampoline_size (e, sections, section_entsize,
--				       num_sections, image_target);
--
--      layout->tramp_off = layout->kernel_size;
--      layout->kernel_size += ALIGN_UP (tramp, 16);
--    }
--#endif
--
+ 
+       layout->kernel_size = ALIGN_UP (layout->kernel_size, 16);
+ 
+@@ -2227,6 +2212,19 @@ SUFFIX (locate_sections) (Elf_Ehdr *e, const char *kernel_path,
+     }
+ #endif
+ 
++  layout->kernel_size = ALIGN_UP (layout->kernel_size + image_target->vaddr_offset,
++			      image_target->section_align)
++    - image_target->vaddr_offset;
++  layout->exec_size = layout->kernel_size;
++
++  /* .data */
++  for (i = 0, s = smd->sections;
++       i < smd->num_sections;
++       i++, s = (Elf_Shdr *) ((char *) s + smd->section_entsize))
++    if (SUFFIX (is_data_section) (s, image_target))
++      layout->kernel_size = SUFFIX (put_section) (s, i, layout->kernel_size, smd,
++						  image_target);
++
    layout->bss_start = layout->kernel_size;
    layout->end = layout->kernel_size;
    

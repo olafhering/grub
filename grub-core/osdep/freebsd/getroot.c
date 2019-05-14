@@ -339,8 +339,7 @@ grub_util_follow_gpart_up (const char *name, grub_disk_addr_t *off_out, char **n
 	    free (name_tmp);
 	    LIST_FOREACH (config, &provider->lg_config, lg_config)
 	      if (strcasecmp (config->lg_name, "offset") == 0)
-		off += strtoull (config->lg_val, 0, 10)
-		       / provider->lg_sectorsize;
+		off += strtoull (config->lg_val, 0, 10) / provider->lg_sectorsize;
 	    if (off_out)
 	      *off_out = off;
 	    return;

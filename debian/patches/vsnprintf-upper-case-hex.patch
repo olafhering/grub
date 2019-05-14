@@ -1,4 +1,4 @@
-From 27f1a9c448678f5d354957e0ebad0a2c310f53d1 Mon Sep 17 00:00:00 2001
+From d2ddbffc95447a2f567c81c725ade8e858832e04 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 11 Mar 2019 11:15:12 +0000
 Subject: Add %X to grub_vsnprintf_real and friends
@@ -18,10 +18,10 @@ Patch-Name: vsnprintf-upper-case-hex.patch
  1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/grub-core/kern/misc.c b/grub-core/kern/misc.c
-index 3a14d679e..1e5bd2411 100644
+index 3b633d51f..18cad5803 100644
 --- a/grub-core/kern/misc.c
 +++ b/grub-core/kern/misc.c
-@@ -591,7 +591,7 @@ grub_divmod64 (grub_uint64_t n, grub_uint64_t d, grub_uint64_t *r)
+@@ -588,7 +588,7 @@ grub_divmod64 (grub_uint64_t n, grub_uint64_t d, grub_uint64_t *r)
  static inline char *
  grub_lltoa (char *str, int c, unsigned long long n)
  {
@@ -30,7 +30,7 @@ index 3a14d679e..1e5bd2411 100644
    char *p;
  
    if ((long long) n < 0 && c == 'd')
-@@ -606,7 +606,7 @@ grub_lltoa (char *str, int c, unsigned long long n)
+@@ -603,7 +603,7 @@ grub_lltoa (char *str, int c, unsigned long long n)
      do
        {
  	unsigned d = (unsigned) (n & 0xf);
@@ -39,7 +39,7 @@ index 3a14d679e..1e5bd2411 100644
        }
      while (n >>= 4);
    else
-@@ -679,6 +679,7 @@ parse_printf_args (const char *fmt0, struct printf_args *args,
+@@ -676,6 +676,7 @@ parse_printf_args (const char *fmt0, struct printf_args *args,
  	{
  	case 'p':
  	case 'x':
@@ -47,7 +47,7 @@ index 3a14d679e..1e5bd2411 100644
  	case 'u':
  	case 'd':
  	case 'c':
-@@ -765,6 +766,7 @@ parse_printf_args (const char *fmt0, struct printf_args *args,
+@@ -762,6 +763,7 @@ parse_printf_args (const char *fmt0, struct printf_args *args,
        switch (c)
  	{
  	case 'x':
@@ -55,7 +55,7 @@ index 3a14d679e..1e5bd2411 100644
  	case 'u':
  	  args->ptr[curn].type = UNSIGNED_INT + longfmt;
  	  break;
-@@ -903,6 +905,7 @@ grub_vsnprintf_real (char *str, grub_size_t max_len, const char *fmt0,
+@@ -900,6 +902,7 @@ grub_vsnprintf_real (char *str, grub_size_t max_len, const char *fmt0,
  	  c = 'x';
  	  /* Fall through. */
  	case 'x':

@@ -26,6 +26,7 @@
 #include <grub/command.h>
 #include <grub/i18n.h>
 #include <grub/lib/cmdline.h>
+#include <grub/linux.h>
 #include <grub/efi/efi.h>
 #include <stddef.h>
 
@@ -128,10 +129,8 @@ static grub_err_t
 grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
                  int argc, char *argv[])
 {
-  grub_file_t *files = 0;
-  int i, nfiles = 0;
   grub_size_t size = 0;
-  grub_uint8_t *ptr;
+  struct grub_linux_initrd_context initrd_ctx;
 
   if (argc == 0)
     {
@@ -145,19 +144,10 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
       goto fail;
     }
 
-  files = grub_zalloc (argc * sizeof (files[0]));
-  if (!files)
+  if (grub_initrd_init (argc, argv, &initrd_ctx))
     goto fail;
 
-  for (i = 0; i < argc; i++)
-    {
-      grub_file_filter_disable_compression ();
-      files[i] = grub_file_open (argv[i]);
-      if (! files[i])
-        goto fail;
-      nfiles++;
-      size += ALIGN_UP (grub_file_size (files[i]), 4);
-    }
+  size = grub_get_initrd_size (&initrd_ctx);
 
   initrd_mem = grub_efi_allocate_pages_max (0x3fffffff, BYTES_TO_PAGES(size));
 
@@ -172,29 +162,13 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
   params->ramdisk_size = size;
   params->ramdisk_image = (grub_uint32_t)(grub_addr_t) initrd_mem;
 
-  ptr = initrd_mem;
-
-  for (i = 0; i < nfiles; i++)
-    {
-      grub_ssize_t cursize = grub_file_size (files[i]);
-      if (grub_file_read (files[i], ptr, cursize) != cursize)
-        {
-          if (!grub_errno)
-            grub_error (GRUB_ERR_FILE_READ_ERROR, N_("premature end of file %s"),
-                        argv[i]);
-          goto fail;
-        }
-      ptr += cursize;
-      grub_memset (ptr, 0, ALIGN_UP_OVERHEAD (cursize, 4));
-      ptr += ALIGN_UP_OVERHEAD (cursize, 4);
-    }
+  if (grub_initrd_load (&initrd_ctx, argv, initrd_mem))
+    goto fail;
 
   params->ramdisk_size = size;
 
  fail:
-  for (i = 0; i < nfiles; i++)
-    grub_file_close (files[i]);
-  grub_free (files);
+  grub_initrd_close (&initrd_ctx);
 
   if (initrd_mem && grub_errno)
     grub_efi_free_pages((grub_efi_physical_address_t)(grub_addr_t)initrd_mem, BYTES_TO_PAGES(size));
@@ -219,7 +193,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
       goto fail;
     }
 
-  file = grub_file_open (argv[0]);
+  file = grub_file_open (argv[0], GRUB_FILE_TYPE_LINUX_KERNEL);
   if (! file)
     goto fail;
 
@@ -307,9 +281,17 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
 		(unsigned long) linux_cmdline);
 
   grub_memcpy (linux_cmdline, LINUX_IMAGE, sizeof (LINUX_IMAGE));
-  grub_create_loader_cmdline (argc, argv,
-                              linux_cmdline + sizeof (LINUX_IMAGE) - 1,
-			      lh.cmdline_size - (sizeof (LINUX_IMAGE) - 1));
+  {
+    grub_err_t err;
+    err = grub_create_loader_cmdline (argc, argv,
+				      linux_cmdline
+				      + sizeof (LINUX_IMAGE) - 1,
+				      lh.cmdline_size
+				      - (sizeof (LINUX_IMAGE) - 1),
+				      GRUB_VERIFY_KERNEL_CMDLINE);
+    if (err)
+      goto fail;
+  }
 
   lh.cmd_line_ptr = (grub_uint32_t)(grub_addr_t)linux_cmdline;
 

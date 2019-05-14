@@ -1,7 +1,7 @@
-This is grub-dev.info, produced by makeinfo version 6.3 from
+This is grub-dev.info, produced by makeinfo version 6.5 from
 grub-dev.texi.
 
-This developer manual is for GNU GRUB (version 2.02, 2 September 2015).
+This developer manual is for GNU GRUB (version 2.04~rc1, 8 April 2019).
 
    Copyright (C) 1999,2000,2001,2002,2004,2005,2006,2008,2009,2010,2011
 Free Software Foundation, Inc.
@@ -25,10 +25,10 @@ This is the developer documentation of GNU GRUB, the GRand Unified
 Bootloader, a flexible and powerful boot loader program for a wide range
 of architectures.
 
-   This edition documents version 2.02.
+   This edition documents version 2.04~rc1.
 
-   This developer manual is for GNU GRUB (version 2.02, 2 September
-2015).
+   This developer manual is for GNU GRUB (version 2.04~rc1, 8 April
+2019).
 
    Copyright (C) 1999,2000,2001,2002,2004,2005,2006,2008,2009,2010,2011
 Free Software Foundation, Inc.
@@ -44,6 +44,7 @@ Free Software Foundation, Inc.
 * Coding style::
 * Finding your way around::
 * Contributing Changes::
+* Updating External Code::
 * Porting::
 * Error Handling::
 * Stack and heap size::
@@ -51,6 +52,7 @@ Free Software Foundation, Inc.
 * Video Subsystem::
 * PFF2 Font File Format::
 * Graphical Menu Software Design::
+* Verifiers framework::
 * Copying This Manual::         Copying This Manual
 * Index::
 
@@ -196,22 +198,17 @@ File: grub-dev.info,  Node: Comments,  Next: Multi-Line Comments,  Prev: Macros,
 2.6 Comments
 ============
 
-All comments shall be C-style comments, of the form '/* ... */'.
-
-   Comments shall be placed only on a line by themselves.  They shall
-not be placed together with code, variable declarations, or other
-non-comment entities.  A comment should be placed immediately preceding
-the entity it describes.
+All comments shall be C-style comments, of the form '/* ... */'.  A
+comment can be placed immediately preceding the entity it describes or
+it can be placed together with code, variable declarations, or other
+non-comment entities.  However, it is recommended to not mix various
+forms especially in types/structs descriptions.
 
    Acceptable:
-     /* The page # that is the front buffer.  */
+     /* The page # that is the front buffer. */
      int displayed_page;
-     /* The page # that is the back buffer.  */
-     int render_page;
 
-   Unacceptable:
-     int displayed_page;           /* The page # that is the front buffer. */
-     int render_page;              /* The page # that is the back buffer. */
+     int render_page; /* The page # that is the back buffer. */
 
 
 File: grub-dev.info,  Node: Multi-Line Comments,  Prev: Comments,  Up: Coding style
@@ -220,24 +217,34 @@ File: grub-dev.info,  Node: Multi-Line Comments,  Prev: Comments,  Up: Coding st
 =======================
 
 Comments spanning multiple lines shall be formatted with all lines after
-the first aligned with the first line.
-
-   Asterisk characters should not be repeated a the start of each
-subsequent line.
+the first aligned with the first line.  Asterisk characters should be
+repeated at the start of each subsequent line.
 
    Acceptable:
-     /* This is a comment
-        which spans multiple lines.
-        It is long.  */
+     /*
+      * This is a comment
+      * which spans multiple lines.
+      * It is long.
+      */
 
    Unacceptable:
+     /* This is a comment
+        which spans multiple lines.
+        It is long. */
+
      /*
       * This is a comment
       * which spans multiple lines.
       * It is long. */
 
-   The opening '/*' and closing '*/' should be placed together on a line
-with text.
+     /* This is a comment
+      * which spans multiple lines.
+      * It is long.
+      */
+
+   In particular first unacceptable form makes comment difficult to
+distinguish from the code itself.  Especially if it contains the code
+snippets and/or is long.  So, its usage is disallowed.
 
 
 File: grub-dev.info,  Node: Finding your way around,  Next: Contributing Changes,  Prev: Coding style,  Up: Top
@@ -318,7 +325,7 @@ the following exceptions:
 they matter to you.
 
 
-File: grub-dev.info,  Node: Contributing Changes,  Next: Porting,  Prev: Finding your way around,  Up: Top
+File: grub-dev.info,  Node: Contributing Changes,  Next: Updating External Code,  Prev: Finding your way around,  Up: Top
 
 4 Contributing changes
 **********************
@@ -498,9 +505,45 @@ communicate first (e.g.  sending a patch, asking a question, commenting
 on another message...).
 
 
-File: grub-dev.info,  Node: Porting,  Next: Error Handling,  Prev: Contributing Changes,  Up: Top
+File: grub-dev.info,  Node: Updating External Code,  Next: Porting,  Prev: Contributing Changes,  Up: Top
 
-5 Porting
+5 Updating external code
+************************
+
+GRUB includes some code from other projects, and it is sometimes
+necessary to update it.
+
+* Menu:
+
+* Gnulib::
+
+
+File: grub-dev.info,  Node: Gnulib,  Up: Updating External Code
+
+5.1 Gnulib
+==========
+
+Gnulib is a source code library that provides basic functionality to
+programs and libraries.  Many software packages make use of Gnulib to
+avoid reinventing the portability wheel.
+
+   GRUB imports Gnulib using its 'bootstrap' utility, identifying a
+particular Git commit in 'bootstrap.conf'.  To upgrade to a new Gnulib
+commit, set 'GNULIB_REVISION' in 'bootstrap.conf' to the new commit ID,
+then run './bootstrap' and whatever else you need to make sure it works.
+Check for changes to Gnulib's 'NEWS' file between the old and new
+commits; in some cases it will be necessary to adjust GRUB to match.
+You may also need to update the patches in
+'grub-core/lib/gnulib-patches/'.
+
+   To add a new Gnulib module or remove one that is no longer needed,
+change 'gnulib_modules' in 'bootstrap.conf'.  Again, run './bootstrap'
+and whatever else you need to make sure it works.
+
+
+File: grub-dev.info,  Node: Porting,  Next: Error Handling,  Prev: Updating External Code,  Up: Top
+
+6 Porting
 *********
 
 GRUB2 is designed to be easily portable accross platforms.  But because
@@ -692,7 +735,7 @@ the support is already present and you'll need to make it follow the
 existant code paths for your platform adding adjustments if necessary.
 When done compile:
 
-     ./autogen.sh
+     ./bootstrap
      ./configure --target=$cpu --with-platform=$platform TARGET_CC=.. OBJCOPY=... STRIP=...
      make > /dev/null
 
@@ -795,7 +838,7 @@ documentation.
 
 File: grub-dev.info,  Node: Error Handling,  Next: Stack and heap size,  Prev: Porting,  Up: Top
 
-6 Error Handling
+7 Error Handling
 ****************
 
 Error handling in GRUB 2 is based on exception handling model.  As C
@@ -927,7 +970,7 @@ to be drawn.
 
 File: grub-dev.info,  Node: Stack and heap size,  Next: BIOS port memory map,  Prev: Error Handling,  Up: Top
 
-7 Stack and heap size
+8 Stack and heap size
 *********************
 
 On emu stack and heap are just normal host OS stack and heap.  Stack is
@@ -997,7 +1040,7 @@ i386-xen    4MiB               < 4GiB
 
 File: grub-dev.info,  Node: BIOS port memory map,  Next: Video Subsystem,  Prev: Stack and heap size,  Up: Top
 
-8 BIOS port memory map
+9 BIOS port memory map
 **********************
 
 Start       End                Usage
@@ -1018,8 +1061,8 @@ Start       End                Usage
 
 File: grub-dev.info,  Node: Video Subsystem,  Next: PFF2 Font File Format,  Prev: BIOS port memory map,  Up: Top
 
-9 Video Subsystem
-*****************
+10 Video Subsystem
+******************
 
 This document contains specification for Video Subsystem for GRUB2.
 Currently only the usage interface is described in this document.
@@ -1035,11 +1078,11 @@ driver manager works are not included here.
 
 File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: Video Subsystem
 
-9.1 Video API
-=============
+10.1 Video API
+==============
 
-9.1.1 grub_video_setup
-----------------------
+10.1.1 grub_video_setup
+-----------------------
 
    * Prototype:
           grub_err_t
@@ -1068,8 +1111,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      set default VGA palette to screen if the video card allows the
      operation.
 
-9.1.2 grub_video_restore
-------------------------
+10.1.2 grub_video_restore
+-------------------------
 
    * Prototype:
 
@@ -1081,8 +1124,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      old state of video device.  This can be used to switch back to text
      mode.
 
-9.1.3 grub_video_get_info
--------------------------
+10.1.3 grub_video_get_info
+--------------------------
 
    * Prototype:
 
@@ -1135,8 +1178,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      error 'GRUB_ERR_BAD_DEVICE' is returned, otherwise 'mode_info' is
      filled with valid information and 'GRUB_ERR_NONE' is returned.
 
-9.1.4 grub_video_get_blit_format
---------------------------------
+10.1.4 grub_video_get_blit_format
+---------------------------------
 
    * Prototype:
 
@@ -1162,8 +1205,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      is no definition for the type.  For generic formats, use
      'grub_video_get_info' to query video color coding settings.
 
-9.1.5 grub_video_set_palette
-----------------------------
+10.1.5 grub_video_set_palette
+-----------------------------
 
    * Prototype:
 
@@ -1187,8 +1230,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      both hardware color index and 'palette_data' index will be
      incremented until 'count' number of colors have been set.
 
-9.1.6 grub_video_get_palette
-----------------------------
+10.1.6 grub_video_get_palette
+-----------------------------
 
    * Prototype:
 
@@ -1212,8 +1255,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      color index and 'palette_data' index will be incremented until
      'count' number of colors have been read.
 
-9.1.7 grub_video_set_area_status
---------------------------------
+10.1.7 grub_video_set_area_status
+---------------------------------
 
    * Prototype:
           grub_err_t
@@ -1235,8 +1278,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      everything inside the region leaving everything else intact.
      Should be used for redrawing of active elements.
 
-9.1.8 grub_video_get_area_status
---------------------------------
+10.1.8 grub_video_get_area_status
+---------------------------------
 
    * Prototype:
           grub_err_r
@@ -1244,8 +1287,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
 
    * Description: Used to query the area status.
 
-9.1.9 grub_video_set_viewport
------------------------------
+10.1.9 grub_video_set_viewport
+------------------------------
 
    * Prototype:
 
@@ -1263,8 +1306,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      'grub_video_get_info' to query actual screen dimensions and provide
      that information to this function.
 
-9.1.10 grub_video_get_viewport
-------------------------------
+10.1.10 grub_video_get_viewport
+-------------------------------
 
    * Prototype:
 
@@ -1275,8 +1318,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      Used to query current viewport dimensions.  Software developer can
      use this to choose best way to render contents of the viewport.
 
-9.1.11 grub_video_set_region
-----------------------------
+10.1.11 grub_video_set_region
+-----------------------------
 
    * Prototype:
 
@@ -1292,8 +1335,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      possible region, width and height will be clamped to fit screen.
      Should be used for redrawing of active elements.
 
-9.1.12 grub_video_get_region
-----------------------------
+10.1.12 grub_video_get_region
+-----------------------------
 
    * Prototype:
 
@@ -1303,8 +1346,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
 
      Used to query current region dimensions.
 
-9.1.13 grub_video_map_color
----------------------------
+10.1.13 grub_video_map_color
+----------------------------
 
    * Prototype:
 
@@ -1318,8 +1361,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      'GRUB_COLOR_CONSOLE_BACKGROUND', 'GRUB_COLOR_CONSOLE_TEXT'.  The
      actual color defines are not specified at this point.
 
-9.1.14 grub_video_map_rgb
--------------------------
+10.1.14 grub_video_map_rgb
+--------------------------
 
    * Prototype:
 
@@ -1333,8 +1376,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      palette will be searched for specified color and then index is
      returned.
 
-9.1.15 grub_video_map_rgba
---------------------------
+10.1.15 grub_video_map_rgba
+---------------------------
 
    * Prototype:
 
@@ -1348,8 +1391,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      palette will be searched for best matching color and its index is
      returned.
 
-9.1.16 grub_video_unmap_color
------------------------------
+10.1.16 grub_video_unmap_color
+------------------------------
 
    * Prototype:
 
@@ -1363,8 +1406,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      information is not available in rendering target, it is assumed to
      be opaque (having value 255).
 
-9.1.17 grub_video_fill_rect
----------------------------
+10.1.17 grub_video_fill_rect
+----------------------------
 
    * Prototype:
 
@@ -1382,8 +1425,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      'grub_video_map_rgb' or 'grub_video_map_rgba' to map requested
      color to 'color' parameter.
 
-9.1.18 grub_video_blit_glyph
-----------------------------
+10.1.18 grub_video_blit_glyph
+-----------------------------
 
    * Prototype:
 
@@ -1399,8 +1442,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      out.  Software developer should use either 'grub_video_map_rgb' or
      'grub_video_map_rgba' to map requested color to 'color' parameter.
 
-9.1.19 grub_video_blit_bitmap
------------------------------
+10.1.19 grub_video_blit_bitmap
+------------------------------
 
    * Prototype:
 
@@ -1432,8 +1475,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      Software developer should use 'grub_video_bitmap_create' or
      'grub_video_bitmap_load' to create or load bitmap data.
 
-9.1.20 grub_video_blit_render_target
-------------------------------------
+10.1.20 grub_video_blit_render_target
+-------------------------------------
 
    * Prototype:
 
@@ -1463,8 +1506,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      source pixel replace data in screen or blend with pixel alpha
      value.
 
-9.1.21 grub_video_scroll
-------------------------
+10.1.21 grub_video_scroll
+-------------------------
 
    * Prototype:
 
@@ -1476,8 +1519,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      filled with specified color.  This function is used when screen is
      scroller up in video terminal.
 
-9.1.22 grub_video_swap_buffers
-------------------------------
+10.1.22 grub_video_swap_buffers
+-------------------------------
 
    * Prototype:
 
@@ -1489,8 +1532,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      backbuffer, in order to show values drawn to back buffer.  Video
      driver is free to choose how this operation is techincally done.
 
-9.1.23 grub_video_create_render_target
---------------------------------------
+10.1.23 grub_video_create_render_target
+---------------------------------------
 
    * Prototype:
 
@@ -1508,8 +1551,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      modes, 'GRUB_VIDEO_MODE_TYPE_RGB' for direct RGB color modes and
      'GRUB_VIDEO_MODE_TYPE_ALPHA' for alpha component.
 
-9.1.24 grub_video_delete_render_target
---------------------------------------
+10.1.24 grub_video_delete_render_target
+---------------------------------------
 
    * Prototype:
 
@@ -1521,8 +1564,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      contains 'NULL' pointer, nothing will be done.  If render target is
      correctly destroyed, GRUB_ERR_NONE is returned.
 
-9.1.25 grub_video_set_active_render_target
-------------------------------------------
+10.1.25 grub_video_set_active_render_target
+-------------------------------------------
 
    * Prototype:
 
@@ -1541,8 +1584,8 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
      correclty switched GRUB_ERR_NONE is returned.  In no any event
      shall there be non drawable active render target.
 
-9.1.26 grub_video_get_active_render_target
-------------------------------------------
+10.1.26 grub_video_get_active_render_target
+-------------------------------------------
 
    * Prototype:
 
@@ -1557,11 +1600,11 @@ File: grub-dev.info,  Node: Video API,  Next: Example usage of Video API,  Up: V
 
 File: grub-dev.info,  Node: Example usage of Video API,  Next: Bitmap API,  Prev: Video API,  Up: Video Subsystem
 
-9.2 Example usage of Video API
-==============================
+10.2 Example usage of Video API
+===============================
 
-9.2.1 Example of screen setup
------------------------------
+10.2.1 Example of screen setup
+------------------------------
 
      grub_err_t rc;
      /* Try to initialize video mode 1024 x 768 with direct RGB.  */
@@ -1576,8 +1619,8 @@ File: grub-dev.info,  Node: Example usage of Video API,  Next: Bitmap API,  Prev
        }
      }
 
-9.2.2 Example of setting up console viewport
---------------------------------------------
+10.2.2 Example of setting up console viewport
+---------------------------------------------
 
      grub_uint32_t x, y, width, height;
      grub_video_color_t color;
@@ -1601,11 +1644,11 @@ File: grub-dev.info,  Node: Example usage of Video API,  Next: Bitmap API,  Prev
 
 File: grub-dev.info,  Node: Bitmap API,  Prev: Example usage of Video API,  Up: Video Subsystem
 
-9.3 Bitmap API
-==============
+10.3 Bitmap API
+===============
 
-9.3.1 grub_video_bitmap_create
-------------------------------
+10.3.1 grub_video_bitmap_create
+-------------------------------
 
    * Prototype:
           grub_err_t grub_video_bitmap_create (struct grub_video_bitmap **bitmap, unsigned int width, unsigned int height, enum grub_video_blit_format blit_format)
@@ -1616,8 +1659,8 @@ File: grub-dev.info,  Node: Bitmap API,  Prev: Example usage of Video API,  Up: 
      Allocated bitmap data can then be modified freely and finally
      blitted with 'grub_video_blit_bitmap' to rendering target.
 
-9.3.2 grub_video_bitmap_destroy
--------------------------------
+10.3.2 grub_video_bitmap_destroy
+--------------------------------
 
    * Prototype:
           grub_err_t grub_video_bitmap_destroy (struct grub_video_bitmap *bitmap);
@@ -1628,8 +1671,8 @@ File: grub-dev.info,  Node: Bitmap API,  Prev: Example usage of Video API,  Up: 
      this command.  'bitmap' is previously allocated bitmap with
      'grub_video_bitmap_create' or loaded with 'grub_video_bitmap_load'.
 
-9.3.3 grub_video_bitmap_load
-----------------------------
+10.3.3 grub_video_bitmap_load
+-----------------------------
 
    * Prototype:
           grub_err_t grub_video_bitmap_load (struct grub_video_bitmap **bitmap, const char *filename);
@@ -1640,8 +1683,8 @@ File: grub-dev.info,  Node: Bitmap API,  Prev: Example usage of Video API,  Up: 
      loaders.  In case bitmap format is not recognized or supported
      error 'GRUB_ERR_BAD_FILE_TYPE' is returned.
 
-9.3.4 grub_video_bitmap_get_width
----------------------------------
+10.3.4 grub_video_bitmap_get_width
+----------------------------------
 
    * Prototype:
           unsigned int grub_video_bitmap_get_width (struct grub_video_bitmap *bitmap);
@@ -1650,8 +1693,8 @@ File: grub-dev.info,  Node: Bitmap API,  Prev: Example usage of Video API,  Up: 
 
      Returns bitmap width.
 
-9.3.5 grub_video_bitmap_get_height
-----------------------------------
+10.3.5 grub_video_bitmap_get_height
+-----------------------------------
 
    * Prototype:
           unsigned int grub_video_bitmap_get_height (struct grub_video_bitmap *bitmap);
@@ -1660,8 +1703,8 @@ File: grub-dev.info,  Node: Bitmap API,  Prev: Example usage of Video API,  Up: 
 
      Return bitmap height.
 
-9.3.6 grub_video_bitmap_get_mode_info
--------------------------------------
+10.3.6 grub_video_bitmap_get_mode_info
+--------------------------------------
 
    * Prototype:
           void grub_video_bitmap_get_mode_info (struct grub_video_bitmap *bitmap, struct grub_video_mode_info *mode_info);
@@ -1670,8 +1713,8 @@ File: grub-dev.info,  Node: Bitmap API,  Prev: Example usage of Video API,  Up: 
 
      Returns bitmap format details in form of 'grub_video_mode_info'.
 
-9.3.7 grub_video_bitmap_get_data
---------------------------------
+10.3.7 grub_video_bitmap_get_data
+---------------------------------
 
    * Prototype:
           void *grub_video_bitmap_get_data (struct grub_video_bitmap *bitmap);
@@ -1685,7 +1728,7 @@ File: grub-dev.info,  Node: Bitmap API,  Prev: Example usage of Video API,  Up: 
 
 File: grub-dev.info,  Node: PFF2 Font File Format,  Next: Graphical Menu Software Design,  Prev: Video Subsystem,  Up: Top
 
-10 PFF2 Font File Format
+11 PFF2 Font File Format
 ************************
 
 * Menu:
@@ -1697,13 +1740,13 @@ File: grub-dev.info,  Node: PFF2 Font File Format,  Next: Graphical Menu Softwar
 
 File: grub-dev.info,  Node: Introduction,  Next: File Structure,  Up: PFF2 Font File Format
 
-10.1 Introduction
+11.1 Introduction
 =================
 
 The goal of this format is to provide a bitmap font format that is
 simple to use, compact, and cleanly supports Unicode.
 
-10.1.1 Goals of the GRUB Font Format
+11.1.1 Goals of the GRUB Font Format
 ------------------------------------
 
    * Simple to read and use.  Since GRUB will only be reading the font
@@ -1719,7 +1762,7 @@ simple to use, compact, and cleanly supports Unicode.
      encodings.  The font should always use Unicode character codes for
      simple internationalization.
 
-10.1.2 Why Another Font Format?
+11.1.2 Why Another Font Format?
 -------------------------------
 
 There are many existing bitmap font formats that GRUB could use.
@@ -1737,7 +1780,7 @@ suitable for use in GRUB at this time:
 
 File: grub-dev.info,  Node: File Structure,  Next: Font Metrics,  Prev: Introduction,  Up: PFF2 Font File Format
 
-10.2 File Structure
+11.2 File Structure
 ===================
 
 A file *section* consists of a 4-byte name, a 32-bit big-endian length
@@ -1746,7 +1789,7 @@ section-type-specific bytes.
 
    The standard file extension for PFF2 font files is '.pf2'.
 
-10.2.1 Section Types
+11.2.1 Section Types
 --------------------
 
 'FILE'
@@ -1863,7 +1906,7 @@ section-type-specific bytes.
 
 File: grub-dev.info,  Node: Font Metrics,  Prev: File Structure,  Up: PFF2 Font File Format
 
-10.3 Font Metrics
+11.3 Font Metrics
 =================
 
    * Ascent.  The distance from the baseline to the top of most
@@ -1890,9 +1933,9 @@ File: grub-dev.info,  Node: Font Metrics,  Prev: File Structure,  Up: PFF2 Font 
    An illustration of how the various font metrics apply to characters.
 
 
-File: grub-dev.info,  Node: Graphical Menu Software Design,  Next: Copying This Manual,  Prev: PFF2 Font File Format,  Up: Top
+File: grub-dev.info,  Node: Graphical Menu Software Design,  Next: Verifiers framework,  Prev: PFF2 Font File Format,  Up: Top
 
-11 Graphical Menu Software Design
+12 Graphical Menu Software Design
 *********************************
 
 * Menu:
@@ -1905,7 +1948,7 @@ File: grub-dev.info,  Node: Graphical Menu Software Design,  Next: Copying This 
 
 File: grub-dev.info,  Node: Introduction_2,  Next: Startup Sequence,  Up: Graphical Menu Software Design
 
-11.1 Introduction
+12.1 Introduction
 =================
 
 The 'gfxmenu' module provides a graphical menu interface for GRUB 2.  It
@@ -1922,7 +1965,7 @@ graphical menu would work on the new video driver as well.
 
 File: grub-dev.info,  Node: Startup Sequence,  Next: GUI Components,  Prev: Introduction_2,  Up: Graphical Menu Software Design
 
-11.2 Startup Sequence
+12.2 Startup Sequence
 =====================
 
    * grub_enter_normal_mode [normal/main.c]
@@ -1943,7 +1986,7 @@ File: grub-dev.info,  Node: Startup Sequence,  Next: GUI Components,  Prev: Intr
 
 File: grub-dev.info,  Node: GUI Components,  Next: Command Line Window,  Prev: Startup Sequence,  Up: Graphical Menu Software Design
 
-11.3 GUI Components
+12.3 GUI Components
 ===================
 
 The graphical menu implements a GUI component system that supports a
@@ -2006,7 +2049,7 @@ particularly useful:
 
 File: grub-dev.info,  Node: Command Line Window,  Prev: GUI Components,  Up: Graphical Menu Software Design
 
-11.4 Command Line Window
+12.4 Command Line Window
 ========================
 
 The terminal window used to provide command line access within the
@@ -2023,7 +2066,71 @@ mode that was in use before 'grub_video_setup()' was called might fix
 some of the problems.
 
 
-File: grub-dev.info,  Node: Copying This Manual,  Next: Index,  Prev: Graphical Menu Software Design,  Up: Top
+File: grub-dev.info,  Node: Verifiers framework,  Next: Copying This Manual,  Prev: Graphical Menu Software Design,  Up: Top
+
+13 Verifiers framework
+**********************
+
+To register your own verifier call 'grub_verifier_register' with a
+structure pointing to your functions.
+
+   The interface is inspired by the hash interface with
+'init'/'write'/'fini'.
+
+   There are essentially 2 ways of using it, hashing and whole-file
+verification.
+
+   With the hashing approach: During 'init' you decide whether you want
+to check the given file and init context.  In 'write' you update your
+hashing state.  In 'fini' you check that the hash matches the expected
+value/passes some check/...
+
+   With whole-file verification: During 'init' you decide whether you
+want to check the given file and init context.  In 'write' you verify
+the file and return an error if it fails.  You don't have 'fini'.
+
+   Additional 'verify_string' receives various strings like kernel
+parameters to verify.  Returning no error means successful verification
+and an error stops the current action.
+
+   Detailed description of the API:
+
+   Every time a file is opened your 'init' function is called with file
+descriptor and file type.  Your function can have the following
+outcomes:
+
+   * returning no error and setting '*flags' to
+     'GRUB_VERIFY_FLAGS_DEFER_AUTH'.  In this case verification is
+     deferred to other active verifiers.  Verification fails if nobody
+     cares or selected verifier fails.
+
+   * returning no error and setting '*flags' to
+     'GRUB_VERIFY_FLAGS_SKIP_VERIFICATION'.  In this case your verifier
+     will not be called anymore and it is assumed to have skipped
+     verification.
+
+   * returning no error and not setting '*flags' to
+     'GRUB_VERIFY_FLAGS_SKIP_VERIFICATION' In this case verification is
+     done as described in the following section.
+
+   * returning an error.  Then opening of the file will fail due to
+     failed verification.
+
+   In the third case your 'write' will be called with chunks of the
+file.  If you need the whole file in a single chunk then during 'init'
+set the bit 'GRUB_VERIFY_FLAGS_SINGLE_CHUNK' in '*flags'.  During 'init'
+you may set '*context' if you need additional context.  At every
+iteration you may return an error and the file will be considered as
+having failed the verification.  If you return no error then
+verification continues.
+
+   Optionally at the end of the file 'fini', if it exists, is called
+with just the context.  If you return no error during any of 'init',
+'write' and 'fini' then the file is considered as having succeded
+verification.
+
+
+File: grub-dev.info,  Node: Copying This Manual,  Next: Index,  Prev: Verifiers framework,  Up: Top
 
 Appendix A Copying This Manual
 ******************************
@@ -2477,39 +2584,42 @@ Index
 
 Tag Table:
 Node: Top641
-Node: Getting the source code1734
-Node: Coding style2695
-Node: Naming Conventions3104
-Node: Functions3389
-Node: Variables4263
-Node: Types5378
-Node: Macros5979
-Node: Comments6311
-Node: Multi-Line Comments7073
-Node: Finding your way around7704
-Node: Contributing Changes11020
-Node: Getting started12110
-Node: Typical Developer Experience16162
-Node: When you are approved for write access to project's files17204
-Node: Porting18637
-Node: Error Handling30400
-Node: Stack and heap size35492
-Node: BIOS port memory map38125
-Node: Video Subsystem38974
-Node: Video API39446
-Node: Example usage of Video API59841
-Node: Bitmap API61415
-Node: PFF2 Font File Format63932
-Node: Introduction64172
-Node: File Structure65675
-Node: Font Metrics70593
-Node: Graphical Menu Software Design71741
-Node: Introduction_272033
-Node: Startup Sequence72767
-Node: GUI Components73618
-Node: Command Line Window76218
-Node: Copying This Manual77170
-Node: GNU Free Documentation License77426
-Node: Index99819
+Node: Getting the source code1789
+Node: Coding style2750
+Node: Naming Conventions3159
+Node: Functions3444
+Node: Variables4318
+Node: Types5433
+Node: Macros6034
+Node: Comments6366
+Node: Multi-Line Comments6975
+Node: Finding your way around7900
+Node: Contributing Changes11216
+Node: Getting started12321
+Node: Typical Developer Experience16373
+Node: When you are approved for write access to project's files17415
+Node: Updating External Code18848
+Node: Gnulib19119
+Node: Porting20078
+Node: Error Handling31842
+Node: Stack and heap size36934
+Node: BIOS port memory map39567
+Node: Video Subsystem40416
+Node: Video API40890
+Node: Example usage of Video API61339
+Node: Bitmap API62919
+Node: PFF2 Font File Format65452
+Node: Introduction65692
+Node: File Structure67195
+Node: Font Metrics72113
+Node: Graphical Menu Software Design73261
+Node: Introduction_273553
+Node: Startup Sequence74287
+Node: GUI Components75138
+Node: Command Line Window77738
+Node: Verifiers framework78690
+Node: Copying This Manual81298
+Node: GNU Free Documentation License81543
+Node: Index103936
 
 End Tag Table

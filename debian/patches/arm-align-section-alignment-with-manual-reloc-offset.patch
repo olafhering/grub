@@ -1,4 +1,4 @@
-From 98e5faf41eb40e287dc00c79f461f5afa92d8a34 Mon Sep 17 00:00:00 2001
+From 878c8d3485c6e3a1abba6e636fe2580a716bc3f7 Mon Sep 17 00:00:00 2001
 From: Alexander Graf <agraf@csgraf.de>
 Date: Tue, 30 Apr 2019 22:43:57 +0200
 Subject: arm: Align section alignment with manual relocation offset code
@@ -31,10 +31,10 @@ Patch-Name: arm-align-section-alignment-with-manual-reloc-offset.patch
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/util/grub-mkimagexx.c b/util/grub-mkimagexx.c
-index 2f80e5abc..740b30483 100644
+index 470fbf4dd..bc087c2b5 100644
 --- a/util/grub-mkimagexx.c
 +++ b/util/grub-mkimagexx.c
-@@ -1105,7 +1105,7 @@ SUFFIX (relocate_addresses) (Elf_Ehdr *e, Elf_Shdr *sections,
+@@ -1137,7 +1137,7 @@ SUFFIX (relocate_addrs) (Elf_Ehdr *e, struct section_metadata *smd,
  				       (int) sym_addr, (int) sym_addr);
  		       /* Data will be naturally aligned */
  		       if (image_target->id == IMAGE_EFI)

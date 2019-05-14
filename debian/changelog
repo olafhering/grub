@@ -1,5 +1,9 @@
-grub2 (2.02+dfsg1-19) UNRELEASED; urgency=medium
+grub2 (2.04~rc1-1) UNRELEASED; urgency=medium
 
+  * New upstream release candidate.
+    - getroot: Save/restore CWD more reliably on Unix (closes: #918700).
+  * Rename patches to use "-" as a separator rather than "_" (except when
+    referring to a file, function, or command containing a "_").
   * Fix format of debian/copyright.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 14 May 2019 10:18:27 +0100

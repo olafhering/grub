@@ -106,12 +106,12 @@ grub_machine_get_bootlocation (char **device __attribute__ ((unused)),
 void
 grub_machine_get_bootlocation (char **device, char **path)
 {
-  char *bootpath = NULL;
+  char *bootpath;
   char *filename;
   char *type;
 
-  grub_ieee1275_get_boot_dev (&bootpath);
-  if (bootpath == NULL)
+  bootpath = grub_ieee1275_get_boot_dev ();
+  if (! bootpath)
     return;
 
   /* Transform an OF device path to a GRUB path.  */
@@ -123,6 +123,8 @@ grub_machine_get_bootlocation (char **device, char **path)
       char *ptr;
       dev = grub_ieee1275_get_aliasdevname (bootpath);
       canon = grub_ieee1275_canonicalise_devname (dev);
+      if (! canon)
+        return;
       ptr = canon + grub_strlen (canon) - 1;
       while (ptr > canon && (*ptr == ',' || *ptr == ':'))
 	ptr--;
