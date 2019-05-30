@@ -1,4 +1,4 @@
-grub2 (2.04~rc1-1) UNRELEASED; urgency=medium
+grub2 (2.04~rc1-1) experimental; urgency=medium
 
   * New upstream release candidate.
     - getroot: Save/restore CWD more reliably on Unix (closes: #918700).
@@ -6,7 +6,7 @@ grub2 (2.04~rc1-1) UNRELEASED; urgency=medium
     referring to a file, function, or command containing a "_").
   * Fix format of debian/copyright.
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 14 May 2019 10:18:27 +0100
+ -- Colin Watson <cjwatson@debian.org>  Thu, 30 May 2019 16:56:05 +0100
 
 grub2 (2.02+dfsg1-18) unstable; urgency=medium
 
