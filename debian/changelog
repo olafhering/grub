@@ -2,6 +2,11 @@ grub2 (2.02+dfsg1-19) UNRELEASED; urgency=medium
 
   * Fix format of debian/copyright.
 
+  [ Steve McIntyre ]
+  * Add the ntfs module to signed UEFI images. Closes: #923855
+  * Add the cpuid module to signed UEFI images. Closes: #928628
+  * Add the play module to signed UEFI images. Closes: #930290
+
  -- Colin Watson <cjwatson@debian.org>  Tue, 14 May 2019 10:18:27 +0100
 
 grub2 (2.02+dfsg1-18) unstable; urgency=medium
