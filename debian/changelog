@@ -7,6 +7,8 @@ grub2 (2.02+dfsg1-19) UNRELEASED; urgency=medium
   * Add the ntfs module to signed UEFI images. Closes: #923855
   * Add the cpuid module to signed UEFI images. Closes: #928628
   * Add the play module to signed UEFI images. Closes: #930290
+  * Add an extra di-specific version of the UEFI netboot image with a
+    different baked-in prefix value. Helps to fix #928750.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 14 May 2019 10:18:27 +0100
 
