@@ -115,6 +115,7 @@ CD_MODULES="
 	memdisk
 	minicmd
 	normal
+	ntfs
 	part_apple
 	part_msdos
 	part_gpt
@@ -141,7 +142,9 @@ CD_MODULES="
 case $platform in
     x86_64-efi|i386-efi)
 	CD_MODULES="$CD_MODULES
+	cpuid
 	linuxefi
+	play
 	"
 	;;
 esac
