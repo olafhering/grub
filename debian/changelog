@@ -1,5 +1,6 @@
 grub2 (2.02+dfsg1-19) UNRELEASED; urgency=medium
 
+  [ Colin Watson ]
   * Fix format of debian/copyright.
 
   [ Steve McIntyre ]
