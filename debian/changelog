@@ -1,4 +1,4 @@
-grub2 (2.04~rc1-2) UNRELEASED; urgency=medium
+grub2 (2.04~rc1-2) experimental; urgency=medium
 
   [ Colin Watson ]
   * debian/build-efi-images: Add tpm on x86_64-efi (thanks, Chris Coulson).
@@ -11,7 +11,7 @@ grub2 (2.04~rc1-2) UNRELEASED; urgency=medium
     different baked-in prefix value. Helps to fix #928750.
   * Deal with --force-extra-removable with signed shim too. Closes: #930531
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 04 Jun 2019 19:41:22 +0100
+ -- Colin Watson <cjwatson@debian.org>  Sat, 15 Jun 2019 09:41:19 +0100
 
 grub2 (2.04~rc1-1) experimental; urgency=medium
 
