@@ -59,3 +59,4 @@ efi-variable-storage-minimise-writes.patch
 arm-move-trampolines-into-code-section.patch
 arm-align-section-alignment-with-manual-reloc-offset.patch
 no-devicetree-if-secure-boot.patch
+grub-install-removable-shim.patch
