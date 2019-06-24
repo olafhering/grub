@@ -1,4 +1,4 @@
-From ba7c2b16f331b96efc6da4a0d44c67fcaab02ee1 Mon Sep 17 00:00:00 2001
+From 1890bd10c9cd253413639fca277c3b61eaeed99c Mon Sep 17 00:00:00 2001
 From: Luca Boccassi <bluca@debian.org>
 Date: Tue, 15 May 2018 11:36:46 +0100
 Subject: Do not overwrite sentinel byte in boot_params, breaks lockdown

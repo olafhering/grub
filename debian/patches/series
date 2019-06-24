@@ -29,6 +29,7 @@ wubi-no-windows.patch
 maybe-quiet.patch
 install-efi-ubuntu-flavours.patch
 quick-boot.patch
+quick-boot-lvm.patch
 gfxpayload-dynamic.patch
 vt-handoff.patch
 probe-fusionio.patch

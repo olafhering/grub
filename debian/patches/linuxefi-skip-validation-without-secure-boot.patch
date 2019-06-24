@@ -1,4 +1,4 @@
-From 13cd3e22d3df5cb9fb03164b987d34361eac8fbc Mon Sep 17 00:00:00 2001
+From b2cacea4f3098140dc1987b091730f5a2b73436f Mon Sep 17 00:00:00 2001
 From: Matthew Garrett <mjg59@google.com>
 Date: Wed, 5 Dec 2018 15:07:21 -0800
 Subject: Don't enforce Shim signature validation if Secure Boot is disabled
