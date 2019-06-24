@@ -1,4 +1,4 @@
-From b46c93ffc3568a186c5326c86abfbd87a1c52680 Mon Sep 17 00:00:00 2001
+From 8569b69ca99db690f3937f83d47ee43ef143c283 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:28 +0000
 Subject: Add configure option to bypass boot menu if possible
@@ -80,7 +80,7 @@ index 308b25074..6736032d7 100644
  
  The following options are still accepted for compatibility with existing
 diff --git a/grub-core/normal/menu.c b/grub-core/normal/menu.c
-index bc0f173f6..68415a669 100644
+index ebf5a0f10..42c82290d 100644
 --- a/grub-core/normal/menu.c
 +++ b/grub-core/normal/menu.c
 @@ -604,6 +604,30 @@ run_menu (grub_menu_t menu, int nested, int *auto_boot)

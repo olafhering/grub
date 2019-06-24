@@ -389,7 +389,7 @@ static grub_err_t
 grub_normal_read_line_real (char **line, int cont, int nested)
 {
   const char *prompt;
-#ifdef QUIET_BOOT
+#if QUIET_BOOT
   static int displayed_intro;
 
   if (! displayed_intro)
@@ -450,7 +450,7 @@ grub_cmdline_run (int nested, int force_auth)
       return;
     }
 
-#ifndef QUIET_BOOT
+#if !QUIET_BOOT
   grub_normal_reader_init (nested);
 #endif
 

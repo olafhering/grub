@@ -1,4 +1,4 @@
-From 54d1130537fbc5438d078e646a00b47a75384061 Mon Sep 17 00:00:00 2001
+From edd35e8a753b5c153059d52291bd3aa92473abf8 Mon Sep 17 00:00:00 2001
 From: Peter Jones <pjones@redhat.com>
 Date: Wed, 24 Apr 2019 10:03:04 -0400
 Subject: Forbid the "devicetree" command when Secure Boot is enabled.

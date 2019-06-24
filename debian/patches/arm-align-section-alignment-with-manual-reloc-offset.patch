@@ -1,4 +1,4 @@
-From 878c8d3485c6e3a1abba6e636fe2580a716bc3f7 Mon Sep 17 00:00:00 2001
+From d488a4318f0e16c65a0a9153da6c309e780a5bca Mon Sep 17 00:00:00 2001
 From: Alexander Graf <agraf@csgraf.de>
 Date: Tue, 30 Apr 2019 22:43:57 +0200
 Subject: arm: Align section alignment with manual relocation offset code

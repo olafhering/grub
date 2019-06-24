@@ -1,4 +1,4 @@
-From 81c13db420ab11ac368e02b0fe67ae1f871c3c76 Mon Sep 17 00:00:00 2001
+From acd8c2920aacb0aa24b18fd9bbb0a5cea1561f89 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:26 +0000
 Subject: Add configure option to reduce visual clutter at boot time
@@ -26,10 +26,11 @@ Suppress "GRUB loading" message unless Shift is held down.  Upstream
 doesn't want this, as it makes debugging harder.  Ubuntu wants it to
 provide a cleaner boot experience.
 
+Author: Will Thompson <will@willthompson.co.uk>
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/386922
 Bug-Ubuntu: https://bugs.launchpad.net/bugs/861048
 Forwarded: (partial) http://lists.gnu.org/archive/html/grub-devel/2009-09/msg00056.html
-Last-Update: 2019-05-24
+Last-Update: 2019-06-24
 
 Patch-Name: maybe-quiet.patch
 ---
@@ -91,14 +92,14 @@ index 47102bfb5..4ddee8a7c 100644
  echo "*******************************************************"
  ]
 diff --git a/grub-core/boot/i386/pc/boot.S b/grub-core/boot/i386/pc/boot.S
-index 2bd0b2d28..451c8bea5 100644
+index 2bd0b2d28..b0c0f2225 100644
 --- a/grub-core/boot/i386/pc/boot.S
 +++ b/grub-core/boot/i386/pc/boot.S
 @@ -19,6 +19,9 @@
  
  #include <grub/symbol.h>
  #include <grub/machine/boot.h>
-+#if defined(QUIET_BOOT) && !defined(HYBRID_BOOT)
++#if QUIET_BOOT && !defined(HYBRID_BOOT)
 +#include <grub/machine/memory.h>
 +#endif
  
@@ -108,7 +109,7 @@ index 2bd0b2d28..451c8bea5 100644
  	/* save drive reference first thing! */
  	pushw	%dx
  
-+#if defined(QUIET_BOOT) && !defined(HYBRID_BOOT)
++#if QUIET_BOOT && !defined(HYBRID_BOOT)
 +	/* is either shift key held down? */
 +	movw	$(GRUB_MEMORY_MACHINE_BIOS_DATA_AREA_ADDR + 0x17), %bx
 +	testb	$3, (%bx)
@@ -123,14 +124,14 @@ index 2bd0b2d28..451c8bea5 100644
  	movw	$disk_address_packet, %si
  
 diff --git a/grub-core/boot/i386/pc/diskboot.S b/grub-core/boot/i386/pc/diskboot.S
-index c1addc0df..c6fd50bea 100644
+index c1addc0df..9b6d7a7ed 100644
 --- a/grub-core/boot/i386/pc/diskboot.S
 +++ b/grub-core/boot/i386/pc/diskboot.S
 @@ -18,6 +18,9 @@
  
  #include <grub/symbol.h>
  #include <grub/machine/boot.h>
-+#ifdef QUIET_BOOT
++#if QUIET_BOOT
 +#include <grub/machine/memory.h>
 +#endif
  
@@ -140,7 +141,7 @@ index c1addc0df..c6fd50bea 100644
  
  #define MSG(x)	movw $x, %si; call LOCAL(message)
  
-+#ifdef QUIET_BOOT
++#if QUIET_BOOT
 +#define SILENT(x)	call LOCAL(check_silent); jz LOCAL(x)
 +#else
 +#define SILENT(x)
@@ -191,7 +192,7 @@ index c1addc0df..c6fd50bea 100644
  /* go here when you need to stop the machine hard after an error condition */
  LOCAL(stop):	jmp	LOCAL(stop)
  
-+#ifdef QUIET_BOOT
++#if QUIET_BOOT
 +LOCAL(check_silent):
 +	/* is either shift key held down? */
 +	movw	$(GRUB_MEMORY_MACHINE_BIOS_DATA_AREA_ADDR + 0x17), %bx
@@ -203,14 +204,14 @@ index c1addc0df..c6fd50bea 100644
  
  notification_step:	.asciz "."
 diff --git a/grub-core/kern/main.c b/grub-core/kern/main.c
-index 9cad0c448..5613cd553 100644
+index 9cad0c448..714b63d67 100644
 --- a/grub-core/kern/main.c
 +++ b/grub-core/kern/main.c
 @@ -264,15 +264,25 @@ reclaim_module_space (void)
  void __attribute__ ((noreturn))
  grub_main (void)
  {
-+#ifdef QUIET_BOOT
++#if QUIET_BOOT
 +  struct grub_term_output *term;
 +#endif
 +
@@ -219,7 +220,7 @@ index 9cad0c448..5613cd553 100644
  
    grub_boot_time ("After machine init.");
  
-+#ifdef QUIET_BOOT
++#if QUIET_BOOT
 +  /* Disable the cursor until we need it.  */
 +  FOR_ACTIVE_TERM_OUTPUTS(term)
 +    grub_term_setcursor (term, 0);
@@ -237,7 +238,7 @@ index 9cad0c448..5613cd553 100644
  
    grub_load_normal_mode ();
 +
-+#ifdef QUIET_BOOT
++#if QUIET_BOOT
 +  /* If we have to enter rescue mode, enable the cursor again.  */
 +  FOR_ACTIVE_TERM_OUTPUTS(term)
 +    grub_term_setcursor (term, 1);
@@ -246,28 +247,28 @@ index 9cad0c448..5613cd553 100644
    grub_rescue_run ();
  }
 diff --git a/grub-core/kern/rescue_reader.c b/grub-core/kern/rescue_reader.c
-index dcd7d4439..03826cf63 100644
+index dcd7d4439..a93524eab 100644
 --- a/grub-core/kern/rescue_reader.c
 +++ b/grub-core/kern/rescue_reader.c
 @@ -78,7 +78,9 @@ grub_rescue_read_line (char **line, int cont,
  void __attribute__ ((noreturn))
  grub_rescue_run (void)
  {
-+#ifdef QUIET_BOOT
++#if QUIET_BOOT
    grub_printf ("Entering rescue mode...\n");
 +#endif
  
    while (1)
      {
 diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
-index 1b03dfd57..7c269a5e4 100644
+index 1b03dfd57..0aa389fa1 100644
 --- a/grub-core/normal/main.c
 +++ b/grub-core/normal/main.c
 @@ -389,6 +389,15 @@ static grub_err_t
  grub_normal_read_line_real (char **line, int cont, int nested)
  {
    const char *prompt;
-+#ifdef QUIET_BOOT
++#if QUIET_BOOT
 +  static int displayed_intro;
 +
 +  if (! displayed_intro)
@@ -283,14 +284,14 @@ index 1b03dfd57..7c269a5e4 100644
        return;
      }
  
-+#ifndef QUIET_BOOT
++#if !QUIET_BOOT
    grub_normal_reader_init (nested);
 +#endif
  
    while (1)
      {
 diff --git a/grub-core/normal/menu.c b/grub-core/normal/menu.c
-index 3611ee9ea..bc0f173f6 100644
+index 3611ee9ea..ebf5a0f10 100644
 --- a/grub-core/normal/menu.c
 +++ b/grub-core/normal/menu.c
 @@ -827,12 +827,18 @@ run_menu (grub_menu_t menu, int nested, int *auto_boot)
@@ -299,13 +300,13 @@ index 3611ee9ea..bc0f173f6 100644
  static void
 -notify_booting (grub_menu_entry_t entry,
 +notify_booting (grub_menu_entry_t entry
-+#ifdef QUIET_BOOT
++#if QUIET_BOOT
 +		__attribute__((unused))
 +#endif
 +		,
  		void *userdata __attribute__((unused)))
  {
-+#ifndef QUIET_BOOT
++#if !QUIET_BOOT
    grub_printf ("  ");
    grub_printf_ (N_("Booting `%s'"), entry->title);
    grub_printf ("\n\n");
@@ -317,7 +318,7 @@ index 3611ee9ea..bc0f173f6 100644
        int boot_entry;
        grub_menu_entry_t e;
        int auto_boot;
-+#ifdef QUIET_BOOT
++#if QUIET_BOOT
 +      int initial_timeout = grub_menu_get_timeout ();
 +#endif
  
@@ -328,7 +329,7 @@ index 3611ee9ea..bc0f173f6 100644
  	continue; /* Menu is empty.  */
  
 -      grub_cls ();
-+#ifdef QUIET_BOOT
++#if QUIET_BOOT
 +      /* Only clear the screen if we drew the menu in the first place.  */
 +      if (initial_timeout != 0)
 +#endif

@@ -852,13 +852,13 @@ run_menu (grub_menu_t menu, int nested, int *auto_boot)
 /* Callback invoked immediately before a menu entry is executed.  */
 static void
 notify_booting (grub_menu_entry_t entry
-#ifdef QUIET_BOOT
+#if QUIET_BOOT
 		__attribute__((unused))
 #endif
 		,
 		void *userdata __attribute__((unused)))
 {
-#ifndef QUIET_BOOT
+#if !QUIET_BOOT
   grub_printf ("  ");
   grub_printf_ (N_("Booting `%s'"), entry->title);
   grub_printf ("\n\n");
@@ -910,7 +910,7 @@ show_menu (grub_menu_t menu, int nested, int autobooted)
       int boot_entry;
       grub_menu_entry_t e;
       int auto_boot;
-#ifdef QUIET_BOOT
+#if QUIET_BOOT
       int initial_timeout = grub_menu_get_timeout ();
 #endif
 
@@ -922,7 +922,7 @@ show_menu (grub_menu_t menu, int nested, int autobooted)
       if (! e)
 	continue; /* Menu is empty.  */
 
-#ifdef QUIET_BOOT
+#if QUIET_BOOT
       /* Only clear the screen if we drew the menu in the first place.  */
       if (initial_timeout != 0)
 #endif
