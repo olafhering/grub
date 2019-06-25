@@ -1,0 +1,30 @@
+From 8881dab0010f99c8c975e1a8c5ea1b166755ead9 Mon Sep 17 00:00:00 2001
+From: Vladimir Serbinenko <phcoder@gmail.com>
+Date: Wed, 30 Aug 2017 16:59:25 +0200
+Subject: printf_unit_test: Disable Wformat-truncation on GCC >= 7
+
+We intentionally pass NULL as argument to format, hence disable the warning.
+
+Origin: upstream, https://git.savannah.gnu.org/cgit/grub.git/commit/?id=32099228e6ccf209f64d509cd7e13413ea10778e
+Last-Update: 2018-03-16
+
+Patch-Name: printf-unit-test-gcc7.patch
+---
+ tests/printf_unit_test.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/tests/printf_unit_test.c b/tests/printf_unit_test.c
+index d7b12c6db..098c29fd9 100644
+--- a/tests/printf_unit_test.c
++++ b/tests/printf_unit_test.c
+@@ -23,6 +23,10 @@
+ 
+ #define MSG "printf test failed: %s, %s", real, expected
+ 
++#if defined(__GNUC__) && __GNUC__ >= 7
++#pragma GCC diagnostic ignored "-Wformat-truncation="
++#endif
++
+ static void
+ printf_test (void)
+ {

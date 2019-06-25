@@ -1,0 +1,87 @@
+From 9fb8c500105e08a8587b4325245149ceef25dbc8 Mon Sep 17 00:00:00 2001
+From: Leif Lindholm <leif.lindholm@linaro.org>
+Date: Thu, 1 Feb 2018 18:18:50 +0000
+Subject: Make arch-specific linux.h include guards architecture unique
+
+Replace uses of GRUB_LINUX_MACHINE_HEADER and GRUB_LINUX_CPU_HEADER
+with GRUB_<arch>_LINUX_HEADER include guards to prevent issues when
+including more than one of them.
+
+Signed-off-by: Leif Lindholm <leif.lindholm@linaro.org>
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+Origin: upstream, https://git.savannah.gnu.org/cgit/grub.git/commit/?id=8776e5a942582adaadc67865ed74cdd199e56a16
+Bug-Debian: https://bugs.debian.org/907596
+Bug-Debian: https://bugs.debian.org/909420
+Last-Update: 2018-12-06
+
+Patch-Name: linux-h-guards.patch
+---
+ include/grub/arm/linux.h   | 6 +++---
+ include/grub/arm64/linux.h | 6 +++---
+ include/grub/i386/linux.h  | 6 +++---
+ 3 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/include/grub/arm/linux.h b/include/grub/arm/linux.h
+index a66caad13..89dadf4f1 100644
+--- a/include/grub/arm/linux.h
++++ b/include/grub/arm/linux.h
+@@ -17,8 +17,8 @@
+  *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#ifndef GRUB_LINUX_CPU_HEADER
+-#define GRUB_LINUX_CPU_HEADER 1
++#ifndef GRUB_ARM_LINUX_HEADER
++#define GRUB_ARM_LINUX_HEADER 1
+ 
+ #define LINUX_ZIMAGE_OFFSET 0x24
+ #define LINUX_ZIMAGE_MAGIC  0x016f2818
+@@ -50,4 +50,4 @@ grub_arm_firmware_get_machine_type (void)
+ 
+ #define FDT_ADDITIONAL_ENTRIES_SIZE	0x300
+ 
+-#endif /* ! GRUB_LINUX_CPU_HEADER */
++#endif /* ! GRUB_ARM_LINUX_HEADER */
+diff --git a/include/grub/arm64/linux.h b/include/grub/arm64/linux.h
+index a981df5d1..a8edf50dc 100644
+--- a/include/grub/arm64/linux.h
++++ b/include/grub/arm64/linux.h
+@@ -16,8 +16,8 @@
+  *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#ifndef GRUB_LINUX_CPU_HEADER
+-#define GRUB_LINUX_CPU_HEADER 1
++#ifndef GRUB_ARM64_LINUX_HEADER
++#define GRUB_ARM64_LINUX_HEADER 1
+ 
+ #include <grub/efi/efi.h>
+ 
+@@ -43,4 +43,4 @@ grub_err_t grub_arm64_uefi_check_image (struct grub_arm64_linux_kernel_header
+ grub_err_t grub_arm64_uefi_boot_image (grub_addr_t addr, grub_size_t size,
+                                        char *args);
+ 
+-#endif /* ! GRUB_LINUX_CPU_HEADER */
++#endif /* ! GRUB_ARM64_LINUX_HEADER */
+diff --git a/include/grub/i386/linux.h b/include/grub/i386/linux.h
+index 008166a4a..7647f4907 100644
+--- a/include/grub/i386/linux.h
++++ b/include/grub/i386/linux.h
+@@ -16,8 +16,8 @@
+  *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#ifndef GRUB_LINUX_MACHINE_HEADER
+-#define GRUB_LINUX_MACHINE_HEADER	1
++#ifndef GRUB_I386_LINUX_HEADER
++#define GRUB_I386_LINUX_HEADER	1
+ 
+ #define GRUB_LINUX_MAGIC_SIGNATURE	0x53726448      /* "HdrS" */
+ #define GRUB_LINUX_DEFAULT_SETUP_SECTS	4
+@@ -317,4 +317,4 @@ struct linux_kernel_params
+ } GRUB_PACKED;
+ #endif /* ! ASM_FILE */
+ 
+-#endif /* ! GRUB_LINUX_MACHINE_HEADER */
++#endif /* ! GRUB_I386_LINUX_HEADER */

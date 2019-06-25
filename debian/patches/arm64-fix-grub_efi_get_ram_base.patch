@@ -1,0 +1,39 @@
+From d9aa347c109422e5c809906909b06028312f0787 Mon Sep 17 00:00:00 2001
+From: Leif Lindholm <leif.lindholm@linaro.org>
+Date: Thu, 21 Feb 2019 10:15:08 +0000
+Subject: arm64/efi: Fix grub_efi_get_ram_base()
+
+grub_efi_get_ram_base() looks for the lowest available RAM address by
+traversing the memory map, comparing lowest address found so far.
+Due to a brain glitch, that "so far" was initialized to GRUB_UINT_MAX -
+completely preventing boot on systems without RAM below 4GB.
+
+Change the initial value to GRUB_EFI_MAX_USABLE_ADDRESS, as originally
+intended.
+
+Reported-by: Steve McIntyre <93sam@debian.org>
+Signed-off-by: Leif Lindholm <leif.lindholm@linaro.org>
+Tested-by: Steve McIntyre <93sam@debian.org>
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+Origin: upstream, https://git.savannah.gnu.org/cgit/grub.git/commit/?id=566b16a0dc23d72357d2d75b781d3c7895b8a234
+Last-Update: 2019-02-26
+
+Patch-Name: arm64-fix-grub_efi_get_ram_base.patch
+---
+ grub-core/kern/efi/mm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/grub-core/kern/efi/mm.c b/grub-core/kern/efi/mm.c
+index 9475e2eb5..a0f0c3c81 100644
+--- a/grub-core/kern/efi/mm.c
++++ b/grub-core/kern/efi/mm.c
+@@ -603,7 +603,7 @@ grub_efi_get_ram_base(grub_addr_t *base_addr)
+   if (ret < 1)
+     return GRUB_ERR_BUG;
+ 
+-  for (desc = memory_map, *base_addr = GRUB_UINT_MAX;
++  for (desc = memory_map, *base_addr = GRUB_EFI_MAX_USABLE_ADDRESS;
+        (grub_addr_t) desc < ((grub_addr_t) memory_map + memory_map_size);
+        desc = NEXT_MEMORY_DESCRIPTOR (desc, desc_size))
+     if (desc->attribute & GRUB_EFI_MEMORY_WB)

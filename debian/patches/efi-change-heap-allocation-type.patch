@@ -1,0 +1,39 @@
+From e1c8c0fd1d6351c16cd291d2f5a7b7eacf33d98c Mon Sep 17 00:00:00 2001
+From: Leif Lindholm <leif.lindholm@linaro.org>
+Date: Thu, 3 Aug 2017 11:04:32 +0100
+Subject: efi: change heap allocation type to GRUB_EFI_LOADER_CODE
+
+With upcoming changes to EDK2, allocations of type EFI_LOADER_DATA may
+not return regions with execute ability. Since modules are loaded onto
+the heap, change the heap allocation type to GRUB_EFI_LOADER_CODE in
+order to permit execution on systems with this feature enabled.
+
+Closes: 50420
+
+Signed-off-by: Leif Lindholm <leif.lindholm@linaro.org>
+
+Origin: upstream, https://git.savannah.gnu.org/cgit/grub.git/commit/?id=f826330683675f0deb55b58fd229afd7d65fb053
+Bug-Debian: https://bugs.debian.org/907596
+Bug-Debian: https://bugs.debian.org/909420
+Last-Update: 2018-12-06
+
+Patch-Name: efi-change-heap-allocation-type.patch
+---
+ grub-core/kern/efi/mm.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/grub-core/kern/efi/mm.c b/grub-core/kern/efi/mm.c
+index ffcfe4f17..f5440cb1d 100644
+--- a/grub-core/kern/efi/mm.c
++++ b/grub-core/kern/efi/mm.c
+@@ -435,7 +435,9 @@ add_memory_regions (grub_efi_memory_descriptor_t *memory_map,
+ 	  pages = required_pages;
+ 	}
+ 
+-      addr = grub_efi_allocate_fixed (start, pages);
++      addr = grub_efi_allocate_pages_real (start, pages,
++					   GRUB_EFI_ALLOCATE_ADDRESS,
++					   GRUB_EFI_LOADER_CODE);      
+       if (! addr)
+ 	grub_fatal ("cannot allocate conventional memory %p with %u pages",
+ 		    (void *) ((grub_addr_t) start),

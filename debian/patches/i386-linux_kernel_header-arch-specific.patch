@@ -1,0 +1,107 @@
+From 8ed52df070439954cd2e909a348861ee293a949d Mon Sep 17 00:00:00 2001
+From: Leif Lindholm <leif.lindholm@linaro.org>
+Date: Thu, 1 Feb 2018 18:18:52 +0000
+Subject: i386: make struct linux_kernel_header architecture specific
+
+struct linux_kernel_header -> struct linux_i386_kernel_header
+
+Signed-off-by: Leif Lindholm <leif.lindholm@linaro.org>
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+Origin: upstream, https://git.savannah.gnu.org/cgit/grub.git/commit/?id=7d36709d5e769eb49b41cca709bd64336b47ab4f
+Bug-Debian: https://bugs.debian.org/907596
+Bug-Debian: https://bugs.debian.org/909420
+Last-Update: 2018-12-06
+
+Patch-Name: i386-linux_kernel_header-arch-specific.patch
+---
+ grub-core/commands/file.c        | 2 +-
+ grub-core/loader/i386/linux.c    | 2 +-
+ grub-core/loader/i386/pc/linux.c | 6 +++---
+ grub-core/loader/i386/xen_file.c | 2 +-
+ include/grub/i386/linux.h        | 2 +-
+ 5 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/grub-core/commands/file.c b/grub-core/commands/file.c
+index 474666d3a..63c84499b 100644
+--- a/grub-core/commands/file.c
++++ b/grub-core/commands/file.c
+@@ -497,7 +497,7 @@ grub_cmd_file (grub_extcmd_context_t ctxt, int argc, char **args)
+     case IS_X86_LINUX32:
+     case IS_X86_LINUX:
+       {
+-	struct linux_kernel_header lh;
++	struct linux_i386_kernel_header lh;
+ 	if (grub_file_read (file, &lh, sizeof (lh)) != sizeof (lh))
+ 	  break;
+ 	if (lh.boot_flag != grub_cpu_to_le16_compile_time (0xaa55))
+diff --git a/grub-core/loader/i386/linux.c b/grub-core/loader/i386/linux.c
+index 4d043fd6f..0052b5965 100644
+--- a/grub-core/loader/i386/linux.c
++++ b/grub-core/loader/i386/linux.c
+@@ -686,7 +686,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+ 		int argc, char *argv[])
+ {
+   grub_file_t file = 0;
+-  struct linux_kernel_header lh;
++  struct linux_i386_kernel_header lh;
+   grub_uint8_t setup_sects;
+   grub_size_t real_size, prot_size, prot_file_size;
+   grub_ssize_t len;
+diff --git a/grub-core/loader/i386/pc/linux.c b/grub-core/loader/i386/pc/linux.c
+index 31a687644..b69cb7a3a 100644
+--- a/grub-core/loader/i386/pc/linux.c
++++ b/grub-core/loader/i386/pc/linux.c
+@@ -121,7 +121,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+ 		int argc, char *argv[])
+ {
+   grub_file_t file = 0;
+-  struct linux_kernel_header lh;
++  struct linux_i386_kernel_header lh;
+   grub_uint8_t setup_sects;
+   grub_size_t real_size;
+   grub_ssize_t len;
+@@ -387,7 +387,7 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
+ {
+   grub_size_t size = 0;
+   grub_addr_t addr_max, addr_min;
+-  struct linux_kernel_header *lh;
++  struct linux_i386_kernel_header *lh;
+   grub_uint8_t *initrd_chunk;
+   grub_addr_t initrd_addr;
+   grub_err_t err;
+@@ -405,7 +405,7 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
+       goto fail;
+     }
+ 
+-  lh = (struct linux_kernel_header *) grub_linux_real_chunk;
++  lh = (struct linux_i386_kernel_header *) grub_linux_real_chunk;
+ 
+   if (!(lh->header == grub_cpu_to_le32_compile_time (GRUB_LINUX_I386_MAGIC_SIGNATURE)
+ 	&& grub_le_to_cpu16 (lh->version) >= 0x0200))
+diff --git a/grub-core/loader/i386/xen_file.c b/grub-core/loader/i386/xen_file.c
+index 6e76e16aa..77a93e7b2 100644
+--- a/grub-core/loader/i386/xen_file.c
++++ b/grub-core/loader/i386/xen_file.c
+@@ -26,7 +26,7 @@ grub_elf_t
+ grub_xen_file (grub_file_t file)
+ {
+   grub_elf_t elf;
+-  struct linux_kernel_header lh;
++  struct linux_i386_kernel_header lh;
+   grub_file_t off_file;
+   grub_uint32_t payload_offset, payload_length;
+   grub_uint8_t magic[6];
+diff --git a/include/grub/i386/linux.h b/include/grub/i386/linux.h
+index ed6c941a8..bb19dbd5a 100644
+--- a/include/grub/i386/linux.h
++++ b/include/grub/i386/linux.h
+@@ -88,7 +88,7 @@ enum
+   };
+ 
+ /* For the Linux/i386 boot protocol version 2.10.  */
+-struct linux_kernel_header
++struct linux_i386_kernel_header
+ {
+   grub_uint8_t code1[0x0020];
+   grub_uint16_t cl_magic;		/* Magic number 0xA33F */

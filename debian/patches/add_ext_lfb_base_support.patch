@@ -1,0 +1,76 @@
+From 12cd97a08150a5ff9d0df7d03c8ec28f0961dc8e Mon Sep 17 00:00:00 2001
+From: Arindam Nath <arindam.nath@amd.com>
+Date: Thu, 12 Jul 2018 19:02:49 +0530
+Subject: i386/linux: Add support for ext_lfb_base
+
+The EFI Graphics Output Protocol can return a 64-bit
+linear frame buffer address in some firmware/BIOS
+implementations. We currently only store the lower
+32-bits in the lfb_base. This will eventually be
+passed to Linux kernel and the efifb driver will
+incorrectly interpret the framebuffer address as
+32-bit address.
+
+The Linux kernel has already added support to handle
+64-bit linear framebuffer address in the efifb driver
+since quite some time now.
+
+This patch adds the support for 64-bit linear frame
+buffer address in GRUB to address the above mentioned
+scenario.
+
+Signed-off-by: Arindam Nath <arindam.nath@amd.com>
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+Origin: upstream, https://git.savannah.gnu.org/cgit/grub.git/commit/?id=886edba8770ccbc3def0af2a7d6b346d00d0af2f
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/1785033
+Last-Update: 2018-10-29
+
+Patch-Name: add_ext_lfb_base_support.patch
+---
+ grub-core/loader/i386/linux.c | 6 ++++++
+ include/grub/i386/linux.h     | 6 +++++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/grub-core/loader/i386/linux.c b/grub-core/loader/i386/linux.c
+index 59b88ca18..adffe589c 100644
+--- a/grub-core/loader/i386/linux.c
++++ b/grub-core/loader/i386/linux.c
+@@ -308,6 +308,12 @@ grub_linux_setup_video (struct linux_kernel_params *params)
+   params->lfb_line_len = mode_info.pitch;
+ 
+   params->lfb_base = (grub_size_t) framebuffer;
++
++#if defined (GRUB_MACHINE_EFI) && defined (__x86_64__)
++  params->ext_lfb_base = (grub_size_t) (((grub_uint64_t)(grub_size_t) framebuffer) >> 32);
++  params->capabilities |= VIDEO_CAPABILITY_64BIT_BASE;
++#endif
++
+   params->lfb_size = ALIGN_UP (params->lfb_line_len * params->lfb_height, 65536);
+ 
+   params->red_mask_size = mode_info.red_mask_size;
+diff --git a/include/grub/i386/linux.h b/include/grub/i386/linux.h
+index fc36bdaf3..008166a4a 100644
+--- a/include/grub/i386/linux.h
++++ b/include/grub/i386/linux.h
+@@ -43,6 +43,9 @@
+ 
+ #define GRUB_LINUX_CL_MAGIC		0xA33F
+ 
++#define VIDEO_CAPABILITY_SKIP_QUIRKS	(1 << 0)
++#define VIDEO_CAPABILITY_64BIT_BASE	(1 << 1)	/* Frame buffer base is 64-bit. */
++
+ #ifdef __x86_64__
+ 
+ #define GRUB_LINUX_EFI_SIGNATURE	\
+@@ -189,8 +192,9 @@ struct linux_kernel_params
+   grub_uint16_t lfb_pages;		/* 32 */
+   grub_uint16_t vesa_attrib;		/* 34 */
+   grub_uint32_t capabilities;		/* 36 */
++  grub_uint32_t ext_lfb_base;		/* 3a */
+ 
+-  grub_uint8_t padding3[0x40 - 0x3a];
++  grub_uint8_t padding3[0x40 - 0x3e];
+ 
+   grub_uint16_t apm_version;		/* 40 */
+   grub_uint16_t apm_code_segment;	/* 42 */

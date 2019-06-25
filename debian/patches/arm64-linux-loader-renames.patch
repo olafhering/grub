@@ -1,0 +1,150 @@
+From 99829bacbf612b93ede41b93fcc7d82e5f456954 Mon Sep 17 00:00:00 2001
+From: Leif Lindholm <leif.lindholm@linaro.org>
+Date: Mon, 9 Jul 2018 18:33:02 +0100
+Subject: arm64/linux/loader: Rename functions and macros and move to common
+ headers
+
+In preparation for using the linux loader for 32-bit and 64-bit platforms,
+rename grub_arm64*/GRUB_ARM64* to grub_armxx*/GRUB_ARMXX*.
+
+Move prototypes for now-common functions to efi/efi.h.
+
+Signed-off-by: Leif Lindholm <leif.lindholm@linaro.org>
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+Origin: upstream, https://git.savannah.gnu.org/cgit/grub.git/commit/?id=d24dd120864ed72a80d7bb9c0288c4f29934f79d
+Bug-Debian: https://bugs.debian.org/907596
+Bug-Debian: https://bugs.debian.org/909420
+Last-Update: 2018-12-06
+
+Patch-Name: arm64-linux-loader-renames.patch
+---
+ grub-core/loader/arm64/linux.c    | 14 +++++++-------
+ grub-core/loader/arm64/xen_boot.c | 10 +++++-----
+ include/grub/arm64/linux.h        |  9 ++++-----
+ include/grub/efi/efi.h            |  4 ++++
+ 4 files changed, 20 insertions(+), 17 deletions(-)
+
+diff --git a/grub-core/loader/arm64/linux.c b/grub-core/loader/arm64/linux.c
+index ebe1e730d..f90c5f926 100644
+--- a/grub-core/loader/arm64/linux.c
++++ b/grub-core/loader/arm64/linux.c
+@@ -48,9 +48,9 @@ static grub_addr_t initrd_start;
+ static grub_addr_t initrd_end;
+ 
+ grub_err_t
+-grub_arm64_uefi_check_image (struct linux_arm64_kernel_header * lh)
++grub_armxx_efi_linux_check_image (struct linux_armxx_kernel_header * lh)
+ {
+-  if (lh->magic != GRUB_LINUX_ARM64_MAGIC_SIGNATURE)
++  if (lh->magic != GRUB_LINUX_ARMXX_MAGIC_SIGNATURE)
+     return grub_error(GRUB_ERR_BAD_OS, "invalid magic number");
+ 
+   if ((lh->code0 & 0xffff) != GRUB_PE32_MAGIC)
+@@ -109,7 +109,7 @@ failure:
+ }
+ 
+ grub_err_t
+-grub_arm64_uefi_boot_image (grub_addr_t addr, grub_size_t size, char *args)
++grub_armxx_efi_linux_boot_image (grub_addr_t addr, grub_size_t size, char *args)
+ {
+   grub_efi_memory_mapped_device_path_t *mempath;
+   grub_efi_handle_t image_handle;
+@@ -172,8 +172,8 @@ grub_linux_boot (void)
+   if (finalize_params_linux () != GRUB_ERR_NONE)
+     return grub_errno;
+ 
+-  return (grub_arm64_uefi_boot_image((grub_addr_t)kernel_addr,
+-                                     kernel_size, linux_args));
++  return (grub_armxx_efi_linux_boot_image((grub_addr_t)kernel_addr,
++                                          kernel_size, linux_args));
+ }
+ 
+ static grub_err_t
+@@ -249,7 +249,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+ 		int argc, char *argv[])
+ {
+   grub_file_t file = 0;
+-  struct linux_arm64_kernel_header lh;
++  struct linux_armxx_kernel_header lh;
+ 
+   grub_dl_ref (my_mod);
+ 
+@@ -268,7 +268,7 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+   if (grub_file_read (file, &lh, sizeof (lh)) < (long) sizeof (lh))
+     return grub_errno;
+ 
+-  if (grub_arm64_uefi_check_image (&lh) != GRUB_ERR_NONE)
++  if (grub_armxx_efi_linux_check_image (&lh) != GRUB_ERR_NONE)
+     goto fail;
+ 
+   grub_loader_unset();
+diff --git a/grub-core/loader/arm64/xen_boot.c b/grub-core/loader/arm64/xen_boot.c
+index 4f631e2cc..0f6a04f1e 100644
+--- a/grub-core/loader/arm64/xen_boot.c
++++ b/grub-core/loader/arm64/xen_boot.c
+@@ -254,9 +254,9 @@ xen_boot (void)
+   if (err)
+     return err;
+ 
+-  return grub_arm64_uefi_boot_image (xen_hypervisor->start,
+-				     xen_hypervisor->size,
+-				     xen_hypervisor->cmdline);
++  return grub_armxx_efi_linux_boot_image (xen_hypervisor->start,
++					  xen_hypervisor->size,
++					  xen_hypervisor->cmdline);
+ }
+ 
+ static void
+@@ -441,8 +441,8 @@ grub_cmd_xen_hypervisor (grub_command_t cmd __attribute__ ((unused)),
+ 
+   if (grub_file_read (file, &sh, sizeof (sh)) != (long) sizeof (sh))
+     goto fail;
+-  if (grub_arm64_uefi_check_image
+-      ((struct linux_arm64_kernel_header *) &sh) != GRUB_ERR_NONE)
++  if (grub_armxx_efi_linux_check_image
++      ((struct linux_armxx_kernel_header *) &sh) != GRUB_ERR_NONE)
+     goto fail;
+   grub_file_seek (file, 0);
+ 
+diff --git a/include/grub/arm64/linux.h b/include/grub/arm64/linux.h
+index b06347624..8655067e0 100644
+--- a/include/grub/arm64/linux.h
++++ b/include/grub/arm64/linux.h
+@@ -19,8 +19,6 @@
+ #ifndef GRUB_ARM64_LINUX_HEADER
+ #define GRUB_ARM64_LINUX_HEADER 1
+ 
+-#include <grub/efi/efi.h>
+-
+ #define GRUB_LINUX_ARM64_MAGIC_SIGNATURE 0x644d5241 /* 'ARM\x64' */
+ 
+ /* From linux/Documentation/arm64/booting.txt */
+@@ -38,8 +36,9 @@ struct linux_arm64_kernel_header
+   grub_uint32_t hdr_offset;	/* Offset of PE/COFF header */
+ };
+ 
+-grub_err_t grub_arm64_uefi_check_image (struct linux_arm64_kernel_header *lh);
+-grub_err_t grub_arm64_uefi_boot_image (grub_addr_t addr, grub_size_t size,
+-                                       char *args);
++#if defined(__aarch64__)
++# define GRUB_LINUX_ARMXX_MAGIC_SIGNATURE GRUB_LINUX_ARM64_MAGIC_SIGNATURE
++# define linux_armxx_kernel_header linux_arm64_kernel_header
++#endif
+ 
+ #endif /* ! GRUB_ARM64_LINUX_HEADER */
+diff --git a/include/grub/efi/efi.h b/include/grub/efi/efi.h
+index c42a090c9..813de3be9 100644
+--- a/include/grub/efi/efi.h
++++ b/include/grub/efi/efi.h
+@@ -98,6 +98,10 @@ void *EXPORT_FUNC(grub_efi_get_firmware_fdt)(void);
+ #endif
+ #if defined(__aarch64__)
+ grub_err_t EXPORT_FUNC(grub_efi_get_ram_base)(grub_addr_t *);
++#include <grub/cpu/linux.h>
++grub_err_t grub_armxx_efi_linux_check_image(struct linux_armxx_kernel_header *lh);
++grub_err_t grub_armxx_efi_linux_boot_image(grub_addr_t addr, grub_size_t size,
++                                           char *args);
+ #endif
+ 
+ grub_addr_t grub_efi_modules_addr (void);

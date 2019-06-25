@@ -1,0 +1,53 @@
+From b735acae310e78152bcc1633d179c74d13fbd841 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@ubuntu.com>
+Date: Mon, 29 Oct 2018 12:24:41 +0000
+Subject: Cope with / being on a ZFS root dataset
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+If / is on the root dataset in a ZFS pool, then ${bootfs} will be set to
+"/" (whereas if it is on a non-root dataset, there will be no trailing
+slash).  Passing "root=ZFS=${rpool}/" will fail to boot, but
+"root=ZFS=${rpool}" works fine, so strip the trailing slash.
+
+Fixes: https://savannah.gnu.org/bugs/?52746
+Tested-by: Fejes József <jozsef.fejes@gmail.com>
+Signed-off-by: Colin Watson <cjwatson@ubuntu.com>
+
+Bug: https://savannah.gnu.org/bugs/?52746
+Bug-Debian: https://bugs.debian.org/886178
+Last-Update: 2018-10-29
+
+Patch-Name: zfs-root-dataset.patch
+---
+ util/grub.d/10_linux.in     | 2 +-
+ util/grub.d/20_linux_xen.in | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
+index 4cf321c54..024bd5c63 100644
+--- a/util/grub.d/10_linux.in
++++ b/util/grub.d/10_linux.in
+@@ -81,7 +81,7 @@ case x"$GRUB_FS" in
+     xzfs)
+ 	rpool=`${grub_probe} --device ${GRUB_DEVICE} --target=fs_label 2>/dev/null || true`
+ 	bootfs="`make_system_path_relative_to_its_root / | sed -e "s,@$,,"`"
+-	LINUX_ROOT_DEVICE="ZFS=${rpool}${bootfs}"
++	LINUX_ROOT_DEVICE="ZFS=${rpool}${bootfs%/}"
+ 	;;
+ esac
+ 
+diff --git a/util/grub.d/20_linux_xen.in b/util/grub.d/20_linux_xen.in
+index a4f9893b6..98ef163c1 100644
+--- a/util/grub.d/20_linux_xen.in
++++ b/util/grub.d/20_linux_xen.in
+@@ -77,7 +77,7 @@ case x"$GRUB_FS" in
+     xzfs)
+ 	rpool=`${grub_probe} --device ${GRUB_DEVICE} --target=fs_label 2>/dev/null || true`
+ 	bootfs="`make_system_path_relative_to_its_root / | sed -e "s,@$,,"`"
+-	LINUX_ROOT_DEVICE="ZFS=${rpool}${bootfs}"
++	LINUX_ROOT_DEVICE="ZFS=${rpool}${bootfs%/}"
+ 	;;
+ esac
+ 

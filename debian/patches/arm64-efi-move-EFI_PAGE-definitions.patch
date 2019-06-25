@@ -1,0 +1,94 @@
+From c2f64f6b2f407ccf5c4dde8695d4a1490cd5dc02 Mon Sep 17 00:00:00 2001
+From: Leif Lindholm <leif.lindholm@linaro.org>
+Date: Thu, 1 Feb 2018 18:18:49 +0000
+Subject: arm64/efi: move EFI_PAGE definitions to efi/memory.h
+
+The EFI page definitions and macros are generic and should not be confined
+to arm64 headers - so move to efi/memory.h.
+Also add EFI_PAGE_SIZE macro.
+
+Update loader sources to reflect new header location.
+
+Signed-off-by: Leif Lindholm <leif.lindholm@linaro.org>
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+Origin: upstream, https://git.savannah.gnu.org/cgit/grub.git/commit/?id=083c6e2455dcd4aafb6062d89fd6029dd3adddb6
+Bug-Debian: https://bugs.debian.org/907596
+Bug-Debian: https://bugs.debian.org/909420
+Last-Update: 2018-12-06
+
+Patch-Name: arm64-efi-move-EFI_PAGE-definitions.patch
+---
+ grub-core/loader/arm64/linux.c    | 1 +
+ grub-core/loader/arm64/xen_boot.c | 1 +
+ grub-core/loader/efi/fdt.c        | 1 +
+ include/grub/efi/fdtload.h        | 3 ---
+ include/grub/efi/memory.h         | 7 +++++++
+ 5 files changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/grub-core/loader/arm64/linux.c b/grub-core/loader/arm64/linux.c
+index 746edd104..ca01a2349 100644
+--- a/grub-core/loader/arm64/linux.c
++++ b/grub-core/loader/arm64/linux.c
+@@ -28,6 +28,7 @@
+ #include <grub/cpu/linux.h>
+ #include <grub/efi/efi.h>
+ #include <grub/efi/fdtload.h>
++#include <grub/efi/memory.h>
+ #include <grub/efi/pe32.h>
+ #include <grub/i18n.h>
+ #include <grub/lib/cmdline.h>
+diff --git a/grub-core/loader/arm64/xen_boot.c b/grub-core/loader/arm64/xen_boot.c
+index b0225d9d4..d7fced211 100644
+--- a/grub-core/loader/arm64/xen_boot.c
++++ b/grub-core/loader/arm64/xen_boot.c
+@@ -30,6 +30,7 @@
+ #include <grub/cpu/linux.h>
+ #include <grub/efi/efi.h>
+ #include <grub/efi/fdtload.h>
++#include <grub/efi/memory.h>
+ #include <grub/efi/pe32.h>	/* required by struct xen_hypervisor_header */
+ #include <grub/i18n.h>
+ #include <grub/lib/cmdline.h>
+diff --git a/grub-core/loader/efi/fdt.c b/grub-core/loader/efi/fdt.c
+index 17212c38d..c0c6800f7 100644
+--- a/grub-core/loader/efi/fdt.c
++++ b/grub-core/loader/efi/fdt.c
+@@ -24,6 +24,7 @@
+ #include <grub/file.h>
+ #include <grub/efi/efi.h>
+ #include <grub/efi/fdtload.h>
++#include <grub/efi/memory.h>
+ 
+ static void *loaded_fdt;
+ static void *fdt;
+diff --git a/include/grub/efi/fdtload.h b/include/grub/efi/fdtload.h
+index 7b9ddba91..713c9424d 100644
+--- a/include/grub/efi/fdtload.h
++++ b/include/grub/efi/fdtload.h
+@@ -29,7 +29,4 @@ grub_fdt_unload (void);
+ grub_err_t
+ grub_fdt_install (void);
+ 
+-#define GRUB_EFI_PAGE_SHIFT	12
+-#define GRUB_EFI_BYTES_TO_PAGES(bytes)   (((bytes) + 0xfff) >> GRUB_EFI_PAGE_SHIFT)
+-
+ #endif
+diff --git a/include/grub/efi/memory.h b/include/grub/efi/memory.h
+index 20526b146..08fe62277 100644
+--- a/include/grub/efi/memory.h
++++ b/include/grub/efi/memory.h
+@@ -22,6 +22,13 @@
+ #include <grub/err.h>
+ #include <grub/types.h>
+ 
++/* The term "page" in UEFI refers only to a 4 KiB-aligned 4 KiB size region of
++   memory. It is not concerned with underlying translation management concepts,
++   but only used as the granule for memory allocations. */
++#define GRUB_EFI_PAGE_SHIFT             12
++#define GRUB_EFI_PAGE_SIZE              (1 << GRUB_EFI_PAGE_SHIFT)
++#define GRUB_EFI_BYTES_TO_PAGES(bytes)  (((bytes) + 0xfff) >> GRUB_EFI_PAGE_SHIFT)
++
+ #define GRUB_MMAP_REGISTER_BY_FIRMWARE  1
+ 
+ grub_err_t grub_machine_mmap_register (grub_uint64_t start, grub_uint64_t size,
