@@ -12,7 +12,7 @@ Rules-Requires-Root: no
 Package: @pkg_signed@
 Architecture: @arch@
 Depends: grub-common (= @version_binary@)
-Recommends: shim-signed [amd64]
+Recommends: shim-signed
 Built-Using: grub2 (= @version_binary@)
 Description: GRand Unified Bootloader, version 2 (@arch@ UEFI signed by Debian)
  GRUB is a portable, powerful bootloader.  This version of GRUB is based on a
