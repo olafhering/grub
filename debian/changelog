@@ -11,6 +11,7 @@ grub2 (2.04~rc1-3) UNRELEASED; urgency=medium
   * Make all the signed EFI arches have a Recommends: from
     grub-efi-ARCH-signed to shim-signed, not just amd64.
     Closes: #931038
+  * Add myself to Uploaders
 
  -- Colin Watson <cjwatson@debian.org>  Mon, 24 Jun 2019 08:00:07 +0100
 
