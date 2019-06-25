@@ -7,6 +7,11 @@ grub2 (2.04~rc1-3) UNRELEASED; urgency=medium
   * If we don't have writable grubenv and we're on EFI, always show the menu
     (merged from Ubuntu).
 
+  [ Steve McIntyre ]
+  * Make all the signed EFI arches have a Recommends: from
+    grub-efi-ARCH-signed to shim-signed, not just amd64.
+    Closes: #931038
+
  -- Colin Watson <cjwatson@debian.org>  Mon, 24 Jun 2019 08:00:07 +0100
 
 grub2 (2.04~rc1-2) experimental; urgency=medium
