@@ -1,0 +1,60 @@
+From 56e169b950e2fdc17dfce4ec0bd63b59fa16f0b0 Mon Sep 17 00:00:00 2001
+From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Date: Tue, 29 Aug 2017 16:40:53 -0400
+Subject: Use grub-file to figure out whether multiboot2 should be used for
+ Xen.gz
+
+The multiboot2 is much more preferable than multiboot. Especiall
+if booting under EFI where multiboot does not have the functionality
+to pass ImageHandler.
+
+Signed-off-by: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+Origin: backport, https://git.savannah.gnu.org/cgit/grub.git/commit/?id=b4d709b6ee789cdaf3fa7a80fd90c721a16f48c2
+Bug-Debian: https://bugs.debian.org/898947
+Last-Update: 2018-06-16
+
+Patch-Name: xen-multiboot2.patch
+---
+ util/grub.d/20_linux_xen.in | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/util/grub.d/20_linux_xen.in b/util/grub.d/20_linux_xen.in
+index d3edb46df..a4f9893b6 100644
+--- a/util/grub.d/20_linux_xen.in
++++ b/util/grub.d/20_linux_xen.in
+@@ -130,16 +130,16 @@ linux_entry ()
+         else
+             xen_rm_opts="no-real-mode edd=off"
+         fi
+-	multiboot	${rel_xen_dirname}/${xen_basename} placeholder ${xen_args} \${xen_rm_opts}
++	${xen_loader}	${rel_xen_dirname}/${xen_basename} placeholder ${xen_args} \${xen_rm_opts}
+ 	echo	'$(echo "$lmessage" | grub_quote)'
+-	module	${rel_dirname}/${basename} placeholder root=${linux_root_device_thisversion} ro ${args}
++	${module_loader}	${rel_dirname}/${basename} placeholder root=${linux_root_device_thisversion} ro ${args}
+ EOF
+   if test -n "${initrd}" ; then
+     # TRANSLATORS: ramdisk isn't identifier. Should be translated.
+     message="$(gettext_printf "Loading initial ramdisk ...")"
+     sed "s/^/$submenu_indentation/" << EOF
+ 	echo	'$(echo "$message" | grub_quote)'
+-	module	--nounzip   ${rel_dirname}/${initrd}
++	${module_loader}	--nounzip   ${rel_dirname}/${initrd}
+ EOF
+   fi
+   sed "s/^/$submenu_indentation/" << EOF
+@@ -214,6 +214,13 @@ while [ "x${xen_list}" != "x" ] ; do
+     if [ "x$is_top_level" != xtrue ]; then
+ 	echo "	submenu '$(gettext_printf "Xen hypervisor, version %s" "${xen_version}" | grub_quote)' \$menuentry_id_option 'xen-hypervisor-$xen_version-$boot_device_id' {"
+     fi
++    if ($grub_file --is-x86-multiboot2 $current_xen); then
++	xen_loader="multiboot2"
++	module_loader="module2"
++    else
++	xen_loader="multiboot"
++	module_loader="module"
++    fi
+     while [ "x$list" != "x" ] ; do
+ 	linux=`version_find_latest $list`
+ 	gettext_printf "Found linux image: %s\n" "$linux" >&2

@@ -1,0 +1,119 @@
+From 0208f2d68a855ba0c4224d71692f399f71f3b562 Mon Sep 17 00:00:00 2001
+From: Leif Lindholm <leif.lindholm@linaro.org>
+Date: Thu, 3 Aug 2017 11:04:26 +0100
+Subject: arm64 linux loader: improve type portability
+
+In preparation for turning this into a common loader for 32-bit and 64-bit
+platforms, ensure the code will compile cleanly for either.
+
+Signed-off-by: Leif Lindholm <leif.lindholm@linaro.org>
+
+Origin: upstream, https://git.savannah.gnu.org/cgit/grub.git/commit/?id=91212e0aa07e704a61e4540c18a27f149f5e51c3
+Bug-Debian: https://bugs.debian.org/907596
+Bug-Debian: https://bugs.debian.org/909420
+Last-Update: 2018-12-06
+
+Patch-Name: arm64-linux-loader-improve-type-portability.patch
+---
+ grub-core/loader/arm64/linux.c | 15 ++++++---------
+ grub-core/loader/efi/fdt.c     |  8 ++++----
+ 2 files changed, 10 insertions(+), 13 deletions(-)
+
+diff --git a/grub-core/loader/arm64/linux.c b/grub-core/loader/arm64/linux.c
+index a652ee908..746edd104 100644
+--- a/grub-core/loader/arm64/linux.c
++++ b/grub-core/loader/arm64/linux.c
+@@ -57,8 +57,6 @@ grub_arm64_uefi_check_image (struct grub_arm64_linux_kernel_header * lh)
+ 		       N_("plain image kernel not supported - rebuild with CONFIG_(U)EFI_STUB enabled"));
+ 
+   grub_dprintf ("linux", "UEFI stub kernel:\n");
+-  grub_dprintf ("linux", "text_offset = 0x%012llx\n",
+-		(long long unsigned) lh->text_offset);
+   grub_dprintf ("linux", "PE/COFF header @ %08x\n", lh->hdr_offset);
+ 
+   return GRUB_ERR_NONE;
+@@ -86,8 +84,8 @@ finalize_params_linux (void)
+   /* Set initrd info */
+   if (initrd_start && initrd_end > initrd_start)
+     {
+-      grub_dprintf ("linux", "Initrd @ 0x%012lx-0x%012lx\n",
+-		    initrd_start, initrd_end);
++      grub_dprintf ("linux", "Initrd @ %p-%p\n",
++		    (void *) initrd_start, (void *) initrd_end);
+ 
+       retval = grub_fdt_set_prop64 (fdt, node, "linux,initrd-start",
+ 				    initrd_start);
+@@ -161,7 +159,7 @@ grub_arm64_uefi_boot_image (grub_addr_t addr, grub_size_t size, char *args)
+ 
+   /* When successful, not reached */
+   b->unload_image (image_handle);
+-  grub_efi_free_pages ((grub_efi_physical_address_t) loaded_image->load_options,
++  grub_efi_free_pages ((grub_addr_t) loaded_image->load_options,
+ 		       GRUB_EFI_BYTES_TO_PAGES (loaded_image->load_options_size));
+ 
+   return grub_errno;
+@@ -188,7 +186,7 @@ grub_linux_unload (void)
+   initrd_start = initrd_end = 0;
+   grub_free (linux_args);
+   if (kernel_addr)
+-    grub_efi_free_pages ((grub_efi_physical_address_t) kernel_addr,
++    grub_efi_free_pages ((grub_addr_t) kernel_addr,
+ 			 GRUB_EFI_BYTES_TO_PAGES (kernel_size));
+   grub_fdt_unload ();
+   return GRUB_ERR_NONE;
+@@ -240,8 +238,7 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
+  fail:
+   grub_initrd_close (&initrd_ctx);
+   if (initrd_mem && !initrd_start)
+-    grub_efi_free_pages ((grub_efi_physical_address_t) initrd_mem,
+-			 initrd_pages);
++    grub_efi_free_pages ((grub_addr_t) initrd_mem, initrd_pages);
+ 
+   return grub_errno;
+ }
+@@ -328,7 +325,7 @@ fail:
+     grub_free (linux_args);
+ 
+   if (kernel_addr && !loaded)
+-    grub_efi_free_pages ((grub_efi_physical_address_t) kernel_addr,
++    grub_efi_free_pages ((grub_addr_t) kernel_addr,
+ 			 GRUB_EFI_BYTES_TO_PAGES (kernel_size));
+ 
+   return grub_errno;
+diff --git a/grub-core/loader/efi/fdt.c b/grub-core/loader/efi/fdt.c
+index 091e9ddf4..17212c38d 100644
+--- a/grub-core/loader/efi/fdt.c
++++ b/grub-core/loader/efi/fdt.c
+@@ -32,12 +32,12 @@ void *
+ grub_fdt_load (grub_size_t additional_size)
+ {
+   void *raw_fdt;
+-  grub_size_t size;
++  unsigned int size;
+ 
+   if (fdt)
+     {
+       size = GRUB_EFI_BYTES_TO_PAGES (grub_fdt_get_totalsize (fdt));
+-      grub_efi_free_pages ((grub_efi_physical_address_t) fdt, size);
++      grub_efi_free_pages ((grub_addr_t) fdt, size);
+     }
+ 
+   if (loaded_fdt)
+@@ -49,7 +49,7 @@ grub_fdt_load (grub_size_t additional_size)
+     raw_fdt ? grub_fdt_get_totalsize (raw_fdt) : GRUB_FDT_EMPTY_TREE_SZ;
+   size += additional_size;
+ 
+-  grub_dprintf ("linux", "allocating %ld bytes for fdt\n", size);
++  grub_dprintf ("linux", "allocating %d bytes for fdt\n", size);
+   fdt = grub_efi_allocate_any_pages (GRUB_EFI_BYTES_TO_PAGES (size));
+   if (!fdt)
+     return NULL;
+@@ -88,7 +88,7 @@ grub_fdt_unload (void) {
+   if (!fdt) {
+     return;
+   }
+-  grub_efi_free_pages ((grub_efi_physical_address_t) fdt,
++  grub_efi_free_pages ((grub_addr_t) fdt,
+ 		       GRUB_EFI_BYTES_TO_PAGES (grub_fdt_get_totalsize (fdt)));
+   fdt = NULL;
+ }

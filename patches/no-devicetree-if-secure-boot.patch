@@ -1,0 +1,71 @@
+From 9569221816a2a1a832be106440375a612e0121b7 Mon Sep 17 00:00:00 2001
+From: Peter Jones <pjones@redhat.com>
+Date: Wed, 24 Apr 2019 10:03:04 -0400
+Subject: Forbid the "devicetree" command when Secure Boot is enabled.
+
+Signed-off-by: Peter Jones <pjones@redhat.com>
+Signed-off-by: Steve McIntyre <93sam@debian.org>
+
+Origin: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=927888#15
+Bug-Debian: https://bugs.debian.org/927888
+Last-Update: 2019-05-04
+
+Patch-Name: no-devicetree-if-secure-boot.patch
+---
+ grub-core/loader/arm/linux.c | 14 +++++++++++++-
+ grub-core/loader/efi/fdt.c   |  8 ++++++++
+ 2 files changed, 21 insertions(+), 1 deletion(-)
+
+diff --git a/grub-core/loader/arm/linux.c b/grub-core/loader/arm/linux.c
+index 9300adc8f..72d747578 100644
+--- a/grub-core/loader/arm/linux.c
++++ b/grub-core/loader/arm/linux.c
+@@ -29,6 +29,10 @@
+ #include <grub/lib/cmdline.h>
+ #include <grub/linux.h>
+ 
++#ifdef GRUB_MACHINE_EFI
++#include <grub/efi/efi.h>
++#endif
++
+ GRUB_MOD_LICENSE ("GPLv3+");
+ 
+ static grub_dl_t my_mod;
+@@ -433,9 +437,17 @@ grub_cmd_devicetree (grub_command_t cmd __attribute__ ((unused)),
+   if (argc != 1)
+     return grub_error (GRUB_ERR_BAD_ARGUMENT, N_("filename expected"));
+ 
++#ifdef GRUB_MACHINE_EFI
++  if (grub_efi_secure_boot ())
++    {
++      return grub_error (GRUB_ERR_ACCESS_DENIED,
++		  "Secure Boot forbids loading devicetree from %s", argv[0]);
++    }
++#endif
++
+   dtb = grub_file_open (argv[0]);
+   if (!dtb)
+-    goto out;
++    return grub_errno;
+ 
+   size = grub_file_size (dtb);
+   if (size == 0)
+diff --git a/grub-core/loader/efi/fdt.c b/grub-core/loader/efi/fdt.c
+index c9aee74ef..2def3dc5d 100644
+--- a/grub-core/loader/efi/fdt.c
++++ b/grub-core/loader/efi/fdt.c
+@@ -123,6 +123,14 @@ grub_cmd_devicetree (grub_command_t cmd __attribute__ ((unused)),
+       return GRUB_ERR_NONE;
+     }
+ 
++#ifdef GRUB_MACHINE_EFI
++  if (grub_efi_secure_boot ())
++    {
++      return grub_error (GRUB_ERR_ACCESS_DENIED,
++		  "Secure Boot forbids loading devicetree from %s", argv[0]);
++    }
++#endif
++
+   dtb = grub_file_open (argv[0]);
+   if (!dtb)
+     goto out;

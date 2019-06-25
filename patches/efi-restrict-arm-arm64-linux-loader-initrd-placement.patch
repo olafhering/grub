@@ -1,0 +1,86 @@
+From 9aebf41a47157d73abe0a36095fcf6d157f4ac78 Mon Sep 17 00:00:00 2001
+From: Leif Lindholm <leif.lindholm@linaro.org>
+Date: Mon, 9 Jul 2018 18:33:05 +0100
+Subject: efi: Restrict arm/arm64 linux loader initrd placement
+
+The 32-bit arm Linux kernel is built as a zImage, which self-decompresses
+down to near start of RAM. In order for an initrd/initramfs to be
+accessible, it needs to be placed within the first ~768MB of RAM.
+The initrd loader built into the kernel EFI stub restricts this down to
+512MB for simplicity - so enable the same restriction in grub.
+
+For arm64, the requirement is within a 1GB aligned 32GB window also
+covering the (runtime) kernel image. Since the EFI stub loader itself
+will attempt to relocate to near start of RAM, force initrd to be loaded
+completely within the first 32GB of RAM.
+
+Signed-off-by: Leif Lindholm <leif.lindholm@linaro.org>
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+Origin: upstream, https://git.savannah.gnu.org/cgit/grub.git/commit/?id=a2f26adfef2fc8a7d7392c3704031df4624c67b0
+Bug-Debian: https://bugs.debian.org/907596
+Bug-Debian: https://bugs.debian.org/915091
+Last-Update: 2018-12-06
+
+Patch-Name: efi-restrict-arm-arm64-linux-loader-initrd-placement.patch
+---
+ grub-core/loader/arm64/linux.c | 39 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 38 insertions(+), 1 deletion(-)
+
+diff --git a/grub-core/loader/arm64/linux.c b/grub-core/loader/arm64/linux.c
+index f90c5f926..1f86229f8 100644
+--- a/grub-core/loader/arm64/linux.c
++++ b/grub-core/loader/arm64/linux.c
+@@ -193,6 +193,42 @@ grub_linux_unload (void)
+   return GRUB_ERR_NONE;
+ }
+ 
++/*
++ * As per linux/Documentation/arm/Booting
++ * ARM initrd needs to be covered by kernel linear mapping,
++ * so place it in the first 512MB of DRAM.
++ *
++ * As per linux/Documentation/arm64/booting.txt
++ * ARM64 initrd needs to be contained entirely within a 1GB aligned window
++ * of up to 32GB of size that covers the kernel image as well.
++ * Since the EFI stub loader will attempt to load the kernel near start of
++ * RAM, place the buffer in the first 32GB of RAM.
++ */
++#ifdef __arm__
++#define INITRD_MAX_ADDRESS_OFFSET (512U * 1024 * 1024)
++#else /* __aarch64__ */
++#define INITRD_MAX_ADDRESS_OFFSET (32ULL * 1024 * 1024 * 1024)
++#endif
++
++/*
++ * This function returns a pointer to a legally allocated initrd buffer,
++ * or NULL if unsuccessful
++ */
++static void *
++allocate_initrd_mem (int initrd_pages)
++{
++  grub_addr_t max_addr;
++
++  if (grub_efi_get_ram_base (&max_addr) != GRUB_ERR_NONE)
++    return NULL;
++
++  max_addr += INITRD_MAX_ADDRESS_OFFSET - 1;
++
++  return grub_efi_allocate_pages_real (max_addr, initrd_pages,
++				       GRUB_EFI_ALLOCATE_MAX_ADDRESS,
++				       GRUB_EFI_LOADER_DATA);
++}
++
+ static grub_err_t
+ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
+ 		 int argc, char *argv[])
+@@ -221,7 +257,8 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
+   grub_dprintf ("linux", "Loading initrd\n");
+ 
+   initrd_pages = (GRUB_EFI_BYTES_TO_PAGES (initrd_size));
+-  initrd_mem = grub_efi_allocate_any_pages (initrd_pages);
++  initrd_mem = allocate_initrd_mem (initrd_pages);
++
+   if (!initrd_mem)
+     {
+       grub_error (GRUB_ERR_OUT_OF_MEMORY, N_("out of memory"));
