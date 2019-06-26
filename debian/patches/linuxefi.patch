@@ -1,19 +1,23 @@
-From 3b2f0fe2c4f9d1f4734ad33d0b57a77e0036a68d Mon Sep 17 00:00:00 2001
+From 014b8eb71e6ec8539c81013e563c6b21e952ed7e Mon Sep 17 00:00:00 2001
 From: Matthew Garrett <mjg@redhat.com>
 Date: Mon, 13 Jan 2014 12:13:15 +0000
 Subject: Add "linuxefi" loader which avoids ExitBootServices
 
 Origin: vendor, http://pkgs.fedoraproject.org/cgit/grub2.git/tree/grub2-linuxefi.patch
+Author: Colin Watson <cjwatson@ubuntu.com>
+Author: Steve Langasek <steve.langasek@canonical.com>
+Author: Linn Crosetto <linn@hpe.com>
 Forwarded: no
-Last-Update: 2019-05-26
+Last-Update: 2019-06-26
 
 Patch-Name: linuxefi.patch
 ---
  grub-core/Makefile.core.def       |   7 +
  grub-core/kern/efi/mm.c           |  32 +++
- grub-core/loader/i386/efi/linux.c | 375 ++++++++++++++++++++++++++++++
+ grub-core/loader/i386/efi/linux.c | 381 ++++++++++++++++++++++++++++++
+ grub-core/loader/i386/linux.c     |  41 ++++
  include/grub/efi/efi.h            |   3 +
- 4 files changed, 417 insertions(+)
+ 5 files changed, 464 insertions(+)
  create mode 100644 grub-core/loader/i386/efi/linux.c
 
 diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
@@ -79,10 +83,10 @@ index b02fab1b1..a9e37108c 100644
  grub_efi_allocate_pages_real (grub_efi_physical_address_t address,
 diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c
 new file mode 100644
-index 000000000..dd376ce03
+index 000000000..16372a0c8
 --- /dev/null
 +++ b/grub-core/loader/i386/efi/linux.c
-@@ -0,0 +1,375 @@
+@@ -0,0 +1,381 @@
 +/*
 + *  GRUB  --  GRand Unified Bootloader
 + *  Copyright (C) 2012  Free Software Foundation, Inc.
@@ -142,6 +146,12 @@ index 000000000..dd376ce03
 +  grub_efi_guid_t guid = SHIM_LOCK_GUID;
 +  grub_efi_shim_lock_t *shim_lock;
 +  grub_efi_status_t status;
++
++  if (! grub_efi_secure_boot())
++    {
++      grub_dprintf ("linuxefi", "secure boot not enabled, not validating");
++      return 1;
++    }
 +
 +  grub_dprintf ("linuxefi", "Locating shim protocol\n");
 +  shim_lock = grub_efi_locate_protocol(&guid, NULL);
@@ -293,7 +303,7 @@ index 000000000..dd376ce03
 +
 +  if (! grub_linuxefi_secure_validate (kernel, filelen))
 +    {
-+      grub_error (GRUB_ERR_INVALID_COMMAND, N_("%s has invalid signature"), argv[0]);
++      grub_error (GRUB_ERR_ACCESS_DENIED, N_("%s has invalid signature"), argv[0]);
 +      grub_free (kernel);
 +      goto fail;
 +    }
@@ -458,6 +468,72 @@ index 000000000..dd376ce03
 +  grub_unregister_command (cmd_linux);
 +  grub_unregister_command (cmd_initrd);
 +}
+diff --git a/grub-core/loader/i386/linux.c b/grub-core/loader/i386/linux.c
+index d0501e229..2eab9bb10 100644
+--- a/grub-core/loader/i386/linux.c
++++ b/grub-core/loader/i386/linux.c
+@@ -76,6 +76,8 @@ static grub_size_t maximal_cmdline_size;
+ static struct linux_kernel_params linux_params;
+ static char *linux_cmdline;
+ #ifdef GRUB_MACHINE_EFI
++static int using_linuxefi;
++static grub_command_t initrdefi_cmd;
+ static grub_efi_uintn_t efi_mmap_size;
+ #else
+ static const grub_size_t efi_mmap_size = 0;
+@@ -651,6 +653,39 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+ 
+   grub_dl_ref (my_mod);
+ 
++#ifdef GRUB_MACHINE_EFI
++  using_linuxefi = 0;
++  if (grub_efi_secure_boot ())
++    {
++      /* linuxefi requires a successful signature check and then hand over
++	 to the kernel without calling ExitBootServices. */
++      grub_dl_t mod;
++      grub_command_t linuxefi_cmd;
++
++      grub_dprintf ("linux", "Secure Boot enabled: trying linuxefi\n");
++
++      mod = grub_dl_load ("linuxefi");
++      if (mod)
++	{
++	  grub_dl_ref (mod);
++	  linuxefi_cmd = grub_command_find ("linuxefi");
++	  initrdefi_cmd = grub_command_find ("initrdefi");
++	  if (linuxefi_cmd && initrdefi_cmd)
++	    {
++	      (linuxefi_cmd->func) (linuxefi_cmd, argc, argv);
++	      if (grub_errno == GRUB_ERR_NONE)
++		{
++		  grub_dprintf ("linux", "Handing off to linuxefi\n");
++		  using_linuxefi = 1;
++		  return GRUB_ERR_NONE;
++		}
++	      grub_dprintf ("linux", "linuxefi failed (%d)\n", grub_errno);
++	      goto fail;
++	    }
++	}
++    }
++#endif
++
+   if (argc == 0)
+     {
+       grub_error (GRUB_ERR_BAD_ARGUMENT, N_("filename expected"));
+@@ -1036,6 +1071,12 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
+   grub_err_t err;
+   struct grub_linux_initrd_context initrd_ctx = { 0, 0, 0 };
+ 
++#ifdef GRUB_MACHINE_EFI
++  /* If we're using linuxefi, just forward to initrdefi.  */
++  if (using_linuxefi && initrdefi_cmd)
++    return (initrdefi_cmd->func) (initrdefi_cmd, argc, argv);
++#endif
++
+   if (argc == 0)
+     {
+       grub_error (GRUB_ERR_BAD_ARGUMENT, N_("filename expected"));
 diff --git a/include/grub/efi/efi.h b/include/grub/efi/efi.h
 index a237952b3..085ee0524 100644
 --- a/include/grub/efi/efi.h

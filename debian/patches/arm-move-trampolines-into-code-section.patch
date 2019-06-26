@@ -1,4 +1,4 @@
-From 184866f80481e55cb39da274d9aef7eeec28718c Mon Sep 17 00:00:00 2001
+From cd0afcc76b9cb471fb124787f8cb5efc476dbf28 Mon Sep 17 00:00:00 2001
 From: Alexander Graf <agraf@csgraf.de>
 Date: Tue, 30 Apr 2019 22:43:56 +0200
 Subject: arm: Move trampolines into code section

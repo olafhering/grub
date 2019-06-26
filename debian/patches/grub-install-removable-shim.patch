@@ -1,4 +1,4 @@
-From c11b8c616a6d06cd0d9c0f750439f12fa1c5869f Mon Sep 17 00:00:00 2001
+From 671c83e11f79785ac7bbff24ea7114a34b072166 Mon Sep 17 00:00:00 2001
 From: Steve McIntyre <93sam@debian.org>
 Date: Fri, 14 Jun 2019 16:37:11 +0100
 Subject: Deal with --force-extra-removable with signed shim too

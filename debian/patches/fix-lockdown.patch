@@ -1,4 +1,4 @@
-From 1890bd10c9cd253413639fca277c3b61eaeed99c Mon Sep 17 00:00:00 2001
+From 7a8b6b102058ac8ff336451f3f6649df38a1a807 Mon Sep 17 00:00:00 2001
 From: Luca Boccassi <bluca@debian.org>
 Date: Tue, 15 May 2018 11:36:46 +0100
 Subject: Do not overwrite sentinel byte in boot_params, breaks lockdown
@@ -21,7 +21,7 @@ Patch-Name: fix-lockdown.patch
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/grub-core/loader/i386/efi/linux.c b/grub-core/loader/i386/efi/linux.c
-index b731b9201..7d94369be 100644
+index 16372a0c8..34605dfed 100644
 --- a/grub-core/loader/i386/efi/linux.c
 +++ b/grub-core/loader/i386/efi/linux.c
 @@ -28,6 +28,7 @@
@@ -32,7 +32,7 @@ index b731b9201..7d94369be 100644
  
  GRUB_MOD_LICENSE ("GPLv3+");
  
-@@ -328,7 +329,9 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
+@@ -334,7 +335,9 @@ grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
        lh.code32_start = (grub_uint32_t)(grub_addr_t) kernel_mem;
      }
  

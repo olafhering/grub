@@ -21,7 +21,6 @@ blacklist-1440x900x32.patch
 uefi-firmware-setup.patch
 mkconfig-ubuntu-distributor.patch
 linuxefi.patch
-linuxefi-use-if-secure-boot.patch
 mkconfig-signed-kernel.patch
 install-signed.patch
 sleep-shift.patch
@@ -52,7 +51,6 @@ efinet-set-dns-from-uefi-proto.patch
 fix-lockdown.patch
 skip-grub_cmd_set_date.patch
 bash-completion-drop-have-checks.patch
-linuxefi-skip-validation-without-secure-boot.patch
 at_keyboard-module-init.patch
 uefi-secure-boot-cryptomount.patch
 vsnprintf-upper-case-hex.patch
