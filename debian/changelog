@@ -1,4 +1,4 @@
-grub2 (2.04~rc1-3) UNRELEASED; urgency=medium
+grub2 (2.04~rc1-3) experimental; urgency=medium
 
   [ Will Thompson ]
   * Fix --disable-quiet-boot.
@@ -16,7 +16,7 @@ grub2 (2.04~rc1-3) UNRELEASED; urgency=medium
   [ Colin Watson ]
   * Squash linuxefi* patches into a single patch.
 
- -- Colin Watson <cjwatson@debian.org>  Mon, 24 Jun 2019 08:00:07 +0100
+ -- Colin Watson <cjwatson@debian.org>  Thu, 27 Jun 2019 08:51:37 +0100
 
 grub2 (2.04~rc1-2) experimental; urgency=medium
 
