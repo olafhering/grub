@@ -13,6 +13,9 @@ grub2 (2.04~rc1-3) UNRELEASED; urgency=medium
     Closes: #931038
   * Add myself to Uploaders
 
+  [ Colin Watson ]
+  * Squash linuxefi* patches into a single patch.
+
  -- Colin Watson <cjwatson@debian.org>  Mon, 24 Jun 2019 08:00:07 +0100
 
 grub2 (2.04~rc1-2) experimental; urgency=medium
