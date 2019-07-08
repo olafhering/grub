@@ -1,7 +1,7 @@
-/* obdisk.c - Open Boot disk access.  */
+/* obdisk.c - Open Boot disk access. */
 /*
  *  GRUB  --  GRand Unified Bootloader
- *  Copyright (C) 2017 Free Software Foundation, Inc.
+ *  Copyright (C) 2019 Free Software Foundation, Inc.
  *
  *  GRUB is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,58 +29,54 @@
 #include <grub/ieee1275/ieee1275.h>
 #include <grub/ieee1275/obdisk.h>
 
+#define IEEE1275_DEV        "ieee1275/"
+#define IEEE1275_DISK_ALIAS "/disk@"
+
 struct disk_dev
 {
-  struct disk_dev *next;
-  struct disk_dev **prev;
-  /* open boot canonical name */
-  char *name;
-  /* open boot raw disk name to access entire disk */
-  char *raw_name;
-  /* grub encoded device name */
-  char *grub_devpath;
-  /* grub encoded alias name  */
-  char *grub_alias_devpath;
-  /* grub unescaped name */
-  char *grub_decoded_devpath;
+  struct disk_dev         *next;
+  struct disk_dev         **prev;
+  char                    *name;
+  char                    *raw_name;
+  char                    *grub_devpath;
+  char                    *grub_alias_devpath;
   grub_ieee1275_ihandle_t ihandle;
-  grub_uint32_t block_size;
-  grub_uint64_t num_blocks;
-  unsigned int log_sector_size;
-  grub_uint32_t opened;
-  grub_uint32_t valid;
-  grub_uint32_t boot_dev;
+  grub_uint32_t           block_size;
+  grub_uint64_t           num_blocks;
+  unsigned int            log_sector_size;
+  grub_uint32_t           opened;
+  grub_uint32_t           valid;
+  grub_uint32_t           boot_dev;
 };
 
 struct parent_dev
 {
-  struct parent_dev *next;
-  struct parent_dev **prev;
-  /* canonical parent name */
-  char *name;
-  char *type;
+  struct parent_dev       *next;
+  struct parent_dev       **prev;
+  char                    *name;
+  char                    *type;
   grub_ieee1275_ihandle_t ihandle;
-  grub_uint32_t address_cells;
+  grub_uint32_t           address_cells;
 };
 
 static struct grub_scsi_test_unit_ready tur =
 {
-  .opcode = grub_scsi_cmd_test_unit_ready,
-  .lun = 0,
+  .opcode    = grub_scsi_cmd_test_unit_ready,
+  .lun       = 0,
   .reserved1 = 0,
   .reserved2 = 0,
   .reserved3 = 0,
-  .control = 0,
+  .control   = 0,
 };
 
-static int disks_enumerated = 0;
-static struct disk_dev *disk_devs = NULL;
-static struct parent_dev *parent_devs = NULL;
+static int disks_enumerated;
+static struct disk_dev *disk_devs;
+static struct parent_dev *parent_devs;
 
 static const char *block_blacklist[] = {
-  /* Requires addition work in grub before being able to be used */
+  /* Requires additional work in grub before being able to be used. */
   "/iscsi-hba",
-  /* This block device should never be used by grub */
+  /* This block device should never be used by grub. */
   "/reboot-memory@0",
   0
 };
@@ -94,40 +90,10 @@ strip_ob_partition (char *path)
 
   sptr = grub_strstr (path, ":");
 
-  if (sptr)
+  if (sptr != NULL)
     *sptr = '\0';
 
   return path;
-}
-
-static char *
-remove_escaped_commas (char *src)
-{
-  char *iptr;
-
-  for (iptr = src; *iptr; )
-    {
-      if ((*iptr == '\\') && (*(iptr + 1) == ','))
-        {
-          *iptr++ = '_';
-          *iptr++ = '_';
-        }
-      iptr++;
-    }
-
-  return src;
-}
-
-static int
-count_commas (const char *src)
-{
-  int count = 0;
-
-  for ( ; *src; src++)
-    if (*src == ',')
-      count++;
-
-  return count;
 }
 
 static void
@@ -146,13 +112,26 @@ escape_commas (const char *src, char *dest)
   *dest = '\0';
 }
 
+static int
+count_commas (const char *src)
+{
+  int count = 0;
+
+  for ( ; *src; src++)
+    if (*src == ',')
+      count++;
+
+  return count;
+}
+
+
 static char *
 decode_grub_devname (const char *name)
 {
   char *devpath = grub_malloc (grub_strlen (name) + 1);
   char *p, c;
 
-  if (!devpath)
+  if (devpath == NULL)
     return NULL;
 
   /* Un-escape commas. */
@@ -181,7 +160,7 @@ encode_grub_devname (const char *path)
   if (path == NULL)
     return NULL;
 
-  encoding = grub_malloc (sizeof ("ieee1275/") + count_commas (path) +
+  encoding = grub_malloc (sizeof (IEEE1275_DEV) + count_commas (path) +
                           grub_strlen (path) + 1);
 
   if (encoding == NULL)
@@ -190,7 +169,7 @@ encode_grub_devname (const char *path)
       return NULL;
     }
 
-  optr = grub_stpcpy (encoding, "ieee1275/");
+  optr = grub_stpcpy (encoding, IEEE1275_DEV);
   escape_commas (path, optr);
   return encoding;
 }
@@ -208,9 +187,9 @@ get_parent_devname (const char *devname)
       return NULL;
     }
 
-  pptr = grub_strstr (parent, "/disk@");
+  pptr = grub_strstr (parent, IEEE1275_DISK_ALIAS);
 
-  if (pptr)
+  if (pptr != NULL)
     *pptr = '\0';
 
   return parent;
@@ -219,7 +198,7 @@ get_parent_devname (const char *devname)
 static void
 free_parent_dev (struct parent_dev *parent)
 {
-  if (parent)
+  if (parent != NULL)
     {
       grub_free (parent->name);
       grub_free (parent->type);
@@ -260,7 +239,6 @@ open_new_parent (const char *parent)
   grub_ieee1275_ihandle_t ihandle;
   grub_ieee1275_phandle_t phandle;
   grub_uint32_t address_cells = 2;
-  grub_ssize_t actual = 0;
 
   if (op == NULL)
     return NULL;
@@ -283,13 +261,18 @@ open_new_parent (const char *parent)
       return NULL;
     }
 
-  /* IEEE Std 1275-1994 page 110: A missing “#address-cells” property
-     signifies that the number of address cells is two. So ignore on error. */
-  grub_ieee1275_get_integer_property (phandle, "#address-cells", &address_cells,
-                                      sizeof (address_cells), 0);
+  /*
+   * IEEE Std 1275-1994 page 110: A missing "address-cells" property
+   * signifies that the number of address cells is two. So ignore on error.
+   */
+  if (grub_ieee1275_get_integer_property (phandle, "#address-cells",
+					  &address_cells,
+					  sizeof (address_cells), 0) != 0)
+    address_cells = 2;
 
   grub_ieee1275_get_property (phandle, "device_type", op->type,
-                              IEEE1275_MAX_PROP_LEN, &actual);
+                              IEEE1275_MAX_PROP_LEN, NULL);
+
   op->ihandle = ihandle;
   op->address_cells = address_cells;
   return op;
@@ -300,14 +283,15 @@ open_parent (const char *parent)
 {
   struct parent_dev *op;
 
-  if ((op =
-       grub_named_list_find (GRUB_AS_NAMED_LIST (parent_devs), parent)) == NULL)
-  {
-     op = open_new_parent (parent);
+  op = grub_named_list_find (GRUB_AS_NAMED_LIST (parent_devs), parent);
 
-    if (op)
-      grub_list_push (GRUB_AS_LIST_P (&parent_devs), GRUB_AS_LIST (op));
-  }
+  if (op == NULL)
+    {
+      op = open_new_parent (parent);
+
+      if (op != NULL)
+        grub_list_push (GRUB_AS_LIST_P (&parent_devs), GRUB_AS_LIST (op));
+    }
 
   return op;
 }
@@ -321,8 +305,8 @@ display_parents (void)
 
   FOR_LIST_ELEMENTS (parent, parent_devs)
     {
-      grub_printf ("name: %s\n", parent->name);
-      grub_printf ("type: %s\n", parent->type);
+      grub_printf ("name:         %s\n", parent->name);
+      grub_printf ("type:         %s\n", parent->type);
       grub_printf ("address_cells %x\n", parent->address_cells);
     }
 
@@ -341,7 +325,7 @@ canonicalise_4cell_ua (grub_ieee1275_ihandle_t ihandle, char *unit_address)
                                           grub_strlen (unit_address), &phy_lo,
                                           &phy_hi, &lun_lo, &lun_hi);
 
-  if ((!valid_phy) && (phy_hi != 0xffffffff))
+  if ((valid_phy == 0) && (phy_hi != 0xffffffff))
     canon = grub_ieee1275_encode_uint4 (ihandle, phy_lo, phy_hi,
                                         lun_lo, lun_hi, &size);
 
@@ -358,13 +342,13 @@ canonicalise_disk (const char *devname)
 
   if (canon == NULL)
     {
-      /* This should not happen */
+      /* This should not happen. */
       grub_error (GRUB_ERR_BAD_DEVICE, "canonicalise devname failed");
       grub_print_error ();
       return NULL;
     }
 
-  /* Don't try to open the parent of a virtual device */
+  /* Don't try to open the parent of a virtual device. */
   if (grub_strstr (canon, "virtual-devices"))
     return canon;
 
@@ -375,20 +359,25 @@ canonicalise_disk (const char *devname)
 
   op = open_parent (parent);
 
-  /* Devices with 4 address cells can have many different types of addressing
-     (phy, wwn, and target lun). Use the parents encode-unit / decode-unit
-     to find the true canonical name. */
+  /*
+   * Devices with 4 address cells can have many different types of addressing
+   * (phy, wwn, and target lun). Use the parents encode-unit / decode-unit
+   * to find the true canonical name.
+   */
   if ((op) && (op->address_cells == 4))
     {
       char *unit_address, *real_unit_address, *real_canon;
+      grub_size_t real_unit_str_len;
 
-      unit_address = grub_strstr (canon, "/disk@");
-      unit_address += grub_strlen ("/disk@");
+      unit_address = grub_strstr (canon, IEEE1275_DISK_ALIAS);
+      unit_address += grub_strlen (IEEE1275_DISK_ALIAS);
 
       if (unit_address == NULL)
         {
-          /* This should not be possible, but return the canonical name for
-             the non-disk block device */
+          /*
+           * This should not be possible, but return the canonical name for
+           * the non-disk block device.
+           */
           grub_free (parent);
           return (canon);
         }
@@ -397,17 +386,20 @@ canonicalise_disk (const char *devname)
 
       if (real_unit_address == NULL)
         {
-          /* This is not an error, since this function could be called with a devalias
-             containing a drive that isn't installed in the system. */
+          /*
+           * This is not an error, since this function could be called with a devalias
+           * containing a drive that isn't installed in the system.
+           */
           grub_free (parent);
           return NULL;
         }
 
-      real_canon = grub_malloc (grub_strlen (op->name) + sizeof ("/disk@") +
-                                grub_strlen (real_unit_address));
+      real_unit_str_len = grub_strlen (op->name) + sizeof (IEEE1275_DISK_ALIAS)
+                          + grub_strlen (real_unit_address);
 
-      grub_snprintf (real_canon, grub_strlen (op->name) + sizeof ("/disk@") +
-                     grub_strlen (real_unit_address), "%s/disk@%s",
+      real_canon = grub_malloc (real_unit_str_len);
+
+      grub_snprintf (real_canon, real_unit_str_len, "%s/disk@%s",
                      op->name, real_unit_address);
 
       grub_free (canon);
@@ -425,16 +417,17 @@ add_canon_disk (const char *cname)
 
   dev = grub_zalloc (sizeof (struct disk_dev));
 
-  if (!dev)
+  if (dev == NULL)
     goto failed;
 
   if (grub_ieee1275_test_flag (GRUB_IEEE1275_FLAG_RAW_DEVNAMES))
     {
-    /* Append :nolabel to the end of all SPARC disks.
-
-       nolabel is mutually exclusive with all other
-       arguments and allows a client program to open
-       the entire (raw) disk. Any disk label is ignored. */
+      /*
+       * Append :nolabel to the end of all SPARC disks.
+       * nolabel is mutually exclusive with all other
+       * arguments and allows a client program to open
+       * the entire (raw) disk. Any disk label is ignored.
+       */
       dev->raw_name = grub_malloc (grub_strlen (cname) + sizeof (":nolabel"));
 
       if (dev->raw_name == NULL)
@@ -444,8 +437,10 @@ add_canon_disk (const char *cname)
                      "%s:nolabel", cname);
     }
 
-  /* Don't use grub_ieee1275_encode_devname here, the devpath in grub.cfg doesn't
-     understand device aliases, which the layer above sometimes sends us. */
+  /*
+   * Don't use grub_ieee1275_encode_devname here, the devpath in grub.cfg doesn't
+   * understand device aliases, which the layer above sometimes sends us.
+   */
   dev->grub_devpath = encode_grub_devname(cname);
 
   if (dev->grub_devpath == NULL)
@@ -460,10 +455,10 @@ add_canon_disk (const char *cname)
   grub_list_push (GRUB_AS_LIST_P (&disk_devs), GRUB_AS_LIST (dev));
   return dev;
 
-failed:
+ failed:
   grub_print_error ();
 
-  if (dev)
+  if (dev != NULL)
     {
       grub_free (dev->name);
       grub_free (dev->grub_devpath);
@@ -477,7 +472,7 @@ failed:
 static grub_err_t
 add_disk (const char *path)
 {
-  grub_err_t rval = GRUB_ERR_NONE;
+  grub_err_t ret = GRUB_ERR_NONE;
   struct disk_dev *dev;
   char *canon;
 
@@ -491,20 +486,20 @@ add_disk (const char *path)
       ob_device = add_canon_disk (canon);
 
       if (ob_device == NULL)
-        rval = grub_error (GRUB_ERR_OUT_OF_MEMORY, "failure to add disk");
+        ret = grub_error (GRUB_ERR_OUT_OF_MEMORY, "failure to add disk");
     }
-  else if (dev)
+  else if (dev != NULL)
     dev->valid = 1;
 
   grub_free (canon);
-  return (rval);
+  return (ret);
 }
 
 static grub_err_t
 grub_obdisk_read (grub_disk_t disk, grub_disk_addr_t sector,
 		  grub_size_t size, char *dest)
 {
-  grub_err_t rval = GRUB_ERR_NONE;
+  grub_err_t ret = GRUB_ERR_NONE;
   struct disk_dev *dev;
   unsigned long long pos;
   grub_ssize_t result = 0;
@@ -526,7 +521,7 @@ grub_obdisk_read (grub_disk_t disk, grub_disk_addr_t sector,
   grub_ieee1275_read (dev->ihandle, dest, size << disk->log_sector_size,
                       &result);
 
-  if (result != (grub_ssize_t) (size  << disk->log_sector_size))
+  if (result != (grub_ssize_t) (size << disk->log_sector_size))
     {
       dev->opened = 0;
       return grub_error (GRUB_ERR_READ_ERROR, N_("failure reading sector 0x%llx "
@@ -534,16 +529,13 @@ grub_obdisk_read (grub_disk_t disk, grub_disk_addr_t sector,
                          (unsigned long long) sector,
                          disk->name);
     }
-  return rval;
+  return ret;
 }
 
 static void
 grub_obdisk_close (grub_disk_t disk)
 {
-  disk->data = NULL;
-  disk->id = 0;
-  disk->total_sectors = 0;
-  disk->log_sector_size = 0;
+  grub_memset (disk, 0, sizeof (*disk));
 }
 
 static void
@@ -649,8 +641,13 @@ scan_sparc_sas_4cell (struct parent_dev *op)
       return;
     }
 
+  /*
+   * Cycle thru the potential for dual ported SAS disks
+   * behind a SAS expander.
+   */
   for (exp = 0; exp <= 0x100; exp+=0x100)
 
+    /* The current limit is 32 disks on a phy. */
     for (phy = 0; phy < 0x20; phy++)
       {
         char *canon = NULL;
@@ -660,7 +657,7 @@ scan_sparc_sas_4cell (struct parent_dev *op)
 
         canon = canonicalise_4cell_ua (op->ihandle, buf);
 
-        if (canon)
+        if (canon != NULL)
           {
             grub_snprintf (buf, IEEE1275_MAX_PATH_LEN, "%s/disk@%s",
                            op->name, canon);
@@ -680,9 +677,9 @@ scan_sparc_sas_disk (const char *parent)
 
   op = open_parent (parent);
 
-  if ((op) && (op->address_cells == 4))
+  if ((op != NULL) && (op->address_cells == 4))
     scan_sparc_sas_4cell (op);
-  else if ((op) && (op->address_cells == 2))
+  else if ((op != NULL) && (op->address_cells == 2))
     scan_sparc_sas_2cell (op);
 }
 
@@ -721,25 +718,6 @@ iterate_devtree (const struct grub_ieee1275_devalias *alias)
 }
 
 static void
-unescape_devices (void)
-{
-  struct disk_dev *dev;
-
-  FOR_LIST_ELEMENTS (dev, disk_devs)
-    {
-      grub_free (dev->grub_decoded_devpath);
-
-      if ((dev->grub_alias_devpath) &&
-        (grub_strcmp (dev->grub_alias_devpath, dev->grub_devpath) != 0))
-        dev->grub_decoded_devpath =
-          remove_escaped_commas (grub_strdup (dev->grub_alias_devpath));
-      else
-        dev->grub_decoded_devpath =
-          remove_escaped_commas (grub_strdup (dev->grub_devpath));
-    }
-}
-
-static void
 enumerate_disks (void)
 {
   struct grub_ieee1275_devalias alias;
@@ -752,26 +730,38 @@ static grub_err_t
 add_bootpath (void)
 {
   struct disk_dev *ob_device;
-  grub_err_t rval = GRUB_ERR_NONE;
-  char *dev, *alias = NULL;
+  grub_err_t ret = GRUB_ERR_NONE;
+  char *dev, *alias;
   char *type;
 
-  grub_ieee1275_get_boot_dev (&dev);
+  dev = grub_ieee1275_get_boot_dev ();
+
+  if (dev == NULL)
+    return grub_error (GRUB_ERR_OUT_OF_MEMORY, "failure adding boot device");
+
   type = grub_ieee1275_get_device_type (dev);
 
-  if (!(type && grub_strcmp (type, "network") == 0))
+  if (type == NULL)
+    {
+      grub_free (dev);
+      return grub_error (GRUB_ERR_OUT_OF_MEMORY, "failure adding boot device");
+    }
+
+  alias = NULL;
+
+  if (grub_strcmp (type, "network") != 0)
     {
       dev = strip_ob_partition (dev);
       ob_device = add_canon_disk (dev);
 
       if (ob_device == NULL)
-        rval =  grub_error (GRUB_ERR_OUT_OF_MEMORY, "failure adding boot device");
+        ret =  grub_error (GRUB_ERR_OUT_OF_MEMORY, "failure adding boot device");
 
       ob_device->valid = 1;
 
       alias = grub_ieee1275_get_devname (dev);
 
-      if (grub_strcmp (alias, dev) != 0)
+      if (alias && grub_strcmp (alias, dev) != 0)
         ob_device->grub_alias_devpath = grub_ieee1275_encode_devname (dev);
 
       ob_device->boot_dev = 1;
@@ -780,7 +770,7 @@ add_bootpath (void)
   grub_free (type);
   grub_free (dev);
   grub_free (alias);
-  return rval;
+  return ret;
 }
 
 static void
@@ -788,25 +778,27 @@ enumerate_aliases (void)
 {
   struct grub_ieee1275_devalias alias;
 
-  /* Some block device aliases are not in canonical form
-
-     For example:
-
-     disk3                    /pci@301/pci@1/scsi@0/disk@p3
-     disk2                    /pci@301/pci@1/scsi@0/disk@p2
-     disk1                    /pci@301/pci@1/scsi@0/disk@p1
-     disk                     /pci@301/pci@1/scsi@0/disk@p0
-     disk0                    /pci@301/pci@1/scsi@0/disk@p0
-
-     None of these devices are in canonical form.
-
-     Also, just because there is a devalias, doesn't mean there is a disk
-     at that location.  And a valid boot block device doesn't have to have
-     a devalias at all.
-
-     At this point, all valid disks have been found in the system
-     and devaliases that point to canonical names are stored in the
-     disk_devs list already.  */
+  /*
+   * Some block device aliases are not in canonical form
+   *
+   * For example:
+   *
+   *   disk3                    /pci@301/pci@1/scsi@0/disk@p3
+   *   disk2                    /pci@301/pci@1/scsi@0/disk@p2
+   *   disk1                    /pci@301/pci@1/scsi@0/disk@p1
+   *   disk                     /pci@301/pci@1/scsi@0/disk@p0
+   *   disk0                    /pci@301/pci@1/scsi@0/disk@p0
+   *
+   * None of these devices are in canonical form.
+   *
+   * Also, just because there is a devalias, doesn't mean there is a disk
+   * at that location.  And a valid boot block device doesn't have to have
+   * a devalias at all.
+   *
+   * At this point, all valid disks have been found in the system
+   * and devaliases that point to canonical names are stored in the
+   * disk_devs list already.
+   */
   FOR_IEEE1275_DEVALIASES (alias)
     {
       struct disk_dev *dev;
@@ -818,21 +810,22 @@ enumerate_aliases (void)
       canon = canonicalise_disk (alias.name);
 
       if (canon == NULL)
-        /* This is not an error, a devalias could point to a
-           nonexistent disk */
+        /* This is not an error, a devalias could point to a nonexistent disk. */
         continue;
 
       dev = grub_named_list_find (GRUB_AS_NAMED_LIST (disk_devs), canon);
 
-      if (dev)
+      if (dev != NULL)
         {
-          /* If more than one alias points to the same device,
-             remove the previous one unless it is the boot dev,
-             since the upper level will use the first one. The reason
-             all the others are redone is in the case of hot-plugging
-             a disk.  If the boot disk gets hot-plugged, it will come
-             thru here with a different name without the boot_dev flag
-             set. */
+          /*
+           * If more than one alias points to the same device,
+           * remove the previous one unless it is the boot dev,
+           * since the upper level will use the first one. The reason
+           * all the others are redone is in the case of hot-plugging
+           * a disk.  If the boot disk gets hot-plugged, it will come
+           * thru here with a different name without the boot_dev flag
+           * set.
+           */
           if ((dev->boot_dev) && (dev->grub_alias_devpath))
             continue;
 
@@ -852,16 +845,17 @@ display_disks (void)
 
   FOR_LIST_ELEMENTS (dev, disk_devs)
     {
-      grub_printf ("name: %s\n", dev->name);
-      grub_printf ("grub_devpath: %s\n", dev->grub_devpath);
-      grub_printf ("grub_alias_devpath: %s\n", dev->grub_alias_devpath);
-      grub_printf ("grub_decoded_devpath: %s\n", dev->grub_decoded_devpath);
-      grub_printf ("valid: %s\n", (dev->valid) ? "yes" : "no");
-      grub_printf ("boot_dev: %s\n", (dev->boot_dev) ? "yes" : "no");
-      grub_printf ("opened: %s\n", (dev->ihandle) ? "yes" : "no");
-      grub_printf ("block size: %" PRIuGRUB_UINT32_T "\n", dev->block_size);
-      grub_printf ("num blocks: %" PRIuGRUB_UINT64_T "\n", dev->num_blocks);
-      grub_printf ("log sector size: %" PRIuGRUB_UINT32_T "\n",
+      grub_printf ("name:                 %s\n", dev->name);
+      grub_printf ("grub_devpath:         %s\n", dev->grub_devpath);
+      grub_printf ("grub_alias_devpath:   %s\n", dev->grub_alias_devpath);
+      grub_printf ("valid:                %s\n", (dev->valid) ? "yes" : "no");
+      grub_printf ("boot_dev:             %s\n", (dev->boot_dev) ? "yes" : "no");
+      grub_printf ("opened:               %s\n", (dev->ihandle) ? "yes" : "no");
+      grub_printf ("block size:           %" PRIuGRUB_UINT32_T "\n",
+                   dev->block_size);
+      grub_printf ("num blocks:           %" PRIuGRUB_UINT64_T "\n",
+                   dev->num_blocks);
+      grub_printf ("log sector size:      %" PRIuGRUB_UINT32_T "\n",
                    dev->log_sector_size);
       grub_printf ("\n");
     }
@@ -874,7 +868,7 @@ display_stats (void)
 {
   const char *debug = grub_env_get ("debug");
 
-  if (! debug)
+  if (debug == NULL)
     return;
 
   if (grub_strword (debug, "all") || grub_strword (debug, "obdisk"))
@@ -889,13 +883,11 @@ invalidate_all_disks (void)
 {
   struct disk_dev *dev = NULL;
 
-  if (disks_enumerated)
+  if (disks_enumerated != 0)
     FOR_LIST_ELEMENTS (dev, disk_devs)
       dev->valid = 0;
 }
 
-/* This is for backwards compatibility, since the path should be generated
-   correctly now. */
 static struct disk_dev *
 find_legacy_grub_devpath (const char *name)
 {
@@ -919,7 +911,6 @@ enumerate_devices (void)
   invalidate_all_disks ();
   enumerate_disks ();
   enumerate_aliases ();
-  unescape_devices ();
   disks_enumerated = 1;
   display_stats ();
 }
@@ -932,8 +923,7 @@ find_grub_devpath_real (const char *name)
   FOR_LIST_ELEMENTS (dev, disk_devs)
     {
       if ((STRCMP (dev->grub_devpath, name))
-        || (STRCMP (dev->grub_alias_devpath, name))
-        || (STRCMP (dev->grub_decoded_devpath, name)))
+        || (STRCMP (dev->grub_alias_devpath, name)))
         break;
     }
 
@@ -950,12 +940,12 @@ find_grub_devpath (const char *name)
     enumerated = disks_enumerated;
     dev = find_grub_devpath_real (name);
 
-    if (dev)
+    if (dev != NULL)
       break;
 
     dev = find_legacy_grub_devpath (name);
 
-    if (dev)
+    if (dev != NULL)
       break;
 
     enumerate_devices ();
@@ -969,6 +959,7 @@ grub_obdisk_iterate (grub_disk_dev_iterate_hook_t hook, void *hook_data,
 		     grub_disk_pull_t pull)
 {
   struct disk_dev *dev;
+  const char *name;
 
   if (pull != GRUB_DISK_PULL_NONE)
     return 0;
@@ -978,8 +969,15 @@ grub_obdisk_iterate (grub_disk_dev_iterate_hook_t hook, void *hook_data,
   FOR_LIST_ELEMENTS (dev, disk_devs)
     {
       if (dev->valid == 1)
-        if (hook (dev->grub_decoded_devpath, hook_data))
-          return 1;
+	{
+	  if (dev->grub_alias_devpath)
+	    name = dev->grub_alias_devpath;
+          else
+	    name = dev->grub_devpath;
+
+          if (hook (name, hook_data))
+            return 1;
+	}
     }
 
   return 0;
@@ -991,7 +989,7 @@ grub_obdisk_open (const char *name, grub_disk_t disk)
   grub_ieee1275_ihandle_t ihandle = 0;
   struct disk_dev *dev = NULL;
 
-  if (grub_strncmp (name, "ieee1275/", sizeof ("ieee1275/") - 1) != 0)
+  if (grub_strncmp (name, IEEE1275_DEV, sizeof (IEEE1275_DEV) - 1) != 0)
     return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "not IEEE1275 device");
 
   dev = find_grub_devpath (name);
@@ -1004,7 +1002,7 @@ grub_obdisk_open (const char *name, grub_disk_t disk)
 
   if (dev->opened == 0)
     {
-      if (dev->raw_name)
+      if (dev->raw_name != NULL)
         grub_ieee1275_open (dev->raw_name, &ihandle);
       else
         grub_ieee1275_open (dev->name, &ihandle);
@@ -1047,13 +1045,12 @@ grub_obdisk_open (const char *name, grub_disk_t disk)
 
 static struct grub_disk_dev grub_obdisk_dev =
   {
-    .name = "obdisk",
-    .id = GRUB_DISK_DEVICE_OBDISK_ID,
-    .iterate = grub_obdisk_iterate,
-    .open = grub_obdisk_open,
-    .close = grub_obdisk_close,
-    .read = grub_obdisk_read,
-    .next = 0
+    .name    = "obdisk",
+    .id      = GRUB_DISK_DEVICE_OBDISK_ID,
+    .disk_iterate = grub_obdisk_iterate,
+    .disk_open    = grub_obdisk_open,
+    .disk_close   = grub_obdisk_close,
+    .disk_read    = grub_obdisk_read,
   };
 
 void
@@ -1071,7 +1068,7 @@ grub_obdisk_fini (void)
 
   FOR_LIST_ELEMENTS (dev, disk_devs)
     {
-      if (dev->opened)
+      if (dev->opened != 0)
           grub_ieee1275_close (dev->ihandle);
     }
 

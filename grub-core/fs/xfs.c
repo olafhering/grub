@@ -837,6 +837,9 @@ grub_xfs_iterate_dir (grub_fshelp_node_t dir,
 	    entries = (grub_be_to_cpu32 (tail->leaf_count)
 		       - grub_be_to_cpu32 (tail->leaf_stale));
 
+	    if (!entries)
+	      continue;
+
 	    /* Iterate over all entries within this block.  */
 	    while ((char *)direntry < (char *)tail)
 	      {
@@ -1134,12 +1137,12 @@ grub_xfs_uuid (grub_device_t device, char **uuid)
 static struct grub_fs grub_xfs_fs =
   {
     .name = "xfs",
-    .dir = grub_xfs_dir,
-    .open = grub_xfs_open,
-    .read = grub_xfs_read,
-    .close = grub_xfs_close,
-    .label = grub_xfs_label,
-    .uuid = grub_xfs_uuid,
+    .fs_dir = grub_xfs_dir,
+    .fs_open = grub_xfs_open,
+    .fs_read = grub_xfs_read,
+    .fs_close = grub_xfs_close,
+    .fs_label = grub_xfs_label,
+    .fs_uuid = grub_xfs_uuid,
 #ifdef GRUB_UTIL
     .reserved_first_sector = 0,
     .blocklist_install = 1,

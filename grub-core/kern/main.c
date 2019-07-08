@@ -264,7 +264,7 @@ reclaim_module_space (void)
 void __attribute__ ((noreturn))
 grub_main (void)
 {
-#ifdef QUIET_BOOT
+#if QUIET_BOOT
   struct grub_term_output *term;
 #endif
 
@@ -273,7 +273,7 @@ grub_main (void)
 
   grub_boot_time ("After machine init.");
 
-#ifdef QUIET_BOOT
+#if QUIET_BOOT
   /* Disable the cursor until we need it.  */
   FOR_ACTIVE_TERM_OUTPUTS(term)
     grub_term_setcursor (term, 0);
@@ -319,7 +319,7 @@ grub_main (void)
 
   grub_load_normal_mode ();
 
-#ifdef QUIET_BOOT
+#if QUIET_BOOT
   /* If we have to enter rescue mode, enable the cursor again.  */
   FOR_ACTIVE_TERM_OUTPUTS(term)
     grub_term_setcursor (term, 1);

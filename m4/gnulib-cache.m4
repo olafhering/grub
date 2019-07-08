@@ -1,4 +1,4 @@
-# Copyright (C) 2002-2013 Free Software Foundation, Inc.
+# Copyright (C) 2002-2019 Free Software Foundation, Inc.
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this file.  If not, see <http://www.gnu.org/licenses/>.
+# along with this file.  If not, see <https://www.gnu.org/licenses/>.
 #
 # As a special exception to the GNU General Public License,
 # this file may be distributed as part of a program that
@@ -27,22 +27,48 @@
 
 
 # Specification in the form of a command-line invocation:
-#   gnulib-tool --import --dir=. --lib=libgnu --source-base=grub-core/gnulib --m4-base=m4 --doc-base=doc --tests-base=tests --aux-dir=build-aux --no-conditional-dependencies --no-libtool --macro-prefix=gl --no-vc-files argp error fnmatch getdelim getline gettext progname regex
+# gnulib-tool --import --local-dir=gl \
+#  --lib=libgnu \
+#  --source-base=grub-core/lib/gnulib \
+#  --m4-base=m4 \
+#  --doc-base=doc \
+#  --tests-base=tests \
+#  --aux-dir=build-aux \
+#  --no-conditional-dependencies \
+#  --no-libtool \
+#  --macro-prefix=gl \
+#  --no-vc-files \
+#  argp \
+#  error \
+#  fnmatch \
+#  getdelim \
+#  getline \
+#  gettext-h \
+#  gitlog-to-changelog \
+#  mbswidth \
+#  progname \
+#  realloc-gnu \
+#  regex \
+#  save-cwd
 
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
-gl_LOCAL_DIR([])
+gl_LOCAL_DIR([gl])
 gl_MODULES([
   argp
   error
   fnmatch
   getdelim
   getline
-  gettext
+  gettext-h
+  gitlog-to-changelog
+  mbswidth
   progname
+  realloc-gnu
   regex
+  save-cwd
 ])
 gl_AVOID([])
-gl_SOURCE_BASE([grub-core/gnulib])
+gl_SOURCE_BASE([grub-core/lib/gnulib])
 gl_M4_BASE([m4])
 gl_PO_BASE([])
 gl_DOC_BASE([doc])

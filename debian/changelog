@@ -1,3 +1,48 @@
+grub2 (2.04~rc1-3) experimental; urgency=medium
+
+  [ Will Thompson ]
+  * Fix --disable-quiet-boot.
+
+  [ Steve Langasek ]
+  * If we don't have writable grubenv and we're on EFI, always show the menu
+    (merged from Ubuntu).
+
+  [ Steve McIntyre ]
+  * Make all the signed EFI arches have a Recommends: from
+    grub-efi-ARCH-signed to shim-signed, not just amd64.
+    Closes: #931038
+  * Add myself to Uploaders
+
+  [ Colin Watson ]
+  * Squash linuxefi* patches into a single patch.
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 27 Jun 2019 08:51:37 +0100
+
+grub2 (2.04~rc1-2) experimental; urgency=medium
+
+  [ Colin Watson ]
+  * debian/build-efi-images: Add tpm on x86_64-efi (thanks, Chris Coulson).
+
+  [ Steve McIntyre ]
+  * Add the ntfs module to signed UEFI images. Closes: #923855
+  * Add the cpuid module to signed UEFI images. Closes: #928628
+  * Add the play module to signed UEFI images. Closes: #930290
+  * Add an extra di-specific version of the UEFI netboot image with a
+    different baked-in prefix value. Helps to fix #928750.
+  * Deal with --force-extra-removable with signed shim too. Closes: #930531
+
+ -- Colin Watson <cjwatson@debian.org>  Sat, 15 Jun 2019 09:41:19 +0100
+
+grub2 (2.04~rc1-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+    - getroot: Save/restore CWD more reliably on Unix (closes: #918700).
+  * Rename patches to use "-" as a separator rather than "_" (except when
+    referring to a file, function, or command containing a "_").
+  * Fix format of debian/copyright.
+
+ -- Colin Watson <cjwatson@debian.org>  Thu, 30 May 2019 16:56:05 +0100
+
 grub2 (2.02+dfsg1-20) unstable; urgency=medium
 
   [ Steve McIntyre ]

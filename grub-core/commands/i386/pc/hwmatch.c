@@ -114,7 +114,7 @@ grub_cmd_hwmatch (grub_command_t cmd __attribute__ ((unused)),
   if (argc < 2)
     return grub_error (GRUB_ERR_BAD_ARGUMENT, "list file and class required");
 
-  ctx.matches_file = grub_file_open (args[0]);
+  ctx.matches_file = grub_file_open (args[0], GRUB_FILE_TYPE_HWMATCH);
   if (! ctx.matches_file)
     return grub_errno;
 

@@ -1,0 +1,25 @@
+From a9a2bf273cba3f81f3c4155329442740ff383953 Mon Sep 17 00:00:00 2001
+From: Colin Watson <cjwatson@debian.org>
+Date: Mon, 13 Jan 2014 12:12:55 +0000
+Subject: Make grub.cfg world-readable if it contains no passwords
+
+Patch-Name: grub.cfg-400.patch
+---
+ util/grub-mkconfig.in | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
+index 33332360e..72e0739eb 100644
+--- a/util/grub-mkconfig.in
++++ b/util/grub-mkconfig.in
+@@ -276,6 +276,10 @@ for i in "${grub_mkconfig_dir}"/* ; do
+   esac
+ done
+ 
++if [ "x${grub_cfg}" != "x" ] && ! grep "^password" ${grub_cfg}.new >/dev/null; then
++  chmod 444 ${grub_cfg}.new || true
++fi
++
+ if test "x${grub_cfg}" != "x" ; then
+   if ! ${grub_script_check} ${grub_cfg}.new; then
+     # TRANSLATORS: %s is replaced by filename

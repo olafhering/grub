@@ -140,6 +140,9 @@ struct blocklists
 #ifdef GRUB_SETUP_BIOS
   grub_uint16_t current_segment;
 #endif
+#ifdef GRUB_SETUP_SPARC64
+  grub_uint64_t gpt_offset;
+#endif
   grub_uint16_t last_length;
   grub_disk_addr_t first_sector;
 };
@@ -152,6 +155,10 @@ save_blocklists (grub_disk_addr_t sector, unsigned offset, unsigned length,
   struct blocklists *bl = data;
   struct grub_boot_blocklist *prev = bl->block + 1;
   grub_uint64_t seclen;
+
+#ifdef GRUB_SETUP_SPARC64
+  sector -= bl->gpt_offset;
+#endif
 
   grub_util_info ("saving <%"  GRUB_HOST_PRIuLONG_LONG ",%u,%u>",
 		  (unsigned long long) sector, offset, length);
@@ -294,9 +301,8 @@ SETUP (const char *dir,
   bl.first_block = (struct grub_boot_blocklist *) (core_img
 						   + GRUB_DISK_SECTOR_SIZE
 						   - sizeof (*bl.block));
-  grub_util_info ("root is `%s', dest is `%s'", root, dest);
 
-  grub_util_info ("Opening dest");
+  grub_util_info ("Opening dest `%s'", dest);
   dest_dev = grub_device_open (dest);
   if (! dest_dev)
     grub_util_error ("%s", grub_errmsg);
@@ -487,7 +493,7 @@ SETUP (const char *dir,
 	goto unable_to_embed;
       }
 
-    if (fs && !fs->embed)
+    if (fs && !fs->fs_embed)
       {
 	grub_util_warn (_("File system `%s' doesn't support embedding"),
 			fs->name);
@@ -509,7 +515,8 @@ SETUP (const char *dir,
 #endif
 
 #ifdef GRUB_SETUP_SPARC64
-    /* On SPARC we need two extra.  One is because we are combining the
+    /*
+     * On SPARC we need two extra. One is because we are combining the
      * core.img with the boot.img. The other is because the boot sector
      * starts at 1.
      */
@@ -524,8 +531,8 @@ SETUP (const char *dir,
       err = ctx.dest_partmap->embed (dest_dev->disk, &nsec, maxsec,
 				     GRUB_EMBED_PCBIOS, &sectors);
     else
-      err = fs->embed (dest_dev, &nsec, maxsec,
-		       GRUB_EMBED_PCBIOS, &sectors);
+      err = fs->fs_embed (dest_dev, &nsec, maxsec,
+			  GRUB_EMBED_PCBIOS, &sectors);
     if (!err && nsec < core_sectors)
       {
 	err = grub_error (GRUB_ERR_OUT_OF_RANGE,
@@ -570,8 +577,10 @@ SETUP (const char *dir,
 
 #ifdef GRUB_SETUP_SPARC64
     {
-      /* On SPARC, the block-list entries need to be based off the beginning
-         of the parition, not the beginning of the disk. */
+      /*
+       * On SPARC, the block-list entries need to be based off the beginning
+       * of the parition, not the beginning of the disk.
+       */
       struct grub_boot_blocklist *block;
       block = bl.first_block;
 
@@ -582,8 +591,10 @@ SETUP (const char *dir,
         }
     }
 
-    /* Reserve space for the boot block since it can not be in the
-       Parition table on SPARC */
+    /*
+     * Reserve space for the boot block since it can not be in the
+     * Parition table on SPARC.
+     */
     assert (bl.first_block->len > 2);
     bl.first_block->start += 2;
     bl.first_block->len -= 2;
@@ -634,6 +645,7 @@ SETUP (const char *dir,
 		       GRUB_DISK_SECTOR_SIZE,
 		       core_img + i * GRUB_DISK_SECTOR_SIZE);
 #endif
+
 #ifdef GRUB_SETUP_SPARC64
     {
       int isec = BOOT_SECTOR;
@@ -652,8 +664,8 @@ SETUP (const char *dir,
             grub_util_error ("%s", grub_errmsg);
         }
     }
-#endif
 
+#endif
     grub_free (sectors);
 
     unlink (DEFAULT_DIRECTORY "/" CORE_IMG_IN_FS);
@@ -723,6 +735,16 @@ unable_to_embed:
 
   bl.block = bl.first_block;
 
+#ifdef GRUB_SETUP_SPARC64
+  {
+    grub_partition_t container = root_dev->disk->partition;
+    bl.gpt_offset = 0;
+
+    if (grub_strstr (container->partmap->name, "gpt"))
+      bl.gpt_offset = grub_partition_get_start (container);
+  }
+#endif
+
   grub_install_get_blocklist (root_dev, core_path, core_img, core_size,
 			      save_blocklists, &bl);
 
@@ -790,10 +812,7 @@ unable_to_embed:
 
     core_dev->disk->partition = 0;
 #ifdef GRUB_SETUP_SPARC64
-    {
-      if (grub_strstr (container->partmap->name, "gpt"))
-        offset = grub_partition_get_start (container);
-    }
+    offset = bl.gpt_offset;
 #endif
 
     buf = xmalloc (core_size);

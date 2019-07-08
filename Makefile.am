@@ -1,7 +1,7 @@
 AUTOMAKE_OPTIONS = subdir-objects -Wno-portability
 
 DEPDIR = .deps-util
-SUBDIRS = grub-core/gnulib .
+SUBDIRS = grub-core/lib/gnulib .
 if COND_real_platform
 SUBDIRS += grub-core
 endif
@@ -422,9 +422,10 @@ BOOTCHECK_TIMEOUT=180
 bootcheck: $(BOOTCHECKS)
 
 if COND_i386_coreboot
+FS_PAYLOAD_MODULES ?= $(shell cat grub-core/fs.lst)
 default_payload.elf: grub-mkstandalone grub-mkimage FORCE
 	test -f $@ && rm $@ || true
-	pkgdatadir=. ./grub-mkstandalone --grub-mkimage=./grub-mkimage -O i386-coreboot -o $@ --modules='ahci pata ehci uhci ohci usb_keyboard usbms part_msdos ext2 fat at_keyboard part_gpt usbserial_usbdebug cbfs' --install-modules='ls linux search configfile normal cbtime cbls memrw iorw minicmd lsmmap lspci halt reboot hexdump pcidump regexp setpci lsacpi chain test serial multiboot cbmemc linux16 gzio echo help syslinuxcfg xnu $(shell cat grub-core/fs.lst) password_pbkdf2 $(EXTRA_PAYLOAD_MODULES)' --fonts= --themes= --locales= -d grub-core/ /boot/grub/grub.cfg=$(srcdir)/coreboot.cfg
+	pkgdatadir=. ./grub-mkstandalone --grub-mkimage=./grub-mkimage -O i386-coreboot -o $@ --modules='ahci pata ehci uhci ohci usb_keyboard usbms part_msdos ext2 fat at_keyboard part_gpt usbserial_usbdebug cbfs' --install-modules='ls linux search configfile normal cbtime cbls memrw iorw minicmd lsmmap lspci halt reboot hexdump pcidump regexp setpci lsacpi chain test serial multiboot cbmemc linux16 gzio echo help syslinuxcfg xnu $(FS_PAYLOAD_MODULES) password_pbkdf2 $(EXTRA_PAYLOAD_MODULES)' --fonts= --themes= --locales= -d grub-core/ /boot/grub/grub.cfg=$(srcdir)/coreboot.cfg
 endif
 
 endif
@@ -473,3 +474,14 @@ ChangeLog: FORCE
 	fi
 
 EXTRA_DIST += ChangeLog ChangeLog-2015
+
+syslinux_test: $(top_builddir)/config.status tests/syslinux/ubuntu10.04_grub.cfg
+
+# Mimic simplify_filename from grub-core/lib/syslinux_parse.c, so that we
+# can predict its behaviour in tests.  We have to pre-substitute this before
+# calling config.status, as config.status offers no reliable way to hook in
+# a command between setting ac_abs_top_srcdir and emitting output files.
+tests/syslinux/ubuntu10.04_grub.cfg: $(top_builddir)/config.status tests/syslinux/ubuntu10.04_grub.cfg.in
+	simplified_abs_top_srcdir=`echo "$(abs_top_srcdir)" | sed 's,//,/,g; s,/\./,/,g; :loop; s,/[^/][^/]*/\.\.\(/\|$$\),\1,; t loop'`; \
+	sed "s,@simplified_abs_top_srcdir@,$$simplified_abs_top_srcdir,g" $(srcdir)/tests/syslinux/ubuntu10.04_grub.cfg.in | $(top_builddir)/config.status --file=$@:-
+CLEANFILES += tests/syslinux/ubuntu10.04_grub.cfg

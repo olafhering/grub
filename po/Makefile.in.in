@@ -8,13 +8,14 @@
 # Please note that the actual code of GNU gettext is covered by the GNU
 # General Public License and is *not* in the public domain.
 #
-# Origin: gettext-0.18
+# Origin: gettext-0.18.3
 GETTEXT_MACRO_VERSION = 0.18
 
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 
+SED = @SED@
 SHELL = /bin/sh
 @SET_MAKE@
 
@@ -67,11 +68,10 @@ GMOFILES = @GMOFILES@
 UPDATEPOFILES = @UPDATEPOFILES@
 DUMMYPOFILES = @DUMMYPOFILES@
 DISTFILES.common = Makefile.in.in remove-potcdate.sin \
-$(DISTFILES.common.extra1) $(DISTFILES.common.extra2) \
-$(DISTFILES.common.extra3) $(DISTFILES.common.extra4) $(DISTFILES.common.extra5)
-DISTFILES = $(DISTFILES.common) Makevars POTFILES.in POTFILES-shell.in \
+$(DISTFILES.common.extra1) $(DISTFILES.common.extra2) $(DISTFILES.common.extra3)
+DISTFILES = $(DISTFILES.common) Makevars POTFILES.in \
 $(POFILES) $(GMOFILES) \
-$(DISTFILES.extra1) $(DISTFILES.extra2) $(DISTFILES.extra3) $(DISTFILES.extra4) $(DISTFILES.extra5) grub.d.sed README
+$(DISTFILES.extra1) $(DISTFILES.extra2) $(DISTFILES.extra3)
 
 POTFILES = \
 
@@ -84,27 +84,27 @@ CATALOGS = @CATALOGS@
 
 .po.mo:
 	@echo "$(MSGFMT) -c -o $@ $<"; \
-	$(MSGFMT) --endianness=little -c -o t-$@ $< && mv t-$@ $@
+	$(MSGFMT) -c -o t-$@ $< && mv t-$@ $@
 
 .po.gmo:
 	@lang=`echo $* | sed -e 's,.*/,,'`; \
 	test "$(srcdir)" = . && cdcmd="" || cdcmd="cd $(srcdir) && "; \
-	echo "$${cdcmd}rm -f $${lang}.gmo && $(GMSGFMT) --endianness=little -c --statistics --verbose -o $${lang}.gmo $${lang}.po"; \
-	cd $(srcdir) && rm -f $${lang}.gmo && $(GMSGFMT) --endianness=little -c --statistics --verbose -o t-$${lang}.gmo $${lang}.po && mv t-$${lang}.gmo $${lang}.gmo
+	echo "$${cdcmd}rm -f $${lang}.gmo && $(GMSGFMT) -c --statistics --verbose -o $${lang}.gmo $${lang}.po"; \
+	cd $(srcdir) && rm -f $${lang}.gmo && $(GMSGFMT) -c --statistics --verbose -o t-$${lang}.gmo $${lang}.po && mv t-$${lang}.gmo $${lang}.gmo
 
 .sin.sed:
 	sed -e '/^#/d' $< > t-$@
 	mv t-$@ $@
 
 
-all: check-macro-version all-@USE_NLS@
+all: all-@USE_NLS@
 
 all-yes: stamp-po
 all-no:
 
 # Ensure that the gettext macros and this Makefile.in.in are in sync.
-check-macro-version:
-	@test "$(GETTEXT_MACRO_VERSION)" = "@GETTEXT_MACRO_VERSION@" \
+CHECK_MACRO_VERSION = \
+	test "$(GETTEXT_MACRO_VERSION)" = "@GETTEXT_MACRO_VERSION@" \
 	  || { echo "*** error: gettext infrastructure mismatch: using a Makefile.in.in from gettext version $(GETTEXT_MACRO_VERSION) but the autoconf macros are from gettext version @GETTEXT_MACRO_VERSION@" 1>&2; \
 	       exit 1; \
 	     }
@@ -124,6 +124,7 @@ check-macro-version:
 # $(POFILES) has been designed to not touch files that don't need to be
 # changed.
 stamp-po: $(srcdir)/$(DOMAIN).pot
+	@$(CHECK_MACRO_VERSION)
 	test ! -f $(srcdir)/$(DOMAIN).pot || \
 	  test -z "$(GMOFILES)" || $(MAKE) $(GMOFILES)
 	@test ! -f $(srcdir)/$(DOMAIN).pot || { \
@@ -138,8 +139,16 @@ stamp-po: $(srcdir)/$(DOMAIN).pot
 
 # This target rebuilds $(DOMAIN).pot; it is an expensive operation.
 # Note that $(DOMAIN).pot is not touched if it doesn't need to be changed.
-$(DOMAIN).pot-update: $(POTFILES) $(srcdir)/POTFILES.in $(srcdir)/POTFILES-shell.in remove-potcdate.sed
-	if LC_ALL=C grep 'GNU @PACKAGE@' $(top_srcdir)/* 2>/dev/null | grep -v 'libtool:' >/dev/null; then \
+# The determination of whether the package xyz is a GNU one is based on the
+# heuristic whether some file in the top level directory mentions "GNU xyz".
+# If GNU 'find' is available, we avoid grepping through monster files.
+$(DOMAIN).pot-update: $(POTFILES) $(srcdir)/POTFILES.in remove-potcdate.sed
+	if { if (LC_ALL=C find --version) 2>/dev/null | grep GNU >/dev/null; then \
+	       LC_ALL=C find -L $(top_srcdir) -maxdepth 1 -type f -size -10000000c -exec grep 'GNU @PACKAGE@' /dev/null '{}' ';' 2>/dev/null; \
+	     else \
+	       LC_ALL=C grep 'GNU @PACKAGE@' $(top_srcdir)/* 2>/dev/null; \
+	     fi; \
+	   } | grep -v 'libtool:' >/dev/null; then \
 	  package_gnu='GNU '; \
 	else \
 	  package_gnu=''; \
@@ -166,32 +175,8 @@ $(DOMAIN).pot-update: $(POTFILES) $(srcdir)/POTFILES.in $(srcdir)/POTFILES-shell
 	      --package-version='@VERSION@' \
 	      --msgid-bugs-address="$$msgid_bugs_address" \
 	    ;; \
-	esac; \
-	case `$(XGETTEXT) --version | sed 1q | sed -e 's,^[^0-9]*,,'` in \
-	  '' | 0.[0-9] | 0.[0-9].* | 0.1[0-5] | 0.1[0-5].* | 0.16 | 0.16.[0-1]*) \
-	    $(XGETTEXT) --default-domain=$(DOMAIN) --directory=$(top_srcdir) \
-	      --add-comments=TRANSLATORS: @XGETTEXT_EXTRA_OPTIONS@ \
-	      --files-from=$(srcdir)/POTFILES-shell.in \
-	      --copyright-holder='$(COPYRIGHT_HOLDER)' \
-	      --msgid-bugs-address="$$msgid_bugs_address" \
-	      --join-existing --language=Shell \
-	      --keyword=gettext_quoted --keyword=gettext_printf \
-	    ;; \
-	  *) \
-	    $(XGETTEXT) --default-domain=$(DOMAIN) --directory=$(top_srcdir) \
-	      --add-comments=TRANSLATORS: @XGETTEXT_EXTRA_OPTIONS@ \
-	      --files-from=$(srcdir)/POTFILES-shell.in \
-	      --copyright-holder='$(COPYRIGHT_HOLDER)' \
-	      --package-name="$${package_gnu}@PACKAGE@" \
-	      --package-version='@VERSION@' \
-	      --msgid-bugs-address="$$msgid_bugs_address" \
-	      --join-existing --language=Shell \
-	      --keyword=gettext_quoted --keyword=gettext_printf \
-	    ;; \
-	esac ; \
+	esac
 	test ! -f $(DOMAIN).po || { \
-	  sed -f grub.d.sed < $(DOMAIN).po > $(DOMAIN).1po && \
-	  mv $(DOMAIN).1po $(DOMAIN).po; \
 	  if test -f $(srcdir)/$(DOMAIN).pot; then \
 	    sed -f remove-potcdate.sed < $(srcdir)/$(DOMAIN).pot > $(DOMAIN).1po && \
 	    sed -f remove-potcdate.sed < $(DOMAIN).po > $(DOMAIN).2po && \

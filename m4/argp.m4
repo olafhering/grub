@@ -1,5 +1,5 @@
-# argp.m4 serial 14
-dnl Copyright (C) 2003-2013 Free Software Foundation, Inc.
+# argp.m4 serial 15
+dnl Copyright (C) 2003-2019 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -54,6 +54,7 @@ AC_DEFUN([gl_ARGP],
   AC_CHECK_DECLS_ONCE([putchar_unlocked])
   AC_CHECK_FUNCS_ONCE([flockfile funlockfile])
   AC_CHECK_HEADERS_ONCE([features.h linewrap.h])
+  AC_REQUIRE([AC_FUNC_STRERROR_R])
 ])
 
 dnl argp-parse.c depends on GNU getopt internals, therefore use GNU getopt

@@ -149,6 +149,13 @@ case $platform in
 	"
 	;;
 esac
+case $platform in
+    x86_64-efi)
+	CD_MODULES="$CD_MODULES
+	tpm
+	"
+	;;
+esac
 
 GRUB_MODULES="$CD_MODULES
 	cryptodisk

@@ -116,6 +116,17 @@ prepare_xen_hypervisor_params (void *xen_boot_fdt)
   if (chosen_node < 1)
     return grub_error (GRUB_ERR_IO, "failed to get chosen node in FDT");
 
+  /*
+   * The address and size are always written using 64-bits value. Set
+   * #address-cells and #size-cells accordingly.
+   */
+  retval = grub_fdt_set_prop32 (xen_boot_fdt, chosen_node, "#address-cells", 2);
+  if (retval)
+    return grub_error (GRUB_ERR_IO, "failed to set #address-cells");
+  retval = grub_fdt_set_prop32 (xen_boot_fdt, chosen_node, "#size-cells", 2);
+  if (retval)
+    return grub_error (GRUB_ERR_IO, "failed to set #size-cells");
+
   grub_dprintf ("xen_loader",
 		"Xen Hypervisor cmdline : %s @ %p size:%d\n",
 		xen_hypervisor->cmdline, xen_hypervisor->cmdline,
@@ -157,7 +168,7 @@ prepare_xen_module_params (struct xen_boot_binary *module, void *xen_boot_fdt)
       grub_fdt_add_subnode (xen_boot_fdt, chosen_node, module_name);
 
   retval = grub_fdt_set_prop (xen_boot_fdt, module_node, "compatible",
-			      MODULE_CUSTOM_COMPATIBLE, sizeof(MODULE_CUSTOM_COMPATIBLE) - 1);
+			      MODULE_CUSTOM_COMPATIBLE, sizeof(MODULE_CUSTOM_COMPATIBLE));
   if (retval)
     return grub_error (GRUB_ERR_IO, "failed to update FDT");
 
@@ -254,7 +265,7 @@ xen_boot (void)
   if (err)
     return err;
 
-  return grub_armxx_efi_linux_boot_image (xen_hypervisor->start,
+  return grub_arch_efi_linux_boot_image (xen_hypervisor->start,
 					  xen_hypervisor->size,
 					  xen_hypervisor->cmdline);
 }
@@ -357,7 +368,8 @@ xen_boot_binary_load (struct xen_boot_binary *binary, grub_file_t file,
 	  return;
 	}
       grub_create_loader_cmdline (argc - 1, argv + 1, binary->cmdline,
-				  binary->cmdline_size);
+				  binary->cmdline_size,
+				  GRUB_VERIFY_KERNEL_CMDLINE);
       grub_dprintf ("xen_loader",
 		    "Xen_boot cmdline @ %p %s, size: %d\n",
 		    binary->cmdline, binary->cmdline, binary->cmdline_size);
@@ -379,6 +391,20 @@ grub_cmd_xen_module (grub_command_t cmd __attribute__((unused)),
 
   struct xen_boot_binary *module = NULL;
   grub_file_t file = 0;
+  int nounzip = 0;
+
+  if (!argc)
+    {
+      grub_error (GRUB_ERR_BAD_ARGUMENT, N_("filename expected"));
+      goto fail;
+    }
+
+  if (grub_strcmp (argv[0], "--nounzip") == 0)
+    {
+      argv++;
+      argc--;
+      nounzip = 1;
+    }
 
   if (!argc)
     {
@@ -403,7 +429,9 @@ grub_cmd_xen_module (grub_command_t cmd __attribute__((unused)),
 
   grub_dprintf ("xen_loader", "Init module and node info\n");
 
-  file = grub_file_open (argv[0]);
+  file = grub_file_open (argv[0], GRUB_FILE_TYPE_XEN_MODULE
+			 | (nounzip ? GRUB_FILE_TYPE_NO_DECOMPRESS
+			    : GRUB_FILE_TYPE_NONE));
   if (!file)
     goto fail;
 
@@ -435,14 +463,14 @@ grub_cmd_xen_hypervisor (grub_command_t cmd __attribute__ ((unused)),
       goto fail;
     }
 
-  file = grub_file_open (argv[0]);
+  file = grub_file_open (argv[0], GRUB_FILE_TYPE_XEN_HYPERVISOR);
   if (!file)
     goto fail;
 
   if (grub_file_read (file, &sh, sizeof (sh)) != (long) sizeof (sh))
     goto fail;
-  if (grub_armxx_efi_linux_check_image
-      ((struct linux_armxx_kernel_header *) &sh) != GRUB_ERR_NONE)
+  if (grub_arch_efi_linux_check_image
+      ((struct linux_arch_kernel_header *) &sh) != GRUB_ERR_NONE)
     goto fail;
   grub_file_seek (file, 0);
 

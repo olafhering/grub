@@ -18,7 +18,7 @@
 
 #include <grub/symbol.h>
 #include <grub/machine/boot.h>
-#ifdef QUIET_BOOT
+#if QUIET_BOOT
 #include <grub/machine/memory.h>
 #endif
 
@@ -28,7 +28,7 @@
 
 #define MSG(x)	movw $x, %si; call LOCAL(message)
 
-#ifdef QUIET_BOOT
+#if QUIET_BOOT
 #define SILENT(x)	call LOCAL(check_silent); jz LOCAL(x)
 #else
 #define SILENT(x)
@@ -46,8 +46,8 @@
 start:
 _start:
 	/*
-	 * _start is loaded at 0x2000 and is jumped to with
-	 * CS:IP 0:0x2000 in kernel.
+	 * _start is loaded at 0x8000 and is jumped to with
+	 * CS:IP 0:0x8000 in kernel.
 	 */
 
 	/*
@@ -338,7 +338,7 @@ LOCAL(general_error):
 /* go here when you need to stop the machine hard after an error condition */
 LOCAL(stop):	jmp	LOCAL(stop)
 
-#ifdef QUIET_BOOT
+#if QUIET_BOOT
 LOCAL(check_silent):
 	/* is either shift key held down? */
 	movw	$(GRUB_MEMORY_MACHINE_BIOS_DATA_AREA_ADDR + 0x17), %bx

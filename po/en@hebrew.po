@@ -1,14 +1,14 @@
 # English translations for grub package.
-# Copyright (C) 2017 Free Software Foundation, Inc.
+# Copyright (C) 2019 Free Software Foundation, Inc.
 # This file is distributed under the same license as the grub package.
-# Automatically generated, 2017.
+# Automatically generated, 2019.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub 2.02~beta3\n"
+"Project-Id-Version: grub 2.03\n"
 "Report-Msgid-Bugs-To: bug-grub@gnu.org\n"
-"POT-Creation-Date: 2017-04-25 16:28+0200\n"
-"PO-Revision-Date: 2016-02-28 14:23+0100\n"
+"POT-Creation-Date: 2019-04-09 03:12+0200\n"
+"PO-Revision-Date: 2019-03-22 12:06+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@hebrew\n"
@@ -89,44 +89,45 @@ msgstr ""
 #: grub-core/commands/acpi.c:650 grub-core/commands/acpi.c:667
 #: grub-core/commands/i386/pc/play.c:105 grub-core/commands/keylayouts.c:230
 #: grub-core/commands/keylayouts.c:245 grub-core/commands/keylayouts.c:263
-#: grub-core/commands/verify.c:928 grub-core/efiemu/loadcore.c:350
+#: grub-core/commands/verifiers.c:156 grub-core/efiemu/loadcore.c:350
 #: grub-core/kern/elf.c:117 grub-core/kern/elfXX.c:29
-#: grub-core/kern/elfXX.c:156 grub-core/loader/arm/linux.c:316
-#: grub-core/loader/arm64/fdt.c:126 grub-core/loader/arm64/linux.c:294
-#: grub-core/loader/arm64/xen_boot.c:345 grub-core/loader/efi/chainloader.c:270
+#: grub-core/kern/elfXX.c:156 grub-core/loader/arm/linux.c:319
+#: grub-core/loader/arm64/linux.c:330 grub-core/loader/arm64/xen_boot.c:356
+#: grub-core/loader/efi/chainloader.c:270
 #: grub-core/loader/efi/chainloader.c:291
-#: grub-core/loader/efi/chainloader.c:323 grub-core/loader/i386/bsd.c:1270
-#: grub-core/loader/i386/bsd.c:2110 grub-core/loader/i386/bsdXX.c:20
-#: grub-core/loader/i386/bsdXX.c:36 grub-core/loader/i386/bsdXX.c:63
-#: grub-core/loader/i386/bsdXX.c:357 grub-core/loader/i386/bsdXX.c:376
-#: grub-core/loader/i386/bsdXX.c:519 grub-core/loader/i386/bsdXX.c:535
-#: grub-core/loader/i386/bsdXX.c:615 grub-core/loader/i386/bsdXX.c:638
+#: grub-core/loader/efi/chainloader.c:323 grub-core/loader/efi/fdt.c:138
+#: grub-core/loader/i386/bsd.c:1276 grub-core/loader/i386/bsd.c:2116
+#: grub-core/loader/i386/bsdXX.c:20 grub-core/loader/i386/bsdXX.c:36
+#: grub-core/loader/i386/bsdXX.c:63 grub-core/loader/i386/bsdXX.c:357
+#: grub-core/loader/i386/bsdXX.c:376 grub-core/loader/i386/bsdXX.c:519
+#: grub-core/loader/i386/bsdXX.c:535 grub-core/loader/i386/bsdXX.c:615
+#: grub-core/loader/i386/bsdXX.c:638
 #: grub-core/loader/i386/coreboot/chainloader.c:112
 #: grub-core/loader/i386/coreboot/chainloader.c:148
 #: grub-core/loader/i386/coreboot/chainloader.c:170
-#: grub-core/loader/i386/linux.c:705 grub-core/loader/i386/linux.c:812
-#: grub-core/loader/i386/linux.c:1023 grub-core/loader/i386/multiboot_mbi.c:171
-#: grub-core/loader/i386/pc/chainloader.c:186
+#: grub-core/loader/i386/linux.c:667 grub-core/loader/i386/linux.c:788
+#: grub-core/loader/i386/linux.c:1005 grub-core/loader/i386/multiboot_mbi.c:171
+#: grub-core/loader/i386/pc/chainloader.c:202
 #: grub-core/loader/i386/pc/linux.c:149 grub-core/loader/i386/pc/linux.c:320
-#: grub-core/loader/i386/pc/linux.c:360 grub-core/loader/i386/pc/plan9.c:456
-#: grub-core/loader/i386/pc/plan9.c:539 grub-core/loader/i386/pc/plan9.c:555
-#: grub-core/loader/i386/xen.c:928 grub-core/loader/i386/xen_file.c:72
+#: grub-core/loader/i386/pc/linux.c:362 grub-core/loader/i386/pc/plan9.c:457
+#: grub-core/loader/i386/pc/plan9.c:550 grub-core/loader/i386/pc/plan9.c:566
+#: grub-core/loader/i386/xen.c:934 grub-core/loader/i386/xen_file.c:72
 #: grub-core/loader/i386/xen_fileXX.c:43 grub-core/loader/i386/xen_fileXX.c:186
-#: grub-core/loader/i386/xen_fileXX.c:339 grub-core/loader/ia64/efi/linux.c:464
-#: grub-core/loader/ia64/efi/linux.c:512 grub-core/loader/linux.c:286
+#: grub-core/loader/i386/xen_fileXX.c:339 grub-core/loader/ia64/efi/linux.c:423
+#: grub-core/loader/ia64/efi/linux.c:471 grub-core/loader/linux.c:286
 #: grub-core/loader/macho.c:84 grub-core/loader/macho.c:109
 #: grub-core/loader/machoXX.c:33 grub-core/loader/machoXX.c:46
 #: grub-core/loader/machoXX.c:76 grub-core/loader/machoXX.c:116
 #: grub-core/loader/machoXX.c:131 grub-core/loader/machoXX.c:147
 #: grub-core/loader/machoXX.c:196 grub-core/loader/machoXX.c:317
-#: grub-core/loader/multiboot.c:421 grub-core/loader/multiboot_elfxx.c:154
-#: grub-core/loader/multiboot_elfxx.c:217
-#: grub-core/loader/multiboot_elfxx.c:261 grub-core/loader/multiboot_mbi2.c:129
-#: grub-core/loader/xnu.c:728 grub-core/loader/xnu.c:786
-#: grub-core/loader/xnu.c:807 grub-core/loader/xnu.c:862
-#: grub-core/loader/xnu.c:905 grub-core/loader/xnu.c:943
+#: grub-core/loader/multiboot.c:434 grub-core/loader/multiboot_elfxx.c:171
+#: grub-core/loader/multiboot_elfxx.c:234
+#: grub-core/loader/multiboot_elfxx.c:278 grub-core/loader/multiboot_mbi2.c:129
+#: grub-core/loader/xnu.c:737 grub-core/loader/xnu.c:795
+#: grub-core/loader/xnu.c:816 grub-core/loader/xnu.c:871
+#: grub-core/loader/xnu.c:914 grub-core/loader/xnu.c:952
 #: grub-core/loader/xnu_resume.c:68 grub-core/loader/xnu_resume.c:153
-#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:1921
+#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2290
 #, c-format
 msgid "premature end of file %s"
 msgstr "פּרעמאתוּרע ענד וֹפֿ פִֿילע %s"
@@ -148,29 +149,29 @@ msgstr "לוֹאד הוֹשת אצפִּי תאבּלעש אנד תאבּלעש 
 msgid "error: %s.\n"
 msgstr "עררוֹר: %s.\n"
 
-#: grub-core/commands/acpihalt.c:368 grub-core/kern/emu/misc.c:93
-#: grub-core/kern/emu/misc.c:103 grub-core/kern/emu/misc.c:132
+#: grub-core/commands/acpihalt.c:368 grub-core/kern/emu/misc.c:95
+#: grub-core/kern/emu/misc.c:105 grub-core/kern/emu/misc.c:134
 #: grub-core/kern/emu/mm.c:34 grub-core/kern/emu/mm.c:62
 #: grub-core/kern/mm.c:374 grub-core/lib/relocator.c:1282
 #: grub-core/lib/relocator.c:1439 grub-core/lib/relocator.c:1538
-#: grub-core/loader/arm/linux.c:421 grub-core/loader/arm/linux.c:480
-#: grub-core/loader/arm64/linux.c:229 grub-core/loader/arm64/linux.c:285
-#: grub-core/loader/arm64/linux.c:304 grub-core/loader/arm64/xen_boot.c:333
-#: grub-core/loader/arm64/xen_boot.c:356 grub-core/loader/efi/chainloader.c:283
-#: grub-core/osdep/unix/dl.c:48 grub-core/osdep/windows/dl.c:46
-#: grub-core/script/lexer.c:156 grub-core/script/lexer.c:182
+#: grub-core/loader/arm/linux.c:259 grub-core/loader/arm64/linux.c:265
+#: grub-core/loader/arm64/linux.c:321 grub-core/loader/arm64/linux.c:340
+#: grub-core/loader/arm64/xen_boot.c:344 grub-core/loader/arm64/xen_boot.c:367
+#: grub-core/loader/efi/chainloader.c:283 grub-core/osdep/unix/dl.c:48
+#: grub-core/osdep/windows/dl.c:46 grub-core/script/lexer.c:156
+#: grub-core/script/lexer.c:182
 msgid "out of memory"
 msgstr "וֹוּת וֹפֿ מעמוֹריִ"
 
 #: grub-core/commands/acpihalt.c:374 grub-core/disk/cryptodisk.c:587
 #: grub-core/disk/cryptodisk.c:632 grub-core/kern/emu/hostdisk.c:307
-#: grub-core/kern/emu/hostfs.c:149 grub-core/kern/emu/misc.c:198
-#: grub-core/osdep/linux/ofpath.c:152 grub-core/osdep/linux/ofpath.c:371
-#: grub-core/osdep/linux/ofpath.c:384 util/glue-efi.c:80 util/glue-efi.c:94
+#: grub-core/kern/emu/hostfs.c:149 grub-core/kern/emu/misc.c:200
+#: grub-core/osdep/linux/ofpath.c:195 grub-core/osdep/linux/ofpath.c:521
+#: grub-core/osdep/linux/ofpath.c:534 util/glue-efi.c:80 util/glue-efi.c:94
 #: util/grub-editenv.c:155 util/grub-fstest.c:577
-#: util/grub-install-common.c:918 util/grub-mkrescue.c:624
-#: util/grub-mkrescue.c:867 util/grub-mount.c:506 util/grub-render-label.c:176
-#: util/misc.c:95 util/setup.c:734 util/setup.c:753
+#: util/grub-install-common.c:943 util/grub-mkrescue.c:634
+#: util/grub-mkrescue.c:888 util/grub-mount.c:506 util/grub-render-label.c:176
+#: util/misc.c:95 util/setup.c:814 util/setup.c:833
 #, c-format
 msgid "cannot read `%s': %s"
 msgstr "צאננוֹת רעאד `%s': %s"
@@ -186,39 +187,39 @@ msgstr "לִישת דעבִֿיצעש."
 
 #: grub-core/commands/blocklist.c:122 grub-core/commands/cat.c:57
 #: grub-core/commands/configfile.c:35 grub-core/commands/efi/loadbios.c:168
-#: grub-core/commands/file.c:152 grub-core/commands/hexdump.c:47
+#: grub-core/commands/file.c:159 grub-core/commands/hexdump.c:47
 #: grub-core/commands/legacycfg.c:209 grub-core/commands/legacycfg.c:315
 #: grub-core/commands/minicmd.c:44 grub-core/commands/syslinuxcfg.c:146
 #: grub-core/commands/testload.c:58 grub-core/commands/testspeed.c:52
 #: grub-core/disk/loopback.c:93 grub-core/efiemu/main.c:293
 #: grub-core/font/font_cmd.c:32 grub-core/kern/emu/hostdisk.c:519
-#: grub-core/loader/arm/linux.c:360 grub-core/loader/arm/linux.c:402
-#: grub-core/loader/arm/linux.c:463 grub-core/loader/arm64/linux.c:208
-#: grub-core/loader/arm64/linux.c:261 grub-core/loader/arm64/xen_boot.c:385
-#: grub-core/loader/arm64/xen_boot.c:434 grub-core/loader/efi/chainloader.c:210
-#: grub-core/loader/i386/bsd.c:1456 grub-core/loader/i386/bsd.c:1801
-#: grub-core/loader/i386/bsd.c:2079
+#: grub-core/loader/arm/linux.c:364 grub-core/loader/arm/linux.c:409
+#: grub-core/loader/arm/linux.c:472 grub-core/loader/arm64/linux.c:243
+#: grub-core/loader/arm64/linux.c:297 grub-core/loader/arm64/xen_boot.c:398
+#: grub-core/loader/arm64/xen_boot.c:411 grub-core/loader/arm64/xen_boot.c:462
+#: grub-core/loader/efi/chainloader.c:210 grub-core/loader/i386/bsd.c:1462
+#: grub-core/loader/i386/bsd.c:1807 grub-core/loader/i386/bsd.c:2085
 #: grub-core/loader/i386/coreboot/chainloader.c:438
-#: grub-core/loader/i386/linux.c:694 grub-core/loader/i386/linux.c:1059
-#: grub-core/loader/i386/pc/chainloader.c:274
+#: grub-core/loader/i386/linux.c:656 grub-core/loader/i386/linux.c:1041
+#: grub-core/loader/i386/pc/chainloader.c:290
 #: grub-core/loader/i386/pc/freedos.c:105 grub-core/loader/i386/pc/linux.c:138
-#: grub-core/loader/i386/pc/linux.c:398 grub-core/loader/i386/pc/ntldr.c:85
-#: grub-core/loader/i386/pc/plan9.c:408
+#: grub-core/loader/i386/pc/linux.c:400 grub-core/loader/i386/pc/ntldr.c:85
+#: grub-core/loader/i386/pc/plan9.c:409
 #: grub-core/loader/i386/pc/pxechainloader.c:94
-#: grub-core/loader/i386/pc/truecrypt.c:96 grub-core/loader/i386/xen.c:640
-#: grub-core/loader/i386/xen.c:764 grub-core/loader/i386/xen.c:840
-#: grub-core/loader/i386/xen.c:850 grub-core/loader/i386/xnu.c:488
-#: grub-core/loader/ia64/efi/linux.c:500 grub-core/loader/ia64/efi/linux.c:575
-#: grub-core/loader/mips/linux.c:238 grub-core/loader/mips/linux.c:421
-#: grub-core/loader/multiboot.c:307 grub-core/loader/multiboot.c:359
-#: grub-core/loader/multiboot.c:369
+#: grub-core/loader/i386/pc/truecrypt.c:96 grub-core/loader/i386/xen.c:641
+#: grub-core/loader/i386/xen.c:768 grub-core/loader/i386/xen.c:844
+#: grub-core/loader/i386/xen.c:854 grub-core/loader/i386/xnu.c:488
+#: grub-core/loader/ia64/efi/linux.c:459 grub-core/loader/ia64/efi/linux.c:539
+#: grub-core/loader/mips/linux.c:238 grub-core/loader/mips/linux.c:429
+#: grub-core/loader/multiboot.c:322 grub-core/loader/multiboot.c:374
+#: grub-core/loader/multiboot.c:384
 #: grub-core/loader/powerpc/ieee1275/linux.c:269
-#: grub-core/loader/powerpc/ieee1275/linux.c:340
+#: grub-core/loader/powerpc/ieee1275/linux.c:341
 #: grub-core/loader/sparc64/ieee1275/linux.c:305
-#: grub-core/loader/sparc64/ieee1275/linux.c:380 grub-core/loader/xnu.c:350
-#: grub-core/loader/xnu.c:455 grub-core/loader/xnu.c:769
-#: grub-core/loader/xnu.c:883 grub-core/loader/xnu.c:1268
-#: grub-core/loader/xnu.c:1418 grub-core/loader/xnu.c:1444
+#: grub-core/loader/sparc64/ieee1275/linux.c:381 grub-core/loader/xnu.c:351
+#: grub-core/loader/xnu.c:460 grub-core/loader/xnu.c:778
+#: grub-core/loader/xnu.c:892 grub-core/loader/xnu.c:1277
+#: grub-core/loader/xnu.c:1427 grub-core/loader/xnu.c:1453
 #: grub-core/video/readers/jpeg.c:812 grub-core/video/readers/png.c:1123
 msgid "filename expected"
 msgstr "פִֿילענאמע עכּספּעצתעד"
@@ -230,27 +231,27 @@ msgstr "פִֿילענאמע עכּספּעצתעד"
 #: grub-core/commands/configfile.c:86 grub-core/commands/hashsum.c:34
 #: grub-core/commands/legacycfg.c:834 grub-core/commands/legacycfg.c:841
 #: grub-core/commands/legacycfg.c:846 grub-core/commands/legacycfg.c:851
-#: grub-core/commands/macbless.c:222 grub-core/commands/minicmd.c:195
+#: grub-core/commands/macbless.c:222 grub-core/commands/minicmd.c:198
 #: grub-core/commands/syslinuxcfg.c:186 grub-core/commands/syslinuxcfg.c:194
 #: grub-core/commands/syslinuxcfg.c:200 grub-core/commands/syslinuxcfg.c:206
 #: grub-core/commands/testload.c:163 grub-core/efiemu/main.c:312
 #: grub-core/kern/emu/main.c:100 grub-core/kern/emu/main.c:103
-#: grub-core/loader/i386/bsd.c:2131 grub-core/loader/i386/bsd.c:2134
-#: grub-core/loader/i386/bsd.c:2137
+#: grub-core/loader/i386/bsd.c:2137 grub-core/loader/i386/bsd.c:2140
+#: grub-core/loader/i386/bsd.c:2143
 #: grub-core/loader/i386/coreboot/chainloader.c:505
-#: grub-core/loader/ia64/efi/linux.c:630 include/grub/util/install.h:62
-#: util/grub-glue-efi.c:52 util/grub-glue-efi.c:54 util/grub-glue-efi.c:56
-#: util/grub-install.c:254 util/grub-install.c:301 util/grub-mkfont.c:936
-#: util/grub-mkimage.c:68 util/grub-mkimage.c:75 util/grub-mkimage.c:77
-#: util/grub-mkimage.c:80 util/grub-mklayout.c:52 util/grub-mklayout.c:54
+#: grub-core/loader/ia64/efi/linux.c:594 include/grub/util/install.h:32
+#: include/grub/util/install.h:64 util/grub-glue-efi.c:52
+#: util/grub-glue-efi.c:54 util/grub-glue-efi.c:56 util/grub-install.c:254
+#: util/grub-install.c:301 util/grub-mkfont.c:936 util/grub-mkimage.c:68
+#: util/grub-mkimage.c:74 util/grub-mkimage.c:76 util/grub-mkimage.c:78
+#: util/grub-mkimage.c:81 util/grub-mklayout.c:52 util/grub-mklayout.c:54
 #: util/grub-mkrescue.c:97 util/grub-mkrescue.c:101 util/grub-mkrescue.c:104
 #: util/grub-mkrescue.c:105 util/grub-mkrescue.c:106
 #: util/grub-mkstandalone.c:47 util/grub-mkstandalone.c:49
-#: util/grub-probe.c:684 util/grub-render-label.c:59
+#: util/grub-probe.c:732 util/grub-render-label.c:59
 #: util/grub-render-label.c:70 util/grub-render-label.c:72 util/grub-setup.c:78
 #: util/grub-setup.c:80 util/grub-setup.c:84 util/grub-syslinux2cfg.c:74
-#: util/grub-syslinux2cfg.c:147 util/grub-kbdcomp.in:29
-#: util/grub-mkconfig.in:60
+#: util/grub-syslinux2cfg.c:147
 msgid "FILE"
 msgstr "פִֿילע"
 
@@ -259,19 +260,19 @@ msgid "Print a block list."
 msgstr "פּרִינת א בּלוֹצכּ לִישת."
 
 #: grub-core/commands/boot.c:147 grub-core/commands/legacycfg.c:533
-#: grub-core/commands/legacycfg.c:574 grub-core/loader/arm64/linux.c:215
-#: grub-core/loader/i386/bsd.c:1793 grub-core/loader/i386/bsd.c:1894
-#: grub-core/loader/i386/bsd.c:2001 grub-core/loader/i386/bsd.c:2034
-#: grub-core/loader/i386/bsd.c:2083 grub-core/loader/i386/linux.c:1065
-#: grub-core/loader/i386/pc/linux.c:404 grub-core/loader/i386/xen.c:771
-#: grub-core/loader/i386/xen.c:855 grub-core/loader/ia64/efi/linux.c:581
-#: grub-core/loader/mips/linux.c:424 grub-core/loader/multiboot.c:373
-#: grub-core/loader/powerpc/ieee1275/linux.c:346
-#: grub-core/loader/sparc64/ieee1275/linux.c:386 grub-core/loader/xnu.c:563
-#: grub-core/loader/xnu.c:656 grub-core/loader/xnu.c:772
-#: grub-core/loader/xnu.c:886 grub-core/loader/xnu.c:1082
-#: grub-core/loader/xnu.c:1249 grub-core/loader/xnu.c:1280
-#: grub-core/loader/xnu.c:1421
+#: grub-core/commands/legacycfg.c:574 grub-core/loader/arm64/linux.c:250
+#: grub-core/loader/i386/bsd.c:1799 grub-core/loader/i386/bsd.c:1900
+#: grub-core/loader/i386/bsd.c:2007 grub-core/loader/i386/bsd.c:2040
+#: grub-core/loader/i386/bsd.c:2089 grub-core/loader/i386/linux.c:1047
+#: grub-core/loader/i386/pc/linux.c:406 grub-core/loader/i386/xen.c:775
+#: grub-core/loader/i386/xen.c:859 grub-core/loader/ia64/efi/linux.c:545
+#: grub-core/loader/mips/linux.c:432 grub-core/loader/multiboot.c:388
+#: grub-core/loader/powerpc/ieee1275/linux.c:347
+#: grub-core/loader/sparc64/ieee1275/linux.c:387 grub-core/loader/xnu.c:572
+#: grub-core/loader/xnu.c:665 grub-core/loader/xnu.c:781
+#: grub-core/loader/xnu.c:895 grub-core/loader/xnu.c:1091
+#: grub-core/loader/xnu.c:1258 grub-core/loader/xnu.c:1289
+#: grub-core/loader/xnu.c:1430
 msgid "you need to load the kernel first"
 msgstr "יִוֹוּ נעעד תוֹ לוֹאד תהע כּערנעל פִֿירשת"
 
@@ -305,15 +306,16 @@ msgstr "געת דִישכּ צאצהע ִינפֿוֹ."
 msgid "Accept DOS-style CR/NL line endings."
 msgstr "אצצעפּת דוֹש-שתיִלע צר/נל לִינע ענדִינגש."
 
-#: grub-core/commands/cat.c:163 grub-core/commands/minicmd.c:195
+#: grub-core/commands/cat.c:163 grub-core/commands/minicmd.c:198
 msgid "Show the contents of a file."
 msgstr "שהוֹו תהע צוֹנתענתש וֹפֿ א פִֿילע."
 
 #: grub-core/commands/cmp.c:43 grub-core/commands/i386/pc/drivemap.c:239
-#: grub-core/commands/iorw.c:85 grub-core/commands/memrw.c:84
-#: grub-core/commands/password.c:75 grub-core/commands/password_pbkdf2.c:94
-#: grub-core/commands/regexp.c:113 grub-core/commands/verify.c:767
-#: grub-core/mmap/mmap.c:517 grub-core/net/dns.c:639
+#: grub-core/commands/i386/wrmsr.c:60 grub-core/commands/iorw.c:85
+#: grub-core/commands/memrw.c:84 grub-core/commands/password.c:75
+#: grub-core/commands/password_pbkdf2.c:94 grub-core/commands/pgp.c:826
+#: grub-core/commands/regexp.c:113 grub-core/mmap/mmap.c:517
+#: grub-core/net/dns.c:639
 msgid "two arguments expected"
 msgstr "תווֹ ארגוּמענתש עכּספּעצתעד"
 
@@ -418,6 +420,49 @@ msgstr "בִּיוֹש_דוּמפּ [ִינת10_דוּמפּ]"
 msgid "Load BIOS dump."
 msgstr "לוֹאד בִּיוֹש דוּמפּ."
 
+#: grub-core/commands/efi/shim_lock.c:76
+#, c-format
+msgid "module cannot be loaded in UEFI secure boot mode: %s"
+msgstr "מוֹדוּלע צאננוֹת בּע לוֹאדעד ִינ וּעפִֿי שעצוּרע בּוֹוֹת מוֹדע: %s"
+
+#: grub-core/commands/efi/shim_lock.c:98
+#, c-format
+msgid "cannot boot due to dangerous module in memory: %s"
+msgstr "צאננוֹת בּוֹוֹת דוּע תוֹ דאנגערוֹוּש מוֹדוּלע ִינ מעמוֹריִ: %s"
+
+#: grub-core/commands/efi/shim_lock.c:116
+msgid "bad shim signature"
+msgstr "בּאד שהִימ שִיגנאתוּרע"
+
+#: grub-core/commands/efi/tpm.c:149 grub-core/commands/efi/tpm.c:189
+#: grub-core/commands/efi/tpm.c:256 grub-core/commands/efi/tpm.c:306
+msgid "Command failed"
+msgstr "צוֹממאנד פֿאִילעד"
+
+#: grub-core/commands/efi/tpm.c:151 grub-core/commands/efi/tpm.c:191
+#: grub-core/commands/efi/tpm.c:258 grub-core/commands/efi/tpm.c:308
+msgid "Invalid parameter"
+msgstr "ִינבֿאלִיד פּאראמעתער"
+
+#: grub-core/commands/efi/tpm.c:154 grub-core/commands/efi/tpm.c:194
+#: grub-core/commands/efi/tpm.c:261 grub-core/commands/efi/tpm.c:311
+msgid "Output buffer too small"
+msgstr "וֹוּתפּוּת בּוּפֿפֿער תוֹוֹ שמאלל"
+
+#: grub-core/commands/efi/tpm.c:156 grub-core/commands/efi/tpm.c:196
+#: grub-core/commands/efi/tpm.c:263 grub-core/commands/efi/tpm.c:313
+msgid "TPM unavailable"
+msgstr "תפּמ וּנאבֿאִילאבּלע"
+
+#: grub-core/commands/efi/tpm.c:158 grub-core/commands/efi/tpm.c:198
+#: grub-core/commands/efi/tpm.c:265 grub-core/commands/efi/tpm.c:315
+msgid "Unknown TPM error"
+msgstr "וּנכּנוֹונ תפּמ עררוֹר"
+
+#: grub-core/commands/efi/tpm.c:240 grub-core/commands/efi/tpm.c:288
+msgid "cannot allocate TPM event buffer"
+msgstr "צאננוֹת אללוֹצאתע תפּמ עבֿענת בּוּפֿפֿער"
+
 #: grub-core/commands/eval.c:63
 msgid "STRING ..."
 msgstr "שתרִינג ..."
@@ -426,141 +471,149 @@ msgstr "שתרִינג ..."
 msgid "Evaluate arguments as GRUB commands"
 msgstr "עבֿאלוּאתע ארגוּמענתש אש גרוּבּ צוֹממאנדש"
 
-#: grub-core/commands/file.c:39
+#: grub-core/commands/file.c:41
 msgid "Check if FILE can be booted as i386 PAE Xen unprivileged guest kernel"
 msgstr "צהעצכּ ִיפֿ פִֿילע צאנ בּע בּוֹוֹתעד אש ִי386 פּאע כּסענ וּנפּרִיבִֿילעגעד גוּעשת כּערנעל"
 
-#: grub-core/commands/file.c:42
+#: grub-core/commands/file.c:44
 msgid "Check if FILE can be booted as x86_64 Xen unprivileged guest kernel"
 msgstr "צהעצכּ ִיפֿ פִֿילע צאנ בּע בּוֹוֹתעד אש כּס86_64 כּסענ וּנפּרִיבִֿילעגעד גוּעשת כּערנעל"
 
-#: grub-core/commands/file.c:44
+#: grub-core/commands/file.c:46
 msgid "Check if FILE can be used as Xen x86 privileged guest kernel"
 msgstr "צהעצכּ ִיפֿ פִֿילע צאנ בּע וּשעד אש כּסענ כּס86 פּרִיבִֿילעגעד גוּעשת כּערנעל"
 
-#: grub-core/commands/file.c:46
+#: grub-core/commands/file.c:48
 msgid "Check if FILE can be used as x86 multiboot kernel"
 msgstr "צהעצכּ ִיפֿ פִֿילע צאנ בּע וּשעד אש כּס86 מוּלתִיבּוֹוֹת כּערנעל"
 
-#: grub-core/commands/file.c:48
+#: grub-core/commands/file.c:50
 msgid "Check if FILE can be used as x86 multiboot2 kernel"
 msgstr "צהעצכּ ִיפֿ פִֿילע צאנ בּע וּשעד אש כּס86 מוּלתִיבּוֹוֹת2 כּערנעל"
 
-#: grub-core/commands/file.c:50
+#: grub-core/commands/file.c:52
 msgid "Check if FILE is ARM Linux"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש ארמ לִינוּכּס"
 
-#: grub-core/commands/file.c:52
+#: grub-core/commands/file.c:54
 msgid "Check if FILE is ARM64 Linux"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש ארמ64 לִינוּכּס"
 
-#: grub-core/commands/file.c:54
+#: grub-core/commands/file.c:56
 msgid "Check if FILE is IA64 Linux"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש ִיא64 לִינוּכּס"
 
-#: grub-core/commands/file.c:56
+#: grub-core/commands/file.c:58
 msgid "Check if FILE is MIPS Linux"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש מִיפּש לִינוּכּס"
 
-#: grub-core/commands/file.c:58
+#: grub-core/commands/file.c:60
 msgid "Check if FILE is MIPSEL Linux"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש מִיפּשעל לִינוּכּס"
 
-#: grub-core/commands/file.c:60
+#: grub-core/commands/file.c:62
 msgid "Check if FILE is SPARC64 Linux"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש שפּארצ64 לִינוּכּס"
 
-#: grub-core/commands/file.c:62
+#: grub-core/commands/file.c:64
 msgid "Check if FILE is POWERPC Linux"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש פּוֹוערפּצ לִינוּכּס"
 
-#: grub-core/commands/file.c:64
+#: grub-core/commands/file.c:66
 msgid "Check if FILE is x86 Linux"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש כּס86 לִינוּכּס"
 
-#: grub-core/commands/file.c:66
+#: grub-core/commands/file.c:68
 msgid "Check if FILE is x86 Linux supporting 32-bit protocol"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש כּס86 לִינוּכּס שוּפּפּוֹרתִינג 32-בִּית פּרוֹתוֹצוֹל"
 
-#: grub-core/commands/file.c:68
+#: grub-core/commands/file.c:70
 msgid "Check if FILE is x86 kFreeBSD"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש כּס86 כּפֿרעעבּשד"
 
-#: grub-core/commands/file.c:70
+#: grub-core/commands/file.c:72
 msgid "Check if FILE is i386 kFreeBSD"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש ִי386 כּפֿרעעבּשד"
 
-#: grub-core/commands/file.c:72
+#: grub-core/commands/file.c:74
 msgid "Check if FILE is x86_64 kFreeBSD"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש כּס86_64 כּפֿרעעבּשד"
 
-#: grub-core/commands/file.c:75
+#: grub-core/commands/file.c:77
 msgid "Check if FILE is x86 kNetBSD"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש כּס86 כּנעתבּשד"
 
-#: grub-core/commands/file.c:77
+#: grub-core/commands/file.c:79
 msgid "Check if FILE is i386 kNetBSD"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש ִי386 כּנעתבּשד"
 
-#: grub-core/commands/file.c:79
+#: grub-core/commands/file.c:81
 msgid "Check if FILE is x86_64 kNetBSD"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש כּס86_64 כּנעתבּשד"
 
-#: grub-core/commands/file.c:82
+#: grub-core/commands/file.c:84
 msgid "Check if FILE is i386 EFI file"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש ִי386 עפִֿי פִֿילע"
 
-#: grub-core/commands/file.c:84
+#: grub-core/commands/file.c:86
 msgid "Check if FILE is x86_64 EFI file"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש כּס86_64 עפִֿי פִֿילע"
 
-#: grub-core/commands/file.c:86
+#: grub-core/commands/file.c:88
 msgid "Check if FILE is IA64 EFI file"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש ִיא64 עפִֿי פִֿילע"
 
-#: grub-core/commands/file.c:88
+#: grub-core/commands/file.c:90
 msgid "Check if FILE is ARM64 EFI file"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש ארמ64 עפִֿי פִֿילע"
 
-#: grub-core/commands/file.c:90
+#: grub-core/commands/file.c:92
 msgid "Check if FILE is ARM EFI file"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש ארמ עפִֿי פִֿילע"
 
-#: grub-core/commands/file.c:92
+#: grub-core/commands/file.c:94
+msgid "Check if FILE is RISC-V 32bit EFI file"
+msgstr "צהעצכּ ִיפֿ פִֿילע ִיש רִישצ-בֿ 32בִּית עפִֿי פִֿילע"
+
+#: grub-core/commands/file.c:96
+msgid "Check if FILE is RISC-V 64bit EFI file"
+msgstr "צהעצכּ ִיפֿ פִֿילע ִיש רִישצ-בֿ 64בִּית עפִֿי פִֿילע"
+
+#: grub-core/commands/file.c:98
 msgid "Check if FILE is hiberfil.sys in hibernated state"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש הִיבּערפִֿיל.שיִש ִינ הִיבּערנאתעד שתאתע"
 
-#: grub-core/commands/file.c:94
+#: grub-core/commands/file.c:100
 msgid "Check if FILE is x86_64 XNU (Mac OS X kernel)"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש כּס86_64 כּסנוּ (מאצ וֹש כּס כּערנעל)"
 
-#: grub-core/commands/file.c:96
+#: grub-core/commands/file.c:102
 msgid "Check if FILE is i386 XNU (Mac OS X kernel)"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש ִי386 כּסנוּ (מאצ וֹש כּס כּערנעל)"
 
-#: grub-core/commands/file.c:98
+#: grub-core/commands/file.c:104
 msgid "Check if FILE is XNU (Mac OS X kernel) hibernated image"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש כּסנוּ (מאצ וֹש כּס כּערנעל) הִיבּערנאתעד ִימאגע"
 
-#: grub-core/commands/file.c:100
+#: grub-core/commands/file.c:106
 msgid "Check if FILE is BIOS bootsector"
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש בִּיוֹש בּוֹוֹתשעצתוֹר"
 
 #. TRANSLATORS: it's a standalone boolean value,
 #. opposite of "true".
-#: grub-core/commands/file.c:662 grub-core/commands/i386/cmostest.c:63
+#: grub-core/commands/file.c:675 grub-core/commands/i386/cmostest.c:63
 #: grub-core/commands/i386/cpuid.c:71 grub-core/commands/keystatus.c:83
 #: grub-core/commands/keystatus.c:87 grub-core/commands/keystatus.c:96
 #: grub-core/commands/test.c:436 grub-core/commands/true.c:39
-#: grub-core/script/execute.c:246 grub-core/script/execute.c:1017
+#: grub-core/script/execute.c:247 grub-core/script/execute.c:1039
 msgid "false"
 msgstr "פֿאלשע"
 
-#: grub-core/commands/file.c:671
+#: grub-core/commands/file.c:684
 msgid "OPTIONS FILE"
 msgstr "וֹפּתִיוֹנש פִֿילע"
 
-#: grub-core/commands/file.c:672
+#: grub-core/commands/file.c:685
 msgid "Check if FILE is of specified type."
 msgstr "צהעצכּ ִיפֿ פִֿילע ִיש וֹפֿ שפּעצִיפִֿיעד תיִפּע."
 
@@ -619,14 +672,13 @@ msgstr "בּאשע דִירעצתוֹריִ פֿוֹר האשה לִישת."
 #: grub-core/commands/hashsum.c:35 grub-core/commands/ls.c:150
 #: grub-core/commands/macbless.c:226 grub-core/commands/syslinuxcfg.c:51
 #: grub-core/commands/syslinuxcfg.c:54 grub-core/kern/emu/main.c:106
-#: include/grub/util/install.h:48 include/grub/util/install.h:51
-#: include/grub/util/install.h:54 include/grub/util/install.h:57
+#: include/grub/util/install.h:50 include/grub/util/install.h:53
+#: include/grub/util/install.h:56 include/grub/util/install.h:59
 #: util/grub-install.c:250 util/grub-install.c:252 util/grub-install.c:297
 #: util/grub-install.c:299 util/grub-mkimage.c:64 util/grub-mkimage.c:67
 #: util/grub-mknetdir.c:46 util/grub-mknetdir.c:48 util/grub-mkrescue.c:99
 #: util/grub-setup.c:82 util/grub-syslinux2cfg.c:63 util/grub-syslinux2cfg.c:65
 #: util/grub-syslinux2cfg.c:67 util/grub-syslinux2cfg.c:71
-#: util/grub-reboot.in:52 util/grub-set-default.in:54
 msgid "DIR"
 msgstr "דִיר"
 
@@ -638,37 +690,37 @@ msgstr "דוֹנ'ת שתוֹפּ אפֿתער פִֿירשת עררוֹר."
 msgid "Uncompress file before checksumming."
 msgstr "וּנצוֹמפּרעשש פִֿילע בּעפֿוֹרע צהעצכּשוּממִינג."
 
-#: grub-core/commands/hashsum.c:165
+#: grub-core/commands/hashsum.c:163
 #, c-format
 msgid "%s: READ ERROR\n"
 msgstr "%s: רעאד עררוֹר\n"
 
-#: grub-core/commands/hashsum.c:179
+#: grub-core/commands/hashsum.c:177
 #, c-format
 msgid "%s: HASH MISMATCH\n"
 msgstr "%s: האשה מִישמאתצה\n"
 
-#: grub-core/commands/hashsum.c:190
+#: grub-core/commands/hashsum.c:188
 #, c-format
 msgid "%s: OK\n"
 msgstr "%s: וֹכּ\n"
 
-#: grub-core/commands/hashsum.c:284
+#: grub-core/commands/hashsum.c:282
 msgid "-h HASH [-c FILE [-p PREFIX]] [FILE1 [FILE2 ...]]"
 msgstr "-ה האשה [-צ פִֿילע [-פּ פּרעפִֿיכּס]] [פִֿילע1 [פִֿילע2 ...]]"
 
 #. TRANSLATORS: "hash checksum" is just to
 #. be a bit more precise, you can treat it as
 #. just "hash".
-#: grub-core/commands/hashsum.c:289 grub-core/commands/hashsum.c:294
-#: grub-core/commands/hashsum.c:299 grub-core/commands/hashsum.c:304
-#: grub-core/commands/hashsum.c:309 grub-core/commands/hashsum.c:315
+#: grub-core/commands/hashsum.c:287 grub-core/commands/hashsum.c:292
+#: grub-core/commands/hashsum.c:297 grub-core/commands/hashsum.c:302
+#: grub-core/commands/hashsum.c:307 grub-core/commands/hashsum.c:313
 msgid "Compute or check hash checksum."
 msgstr "צוֹמפּוּתע וֹר צהעצכּ האשה צהעצכּשוּמ."
 
-#: grub-core/commands/hashsum.c:292 grub-core/commands/hashsum.c:297
-#: grub-core/commands/hashsum.c:302 grub-core/commands/hashsum.c:307
-#: grub-core/commands/hashsum.c:313
+#: grub-core/commands/hashsum.c:290 grub-core/commands/hashsum.c:295
+#: grub-core/commands/hashsum.c:300 grub-core/commands/hashsum.c:305
+#: grub-core/commands/hashsum.c:311
 msgid "[-c FILE [-p PREFIX]] [FILE1 [FILE2 ...]]"
 msgstr "[-צ פִֿילע [-פּ פּרעפִֿיכּס]] [פִֿילע1 [פִֿילע2 ...]]"
 
@@ -732,18 +784,19 @@ msgstr "דִישאבּלע/ענאבּלע שמארת (0/1)."
 msgid "Do not print messages."
 msgstr "דוֹ נוֹת פּרִינת מעששאגעש."
 
-#: grub-core/commands/hdparm.c:286 grub-core/commands/iorw.c:47
-#: grub-core/commands/legacycfg.c:760 grub-core/commands/legacycfg.c:812
-#: grub-core/commands/macbless.c:190 grub-core/commands/memrw.c:47
-#: grub-core/commands/search.c:304 grub-core/commands/search_wrap.c:179
-#: grub-core/commands/setpci.c:243 grub-core/commands/sleep.c:71
-#: grub-core/commands/verify.c:681 grub-core/commands/verify.c:733
-#: grub-core/fs/zfs/zfsinfo.c:279 grub-core/fs/zfs/zfsinfo.c:358
-#: grub-core/gettext/gettext.c:492 grub-core/kern/corecmd.c:65
-#: grub-core/kern/corecmd.c:79 grub-core/mmap/mmap.c:430
-#: grub-core/net/dns.c:713 grub-core/net/dns.c:745 grub-core/net/net.c:694
-#: grub-core/net/net.c:1052 grub-core/normal/context.c:194
-#: grub-core/script/execute.c:130 grub-core/term/gfxterm_background.c:136
+#: grub-core/commands/hdparm.c:286 grub-core/commands/i386/rdmsr.c:68
+#: grub-core/commands/iorw.c:47 grub-core/commands/legacycfg.c:760
+#: grub-core/commands/legacycfg.c:812 grub-core/commands/macbless.c:190
+#: grub-core/commands/memrw.c:47 grub-core/commands/pgp.c:738
+#: grub-core/commands/pgp.c:792 grub-core/commands/search.c:304
+#: grub-core/commands/search_wrap.c:179 grub-core/commands/setpci.c:243
+#: grub-core/commands/sleep.c:71 grub-core/fs/zfs/zfsinfo.c:279
+#: grub-core/fs/zfs/zfsinfo.c:358 grub-core/gettext/gettext.c:492
+#: grub-core/kern/corecmd.c:65 grub-core/kern/corecmd.c:79
+#: grub-core/mmap/mmap.c:430 grub-core/net/dns.c:713 grub-core/net/dns.c:745
+#: grub-core/net/net.c:694 grub-core/net/net.c:1052
+#: grub-core/normal/context.c:194 grub-core/script/execute.c:131
+#: grub-core/term/gfxterm_background.c:136
 msgid "one argument expected"
 msgstr "וֹנע ארגוּמענת עכּספּעצתעד"
 
@@ -755,8 +808,8 @@ msgstr "[וֹפּתִיוֹנש] דִישכּ"
 msgid "Get/set ATA disk parameters."
 msgstr "געת/שעת אתא דִישכּ פּאראמעתערש."
 
-#: grub-core/commands/help.c:132 grub-core/gnulib/argp-help.c:1646
-#: grub-core/lib/arg.c:109
+#: grub-core/commands/help.c:132 grub-core/lib/arg.c:109
+#: grub-core/lib/gnulib/argp-help.c:1616
 msgid "Usage:"
 msgstr "וּשאגע:"
 
@@ -948,9 +1001,9 @@ msgstr "ִינבֿאלִיד תעמפּוֹ ִינ %s"
 
 #: grub-core/commands/i386/pc/play.c:151 grub-core/commands/macbless.c:172
 #: grub-core/fs/archelp.c:260 grub-core/fs/bfs.c:621 grub-core/fs/bfs.c:704
-#: grub-core/fs/btrfs.c:1305 grub-core/fs/btrfs.c:1334
-#: grub-core/fs/btrfs.c:1378 grub-core/fs/btrfs.c:1461
-#: grub-core/fs/btrfs.c:1485 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:689
+#: grub-core/fs/btrfs.c:1726 grub-core/fs/btrfs.c:1755
+#: grub-core/fs/btrfs.c:1799 grub-core/fs/btrfs.c:1882
+#: grub-core/fs/btrfs.c:1906 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:689
 #: grub-core/fs/minix.c:426 grub-core/fs/ufs.c:544 grub-core/fs/zfs/zfs.c:2083
 #: grub-core/fs/zfs/zfs.c:2095 grub-core/fs/zfs/zfs.c:2301
 #: grub-core/net/http.c:120
@@ -959,8 +1012,8 @@ msgid "file `%s' not found"
 msgstr "פִֿילע `%s' נוֹת פֿוֹוּנד"
 
 #: grub-core/commands/i386/pc/play.c:162 grub-core/commands/i386/pc/play.c:171
-#: grub-core/kern/misc.c:418 grub-core/script/execute.c:137
-#: grub-core/script/execute.c:243
+#: grub-core/kern/misc.c:419 grub-core/script/execute.c:138
+#: grub-core/script/execute.c:244
 msgid "unrecognized number"
 msgstr "וּנרעצוֹגנִיזעד נוּמבּער"
 
@@ -1050,6 +1103,46 @@ msgstr "[כּעיִשתרוֹכּע1] [כּעיִשתרוֹכּע2] ..."
 msgid "Emulate a keystroke sequence"
 msgstr "עמוּלאתע א כּעיִשתרוֹכּע שעקוּענצע"
 
+#: grub-core/commands/i386/rdmsr.c:37 grub-core/commands/iorw.c:34
+#: grub-core/commands/memrw.c:33 grub-core/commands/setpci.c:73
+msgid "Save read value into variable VARNAME."
+msgstr "שאבֿע רעאד בֿאלוּע ִינתוֹ בֿארִיאבּלע בֿארנאמע."
+
+#: grub-core/commands/i386/rdmsr.c:38 grub-core/commands/iorw.c:35
+#: grub-core/commands/memrw.c:34 grub-core/commands/probe.c:40
+#: grub-core/commands/search_wrap.c:40 grub-core/commands/setpci.c:74
+#: grub-core/commands/tr.c:32
+msgid "VARNAME"
+msgstr "בֿארנאמע"
+
+#: grub-core/commands/i386/rdmsr.c:55 grub-core/commands/i386/rdmsr.c:60
+#: grub-core/commands/i386/rdmsr.c:65 grub-core/commands/i386/wrmsr.c:47
+#: grub-core/commands/i386/wrmsr.c:52 grub-core/commands/i386/wrmsr.c:57
+msgid "unsupported instruction"
+msgstr "וּנשוּפּפּוֹרתעד ִינשתרוּצתִיוֹנ"
+
+#: grub-core/commands/i386/rdmsr.c:77 grub-core/commands/i386/wrmsr.c:69
+#: grub-core/commands/i386/wrmsr.c:77 grub-core/net/dns.c:727
+msgid "invalid argument"
+msgstr "ִינבֿאלִיד ארגוּמענת"
+
+#: grub-core/commands/i386/rdmsr.c:94 grub-core/commands/memrw.c:125
+#: grub-core/commands/memrw.c:129 grub-core/commands/memrw.c:133
+msgid "ADDR"
+msgstr "אדדר"
+
+#: grub-core/commands/i386/rdmsr.c:95
+msgid "Read a CPU model specific register."
+msgstr "רעאד א צפּוּ מוֹדעל שפּעצִיפִֿיצ רעגִישתער."
+
+#: grub-core/commands/i386/wrmsr.c:86
+msgid "ADDR VALUE"
+msgstr "אדדר בֿאלוּע"
+
+#: grub-core/commands/i386/wrmsr.c:87
+msgid "Write a value to a CPU model specific register."
+msgstr "ורִיתע א בֿאלוּע תוֹ א צפּוּ מוֹדעל שפּעצִיפִֿיצ רעגִישתער."
+
 #: grub-core/commands/ieee1275/suspend.c:34
 msgid "Run `go' to resume GRUB."
 msgstr "רוּנ `גוֹ' תוֹ רעשוּמע גרוּבּ."
@@ -1057,17 +1150,6 @@ msgstr "רוּנ `גוֹ' תוֹ רעשוּמע גרוּבּ."
 #: grub-core/commands/ieee1275/suspend.c:45
 msgid "Return to IEEE1275 prompt."
 msgstr "רעתוּרנ תוֹ ִיעעע1275 פּרוֹמפּת."
-
-#: grub-core/commands/iorw.c:34 grub-core/commands/memrw.c:33
-#: grub-core/commands/setpci.c:73
-msgid "Save read value into variable VARNAME."
-msgstr "שאבֿע רעאד בֿאלוּע ִינתוֹ בֿארִיאבּלע בֿארנאמע."
-
-#: grub-core/commands/iorw.c:35 grub-core/commands/memrw.c:34
-#: grub-core/commands/probe.c:40 grub-core/commands/search_wrap.c:40
-#: grub-core/commands/setpci.c:74 grub-core/commands/tr.c:32
-msgid "VARNAME"
-msgstr "בֿארנאמע"
 
 #: grub-core/commands/iorw.c:123 grub-core/commands/iorw.c:127
 #: grub-core/commands/iorw.c:131 grub-core/gdb/gdb.c:79
@@ -1107,8 +1189,8 @@ msgstr "אדדר בֿאלוּע [מאשכּ]"
 msgid "Write 32-bit VALUE to PORT."
 msgstr "ורִיתע 32-בִּית בֿאלוּע תוֹ פּוֹרת."
 
-#: grub-core/commands/keylayouts.c:215 grub-core/commands/loadenv.c:60
-#: grub-core/commands/nativedisk.c:188 grub-core/efiemu/main.c:235
+#: grub-core/commands/keylayouts.c:215 grub-core/commands/loadenv.c:61
+#: grub-core/commands/nativedisk.c:189 grub-core/efiemu/main.c:235
 #: grub-core/font/font.c:428 grub-core/gfxmenu/gfxmenu.c:63
 #: grub-core/kern/device.c:42 grub-core/kern/dl.c:740
 #, c-format
@@ -1211,27 +1293,27 @@ msgstr "שפּעצִיפֿיִ פִֿילענאמע."
 msgid "Skip signature-checking of the environment file."
 msgstr "שכִּיפּ שִיגנאתוּרע-צהעצכִּינג וֹפֿ תהע ענבִֿירוֹנמענת פִֿילע."
 
-#: grub-core/commands/loadenv.c:449
+#: grub-core/commands/loadenv.c:451
 msgid "[-f FILE] [-s|--skip-sig] [variable_name_to_whitelist] [...]"
 msgstr "[-פֿ פִֿילע] [-ש|--שכִּיפּ-שִיג] [בֿארִיאבּלע_נאמע_תוֹ_והִיתעלִישת] [...]"
 
-#: grub-core/commands/loadenv.c:450
+#: grub-core/commands/loadenv.c:452
 msgid "Load variables from environment block file."
 msgstr "לוֹאד בֿארִיאבּלעש פֿרוֹמ ענבִֿירוֹנמענת בּלוֹצכּ פִֿילע."
 
-#: grub-core/commands/loadenv.c:453
+#: grub-core/commands/loadenv.c:455
 msgid "[-f FILE]"
 msgstr "[-פֿ פִֿילע]"
 
-#: grub-core/commands/loadenv.c:454
+#: grub-core/commands/loadenv.c:456
 msgid "List variables from environment block file."
 msgstr "לִישת בֿארִיאבּלעש פֿרוֹמ ענבִֿירוֹנמענת בּלוֹצכּ פִֿילע."
 
-#: grub-core/commands/loadenv.c:458
+#: grub-core/commands/loadenv.c:460
 msgid "[-f FILE] variable_name [...]"
 msgstr "[-פֿ פִֿילע] בֿארִיאבּלע_נאמע [...]"
 
-#: grub-core/commands/loadenv.c:459
+#: grub-core/commands/loadenv.c:461
 msgid "Save variables to environment block file."
 msgstr "שאבֿע בֿארִיאבּלעש תוֹ ענבִֿירוֹנמענת בּלוֹצכּ פִֿילע."
 
@@ -1251,11 +1333,11 @@ msgstr "לִישת אלל פִֿילעש."
 msgid "Network protocols:"
 msgstr "נעתווֹרכּ פּרוֹתוֹצוֹלש:"
 
-#: grub-core/commands/ls.c:286
+#: grub-core/commands/ls.c:295
 msgid "[-l|-h|-a] [FILE ...]"
 msgstr "[-ל|-ה|-א] [פִֿילע ...]"
 
-#: grub-core/commands/ls.c:287
+#: grub-core/commands/ls.c:296
 msgid "List devices and files."
 msgstr "לִישת דעבִֿיצעש אנד פִֿילעש."
 
@@ -1336,11 +1418,6 @@ msgstr "בּלעשש פִֿילע וֹפֿ הפֿש וֹר הפֿש+ פּארת�
 #: grub-core/commands/macbless.c:228
 msgid "Bless DIR of HFS or HFS+ partition for PPC macs."
 msgstr "בּלעשש דִיר וֹפֿ הפֿש וֹר הפֿש+ פּארתִיתִיוֹנ פֿוֹר פּפּצ מאצש."
-
-#: grub-core/commands/memrw.c:125 grub-core/commands/memrw.c:129
-#: grub-core/commands/memrw.c:133
-msgid "ADDR"
-msgstr "אדדר"
 
 #: grub-core/commands/memrw.c:125
 msgid "Read 8-bit value from ADDR."
@@ -1428,36 +1505,36 @@ msgstr "דעפִֿינע א שוּבּמענוּ."
 #. (how many modules or open descriptors use it).
 #. Dependencies are the other modules it uses.
 #.
-#: grub-core/commands/minicmd.c:159
+#: grub-core/commands/minicmd.c:162
 msgid "Name\tRef Count\tDependencies\n"
 msgstr "נאמע\tרעפֿ צוֹוּנת\tדעפּענדענצִיעש\n"
 
-#: grub-core/commands/minicmd.c:198
+#: grub-core/commands/minicmd.c:201
 msgid "Show this message."
 msgstr "שהוֹו תהִיש מעששאגע."
 
-#: grub-core/commands/minicmd.c:201
+#: grub-core/commands/minicmd.c:204
 msgid "ADDR [SIZE]"
 msgstr "אדדר [שִיזע]"
 
-#: grub-core/commands/minicmd.c:201
+#: grub-core/commands/minicmd.c:204
 msgid "Show memory contents."
 msgstr "שהוֹו מעמוֹריִ צוֹנתענתש."
 
-#: grub-core/commands/minicmd.c:204 grub-core/kern/corecmd.c:188
+#: grub-core/commands/minicmd.c:207 grub-core/kern/corecmd.c:188
 #: util/grub-install.c:275
 msgid "MODULE"
 msgstr "מוֹדוּלע"
 
-#: grub-core/commands/minicmd.c:204
+#: grub-core/commands/minicmd.c:207
 msgid "Remove a module."
 msgstr "רעמוֹבֿע א מוֹדוּלע."
 
-#: grub-core/commands/minicmd.c:207
+#: grub-core/commands/minicmd.c:210
 msgid "Show loaded modules."
 msgstr "שהוֹו לוֹאדעד מוֹדוּלעש."
 
-#: grub-core/commands/minicmd.c:210
+#: grub-core/commands/minicmd.c:213
 msgid "Exit from GRUB."
 msgstr "עכּסִית פֿרוֹמ גרוּבּ."
 
@@ -1513,17 +1590,17 @@ msgstr "מעמוֹריִ תיִפּע: וּנכּנוֹונ."
 msgid "Print Memory information."
 msgstr "פּרִינת מעמוֹריִ ִינפֿוֹרמאתִיוֹנ."
 
-#: grub-core/commands/nativedisk.c:117 grub-core/commands/probe.c:118
-#: grub-core/commands/probe.c:124 util/grub-probe.c:394
+#: grub-core/commands/nativedisk.c:118 grub-core/commands/probe.c:118
+#: grub-core/commands/probe.c:124 util/grub-probe.c:450
 #, c-format
 msgid "%s does not support UUIDs"
 msgstr "%s דוֹעש נוֹת שוּפּפּוֹרת וּוִּידש"
 
-#: grub-core/commands/nativedisk.c:323
+#: grub-core/commands/nativedisk.c:325
 msgid "[MODULE1 MODULE2 ...]"
 msgstr "[מוֹדוּלע1 מוֹדוּלע2 ...]"
 
-#: grub-core/commands/nativedisk.c:324
+#: grub-core/commands/nativedisk.c:326
 msgid ""
 "Switch to native disk drivers. If no modules are specified default set (pata,"
 "ahci,usbms,ohci,uhci,ehci) is used"
@@ -1605,7 +1682,7 @@ msgstr "[בּוּש]:[שלוֹת][.פֿוּנצ]"
 #: grub-core/commands/pcidump.c:109 grub-core/commands/pcidump.c:138
 #: grub-core/commands/setpci.c:183 grub-core/commands/setpci.c:214
 #: grub-core/fs/zfs/zfs.c:3794 grub-core/kern/emu/hostdisk.c:458
-#: grub-core/kern/emu/hostdisk.c:473 grub-core/kern/file.c:45
+#: grub-core/kern/emu/hostdisk.c:473 grub-core/kern/file.c:44
 #, c-format
 msgid "missing `%c' symbol"
 msgstr "מִיששִינג `%c' שיִמבּוֹל"
@@ -1617,6 +1694,68 @@ msgstr "[-ש פּוֹשִיתִיוֹנ] [-ד דעבִֿיצע]"
 #: grub-core/commands/pcidump.c:169
 msgid "Show raw dump of the PCI configuration space."
 msgstr "שהוֹו ראו דוּמפּ וֹפֿ תהע פּצִי צוֹנפִֿיגוּראתִיוֹנ שפּאצע."
+
+#: grub-core/commands/pgp.c:45
+msgid "Skip signature-checking of the public key file."
+msgstr "שכִּיפּ שִיגנאתוּרע-צהעצכִּינג וֹפֿ תהע פּוּבּלִיצ כּעיִ פִֿילע."
+
+#. TRANSLATORS: it's about GNUPG signatures.
+#: grub-core/commands/pgp.c:71 grub-core/commands/pgp.c:81
+#: grub-core/commands/pgp.c:86 grub-core/commands/pgp.c:96
+#: grub-core/commands/pgp.c:103 grub-core/commands/pgp.c:107
+#: grub-core/commands/pgp.c:114 grub-core/commands/pgp.c:119
+#: grub-core/commands/pgp.c:124 grub-core/commands/pgp.c:128
+#: grub-core/commands/pgp.c:268 grub-core/commands/pgp.c:276
+#: grub-core/commands/pgp.c:281 grub-core/commands/pgp.c:289
+#: grub-core/commands/pgp.c:320 grub-core/commands/pgp.c:327
+#: grub-core/commands/pgp.c:332 grub-core/commands/pgp.c:342
+#: grub-core/commands/pgp.c:468 grub-core/commands/pgp.c:471
+#: grub-core/commands/pgp.c:474 grub-core/commands/pgp.c:477
+#: grub-core/commands/pgp.c:484 grub-core/commands/pgp.c:490
+#: grub-core/commands/pgp.c:665
+msgid "bad signature"
+msgstr "בּאד שִיגנאתוּרע"
+
+#. TRANSLATORS: %08x is 32-bit key id.
+#: grub-core/commands/pgp.c:636 grub-core/commands/pgp.c:812
+#, c-format
+msgid "public key %08x not found"
+msgstr "פּוּבּלִיצ כּעיִ %08x נוֹת פֿוֹוּנד"
+
+#: grub-core/commands/pgp.c:651 grub-core/disk/diskfilter.c:772
+#: grub-core/disk/diskfilter.c:782 grub-core/fs/ntfs.c:404
+#: grub-core/fs/zfs/zfs.c:1933 grub-core/normal/menu.c:428
+#, c-format
+msgid "module `%s' isn't loaded"
+msgstr "מוֹדוּלע `%s' ִישנ'ת לוֹאדעד"
+
+#: grub-core/commands/pgp.c:994
+msgid "[-s|--skip-sig] FILE SIGNATURE_FILE [PUBKEY_FILE]"
+msgstr "[-ש|--שכִּיפּ-שִיג] פִֿילע שִיגנאתוּרע_פִֿילע [פּוּבּכּעיִ_פִֿילע]"
+
+#: grub-core/commands/pgp.c:995
+msgid "Verify detached signature."
+msgstr "בֿערִיפֿיִ דעתאצהעד שִיגנאתוּרע."
+
+#: grub-core/commands/pgp.c:998
+msgid "[-s|--skip-sig] PUBKEY_FILE"
+msgstr "[-ש|--שכִּיפּ-שִיג] פּוּבּכּעיִ_פִֿילע"
+
+#: grub-core/commands/pgp.c:999
+msgid "Add PUBKEY_FILE to trusted keys."
+msgstr "אדד פּוּבּכּעיִ_פִֿילע תוֹ תרוּשתעד כּעיִש."
+
+#: grub-core/commands/pgp.c:1003
+msgid "Show the list of trusted keys."
+msgstr "שהוֹו תהע לִישת וֹפֿ תרוּשתעד כּעיִש."
+
+#: grub-core/commands/pgp.c:1005
+msgid "PUBKEY_ID"
+msgstr "פּוּבּכּעיִ_ִיד"
+
+#: grub-core/commands/pgp.c:1006
+msgid "Remove PUBKEY_ID from trusted keys."
+msgstr "רעמוֹבֿע פּוּבּכּעיִ_ִיד פֿרוֹמ תרוּשתעד כּעיִש."
 
 #: grub-core/commands/probe.c:40 grub-core/commands/tr.c:32
 msgid "Set a variable to return value."
@@ -1645,13 +1784,13 @@ msgid "Determine filesystem label."
 msgstr "דעתערמִינע פִֿילעשיִשתעמ לאבּעל."
 
 #: grub-core/commands/probe.c:139 grub-core/commands/probe.c:146
-#: util/grub-probe.c:406
+#: util/grub-probe.c:462
 #, c-format
 msgid "filesystem `%s' does not support labels"
 msgstr "פִֿילעשיִשתעמ `%s' דוֹעש נוֹת שוּפּפּוֹרת לאבּעלש"
 
 #: grub-core/commands/probe.c:165 grub-core/fs/zfs/zfsinfo.c:430
-#: grub-core/loader/i386/bsd.c:168 util/grub-setup.c:223
+#: grub-core/loader/i386/bsd.c:169 util/grub-setup.c:223
 msgid "DEVICE"
 msgstr "דעבִֿיצע"
 
@@ -1966,7 +2105,7 @@ msgstr "[-ש שִיזע] פִֿילענאמע"
 msgid "Test file read speed."
 msgstr "תעשת פִֿילע רעאד שפּעעד."
 
-#: grub-core/commands/time.c:38 grub-core/script/execute.c:952
+#: grub-core/commands/time.c:38 grub-core/script/execute.c:974
 msgid "no command is specified"
 msgstr "נוֹ צוֹממאנד ִיש שפּעצִיפִֿיעד"
 
@@ -2013,67 +2152,14 @@ msgstr "דוֹ נוֹתהִינג, וּנשוּצצעששפֿוּלליִ."
 msgid "Test USB support."
 msgstr "תעשת וּשבּ שוּפּפּוֹרת."
 
-#: grub-core/commands/verify.c:51
-msgid "Skip signature-checking of the public key file."
-msgstr "שכִּיפּ שִיגנאתוּרע-צהעצכִּינג וֹפֿ תהע פּוּבּלִיצ כּעיִ פִֿילע."
-
-#. TRANSLATORS: it's about GNUPG signatures.
-#: grub-core/commands/verify.c:77 grub-core/commands/verify.c:87
-#: grub-core/commands/verify.c:92 grub-core/commands/verify.c:102
-#: grub-core/commands/verify.c:109 grub-core/commands/verify.c:113
-#: grub-core/commands/verify.c:120 grub-core/commands/verify.c:125
-#: grub-core/commands/verify.c:130 grub-core/commands/verify.c:134
-#: grub-core/commands/verify.c:274 grub-core/commands/verify.c:282
-#: grub-core/commands/verify.c:287 grub-core/commands/verify.c:295
-#: grub-core/commands/verify.c:326 grub-core/commands/verify.c:333
-#: grub-core/commands/verify.c:338 grub-core/commands/verify.c:348
-#: grub-core/commands/verify.c:470 grub-core/commands/verify.c:473
-#: grub-core/commands/verify.c:476 grub-core/commands/verify.c:479
-#: grub-core/commands/verify.c:486 grub-core/commands/verify.c:492
-#: grub-core/commands/verify.c:661
-msgid "bad signature"
-msgstr "בּאד שִיגנאתוּרע"
-
-#. TRANSLATORS: %08x is 32-bit key id.
-#: grub-core/commands/verify.c:630 grub-core/commands/verify.c:753
+#: grub-core/commands/verifiers.c:120
 #, c-format
-msgid "public key %08x not found"
-msgstr "פּוּבּלִיצ כּעיִ %08x נוֹת פֿוֹוּנד"
+msgid "verification requested but nobody cares: %s"
+msgstr "בֿערִיפִֿיצאתִיוֹנ רעקוּעשתעד בּוּת נוֹבּוֹדיִ צארעש: %s"
 
-#: grub-core/commands/verify.c:645 grub-core/disk/diskfilter.c:772
-#: grub-core/disk/diskfilter.c:782 grub-core/fs/ntfs.c:404
-#: grub-core/fs/zfs/zfs.c:1933 grub-core/normal/menu.c:428
-#, c-format
-msgid "module `%s' isn't loaded"
-msgstr "מוֹדוּלע `%s' ִישנ'ת לוֹאדעד"
-
-#: grub-core/commands/verify.c:1020
-msgid "[-s|--skip-sig] FILE SIGNATURE_FILE [PUBKEY_FILE]"
-msgstr "[-ש|--שכִּיפּ-שִיג] פִֿילע שִיגנאתוּרע_פִֿילע [פּוּבּכּעיִ_פִֿילע]"
-
-#: grub-core/commands/verify.c:1021
-msgid "Verify detached signature."
-msgstr "בֿערִיפֿיִ דעתאצהעד שִיגנאתוּרע."
-
-#: grub-core/commands/verify.c:1024
-msgid "[-s|--skip-sig] PUBKEY_FILE"
-msgstr "[-ש|--שכִּיפּ-שִיג] פּוּבּכּעיִ_פִֿילע"
-
-#: grub-core/commands/verify.c:1025
-msgid "Add PUBKEY_FILE to trusted keys."
-msgstr "אדד פּוּבּכּעיִ_פִֿילע תוֹ תרוּשתעד כּעיִש."
-
-#: grub-core/commands/verify.c:1029
-msgid "Show the list of trusted keys."
-msgstr "שהוֹו תהע לִישת וֹפֿ תרוּשתעד כּעיִש."
-
-#: grub-core/commands/verify.c:1031
-msgid "PUBKEY_ID"
-msgstr "פּוּבּכּעיִ_ִיד"
-
-#: grub-core/commands/verify.c:1032
-msgid "Remove PUBKEY_ID from trusted keys."
-msgstr "רעמוֹבֿע פּוּבּכּעיִ_ִיד פֿרוֹמ תרוּשתעד כּעיִש."
+#: grub-core/commands/verifiers.c:140
+msgid "big file signature isn't implemented yet"
+msgstr "בִּיג פִֿילע שִיגנאתוּרע ִישנ'ת ִימפּלעמענתעד יִעת"
 
 #: grub-core/commands/videoinfo.c:61
 msgid "Text-only "
@@ -2225,14 +2311,15 @@ msgstr ""
 "תראנשפֿוֹרמ 64-בִּית וּוִּיד תוֹ פֿוֹרמאת שוִּיתאבּלע פֿוֹר כּסנוּ. ִיפֿ -ל ִיש גִיבֿענ כּעעפּ ִית "
 "לוֹוערצאשע אש דוֹנע בּיִ בּלכִּיד."
 
-#: grub-core/disk/arc/arcdisk.c:248 grub-core/disk/efi/efidisk.c:597
+#: grub-core/disk/arc/arcdisk.c:248 grub-core/disk/efi/efidisk.c:603
 #: grub-core/disk/i386/pc/biosdisk.c:498 grub-core/disk/i386/pc/biosdisk.c:543
-#: grub-core/disk/ieee1275/nand.c:198 grub-core/disk/ieee1275/ofdisk.c:586
+#: grub-core/disk/ieee1275/nand.c:198 grub-core/disk/ieee1275/obdisk.c:527
+#: grub-core/disk/ieee1275/ofdisk.c:586
 #, c-format
 msgid "failure reading sector 0x%llx from `%s'"
 msgstr "פֿאִילוּרע רעאדִינג שעצתוֹר 0כּס%llx פֿרוֹמ `%s'"
 
-#: grub-core/disk/arc/arcdisk.c:284 grub-core/disk/efi/efidisk.c:620
+#: grub-core/disk/arc/arcdisk.c:284 grub-core/disk/efi/efidisk.c:626
 #: grub-core/disk/i386/pc/biosdisk.c:548 grub-core/disk/ieee1275/ofdisk.c:606
 #, c-format
 msgid "failure writing sector 0x%llx to `%s'"
@@ -2255,36 +2342,36 @@ msgstr "מוֹוּנת אלל בֿוֹלוּמעש וִיתה `בּוֹוֹת' �
 #. the error message.
 #: grub-core/disk/cryptodisk.c:526 grub-core/kern/emu/hostdisk.c:152
 #: grub-core/kern/emu/hostdisk.c:262 grub-core/kern/emu/hostdisk.c:434
-#: grub-core/kern/emu/misc.c:166 grub-core/kern/emu/misc.c:172
-#: grub-core/kern/emu/misc.c:194 grub-core/osdep/bsd/getroot.c:92
+#: grub-core/kern/emu/misc.c:168 grub-core/kern/emu/misc.c:174
+#: grub-core/kern/emu/misc.c:196 grub-core/osdep/bsd/getroot.c:92
 #: grub-core/osdep/bsd/getroot.c:168 grub-core/osdep/hurd/getroot.c:68
 #: grub-core/osdep/linux/blocklist.c:65 grub-core/osdep/linux/getroot.c:150
-#: grub-core/osdep/linux/hostdisk.c:194 grub-core/osdep/linux/hostdisk.c:420
-#: grub-core/osdep/linux/ofpath.c:325 grub-core/osdep/linux/ofpath.c:330
-#: grub-core/osdep/linux/ofpath.c:367 grub-core/osdep/linux/ofpath.c:380
+#: grub-core/osdep/linux/hostdisk.c:194 grub-core/osdep/linux/hostdisk.c:421
+#: grub-core/osdep/linux/ofpath.c:417 grub-core/osdep/linux/ofpath.c:422
+#: grub-core/osdep/linux/ofpath.c:517 grub-core/osdep/linux/ofpath.c:530
 #: grub-core/osdep/sun/getroot.c:110 grub-core/osdep/windows/blocklist.c:98
 #: grub-core/tests/video_checksum.c:279 util/editenv.c:46 util/glue-efi.c:115
 #: util/glue-efi.c:120 util/glue-efi.c:130 util/grub-editenv.c:138
 #: util/grub-editenv.c:192 util/grub-file.c:83 util/grub-fstest.c:128
-#: util/grub-fstest.c:568 util/grub-install-common.c:91
-#: util/grub-install-common.c:93 util/grub-install-common.c:100
-#: util/grub-install-common.c:517 util/grub-menulst2cfg.c:53
-#: util/grub-menulst2cfg.c:68 util/grub-mkimage.c:283 util/grub-mklayout.c:504
-#: util/grub-mklayout.c:516 util/grub-mknetdir.c:131 util/grub-mknetdir.c:149
-#: util/grub-mkrescue.c:617 util/grub-mkrescue.c:621 util/grub-mkrescue.c:858
-#: util/grub-mkrescue.c:862 util/grub-mkstandalone.c:253 util/grub-mount.c:498
+#: util/grub-fstest.c:568 util/grub-install-common.c:92
+#: util/grub-install-common.c:94 util/grub-install-common.c:101
+#: util/grub-install-common.c:529 util/grub-menulst2cfg.c:53
+#: util/grub-menulst2cfg.c:68 util/grub-mkimage.c:292 util/grub-mklayout.c:504
+#: util/grub-mklayout.c:516 util/grub-mknetdir.c:133 util/grub-mknetdir.c:151
+#: util/grub-mkrescue.c:627 util/grub-mkrescue.c:631 util/grub-mkrescue.c:879
+#: util/grub-mkrescue.c:883 util/grub-mkstandalone.c:253 util/grub-mount.c:498
 #: util/grub-render-label.c:169 util/grub-script-check.c:175
 #: util/grub-syslinux2cfg.c:181 util/grub-syslinux2cfg.c:191
 #: util/grub-syslinux2cfg.c:212 util/grub-syslinux2cfg.c:228 util/misc.c:91
 #: util/render-label.c:76 util/render-label.c:163 util/render-label.c:174
-#: util/resolve.c:246 util/setup.c:708
+#: util/resolve.c:246 util/setup.c:783
 #, c-format
 msgid "cannot open `%s': %s"
 msgstr "צאננוֹת וֹפּענ `%s': %s"
 
 #: grub-core/disk/cryptodisk.c:583 grub-core/disk/cryptodisk.c:628
 #: grub-core/kern/emu/hostdisk.c:270 grub-core/kern/emu/hostfs.c:142
-#: grub-core/osdep/linux/hostdisk.c:455 util/grub-editenv.c:143
+#: grub-core/osdep/linux/hostdisk.c:456 util/grub-editenv.c:143
 #: util/grub-editenv.c:149 util/grub-fstest.c:320 util/misc.c:111
 #, c-format
 msgid "cannot seek `%s': %s"
@@ -2317,7 +2404,7 @@ msgstr ""
 msgid "physical volume %s not found"
 msgstr "פּהיִשִיצאל בֿוֹלוּמע %s נוֹת פֿוֹוּנד"
 
-#: grub-core/disk/efi/efidisk.c:594 grub-core/disk/efi/efidisk.c:617
+#: grub-core/disk/efi/efidisk.c:600 grub-core/disk/efi/efidisk.c:623
 #, c-format
 msgid "no media in `%s'"
 msgstr "נוֹ מעדִיא ִינ `%s'"
@@ -2393,38 +2480,39 @@ msgstr "תהִיש לדמ האש נוֹ עמבּעדדִינג פּארתִית�
 msgid "Delete the specified loopback drive."
 msgstr "דעלעתע תהע שפּעצִיפִֿיעד לוֹוֹפּבּאצכּ דרִיבֿע."
 
-#: grub-core/disk/loopback.c:236
+#: grub-core/disk/loopback.c:237
 msgid "[-d] DEVICENAME FILE."
 msgstr "[-ד] דעבִֿיצענאמע פִֿילע."
 
 #. TRANSLATORS: The file itself is not destroyed
 #. or transformed into drive.
-#: grub-core/disk/loopback.c:239
+#: grub-core/disk/loopback.c:240
 msgid "Make a virtual drive from a file."
 msgstr "מאכּע א בִֿירתוּאל דרִיבֿע פֿרוֹמ א פִֿילע."
 
 #: grub-core/efiemu/i386/loadcore32.c:111
-#: grub-core/efiemu/i386/loadcore64.c:124 grub-core/kern/arm/dl.c:256
+#: grub-core/efiemu/i386/loadcore64.c:125 grub-core/kern/arm/dl.c:256
 #: grub-core/kern/arm64/dl.c:187 grub-core/kern/i386/dl.c:75
 #: grub-core/kern/ia64/dl.c:140 grub-core/kern/mips/dl.c:258
-#: grub-core/kern/powerpc/dl.c:161 grub-core/kern/sparc64/dl.c:180
-#: grub-core/kern/x86_64/dl.c:109 util/grub-mkimagexx.c:692
-#: util/grub-mkimagexx.c:811 util/grub-mkimagexx.c:874
-#: util/grub-mkimagexx.c:955 util/grub-mkimagexx.c:1049
-#: util/grub-mkimagexx.c:1151 util/grub-mkimagexx.c:1367
-#: util/grub-mkimagexx.c:1404 util/grub-mkimagexx.c:1436
-#: util/grub-mkimagexx.c:1467
+#: grub-core/kern/powerpc/dl.c:163 grub-core/kern/riscv/dl.c:334
+#: grub-core/kern/sparc64/dl.c:180 grub-core/kern/x86_64/dl.c:110
+#: util/grub-mkimagexx.c:756 util/grub-mkimagexx.c:881
+#: util/grub-mkimagexx.c:945 util/grub-mkimagexx.c:1026
+#: util/grub-mkimagexx.c:1120 util/grub-mkimagexx.c:1222
+#: util/grub-mkimagexx.c:1413 util/grub-mkimagexx.c:1628
+#: util/grub-mkimagexx.c:1665 util/grub-mkimagexx.c:1697
+#: util/grub-mkimagexx.c:1767 util/grub-mkimagexx.c:1797
 #, c-format
 msgid "relocation 0x%x is not implemented yet"
 msgstr "רעלוֹצאתִיוֹנ 0כּס%x ִיש נוֹת ִימפּלעמענתעד יִעת"
 
 #: grub-core/efiemu/loadcore.c:200 grub-core/efiemu/loadcore.c:237
-#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:1996
+#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2362
 msgid "no symbol table"
 msgstr "נוֹ שיִמבּוֹל תאבּלע"
 
 #: grub-core/efiemu/loadcore.c:346 grub-core/kern/dl.c:609
-#: grub-core/loader/ia64/efi/linux.c:386 grub-core/loader/mips/linux.c:248
+#: grub-core/loader/ia64/efi/linux.c:345 grub-core/loader/mips/linux.c:248
 #: grub-core/loader/multiboot_elfxx.c:76
 #: grub-core/loader/powerpc/ieee1275/linux.c:280
 #: grub-core/loader/sparc64/ieee1275/linux.c:320
@@ -2465,21 +2553,17 @@ msgid "List the loaded fonts."
 msgstr "לִישת תהע לוֹאדעד פֿוֹנתש."
 
 #: grub-core/fs/archelp.c:216 grub-core/fs/archelp.c:278
-#: grub-core/fs/btrfs.c:1394 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:729
+#: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:729
 #: grub-core/fs/minix.c:369 grub-core/fs/ufs.c:454
 msgid "too deep nesting of symlinks"
 msgstr "תוֹוֹ דעעפּ נעשתִינג וֹפֿ שיִמלִינכּש"
 
 #: grub-core/fs/bfs.c:228 grub-core/fs/fshelp.c:368 grub-core/fs/minix.c:270
-#: grub-core/kern/file.c:158
+#: grub-core/kern/file.c:156
 msgid "attempt to read past the end of file"
 msgstr "אתתעמפּת תוֹ רעאד פּאשת תהע ענד וֹפֿ פִֿילע"
 
-#: grub-core/fs/btrfs.c:584 grub-core/fs/zfs/zfs.c:1465
-msgid "couldn't find a necessary member device of multi-device filesystem"
-msgstr "צוֹוּלדנ'ת פִֿינד א נעצעששאריִ מעמבּער דעבִֿיצע וֹפֿ מוּלתִי-דעבִֿיצע פִֿילעשיִשתעמ"
-
-#: grub-core/fs/btrfs.c:1277 grub-core/fs/btrfs.c:1536
+#: grub-core/fs/btrfs.c:1698 grub-core/fs/btrfs.c:1957
 #: grub-core/fs/fshelp.c:189 grub-core/fs/fshelp.c:309 grub-core/fs/jfs.c:431
 #: grub-core/fs/minix.c:414 grub-core/fs/minix.c:562
 #: grub-core/fs/reiserfs.c:732 grub-core/fs/ufs.c:531 grub-core/fs/ufs.c:671
@@ -2487,12 +2571,12 @@ msgstr "צוֹוּלדנ'ת פִֿינד א נעצעששאריִ מעמבּער 
 msgid "not a directory"
 msgstr "נוֹת א דִירעצתוֹריִ"
 
-#: grub-core/fs/btrfs.c:1642 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:828
+#: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:828
 #: grub-core/fs/zfs/zfs.c:3801
 msgid "not a regular file"
 msgstr "נוֹת א רעגוּלאר פִֿילע"
 
-#: grub-core/fs/btrfs.c:1736 grub-core/fs/zfs/zfs.c:4333
+#: grub-core/fs/btrfs.c:2157 grub-core/fs/zfs/zfs.c:4333
 #: grub-core/partmap/msdos.c:400
 msgid "your core.img is unusually large.  It won't fit in the embedding area"
 msgstr "יִוֹוּר צוֹרע.ִימג ִיש וּנוּשוּאלליִ לארגע.  ִית ווֹנ'ת פִֿית ִינ תהע עמבּעדדִינג ארעא"
@@ -2506,6 +2590,10 @@ msgstr "ִינבֿאלִיד פִֿילע נאמע `%s'"
 #: grub-core/fs/zfs/zfs.c:453
 msgid "checksum verification failed"
 msgstr "צהעצכּשוּמ בֿערִיפִֿיצאתִיוֹנ פֿאִילעד"
+
+#: grub-core/fs/zfs/zfs.c:1465
+msgid "couldn't find a necessary member device of multi-device filesystem"
+msgstr "צוֹוּלדנ'ת פִֿינד א נעצעששאריִ מעמבּער דעבִֿיצע וֹפֿ מוּלתִי-דעבִֿיצע פִֿילעשיִשתעמ"
 
 #: grub-core/fs/zfs/zfscrypt.c:292
 msgid "no decryption key available"
@@ -2804,234 +2892,6 @@ msgstr "%dש"
 msgid "GRUB Boot Menu"
 msgstr "גרוּבּ בּוֹוֹת מענוּ"
 
-#: grub-core/gnulib/argp-help.c:149
-#, c-format
-msgid "ARGP_HELP_FMT: %s value is less than or equal to %s"
-msgstr "ארגפּ_העלפּ_פֿמת: %s בֿאלוּע ִיש לעשש תהאנ וֹר עקוּאל תוֹ %s"
-
-#: grub-core/gnulib/argp-help.c:222
-#, c-format
-msgid "%.*s: ARGP_HELP_FMT parameter requires a value"
-msgstr "%.*s: ארגפּ_העלפּ_פֿמת פּאראמעתער רעקוִּירעש א בֿאלוּע"
-
-#: grub-core/gnulib/argp-help.c:228
-#, c-format
-msgid "%.*s: ARGP_HELP_FMT parameter must be positive"
-msgstr "%.*s: ארגפּ_העלפּ_פֿמת פּאראמעתער מוּשת בּע פּוֹשִיתִיבֿע"
-
-#: grub-core/gnulib/argp-help.c:237
-#, c-format
-msgid "%.*s: Unknown ARGP_HELP_FMT parameter"
-msgstr "%.*s: וּנכּנוֹונ ארגפּ_העלפּ_פֿמת פּאראמעתער"
-
-#: grub-core/gnulib/argp-help.c:249
-#, c-format
-msgid "Garbage in ARGP_HELP_FMT: %s"
-msgstr "גארבּאגע ִינ ארגפּ_העלפּ_פֿמת: %s"
-
-#: grub-core/gnulib/argp-help.c:1249
-msgid ""
-"Mandatory or optional arguments to long options are also mandatory or "
-"optional for any corresponding short options."
-msgstr ""
-"מאנדאתוֹריִ וֹר וֹפּתִיוֹנאל ארגוּמענתש תוֹ לוֹנג וֹפּתִיוֹנש ארע אלשוֹ מאנדאתוֹריִ וֹר "
-"וֹפּתִיוֹנאל פֿוֹר אניִ צוֹררעשפּוֹנדִינג שהוֹרת וֹפּתִיוֹנש."
-
-#: grub-core/gnulib/argp-help.c:1650
-msgid "  or: "
-msgstr "  וֹר: "
-
-#: grub-core/gnulib/argp-help.c:1662
-msgid " [OPTION...]"
-msgstr " [וֹפּתִיוֹנ...]"
-
-#: grub-core/gnulib/argp-help.c:1689
-#, c-format
-msgid "Try '%s --help' or '%s --usage' for more information.\n"
-msgstr "תריִ '%s --העלפּ' וֹר '%s --וּשאגע' פֿוֹר מוֹרע ִינפֿוֹרמאתִיוֹנ.\n"
-
-#: grub-core/gnulib/argp-help.c:1717
-#, c-format
-msgid "Report bugs to %s.\n"
-msgstr "רעפּוֹרת בּוּגש תוֹ %s.\n"
-
-#: grub-core/gnulib/argp-help.c:1936 grub-core/gnulib/error.c:188
-msgid "Unknown system error"
-msgstr "וּנכּנוֹונ שיִשתעמ עררוֹר"
-
-#: grub-core/gnulib/argp-parse.c:81
-msgid "give this help list"
-msgstr "גִיבֿע תהִיש העלפּ לִישת"
-
-#: grub-core/gnulib/argp-parse.c:82
-msgid "give a short usage message"
-msgstr "גִיבֿע א שהוֹרת וּשאגע מעששאגע"
-
-#: grub-core/gnulib/argp-parse.c:83 util/grub-mkfont.c:946
-msgid "NAME"
-msgstr "נאמע"
-
-#: grub-core/gnulib/argp-parse.c:83
-msgid "set the program name"
-msgstr "שעת תהע פּרוֹגראמ נאמע"
-
-#: grub-core/gnulib/argp-parse.c:84 grub-core/kern/emu/main.c:109
-msgid "SECS"
-msgstr "שעצש"
-
-#: grub-core/gnulib/argp-parse.c:85
-msgid "hang for SECS seconds (default 3600)"
-msgstr "האנג פֿוֹר שעצש שעצוֹנדש (דעפֿאוּלת 3600)"
-
-#: grub-core/gnulib/argp-parse.c:142
-msgid "print program version"
-msgstr "פּרִינת פּרוֹגראמ בֿערשִיוֹנ"
-
-#: grub-core/gnulib/argp-parse.c:159
-msgid "(PROGRAM ERROR) No version known!?"
-msgstr "(פּרוֹגראמ עררוֹר) נוֹ בֿערשִיוֹנ כּנוֹונ!?"
-
-#: grub-core/gnulib/argp-parse.c:612
-#, c-format
-msgid "%s: Too many arguments\n"
-msgstr "%s: תוֹוֹ מאניִ ארגוּמענתש\n"
-
-#: grub-core/gnulib/argp-parse.c:755
-msgid "(PROGRAM ERROR) Option should have been recognized!?"
-msgstr "(פּרוֹגראמ עררוֹר) וֹפּתִיוֹנ שהוֹוּלד האבֿע בּעענ רעצוֹגנִיזעד!?"
-
-#: grub-core/gnulib/getopt.c:547 grub-core/gnulib/getopt.c:576
-#, c-format
-msgid "%s: option '%s' is ambiguous; possibilities:"
-msgstr "%s: וֹפּתִיוֹנ '%s' ִיש אמבִּיגוּוֹוּש; פּוֹששִיבִּילִיתִיעש:"
-
-#: grub-core/gnulib/getopt.c:624 grub-core/gnulib/getopt.c:628
-#, c-format
-msgid "%s: option '--%s' doesn't allow an argument\n"
-msgstr "%s: וֹפּתִיוֹנ '--%s' דוֹעשנ'ת אללוֹו אנ ארגוּמענת\n"
-
-#: grub-core/gnulib/getopt.c:637 grub-core/gnulib/getopt.c:642
-#, c-format
-msgid "%s: option '%c%s' doesn't allow an argument\n"
-msgstr "%s: וֹפּתִיוֹנ '%c%s' דוֹעשנ'ת אללוֹו אנ ארגוּמענת\n"
-
-#: grub-core/gnulib/getopt.c:685 grub-core/gnulib/getopt.c:704
-#, c-format
-msgid "%s: option '--%s' requires an argument\n"
-msgstr "%s: וֹפּתִיוֹנ '--%s' רעקוִּירעש אנ ארגוּמענת\n"
-
-#: grub-core/gnulib/getopt.c:742 grub-core/gnulib/getopt.c:745
-#, c-format
-msgid "%s: unrecognized option '--%s'\n"
-msgstr "%s: וּנרעצוֹגנִיזעד וֹפּתִיוֹנ '--%s'\n"
-
-#: grub-core/gnulib/getopt.c:753 grub-core/gnulib/getopt.c:756
-#, c-format
-msgid "%s: unrecognized option '%c%s'\n"
-msgstr "%s: וּנרעצוֹגנִיזעד וֹפּתִיוֹנ '%c%s'\n"
-
-#: grub-core/gnulib/getopt.c:805 grub-core/gnulib/getopt.c:808
-#, c-format
-msgid "%s: invalid option -- '%c'\n"
-msgstr "%s: ִינבֿאלִיד וֹפּתִיוֹנ -- '%c'\n"
-
-#: grub-core/gnulib/getopt.c:861 grub-core/gnulib/getopt.c:878
-#: grub-core/gnulib/getopt.c:1088 grub-core/gnulib/getopt.c:1106
-#, c-format
-msgid "%s: option requires an argument -- '%c'\n"
-msgstr "%s: וֹפּתִיוֹנ רעקוִּירעש אנ ארגוּמענת -- '%c'\n"
-
-#: grub-core/gnulib/getopt.c:934 grub-core/gnulib/getopt.c:950
-#, c-format
-msgid "%s: option '-W %s' is ambiguous\n"
-msgstr "%s: וֹפּתִיוֹנ '-ו %s' ִיש אמבִּיגוּוֹוּש\n"
-
-#: grub-core/gnulib/getopt.c:974 grub-core/gnulib/getopt.c:992
-#, c-format
-msgid "%s: option '-W %s' doesn't allow an argument\n"
-msgstr "%s: וֹפּתִיוֹנ '-ו %s' דוֹעשנ'ת אללוֹו אנ ארגוּמענת\n"
-
-#: grub-core/gnulib/getopt.c:1013 grub-core/gnulib/getopt.c:1031
-#, c-format
-msgid "%s: option '-W %s' requires an argument\n"
-msgstr "%s: וֹפּתִיוֹנ '-ו %s' רעקוִּירעש אנ ארגוּמענת\n"
-
-#: grub-core/gnulib/regcomp.c:131 grub-core/osdep/aros/hostdisk.c:515
-msgid "Success"
-msgstr "שוּצצעשש"
-
-#: grub-core/gnulib/regcomp.c:134
-msgid "No match"
-msgstr "נוֹ מאתצה"
-
-#: grub-core/gnulib/regcomp.c:137
-msgid "Invalid regular expression"
-msgstr "ִינבֿאלִיד רעגוּלאר עכּספּרעששִיוֹנ"
-
-#: grub-core/gnulib/regcomp.c:140
-msgid "Invalid collation character"
-msgstr "ִינבֿאלִיד צוֹללאתִיוֹנ צהאראצתער"
-
-#: grub-core/gnulib/regcomp.c:143
-msgid "Invalid character class name"
-msgstr "ִינבֿאלִיד צהאראצתער צלאשש נאמע"
-
-#: grub-core/gnulib/regcomp.c:146
-msgid "Trailing backslash"
-msgstr "תראִילִינג בּאצכּשלאשה"
-
-#: grub-core/gnulib/regcomp.c:149
-msgid "Invalid back reference"
-msgstr "ִינבֿאלִיד בּאצכּ רעפֿערענצע"
-
-#: grub-core/gnulib/regcomp.c:152
-msgid "Unmatched [ or [^"
-msgstr "וּנמאתצהעד [ וֹר [^"
-
-#: grub-core/gnulib/regcomp.c:155
-msgid "Unmatched ( or \\("
-msgstr "וּנמאתצהעד ( וֹר \\("
-
-#: grub-core/gnulib/regcomp.c:158
-msgid "Unmatched \\{"
-msgstr "וּנמאתצהעד \\{"
-
-#: grub-core/gnulib/regcomp.c:161
-msgid "Invalid content of \\{\\}"
-msgstr "ִינבֿאלִיד צוֹנתענת וֹפֿ \\{\\}"
-
-#: grub-core/gnulib/regcomp.c:164
-msgid "Invalid range end"
-msgstr "ִינבֿאלִיד ראנגע ענד"
-
-#: grub-core/gnulib/regcomp.c:167
-msgid "Memory exhausted"
-msgstr "מעמוֹריִ עכּסהאוּשתעד"
-
-#: grub-core/gnulib/regcomp.c:170
-msgid "Invalid preceding regular expression"
-msgstr "ִינבֿאלִיד פּרעצעדִינג רעגוּלאר עכּספּרעששִיוֹנ"
-
-#: grub-core/gnulib/regcomp.c:173
-msgid "Premature end of regular expression"
-msgstr "פּרעמאתוּרע ענד וֹפֿ רעגוּלאר עכּספּרעששִיוֹנ"
-
-#: grub-core/gnulib/regcomp.c:176
-msgid "Regular expression too big"
-msgstr "רעגוּלאר עכּספּרעששִיוֹנ תוֹוֹ בִּיג"
-
-#: grub-core/gnulib/regcomp.c:179
-msgid "Unmatched ) or \\)"
-msgstr "וּנמאתצהעד ) וֹר \\)"
-
-#: grub-core/gnulib/regcomp.c:553
-msgid "unknown regexp error"
-msgstr "וּנכּנוֹונ רעגעכּספּ עררוֹר"
-
-#: grub-core/gnulib/regcomp.c:700
-msgid "No previous regular expression"
-msgstr "נוֹ פּרעבִֿיוֹוּש רעגוּלאר עכּספּרעששִיוֹנ"
-
 #: grub-core/hello/hello.c:36
 msgid "Hello World"
 msgstr "העללוֹ ווֹרלד"
@@ -3040,31 +2900,32 @@ msgstr "העללוֹ ווֹרלד"
 msgid "Say `Hello World'."
 msgstr "שאיִ `העללוֹ ווֹרלד'."
 
-#: grub-core/io/gzio.c:397 grub-core/kern/file.c:212
+#: grub-core/io/gzio.c:409 grub-core/kern/file.c:210
 msgid "attempt to seek outside of the file"
 msgstr "אתתעמפּת תוֹ שעעכּ וֹוּתשִידע וֹפֿ תהע פִֿילע"
 
 #. TRANSLATORS: It's about given file having some strange format, not
 #. complete lack of gzip support.
-#: grub-core/io/gzio.c:1190 grub-core/io/gzio.c:1199 grub-core/io/gzio.c:1206
+#: grub-core/io/gzio.c:1228 grub-core/io/gzio.c:1237 grub-core/io/gzio.c:1244
 msgid "unsupported gzip format"
 msgstr "וּנשוּפּפּוֹרתעד גזִיפּ פֿוֹרמאת"
 
-#: grub-core/io/lzopio.c:509
+#: grub-core/io/lzopio.c:511
 msgid "lzop file corrupted"
 msgstr "לזוֹפּ פִֿילע צוֹררוּפּתעד"
 
-#: grub-core/io/xzio.c:276
+#: grub-core/io/xzio.c:278
 msgid "xz file corrupted or unsupported block options"
 msgstr "כּסז פִֿילע צוֹררוּפּתעד וֹר וּנשוּפּפּוֹרתעד בּלוֹצכּ וֹפּתִיוֹנש"
 
 #: grub-core/kern/arm/dl.c:277 grub-core/kern/arm64/dl.c:44
 #: grub-core/kern/i386/dl.c:36 grub-core/kern/ia64/dl.c:41
 #: grub-core/kern/mips/dl.c:48 grub-core/kern/powerpc/dl.c:36
-#: grub-core/kern/sparc64/dl.c:36 grub-core/kern/x86_64/dl.c:36
-#: grub-core/loader/i386/bsd.c:1439 grub-core/loader/i386/bsdXX.c:49
-#: grub-core/loader/ia64/efi/linux.c:382 grub-core/loader/mips/linux.c:298
-#: grub-core/loader/multiboot.c:217 grub-core/loader/multiboot_elfxx.c:73
+#: grub-core/kern/riscv/dl.c:47 grub-core/kern/sparc64/dl.c:36
+#: grub-core/kern/x86_64/dl.c:36 grub-core/loader/i386/bsd.c:1445
+#: grub-core/loader/i386/bsdXX.c:49 grub-core/loader/ia64/efi/linux.c:341
+#: grub-core/loader/mips/linux.c:298 grub-core/loader/multiboot.c:232
+#: grub-core/loader/multiboot_elfxx.c:73
 #: grub-core/loader/powerpc/ieee1275/linux.c:294
 #: grub-core/loader/sparc64/ieee1275/linux.c:331
 msgid "invalid arch-dependent ELF magic"
@@ -3108,7 +2969,7 @@ msgid "attempt to read or write outside of partition"
 msgstr "אתתעמפּת תוֹ רעאד וֹר ורִיתע וֹוּתשִידע וֹפֿ פּארתִיתִיוֹנ"
 
 #: grub-core/kern/dl.c:212 grub-core/kern/elf.c:61 grub-core/kern/elf.c:79
-#: grub-core/loader/i386/bsdXX.c:46 grub-core/loader/ia64/efi/linux.c:376
+#: grub-core/loader/i386/bsdXX.c:46 grub-core/loader/ia64/efi/linux.c:335
 #: grub-core/loader/multiboot_elfxx.c:69
 msgid "invalid arch-independent ELF magic"
 msgstr "ִינבֿאלִיד ארצה-ִינדעפּענדענת עלפֿ מאגִיצ"
@@ -3120,7 +2981,7 @@ msgstr "דעבִֿיצע צוֹוּנת עכּסצעעדש לִימִית"
 
 #: grub-core/kern/emu/hostdisk.c:342 util/editenv.c:54 util/grub-editenv.c:197
 #: util/grub-fstest.c:191 util/grub-mkfont.c:796 util/misc.c:114
-#: util/misc.c:129 util/setup.c:713
+#: util/misc.c:129 util/setup.c:788
 #, c-format
 msgid "cannot write to `%s': %s"
 msgstr "צאננוֹת ורִיתע תוֹ `%s': %s"
@@ -3166,13 +3027,13 @@ msgstr "צאנ'ת וֹפּענ `%s': %s"
 msgid "DEVICE_NAME"
 msgstr "דעבִֿיצע_נאמע"
 
-#: grub-core/kern/emu/main.c:99 grub-core/loader/i386/bsd.c:135
-#: grub-core/loader/i386/bsd.c:168 util/grub-fstest.c:516 util/grub-mount.c:452
+#: grub-core/kern/emu/main.c:99 grub-core/loader/i386/bsd.c:136
+#: grub-core/loader/i386/bsd.c:169 util/grub-fstest.c:516 util/grub-mount.c:452
 msgid "Set root device."
 msgstr "שעת רוֹוֹת דעבִֿיצע."
 
 #. TRANSLATORS: There are many devices in device map.
-#: grub-core/kern/emu/main.c:102 util/grub-probe.c:685 util/grub-setup.c:85
+#: grub-core/kern/emu/main.c:102 util/grub-probe.c:733 util/grub-setup.c:85
 #, c-format
 msgid "use FILE as the device map [default=%s]"
 msgstr "וּשע פִֿילע אש תהע דעבִֿיצע מאפּ [דעפֿאוּלת=%s]"
@@ -3187,21 +3048,25 @@ msgstr "וּשע פִֿילע אש מעמדִישכּ"
 msgid "use GRUB files in the directory DIR [default=%s]"
 msgstr "וּשע גרוּבּ פִֿילעש ִינ תהע דִירעצתוֹריִ דִיר [דעפֿאוּלת=%s]"
 
-#: grub-core/kern/emu/main.c:108 include/grub/util/install.h:65
+#: grub-core/kern/emu/main.c:108 include/grub/util/install.h:67
 #: util/grub-editenv.c:58 util/grub-fstest.c:525 util/grub-glue-efi.c:58
-#: util/grub-macbless.c:104 util/grub-mkfont.c:962 util/grub-mkimage.c:83
-#: util/grub-mklayout.c:56 util/grub-mount.c:458 util/grub-probe.c:687
+#: util/grub-macbless.c:104 util/grub-mkfont.c:962 util/grub-mkimage.c:84
+#: util/grub-mklayout.c:56 util/grub-mount.c:458 util/grub-probe.c:735
 #: util/grub-render-label.c:74 util/grub-script-check.c:52 util/grub-setup.c:90
 #: util/grub-syslinux2cfg.c:78
 msgid "print verbose messages."
 msgstr "פּרִינת בֿערבּוֹשע מעששאגעש."
+
+#: grub-core/kern/emu/main.c:109 grub-core/lib/gnulib/argp-parse.c:85
+msgid "SECS"
+msgstr "שעצש"
 
 #: grub-core/kern/emu/main.c:109
 msgid "wait until a debugger will attach"
 msgstr "ואִית וּנתִיל א דעבּוּגגער וִילל אתתאצה"
 
 #: grub-core/kern/emu/main.c:171 util/grub-macbless.c:143
-#: util/grub-mkrelpath.c:61 util/grub-probe.c:826 util/grub-script-check.c:75
+#: util/grub-mkrelpath.c:61 util/grub-probe.c:874 util/grub-script-check.c:75
 #: util/grub-setup.c:203
 #, c-format
 msgid "Unknown extra argument `%s'."
@@ -3211,11 +3076,11 @@ msgstr "וּנכּנוֹונ עכּסתרא ארגוּמענת `%s'."
 msgid "GRUB emulator."
 msgstr "גרוּבּ עמוּלאתוֹר."
 
-#: grub-core/kern/emu/main.c:213 util/grub-editenv.c:261
+#: grub-core/kern/emu/main.c:213 util/grub-editenv.c:262
 #: util/grub-glue-efi.c:110 util/grub-macbless.c:173 util/grub-mkfont.c:1177
-#: util/grub-mkimage.c:257 util/grub-mklayout.c:494
+#: util/grub-mkimage.c:266 util/grub-mklayout.c:494
 #: util/grub-mkpasswd-pbkdf2.c:132 util/grub-mkrelpath.c:96
-#: util/grub-probe.c:815 util/grub-render-label.c:152
+#: util/grub-probe.c:863 util/grub-render-label.c:152
 #: util/grub-script-check.c:160 util/grub-setup.c:262
 #: util/grub-syslinux2cfg.c:163
 msgid "Error in parsing command line arguments\n"
@@ -3227,23 +3092,23 @@ msgstr "עררוֹר ִינ פּארשִינג צוֹממאנד לִינע אר�
 msgid "Run `gdb %s %d', and set ARGS.HOLD to zero.\n"
 msgstr "רוּנ `גדבּ %s %d', אנד שעת ארגש.הוֹלד תוֹ זערוֹ.\n"
 
-#: grub-core/kern/emu/misc.c:46
+#: grub-core/kern/emu/misc.c:48
 #, c-format
 msgid "%s: warning:"
 msgstr "%s: וארנִינג:"
 
-#: grub-core/kern/emu/misc.c:62
+#: grub-core/kern/emu/misc.c:64
 #, c-format
 msgid "%s: info:"
 msgstr "%s: ִינפֿוֹ:"
 
-#: grub-core/kern/emu/misc.c:77 util/grub-fstest.c:567 util/grub-fstest.c:576
+#: grub-core/kern/emu/misc.c:79 util/grub-fstest.c:567 util/grub-fstest.c:576
 #: util/grub-mount.c:497 util/grub-mount.c:505
 #, c-format
 msgid "%s: error:"
 msgstr "%s: עררוֹר:"
 
-#: grub-core/kern/emu/misc.c:174
+#: grub-core/kern/emu/misc.c:176
 #, c-format
 msgid "file `%s' is too big"
 msgstr "פִֿילע `%s' ִיש תוֹוֹ בִּיג"
@@ -3260,7 +3125,7 @@ msgstr "שהוּתדוֹונ פֿאִילעד"
 msgid "Exit failed"
 msgstr "עכּסִית פֿאִילעד"
 
-#: grub-core/kern/misc.c:351 grub-core/kern/misc.c:407 include/grub/misc.h:269
+#: grub-core/kern/misc.c:351 grub-core/kern/misc.c:408 include/grub/misc.h:269
 #: include/grub/misc.h:278
 msgid "overflow is detected"
 msgstr "וֹבֿערפֿלוֹו ִיש דעתעצתעד"
@@ -3270,7 +3135,7 @@ msgstr "וֹבֿערפֿלוֹו ִיש דעתעצתעד"
 msgid "Discarding improperly nested partition (%s,%s,%s%d)"
 msgstr "דִישצארדִינג ִימפּרוֹפּערליִ נעשתעד פּארתִיתִיוֹנ (%s,%s,%s%d)"
 
-#: grub-core/kern/rescue_parser.c:73 util/grub-editenv.c:291
+#: grub-core/kern/rescue_parser.c:73 util/grub-editenv.c:292
 #, c-format
 msgid "Unknown command `%s'.\n"
 msgstr "וּנכּנוֹונ צוֹממאנד `%s'.\n"
@@ -3306,6 +3171,214 @@ msgstr ""
 msgid "Print backtrace."
 msgstr "פּרִינת בּאצכּתראצע."
 
+#: grub-core/lib/gnulib/argp-help.c:149
+#, c-format
+msgid "ARGP_HELP_FMT: %s value is less than or equal to %s"
+msgstr "ארגפּ_העלפּ_פֿמת: %s בֿאלוּע ִיש לעשש תהאנ וֹר עקוּאל תוֹ %s"
+
+#: grub-core/lib/gnulib/argp-help.c:225
+#, c-format
+msgid "%.*s: ARGP_HELP_FMT parameter requires a value"
+msgstr "%.*s: ארגפּ_העלפּ_פֿמת פּאראמעתער רעקוִּירעש א בֿאלוּע"
+
+#: grub-core/lib/gnulib/argp-help.c:235
+#, c-format
+msgid "%.*s: Unknown ARGP_HELP_FMT parameter"
+msgstr "%.*s: וּנכּנוֹונ ארגפּ_העלפּ_פֿמת פּאראמעתער"
+
+#: grub-core/lib/gnulib/argp-help.c:248
+#, c-format
+msgid "Garbage in ARGP_HELP_FMT: %s"
+msgstr "גארבּאגע ִינ ארגפּ_העלפּ_פֿמת: %s"
+
+#: grub-core/lib/gnulib/argp-help.c:1229
+msgid ""
+"Mandatory or optional arguments to long options are also mandatory or "
+"optional for any corresponding short options."
+msgstr ""
+"מאנדאתוֹריִ וֹר וֹפּתִיוֹנאל ארגוּמענתש תוֹ לוֹנג וֹפּתִיוֹנש ארע אלשוֹ מאנדאתוֹריִ וֹר "
+"וֹפּתִיוֹנאל פֿוֹר אניִ צוֹררעשפּוֹנדִינג שהוֹרת וֹפּתִיוֹנש."
+
+#: grub-core/lib/gnulib/argp-help.c:1620
+msgid "  or: "
+msgstr "  וֹר: "
+
+#: grub-core/lib/gnulib/argp-help.c:1632
+msgid " [OPTION...]"
+msgstr " [וֹפּתִיוֹנ...]"
+
+#: grub-core/lib/gnulib/argp-help.c:1659
+#, c-format
+msgid "Try '%s --help' or '%s --usage' for more information.\n"
+msgstr "תריִ '%s --העלפּ' וֹר '%s --וּשאגע' פֿוֹר מוֹרע ִינפֿוֹרמאתִיוֹנ.\n"
+
+#: grub-core/lib/gnulib/argp-help.c:1687
+#, c-format
+msgid "Report bugs to %s.\n"
+msgstr "רעפּוֹרת בּוּגש תוֹ %s.\n"
+
+#: grub-core/lib/gnulib/argp-help.c:1888 grub-core/lib/gnulib/error.c:195
+msgid "Unknown system error"
+msgstr "וּנכּנוֹונ שיִשתעמ עררוֹר"
+
+#: grub-core/lib/gnulib/argp-parse.c:81
+msgid "give this help list"
+msgstr "גִיבֿע תהִיש העלפּ לִישת"
+
+#: grub-core/lib/gnulib/argp-parse.c:82
+msgid "give a short usage message"
+msgstr "גִיבֿע א שהוֹרת וּשאגע מעששאגע"
+
+#: grub-core/lib/gnulib/argp-parse.c:83 util/grub-mkfont.c:946
+msgid "NAME"
+msgstr "נאמע"
+
+#: grub-core/lib/gnulib/argp-parse.c:84
+msgid "set the program name"
+msgstr "שעת תהע פּרוֹגראמ נאמע"
+
+#: grub-core/lib/gnulib/argp-parse.c:86
+msgid "hang for SECS seconds (default 3600)"
+msgstr "האנג פֿוֹר שעצש שעצוֹנדש (דעפֿאוּלת 3600)"
+
+#: grub-core/lib/gnulib/argp-parse.c:143
+msgid "print program version"
+msgstr "פּרִינת פּרוֹגראמ בֿערשִיוֹנ"
+
+#: grub-core/lib/gnulib/argp-parse.c:160
+msgid "(PROGRAM ERROR) No version known!?"
+msgstr "(פּרוֹגראמ עררוֹר) נוֹ בֿערשִיוֹנ כּנוֹונ!?"
+
+#: grub-core/lib/gnulib/argp-parse.c:613
+#, c-format
+msgid "%s: Too many arguments\n"
+msgstr "%s: תוֹוֹ מאניִ ארגוּמענתש\n"
+
+#: grub-core/lib/gnulib/argp-parse.c:759
+msgid "(PROGRAM ERROR) Option should have been recognized!?"
+msgstr "(פּרוֹגראמ עררוֹר) וֹפּתִיוֹנ שהוֹוּלד האבֿע בּעענ רעצוֹגנִיזעד!?"
+
+#: grub-core/lib/gnulib/getopt.c:278
+#, c-format
+msgid "%s: option '%s%s' is ambiguous\n"
+msgstr "%s: וֹפּתִיוֹנ '%s%s' ִיש אמבִּיגוּוֹוּש\n"
+
+#: grub-core/lib/gnulib/getopt.c:284
+#, c-format
+msgid "%s: option '%s%s' is ambiguous; possibilities:"
+msgstr "%s: וֹפּתִיוֹנ '%s%s' ִיש אמבִּיגוּוֹוּש; פּוֹששִיבִּילִיתִיעש:"
+
+#: grub-core/lib/gnulib/getopt.c:319
+#, c-format
+msgid "%s: unrecognized option '%s%s'\n"
+msgstr "%s: וּנרעצוֹגנִיזעד וֹפּתִיוֹנ '%s%s'\n"
+
+#: grub-core/lib/gnulib/getopt.c:345
+#, c-format
+msgid "%s: option '%s%s' doesn't allow an argument\n"
+msgstr "%s: וֹפּתִיוֹנ '%s%s' דוֹעשנ'ת אללוֹו אנ ארגוּמענת\n"
+
+#: grub-core/lib/gnulib/getopt.c:360
+#, c-format
+msgid "%s: option '%s%s' requires an argument\n"
+msgstr "%s: וֹפּתִיוֹנ '%s%s' רעקוִּירעש אנ ארגוּמענת\n"
+
+#: grub-core/lib/gnulib/getopt.c:621
+#, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%s: ִינבֿאלִיד וֹפּתִיוֹנ -- '%c'\n"
+
+#: grub-core/lib/gnulib/getopt.c:636 grub-core/lib/gnulib/getopt.c:682
+#, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr "%s: וֹפּתִיוֹנ רעקוִּירעש אנ ארגוּמענת -- '%c'\n"
+
+#: grub-core/lib/gnulib/openat-die.c:38
+#, c-format
+msgid "unable to record current working directory"
+msgstr "וּנאבּלע תוֹ רעצוֹרד צוּררענת ווֹרכִּינג דִירעצתוֹריִ"
+
+#: grub-core/lib/gnulib/openat-die.c:57
+#, c-format
+msgid "failed to return to initial working directory"
+msgstr "פֿאִילעד תוֹ רעתוּרנ תוֹ ִינִיתִיאל ווֹרכִּינג דִירעצתוֹריִ"
+
+#: grub-core/lib/gnulib/regcomp.c:135 grub-core/osdep/aros/hostdisk.c:523
+msgid "Success"
+msgstr "שוּצצעשש"
+
+#: grub-core/lib/gnulib/regcomp.c:138
+msgid "No match"
+msgstr "נוֹ מאתצה"
+
+#: grub-core/lib/gnulib/regcomp.c:141
+msgid "Invalid regular expression"
+msgstr "ִינבֿאלִיד רעגוּלאר עכּספּרעששִיוֹנ"
+
+#: grub-core/lib/gnulib/regcomp.c:144
+msgid "Invalid collation character"
+msgstr "ִינבֿאלִיד צוֹללאתִיוֹנ צהאראצתער"
+
+#: grub-core/lib/gnulib/regcomp.c:147
+msgid "Invalid character class name"
+msgstr "ִינבֿאלִיד צהאראצתער צלאשש נאמע"
+
+#: grub-core/lib/gnulib/regcomp.c:150
+msgid "Trailing backslash"
+msgstr "תראִילִינג בּאצכּשלאשה"
+
+#: grub-core/lib/gnulib/regcomp.c:153
+msgid "Invalid back reference"
+msgstr "ִינבֿאלִיד בּאצכּ רעפֿערענצע"
+
+#: grub-core/lib/gnulib/regcomp.c:156
+msgid "Unmatched [, [^, [:, [., or [="
+msgstr "וּנמאתצהעד [, [^, [:, [., וֹר [="
+
+#: grub-core/lib/gnulib/regcomp.c:159
+msgid "Unmatched ( or \\("
+msgstr "וּנמאתצהעד ( וֹר \\("
+
+#: grub-core/lib/gnulib/regcomp.c:162
+msgid "Unmatched \\{"
+msgstr "וּנמאתצהעד \\{"
+
+#: grub-core/lib/gnulib/regcomp.c:165
+msgid "Invalid content of \\{\\}"
+msgstr "ִינבֿאלִיד צוֹנתענת וֹפֿ \\{\\}"
+
+#: grub-core/lib/gnulib/regcomp.c:168
+msgid "Invalid range end"
+msgstr "ִינבֿאלִיד ראנגע ענד"
+
+#: grub-core/lib/gnulib/regcomp.c:171
+msgid "Memory exhausted"
+msgstr "מעמוֹריִ עכּסהאוּשתעד"
+
+#: grub-core/lib/gnulib/regcomp.c:174
+msgid "Invalid preceding regular expression"
+msgstr "ִינבֿאלִיד פּרעצעדִינג רעגוּלאר עכּספּרעששִיוֹנ"
+
+#: grub-core/lib/gnulib/regcomp.c:177
+msgid "Premature end of regular expression"
+msgstr "פּרעמאתוּרע ענד וֹפֿ רעגוּלאר עכּספּרעששִיוֹנ"
+
+#: grub-core/lib/gnulib/regcomp.c:180
+msgid "Regular expression too big"
+msgstr "רעגוּלאר עכּספּרעששִיוֹנ תוֹוֹ בִּיג"
+
+#: grub-core/lib/gnulib/regcomp.c:183
+msgid "Unmatched ) or \\)"
+msgstr "וּנמאתצהעד ) וֹר \\)"
+
+#: grub-core/lib/gnulib/regcomp.c:531
+msgid "unknown regexp error"
+msgstr "וּנכּנוֹונ רעגעכּספּ עררוֹר"
+
+#: grub-core/lib/gnulib/regcomp.c:676
+msgid "No previous regular expression"
+msgstr "נוֹ פּרעבִֿיוֹוּש רעגוּלאר עכּספּרעששִיוֹנ"
+
 #: grub-core/lib/i386/halt.c:77
 msgid "GRUB doesn't know how to halt this machine yet!"
 msgstr "גרוּבּ דוֹעשנ'ת כּנוֹו הוֹו תוֹ האלת תהִיש מאצהִינע יִעת!"
@@ -3337,56 +3410,58 @@ msgstr "העכּסדוּמפּ ראנדוֹמ דאתא."
 msgid "device tree must be supplied (see `devicetree' command)"
 msgstr "דעבִֿיצע תרעע מוּשת בּע שוּפּפּלִיעד (שעע `דעבִֿיצעתרעע' צוֹממאנד)"
 
-#: grub-core/loader/arm/linux.c:330
+#: grub-core/loader/arm/linux.c:334
 msgid "invalid zImage"
 msgstr "ִינבֿאלִיד זִימאגע"
 
-#: grub-core/loader/arm/linux.c:449 grub-core/loader/arm64/fdt.c:132
+#: grub-core/loader/arm/linux.c:450 grub-core/loader/efi/fdt.c:144
 msgid "invalid device tree"
 msgstr "ִינבֿאלִיד דעבִֿיצע תרעע"
 
-#: grub-core/loader/arm/linux.c:513 grub-core/loader/arm64/linux.c:344
-#: grub-core/loader/i386/linux.c:1143 grub-core/loader/i386/pc/linux.c:477
-#: grub-core/loader/i386/xen.c:956 grub-core/loader/i386/xen.c:958
-#: grub-core/loader/ia64/efi/linux.c:627 grub-core/loader/mips/linux.c:493
-#: grub-core/loader/powerpc/ieee1275/linux.c:382
-#: grub-core/loader/sparc64/ieee1275/linux.c:510
+#: grub-core/loader/arm/linux.c:493 grub-core/loader/arm64/linux.c:383
+#: grub-core/loader/i386/linux.c:1125 grub-core/loader/i386/pc/linux.c:479
+#: grub-core/loader/i386/xen.c:962 grub-core/loader/i386/xen.c:964
+#: grub-core/loader/ia64/efi/linux.c:591 grub-core/loader/mips/linux.c:501
+#: grub-core/loader/powerpc/ieee1275/linux.c:383
+#: grub-core/loader/riscv/linux.c:50
+#: grub-core/loader/sparc64/ieee1275/linux.c:511
 msgid "Load Linux."
 msgstr "לוֹאד לִינוּכּס."
 
-#: grub-core/loader/arm/linux.c:515 grub-core/loader/arm64/linux.c:346
-#: grub-core/loader/i386/linux.c:1145 grub-core/loader/i386/pc/linux.c:480
-#: grub-core/loader/i386/xen.c:960 grub-core/loader/ia64/efi/linux.c:630
-#: grub-core/loader/mips/linux.c:495
-#: grub-core/loader/powerpc/ieee1275/linux.c:384
-#: grub-core/loader/sparc64/ieee1275/linux.c:512
+#: grub-core/loader/arm/linux.c:495 grub-core/loader/arm64/linux.c:385
+#: grub-core/loader/i386/linux.c:1127 grub-core/loader/i386/pc/linux.c:482
+#: grub-core/loader/i386/xen.c:966 grub-core/loader/ia64/efi/linux.c:594
+#: grub-core/loader/mips/linux.c:503
+#: grub-core/loader/powerpc/ieee1275/linux.c:385
+#: grub-core/loader/riscv/linux.c:52
+#: grub-core/loader/sparc64/ieee1275/linux.c:513
 msgid "Load initrd."
 msgstr "לוֹאד ִינִיתרד."
 
 #. TRANSLATORS: DTB stands for device tree blob.
-#: grub-core/loader/arm/linux.c:518 grub-core/loader/arm64/fdt.c:157
+#: grub-core/loader/arm/linux.c:498 grub-core/loader/efi/fdt.c:169
 msgid "Load DTB file."
 msgstr "לוֹאד דתבּ פִֿילע."
 
-#: grub-core/loader/arm64/linux.c:57
+#: grub-core/loader/arm64/linux.c:59
 msgid ""
 "plain image kernel not supported - rebuild with CONFIG_(U)EFI_STUB enabled"
 msgstr ""
 "פּלאִינ ִימאגע כּערנעל נוֹת שוּפּפּוֹרתעד - רעבּוִּילד וִיתה צוֹנפִֿיג_(וּ)עפִֿי_שתוּבּ ענאבּלעד"
 
-#: grub-core/loader/arm64/xen_boot.c:144
+#: grub-core/loader/arm64/xen_boot.c:156
 msgid "failed to get FDT"
 msgstr "פֿאִילעד תוֹ געת פֿדת"
 
-#: grub-core/loader/arm64/xen_boot.c:392
+#: grub-core/loader/arm64/xen_boot.c:418
 msgid "you need to load the Xen Hypervisor first"
 msgstr "יִוֹוּ נעעד תוֹ לוֹאד תהע כּסענ היִפּערבִֿישוֹר פִֿירשת"
 
-#: grub-core/loader/arm64/xen_boot.c:488
+#: grub-core/loader/arm64/xen_boot.c:516
 msgid "Load a xen hypervisor."
 msgstr "לוֹאד א כּסענ היִפּערבִֿישוֹר."
 
-#: grub-core/loader/arm64/xen_boot.c:491
+#: grub-core/loader/arm64/xen_boot.c:519
 msgid "Load a xen module."
 msgstr "לוֹאד א כּסענ מוֹדוּלע."
 
@@ -3402,160 +3477,160 @@ msgid "Boot BIOS-based system."
 msgstr "בּוֹוֹת בִּיוֹש-בּאשעד שיִשתעמ."
 
 #: grub-core/loader/efi/chainloader.c:415
-#: grub-core/loader/i386/pc/chainloader.c:287
+#: grub-core/loader/i386/pc/chainloader.c:303
 msgid "Load another boot loader."
 msgstr "לוֹאד אנוֹתהער בּוֹוֹת לוֹאדער."
 
-#: grub-core/loader/i386/bsd.c:102
+#: grub-core/loader/i386/bsd.c:103
 msgid "Display output on all consoles."
 msgstr "דִישפּלאיִ וֹוּתפּוּת וֹנ אלל צוֹנשוֹלעש."
 
-#: grub-core/loader/i386/bsd.c:103 grub-core/loader/i386/bsd.c:137
-#: grub-core/loader/i386/bsd.c:170
+#: grub-core/loader/i386/bsd.c:104 grub-core/loader/i386/bsd.c:138
+#: grub-core/loader/i386/bsd.c:171
 msgid "Use serial console."
 msgstr "וּשע שערִיאל צוֹנשוֹלע."
 
-#: grub-core/loader/i386/bsd.c:104 grub-core/loader/i386/bsd.c:130
-#: grub-core/loader/i386/bsd.c:158
+#: grub-core/loader/i386/bsd.c:105 grub-core/loader/i386/bsd.c:131
+#: grub-core/loader/i386/bsd.c:159
 msgid "Ask for file name to reboot from."
 msgstr "אשכּ פֿוֹר פִֿילע נאמע תוֹ רעבּוֹוֹת פֿרוֹמ."
 
-#: grub-core/loader/i386/bsd.c:105
+#: grub-core/loader/i386/bsd.c:106
 msgid "Use CD-ROM as root."
 msgstr "וּשע צד-רוֹמ אש רוֹוֹת."
 
-#: grub-core/loader/i386/bsd.c:106
+#: grub-core/loader/i386/bsd.c:107
 msgid "Invoke user configuration routing."
 msgstr "ִינבֿוֹכּע וּשער צוֹנפִֿיגוּראתִיוֹנ רוֹוּתִינג."
 
-#: grub-core/loader/i386/bsd.c:107 grub-core/loader/i386/bsd.c:134
-#: grub-core/loader/i386/bsd.c:161
+#: grub-core/loader/i386/bsd.c:108 grub-core/loader/i386/bsd.c:135
+#: grub-core/loader/i386/bsd.c:162
 msgid "Enter in KDB on boot."
 msgstr "ענתער ִינ כּדבּ וֹנ בּוֹוֹת."
 
-#: grub-core/loader/i386/bsd.c:108
+#: grub-core/loader/i386/bsd.c:109
 msgid "Use GDB remote debugger instead of DDB."
 msgstr "וּשע גדבּ רעמוֹתע דעבּוּגגער ִינשתעאד וֹפֿ דדבּ."
 
-#: grub-core/loader/i386/bsd.c:109
+#: grub-core/loader/i386/bsd.c:110
 msgid "Disable all boot output."
 msgstr "דִישאבּלע אלל בּוֹוֹת וֹוּתפּוּת."
 
-#: grub-core/loader/i386/bsd.c:111
+#: grub-core/loader/i386/bsd.c:112
 msgid "Wait for keypress after every line of output."
 msgstr "ואִית פֿוֹר כּעיִפּרעשש אפֿתער עבֿעריִ לִינע וֹפֿ וֹוּתפּוּת."
 
-#: grub-core/loader/i386/bsd.c:113
+#: grub-core/loader/i386/bsd.c:114
 msgid "Use compiled-in root device."
 msgstr "וּשע צוֹמפִּילעד-ִינ רוֹוֹת דעבִֿיצע."
 
-#: grub-core/loader/i386/bsd.c:114 grub-core/loader/i386/bsd.c:133
-#: grub-core/loader/i386/bsd.c:164
+#: grub-core/loader/i386/bsd.c:115 grub-core/loader/i386/bsd.c:134
+#: grub-core/loader/i386/bsd.c:165
 msgid "Boot into single mode."
 msgstr "בּוֹוֹת ִינתוֹ שִינגלע מוֹדע."
 
-#: grub-core/loader/i386/bsd.c:115 grub-core/loader/i386/bsd.c:165
+#: grub-core/loader/i386/bsd.c:116 grub-core/loader/i386/bsd.c:166
 msgid "Boot with verbose messages."
 msgstr "בּוֹוֹת וִיתה בֿערבּוֹשע מעששאגעש."
 
-#: grub-core/loader/i386/bsd.c:131 grub-core/loader/i386/bsd.c:159
+#: grub-core/loader/i386/bsd.c:132 grub-core/loader/i386/bsd.c:160
 msgid "Don't reboot, just halt."
 msgstr "דוֹנ'ת רעבּוֹוֹת, יוּשת האלת."
 
-#: grub-core/loader/i386/bsd.c:132 grub-core/loader/i386/bsd.c:160
+#: grub-core/loader/i386/bsd.c:133 grub-core/loader/i386/bsd.c:161
 msgid "Change configured devices."
 msgstr "צהאנגע צוֹנפִֿיגוּרעד דעבִֿיצעש."
 
 #. TRANSLATORS: "com" is static and not to be translated. It refers to
 #. serial ports e.g. com1.
 #.
-#: grub-core/loader/i386/bsd.c:141
+#: grub-core/loader/i386/bsd.c:142
 msgid "comUNIT[,SPEED]"
 msgstr "צוֹמוּנִית[,שפּעעד]"
 
-#: grub-core/loader/i386/bsd.c:156
+#: grub-core/loader/i386/bsd.c:157
 msgid "Disable SMP."
 msgstr "דִישאבּלע שמפּ."
 
-#: grub-core/loader/i386/bsd.c:157
+#: grub-core/loader/i386/bsd.c:158
 msgid "Disable ACPI."
 msgstr "דִישאבּלע אצפִּי."
 
-#: grub-core/loader/i386/bsd.c:163
+#: grub-core/loader/i386/bsd.c:164
 msgid "Don't display boot diagnostic messages."
 msgstr "דוֹנ'ת דִישפּלאיִ בּוֹוֹת דִיאגנוֹשתִיצ מעששאגעש."
 
-#: grub-core/loader/i386/bsd.c:166
+#: grub-core/loader/i386/bsd.c:167
 msgid "Boot with debug messages."
 msgstr "בּוֹוֹת וִיתה דעבּוּג מעששאגעש."
 
-#: grub-core/loader/i386/bsd.c:167
+#: grub-core/loader/i386/bsd.c:168
 msgid "Suppress normal output (warnings remain)."
 msgstr "שוּפּפּרעשש נוֹרמאל וֹוּתפּוּת (וארנִינגש רעמאִינ)."
 
 #. TRANSLATORS: "com" is static and not to be translated. It refers to
 #. serial ports e.g. com1.
 #.
-#: grub-core/loader/i386/bsd.c:174
+#: grub-core/loader/i386/bsd.c:175
 msgid "[ADDR|comUNIT][,SPEED]"
 msgstr "[אדדר|צוֹמוּנִית][,שפּעעד]"
 
-#: grub-core/loader/i386/bsd.c:483 grub-core/loader/i386/bsd.c:549
+#: grub-core/loader/i386/bsd.c:489 grub-core/loader/i386/bsd.c:555
 msgid "name"
 msgstr "נאמע"
 
-#: grub-core/loader/i386/bsd.c:483 grub-core/loader/i386/bsd.c:549
+#: grub-core/loader/i386/bsd.c:489 grub-core/loader/i386/bsd.c:555
 msgid "type"
 msgstr "תיִפּע"
 
-#: grub-core/loader/i386/bsd.c:483 grub-core/loader/i386/bsd.c:549
+#: grub-core/loader/i386/bsd.c:489 grub-core/loader/i386/bsd.c:555
 msgid "addr"
 msgstr "אדדר"
 
-#: grub-core/loader/i386/bsd.c:484 grub-core/loader/i386/bsd.c:550
+#: grub-core/loader/i386/bsd.c:490 grub-core/loader/i386/bsd.c:556
 msgid "size"
 msgstr "שִיזע"
 
-#: grub-core/loader/i386/bsd.c:1141 grub-core/loader/i386/linux.c:508
+#: grub-core/loader/i386/bsd.c:1147 grub-core/loader/i386/linux.c:466
 #: grub-core/loader/i386/xnu.c:1030
 msgid "Booting in blind mode"
 msgstr "בּוֹוֹתִינג ִינ בּלִינד מוֹדע"
 
-#: grub-core/loader/i386/bsd.c:2131
+#: grub-core/loader/i386/bsd.c:2137
 msgid "Load kernel of FreeBSD."
 msgstr "לוֹאד כּערנעל וֹפֿ פֿרעעבּשד."
 
-#: grub-core/loader/i386/bsd.c:2134
+#: grub-core/loader/i386/bsd.c:2140
 msgid "Load kernel of OpenBSD."
 msgstr "לוֹאד כּערנעל וֹפֿ וֹפּענבּשד."
 
-#: grub-core/loader/i386/bsd.c:2137
+#: grub-core/loader/i386/bsd.c:2143
 msgid "Load kernel of NetBSD."
 msgstr "לוֹאד כּערנעל וֹפֿ נעתבּשד."
 
-#: grub-core/loader/i386/bsd.c:2141
+#: grub-core/loader/i386/bsd.c:2147
 msgid "Load FreeBSD env."
 msgstr "לוֹאד פֿרעעבּשד ענבֿ."
 
-#: grub-core/loader/i386/bsd.c:2144
+#: grub-core/loader/i386/bsd.c:2150
 msgid "Load FreeBSD kernel module."
 msgstr "לוֹאד פֿרעעבּשד כּערנעל מוֹדוּלע."
 
-#: grub-core/loader/i386/bsd.c:2147
+#: grub-core/loader/i386/bsd.c:2153
 msgid "Load NetBSD kernel module."
 msgstr "לוֹאד נעתבּשד כּערנעל מוֹדוּלע."
 
-#: grub-core/loader/i386/bsd.c:2150
+#: grub-core/loader/i386/bsd.c:2156
 msgid "Load NetBSD kernel module (ELF)."
 msgstr "לוֹאד נעתבּשד כּערנעל מוֹדוּלע (עלפֿ)."
 
-#: grub-core/loader/i386/bsd.c:2153
+#: grub-core/loader/i386/bsd.c:2159
 msgid "Load FreeBSD kernel module (ELF)."
 msgstr "לוֹאד פֿרעעבּשד כּערנעל מוֹדוּלע (עלפֿ)."
 
 #. TRANSLATORS: ramdisk isn't identifier,
 #. it can be translated.
-#: grub-core/loader/i386/bsd.c:2159
+#: grub-core/loader/i386/bsd.c:2165
 msgid "Load kOpenBSD ramdisk."
 msgstr "לוֹאד כּוֹפּענבּשד ראמדִישכּ."
 
@@ -3567,12 +3642,12 @@ msgstr "לוֹאד כּוֹפּענבּשד ראמדִישכּ."
 msgid "Load another coreboot payload"
 msgstr "לוֹאד אנוֹתהער צוֹרעבּוֹוֹת פּאיִלוֹאד"
 
-#: grub-core/loader/i386/linux.c:900
+#: grub-core/loader/i386/linux.c:876
 msgid "Legacy `ask' parameter no longer supported."
 msgstr "לעגאציִ `אשכּ' פּאראמעתער נוֹ לוֹנגער שוּפּפּוֹרתעד."
 
-#: grub-core/loader/i386/linux.c:916 grub-core/loader/i386/linux.c:926
-#: grub-core/loader/i386/linux.c:956
+#: grub-core/loader/i386/linux.c:892 grub-core/loader/i386/linux.c:902
+#: grub-core/loader/i386/linux.c:932
 #, c-format
 msgid "%s is deprecated. Use set gfxpayload=%s before linux command instead.\n"
 msgstr ""
@@ -3580,7 +3655,7 @@ msgstr ""
 
 #. TRANSLATORS: "x" has to be entered in, like an identifier,
 #. so please don't use better Unicode codepoints.
-#: grub-core/loader/i386/linux.c:939
+#: grub-core/loader/i386/linux.c:915
 #, c-format
 msgid ""
 "%s is deprecated. VGA mode %d isn't recognized. Use set "
@@ -3589,11 +3664,11 @@ msgstr ""
 "%s ִיש דעפּרעצאתעד. בֿגא מוֹדע %d ִישנ'ת רעצוֹגנִיזעד. וּשע שעת "
 "גפֿכּספּאיִלוֹאד=וִידתהכּסהעִיגהת[כּסדעפּתה] בּעפֿוֹרע לִינוּכּס צוֹממאנד ִינשתעאד.\n"
 
-#: grub-core/loader/i386/pc/chainloader.c:286
+#: grub-core/loader/i386/pc/chainloader.c:302
 msgid "[--force|--bpb] FILE"
 msgstr "[--פֿוֹרצע|--בּפּבּ] פִֿילע"
 
-#: grub-core/loader/i386/pc/freedos.c:148 util/setup.c:292
+#: grub-core/loader/i386/pc/freedos.c:148 util/setup.c:293
 #, c-format
 msgid "the size of `%s' is too large"
 msgstr "תהע שִיזע וֹפֿ `%s' ִיש תוֹוֹ לארגע"
@@ -3612,19 +3687,19 @@ msgstr "לוֹאד נתלדר וֹר בּוֹוֹתמגר."
 #. means that the GRUBDEVICE and PLAN9DEVICE are
 #. actually the same device, just named differently
 #. in OS and GRUB.
-#: grub-core/loader/i386/pc/plan9.c:58
+#: grub-core/loader/i386/pc/plan9.c:59
 msgid "Override guessed mapping of Plan9 devices."
 msgstr "וֹבֿעררִידע גוּעששעד מאפּפִּינג וֹפֿ פּלאנ9 דעבִֿיצעש."
 
-#: grub-core/loader/i386/pc/plan9.c:59
+#: grub-core/loader/i386/pc/plan9.c:60
 msgid "GRUBDEVICE=PLAN9DEVICE"
 msgstr "גרוּבּדעבִֿיצע=פּלאנ9דעבִֿיצע"
 
-#: grub-core/loader/i386/pc/plan9.c:588
+#: grub-core/loader/i386/pc/plan9.c:599
 msgid "KERNEL ARGS"
 msgstr "כּערנעל ארגש"
 
-#: grub-core/loader/i386/pc/plan9.c:588
+#: grub-core/loader/i386/pc/plan9.c:599
 msgid "Load Plan9 kernel."
 msgstr "לוֹאד פּלאנ9 כּערנעל."
 
@@ -3636,11 +3711,11 @@ msgstr "לוֹאד א פּכּסע ִימאגע."
 msgid "Load Truecrypt ISO."
 msgstr "לוֹאד תרוּעצריִפּת ִישוֹ."
 
-#: grub-core/loader/i386/xen.c:777 grub-core/loader/i386/xen.c:861
+#: grub-core/loader/i386/xen.c:781 grub-core/loader/i386/xen.c:865
 msgid "initrd already loaded"
 msgstr "ִינִיתרד אלרעאדיִ לוֹאדעד"
 
-#: grub-core/loader/i386/xen.c:962
+#: grub-core/loader/i386/xen.c:968
 msgid "Load module."
 msgstr "לוֹאד מוֹדוּלע."
 
@@ -3655,52 +3730,56 @@ msgstr "פּרעשש אניִ כּעיִ תוֹ לאוּנצה כּסנוּ"
 msgid "Load `device-properties' dump."
 msgstr "לוֹאד `דעבִֿיצע-פּרוֹפּערתִיעש' דוּמפּ."
 
-#: grub-core/loader/ia64/efi/linux.c:123
+#: grub-core/loader/ia64/efi/linux.c:124
 msgid "Could not locate FPSWA driver"
 msgstr "צוֹוּלד נוֹת לוֹצאתע פֿפּשוא דרִיבֿער"
 
-#: grub-core/loader/ia64/efi/linux.c:131
+#: grub-core/loader/ia64/efi/linux.c:132
 msgid "FPSWA protocol wasn't able to find the interface"
 msgstr "פֿפּשוא פּרוֹתוֹצוֹל ואשנ'ת אבּלע תוֹ פִֿינד תהע ִינתערפֿאצע"
 
-#: grub-core/loader/ia64/efi/linux.c:616
+#: grub-core/loader/ia64/efi/linux.c:580
 msgid "No FPSWA found"
 msgstr "נוֹ פֿפּשוא פֿוֹוּנד"
 
-#: grub-core/loader/ia64/efi/linux.c:618
+#: grub-core/loader/ia64/efi/linux.c:582
 #, c-format
 msgid "FPSWA revision: %x\n"
 msgstr "פֿפּשוא רעבִֿישִיוֹנ: %x\n"
 
-#: grub-core/loader/ia64/efi/linux.c:627
+#: grub-core/loader/ia64/efi/linux.c:591
 msgid "FILE [ARGS...]"
 msgstr "פִֿילע [ארגש...]"
 
-#: grub-core/loader/ia64/efi/linux.c:633
+#: grub-core/loader/ia64/efi/linux.c:597
 msgid "Display FPSWA version."
 msgstr "דִישפּלאיִ פֿפּשוא בֿערשִיוֹנ."
 
-#: grub-core/loader/multiboot.c:233
+#: grub-core/loader/multiboot.c:248
 msgid "WARNING: no console will be available to OS"
 msgstr "וארנִינג: נוֹ צוֹנשוֹלע וִילל בּע אבֿאִילאבּלע תוֹ וֹש"
 
-#: grub-core/loader/multiboot.c:437
+#: grub-core/loader/multiboot.c:450
 msgid "Load a multiboot 2 kernel."
 msgstr "לוֹאד א מוּלתִיבּוֹוֹת 2 כּערנעל."
 
-#: grub-core/loader/multiboot.c:440
+#: grub-core/loader/multiboot.c:453
 msgid "Load a multiboot 2 module."
 msgstr "לוֹאד א מוּלתִיבּוֹוֹת 2 מוֹדוּלע."
 
-#: grub-core/loader/multiboot.c:443
+#: grub-core/loader/multiboot.c:456
 msgid "Load a multiboot kernel."
 msgstr "לוֹאד א מוּלתִיבּוֹוֹת כּערנעל."
 
-#: grub-core/loader/multiboot.c:446
+#: grub-core/loader/multiboot.c:459
 msgid "Load a multiboot module."
 msgstr "לוֹאד א מוּלתִיבּוֹוֹת מוֹדוּלע."
 
-#: grub-core/loader/xnu.c:1407 grub-core/term/gfxterm_background.c:45
+#: grub-core/loader/riscv/linux.c:30 grub-core/loader/riscv/linux.c:40
+msgid "Linux not supported yet"
+msgstr "לִינוּכּס נוֹת שוּפּפּוֹרתעד יִעת"
+
+#: grub-core/loader/xnu.c:1416 grub-core/term/gfxterm_background.c:45
 msgid "Background image mode."
 msgstr "בּאצכּגרוֹוּנד ִימאגע מוֹדע."
 
@@ -3713,23 +3792,23 @@ msgstr "בּאצכּגרוֹוּנד ִימאגע מוֹדע."
 #. may not know the word stretch or normal I recommend
 #. putting the translation either here or in "Background image mode."
 #. string.
-#: grub-core/loader/xnu.c:1407 grub-core/term/gfxterm_background.c:55
+#: grub-core/loader/xnu.c:1416 grub-core/term/gfxterm_background.c:55
 msgid "stretch|normal"
 msgstr "שתרעתצה|נוֹרמאל"
 
-#: grub-core/loader/xnu.c:1473
+#: grub-core/loader/xnu.c:1482
 msgid "Load XNU image."
 msgstr "לוֹאד כּסנוּ ִימאגע."
 
-#: grub-core/loader/xnu.c:1475
+#: grub-core/loader/xnu.c:1484
 msgid "Load 64-bit XNU image."
 msgstr "לוֹאד 64-בִּית כּסנוּ ִימאגע."
 
-#: grub-core/loader/xnu.c:1477
+#: grub-core/loader/xnu.c:1486
 msgid "Load XNU extension package."
 msgstr "לוֹאד כּסנוּ עכּסתענשִיוֹנ פּאצכּאגע."
 
-#: grub-core/loader/xnu.c:1479
+#: grub-core/loader/xnu.c:1488
 msgid "Load XNU extension."
 msgstr "לוֹאד כּסנוּ עכּסתענשִיוֹנ."
 
@@ -3738,26 +3817,26 @@ msgstr "לוֹאד כּסנוּ עכּסתענשִיוֹנ."
 #. manifests. It behaves mostly like
 #. GNU/Linux runlevels.
 #.
-#: grub-core/loader/xnu.c:1486
+#: grub-core/loader/xnu.c:1495
 msgid "DIRECTORY [OSBundleRequired]"
 msgstr "דִירעצתוֹריִ [וֹשבּוּנדלערעקוִּירעד]"
 
 #. TRANSLATORS: There are many extensions
 #. in extension directory.
-#: grub-core/loader/xnu.c:1489
+#: grub-core/loader/xnu.c:1498
 msgid "Load XNU extension directory."
 msgstr "לוֹאד כּסנוּ עכּסתענשִיוֹנ דִירעצתוֹריִ."
 
 #. TRANSLATORS: ramdisk here isn't identifier. It can be translated.
-#: grub-core/loader/xnu.c:1492
+#: grub-core/loader/xnu.c:1501
 msgid "Load XNU ramdisk. It will be available in OS as md0."
 msgstr "לוֹאד כּסנוּ ראמדִישכּ. ִית וִילל בּע אבֿאִילאבּלע ִינ וֹש אש מד0."
 
-#: grub-core/loader/xnu.c:1496
+#: grub-core/loader/xnu.c:1505
 msgid "Load a splash image for XNU."
 msgstr "לוֹאד א שפּלאשה ִימאגע פֿוֹר כּסנוּ."
 
-#: grub-core/loader/xnu.c:1501
+#: grub-core/loader/xnu.c:1510
 msgid "Load an image of hibernated XNU."
 msgstr "לוֹאד אנ ִימאגע וֹפֿ הִיבּערנאתעד כּסנוּ."
 
@@ -3777,55 +3856,63 @@ msgstr "פֿרוֹמ[כּ|מ|ג] תוֹ[כּ|מ|ג]"
 msgid "Remove any memory regions in specified range."
 msgstr "רעמוֹבֿע אניִ מעמוֹריִ רעגִיוֹנש ִינ שפּעצִיפִֿיעד ראנגע."
 
-#: grub-core/net/bootp.c:324
+#: grub-core/net/bootp.c:653
 msgid "four arguments expected"
 msgstr "פֿוֹוּר ארגוּמענתש עכּספּעצתעד"
 
-#: grub-core/net/bootp.c:332 grub-core/net/net.c:1155
+#: grub-core/net/bootp.c:661 grub-core/net/net.c:1155
 #, c-format
 msgid "unrecognised network interface `%s'"
 msgstr "וּנרעצוֹגנִישעד נעתווֹרכּ ִינתערפֿאצע `%s'"
 
-#: grub-core/net/bootp.c:335
+#: grub-core/net/bootp.c:664
 msgid "no DHCP info found"
 msgstr "נוֹ דהצפּ ִינפֿוֹ פֿוֹוּנד"
 
-#: grub-core/net/bootp.c:338 grub-core/net/bootp.c:350
+#: grub-core/net/bootp.c:674
 msgid "no DHCP options found"
 msgstr "נוֹ דהצפּ וֹפּתִיוֹנש פֿוֹוּנד"
 
-#: grub-core/net/bootp.c:357 grub-core/net/bootp.c:367
-#, c-format
-msgid "no DHCP option %d found"
-msgstr "נוֹ דהצפּ וֹפּתִיוֹנ %d פֿוֹוּנד"
+#: grub-core/net/bootp.c:682
+msgid "invalid DHCP option code"
+msgstr "ִינבֿאלִיד דהצפּ וֹפּתִיוֹנ צוֹדע"
 
-#: grub-core/net/bootp.c:431
+#: grub-core/net/bootp.c:686
+#, c-format
+msgid "no DHCP option %u found"
+msgstr "נוֹ דהצפּ וֹפּתִיוֹנ %u פֿוֹוּנד"
+
+#: grub-core/net/bootp.c:743
 #, c-format
 msgid "unrecognised DHCP option format specification `%s'"
 msgstr "וּנרעצוֹגנִישעד דהצפּ וֹפּתִיוֹנ פֿוֹרמאת שפּעצִיפִֿיצאתִיוֹנ `%s'"
 
-#: grub-core/net/bootp.c:455
+#: grub-core/net/bootp.c:767
 msgid "no network card found"
 msgstr "נוֹ נעתווֹרכּ צארד פֿוֹוּנד"
 
-#: grub-core/net/bootp.c:577 grub-core/net/net.c:389
+#: grub-core/net/bootp.c:859 grub-core/net/net.c:389
 #, c-format
 msgid "couldn't autoconfigure %s"
 msgstr "צוֹוּלדנ'ת אוּתוֹצוֹנפִֿיגוּרע %s"
 
-#: grub-core/net/bootp.c:591
+#: grub-core/net/bootp.c:873 grub-core/net/bootp.c:876
 msgid "[CARD]"
 msgstr "[צארד]"
 
-#: grub-core/net/bootp.c:592
+#: grub-core/net/bootp.c:874
 msgid "perform a bootp autoconfiguration"
 msgstr "פּערפֿוֹרמ א בּוֹוֹתפּ אוּתוֹצוֹנפִֿיגוּראתִיוֹנ"
 
-#: grub-core/net/bootp.c:594
+#: grub-core/net/bootp.c:877
+msgid "perform a DHCP autoconfiguration"
+msgstr "פּערפֿוֹרמ א דהצפּ אוּתוֹצוֹנפִֿיגוּראתִיוֹנ"
+
+#: grub-core/net/bootp.c:879
 msgid "VAR INTERFACE NUMBER DESCRIPTION"
 msgstr "בֿאר ִינתערפֿאצע נוּמבּער דעשצרִיפּתִיוֹנ"
 
-#: grub-core/net/bootp.c:595
+#: grub-core/net/bootp.c:880
 msgid ""
 "retrieve DHCP option and save it into VAR. If VAR is - then print the value."
 msgstr ""
@@ -3863,10 +3950,6 @@ msgstr "פּרעפֿער ִיפּבֿ4"
 msgid "prefer ipv6"
 msgstr "פּרעפֿער ִיפּבֿ6"
 
-#: grub-core/net/dns.c:727
-msgid "invalid argument"
-msgstr "ִינבֿאלִיד ארגוּמענת"
-
 #: grub-core/net/dns.c:759
 msgid "ADDRESS DNSSERVER"
 msgstr "אדדרעשש דנששערבֿער"
@@ -3899,19 +3982,18 @@ msgstr "לִישת דנש שערבֿערש"
 msgid "couldn't send network packet"
 msgstr "צוֹוּלדנ'ת שענד נעתווֹרכּ פּאצכּעת"
 
-#: grub-core/net/drivers/ieee1275/ofnet.c:319
-#: grub-core/net/drivers/ieee1275/ofnet.c:352
-#, fuzzy
+#: grub-core/net/drivers/ieee1275/ofnet.c:326
+#: grub-core/net/drivers/ieee1275/ofnet.c:359
 msgid "interpret is not supported"
-msgstr "16-בִּית פּרוֹתעצתעד ִינתערפֿאצע שוּפּפּוֹרתעד\n"
+msgstr "ִינתערפּרעת ִיש נוֹת שוּפּפּוֹרתעד"
 
-#: grub-core/net/drivers/ieee1275/ofnet.c:329
+#: grub-core/net/drivers/ieee1275/ofnet.c:336
 msgid "alloc-mem failed"
-msgstr ""
+msgstr "אללוֹצ-מעמ פֿאִילעד"
 
-#: grub-core/net/drivers/ieee1275/ofnet.c:363
+#: grub-core/net/drivers/ieee1275/ofnet.c:370
 msgid "free-mem failed"
-msgstr ""
+msgstr "פֿרעע-מעמ פֿאִילעד"
 
 #: grub-core/net/http.c:105
 msgid "unsupported HTTP response"
@@ -4198,17 +4280,17 @@ msgstr "עכּסִית פֿרוֹמ נוֹרמאל מוֹדע."
 msgid "Press any key to continue..."
 msgstr "פּרעשש אניִ כּעיִ תוֹ צוֹנתִינוּע..."
 
-#: grub-core/normal/menu.c:814
+#: grub-core/normal/menu.c:815
 #, c-format
 msgid "Booting `%s'"
 msgstr "בּוֹוֹתִינג `%s'"
 
-#: grub-core/normal/menu.c:826
+#: grub-core/normal/menu.c:827
 #, c-format
 msgid "Falling back to `%s'"
 msgstr "פֿאללִינג בּאצכּ תוֹ `%s'"
 
-#: grub-core/normal/menu.c:842
+#: grub-core/normal/menu.c:843
 msgid "Failed to boot both default and fallback entries.\n"
 msgstr "פֿאִילעד תוֹ בּוֹוֹת בּוֹתה דעפֿאוּלת אנד פֿאללבּאצכּ ענתרִיעש.\n"
 
@@ -4380,7 +4462,7 @@ msgid "no compression is available for your platform"
 msgstr "נוֹ צוֹמפּרעששִיוֹנ ִיש אבֿאִילאבּלע פֿוֹר יִוֹוּר פּלאתפֿוֹרמ"
 
 #: grub-core/osdep/basic/no_platform.c:30
-#: grub-core/osdep/windows/platform.c:416
+#: grub-core/osdep/windows/platform.c:418
 msgid "no IEEE1275 routines are available for your platform"
 msgstr "נוֹ ִיעעע1275 רוֹוּתִינעש ארע אבֿאִילאבּלע פֿוֹר יִוֹוּר פּלאתפֿוֹרמ"
 
@@ -4389,7 +4471,7 @@ msgid "no EFI routines are available for your platform"
 msgstr "נוֹ עפִֿי רוֹוּתִינעש ארע אבֿאִילאבּלע פֿוֹר יִוֹוּר פּלאתפֿוֹרמ"
 
 #: grub-core/osdep/basic/no_platform.c:45
-#: grub-core/osdep/windows/platform.c:423
+#: grub-core/osdep/windows/platform.c:425
 msgid "no SGI routines are available for your platform"
 msgstr "נוֹ שגִי רוֹוּתִינעש ארע אבֿאִילאבּלע פֿוֹר יִוֹוּר פּלאתפֿוֹרמ"
 
@@ -4446,12 +4528,12 @@ msgstr "אתתעמפּתִינג תוֹ רעאד תהע צוֹרע ִימאגע 
 msgid "attempting to read the core image `%s' from GRUB again"
 msgstr "אתתעמפּתִינג תוֹ רעאד תהע צוֹרע ִימאגע `%s' פֿרוֹמ גרוּבּ אגאִינ"
 
-#: grub-core/osdep/generic/blocklist.c:116
+#: grub-core/osdep/generic/blocklist.c:115
 #, c-format
 msgid "cannot read `%s' correctly"
 msgstr "צאננוֹת רעאד `%s' צוֹררעצתליִ"
 
-#: grub-core/osdep/generic/blocklist.c:128
+#: grub-core/osdep/generic/blocklist.c:126
 msgid "failed to read the sectors of the core image"
 msgstr "פֿאִילעד תוֹ רעאד תהע שעצתוֹרש וֹפֿ תהע צוֹרע ִימאגע"
 
@@ -4526,7 +4608,7 @@ msgstr "בּלוֹצכּשִיזע ִיש נוֹת דִיבִֿישִיבּלע 
 msgid "invalid zero blocksize"
 msgstr "ִינבֿאלִיד זערוֹ בּלוֹצכּשִיזע"
 
-#: grub-core/osdep/linux/blocklist.c:90 util/setup.c:669
+#: grub-core/osdep/linux/blocklist.c:90 util/setup.c:744
 msgid "can't retrieve blocklists"
 msgstr "צאנ'ת רעתרִיעבֿע בּלוֹצכּלִישתש"
 
@@ -4551,9 +4633,9 @@ msgid "ioctl GET_DISK_INFO error: %s"
 msgstr "ִיוֹצתל געת_דִישכּ_ִינפֿוֹ עררוֹר: %s"
 
 #: grub-core/osdep/linux/getroot.c:608 grub-core/osdep/linux/getroot.c:678
-#: grub-core/osdep/linux/hostdisk.c:126 grub-core/osdep/unix/getroot.c:250
-#: grub-core/osdep/unix/getroot.c:631 grub-core/osdep/unix/platform.c:91
-#: grub-core/osdep/unix/platform.c:99
+#: grub-core/osdep/linux/hostdisk.c:126 grub-core/osdep/unix/getroot.c:253
+#: grub-core/osdep/unix/getroot.c:642 grub-core/osdep/unix/platform.c:92
+#: grub-core/osdep/unix/platform.c:100
 #, c-format
 msgid "Unable to open stream from %s: %s"
 msgstr "וּנאבּלע תוֹ וֹפּענ שתרעאמ פֿרוֹמ %s: %s"
@@ -4563,24 +4645,24 @@ msgstr "וּנאבּלע תוֹ וֹפּענ שתרעאמ פֿרוֹמ %s: %s"
 msgid "unknown kind of RAID device `%s'"
 msgstr "וּנכּנוֹונ כִּינד וֹפֿ ראִיד דעבִֿיצע `%s'"
 
-#: grub-core/osdep/linux/ofpath.c:138
+#: grub-core/osdep/linux/ofpath.c:181
 #, c-format
 msgid "`obppath' not found in parent dirs of `%s', no IEEE1275 name discovery"
 msgstr "`וֹבּפּפּאתה' נוֹת פֿוֹוּנד ִינ פּארענת דִירש וֹפֿ `%s', נוֹ ִיעעע1275 נאמע דִישצוֹבֿעריִ"
 
-#: grub-core/osdep/linux/ofpath.c:179 grub-core/osdep/unix/getroot.c:494
-#: grub-core/osdep/unix/getroot.c:518 grub-core/osdep/unix/relpath.c:49
-#: util/grub-install.c:972 util/grub-install.c:1305 util/grub-probe.c:267
+#: grub-core/osdep/linux/ofpath.c:222 grub-core/osdep/unix/getroot.c:505
+#: grub-core/osdep/unix/getroot.c:529 grub-core/osdep/unix/relpath.c:49
+#: util/grub-install.c:984 util/grub-install.c:1331 util/grub-probe.c:323
 #, c-format
 msgid "failed to get canonical path of `%s'"
 msgstr "פֿאִילעד תוֹ געת צאנוֹנִיצאל פּאתה וֹפֿ `%s'"
 
-#: grub-core/osdep/linux/ofpath.c:542
+#: grub-core/osdep/linux/ofpath.c:740
 #, c-format
 msgid "unknown device type %s"
 msgstr "וּנכּנוֹונ דעבִֿיצע תיִפּע %s"
 
-#: grub-core/osdep/linux/ofpath.c:560 util/ieee1275/grub-ofpathname.c:39
+#: grub-core/osdep/linux/ofpath.c:758 util/ieee1275/grub-ofpathname.c:39
 #, c-format
 msgid "Usage: %s DEVICE\n"
 msgstr "וּשאגע: %s דעבִֿיצע\n"
@@ -4596,26 +4678,30 @@ msgstr "וּנאבּלע תוֹ פֿוֹרכּ: %s"
 msgid "Unable to create pipe: %s"
 msgstr "וּנאבּלע תוֹ צרעאתע פִּיפּע: %s"
 
-#: grub-core/osdep/unix/getroot.c:415 grub-core/osdep/unix/getroot.c:469
-#: grub-core/osdep/unix/getroot.c:478
+#: grub-core/osdep/unix/getroot.c:370
+msgid "cannot save the original directory"
+msgstr "צאננוֹת שאבֿע תהע וֹרִיגִינאל דִירעצתוֹריִ"
+
+#: grub-core/osdep/unix/getroot.c:423 grub-core/osdep/unix/getroot.c:480
+#: grub-core/osdep/unix/getroot.c:489
 msgid "cannot restore the original directory"
 msgstr "צאננוֹת רעשתוֹרע תהע וֹרִיגִינאל דִירעצתוֹריִ"
 
 #. TRANSLATORS: "stat" comes from the name of POSIX function.
-#: grub-core/osdep/unix/getroot.c:540 grub-core/osdep/unix/hostdisk.c:61
+#: grub-core/osdep/unix/getroot.c:551 grub-core/osdep/unix/hostdisk.c:61
 #: grub-core/osdep/unix/relpath.c:73 grub-core/osdep/unix/relpath.c:97
-#: util/getroot.c:160 util/getroot.c:162 util/grub-install.c:770
+#: util/getroot.c:160 util/getroot.c:162 util/grub-install.c:774
 #: util/grub-macbless.c:70
 #, c-format
 msgid "cannot stat `%s': %s"
 msgstr "צאננוֹת שתאת `%s': %s"
 
-#: grub-core/osdep/unix/hostdisk.c:283
+#: grub-core/osdep/unix/hostdisk.c:293
 #, c-format
 msgid "cannot make temporary file: %s"
 msgstr "צאננוֹת מאכּע תעמפּוֹראריִ פִֿילע: %s"
 
-#: grub-core/osdep/unix/hostdisk.c:301
+#: grub-core/osdep/unix/hostdisk.c:311
 #, c-format
 msgid "cannot make temporary directory: %s"
 msgstr "צאננוֹת מאכּע תעמפּוֹראריִ דִירעצתוֹריִ: %s"
@@ -4631,12 +4717,12 @@ msgstr ""
 
 #. TRANSLATORS: This message is shown when required executable `%s'
 #. isn't found.
-#: grub-core/osdep/unix/platform.c:146 grub-core/osdep/unix/platform.c:183
+#: grub-core/osdep/unix/platform.c:149 grub-core/osdep/unix/platform.c:189
 #, c-format
 msgid "%s: not found"
 msgstr "%s: נוֹת פֿוֹוּנד"
 
-#: grub-core/osdep/unix/platform.c:219
+#: grub-core/osdep/unix/platform.c:225
 #, c-format
 msgid ""
 "`nvsetenv' failed. \n"
@@ -4649,7 +4735,7 @@ msgstr ""
 "פּרוֹמפּת, תיִפּע:\n"
 "  %s\n"
 
-#: grub-core/osdep/unix/platform.c:234
+#: grub-core/osdep/unix/platform.c:240
 msgid "You will have to set `SystemPartition' and `OSLoader' manually."
 msgstr "יִוֹוּ וִילל האבֿע תוֹ שעת `שיִשתעמפּארתִיתִיוֹנ' אנד `וֹשלוֹאדער' מאנוּאלליִ."
 
@@ -4665,7 +4751,7 @@ msgstr "נוֹ `/' ִינ צאנוֹנִיצאל פִֿילענאמע"
 msgid "cygwin_conv_path() failed"
 msgstr "ציִגוִינ_צוֹנבֿ_פּאתה() פֿאִילעד"
 
-#: grub-core/osdep/windows/hostdisk.c:489 util/grub-install.c:566
+#: grub-core/osdep/windows/hostdisk.c:501 util/grub-install.c:570
 msgid "couldn't retrieve random data"
 msgstr "צוֹוּלדנ'ת רעתרִיעבֿע ראנדוֹמ דאתא"
 
@@ -4786,7 +4872,7 @@ msgstr "שעתתִינג פּארתִיתִיוֹנ תיִפּע תוֹ 0כּס%
 #. TRANSLATORS: 0 is a quantifier. "break" (similar to bash)
 #. can be used e.g. to break 3 loops at once.
 #. But asking it to break 0 loops makes no sense.
-#: grub-core/script/execute.c:142
+#: grub-core/script/execute.c:143
 msgid "can't break 0 loops"
 msgstr "צאנ'ת בּרעאכּ 0 לוֹוֹפּש"
 
@@ -4794,14 +4880,18 @@ msgstr "צאנ'ת בּרעאכּ 0 לוֹוֹפּש"
 #. inside a function. "return" can be used only
 #. in a function and this error occurs if it's used
 #. anywhere else.
-#: grub-core/script/execute.c:226
+#: grub-core/script/execute.c:227
 msgid "not in function body"
 msgstr "נוֹת ִינ פֿוּנצתִיוֹנ בּוֹדיִ"
 
-#: grub-core/script/execute.c:370
+#: grub-core/script/execute.c:371
 #, c-format
 msgid "invalid variable name `%s'"
 msgstr "ִינבֿאלִיד בֿארִיאבּלע נאמע `%s'"
+
+#: grub-core/script/execute.c:953
+msgid "cannot allocate command buffer"
+msgstr "צאננוֹת אללוֹצאתע צוֹממאנד בּוּפֿפֿער"
 
 #: grub-core/script/lexer.c:144 util/grub-fstest.c:330
 msgid "unexpected end of file"
@@ -4861,7 +4951,7 @@ msgstr "צוֹלוֹר"
 msgid "Set background color for active terminal."
 msgstr "שעת בּאצכּגרוֹוּנד צוֹלוֹר פֿוֹר אצתִיבֿע תערמִינאל."
 
-#: grub-core/term/i386/coreboot/cbmemc.c:119
+#: grub-core/term/i386/coreboot/cbmemc.c:139
 msgid "Show CBMEM console content."
 msgstr "שהוֹו צבּמעמ צוֹנשוֹלע צוֹנתענת."
 
@@ -5013,7 +5103,7 @@ msgstr "נוֹ שוִּיתאבּלע בִֿידעוֹ מוֹדע פֿוֹוּנ
 msgid "access denied"
 msgstr "אצצעשש דענִיעד"
 
-#: include/grub/util/install.h:30 include/grub/util/install.h:33
+#: include/grub/util/install.h:30 include/grub/util/install.h:35
 msgid "MODULES"
 msgstr "מוֹדוּלעש"
 
@@ -5021,66 +5111,76 @@ msgstr "מוֹדוּלעש"
 msgid "pre-load specified modules MODULES"
 msgstr "פּרע-לוֹאד שפּעצִיפִֿיעד מוֹדוּלעש מוֹדוּלעש"
 
-#: include/grub/util/install.h:34
+#: include/grub/util/install.h:33
+msgid "embed a specific DTB"
+msgstr "עמבּעד א שפּעצִיפִֿיצ דתבּ"
+
+#: include/grub/util/install.h:36
 msgid "install only MODULES and their dependencies [default=all]"
 msgstr "ִינשתאלל וֹנליִ מוֹדוּלעש אנד תהעִיר דעפּענדענצִיעש [דעפֿאוּלת=אלל]"
 
-#: include/grub/util/install.h:35
+#: include/grub/util/install.h:37
 msgid "THEMES"
 msgstr "תהעמעש"
 
-#: include/grub/util/install.h:36
+#: include/grub/util/install.h:38
 #, c-format
 msgid "install THEMES [default=%s]"
 msgstr "ִינשתאלל תהעמעש [דעפֿאוּלת=%s]"
 
-#: include/grub/util/install.h:37
+#: include/grub/util/install.h:39
 msgid "FONTS"
 msgstr "פֿוֹנתש"
 
-#: include/grub/util/install.h:38
+#: include/grub/util/install.h:40
 #, c-format
 msgid "install FONTS [default=%s]"
 msgstr "ִינשתאלל פֿוֹנתש [דעפֿאוּלת=%s]"
 
-#: include/grub/util/install.h:39
+#: include/grub/util/install.h:41
 msgid "LOCALES"
 msgstr "לוֹצאלעש"
 
-#: include/grub/util/install.h:40
+#: include/grub/util/install.h:42
 msgid "install only LOCALES [default=all]"
 msgstr "ִינשתאלל וֹנליִ לוֹצאלעש [דעפֿאוּלת=אלל]"
 
-#: include/grub/util/install.h:43
+#: include/grub/util/install.h:45
 msgid "compress GRUB files [optional]"
 msgstr "צוֹמפּרעשש גרוּבּ פִֿילעש [וֹפּתִיוֹנאל]"
 
-#: include/grub/util/install.h:46 util/grub-mkimage.c:82
+#: include/grub/util/install.h:48 util/grub-mkimage.c:83
 msgid "choose the compression to use for core image"
 msgstr "צהוֹוֹשע תהע צוֹמפּרעששִיוֹנ תוֹ וּשע פֿוֹר צוֹרע ִימאגע"
 
 #. TRANSLATORS: platform here isn't identifier. It can be translated.
-#: include/grub/util/install.h:49 include/grub/util/install.h:52
+#: include/grub/util/install.h:51 include/grub/util/install.h:54
 #: util/grub-mkimage.c:66
 #, c-format
 msgid "use images and modules under DIR [default=%s/<platform>]"
 msgstr "וּשע ִימאגעש אנד מוֹדוּלעש וּנדער דִיר [דעפֿאוּלת=%s/<פּלאתפֿוֹרמ>]"
 
-#: include/grub/util/install.h:55
+#: include/grub/util/install.h:57
 #, c-format
 msgid "use translations under DIR [default=%s]"
 msgstr "וּשע תראנשלאתִיוֹנש וּנדער דִיר [דעפֿאוּלת=%s]"
 
-#: include/grub/util/install.h:58
+#: include/grub/util/install.h:60
 #, c-format
 msgid "use themes under DIR [default=%s]"
 msgstr "וּשע תהעמעש וּנדער דִיר [דעפֿאוּלת=%s]"
 
-#: include/grub/util/install.h:63 util/grub-mkimage.c:77
+#: include/grub/util/install.h:65 util/grub-mkimage.c:78
 msgid "embed FILE as public key for signature checking"
 msgstr "עמבּעד פִֿילע אש פּוּבּלִיצ כּעיִ פֿוֹר שִיגנאתוּרע צהעצכִּינג"
 
-#: util/editenv.c:63
+#: util/editenv.c:59 util/grub-editenv.c:201 util/grub-install-common.c:535
+#: util/grub-mkimage.c:315 util/setup.c:791
+#, c-format
+msgid "cannot sync `%s': %s"
+msgstr "צאננוֹת שיִנצ `%s': %s"
+
+#: util/editenv.c:64
 #, c-format
 msgid "cannot rename the file %s to %s"
 msgstr "צאננוֹת רענאמע תהע פִֿילע %s תוֹ %s"
@@ -5153,12 +5253,12 @@ msgstr ""
 msgid "invalid environment block"
 msgstr "ִינבֿאלִיד ענבִֿירוֹנמענת בּלוֹצכּ"
 
-#: util/grub-editenv.c:216
+#: util/grub-editenv.c:217
 #, c-format
 msgid "invalid parameter %s"
 msgstr "ִינבֿאלִיד פּאראמעתער %s"
 
-#: util/grub-editenv.c:221
+#: util/grub-editenv.c:222
 msgid "environment block too small"
 msgstr "ענבִֿירוֹנמענת בּלוֹצכּ תוֹוֹ שמאלל"
 
@@ -5373,62 +5473,62 @@ msgstr "גלוּע 32-בִּית אנד 64-בִּית בִּינאריִ ִינ�
 msgid "Missing input file\n"
 msgstr "מִיששִינג ִינפּוּת פִֿילע\n"
 
-#: util/grub-install-common.c:121 util/grub-install-common.c:145
+#: util/grub-install-common.c:127 util/grub-install-common.c:151
 #, c-format
 msgid "cannot copy `%s' to `%s': %s"
 msgstr "צאננוֹת צוֹפּיִ `%s' תוֹ `%s': %s"
 
-#: util/grub-install-common.c:141
+#: util/grub-install-common.c:147
 #, c-format
 msgid "can't compress `%s' to `%s'"
 msgstr "צאנ'ת צוֹמפּרעשש `%s' תוֹ `%s'"
 
-#: util/grub-install-common.c:190 util/grub-install-common.c:539
-#: util/grub-install-common.c:566 util/grub-install-common.c:607
+#: util/grub-install-common.c:196 util/grub-install-common.c:552
+#: util/grub-install-common.c:579 util/grub-install-common.c:621
 #, c-format
 msgid "cannot open directory `%s': %s"
 msgstr "צאננוֹת וֹפּענ דִירעצתוֹריִ `%s': %s"
 
-#: util/grub-install-common.c:206
+#: util/grub-install-common.c:212
 #, c-format
 msgid "cannot delete `%s': %s"
 msgstr "צאננוֹת דעלעתע `%s': %s"
 
-#: util/grub-install-common.c:318 util/grub-mkimage.c:200
+#: util/grub-install-common.c:324 util/grub-mkimage.c:209
 msgid "grub-mkimage is compiled without XZ support"
 msgstr "גרוּבּ-מכִּימאגע ִיש צוֹמפִּילעד וִיתהוֹוּת כּסז שוּפּפּוֹרת"
 
-#: util/grub-install-common.c:326 util/grub-mkimage.c:208
+#: util/grub-install-common.c:332 util/grub-mkimage.c:217
 #, c-format
 msgid "Unknown compression format %s"
 msgstr "וּנכּנוֹונ צוֹמפּרעששִיוֹנ פֿוֹרמאת %s"
 
-#: util/grub-install-common.c:389
+#: util/grub-install-common.c:400
 #, c-format
 msgid "Unrecognized compression `%s'"
 msgstr "וּנרעצוֹגנִיזעד צוֹמפּרעששִיוֹנ `%s'"
 
-#: util/grub-install-common.c:497
+#: util/grub-install-common.c:509
 #, c-format
 msgid "unknown target format %s"
 msgstr "וּנכּנוֹונ תארגעת פֿוֹרמאת %s"
 
-#: util/grub-install-common.c:831
+#: util/grub-install-common.c:700
 #, c-format
 msgid "cannot find locale `%s'"
 msgstr "צאננוֹת פִֿינד לוֹצאלע `%s'"
 
-#: util/grub-install-common.c:914
+#: util/grub-install-common.c:939
 #, c-format
 msgid "%s doesn't exist. Please specify --target or --directory"
 msgstr "%s דוֹעשנ'ת עכּסִישת. פּלעאשע שפּעצִיפֿיִ --תארגעת וֹר --דִירעצתוֹריִ"
 
-#: util/grub-install-common.c:923 util/grub-install-common.c:926
+#: util/grub-install-common.c:948 util/grub-install-common.c:951
 #, c-format
 msgid "invalid modinfo file `%s'"
 msgstr "ִינבֿאלִיד מוֹדִינפֿוֹ פִֿילע `%s'"
 
-#: util/grub-install-common.c:941
+#: util/grub-install-common.c:966
 #, c-format
 msgid "Unknown platform `%s-%s'"
 msgstr "וּנכּנוֹונ פּלאתפֿוֹרמ `%s-%s'"
@@ -5444,7 +5544,7 @@ msgid ""
 msgstr ""
 "ִינשתאלל גרוּבּ ִימאגעש וּנדער תהע דִירעצתוֹריִ דִיר/%s ִינשתעאד וֹפֿ תהע %s דִירעצתוֹריִ"
 
-#: util/grub-install.c:256 util/grub-probe.c:686
+#: util/grub-install.c:256 util/grub-probe.c:734
 msgid "TARGET"
 msgstr "תארגעת"
 
@@ -5567,55 +5667,55 @@ msgstr ""
 "%s צוֹפִּיעש גרוּבּ ִימאגעש ִינתוֹ %s.  וֹנ שוֹמע פּלאתפֿוֹרמש, ִית מאיִ אלשוֹ ִינשתאלל גרוּבּ ִ"
 "ינתוֹ תהע בּוֹוֹת שעצתוֹר."
 
-#: util/grub-install.c:668
+#: util/grub-install.c:672
 #, c-format
 msgid "the drive %s is defined multiple times in the device map %s"
 msgstr "תהע דרִיבֿע %s ִיש דעפִֿינעד מוּלתִיפּלע תִימעש ִינ תהע דעבִֿיצע מאפּ %s"
 
-#: util/grub-install.c:874
+#: util/grub-install.c:878
 msgid "Unable to determine your platform. Use --target."
 msgstr "וּנאבּלע תוֹ דעתערמִינע יִוֹוּר פּלאתפֿוֹרמ. וּשע --תארגעת."
 
-#: util/grub-install.c:887
+#: util/grub-install.c:891
 #, c-format
 msgid "Installing for %s platform.\n"
 msgstr "ִינשתאללִינג פֿוֹר %s פּלאתפֿוֹרמ.\n"
 
-#: util/grub-install.c:931
+#: util/grub-install.c:939
 msgid "install device isn't specified"
 msgstr "ִינשתאלל דעבִֿיצע ִישנ'ת שפּעצִיפִֿיעד"
 
-#: util/grub-install.c:1043
+#: util/grub-install.c:1057
 msgid "cannot find EFI directory"
 msgstr "צאננוֹת פִֿינד עפִֿי דִירעצתוֹריִ"
 
-#: util/grub-install.c:1046 util/grub-install.c:1183 util/grub-install.c:1228
-#: util/grub-macbless.c:76 util/grub-probe.c:273 util/setup.c:316
+#: util/grub-install.c:1060 util/grub-install.c:1209 util/grub-install.c:1254
+#: util/grub-macbless.c:76 util/grub-probe.c:329 util/setup.c:316
 #, c-format
 msgid "cannot find a device for %s (is /dev mounted?)"
 msgstr "צאננוֹת פִֿינד א דעבִֿיצע פֿוֹר %s (ִיש /דעבֿ מוֹוּנתעד?)"
 
-#: util/grub-install.c:1055 util/grub-install.c:1191 util/grub-install.c:1244
-#: util/grub-install.c:1339 util/grub-macbless.c:80 util/grub-probe.c:316
+#: util/grub-install.c:1069 util/grub-install.c:1217 util/grub-install.c:1270
+#: util/grub-install.c:1365 util/grub-macbless.c:80 util/grub-probe.c:372
 #, c-format
 msgid "cannot find a GRUB drive for %s.  Check your device.map"
 msgstr "צאננוֹת פִֿינד א גרוּבּ דרִיבֿע פֿוֹר %s.  צהעצכּ יִוֹוּר דעבִֿיצע.מאפּ"
 
-#: util/grub-install.c:1073
+#: util/grub-install.c:1087
 #, c-format
 msgid "%s doesn't look like an EFI partition"
 msgstr "%s דוֹעשנ'ת לוֹוֹכּ לִיכּע אנ עפִֿי פּארתִיתִיוֹנ"
 
-#: util/grub-install.c:1109 util/grub-install.c:1579
+#: util/grub-install.c:1129 util/grub-install.c:1614
 msgid "You've found a bug"
 msgstr "יִוֹוּ'בֿע פֿוֹוּנד א בּוּג"
 
-#: util/grub-install.c:1205
+#: util/grub-install.c:1231
 #, c-format
 msgid "filesystem on %s is neither HFS nor HFS+"
 msgstr "פִֿילעשיִשתעמ וֹנ %s ִיש נעִיתהער הפֿש נוֹר הפֿש+"
 
-#: util/grub-install.c:1273
+#: util/grub-install.c:1299
 #, c-format
 msgid ""
 "attempt to install to encrypted disk without cryptodisk enabled. Set `%s' in "
@@ -5624,30 +5724,30 @@ msgstr ""
 "אתתעמפּת תוֹ ִינשתאלל תוֹ ענצריִפּתעד דִישכּ וִיתהוֹוּת צריִפּתוֹדִישכּ ענאבּלעד. שעת `%s' ִינ "
 "פִֿילע `%s'"
 
-#: util/grub-install.c:1384 util/grub-install.c:1733 util/grub-install.c:1833
+#: util/grub-install.c:1410 util/grub-install.c:1772 util/grub-install.c:1872
 #, c-format
 msgid "Can't create file: %s"
 msgstr "צאנ'ת צרעאתע פִֿילע: %s"
 
-#: util/grub-install.c:1461
+#: util/grub-install.c:1491
 msgid "no hints available for your platform. Expect reduced performance"
 msgstr "נוֹ הִינתש אבֿאִילאבּלע פֿוֹר יִוֹוּר פּלאתפֿוֹרמ. עכּספּעצת רעדוּצעד פּערפֿוֹרמאנצע"
 
 #. TRANSLATORS: This is a prefix in the log to indicate that usually
 #. a command would be executed but due to an option was skipped.
-#: util/grub-install.c:1663
+#: util/grub-install.c:1702
 msgid "NOT RUNNING: "
 msgstr "נוֹת רוּננִינג: "
 
-#: util/grub-install.c:1767
+#: util/grub-install.c:1806
 msgid "the chosen partition is not a PReP partition"
 msgstr "תהע צהוֹשענ פּארתִיתִיוֹנ ִיש נוֹת א פּרעפּ פּארתִיתִיוֹנ"
 
-#: util/grub-install.c:1772
+#: util/grub-install.c:1811
 msgid "failed to copy Grub to the PReP partition"
 msgstr "פֿאִילעד תוֹ צוֹפּיִ גרוּבּ תוֹ תהע פּרעפּ פּארתִיתִיוֹנ"
 
-#: util/grub-install.c:1777
+#: util/grub-install.c:1816
 #, c-format
 msgid ""
 "the PReP partition is not empty. If you are sure you want to use it, run dd "
@@ -5656,15 +5756,20 @@ msgstr ""
 "תהע פּרעפּ פּארתִיתִיוֹנ ִיש נוֹת עמפּתיִ. ִיפֿ יִוֹוּ ארע שוּרע יִוֹוּ ואנת תוֹ וּשע ִית, רוּנ דד "
 "תוֹ צלעאר ִית: `%s'"
 
-#: util/grub-install.c:1870
+#: util/grub-install.c:1888 util/grub-install.c:1932
+#, c-format
+msgid "efibootmgr failed to register the boot entry: %s"
+msgstr "עפִֿיבּוֹוֹתמגר פֿאִילעד תוֹ רעגִישתער תהע בּוֹוֹת ענתריִ: %s"
+
+#: util/grub-install.c:1916
 msgid "EFI bootloader id isn't specified."
 msgstr "עפִֿי בּוֹוֹתלוֹאדער ִיד ִישנ'ת שפּעצִיפִֿיעד."
 
-#: util/grub-install.c:1899
+#: util/grub-install.c:1950
 msgid "WARNING: no platform-specific install was performed"
 msgstr "וארנִינג: נוֹ פּלאתפֿוֹרמ-שפּעצִיפִֿיצ ִינשתאלל ואש פּערפֿוֹרמעד"
 
-#: util/grub-install.c:1906
+#: util/grub-install.c:1957
 msgid "Installation finished. No error reported."
 msgstr "ִינשתאללאתִיוֹנ פִֿינִישהעד. נוֹ עררוֹר רעפּוֹרתעד."
 
@@ -5676,7 +5781,7 @@ msgstr "בּלעשש פֿוֹר כּס86-בּאשעד מאצש"
 msgid "bless for ppc-based macs"
 msgstr "בּלעשש פֿוֹר פּפּצ-בּאשעד מאצש"
 
-#: util/grub-macbless.c:136 util/grub-probe.c:775
+#: util/grub-macbless.c:136 util/grub-probe.c:823
 msgid "No path or device is specified.\n"
 msgstr "נוֹ פּאתה וֹר דעבִֿיצע ִיש שפּעצִיפִֿיעד.\n"
 
@@ -5749,7 +5854,6 @@ msgid "WARNING: unsupported font feature parameters: %x\n"
 msgstr "וארנִינג: וּנשוּפּפּוֹרתעד פֿוֹנת פֿעאתוּרע פּאראמעתערש: %x\n"
 
 #: util/grub-mkfont.c:936 util/grub-mkrescue.c:98 util/grub-mkstandalone.c:48
-#: util/grub-kbdcomp.in:29
 msgid "save output in FILE [required]"
 msgstr "שאבֿע וֹוּתפּוּת ִינ פִֿילע [רעקוִּירעד]"
 
@@ -5824,8 +5928,8 @@ msgstr "[וֹפּתִיוֹנש] פֿוֹנת_פִֿילעש"
 msgid "Convert common font file formats into PF2"
 msgstr "צוֹנבֿערת צוֹממוֹנ פֿוֹנת פִֿילע פֿוֹרמאתש ִינתוֹ פּפֿ2"
 
-#: util/grub-mkfont.c:1182 util/grub-mkrescue.c:479
-#: util/grub-mkstandalone.c:306 util/grub-kbdcomp.in:70
+#: util/grub-mkfont.c:1182 util/grub-mkrescue.c:483
+#: util/grub-mkstandalone.c:306
 msgid "output file must be specified"
 msgstr "וֹוּתפּוּת פִֿילע מוּשת בּע שפּעצִיפִֿיעד"
 
@@ -5859,53 +5963,62 @@ msgstr ""
 "ִימפּלִיעש `-פּ (מעמדִישכּ)/בּוֹוֹת/גרוּבּ' אנד וֹבֿעררִידעש אניִ פּרעפִֿיכּס שוּפּפּלִיעד "
 "פּרעבִֿיוֹוּשליִ, בּוּת תהע פּרעפִֿיכּס ִיתשעלפֿ צאנ בּע וֹבֿעררִידדענ בּיִ לאתער וֹפּתִיוֹנש"
 
-#: util/grub-mkimage.c:75
+#: util/grub-mkimage.c:74
+msgid "embed FILE as a device tree (DTB)\n"
+msgstr "עמבּעד פִֿילע אש א דעבִֿיצע תרעע (דתבּ)\n"
+
+#: util/grub-mkimage.c:76
 msgid "embed FILE as an early config"
 msgstr "עמבּעד פִֿילע אש אנ עארליִ צוֹנפִֿיג"
 
 #. TRANSLATORS: NOTE is a name of segment.
-#: util/grub-mkimage.c:79
+#: util/grub-mkimage.c:80
 msgid "add NOTE segment for CHRP IEEE1275"
 msgstr "אדד נוֹתע שעגמענת פֿוֹר צהרפּ ִיעעע1275"
 
-#: util/grub-mkimage.c:80
+#: util/grub-mkimage.c:81
 msgid "output a generated image to FILE [default=stdout]"
 msgstr "וֹוּתפּוּת א גענעראתעד ִימאגע תוֹ פִֿילע [דעפֿאוּלת=שתדוֹוּת]"
 
-#: util/grub-mkimage.c:81
+#: util/grub-mkimage.c:82
 msgid "FORMAT"
 msgstr "פֿוֹרמאת"
 
-#: util/grub-mkimage.c:99 util/grub-mkstandalone.c:62
+#: util/grub-mkimage.c:100 util/grub-mkstandalone.c:62
 msgid "generate an image in FORMAT"
 msgstr "גענעראתע אנ ִימאגע ִינ פֿוֹרמאת"
 
-#: util/grub-mkimage.c:100 util/grub-mkstandalone.c:63
+#: util/grub-mkimage.c:101 util/grub-mkstandalone.c:63
 msgid "available formats:"
 msgstr "אבֿאִילאבּלע פֿוֹרמאתש:"
 
-#: util/grub-mkimage.c:150 util/grub-mkstandalone.c:96
+#: util/grub-mkimage.c:152 util/grub-mkstandalone.c:96
 #, c-format
 msgid "unknown target format %s\n"
 msgstr "וּנכּנוֹונ תארגעת פֿוֹרמאת %s\n"
 
-#: util/grub-mkimage.c:233
+#: util/grub-mkimage.c:242
 msgid "[OPTION]... [MODULES]"
 msgstr "[וֹפּתִיוֹנ]... [מוֹדוּלעש]"
 
-#: util/grub-mkimage.c:234
+#: util/grub-mkimage.c:243
 msgid "Make a bootable image of GRUB."
 msgstr "מאכּע א בּוֹוֹתאבּלע ִימאגע וֹפֿ גרוּבּ."
 
-#: util/grub-mkimage.c:264 util/grub-mkstandalone.c:309
+#: util/grub-mkimage.c:273 util/grub-mkstandalone.c:309
 msgid "Target format not specified (use the -O option)."
 msgstr "תארגעת פֿוֹרמאת נוֹת שפּעצִיפִֿיעד (וּשע תהע -וֹ וֹפּתִיוֹנ)."
 
-#: util/grub-mkimage.c:273
+#: util/grub-mkimage.c:282
 msgid "Prefix not specified (use the -p option)."
 msgstr "פּרעפִֿיכּס נוֹת שפּעצִיפִֿיעד (וּשע תהע -פּ וֹפּתִיוֹנ)."
 
-#: util/grub-mkimagexx.c:1815
+#: util/grub-mkimage.c:318 util/setup.c:793
+#, c-format
+msgid "cannot close `%s': %s"
+msgstr "צאננוֹת צלוֹשע `%s': %s"
+
+#: util/grub-mkimagexx.c:2191
 #, c-format
 msgid ""
 "`%s' is miscompiled: its start address is 0x%llx instead of 0x%llx: ld.gold "
@@ -5957,13 +6070,13 @@ msgstr ""
 "פּרעפּארעש גרוּבּ נעתווֹרכּ בּוֹוֹת ִימאגעש את נעת_דִירעצתוֹריִ/שוּבּדִיר אששוּמִינג "
 "נעת_דִירעצתוֹריִ בּעִינג תפֿתפּ רוֹוֹת."
 
-#: util/grub-mknetdir.c:144
+#: util/grub-mknetdir.c:146
 #, c-format
 msgid "unsupported platform %s"
 msgstr "וּנשוּפּפּוֹרתעד פּלאתפֿוֹרמ %s"
 
 #. TRANSLATORS: First %s is replaced by platform name. Second one by filename.
-#: util/grub-mknetdir.c:163
+#: util/grub-mknetdir.c:165
 #, c-format
 msgid ""
 "Netboot directory for %s created. Configure your DHCP server to point to %s\n"
@@ -6081,12 +6194,16 @@ msgstr "מאִיל כּסוֹררִישוֹ שוּפּפּוֹרת רעקוּע�
 msgid "[OPTION] SOURCE..."
 msgstr "[וֹפּתִיוֹנ] שוֹוּרצע..."
 
-#: util/grub-mkrescue.c:257 util/grub-mkrescue.c:300 util/grub-mkrescue.c:578
+#: util/grub-mkrescue.c:257 util/grub-mkrescue.c:300 util/grub-mkrescue.c:588
 #, c-format
 msgid "enabling %s support ..."
 msgstr "ענאבּלִינג %s שוּפּפּוֹרת ..."
 
-#: util/grub-mkrescue.c:613
+#: util/grub-mkrescue.c:486
+msgid "xorriso not found"
+msgstr "כּסוֹררִישוֹ נוֹת פֿוֹוּנד"
+
+#: util/grub-mkrescue.c:623
 msgid ""
 "Your xorriso doesn't support `--grub2-boot-info'. Some features are "
 "disabled. Please use xorriso 1.2.9 or later."
@@ -6094,7 +6211,7 @@ msgstr ""
 "יִוֹוּר כּסוֹררִישוֹ דוֹעשנ'ת שוּפּפּוֹרת `--גרוּבּ2-בּוֹוֹת-ִינפֿוֹ'. שוֹמע פֿעאתוּרעש ארע "
 "דִישאבּלעד. פּלעאשע וּשע כּסוֹררִישוֹ 1.2.9 וֹר לאתער."
 
-#: util/grub-mkrescue.c:640
+#: util/grub-mkrescue.c:650
 msgid ""
 "Your xorriso doesn't support `--grub2-boot-info'. Your core image is too "
 "big. Boot as disk is disabled. Please use xorriso 1.2.9 or later."
@@ -6120,32 +6237,32 @@ msgstr "ִימאגע1 [ִימאגע2 ...] מוֹוּנתפּוִֹינת"
 msgid "need an image and mountpoint"
 msgstr "נעעד אנ ִימאגע אנד מוֹוּנתפּוִֹינת"
 
-#: util/grub-probe.c:683
+#: util/grub-probe.c:731
 msgid "given argument is a system device, not a path"
 msgstr "גִיבֿענ ארגוּמענת ִיש א שיִשתעמ דעבִֿיצע, נוֹת א פּאתה"
 
-#: util/grub-probe.c:688
+#: util/grub-probe.c:736
 msgid "separate items in output using ASCII NUL characters"
 msgstr "שעפּאראתע ִיתעמש ִינ וֹוּתפּוּת וּשִינג אשצִיִי נוּל צהאראצתערש"
 
-#: util/grub-probe.c:706
+#: util/grub-probe.c:754
 #, c-format
 msgid "[default=%s]"
 msgstr "[דעפֿאוּלת=%s]"
 
-#: util/grub-probe.c:708
+#: util/grub-probe.c:756
 msgid "print TARGET"
 msgstr "פּרִינת תארגעת"
 
-#: util/grub-probe.c:709
+#: util/grub-probe.c:757
 msgid "available targets:"
 msgstr "אבֿאִילאבּלע תארגעתש:"
 
-#: util/grub-probe.c:791
+#: util/grub-probe.c:839
 msgid "[OPTION]... [PATH|DEVICE]"
 msgstr "[וֹפּתִיוֹנ]... [פּאתה|דעבִֿיצע]"
 
-#: util/grub-probe.c:792
+#: util/grub-probe.c:840
 msgid ""
 "Probe device information for a given path (or device, if the -d option is "
 "given)."
@@ -6259,41 +6376,41 @@ msgstr "ורִיתע וֹוּתפּוּת תוֹ פִֿילע [דעפֿאוּל�
 msgid "Transform syslinux config into GRUB one."
 msgstr "תראנשפֿוֹרמ שיִשלִינוּכּס צוֹנפִֿיג ִינתוֹ גרוּבּ וֹנע."
 
-#: util/mkimage.c:604 util/mkimage.c:633 util/mkimage.c:650
+#: util/mkimage.c:688 util/mkimage.c:717 util/mkimage.c:734
 msgid "cannot compress the kernel image"
 msgstr "צאננוֹת צוֹמפּרעשש תהע כּערנעל ִימאגע"
 
-#: util/mkimage.c:682 util/mkimage.c:974
+#: util/mkimage.c:766 util/mkimage.c:1077
 #, c-format
 msgid "unknown compression %d"
 msgstr "וּנכּנוֹונ צוֹמפּרעששִיוֹנ %d"
 
-#: util/mkimage.c:985
+#: util/mkimage.c:1088
 msgid "Decompressor is too big"
 msgstr "דעצוֹמפּרעששוֹר ִיש תוֹוֹ בִּיג"
 
-#: util/mkimage.c:1030
+#: util/mkimage.c:1133
 #, c-format
 msgid "core image is too big (0x%x > 0x%x)"
 msgstr "צוֹרע ִימאגע ִיש תוֹוֹ בִּיג (0כּס%x > 0כּס%x)"
 
-#: util/mkimage.c:1037
+#: util/mkimage.c:1140
 #, c-format
 msgid "kernel image is too big (0x%x > 0x%x)"
 msgstr "כּערנעל ִימאגע ִיש תוֹוֹ בִּיג (0כּס%x > 0כּס%x)"
 
-#: util/mkimage.c:1116 util/mkimage.c:1397
+#: util/mkimage.c:1220 util/mkimage.c:1501
 #, c-format
 msgid "diskboot.img size must be %u bytes"
 msgstr "דִישכּבּוֹוֹת.ִימג שִיזע מוּשת בּע %u בּיִתעש"
 
-#: util/mkimage.c:1467
+#: util/mkimage.c:1571
 msgid ""
 "fwstart.img doesn't match the known good version. proceed at your own risk"
 msgstr ""
 "פֿושתארת.ִימג דוֹעשנ'ת מאתצה תהע כּנוֹונ גוֹוֹד בֿערשִיוֹנ. פּרוֹצעעד את יִוֹוּר וֹונ רִישכּ"
 
-#: util/mkimage.c:1471 util/mkimage.c:1497
+#: util/mkimage.c:1575 util/mkimage.c:1601
 msgid "firmware image is too big"
 msgstr "פִֿירמוארע ִימאגע ִיש תוֹוֹ בִּיג"
 
@@ -6302,29 +6419,29 @@ msgstr "פִֿירמוארע ִימאגע ִיש תוֹוֹ בִּיג"
 msgid "invalid line format: %s"
 msgstr "ִינבֿאלִיד לִינע פֿוֹרמאת: %s"
 
-#: util/setup.c:160
+#: util/setup.c:167
 msgid "the first sector of the core file is not sector-aligned"
 msgstr "תהע פִֿירשת שעצתוֹר וֹפֿ תהע צוֹרע פִֿילע ִיש נוֹת שעצתוֹר-אלִיגנעד"
 
-#: util/setup.c:170
+#: util/setup.c:177
 msgid "non-sector-aligned data is found in the core file"
 msgstr "נוֹנ-שעצתוֹר-אלִיגנעד דאתא ִיש פֿוֹוּנד ִינ תהע צוֹרע פִֿילע"
 
-#: util/setup.c:192
+#: util/setup.c:199
 msgid "the sectors of the core file are too fragmented"
 msgstr "תהע שעצתוֹרש וֹפֿ תהע צוֹרע פִֿילע ארע תוֹוֹ פֿראגמענתעד"
 
-#: util/setup.c:277
+#: util/setup.c:280
 #, c-format
 msgid "the size of `%s' is not %u"
 msgstr "תהע שִיזע וֹפֿ `%s' ִיש נוֹת %u"
 
-#: util/setup.c:289
+#: util/setup.c:290
 #, c-format
 msgid "the size of `%s' is too small"
 msgstr "תהע שִיזע וֹפֿ `%s' ִיש תוֹוֹ שמאלל"
 
-#: util/setup.c:425
+#: util/setup.c:428
 msgid ""
 "Attempting to install GRUB to a disk with multiple partition labels or both "
 "partition label and filesystem.  This is not supported yet."
@@ -6332,13 +6449,13 @@ msgstr ""
 "אתתעמפּתִינג תוֹ ִינשתאלל גרוּבּ תוֹ א דִישכּ וִיתה מוּלתִיפּלע פּארתִיתִיוֹנ לאבּעלש וֹר בּוֹתה "
 "פּארתִיתִיוֹנ לאבּעל אנד פִֿילעשיִשתעמ.  תהִיש ִיש נוֹת שוּפּפּוֹרתעד יִעת."
 
-#: util/setup.c:438
+#: util/setup.c:441
 #, c-format
 msgid "unable to identify a filesystem in %s; safety check can't be performed"
 msgstr "וּנאבּלע תוֹ ִידענתִיפֿיִ א פִֿילעשיִשתעמ ִינ %s; שאפֿעתיִ צהעצכּ צאנ'ת בּע פּערפֿוֹרמעד"
 
 #. TRANSLATORS: Filesystem may reserve the space just GRUB isn't sure about it.
-#: util/setup.c:442
+#: util/setup.c:445
 #, c-format
 msgid ""
 "%s appears to contain a %s filesystem which isn't known to reserve space for "
@@ -6352,7 +6469,7 @@ msgstr ""
 "תהִיש צהעצכּ, וּשע את יִוֹוּר וֹונ רִישכּ)"
 
 #. TRANSLATORS: Partition map may reserve the space just GRUB isn't sure about it.
-#: util/setup.c:455
+#: util/setup.c:458
 #, c-format
 msgid ""
 "%s appears to contain a %s partition map which isn't known to reserve space "
@@ -6365,7 +6482,7 @@ msgstr ""
 "דעשתרוּצתִיוֹנ ִיפֿ בֿאלוּאבּלע דאתא ִיש וֹבֿערורִיתתענ בּיִ גרוּבּ-שעתוּפּ (--שכִּיפּ-פֿש-פּרוֹבּע "
 "דִישאבּלעש תהִיש צהעצכּ, וּשע את יִוֹוּר וֹונ רִישכּ)"
 
-#: util/setup.c:462
+#: util/setup.c:465
 #, c-format
 msgid ""
 "%s appears to contain a %s partition map and LDM which isn't known to be a "
@@ -6378,7 +6495,7 @@ msgstr ""
 "דעשתרוּצתִיוֹנ ִיפֿ בֿאלוּאבּלע דאתא ִיש וֹבֿערורִיתתענ בּיִ גרוּבּ-שעתוּפּ (--שכִּיפּ-פֿש-פּרוֹבּע "
 "דִישאבּלעש תהִיש צהעצכּ, וּשע את יִוֹוּר וֹונ רִישכּ)"
 
-#: util/setup.c:475
+#: util/setup.c:478
 msgid ""
 "Attempting to install GRUB to a partitionless disk or to a partition.  This "
 "is a BAD idea."
@@ -6386,7 +6503,7 @@ msgstr ""
 "אתתעמפּתִינג תוֹ ִינשתאלל גרוּבּ תוֹ א פּארתִיתִיוֹנלעשש דִישכּ וֹר תוֹ א פּארתִיתִיוֹנ.  תהִיש ִ"
 "יש א בּאד ִידעא."
 
-#: util/setup.c:480
+#: util/setup.c:483
 msgid ""
 "Attempting to install GRUB to a disk with multiple partition labels.  This "
 "is not supported yet."
@@ -6394,51 +6511,51 @@ msgstr ""
 "אתתעמפּתִינג תוֹ ִינשתאלל גרוּבּ תוֹ א דִישכּ וִיתה מוּלתִיפּלע פּארתִיתִיוֹנ לאבּעלש.  תהִיש ִ"
 "יש נוֹת שוּפּפּוֹרתעד יִעת."
 
-#: util/setup.c:486
+#: util/setup.c:489
 #, c-format
 msgid "Partition style `%s' doesn't support embedding"
 msgstr "פּארתִיתִיוֹנ שתיִלע `%s' דוֹעשנ'ת שוּפּפּוֹרת עמבּעדדִינג"
 
-#: util/setup.c:493
+#: util/setup.c:496
 #, c-format
 msgid "File system `%s' doesn't support embedding"
 msgstr "פִֿילע שיִשתעמ `%s' דוֹעשנ'ת שוּפּפּוֹרת עמבּעדדִינג"
 
-#: util/setup.c:522
+#: util/setup.c:537
 msgid "Your embedding area is unusually small.  core.img won't fit in it."
 msgstr "יִוֹוּר עמבּעדדִינג ארעא ִיש וּנוּשוּאלליִ שמאלל.  צוֹרע.ִימג ווֹנ'ת פִֿית ִינ ִית."
 
-#: util/setup.c:544 util/setup.c:660 util/setup.c:764
+#: util/setup.c:559 util/setup.c:725 util/setup.c:844
 msgid "no terminator in the core image"
 msgstr "נוֹ תערמִינאתוֹר ִינ תהע צוֹרע ִימאגע"
 
-#: util/setup.c:577
+#: util/setup.c:622
 msgid "core.img version mismatch"
 msgstr "צוֹרע.ִימג בֿערשִיוֹנ מִישמאתצה"
 
-#: util/setup.c:610
+#: util/setup.c:675
 msgid ""
 "embedding is not possible, but this is required for RAID and LVM install"
 msgstr ""
 "עמבּעדדִינג ִיש נוֹת פּוֹששִיבּלע, בּוּת תהִיש ִיש רעקוִּירעד פֿוֹר ראִיד אנד לבֿמ ִינשתאלל"
 
-#: util/setup.c:617
+#: util/setup.c:682
 #, c-format
 msgid "can't determine filesystem on %s"
 msgstr "צאנ'ת דעתערמִינע פִֿילעשיִשתעמ וֹנ %s"
 
-#: util/setup.c:620
+#: util/setup.c:685
 #, c-format
 msgid "filesystem `%s' doesn't support blocklists"
 msgstr "פִֿילעשיִשתעמ `%s' דוֹעשנ'ת שוּפּפּוֹרת בּלוֹצכּלִישתש"
 
 #. TRANSLATORS: cross-disk refers to /boot being on one disk
 #. but MBR on another.
-#: util/setup.c:629
+#: util/setup.c:694
 msgid "embedding is not possible, but this is required for cross-disk install"
 msgstr "עמבּעדדִינג ִיש נוֹת פּוֹששִיבּלע, בּוּת תהִיש ִיש רעקוִּירעד פֿוֹר צרוֹשש-דִישכּ ִינשתאלל"
 
-#: util/setup.c:635
+#: util/setup.c:700
 msgid ""
 "Embedding is not possible.  GRUB can only be installed in this setup by "
 "using blocklists.  However, blocklists are UNRELIABLE and their use is "
@@ -6449,346 +6566,14 @@ msgstr ""
 "דִישצוֹוּראגעד."
 
 #. TRANSLATORS: Here GRUB refuses to continue with blocklist install.
-#: util/setup.c:640
+#: util/setup.c:705
 msgid "will not proceed with blocklists"
 msgstr "וִילל נוֹת פּרוֹצעעד וִיתה בּלוֹצכּלִישתש"
 
-#: util/setup.c:737 util/setup.c:757
+#: util/setup.c:817 util/setup.c:837
 msgid "blocklists are invalid"
 msgstr "בּלוֹצכּלִישתש ארע ִינבֿאלִיד"
 
-#: util/setup.c:767
+#: util/setup.c:847
 msgid "blocklists are incomplete"
 msgstr "בּלוֹצכּלִישתש ארע ִינצוֹמפּלעתע"
-
-#: util/grub-kbdcomp.in:24
-msgid "Usage: %s -o OUTPUT CKBMAP_ARGUMENTS...\\n"
-msgstr "וּשאגע: %s -וֹ וֹוּתפּוּת צכּבּמאפּ_ארגוּמענתש...\\נ"
-
-#: util/grub-kbdcomp.in:25
-msgid "Make GRUB keyboard layout file."
-msgstr "מאכּע גרוּבּ כּעיִבּוֹארד לאיִוֹוּת פִֿילע."
-
-#: util/grub-kbdcomp.in:27 util/grub-mkconfig.in:61 util/grub-reboot.in:49
-#: util/grub-set-default.in:51
-msgid "print this message and exit"
-msgstr "פּרִינת תהִיש מעששאגע אנד עכּסִית"
-
-#: util/grub-kbdcomp.in:28 util/grub-mkconfig.in:62 util/grub-reboot.in:50
-#: util/grub-set-default.in:52
-msgid "print the version information and exit"
-msgstr "פּרִינת תהע בֿערשִיוֹנ ִינפֿוֹרמאתִיוֹנ אנד עכּסִית"
-
-#: util/grub-kbdcomp.in:31
-msgid "%s generates a keyboard layout for GRUB using ckbcomp\\n"
-msgstr "%s גענעראתעש א כּעיִבּוֹארד לאיִוֹוּת פֿוֹר גרוּבּ וּשִינג צכּבּצוֹמפּ\\נ"
-
-#: util/grub-kbdcomp.in:33 util/grub-mkconfig.in:64 util/grub-reboot.in:60
-#: util/grub-set-default.in:58
-msgid "Report bugs to <bug-grub@gnu.org>."
-msgstr "רעפּוֹרת בּוּגש תוֹ <בּוּג-גרוּבּ@גנוּ.וֹרג>."
-
-#: util/grub-kbdcomp.in:41 util/grub-mkconfig.in:72 util/grub-reboot.in:68
-#: util/grub-set-default.in:66
-msgid "%s: option requires an argument -- `%s'\\n"
-msgstr "%s: וֹפּתִיוֹנ רעקוִּירעש אנ ארגוּמענת -- `%s'\\נ"
-
-#: util/grub-mkconfig.in:57
-msgid "Usage: %s [OPTION]\\n"
-msgstr "וּשאגע: %s [וֹפּתִיוֹנ]\\נ"
-
-#: util/grub-mkconfig.in:58
-msgid "Generate a grub config file"
-msgstr "גענעראתע א גרוּבּ צוֹנפִֿיג פִֿילע"
-
-#: util/grub-mkconfig.in:60
-msgid "output generated config to FILE [default=stdout]"
-msgstr "וֹוּתפּוּת גענעראתעד צוֹנפִֿיג תוֹ פִֿילע [דעפֿאוּלת=שתדוֹוּת]"
-
-#: util/grub-mkconfig.in:97 util/grub-reboot.in:100 util/grub-set-default.in:98
-msgid "Unrecognized option `%s'\\n"
-msgstr "וּנרעצוֹגנִיזעד וֹפּתִיוֹנ `%s'\\נ"
-
-#: util/grub-mkconfig.in:121
-msgid "%s: You must run this as root\\n"
-msgstr "%s: יִוֹוּ מוּשת רוּנ תהִיש אש רוֹוֹת\\נ"
-
-#: util/grub-mkconfig.in:130
-msgid "%s: Not found.\\n"
-msgstr "%s: נוֹת פֿוֹוּנד.\\נ"
-
-#: util/grub-mkconfig.in:238
-msgid "Generating grub configuration file ..."
-msgstr "גענעראתִינג גרוּבּ צוֹנפִֿיגוּראתִיוֹנ פִֿילע ..."
-
-#. TRANSLATORS: %s is replaced by filename
-#: util/grub-mkconfig.in:271
-msgid ""
-"Syntax errors are detected in generated GRUB config file.\n"
-"Ensure that there are no errors in /etc/default/grub\n"
-"and /etc/grub.d/* files or please file a bug report with\n"
-"%s file attached."
-msgstr ""
-"שיִנתאכּס עררוֹרש ארע דעתעצתעד ִינ גענעראתעד גרוּבּ צוֹנפִֿיג פִֿילע.\n"
-"ענשוּרע תהאת תהערע ארע נוֹ עררוֹרש ִינ /עתצ/דעפֿאוּלת/גרוּבּ\n"
-"אנד /עתצ/גרוּבּ.ד/* פִֿילעש וֹר פּלעאשע פִֿילע א בּוּג רעפּוֹרת וִיתה\n"
-"%s פִֿילע אתתאצהעד."
-
-#: util/grub-mkconfig.in:283
-msgid "done"
-msgstr "דוֹנע"
-
-#: util/grub-mkconfig_lib.in:47
-msgid "Warning:"
-msgstr "וארנִינג:"
-
-#: util/grub-reboot.in:47 util/grub-set-default.in:47
-msgid "Usage: %s [OPTION] MENU_ENTRY\\n"
-msgstr "וּשאגע: %s [וֹפּתִיוֹנ] מענוּ_ענתריִ\\נ"
-
-#: util/grub-reboot.in:48
-msgid "Set the default boot menu entry for GRUB, for the next boot only."
-msgstr "שעת תהע דעפֿאוּלת בּוֹוֹת מענוּ ענתריִ פֿוֹר גרוּבּ, פֿוֹר תהע נעכּסת בּוֹוֹת וֹנליִ."
-
-#: util/grub-reboot.in:51 util/grub-set-default.in:53
-msgid ""
-"expect GRUB images under the directory DIR/%s instead of the %s directory"
-msgstr ""
-"עכּספּעצת גרוּבּ ִימאגעש וּנדער תהע דִירעצתוֹריִ דִיר/%s ִינשתעאד וֹפֿ תהע %s דִירעצתוֹריִ"
-
-#: util/grub-reboot.in:54
-msgid ""
-"MENU_ENTRY is a number, a menu item title or a menu item identifier. Please "
-"note that menu items in\n"
-"submenus or sub-submenus require specifying the submenu components and then "
-"the\n"
-"menu item component. The titles should be separated using the greater-than\n"
-"character (>) with no extra spaces. Depending on your shell some characters "
-"including > may need escaping. More information about this is available\n"
-"in the GRUB Manual in the section about the 'default' command. "
-msgstr ""
-"מענוּ_ענתריִ ִיש א נוּמבּער, א מענוּ ִיתעמ תִיתלע וֹר א מענוּ ִיתעמ ִידענתִיפִֿיער. פּלעאשע "
-"נוֹתע תהאת מענוּ ִיתעמש ִינ\n"
-"שוּבּמענוּש וֹר שוּבּ-שוּבּמענוּש רעקוִּירע שפּעצִיפֿיִִינג תהע שוּבּמענוּ צוֹמפּוֹנענתש אנד תהענ "
-"תהע\n"
-"מענוּ ִיתעמ צוֹמפּוֹנענת. תהע תִיתלעש שהוֹוּלד בּע שעפּאראתעד וּשִינג תהע גרעאתער-תהאנ\n"
-"צהאראצתער (>) וִיתה נוֹ עכּסתרא שפּאצעש. דעפּענדִינג וֹנ יִוֹוּר שהעלל שוֹמע צהאראצתערש ִ"
-"ינצלוּדִינג > מאיִ נעעד עשצאפִּינג. מוֹרע ִינפֿוֹרמאתִיוֹנ אבּוֹוּת תהִיש ִיש אבֿאִילאבּלע\n"
-"ִינ תהע גרוּבּ מאנוּאל ִינ תהע שעצתִיוֹנ אבּוֹוּת תהע 'דעפֿאוּלת' צוֹממאנד. "
-
-#: util/grub-reboot.in:106 util/grub-set-default.in:104
-msgid "More than one menu entry?"
-msgstr "מוֹרע תהאנ וֹנע מענוּ ענתריִ?"
-
-#: util/grub-reboot.in:116 util/grub-set-default.in:114
-msgid "Menu entry not specified."
-msgstr "מענוּ ענתריִ נוֹת שפּעצִיפִֿיעד."
-
-#: util/grub-set-default.in:48
-msgid "Set the default boot menu entry for GRUB."
-msgstr "שעת תהע דעפֿאוּלת בּוֹוֹת מענוּ ענתריִ פֿוֹר גרוּבּ."
-
-#: util/grub-set-default.in:49
-msgid "This requires setting GRUB_DEFAULT=saved in %s/default/grub.\\n"
-msgstr "תהִיש רעקוִּירעש שעתתִינג גרוּבּ_דעפֿאוּלת=שאבֿעד ִינ %s/דעפֿאוּלת/גרוּבּ.\\נ"
-
-#: util/grub-set-default.in:56
-msgid "MENU_ENTRY is a number, a menu item title or a menu item identifier."
-msgstr "מענוּ_ענתריִ ִיש א נוּמבּער, א מענוּ ִיתעמ תִיתלע וֹר א מענוּ ִיתעמ ִידענתִיפִֿיער."
-
-#: util/grub.d/00_header.in:141
-msgid ""
-"Requested serial terminal but GRUB_SERIAL_COMMAND is unspecified. Default "
-"parameters will be used."
-msgstr ""
-"רעקוּעשתעד שערִיאל תערמִינאל בּוּת גרוּבּ_שערִיאל_צוֹממאנד ִיש וּנשפּעצִיפִֿיעד. דעפֿאוּלת "
-"פּאראמעתערש וִילל בּע וּשעד."
-
-#: util/grub.d/00_header.in:232
-msgid "Found theme: %s\\n"
-msgstr "פֿוֹוּנד תהעמע: %s\\נ"
-
-#: util/grub.d/00_header.in:268
-msgid "Found background: %s\\n"
-msgstr "פֿוֹוּנד בּאצכּגרוֹוּנד: %s\\נ"
-
-#: util/grub.d/00_header.in:273
-msgid "Unsupported image format"
-msgstr "וּנשוּפּפּוֹרתעד ִימאגע פֿוֹרמאת"
-
-#: util/grub.d/00_header.in:292
-msgid ""
-"Setting GRUB_TIMEOUT to a non-zero value when GRUB_HIDDEN_TIMEOUT is set is "
-"no longer supported."
-msgstr ""
-"שעתתִינג גרוּבּ_תִימעוֹוּת תוֹ א נוֹנ-זערוֹ בֿאלוּע והענ גרוּבּ_הִידדענ_תִימעוֹוּת ִיש שעת ִיש "
-"נוֹ לוֹנגער שוּפּפּוֹרתעד."
-
-#: util/grub.d/10_hurd.in:48
-msgid "Found GNU Mach: %s"
-msgstr "פֿוֹוּנד גנוּ מאצה: %s"
-
-#: util/grub.d/10_hurd.in:63
-msgid "Found Hurd module: %s"
-msgstr "פֿוֹוּנד הוּרד מוֹדוּלע: %s"
-
-#: util/grub.d/10_hurd.in:77
-msgid "Some Hurd stuff found, but not enough to boot."
-msgstr "שוֹמע הוּרד שתוּפֿפֿ פֿוֹוּנד, בּוּת נוֹת ענוֹוּגה תוֹ בּוֹוֹת."
-
-#: util/grub.d/10_hurd.in:91
-msgid "%s, with Hurd %s (recovery mode)"
-msgstr "%s, וִיתה הוּרד %s (רעצוֹבֿעריִ מוֹדע)"
-
-#: util/grub.d/10_hurd.in:94
-msgid "%s, with Hurd %s"
-msgstr "%s, וִיתה הוּרד %s"
-
-#: util/grub.d/10_hurd.in:100 util/grub.d/10_kfreebsd.in:87
-#: util/grub.d/10_linux.in:93 util/grub.d/10_netbsd.in:113
-#: util/grub.d/20_linux_xen.in:101 util/grub.d/30_os-prober.in:278
-msgid ""
-"Please don't use old title `%s' for GRUB_DEFAULT, use `%s' (for versions "
-"before 2.00) or `%s' (for 2.00 or later)"
-msgstr ""
-"פּלעאשע דוֹנ'ת וּשע וֹלד תִיתלע `%s' פֿוֹר גרוּבּ_דעפֿאוּלת, וּשע `%s' (פֿוֹר בֿערשִיוֹנש "
-"בּעפֿוֹרע 2.00) וֹר `%s' (פֿוֹר 2.00 וֹר לאתער)"
-
-#: util/grub.d/10_hurd.in:112
-msgid "Loading GNU Mach ..."
-msgstr "לוֹאדִינג גנוּ מאצה ..."
-
-#: util/grub.d/10_hurd.in:128
-msgid "Loading the Hurd ..."
-msgstr "לוֹאדִינג תהע הוּרד ..."
-
-#. TRANSLATORS: %s is replaced with an OS name
-#: util/grub.d/10_hurd.in:164 util/grub.d/10_kfreebsd.in:225
-#: util/grub.d/10_linux.in:237 util/grub.d/10_netbsd.in:168
-#: util/grub.d/30_os-prober.in:254
-msgid "Advanced options for %s"
-msgstr "אדבֿאנצעד וֹפּתִיוֹנש פֿוֹר %s"
-
-#: util/grub.d/10_illumos.in:40
-msgid "Loading kernel of Illumos ..."
-msgstr "לוֹאדִינג כּערנעל וֹפֿ ִיללוּמוֹש ..."
-
-#: util/grub.d/10_kfreebsd.in:79
-msgid "%s, with kFreeBSD %s (recovery mode)"
-msgstr "%s, וִיתה כּפֿרעעבּשד %s (רעצוֹבֿעריִ מוֹדע)"
-
-#: util/grub.d/10_kfreebsd.in:81
-msgid "%s, with kFreeBSD %s"
-msgstr "%s, וִיתה כּפֿרעעבּשד %s"
-
-#: util/grub.d/10_kfreebsd.in:101
-msgid "Loading kernel of FreeBSD %s ..."
-msgstr "לוֹאדִינג כּערנעל וֹפֿ פֿרעעבּשד %s ..."
-
-#: util/grub.d/10_kfreebsd.in:164
-msgid "Found kernel of FreeBSD: %s\\n"
-msgstr "פֿוֹוּנד כּערנעל וֹפֿ פֿרעעבּשד: %s\\נ"
-
-#: util/grub.d/10_kfreebsd.in:213
-msgid "Found kernel module directory: %s\\n"
-msgstr "פֿוֹוּנד כּערנעל מוֹדוּלע דִירעצתוֹריִ: %s\\נ"
-
-#: util/grub.d/10_linux.in:85
-msgid "%s, with Linux %s (recovery mode)"
-msgstr "%s, וִיתה לִינוּכּס %s (רעצוֹבֿעריִ מוֹדע)"
-
-#: util/grub.d/10_linux.in:87
-msgid "%s, with Linux %s"
-msgstr "%s, וִיתה לִינוּכּס %s"
-
-#: util/grub.d/10_linux.in:131 util/grub.d/20_linux_xen.in:117
-msgid "Loading Linux %s ..."
-msgstr "לוֹאדִינג לִינוּכּס %s ..."
-
-#. TRANSLATORS: ramdisk isn't identifier. Should be translated.
-#: util/grub.d/10_linux.in:138 util/grub.d/20_linux_xen.in:131
-msgid "Loading initial ramdisk ..."
-msgstr "לוֹאדִינג ִינִיתִיאל ראמדִישכּ ..."
-
-#: util/grub.d/10_linux.in:183 util/grub.d/20_linux_xen.in:211
-msgid "Found linux image: %s\\n"
-msgstr "פֿוֹוּנד לִינוּכּס ִימאגע: %s\\נ"
-
-#: util/grub.d/10_linux.in:220 util/grub.d/20_linux_xen.in:234
-msgid "Found initrd image: %s\\n"
-msgstr "פֿוֹוּנד ִינִיתרד ִימאגע: %s\\נ"
-
-#: util/grub.d/10_netbsd.in:105
-msgid "%s, with kernel %s (via %s, recovery mode)"
-msgstr "%s, וִיתה כּערנעל %s (בִֿיא %s, רעצוֹבֿעריִ מוֹדע)"
-
-#: util/grub.d/10_netbsd.in:107
-msgid "%s, with kernel %s (via %s)"
-msgstr "%s, וִיתה כּערנעל %s (בִֿיא %s)"
-
-#: util/grub.d/10_netbsd.in:158
-msgid "Found NetBSD kernel: %s\\n"
-msgstr "פֿוֹוּנד נעתבּשד כּערנעל: %s\\נ"
-
-#: util/grub.d/10_windows.in:70
-msgid "Windows Vista/7 (loader)"
-msgstr "וִינדוֹוש בִֿישתא/7 (לוֹאדער)"
-
-#: util/grub.d/10_windows.in:74
-msgid "Windows NT/2000/XP (loader)"
-msgstr "וִינדוֹוש נת/2000/כּספּ (לוֹאדער)"
-
-#: util/grub.d/10_windows.in:85
-msgid "Found %s on %s (%s)\\n"
-msgstr "פֿוֹוּנד %s וֹנ %s (%s)\\נ"
-
-#. TRANSLATORS: it refers to kernel architecture (32-bit)
-#: util/grub.d/10_xnu.in:32 util/grub.d/30_os-prober.in:47
-msgid "(32-bit)"
-msgstr "(32-בִּית)"
-
-#. TRANSLATORS: it refers to kernel architecture (64-bit)
-#: util/grub.d/10_xnu.in:35 util/grub.d/30_os-prober.in:50
-msgid "(64-bit)"
-msgstr "(64-בִּית)"
-
-#. TRANSLATORS: it refers on the OS residing on device %s
-#: util/grub.d/10_xnu.in:38 util/grub.d/30_os-prober.in:53
-#: util/grub.d/30_os-prober.in:149 util/grub.d/30_os-prober.in:181
-#: util/grub.d/30_os-prober.in:222 util/grub.d/30_os-prober.in:294
-msgid "(on %s)"
-msgstr "(וֹנ %s)"
-
-#: util/grub.d/20_linux_xen.in:93
-msgid "%s, with Xen %s and Linux %s (recovery mode)"
-msgstr "%s, וִיתה כּסענ %s אנד לִינוּכּס %s (רעצוֹבֿעריִ מוֹדע)"
-
-#: util/grub.d/20_linux_xen.in:95
-msgid "%s, with Xen %s and Linux %s"
-msgstr "%s, וִיתה כּסענ %s אנד לִינוּכּס %s"
-
-#: util/grub.d/20_linux_xen.in:105
-msgid "%s, with Xen hypervisor"
-msgstr "%s, וִיתה כּסענ היִפּערבִֿישוֹר"
-
-#: util/grub.d/20_linux_xen.in:116
-msgid "Loading Xen %s ..."
-msgstr "לוֹאדִינג כּסענ %s ..."
-
-#: util/grub.d/20_linux_xen.in:207 util/grub.d/20_linux_xen.in:251
-msgid "Xen hypervisor, version %s"
-msgstr "כּסענ היִפּערבִֿישוֹר, בֿערשִיוֹנ %s"
-
-#. TRANSLATORS: %s is replaced with an OS name
-#: util/grub.d/20_linux_xen.in:250
-msgid "Advanced options for %s (with Xen hypervisor)"
-msgstr "אדבֿאנצעד וֹפּתִיוֹנש פֿוֹר %s (וִיתה כּסענ היִפּערבִֿישוֹר)"
-
-#: util/grub.d/30_os-prober.in:144
-msgid "Found %s on %s\\n"
-msgstr "פֿוֹוּנד %s וֹנ %s\\נ"
-
-#. TRANSLATORS: %s is replaced by OS name.
-#: util/grub.d/30_os-prober.in:332
-msgid "%s is not yet supported by grub-mkconfig.\\n"
-msgstr "%s ִיש נוֹת יִעת שוּפּפּוֹרתעד בּיִ גרוּבּ-מכּצוֹנפִֿיג.\\נ"

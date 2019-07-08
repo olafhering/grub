@@ -111,13 +111,16 @@ grub_ieee1275_num_blocks (grub_ieee1275_ihandle_t ihandle)
   if ((IEEE1275_CALL_ENTRY_FN (&args) == -1) || (args.catch_result != 0))
     return -1;
 
-  /* If the number of blocks exceeds the range of an unsigned number,
-     return 0 to alert the caller to try the #blocks64 command. */
+  /*
+   * If the number of blocks exceeds the range of an unsigned number,
+   * return 0 to alert the caller to try the #blocks64 command.
+   */
   if (args.blocks >= 0xffffffffULL)
     return 0;
 
   return args.blocks;
 }
+
 grub_uint64_t
 grub_ieee1275_num_blocks64 (grub_ieee1275_ihandle_t ihandle)
 {

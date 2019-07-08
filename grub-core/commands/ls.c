@@ -129,8 +129,8 @@ print_files_long (const char *filename, const struct grub_dirhook_info *info,
 
       /* XXX: For ext2fs symlinks are detected as files while they
 	 should be reported as directories.  */
-      grub_file_filter_disable_compression ();
-      file = grub_file_open (pathname);
+      file = grub_file_open (pathname, GRUB_FILE_TYPE_GET_SIZE
+			     | GRUB_FILE_TYPE_NO_DECOMPRESS);
       if (! file)
 	{
 	  grub_errno = 0;
@@ -201,8 +201,15 @@ grub_ls_list_files (char *dirname, int longlist, int all, int human)
       if (grub_errno == GRUB_ERR_UNKNOWN_FS)
 	grub_errno = GRUB_ERR_NONE;
 
+#ifdef GRUB_MACHINE_IEEE1275
+      /*
+       * Close device to prevent a double open in grub_normal_print_device_info().
+       * Otherwise it may lead to hangs on some IEEE 1275 platforms.
+       */
       grub_device_close (dev);
       dev = NULL;
+#endif
+
       grub_normal_print_device_info (device_name);
     }
   else if (fs)
@@ -214,9 +221,9 @@ grub_ls_list_files (char *dirname, int longlist, int all, int human)
       };
 
       if (longlist)
-	(fs->dir) (dev, path, print_files_long, &ctx);
+	(fs->fs_dir) (dev, path, print_files_long, &ctx);
       else
-	(fs->dir) (dev, path, print_files, &ctx);
+	(fs->fs_dir) (dev, path, print_files, &ctx);
 
       if (grub_errno == GRUB_ERR_BAD_FILE_TYPE
 	  && path[grub_strlen (path) - 1] != '/')
@@ -227,8 +234,8 @@ grub_ls_list_files (char *dirname, int longlist, int all, int human)
 	  struct grub_dirhook_info info;
 	  grub_errno = 0;
 
-	  grub_file_filter_disable_compression ();
-	  file = grub_file_open (dirname);
+	  file = grub_file_open (dirname, GRUB_FILE_TYPE_GET_SIZE
+				 | GRUB_FILE_TYPE_NO_DECOMPRESS);
 	  if (! file)
 	    goto fail;
 
