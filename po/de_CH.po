@@ -1,14 +1,14 @@
 # German translation for grub.
 # Copyright (C) 2009 Free Software Foundation, Inc.
 # This file is distributed under the same license as the grub package.
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2010-2013, 2017.
 #
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2010-2013, 2017, 2019.
 msgid ""
 msgstr ""
-"Project-Id-Version: grub-2.02-pre3\n"
+"Project-Id-Version: grub-2.04-pre1\n"
 "Report-Msgid-Bugs-To: bug-grub@gnu.org\n"
-"POT-Creation-Date: 2019-04-09 03:12+0200\n"
-"PO-Revision-Date: 2017-02-04 14:00+0100\n"
+"POT-Creation-Date: 2019-07-04 16:09+0200\n"
+"PO-Revision-Date: 2019-04-09 19:23+0200\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
 "Language: de_CH\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Lokalize 18.12.3\n"
 
 #: grub-core/bus/usb/serial/ftdi.c:145 grub-core/bus/usb/serial/pl2303.c:158
 #: grub-core/term/ieee1275/escc.c:169 grub-core/term/ns8250.c:202
@@ -96,9 +96,9 @@ msgstr ""
 #: grub-core/kern/elf.c:117 grub-core/kern/elfXX.c:29
 #: grub-core/kern/elfXX.c:156 grub-core/loader/arm/linux.c:319
 #: grub-core/loader/arm64/linux.c:330 grub-core/loader/arm64/xen_boot.c:356
-#: grub-core/loader/efi/chainloader.c:270
-#: grub-core/loader/efi/chainloader.c:291
-#: grub-core/loader/efi/chainloader.c:323 grub-core/loader/efi/fdt.c:138
+#: grub-core/loader/efi/chainloader.c:276
+#: grub-core/loader/efi/chainloader.c:297
+#: grub-core/loader/efi/chainloader.c:329 grub-core/loader/efi/fdt.c:138
 #: grub-core/loader/i386/bsd.c:1276 grub-core/loader/i386/bsd.c:2116
 #: grub-core/loader/i386/bsdXX.c:20 grub-core/loader/i386/bsdXX.c:36
 #: grub-core/loader/i386/bsdXX.c:63 grub-core/loader/i386/bsdXX.c:357
@@ -130,7 +130,7 @@ msgstr ""
 #: grub-core/loader/xnu.c:816 grub-core/loader/xnu.c:871
 #: grub-core/loader/xnu.c:914 grub-core/loader/xnu.c:952
 #: grub-core/loader/xnu_resume.c:68 grub-core/loader/xnu_resume.c:153
-#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2290
+#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2288
 #, c-format
 msgid "premature end of file %s"
 msgstr "Unerwartetes Ende der Datei %s"
@@ -160,7 +160,7 @@ msgstr "Fehler: %s.\n"
 #: grub-core/loader/arm/linux.c:259 grub-core/loader/arm64/linux.c:265
 #: grub-core/loader/arm64/linux.c:321 grub-core/loader/arm64/linux.c:340
 #: grub-core/loader/arm64/xen_boot.c:344 grub-core/loader/arm64/xen_boot.c:367
-#: grub-core/loader/efi/chainloader.c:283 grub-core/osdep/unix/dl.c:48
+#: grub-core/loader/efi/chainloader.c:289 grub-core/osdep/unix/dl.c:48
 #: grub-core/osdep/windows/dl.c:46 grub-core/script/lexer.c:156
 #: grub-core/script/lexer.c:182
 msgid "out of memory"
@@ -200,7 +200,7 @@ msgstr "Geräte auflisten."
 #: grub-core/loader/arm/linux.c:472 grub-core/loader/arm64/linux.c:243
 #: grub-core/loader/arm64/linux.c:297 grub-core/loader/arm64/xen_boot.c:398
 #: grub-core/loader/arm64/xen_boot.c:411 grub-core/loader/arm64/xen_boot.c:462
-#: grub-core/loader/efi/chainloader.c:210 grub-core/loader/i386/bsd.c:1462
+#: grub-core/loader/efi/chainloader.c:216 grub-core/loader/i386/bsd.c:1462
 #: grub-core/loader/i386/bsd.c:1807 grub-core/loader/i386/bsd.c:2085
 #: grub-core/loader/i386/coreboot/chainloader.c:438
 #: grub-core/loader/i386/linux.c:656 grub-core/loader/i386/linux.c:1041
@@ -429,50 +429,46 @@ msgstr "BIOS-Sicherung laden."
 #: grub-core/commands/efi/shim_lock.c:76
 #, c-format
 msgid "module cannot be loaded in UEFI secure boot mode: %s"
-msgstr ""
+msgstr "Modul kann im sicheren UEFI-Bootmodus nicht geladen werden: %s"
 
 #: grub-core/commands/efi/shim_lock.c:98
 #, c-format
 msgid "cannot boot due to dangerous module in memory: %s"
 msgstr ""
+"Wegen eines gefährlichen Moduls im Speicher kann nicht gebootet werden: %s"
 
 #: grub-core/commands/efi/shim_lock.c:116
-#, fuzzy
 msgid "bad shim signature"
-msgstr "Falsche Signatur"
+msgstr "Falsche Shim-Signatur"
 
 #: grub-core/commands/efi/tpm.c:149 grub-core/commands/efi/tpm.c:189
 #: grub-core/commands/efi/tpm.c:256 grub-core/commands/efi/tpm.c:306
-#, fuzzy
 msgid "Command failed"
-msgstr "read gescheitert"
+msgstr "Befehlsausführung fehlgeschlagen"
 
 #: grub-core/commands/efi/tpm.c:151 grub-core/commands/efi/tpm.c:191
 #: grub-core/commands/efi/tpm.c:258 grub-core/commands/efi/tpm.c:308
-#, fuzzy
 msgid "Invalid parameter"
-msgstr "Ungültiger Parameter %s"
+msgstr "Ungültiger Parameter"
 
 #: grub-core/commands/efi/tpm.c:154 grub-core/commands/efi/tpm.c:194
 #: grub-core/commands/efi/tpm.c:261 grub-core/commands/efi/tpm.c:311
 msgid "Output buffer too small"
-msgstr ""
+msgstr "Ausgabepuffer ist zu klein"
 
 #: grub-core/commands/efi/tpm.c:156 grub-core/commands/efi/tpm.c:196
 #: grub-core/commands/efi/tpm.c:263 grub-core/commands/efi/tpm.c:313
-#, fuzzy
 msgid "TPM unavailable"
-msgstr "Pfad: nicht verfügbar"
+msgstr "TPM ist nicht verfügbar"
 
 #: grub-core/commands/efi/tpm.c:158 grub-core/commands/efi/tpm.c:198
 #: grub-core/commands/efi/tpm.c:265 grub-core/commands/efi/tpm.c:315
-#, fuzzy
 msgid "Unknown TPM error"
-msgstr "Unbekannter Systemfehler"
+msgstr "Unbekannter TPM-Fehler"
 
 #: grub-core/commands/efi/tpm.c:240 grub-core/commands/efi/tpm.c:288
 msgid "cannot allocate TPM event buffer"
-msgstr ""
+msgstr "TPM-Ereignispuffer kann nicht belegt werden"
 
 #: grub-core/commands/eval.c:63
 msgid "STRING ..."
@@ -589,14 +585,12 @@ msgid "Check if FILE is ARM EFI file"
 msgstr "Überpüfen, ob DATEI eine ARM-EFI-Datei ist"
 
 #: grub-core/commands/file.c:94
-#, fuzzy
 msgid "Check if FILE is RISC-V 32bit EFI file"
-msgstr "Überpüfen, ob DATEI eine ARM-EFI-Datei ist"
+msgstr "Überprüfen, ob DATEI eine 32-Bit-RISC-V-EFI-Datei ist"
 
 #: grub-core/commands/file.c:96
-#, fuzzy
 msgid "Check if FILE is RISC-V 64bit EFI file"
-msgstr "Überpüfen, ob DATEI eine IA64-EFI-Datei ist"
+msgstr "Überprüfen, ob DATEI eine 64-Bit-RISC-V-EFI-Datei ist"
 
 #: grub-core/commands/file.c:98
 msgid "Check if FILE is hiberfil.sys in hibernated state"
@@ -1024,7 +1018,7 @@ msgstr "Ungültiges Tempo in %s"
 #: grub-core/fs/archelp.c:260 grub-core/fs/bfs.c:621 grub-core/fs/bfs.c:704
 #: grub-core/fs/btrfs.c:1726 grub-core/fs/btrfs.c:1755
 #: grub-core/fs/btrfs.c:1799 grub-core/fs/btrfs.c:1882
-#: grub-core/fs/btrfs.c:1906 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:689
+#: grub-core/fs/btrfs.c:1906 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:696
 #: grub-core/fs/minix.c:426 grub-core/fs/ufs.c:544 grub-core/fs/zfs/zfs.c:2083
 #: grub-core/fs/zfs/zfs.c:2095 grub-core/fs/zfs/zfs.c:2301
 #: grub-core/net/http.c:120
@@ -1139,9 +1133,8 @@ msgstr "VARNAME"
 #: grub-core/commands/i386/rdmsr.c:55 grub-core/commands/i386/rdmsr.c:60
 #: grub-core/commands/i386/rdmsr.c:65 grub-core/commands/i386/wrmsr.c:47
 #: grub-core/commands/i386/wrmsr.c:52 grub-core/commands/i386/wrmsr.c:57
-#, fuzzy
 msgid "unsupported instruction"
-msgstr "Nicht unterstütztes gzip-Format"
+msgstr "Nicht unterstützte Anweisung"
 
 #: grub-core/commands/i386/rdmsr.c:77 grub-core/commands/i386/wrmsr.c:69
 #: grub-core/commands/i386/wrmsr.c:77 grub-core/net/dns.c:727
@@ -1155,16 +1148,15 @@ msgstr "ADDR"
 
 #: grub-core/commands/i386/rdmsr.c:95
 msgid "Read a CPU model specific register."
-msgstr ""
+msgstr "Ein für das CPU-Modell spezifisches Register lesen."
 
 #: grub-core/commands/i386/wrmsr.c:86
-#, fuzzy
 msgid "ADDR VALUE"
-msgstr "ADDR WERT [MASKE]"
+msgstr "ADR WERT"
 
 #: grub-core/commands/i386/wrmsr.c:87
 msgid "Write a value to a CPU model specific register."
-msgstr ""
+msgstr "Einen Wert in das für das CPU-Modell spezifische Register schreiben."
 
 #: grub-core/commands/ieee1275/suspend.c:34
 msgid "Run `go' to resume GRUB."
@@ -1206,7 +1198,7 @@ msgstr "16-bit-Wert nach PORT schreiben."
 #: grub-core/commands/iorw.c:143 grub-core/commands/memrw.c:137
 #: grub-core/commands/memrw.c:141 grub-core/commands/memrw.c:145
 msgid "ADDR VALUE [MASK]"
-msgstr "ADDR WERT [MASKE]"
+msgstr "ADR WERT [MASKE]"
 
 #: grub-core/commands/iorw.c:144
 msgid "Write 32-bit VALUE to PORT."
@@ -2177,19 +2169,18 @@ msgstr "Nichts tun, erfolgreich."
 msgid "Do nothing, unsuccessfully."
 msgstr "Nichts tun, nicht erfolgreich."
 
-#: grub-core/commands/usbtest.c:212
+#: grub-core/commands/usbtest.c:221
 msgid "Test USB support."
 msgstr "USB-Unterstützung überprüfen."
 
 #: grub-core/commands/verifiers.c:120
 #, c-format
 msgid "verification requested but nobody cares: %s"
-msgstr ""
+msgstr "Verifizierung ist erforderlich, aber niemand nimmt Notiz davon: %s"
 
 #: grub-core/commands/verifiers.c:140
-#, fuzzy
 msgid "big file signature isn't implemented yet"
-msgstr "Neuzuweisung 0x%x ist noch nicht implementiert"
+msgstr "Grosse Dateisignatur ist noch nicht implementiert"
 
 #: grub-core/commands/videoinfo.c:61
 msgid "Text-only "
@@ -2540,7 +2531,7 @@ msgid "relocation 0x%x is not implemented yet"
 msgstr "Neuzuweisung 0x%x ist noch nicht implementiert"
 
 #: grub-core/efiemu/loadcore.c:200 grub-core/efiemu/loadcore.c:237
-#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2362
+#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2360
 msgid "no symbol table"
 msgstr "Keine Symboltabelle"
 
@@ -2586,7 +2577,7 @@ msgid "List the loaded fonts."
 msgstr "Die geladenen Schriften auflisten."
 
 #: grub-core/fs/archelp.c:216 grub-core/fs/archelp.c:278
-#: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:729
+#: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:736
 #: grub-core/fs/minix.c:369 grub-core/fs/ufs.c:454
 msgid "too deep nesting of symlinks"
 msgstr "Zu tief verschachtelte symbolische Verknüpfungen"
@@ -2604,7 +2595,7 @@ msgstr "Versuch, hinter dem Ende der Datei zu lesen"
 msgid "not a directory"
 msgstr "Ist kein Verzeichnis"
 
-#: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:828
+#: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:835
 #: grub-core/fs/zfs/zfs.c:3801
 msgid "not a regular file"
 msgstr "Keine reguläre Datei"
@@ -3297,29 +3288,29 @@ msgid "(PROGRAM ERROR) Option should have been recognized!?"
 msgstr "(PROGRAMMFEHLER) Option hätte erkannt werden müssen!?"
 
 #: grub-core/lib/gnulib/getopt.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous\n"
-msgstr "%s: Option «-W %s» ist nicht eindeutig\n"
+msgstr "%s: Option «%s%s» ist nicht eindeutig\n"
 
 #: grub-core/lib/gnulib/getopt.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous; possibilities:"
-msgstr "%s: Option «%s» ist mehrdeutig; Möglichkeiten:"
+msgstr "%s: Option «%s%s» ist mehrdeutig; Möglichkeiten:"
 
 #: grub-core/lib/gnulib/getopt.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unrecognized option '%s%s'\n"
-msgstr "%s: Unbekannte Option «%c%s»\n"
+msgstr "%s: Unbekannte Option «%s%s»\n"
 
 #: grub-core/lib/gnulib/getopt.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' doesn't allow an argument\n"
-msgstr "%s: Option «%c%s» erlaubt kein Argument\n"
+msgstr "%s: Option «%s%s» erlaubt kein Argument\n"
 
 #: grub-core/lib/gnulib/getopt.c:360
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' requires an argument\n"
-msgstr "%s: Option «%s» erwartet ein Argument\n"
+msgstr "%s: Option «%s%s» erwartet ein Argument\n"
 
 #: grub-core/lib/gnulib/getopt.c:621
 #, c-format
@@ -3332,14 +3323,14 @@ msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: Option erfordert ein Argument -- «%c»\n"
 
 #: grub-core/lib/gnulib/openat-die.c:38
-#, fuzzy, c-format
+#, c-format
 msgid "unable to record current working directory"
-msgstr "Nicht leerer Ordner kann nicht entfernt werden\n"
+msgstr ""
 
 #: grub-core/lib/gnulib/openat-die.c:57
 #, c-format
 msgid "failed to return to initial working directory"
-msgstr ""
+msgstr "Rückkehr zum initialen Arbeitsverzeichnis ist fehlgeschlagen"
 
 #: grub-core/lib/gnulib/regcomp.c:135 grub-core/osdep/aros/hostdisk.c:523
 msgid "Success"
@@ -3370,9 +3361,8 @@ msgid "Invalid back reference"
 msgstr "Ungültige Rückreferenz"
 
 #: grub-core/lib/gnulib/regcomp.c:156
-#, fuzzy
 msgid "Unmatched [, [^, [:, [., or [="
-msgstr "Kein Gegenstück für [ oder [^"
+msgstr "Kein Gegenstück für [, [^, [:, [. oder [="
 
 #: grub-core/lib/gnulib/regcomp.c:159
 msgid "Unmatched ( or \\("
@@ -3486,6 +3476,8 @@ msgstr "DTB-Datei laden."
 msgid ""
 "plain image kernel not supported - rebuild with CONFIG_(U)EFI_STUB enabled"
 msgstr ""
+"Einfaches Kernel-Abbild wird nicht unterstützt – erstellen Sie es mit "
+"aktiviertem CONFIG_(U)EFI_STUB neu"
 
 #: grub-core/loader/arm64/xen_boot.c:156
 msgid "failed to get FDT"
@@ -3514,7 +3506,7 @@ msgstr "[OPTIONEN]"
 msgid "Boot BIOS-based system."
 msgstr "BIOS-basiertes System booten."
 
-#: grub-core/loader/efi/chainloader.c:415
+#: grub-core/loader/efi/chainloader.c:421
 #: grub-core/loader/i386/pc/chainloader.c:303
 msgid "Load another boot loader."
 msgstr "Einen anderen Bootloader laden."
@@ -3815,9 +3807,8 @@ msgid "Load a multiboot module."
 msgstr "Ein Multiboot-Modul laden."
 
 #: grub-core/loader/riscv/linux.c:30 grub-core/loader/riscv/linux.c:40
-#, fuzzy
 msgid "Linux not supported yet"
-msgstr "Interpretierung wird nicht unterstützt"
+msgstr "Linux wird noch nicht unterstützt"
 
 #: grub-core/loader/xnu.c:1416 grub-core/term/gfxterm_background.c:45
 msgid "Background image mode."
@@ -3914,14 +3905,13 @@ msgid "no DHCP options found"
 msgstr "Keine DHCP-Optionen gefunden"
 
 #: grub-core/net/bootp.c:682
-#, fuzzy
 msgid "invalid DHCP option code"
-msgstr "Keine DHCP-Optionen gefunden"
+msgstr "Ungültiger DHCP-Optionscode"
 
 #: grub-core/net/bootp.c:686
-#, fuzzy, c-format
+#, c-format
 msgid "no DHCP option %u found"
-msgstr "Keine DHCP-Option %d gefunden"
+msgstr "Keine DHCP-Option %u gefunden"
 
 #: grub-core/net/bootp.c:743
 #, c-format
@@ -3946,9 +3936,8 @@ msgid "perform a bootp autoconfiguration"
 msgstr "Eine bootp-Autokonfiguration ausführen"
 
 #: grub-core/net/bootp.c:877
-#, fuzzy
 msgid "perform a DHCP autoconfiguration"
-msgstr "Eine bootp-Autokonfiguration ausführen"
+msgstr "Eine DHCP-Autokonfiguration ausführen"
 
 #: grub-core/net/bootp.c:879
 msgid "VAR INTERFACE NUMBER DESCRIPTION"
@@ -4729,9 +4718,8 @@ msgid "Unable to create pipe: %s"
 msgstr "Weiterleitung konnte nicht angelegt werden: %s"
 
 #: grub-core/osdep/unix/getroot.c:370
-#, fuzzy
 msgid "cannot save the original directory"
-msgstr "Originalverzeichnis kann nicht wiederhergestellt werden"
+msgstr "Originalverzeichnis kann nicht gespeichert werden"
 
 #: grub-core/osdep/unix/getroot.c:423 grub-core/osdep/unix/getroot.c:480
 #: grub-core/osdep/unix/getroot.c:489
@@ -4946,7 +4934,7 @@ msgstr "Ungültiger Variablenname «%s»"
 
 #: grub-core/script/execute.c:953
 msgid "cannot allocate command buffer"
-msgstr ""
+msgstr "Befehlspuffer kann nicht belegt werden"
 
 #: grub-core/script/lexer.c:144 util/grub-fstest.c:330
 msgid "unexpected end of file"
@@ -5151,7 +5139,7 @@ msgstr "  VBE-Info:   Version: %d.%d  OEM-Softwarerevision: %d.%d\n"
 msgid "              total memory: %d KiB\n"
 msgstr "              Gesamtspeicher: %d KiB\n"
 
-#: grub-core/video/video.c:596 grub-core/video/video.c:760
+#: grub-core/video/video.c:596 grub-core/video/video.c:762
 msgid "no suitable video mode found"
 msgstr "Kein passender Videomodus gefunden"
 
@@ -5169,7 +5157,7 @@ msgstr "In MODULE angegebene Module vorladen"
 
 #: include/grub/util/install.h:33
 msgid "embed a specific DTB"
-msgstr ""
+msgstr "Eine spezifische DTB einbetten"
 
 #: include/grub/util/install.h:36
 msgid "install only MODULES and their dependencies [default=all]"
@@ -5232,9 +5220,9 @@ msgstr "DATEI als öffentlichen Schlüssel zur Signaturüberprüfung einbetten"
 
 #: util/editenv.c:59 util/grub-editenv.c:201 util/grub-install-common.c:535
 #: util/grub-mkimage.c:315 util/setup.c:791
-#, fuzzy, c-format
+#, c-format
 msgid "cannot sync `%s': %s"
-msgstr "«%s» kann nicht durchsucht werden: %s"
+msgstr "«%s» kann nicht synchronisiert werden: %s"
 
 #: util/editenv.c:64
 #, c-format
@@ -5824,7 +5812,7 @@ msgstr ""
 #: util/grub-install.c:1888 util/grub-install.c:1932
 #, c-format
 msgid "efibootmgr failed to register the boot entry: %s"
-msgstr ""
+msgstr "efibootmgr schlug beim Registrieren des Boot-Eintrags fehl: %s"
 
 #: util/grub-install.c:1916
 msgid "EFI bootloader id isn't specified."
@@ -6030,9 +6018,8 @@ msgstr ""
 "wiederum ausser Kraft gesetzt werden"
 
 #: util/grub-mkimage.c:74
-#, fuzzy
 msgid "embed FILE as a device tree (DTB)\n"
-msgstr "DATEI als Anfangskonfiguration einbetten"
+msgstr "DATEI als Gerätebaum (DTB) einbetten\n"
 
 #: util/grub-mkimage.c:76
 msgid "embed FILE as an early config"
@@ -6081,9 +6068,9 @@ msgid "Prefix not specified (use the -p option)."
 msgstr "Präfix wurde nicht angegeben (verwenden Sie die Option -p)"
 
 #: util/grub-mkimage.c:318 util/setup.c:793
-#, fuzzy, c-format
+#, c-format
 msgid "cannot close `%s': %s"
-msgstr "«%s» kann nicht geöffnet werden: %s"
+msgstr "«%s» kann nicht geschlossen werden: %s"
 
 #: util/grub-mkimagexx.c:2191
 #, c-format
@@ -6274,9 +6261,8 @@ msgid "enabling %s support ..."
 msgstr "Unterstützung für %s wird aktiviert …"
 
 #: util/grub-mkrescue.c:486
-#, fuzzy
 msgid "xorriso not found"
-msgstr "%s: Nicht gefunden"
+msgstr "Xorriso wurde nicht gefunden"
 
 #: util/grub-mkrescue.c:623
 msgid ""
@@ -6669,1194 +6655,3 @@ msgstr "Blocklisten sind ungültig"
 #: util/setup.c:847
 msgid "blocklists are incomplete"
 msgstr "Blocklisten sind unvollständig"
-
-#~ msgid "%.*s: ARGP_HELP_FMT parameter must be positive"
-#~ msgstr "%.*s: Parameter für ARGP_HELP_FMT muss positiv sein"
-
-#~ msgid "%s: option '--%s' doesn't allow an argument\n"
-#~ msgstr "%s: Option «--%s» erlaubt kein Argument\n"
-
-#~ msgid "%s: unrecognized option '--%s'\n"
-#~ msgstr "%s: Unbekannte Option «--%s»\n"
-
-#~ msgid "%s: option '-W %s' doesn't allow an argument\n"
-#~ msgstr "%s: Option «-W %s» erlaubt kein Argument\n"
-
-#~ msgid "%s: option '-W %s' requires an argument\n"
-#~ msgstr "%s: Option «-W %s» erfordert ein Argument\n"
-
-#~ msgid "Usage: %s -o OUTPUT CKBMAP_ARGUMENTS...\\n"
-#~ msgstr "Aufruf: %s -o AUSGABE CKBMAP_ARGUMENTE...\\n"
-
-#~ msgid "Make GRUB keyboard layout file."
-#~ msgstr "Eine GRUB-Tastaturlayoutdatei erstellen."
-
-#~ msgid "print this message and exit"
-#~ msgstr "Diese Meldung anzeigen und beenden"
-
-#~ msgid "print the version information and exit"
-#~ msgstr "Versionsinformationen ausgeben und beenden"
-
-#~ msgid "%s generates a keyboard layout for GRUB using ckbcomp\\n"
-#~ msgstr "%s erstellt eine Tastaturbelegung für GRUB mittels ckbcomp\\n"
-
-#~ msgid "Report bugs to <bug-grub@gnu.org>."
-#~ msgstr "Melden Sie Fehler an <bug-grub@gnu.org>."
-
-#~ msgid "%s: option requires an argument -- `%s'\\n"
-#~ msgstr "%s: Option erwartet ein Argument -- «%s»\\n"
-
-#~ msgid "Usage: %s [OPTION]\\n"
-#~ msgstr "Aufruf: %s [OPTION]\\n"
-
-#~ msgid "Generate a grub config file"
-#~ msgstr "Eine Grub-Konfigurationsdatei erstellen"
-
-#~ msgid "output generated config to FILE [default=stdout]"
-#~ msgstr "Erstellte Konfiguration in DATEI ausgeben [Vorgabe=stdout]"
-
-#~ msgid "Unrecognized option `%s'\\n"
-#~ msgstr "Unerkannte Option «%s»\\n"
-
-#~ msgid "%s: You must run this as root\\n"
-#~ msgstr "%s: Sie müssen dies als Root ausführen\\n"
-
-#~ msgid "%s: Not found.\\n"
-#~ msgstr "%s: Nicht gefunden.\\n"
-
-#~ msgid "Generating grub configuration file ..."
-#~ msgstr "GRUB-Konfigurationsdatei wird erstellt …"
-
-#~ msgid ""
-#~ "Syntax errors are detected in generated GRUB config file.\n"
-#~ "Ensure that there are no errors in /etc/default/grub\n"
-#~ "and /etc/grub.d/* files or please file a bug report with\n"
-#~ "%s file attached."
-#~ msgstr ""
-#~ "In der erzeugten GRUB-Konfigurationsdatei wurden\n"
-#~ "Syntaxfehler entdeckt. Stellen Sie sicher, das die Dateien\n"
-#~ "/etc/default/grub und /etc/grub.d/* fehlerfrei sind oder\n"
-#~ "erstellen Sie einen Fehlerbericht mit %s als Anhang."
-
-#~ msgid "done"
-#~ msgstr "erledigt"
-
-#~ msgid "Warning:"
-#~ msgstr "Warnung:"
-
-#~ msgid "Usage: %s [OPTION] MENU_ENTRY\\n"
-#~ msgstr "Aufruf: %s [OPTION] MENÜEINTRAG\\n"
-
-#~ msgid "Set the default boot menu entry for GRUB, for the next boot only."
-#~ msgstr ""
-#~ "Den Standard-Booteintrag für GRUB festlegen (nur für den nächsten "
-#~ "Bootvorgang)."
-
-#~ msgid ""
-#~ "expect GRUB images under the directory DIR/%s instead of the %s directory"
-#~ msgstr ""
-#~ "GRUB-Abbilder wurden im Verzeichnis VERZ/%s anstelle von %s erwartet"
-
-#~ msgid "More than one menu entry?"
-#~ msgstr "Mehr als ein Menüeintrag?"
-
-#~ msgid "Menu entry not specified."
-#~ msgstr "Kein Menüeintrag angegeben."
-
-#~ msgid "Set the default boot menu entry for GRUB."
-#~ msgstr "Den voreingestellten Booteintrag für GRUB festlegen."
-
-#~ msgid "This requires setting GRUB_DEFAULT=saved in %s/default/grub.\\n"
-#~ msgstr ""
-#~ "Dies erfordert die Einstellung GRUB_DEFAULT=saved in %s/default/grub.\\n"
-
-#~ msgid "MENU_ENTRY is a number, a menu item title or a menu item identifier."
-#~ msgstr ""
-#~ "MENÜEINTRAG ist eine Zahl, ein Titel oder Bezeichner eines Menüeintrags."
-
-#~ msgid ""
-#~ "Requested serial terminal but GRUB_SERIAL_COMMAND is unspecified. Default "
-#~ "parameters will be used."
-#~ msgstr ""
-#~ "Serielles Terminal wurde angefordert, aber GRUB_SERIAL_COMMAND wurde "
-#~ "nicht angegeben. Standardparameter werden verwendet."
-
-#~ msgid "Found theme: %s\\n"
-#~ msgstr "Thema gefunden: %s\\n"
-
-#~ msgid "Found background: %s\\n"
-#~ msgstr "Hintergrund gefunden: %s\\n"
-
-#~ msgid "Unsupported image format"
-#~ msgstr "Bildformat nicht unterstützt"
-
-#~ msgid ""
-#~ "Setting GRUB_TIMEOUT to a non-zero value when GRUB_HIDDEN_TIMEOUT is set "
-#~ "is no longer supported."
-#~ msgstr ""
-#~ "GRUB_TIMEOUT auf einen von Null verschiedenen Wert setzen, wenn "
-#~ "GRUB_HIDDEN_TIMEOUT als nicht mehr unterstützt angegeben wird."
-
-#~ msgid "Found GNU Mach: %s"
-#~ msgstr "GNU Mach wurde gefunden: %s"
-
-#~ msgid "Found Hurd module: %s"
-#~ msgstr "Hurd-Modul gefunden: %s"
-
-#~ msgid "Some Hurd stuff found, but not enough to boot."
-#~ msgstr ""
-#~ "Hurd-Bestandteile wurden gefunden, die aber zum Booten nicht ausreichen."
-
-#~ msgid "%s, with Hurd %s (recovery mode)"
-#~ msgstr "%s, mit Hurd %s (Wiederherstellungsmodus)"
-
-#~ msgid "%s, with Hurd %s"
-#~ msgstr "%s, mit Hurd %s"
-
-#~ msgid ""
-#~ "Please don't use old title `%s' for GRUB_DEFAULT, use `%s' (for versions "
-#~ "before 2.00) or `%s' (for 2.00 or later)"
-#~ msgstr ""
-#~ "Bitte verwenden Sie nicht den alten Titel «%s» für GRUB_DEFAULT, "
-#~ "verwenden Sie «%s» (für Versionen vor 2.00) oder «%s» (für 2.00 oder "
-#~ "neuer)"
-
-#~ msgid "Loading GNU Mach ..."
-#~ msgstr "GNU Mach wird geladen …"
-
-#~ msgid "Loading the Hurd ..."
-#~ msgstr "Hurd wird geladen …"
-
-#~ msgid "Advanced options for %s"
-#~ msgstr "Erweiterte Optionen für %s"
-
-#~ msgid "Loading kernel of Illumos ..."
-#~ msgstr "Illumos-Kernel wird geladen …"
-
-#~ msgid "%s, with kFreeBSD %s (recovery mode)"
-#~ msgstr "%s, mit kFreeBSD %s (Wiederherstellungsmodus)"
-
-#~ msgid "%s, with kFreeBSD %s"
-#~ msgstr "%s, mit kFreeBSD %s"
-
-#~ msgid "Loading kernel of FreeBSD %s ..."
-#~ msgstr "FreeBSD-Kernel %s wird geladen …"
-
-#~ msgid "Found kernel of FreeBSD: %s\\n"
-#~ msgstr "FreeBSD-Kernel gefunden: %s\\n"
-
-#~ msgid "Found kernel module directory: %s\\n"
-#~ msgstr "Kernel-Modulverzeichnis gefunden: %s\\n"
-
-#~ msgid "%s, with Linux %s (recovery mode)"
-#~ msgstr "%s, mit Linux %s (Wiederherstellungsmodus)"
-
-#~ msgid "%s, with Linux %s"
-#~ msgstr "%s, mit Linux %s"
-
-#~ msgid "Loading Linux %s ..."
-#~ msgstr "Linux %s wird geladen …"
-
-#~ msgid "Loading initial ramdisk ..."
-#~ msgstr "Initiale Ramdisk wird geladen …"
-
-#~ msgid "Found linux image: %s\\n"
-#~ msgstr "Linux-Abbild gefunden: %s\\n"
-
-#~ msgid "Found initrd image: %s\\n"
-#~ msgstr "initrd-Abbild gefunden: %s\\n"
-
-#~ msgid "%s, with kernel %s (via %s, recovery mode)"
-#~ msgstr "%s, mit Kernel %s (über %s, Wiederherstellungsmodus)"
-
-#~ msgid "%s, with kernel %s (via %s)"
-#~ msgstr "%s, mit Kernel %s (über %s)"
-
-#~ msgid "Found NetBSD kernel: %s\\n"
-#~ msgstr "NetBSD-Kernel gefunden: %s\\n"
-
-#~ msgid "Windows Vista/7 (loader)"
-#~ msgstr "Windows Vista/7 (Lader)"
-
-#~ msgid "Windows NT/2000/XP (loader)"
-#~ msgstr "Windows NT/2000/XP (Lader)"
-
-#~ msgid "Found %s on %s (%s)\\n"
-#~ msgstr "%s auf %s gefunden (%s)\\n"
-
-#~ msgid "(32-bit)"
-#~ msgstr "(32-bit)"
-
-#~ msgid "(64-bit)"
-#~ msgstr "(64-bit)"
-
-#~ msgid "(on %s)"
-#~ msgstr "(auf %s)"
-
-#~ msgid "%s, with Xen %s and Linux %s (recovery mode)"
-#~ msgstr "%s, mit Xen %s und Linux %s (Wiederherstellungsmodus)"
-
-#~ msgid "%s, with Xen %s and Linux %s"
-#~ msgstr "%s, mit Xen %s und Linux %s"
-
-#~ msgid "%s, with Xen hypervisor"
-#~ msgstr "%s, mit Xen-Hypervisor"
-
-#~ msgid "Loading Xen %s ..."
-#~ msgstr "Xen %s wird geladen …"
-
-#~ msgid "Xen hypervisor, version %s"
-#~ msgstr "Xen-Hypervisor, Version %s"
-
-#~ msgid "Advanced options for %s (with Xen hypervisor)"
-#~ msgstr "Erweiterte Optionen für %s (mit Xen-Hypervisor)"
-
-#~ msgid "Found %s on %s\\n"
-#~ msgstr "%s auf %s gefunden\\n"
-
-#~ msgid "%s is not yet supported by grub-mkconfig.\\n"
-#~ msgstr "%s wird von grub-mkconfig noch nicht unterstützt.\\n"
-
-#~ msgid "Unsupported substitution flag: 0x%x\n"
-#~ msgstr "Nicht unterstütztes Ersetzungs-Flag: 0x%x\n"
-
-#~ msgid "Unknown gsub font feature 0x%x (%s)\n"
-#~ msgstr "Unbekanntes gsub-Schriftmerkmal 0x%x (%s)\n"
-
-#~| msgid "Assume input is hex."
-#~ msgid "assume isolinux."
-#~ msgstr "Eingabe wird als hexadezimal angenommen."
-
-#~| msgid "Assume input is hex."
-#~ msgid "assume pxelinux."
-#~ msgstr "Eingabe wird als hexadezimal angenommen."
-
-#~| msgid "Assume input is hex."
-#~ msgid "assume syslinux."
-#~ msgstr "Eingabe wird als hexadezimal angenommen."
-
-#~| msgid ""
-#~| "%s copies GRUB images into net_directory/subdir/target_cpu-platform\\n"
-#~ msgid "copies GRUB images into net_directory/subdir/target_cpu-platform."
-#~ msgstr ""
-#~ "%s kopiert GRUB-Abbilder in Netz_Ordner/Unterordner/CPU-Zielplattform\\n"
-
-#~| msgid ""
-#~| "%s generates a bootable rescue image with specified source files, source "
-#~| "directories, or mkisofs options listed by the output of `%s'\\n"
-#~ msgid ""
-#~ "Generates a bootable rescue image with specified source files, source "
-#~ "directories, or mkisofs options listed by the output of `%s'.\n"
-#~ "\n"
-#~ "Option -- switches to native xorriso command mode.\n"
-#~ "\n"
-#~ "Mail xorriso support requests to <bug-xorriso@gnu.org>."
-#~ msgstr ""
-#~ "%s erstellt ein bootfähiges Rettungs-Abbild aus den angegebenen "
-#~ "Quelldateien, Quellordnern oder mkisofs-Optionen, welche die Ausgabe von "
-#~ "«%s» auflistet\\n"
-
-#~ msgid ""
-#~ "print filesystem module, GRUB drive, system device, partition map module, "
-#~ "abstraction module or cryptographic container UUID [default=fs]"
-#~ msgstr ""
-#~ "Dateisystemmodul, GRUB-Laufwerk, Systemgerät, Partitionszuordnungsmodul, "
-#~ "Abstraktionsmodul oder UUID des kryptografischen Containers ausgeben "
-#~ "[Vorgabe=fs]"
-
-#~| msgid "set prefix directory [default=%s]"
-#~ msgid "use DIR as root directory [default=/]"
-#~ msgstr "Präfix-Ordner festlegen [Vorgabe=%s]"
-
-#~ msgid "Address range not associated with RAM"
-#~ msgstr "Adressbereich entspricht nicht dem RAM"
-
-#~ msgid "grub_memalign is not supported on your system"
-#~ msgstr "grub_memalign wird auf Ihrem System nicht unterstützt"
-
-#~ msgid "If FILENAME is `-', the default value %s is used."
-#~ msgstr "Falls DATEINAME «-» ist, dann wird der Vorgabewert %s verwendet. "
-
-#~ msgid "save only the ASCII bitmaps"
-#~ msgstr "Nur die ASCII-Bitmaps speichern"
-
-#~ msgid "create width summary file"
-#~ msgstr "Breitendefinition in Datei speichern"
-
-#~ msgid "Option --ascii-bitmaps doesn't accept ranges (it always uses ASCII)."
-#~ msgstr ""
-#~ "Die Option --ascii-bitmaps unterstützt keine Bereiche (verwendet stets "
-#~ "ASCII)."
-
-#~ msgid "WARNING: your random generator isn't known to be secure\n"
-#~ msgstr ""
-#~ "WARNUNG: Die Sicherheit Ihres Zufallszahlengenerators ist unbekannt\n"
-
-#~ msgid "failed to read the first sector of the core image"
-#~ msgstr "Lesen des ersten Sektors des Core-Abbildes ist gescheitert"
-
-#~ msgid "use FILE as grub-setup"
-#~ msgstr "DATEI als grub-setup verwenden"
-
-#~ msgid "use FILE as grub-mkrelpath"
-#~ msgstr "DATEI als grub-mkrelpath verwenden"
-
-#~ msgid "use FILE as grub-probe"
-#~ msgstr "DATEI als grub-probe verwenden"
-
-#~ msgid "INSTALL_DEVICE must be system device filename."
-#~ msgstr ""
-#~ "Installationsgerät muss als Name einer Systemdatei angegeben werden."
-
-#~ msgid ""
-#~ "Path `%s' is not readable by GRUB on boot. Installation is impossible. "
-#~ "Aborting.\\n"
-#~ msgstr ""
-#~ "Pfad «%s» ist beim Booten von GRUB nicht lesbar. Die Installation ist "
-#~ "unmöglich, wird abgebrochen.\\n"
-
-#~ msgid "Auto-detection of a filesystem of %s failed.\\n"
-#~ msgstr "Automatische Erkennung des Dateisystems von %s ist gescheitert.\\n"
-
-#~ msgid "Try with --recheck."
-#~ msgstr "Versuchen Sie mit --recheck."
-
-#~ msgid ""
-#~ "If the problem persists please report this together with the output of %s "
-#~ "to <%s>"
-#~ msgstr ""
-#~ "Falls das Problem weiterhin besteht, melden Sie dies als Fehler zusammen "
-#~ "mit der Ausgabe von %s an <%s>"
-
-#~ msgid "`%s' failed.\\n"
-#~ msgstr "«%s» ist fehlgeschlagen.\\n"
-
-#~ msgid ""
-#~ "Can't find GRUB drive for %s; unable to create EFI Boot Manager entry.\\n"
-#~ msgstr ""
-#~ "GRUB-Laufwerk für %s konnte nicht gefunden werden. Der EFI-Bootmanager-"
-#~ "Eintrag konnte nicht erstellt werden.\\n"
-
-#~ msgid "Generating grub.cfg ..."
-#~ msgstr "grub.cfg wird erstellt …"
-
-#~ msgid "use FILE as grub-glue-efi"
-#~ msgstr "DATEI als grub-glue-efi verwenden"
-
-#~ msgid "use FILE as grub-render-label"
-#~ msgstr "DATEI als grub-render-label verwenden"
-
-#~ msgid "Packed pixel "
-#~ msgstr "Gepackte Pixel "
-
-#~ msgid "use GRUB images from DIR. Takes precedence over target"
-#~ msgstr ""
-#~ "GRUB-Abbilder in ORDNER verwenden. Erhält Vorrang gegenüber dem Ziel"
-
-#~ msgid "Storage info for `%s' does not include name"
-#~ msgstr "Speicherinfo für «%s» enthält keinen Namen"
-
-#~ msgid "Bogus name length for storage info for `%s'"
-#~ msgstr "Falsche Namenslänge für Speicherinfo für «%s»"
-
-#~ msgid "Storage name for `%s' not NUL-terminated"
-#~ msgstr "Speichername für «%s» ist nicht NUL-terminiert"
-
-#~ msgid "Couldn't find physical volume `%s'. Check your device.map"
-#~ msgstr ""
-#~ "Physischer Datenträger %s konnte nicht gefunden werden. Überprüfen Sie "
-#~ "Ihre device.map"
-
-#~ msgid "diskboot.img is not one sector size"
-#~ msgstr "Die Grösse von diskboot.img entspricht nicht einem Sektor"
-
-#~ msgid "loopback command fails"
-#~ msgstr "Loopback-Befehls ist fehlgeschlagen."
-
-#~ msgid "cryptomount command fails: %s"
-#~ msgstr "Cryptomount-Befehl ist fehlgeschlagen: %s"
-
-#~ msgid "%s: option requires an argument -- `%s'"
-#~ msgstr "%s: Option erwartet ein Argument -- «%s»"
-
-#~ msgid "Make GRUB rescue image."
-#~ msgstr "Ein Abbild eines GRUB-Rettungsmediums erstellen"
-
-#~ msgid "Show v2 and v3 tablesv only."
-#~ msgstr "Nur v2- und v3-Tabellen darstellen."
-
-#~ msgid "Unknown "
-#~ msgstr "Unbekannt"
-
-#~ msgid "Map table size exceeded"
-#~ msgstr "Maximale Tabellengrösse überschritten"
-
-#~ msgid "Try `%s --help' for more information.\n"
-#~ msgstr "Rufen Sie «%s --help» auf, um weitere Informationen zu erhalten.\n"
-
-#~ msgid ""
-#~ "Usage: %s [OPTION]...\n"
-#~ "\n"
-#~ "GRUB emulator.\n"
-#~ "\n"
-#~ "  -r, --root-device=DEV     use DEV as the root device [default=host]\n"
-#~ "  -m, --device-map=FILE     use FILE as the device map [default=%s]\n"
-#~ "  -d, --directory=DIR       use GRUB files in the directory DIR [default="
-#~ "%s]\n"
-#~ "  -v, --verbose             print verbose messages\n"
-#~ "  -H, --hold[=SECONDS]      wait until a debugger will attach\n"
-#~ "  -h, --help                display this message and exit\n"
-#~ "  -V, --version             print version information and exit\n"
-#~ "\n"
-#~ "Report bugs to <%s>.\n"
-#~ msgstr ""
-#~ "Aufruf: %s [OPTION]...\n"
-#~ "\n"
-#~ "GRUB-Emulator.\n"
-#~ "\n"
-#~ "  -r, --root-device=DEV     GERÄT als Root-Gerät verwenden "
-#~ "[Vorgabe=host]\n"
-#~ "  -m, --device-map=FILE     DATEI als Gerätezuordnung verwenden [Vorgabe="
-#~ "%s]\n"
-#~ "  -d, --directory=DIR       GRUB-Dateien in ORDNER verwenden [Vorgabe="
-#~ "%s]\n"
-#~ "  -v, --verbose             Ausführliche Meldungen anzeigen\n"
-#~ "  -H, --hold[=SECONDS]      Warten, bis sich ein Debugger einklinkt\n"
-#~ "  -h, --help                Diese Meldung anzeigen und beenden\n"
-#~ "  -V, --version             Versionsinformation anzeigen und beenden\n"
-#~ "\n"
-#~ "Fehler bitte an <%s> melden.\n"
-
-#~ msgid ""
-#~ "%s is deprecated. Use set gfxpayload=text before linux command instead.\n"
-#~ msgstr ""
-#~ "%s ist veraltet. Verwenden Sie stattdessen gfxpayload=text vor dem Linux-"
-#~ "Befehl.\n"
-
-#~ msgid "Serial terminal not available on this platform."
-#~ msgstr "Ein serielles Terminal ist auf dieser Plattform nicht verfügbar."
-
-#~ msgid "Usage: %s [OPTION] install_device"
-#~ msgstr "Aufruf: %s [OPTION] Installationsgerät"
-
-#~ msgid "Usage: %s [OPTION] [install_device]"
-#~ msgstr "Aufruf: %s [OPTION] [Installationsgerät]"
-
-#~ msgid "the ID of bootloader."
-#~ msgstr "Die Kennung des Bootloaders"
-
-#~ msgid ""
-#~ "UUID needed with ata mod, but the filesystem containing %s does not "
-#~ "support UUIDs.\\n"
-#~ msgstr ""
-#~ "Im ATA-Modus wird eine UUID benötigt, aber das Dateisystem %s unterstützt "
-#~ "keine UUIDs.\\n"
-
-#~ msgid ""
-#~ "UUID needed with cross-disk installs, but the filesystem containing %s "
-#~ "does not support UUIDs.\\n"
-#~ msgstr ""
-#~ "Für plattenübergreifende Installationen wird eine UUID benötigt, aber das "
-#~ "Dateisystem, welches %s enthält, unterstützt keine UUIDs.\\n"
-
-#~ msgid "No font for video terminal found."
-#~ msgstr "Keine Schrift für Video-Terminal gefunden."
-
-#~ msgid "Usage: %s [OPTION] install_device\\n"
-#~ msgstr "Aufruf: %s [OPTION] Installationsgerät\\n"
-
-#~ msgid "Usage: %s [OPTION] entry\\n"
-#~ msgstr "Aufruf: %s [OPTION] Eingabe\\n"
-
-#, fuzzy
-#~ msgid "file name expected"
-#~ msgstr "Ein Argument wurde erwartet"
-
-#~ msgid "can't find command %s"
-#~ msgstr "Befehl %s kann nicht gefunden werden."
-
-#~ msgid "Load an additional file."
-#~ msgstr "Eine zusätzliche Datei laden."
-
-#~ msgid "can't open device"
-#~ msgstr "Gerät kann nicht geöffnet werden"
-
-#, fuzzy
-#~ msgid "unknown architecture type 0x%x"
-#~ msgstr "Unbekannter Gerätetyp %s\n"
-
-#, fuzzy
-#~ msgid "invalid ELF format"
-#~ msgstr "Ungültiges Zeilenformat: %s"
-
-#, fuzzy
-#~ msgid "start symbol is not defined"
-#~ msgstr "Adresse nicht gefunden"
-
-#~ msgid "No open parenthesis found"
-#~ msgstr "Keine öffnende Klammer gefunden"
-
-#~ msgid "No close parenthesis found"
-#~ msgstr "Keine schliessende Klammer gefunden"
-
-#~ msgid "No filename found"
-#~ msgstr "Kein Dateiname gefunden"
-
-#, fuzzy
-#~ msgid "unrecognised netword interface `%s'"
-#~ msgstr "Nicht erkannte Schnittstelle %s"
-
-#~ msgid "At least 3 arguments are expected"
-#~ msgstr "Es werden mindestens drei Argumente erwartet"
-
-#, fuzzy
-#~ msgid "cannot seek the file `%s': %s"
-#~ msgstr "Datei %s kann nicht durchsucht werden"
-
-#, fuzzy
-#~ msgid "cannot read the file `%s': %s"
-#~ msgstr "Datei %s kann nicht gelesen werden"
-
-#, fuzzy
-#~ msgid "Read 8-bit from PORT."
-#~ msgstr "byte aus PORT lesen."
-
-#, fuzzy
-#~ msgid "Read 16-bit from PORT."
-#~ msgstr "byte aus PORT lesen."
-
-#, fuzzy
-#~ msgid "Read 32-bit from PORT."
-#~ msgstr "byte aus PORT lesen."
-
-#~ msgid "Make partition hidden"
-#~ msgstr "Partition als verborgen markieren"
-
-#~ msgid "Check hash list file."
-#~ msgstr "Hash-Listendatei überprüfen."
-
-#~ msgid "BadRAM"
-#~ msgstr "BadRAM"
-
-#~ msgid "Menu entry definition as a string."
-#~ msgstr "Definition des Menüeintrags als Zeichenkette."
-
-#~ msgid "Device %d\n"
-#~ msgstr "Gerät %d\n"
-
-#~ msgid "Variable names to update with matches."
-#~ msgstr "Zu aktualisierende Variablennamen anhand von Übereinstimmungen."
-
-#~ msgid "  Failed"
-#~ msgstr "  Fehlgeschlagen"
-
-#~ msgid "Firmware is marked as tainted, refusing to initialize."
-#~ msgstr ""
-#~ "Firmware ist als fehlerhaft markiert, Initialisierung wird verweigert."
-
-#~ msgid "State: "
-#~ msgstr "Status:"
-
-#~ msgid "removed "
-#~ msgstr "entfernt"
-
-#~ msgid "offline "
-#~ msgstr "offline "
-
-#~ msgid "online"
-#~ msgstr "online"
-
-#~ msgid "Unknown VDEV type: %s\n"
-#~ msgstr "Unbekannter VDEV-Typ: %s\n"
-
-#~ msgid "Authenticate users"
-#~ msgstr "Benutzer legitimieren"
-
-#~ msgid "UTF-8 visual"
-#~ msgstr "UTF-8 visuell"
-
-#~ msgid "Unknown"
-#~ msgstr "Unbekannt"
-
-#~ msgid "Unknown key %s\n"
-#~ msgstr "Unbekannter Schlüssel %s\n"
-
-#~ msgid "do not probe any floppy drive"
-#~ msgstr "Kein Diskettenlaufwerk überprüfen"
-
-#~ msgid "Expose v1 tables."
-#~ msgstr "v1-Tabellen darstellen."
-
-#~ msgid ""
-#~ "\n"
-#~ "Glyph #%d, U+%04x\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Glyph #%d, U+%04x\n"
-
-#~ msgid "Fake BIOS."
-#~ msgstr "Fake-BIOS."
-
-#~ msgid "Read word from PORT."
-#~ msgstr "word aus PORT lesen."
-
-#~ msgid "Read dword from PORT."
-#~ msgstr "dword aus PORT lesen."
-
-#~ msgid "Write word VALUE to PORT."
-#~ msgstr "word-WERT in PORT schreiben."
-
-#~ msgid "Write dword VALUE to PORT."
-#~ msgstr "dword-WERT in PORT schreiben."
-
-#~ msgid "Read word from ADDR."
-#~ msgstr "word aus ADDR lesen."
-
-#~ msgid "Read dword from ADDR."
-#~ msgstr "dword aus ADDR lesen."
-
-#~ msgid "Write word VALUE to ADDR."
-#~ msgstr "word-WERT in ADDR schreiben."
-
-#~ msgid "Write dword VALUE to ADDR."
-#~ msgstr "dword-WERT in ADDR schreiben."
-
-#~ msgid "USERNAME"
-#~ msgstr "BENUTZERNAME"
-
-#~ msgid "Dump memory."
-#~ msgstr "Speicherinhalt sichern."
-
-#~ msgid "Hex dump FILE."
-#~ msgstr "Hex-Dump von DATEI."
-
-#~ msgid "Error loading file %s: %s\n"
-#~ msgstr "Fehler beim Laden der Datei %s: %s\n"
-
-#~ msgid "STR"
-#~ msgstr "ZEICHENKETTE"
-
-#~ msgid "Use FILE as the device map [default=%s]"
-#~ msgstr "DATEI als Geräteverzeichnis verwenden [Vorgabe=%s]"
-
-#~ msgid "Use DEV as the root device [default=guessed]"
-#~ msgstr "GERÄT als Root-Gerät verwenden [Vorgabe=Vermutung]"
-
-#~ msgid "Install even if problems are detected"
-#~ msgstr "Trotzdem installieren, auch wenn Probleme auftreten"
-
-#~ msgid "DIRECTORY"
-#~ msgstr "ORDNER"
-
-#~ msgid "[--shift] [--ctrl] [--alt]"
-#~ msgstr "[--shift] [--ctrl] [--alt]"
-
-#~ msgid "[-1|-2]"
-#~ msgstr "[-1|-2]"
-
-#~ msgid "KEY"
-#~ msgstr "SCHLÜSSEL"
-
-#~ msgid "cannot get the real path of `%s'"
-#~ msgstr "Realer Pfad von «%s» kann nicht ermittelt werden"
-
-#~ msgid "premature end of file %s: "
-#~ msgstr "Unerwartetes Ende der Datei %s:"
-
-#~ msgid "[n]"
-#~ msgstr "[n]"
-
-#~ msgid "Print verbose messages."
-#~ msgstr "Ausführliche Meldungen ausgeben."
-
-#~ msgid "no output file is specified"
-#~ msgstr "Keine Ausgabedatei angegeben"
-
-#~ msgid "No terminator in the core image"
-#~ msgstr "Kein Terminator im Core-Abbild"
-
-#~ msgid "DEV"
-#~ msgstr "GERÄT"
-
-#~ msgid "output file must be given"
-#~ msgstr "Ausgabedatei muss angegeben werden"
-
-#~ msgid "format must be specified"
-#~ msgstr "Format muss angegeben werden"
-
-#~ msgid "fstat failed"
-#~ msgstr "fstat gescheitert"
-
-#~ msgid "no device.map"
-#~ msgstr "Keine device.map"
-
-#, fuzzy
-#~ msgid "cannot stat `%s'"
-#~ msgstr "«%s» kann nicht geöffnet werden"
-
-#~ msgid "write error"
-#~ msgstr "Schreibfehler"
-
-#~ msgid "seek error"
-#~ msgstr "Suchfehler"
-
-#~ msgid "Couldn't open %s for reading: %s\n"
-#~ msgstr "«%s» konnte nicht zum Lesen geöffnet werden: %s\n"
-
-#~ msgid "Couldn't open %s for writing: %s\n"
-#~ msgstr "«%s» konnte nicht zum Schreiben geöffnet werden: %s\n"
-
-#~ msgid "set output file"
-#~ msgstr "Ausgabedatei festlegen"
-
-#~ msgid "the core image is too big"
-#~ msgstr "Core-Abbild ist zu gross"
-
-#~ msgid "cannot open %s"
-#~ msgstr "%s kann nicht geöffnet werden"
-
-#~ msgid ""
-#~ "Usage: %s [OPTIONS]\n"
-#~ "\n"
-#~ "Report bugs to <%s>.\n"
-#~ msgstr ""
-#~ "Aufruf: %s [OPTIONEN]\n"
-#~ "\n"
-#~ "Melden Sie Fehler an <%s>.\n"
-
-#~ msgid "Couldn't open input file: %s\n"
-#~ msgstr "Eingabedatei kann nicht geöffnet werden: %s\n"
-
-#~ msgid "Couldn't open output file: %s\n"
-#~ msgstr "Ausgabedatei kann nicht geöffnet werden: %s\n"
-
-#, fuzzy
-#~ msgid "cannot open 'vendor' node of `%s'"
-#~ msgstr "«%s» kann nicht geöffnet werden"
-
-#, fuzzy
-#~ msgid "cannot read 'vendor' node of `%s'"
-#~ msgstr "%llu Bytes können nicht aus %s gelesen werden"
-
-#, fuzzy
-#~ msgid "cannot open SAS PHY ID `%s'\n"
-#~ msgstr "«%s» kann nicht geöffnet werden"
-
-#~ msgid "fflush failed"
-#~ msgstr "fflush gescheitert"
-
-#, fuzzy
-#~ msgid "cannot stat %s"
-#~ msgstr "%s kann nicht geöffnet werden"
-
-#~ msgid "cannot read %s"
-#~ msgstr "%s kann nicht gelesen werden"
-
-#~ msgid "write failed"
-#~ msgstr "Schreibfehler"
-
-#~ msgid "Unload PXE environment."
-#~ msgstr "PXE-Umgebung entladen."
-
-#~ msgid "[DEVICE]"
-#~ msgstr "[GERÄT]"
-
-#~ msgid "open error"
-#~ msgstr "Fehler beim Öffnen"
-
-#~ msgid "Must use absolute path.\n"
-#~ msgstr "Absoluter Pfad ist notwendig.\n"
-
-#~ msgid "the core image is too small"
-#~ msgstr "Core-Abbild ist zu klein"
-
-#~ msgid "prefix is too long"
-#~ msgstr "Präfix ist zu lang"
-
-#~ msgid ""
-#~ "Usage: %s [OPTION]... [MODULES]\n"
-#~ "\n"
-#~ "Make a bootable image of GRUB.\n"
-#~ "\n"
-#~ "  -d, --directory=DIR     use images and modules under DIR [default=%s/"
-#~ "@platform@]\n"
-#~ "  -p, --prefix=DIR        set grub_prefix directory [default=%s]\n"
-#~ "  -m, --memdisk=FILE      embed FILE as a memdisk image\n"
-#~ "  -c, --config=FILE       embed FILE as boot config\n"
-#~ "  -n, --note              add NOTE segment for CHRP Open Firmware\n"
-#~ "  -o, --output=FILE       output a generated image to FILE "
-#~ "[default=stdout]\n"
-#~ "  -O, --format=FORMAT     generate an image in format\n"
-#~ "                          available formats: %s\n"
-#~ "  -C, --compression=(xz|none|auto)  choose the compression to use\n"
-#~ "  -h, --help              display this message and exit\n"
-#~ "  -V, --version           print version information and exit\n"
-#~ "  -v, --verbose           print verbose messages\n"
-#~ "\n"
-#~ "Report bugs to <%s>.\n"
-#~ msgstr ""
-#~ "Aufruf: %s [OPTION]... [MODULE]\n"
-#~ "\n"
-#~ "Erstellen eines bootfähigen GRUB-Abbildes.\n"
-#~ "\n"
-#~ "  -d, --directory=ORDN     Abbilder und Module in ORDN verwenden [Vorgabe="
-#~ "%s/@platform@]\n"
-#~ "  -p, --prefix=ORDN        Ordner für grub_prefix festlegen [Vorgabe=%s]\n"
-#~ "  -m, --memdisk=DATEI      DATEI als memdisk-Abbild einbetten\n"
-#~ "  -c, --config=DATEI       DATEI als Boot-Konfiguration einbetten\n"
-#~ "  -n, --note              NOTE-Segment für CHRP Open Firmware hinzufügen\n"
-#~ "  -o, --output=DATEI       Erzeugtes Abbild in DATEI ausgeben "
-#~ "[Vorgabe=stdout]\n"
-#~ "  -O, --format=FORMAT  Abbild in FORMAT erzeugen [Vorgabe=stdout]\n"
-#~ "                          Verfügbare Formate: %s\n"
-#~ "  -C, --compression=(xz|none|auto)  Zu verwendende Kompression\n"
-#~ "  -h, --help              Diese Meldung anzeigen und beenden\n"
-#~ "  -V, --version           Versionsinformation anzeigen und beenden\n"
-#~ "  -v, --verbose           Ausführliche Meldungen anzeigen\n"
-#~ "\n"
-#~ "Fehler bitte an <%s> melden.\n"
-
-#~ msgid ""
-#~ "embedding is not possible, but this is required when the root device is "
-#~ "on a RAID array or LVM volume"
-#~ msgstr ""
-#~ "Einbettung ist nicht möglich, jedoch erforderlich, wenn das Root-Gerät "
-#~ "sich in einem RAID-Verbund oder einem LVM-Datenträger befindet."
-
-#~ msgid "cannot guess the root device. Specify the option `--root-device'"
-#~ msgstr ""
-#~ "Das Root-Gerät kann nicht ermittelt werden. Verwenden Sie die Option «--"
-#~ "root-device»."
-
-#~ msgid "List compatible VESA BIOS extension video modes."
-#~ msgstr "Kompatible VESA BIOS-Erweiterunsmodi für Video auflisten."
-
-#~ msgid "Test VESA BIOS Extension 2.0+ support."
-#~ msgstr "Unterstützung für VESA BIOS-Erweiterung 2.0+ überprüfen."
-
-#~ msgid "Set the root device."
-#~ msgstr "Root-Gerät festlegen."
-
-#~ msgid "Simulate a hard drive with partitions."
-#~ msgstr "Einen Datenträger mit Partitionen simulieren."
-
-#~ msgid ""
-#~ "Attempting to install GRUB to a partition instead of the MBR.  This is a "
-#~ "BAD idea."
-#~ msgstr ""
-#~ "Es wird versucht, GRUB in eine Partition anstelle in den MBR zu "
-#~ "installieren. Das ist eine SCHLECHTE Idee."
-
-#~ msgid "if you really want blocklists, use --force"
-#~ msgstr ""
-#~ "Benutzen Sie --force, wenn Sie wirklich Blocklisten verwenden wollen."
-
-#~ msgid "A boot catalog exists and appears corrupted.\n"
-#~ msgstr "Ein Boot-Katalog existiert, scheint aber beschädigt zu sein.\n"
-
-#~ msgid "Please check the following file: %s.\n"
-#~ msgstr "Bitte überprüfen Sie folgende Datei: %s.\n"
-
-#~ msgid "This file must be removed before a bootable CD can be done.\n"
-#~ msgstr ""
-#~ "Diese Datei muss entfernt werden, bevor eine bootfähige CD erstellt "
-#~ "werden kann.\n"
-
-#~ msgid "Error creating boot catalog (%s)"
-#~ msgstr "Fehler beim Erstellen des Boot-Katalogs (%s)"
-
-#~ msgid "Error writing to boot catalog (%s)"
-#~ msgstr "Fehler beim Speichern des Boot-Katalogs (%s)"
-
-#~ msgid "Boot catalog cannot be found!\n"
-#~ msgstr "Boot-Katalog kann nicht gefunden werden!\n"
-
-#~ msgid "Boot image cannot be found!\n"
-#~ msgstr "Boot-Abbild kann nicht gefunden werden!\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Size of boot image is %d sectors"
-#~ msgstr ""
-#~ "\n"
-#~ "Das Boot-Abbild umfasst %d Sektoren"
-
-#~ msgid "No emulation\n"
-#~ msgstr "Keine Emulation\n"
-
-#~ msgid "Emulating a 1.44 meg floppy\n"
-#~ msgstr "Eine 1,44 MB-Diskette emulieren\n"
-
-#~ msgid "Emulating a 2.88 meg floppy\n"
-#~ msgstr "Eine 2,88 MB-Diskette emulieren\n"
-
-#~ msgid "Emulating a 1.2 meg floppy\n"
-#~ msgstr "Eine 1,2 MB-Diskette emulieren\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Error - boot image is not the an allowable size.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Fehler - Boot-Abbild hat keine akzeptable Grösse.\n"
-
-#~ msgid "Error opening boot catalog for update"
-#~ msgstr "Fehler beim Öffnen des Boot-Katalogs zum Aktualisieren"
-
-#~ msgid "Error writing to boot catalog"
-#~ msgstr "Fehler beim Schreiben in den Boot-Katalog"
-
-#~ msgid "Error opening boot image file '%s' for update"
-#~ msgstr "Fehler beim Öffnen der Boot-Abbilddatei «%s» zum Aktualisieren"
-
-#~ msgid "Boot image file '%s' changed unexpectedly"
-#~ msgstr "Boot-Abbilddatei «%s» wurde unerwartet geändert"
-
-#~ msgid "Error writing to boot image (%s)"
-#~ msgstr "Fehler beim Schreiben in das Boot-Abbild (%s)"
-
-#~ msgid "Unable to generate sane path tables - too many directories (%d)\n"
-#~ msgstr ""
-#~ "Erzeugung der Sane-Pfadtabellen ist nicht möglich - zu viele Ordner (%d)\n"
-
-#~ msgid "Entry %d not in path tables\n"
-#~ msgstr "Eintrag %d nicht in Pfadtabellen vorhanden\n"
-
-#~ msgid "Joliet path table lengths do not match %d %d\n"
-#~ msgstr "Längen der Joliet-Pfadtabellen %d %d stimmen nicht überein\n"
-
-#~ msgid "Unable to locate relocated directory\n"
-#~ msgstr "Geänderter Ordner kann nicht gefunden werden\n"
-
-#~ msgid "Fatal goof - unable to find directory location\n"
-#~ msgstr "Fataler Fehler - Ort des Ordners kann nicht gefunden werden\n"
-
-#~ msgid "Unexpected joliet directory length %d %d %s\n"
-#~ msgstr "Unerwartete Länge des Joliet-Ordners %d %d %s\n"
-
-#~ msgid "Using \"%s\"\n"
-#~ msgstr "«%s» wird verwendet\n"
-
-#~ msgid "%s:%d: name required\n"
-#~ msgstr "%s:%d: Name erforderlich\n"
-
-#~ msgid "%s:%d: equals sign required\n"
-#~ msgstr "%s:%d: Gleichheitszeichen erforderlich\n"
-
-#~ msgid "%s:%d: field name \"%s\" unknown\n"
-#~ msgstr "%s:%d: Feldname «%s» ist unbekannt\n"
-
-#~ msgid "Usage: %s [options] file...\n"
-#~ msgstr "Aufruf: %s [Optionen] Datei...\n"
-
-#~ msgid "Required boot image pathname missing\n"
-#~ msgstr "Pfadname des Boot-Abbildes ist notwendig, fehlt aber\n"
-
-#~ msgid "Required boot catalog pathname missing\n"
-#~ msgstr "Pfadname des Boot-Katalogs ist notwendig, fehlt aber\n"
-
-#~ msgid "Ignoring -no-emul-boot (no-emulation is the default behaviour)\n"
-#~ msgstr ""
-#~ "-no-emul-boot wird ignoriert (no-emulation ist das Standardverhalten)\n"
-
-#~ msgid "Abstract filename string too long\n"
-#~ msgstr "«Abstract»-Zeichenkette für Dateiname ist zu lang\n"
-
-#~ msgid "Application-id string too long\n"
-#~ msgstr "«Application-id»-Zeichenkette ist zu lang\n"
-
-#~ msgid "Bibliographic filename string too long\n"
-#~ msgstr "«Bibliographic»-Zeichenkette für Dateiname ist zu lang\n"
-
-#~ msgid "Copyright filename string too long\n"
-#~ msgstr "«Copyright»-Zeichenkette für Dateiname ist zu lang\n"
-
-#~ msgid "Preparer string too long\n"
-#~ msgstr "«Preparer»-Zeichenkette ist zu lang\n"
-
-#~ msgid "Publisher string too long\n"
-#~ msgstr "«Publisher»-Zeichenkette ist zu lang\n"
-
-#~ msgid "System ID string too long\n"
-#~ msgstr "«System ID»-Zeichenkette ist zu lang\n"
-
-#~ msgid "Volume ID string too long\n"
-#~ msgstr "«Volume ID»-Zeichenkette ist zu lang\n"
-
-#~ msgid "Volume set ID string too long\n"
-#~ msgstr "«Volume set ID»-Zeichenkette ist zu lang\n"
-
-#~ msgid "Volume set sequence number too big\n"
-#~ msgstr "Sequenznummer des Datenträgersatzes ist zu gross\n"
-
-#~ msgid "date string must be 16 characters.\n"
-#~ msgstr "Datumszeichenkette muss aus 16 Zeichen bestehen.\n"
-
-#~ msgid "Warning: setrlimit"
-#~ msgstr "Warnung: setrlimit"
-
-#~ msgid "Multisession usage bug: Must specify -C if -M is used.\n"
-#~ msgstr ""
-#~ "Für Mehrfachsitzungen muss -C angegeben werden, falls -M benutzt wird.\n"
-
-#~ msgid ""
-#~ "Warning: -C specified without -M: old session data will not be merged.\n"
-#~ msgstr ""
-#~ "Warnung: -C wurde ohne -M angegeben: alte Sitzungsdaten werden nicht "
-#~ "berücksichtigt.\n"
-
-#~ msgid "re-directing all messages to %s\n"
-#~ msgstr "Alle Meldungen werden zu %s umgeleitet\n"
-
-#~ msgid "Unable to open previous session image %s\n"
-#~ msgstr "Abbild der vorherigen Sitzung %s kann nicht geöffnet werden\n"
-
-#~ msgid "Joliet tree sort failed.\n"
-#~ msgstr "Sortierung des Joliet-Baums ist gescheitert.\n"
-
-#~ msgid "Unable to open /dev/null\n"
-#~ msgstr "/dev/null kann nicht geöffnet werden\n"
-
-#~ msgid "Unable to open disc image file\n"
-#~ msgstr "Abbilddatei der Platte kann nicht geöffnet werden\n"
-
-#~ msgid "%llu extents written (%llu MiB)\n"
-#~ msgstr "%llu Einheiten geschrieben (%llu MiB)\n"
-
-#~ msgid "Seek error on old image\n"
-#~ msgstr "Fehler beim Durchsuchen eines alten Abbildes\n"
-
-#~ msgid "**Bad RR version attribute"
-#~ msgstr "**Falsches RR-Versionsattribut"
-
-#~ msgid ""
-#~ "Warning: Neither Rock Ridge (-R) nor TRANS.TBL (-T) name translations "
-#~ "were found on previous session. ISO (8.3) file names have been used "
-#~ "instead.\n"
-#~ msgstr ""
-#~ "Warnung: Weder RockRidge (-R) noch TRANS.TBL (-T)-Namensübersetzungen "
-#~ "wurden in der vorherigen Sitzung gefunden. ISO (8.3)-Dateinamen wurden "
-#~ "stattdessen verwendet.\n"
-
-#~ msgid "Read error on old image %s\n"
-#~ msgstr "Fehler beim Lesen des alten Abbildes %s\n"
-
-#~ msgid "Special parameters for cdwrite not specified with -C\n"
-#~ msgstr "Spezielle Parameter für cdwrite wurden nicht mit -C angegeben\n"
-
-#~ msgid "Malformed cdwrite parameters\n"
-#~ msgstr "Ungültige Parameter für cdwrite\n"
-
-#~ msgid "Unable to insert transparent compressed file - name conflict\n"
-#~ msgstr ""
-#~ "Transparente komprimierte Datei kann nicht eingefügt werden - "
-#~ "Namenskonflikt\n"
-
-#~ msgid "Extension record too long\n"
-#~ msgstr "Erweiterungsaufzeichnung ist zu lang\n"
-
-#~ msgid "Fatal goof\n"
-#~ msgstr "Fataler Fehler\n"
-
-#~ msgid "Unable to  generate unique  name for file %s\n"
-#~ msgstr "Eindeutiger Name für Datei %s kann nicht erzeugt werden\n"
-
-#~ msgid "Fatal error - RR overflow for file %s\n"
-#~ msgstr "Fataler Fehler - RR-Überlauf für Datei %s\n"
-
-#~ msgid "Translation table size mismatch %d %d\n"
-#~ msgstr "Grösse der Übersetzungstabellen %d %d stimmt nicht überein\n"
-
-#~ msgid "Unable to locate directory parent\n"
-#~ msgstr "Ort des Elternordners kann nicht bestimmt werden\n"
-
-#~ msgid "Scanning %s\n"
-#~ msgstr "%s wird eingelesen\n"
-
-#~ msgid "Overflow of stat buffer\n"
-#~ msgstr "Überlauf des stat-Zwischenspeichers\n"
-
-#~ msgid "Excluded by match: %s\n"
-#~ msgstr "Ausgeschlossen nach Übereinstimmung: %s\n"
-
-#~ msgid "Excluded: %s\n"
-#~ msgstr "Ausgeschlossen: %s\n"
-
-#~ msgid "Non-existant or inaccessible: %s\n"
-#~ msgstr "Nicht vorhanden oder kein Zugriff möglich: %s\n"
-
-#~ msgid "Unable to stat file %s - ignoring and continuing.\n"
-#~ msgstr ""
-#~ "Statusermittlung der Datei %s nicht möglich - wird ignoriert und "
-#~ "fortgesetzt.\n"
-
-#~ msgid "Symlink %s ignored - continuing.\n"
-#~ msgstr "Symbolische Verknüpfung %s wird ignoriert und fortgesetzt.\n"
-
-#~ msgid "Already cached directory seen (%s)\n"
-#~ msgstr "Bereits zwischengespeicherter Ordner erkannt (%s)\n"
-
-#~ msgid "File %s is not readable (%s) - ignoring\n"
-#~ msgstr "Datei %s ist nicht lesbar (%s) - wird ignoriert\n"
-
-#~ msgid "Directory loop - fatal goof (%s %lx %lu).\n"
-#~ msgstr "Ordnerschleife - fataler Fehler (%s %lx %lu).\n"
-
-#~ msgid "Unknown file type %s - ignoring and continuing.\n"
-#~ msgstr "Unbekannter Dateityp %s - wird ignoriert und fortgesetzt.\n"
-
-#~ msgid "Hidden from ISO9660 tree: %s\n"
-#~ msgstr "Im ISO9660-Baum verborgen: %s\n"
-
-#~ msgid "Hidden from Joliet tree: %s\n"
-#~ msgstr "Im Joliet-Baum verborgen: %s\n"
-
-#~ msgid "Directories too deep  %s\n"
-#~ msgstr "Ordnertiefe %s zu gross\n"
-
-#~ msgid "Unable to locate child directory in parent list\n"
-#~ msgstr "Kindordner kann in Elternliste nicht gefunden werden\n"
-
-#~ msgid "call to search_tree_file with an absolute path, stripping\n"
-#~ msgstr ""
-#~ "Aufruf von search_tree_file mit absolutem Pfad, wird abgeschnitten\n"
-
-#~ msgid "initial path separator. Hope this was intended...\n"
-#~ msgstr "Anfänglicher Pfadtrenner. Hoffentlich war dies beabsichtigt...\n"
-
-#~ msgid "Cannot open '%s'"
-#~ msgstr "«%s» kann nicht geöffnet werden"
-
-#~ msgid "cannot open %s\n"
-#~ msgstr "%s kann nicht geöffnet werden\n"
-
-#~ msgid "%6.2f%% done, estimate finish %s"
-#~ msgstr "%6.2f%% abgeschlossen, voraussichtlich beendet %s"
-
-#~ msgid "Unexpected directory length %d %d %s\n"
-#~ msgstr "Unerwartete Ordnerlänge %d %d %s\n"
-
-#~ msgid "Path table lengths do not match %d %d\n"
-#~ msgstr "Längen der Pfadtabellen %d %d stimmen nicht überein\n"
-
-#~ msgid "Total extents scheduled to be written = %llu\n"
-#~ msgstr "Geplante zu schreibende Einheiten = %llu\n"
-
-#~ msgid "Total extents actually written = %llu\n"
-#~ msgstr "Gesamte derzeit geschriebene Einheiten = %llu\n"
-
-#~ msgid ""
-#~ "Number of extents written different than what was predicted.  Please "
-#~ "fix.\n"
-#~ msgstr ""
-#~ "Anzahl der zu schreibenden Einheiten anders als erwartet. Bitte "
-#~ "berichtigen.\n"
-
-#~ msgid "Predicted = %d, written = %llu\n"
-#~ msgstr "Erwartet = %d, geschrieben = %llu\n"
-
-#~ msgid "Total rockridge attributes bytes: %d\n"
-#~ msgstr "Gesamtgrösse der RockRidge-Attribute in Bytes: %d\n"
-
-#~ msgid "Path table size(bytes): %d\n"
-#~ msgstr "Grösse der Pfadtabelle in Bytes: %d\n"

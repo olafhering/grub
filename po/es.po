@@ -1,14 +1,18 @@
 # Spanish translation for grub.
 # Copyright (C) 2013 Free Software Foundation, Inc.
 # This file is distributed under the same license as the grub package.
-# Miguel Ángel Arruga Vivas <rosen644835@gmail.com>, 2013, 2018
+# Miguel Ángel Arruga Vivas <rosen644835@gmail.com>, 2013, 2018, 2019
 #
+# TODO:
+# * Repensar traducción support
+# * Repensar traducción buffer
+# ** Repaso general
 msgid ""
 msgstr ""
-"Project-Id-Version: grub 2.02-pre3\n"
+"Project-Id-Version: grub 2.04-pre1\n"
 "Report-Msgid-Bugs-To: bug-grub@gnu.org\n"
-"POT-Creation-Date: 2019-04-09 03:12+0200\n"
-"PO-Revision-Date: 2018-11-13 20:41+0100\n"
+"POT-Creation-Date: 2019-07-04 16:09+0200\n"
+"PO-Revision-Date: 2019-04-18 20:32+0200\n"
 "Last-Translator: Miguel Ángel Arruga Vivas <rosen644835@gmail.com>\n"
 "Language-Team: Spanish <es@tp.org.es>\n"
 "Language: es\n"
@@ -98,9 +102,9 @@ msgstr ""
 #: grub-core/kern/elf.c:117 grub-core/kern/elfXX.c:29
 #: grub-core/kern/elfXX.c:156 grub-core/loader/arm/linux.c:319
 #: grub-core/loader/arm64/linux.c:330 grub-core/loader/arm64/xen_boot.c:356
-#: grub-core/loader/efi/chainloader.c:270
-#: grub-core/loader/efi/chainloader.c:291
-#: grub-core/loader/efi/chainloader.c:323 grub-core/loader/efi/fdt.c:138
+#: grub-core/loader/efi/chainloader.c:276
+#: grub-core/loader/efi/chainloader.c:297
+#: grub-core/loader/efi/chainloader.c:329 grub-core/loader/efi/fdt.c:138
 #: grub-core/loader/i386/bsd.c:1276 grub-core/loader/i386/bsd.c:2116
 #: grub-core/loader/i386/bsdXX.c:20 grub-core/loader/i386/bsdXX.c:36
 #: grub-core/loader/i386/bsdXX.c:63 grub-core/loader/i386/bsdXX.c:357
@@ -132,7 +136,7 @@ msgstr ""
 #: grub-core/loader/xnu.c:816 grub-core/loader/xnu.c:871
 #: grub-core/loader/xnu.c:914 grub-core/loader/xnu.c:952
 #: grub-core/loader/xnu_resume.c:68 grub-core/loader/xnu_resume.c:153
-#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2290
+#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2288
 #, c-format
 msgid "premature end of file %s"
 msgstr "fin prematuro del fichero %s"
@@ -164,7 +168,7 @@ msgstr "error: %s.\n"
 #: grub-core/loader/arm/linux.c:259 grub-core/loader/arm64/linux.c:265
 #: grub-core/loader/arm64/linux.c:321 grub-core/loader/arm64/linux.c:340
 #: grub-core/loader/arm64/xen_boot.c:344 grub-core/loader/arm64/xen_boot.c:367
-#: grub-core/loader/efi/chainloader.c:283 grub-core/osdep/unix/dl.c:48
+#: grub-core/loader/efi/chainloader.c:289 grub-core/osdep/unix/dl.c:48
 #: grub-core/osdep/windows/dl.c:46 grub-core/script/lexer.c:156
 #: grub-core/script/lexer.c:182
 msgid "out of memory"
@@ -204,7 +208,7 @@ msgstr "Lista de dispositivos."
 #: grub-core/loader/arm/linux.c:472 grub-core/loader/arm64/linux.c:243
 #: grub-core/loader/arm64/linux.c:297 grub-core/loader/arm64/xen_boot.c:398
 #: grub-core/loader/arm64/xen_boot.c:411 grub-core/loader/arm64/xen_boot.c:462
-#: grub-core/loader/efi/chainloader.c:210 grub-core/loader/i386/bsd.c:1462
+#: grub-core/loader/efi/chainloader.c:216 grub-core/loader/i386/bsd.c:1462
 #: grub-core/loader/i386/bsd.c:1807 grub-core/loader/i386/bsd.c:2085
 #: grub-core/loader/i386/coreboot/chainloader.c:438
 #: grub-core/loader/i386/linux.c:656 grub-core/loader/i386/linux.c:1041
@@ -443,51 +447,46 @@ msgstr "Carga un volcado de la BIOS."
 #: grub-core/commands/efi/shim_lock.c:76
 #, c-format
 msgid "module cannot be loaded in UEFI secure boot mode: %s"
-msgstr ""
+msgstr "el módulo no se puede cargar en el modo de arranque seguro UEFI: %s"
 
 #: grub-core/commands/efi/shim_lock.c:98
 #, c-format
 msgid "cannot boot due to dangerous module in memory: %s"
-msgstr ""
+msgstr "no se pudo arrancar debido a un módulo peligroso en memoria: %s"
 
 # Miguel: (TODO: Unificar con traducción de gnupg)
 #: grub-core/commands/efi/shim_lock.c:116
-#, fuzzy
 msgid "bad shim signature"
-msgstr "firma incorrecta"
+msgstr "firma shim incorrecta"
 
 #: grub-core/commands/efi/tpm.c:149 grub-core/commands/efi/tpm.c:189
 #: grub-core/commands/efi/tpm.c:256 grub-core/commands/efi/tpm.c:306
-#, fuzzy
 msgid "Command failed"
-msgstr "falló alloc-mem"
+msgstr "La orden falló"
 
 #: grub-core/commands/efi/tpm.c:151 grub-core/commands/efi/tpm.c:191
 #: grub-core/commands/efi/tpm.c:258 grub-core/commands/efi/tpm.c:308
-#, fuzzy
 msgid "Invalid parameter"
-msgstr "parámetro %s no válido"
+msgstr "Parámetro no válido"
 
 #: grub-core/commands/efi/tpm.c:154 grub-core/commands/efi/tpm.c:194
 #: grub-core/commands/efi/tpm.c:261 grub-core/commands/efi/tpm.c:311
 msgid "Output buffer too small"
-msgstr ""
+msgstr "Buffer de salida demasiado pequeño"
 
 #: grub-core/commands/efi/tpm.c:156 grub-core/commands/efi/tpm.c:196
 #: grub-core/commands/efi/tpm.c:263 grub-core/commands/efi/tpm.c:313
-#, fuzzy
 msgid "TPM unavailable"
-msgstr "Ruta: no disponible"
+msgstr "TPM no disponible"
 
 #: grub-core/commands/efi/tpm.c:158 grub-core/commands/efi/tpm.c:198
 #: grub-core/commands/efi/tpm.c:265 grub-core/commands/efi/tpm.c:315
-#, fuzzy
 msgid "Unknown TPM error"
-msgstr "Error desconocido del sistema"
+msgstr "Error de TPM desconocido"
 
 #: grub-core/commands/efi/tpm.c:240 grub-core/commands/efi/tpm.c:288
 msgid "cannot allocate TPM event buffer"
-msgstr ""
+msgstr "no se pudo reservar el buffer de eventos de TPM"
 
 #: grub-core/commands/eval.c:63
 msgid "STRING ..."
@@ -605,14 +604,12 @@ msgid "Check if FILE is ARM EFI file"
 msgstr "Comprueba si FICHERO es EFI ARM"
 
 #: grub-core/commands/file.c:94
-#, fuzzy
 msgid "Check if FILE is RISC-V 32bit EFI file"
-msgstr "Comprueba si FICHERO es EFI ARM"
+msgstr "Comprueba si FICHERO es EFI RISC-V de 32 bits"
 
 #: grub-core/commands/file.c:96
-#, fuzzy
 msgid "Check if FILE is RISC-V 64bit EFI file"
-msgstr "Comprueba si FICHERO es EFI IA64"
+msgstr "Comprueba si FICHERO es EFI RISC-V de 64 bits"
 
 #: grub-core/commands/file.c:98
 msgid "Check if FILE is hiberfil.sys in hibernated state"
@@ -1054,7 +1051,7 @@ msgstr "Tempo en %s no válido"
 #: grub-core/fs/archelp.c:260 grub-core/fs/bfs.c:621 grub-core/fs/bfs.c:704
 #: grub-core/fs/btrfs.c:1726 grub-core/fs/btrfs.c:1755
 #: grub-core/fs/btrfs.c:1799 grub-core/fs/btrfs.c:1882
-#: grub-core/fs/btrfs.c:1906 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:689
+#: grub-core/fs/btrfs.c:1906 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:696
 #: grub-core/fs/minix.c:426 grub-core/fs/ufs.c:544 grub-core/fs/zfs/zfs.c:2083
 #: grub-core/fs/zfs/zfs.c:2095 grub-core/fs/zfs/zfs.c:2301
 #: grub-core/net/http.c:120
@@ -1169,9 +1166,8 @@ msgstr "NOMBRE_DE_VARIABLE"
 #: grub-core/commands/i386/rdmsr.c:55 grub-core/commands/i386/rdmsr.c:60
 #: grub-core/commands/i386/rdmsr.c:65 grub-core/commands/i386/wrmsr.c:47
 #: grub-core/commands/i386/wrmsr.c:52 grub-core/commands/i386/wrmsr.c:57
-#, fuzzy
 msgid "unsupported instruction"
-msgstr "formato de gzip no soportado"
+msgstr "instrucción no implementada"
 
 #: grub-core/commands/i386/rdmsr.c:77 grub-core/commands/i386/wrmsr.c:69
 #: grub-core/commands/i386/wrmsr.c:77 grub-core/net/dns.c:727
@@ -1183,18 +1179,19 @@ msgstr "parámetro no válido"
 msgid "ADDR"
 msgstr "DIRECCIÓN"
 
+# TODO (MAAV): Repensar
 #: grub-core/commands/i386/rdmsr.c:95
 msgid "Read a CPU model specific register."
-msgstr ""
+msgstr "Lee un registro específico de modelo de CPU."
 
 #: grub-core/commands/i386/wrmsr.c:86
-#, fuzzy
 msgid "ADDR VALUE"
-msgstr "DIRECCIÓN VALOR [MÁSCARA]"
+msgstr "DIRECCIÓN VALOR"
 
+# TODO (MAAV): Repensar.
 #: grub-core/commands/i386/wrmsr.c:87
 msgid "Write a value to a CPU model specific register."
-msgstr ""
+msgstr "Escribe un valor a un registro específico de modelo de CPU."
 
 #: grub-core/commands/ieee1275/suspend.c:34
 msgid "Run `go' to resume GRUB."
@@ -2229,19 +2226,20 @@ msgstr "No hace nada, con respuesta satisfactoria."
 msgid "Do nothing, unsuccessfully."
 msgstr "No hace nada, sin respuesta satisfactoria."
 
-#: grub-core/commands/usbtest.c:212
+#: grub-core/commands/usbtest.c:221
 msgid "Test USB support."
 msgstr "Comprueba el soporte USB."
 
+# TODO (MAAV): Repensar
 #: grub-core/commands/verifiers.c:120
 #, c-format
 msgid "verification requested but nobody cares: %s"
-msgstr ""
+msgstr "verificación solicitada pero a nadie le importa: %s"
 
+# TODO (MAAV): Repensar
 #: grub-core/commands/verifiers.c:140
-#, fuzzy
 msgid "big file signature isn't implemented yet"
-msgstr "la reubicación 0x%x no está implementada todavía"
+msgstr "la firma de ficheros grandes no está implementada todavía"
 
 #: grub-core/commands/videoinfo.c:61
 msgid "Text-only "
@@ -2592,7 +2590,7 @@ msgid "relocation 0x%x is not implemented yet"
 msgstr "la reubicación 0x%x no está implementada todavía"
 
 #: grub-core/efiemu/loadcore.c:200 grub-core/efiemu/loadcore.c:237
-#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2362
+#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2360
 msgid "no symbol table"
 msgstr "ninguna tabla de símbolos"
 
@@ -2638,7 +2636,7 @@ msgid "List the loaded fonts."
 msgstr "Enumera las fuentes cargadas."
 
 #: grub-core/fs/archelp.c:216 grub-core/fs/archelp.c:278
-#: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:729
+#: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:736
 #: grub-core/fs/minix.c:369 grub-core/fs/ufs.c:454
 msgid "too deep nesting of symlinks"
 msgstr "demasiada profundidad de enlaces simbólicos"
@@ -2656,7 +2654,7 @@ msgstr "intento de leer más allá del fin del fichero"
 msgid "not a directory"
 msgstr "no es un directorio"
 
-#: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:828
+#: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:835
 #: grub-core/fs/zfs/zfs.c:3801
 msgid "not a regular file"
 msgstr "no es un fichero normal"
@@ -3353,29 +3351,29 @@ msgid "(PROGRAM ERROR) Option should have been recognized!?"
 msgstr "(ERROR DEL PROGRAMA) ¿¡Deberían haberse reconocido las opciones!?"
 
 #: grub-core/lib/gnulib/getopt.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous\n"
-msgstr "%s: la opción «-W %s» es ambigua\n"
+msgstr "%s: la opción «%s%s» es ambigua\n"
 
 #: grub-core/lib/gnulib/getopt.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous; possibilities:"
-msgstr "%s: la opción «%s» es ambigua; posibilidades:"
+msgstr "%s: la opción «%s%s» es ambigua; posibilidades:"
 
 #: grub-core/lib/gnulib/getopt.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unrecognized option '%s%s'\n"
-msgstr "%s: opción «%c%s» no reconocida\n"
+msgstr "%s: opción «%s%s» no reconocida\n"
 
 #: grub-core/lib/gnulib/getopt.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' doesn't allow an argument\n"
-msgstr "%s: la opción «%c%s» no permite un parámetro\n"
+msgstr "%s: la opción «%s%s» no permite un parámetro\n"
 
 #: grub-core/lib/gnulib/getopt.c:360
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' requires an argument\n"
-msgstr "%s: la opción «--%s» necesita un parámetro\n"
+msgstr "%s: la opción «%s%s» necesita un parámetro\n"
 
 #: grub-core/lib/gnulib/getopt.c:621
 #, c-format
@@ -3387,15 +3385,17 @@ msgstr "%s: opción no válida -- «%c»\n"
 msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: la opción necesita un parámetro -- «%c»\n"
 
+# TODO (MAAV): Repensar
 #: grub-core/lib/gnulib/openat-die.c:38
-#, fuzzy, c-format
+#, c-format
 msgid "unable to record current working directory"
-msgstr "no se puede restituir el directorio original"
+msgstr "no es posible registrar el directorio de trabajo actual"
 
+# TODO (MAAV): Repensar
 #: grub-core/lib/gnulib/openat-die.c:57
 #, c-format
 msgid "failed to return to initial working directory"
-msgstr ""
+msgstr "no se pudo volver al directorio de trabajo inicial"
 
 #: grub-core/lib/gnulib/regcomp.c:135 grub-core/osdep/aros/hostdisk.c:523
 msgid "Success"
@@ -3427,9 +3427,8 @@ msgid "Invalid back reference"
 msgstr "Referencia pasada no válida"
 
 #: grub-core/lib/gnulib/regcomp.c:156
-#, fuzzy
 msgid "Unmatched [, [^, [:, [., or [="
-msgstr "[ o [^ desemparejado"
+msgstr "[, [^, [:, [. o [= desemparejado"
 
 #: grub-core/lib/gnulib/regcomp.c:159
 msgid "Unmatched ( or \\("
@@ -3576,7 +3575,7 @@ msgstr "Arranca un sistema basado en BIOS."
 
 # Miguel: "Chainload" lo he traducido como salto a otro cargador
 # de arranque, es el concepto más cercano que se me ocurre.
-#: grub-core/loader/efi/chainloader.c:415
+#: grub-core/loader/efi/chainloader.c:421
 #: grub-core/loader/i386/pc/chainloader.c:303
 msgid "Load another boot loader."
 msgstr "Salta a otro cargador de arranque."
@@ -3874,10 +3873,10 @@ msgstr "Carga un núcleo «multiboot»."
 msgid "Load a multiboot module."
 msgstr "Carga un módulo «multiboot»."
 
+# TODO (MAAV): Support
 #: grub-core/loader/riscv/linux.c:30 grub-core/loader/riscv/linux.c:40
-#, fuzzy
 msgid "Linux not supported yet"
-msgstr "intérprete no soportado"
+msgstr "Linux todavía no está soportado"
 
 #: grub-core/loader/xnu.c:1416 grub-core/term/gfxterm_background.c:45
 msgid "Background image mode."
@@ -3974,14 +3973,13 @@ msgid "no DHCP options found"
 msgstr "no se han encontrado opciones DHCP"
 
 #: grub-core/net/bootp.c:682
-#, fuzzy
 msgid "invalid DHCP option code"
-msgstr "no se han encontrado opciones DHCP"
+msgstr "código de opción DHCP no válido"
 
 #: grub-core/net/bootp.c:686
-#, fuzzy, c-format
+#, c-format
 msgid "no DHCP option %u found"
-msgstr "no se ha encontrado la opción DHCP %d"
+msgstr "no se ha encontrado la opción DHCP %u"
 
 #: grub-core/net/bootp.c:743
 #, c-format
@@ -4006,9 +4004,8 @@ msgid "perform a bootp autoconfiguration"
 msgstr "realizar una autoconfiguración de bootp"
 
 #: grub-core/net/bootp.c:877
-#, fuzzy
 msgid "perform a DHCP autoconfiguration"
-msgstr "realizar una autoconfiguración de bootp"
+msgstr "realizar una autoconfiguración DHCP"
 
 #: grub-core/net/bootp.c:879
 msgid "VAR INTERFACE NUMBER DESCRIPTION"
@@ -4809,9 +4806,8 @@ msgid "Unable to create pipe: %s"
 msgstr "No se pudo crear una tubería (pipe): %s"
 
 #: grub-core/osdep/unix/getroot.c:370
-#, fuzzy
 msgid "cannot save the original directory"
-msgstr "no se puede restituir el directorio original"
+msgstr "no se puede almacenar el directorio original"
 
 #: grub-core/osdep/unix/getroot.c:423 grub-core/osdep/unix/getroot.c:480
 #: grub-core/osdep/unix/getroot.c:489
@@ -5028,7 +5024,7 @@ msgstr "nombre de variable «%s» no válido"
 
 #: grub-core/script/execute.c:953
 msgid "cannot allocate command buffer"
-msgstr ""
+msgstr "no se pudo reservar el buffer de órdenes"
 
 #: grub-core/script/lexer.c:144 util/grub-fstest.c:330
 msgid "unexpected end of file"
@@ -5238,7 +5234,7 @@ msgstr ""
 msgid "              total memory: %d KiB\n"
 msgstr "              memoria total: %d KiB\n"
 
-#: grub-core/video/video.c:596 grub-core/video/video.c:760
+#: grub-core/video/video.c:596 grub-core/video/video.c:762
 msgid "no suitable video mode found"
 msgstr "no se encontró un modo de vídeo apropiado"
 
@@ -5256,7 +5252,7 @@ msgstr "pre-carga los módulos MÓDULOS especificados"
 
 #: include/grub/util/install.h:33
 msgid "embed a specific DTB"
-msgstr ""
+msgstr "embebe un DTB específico"
 
 # Miguel: Será all o todas?
 #: include/grub/util/install.h:36
@@ -5323,9 +5319,9 @@ msgstr "embebe el FICHERO como una clave pública para comprobación de firmas"
 
 #: util/editenv.c:59 util/grub-editenv.c:201 util/grub-install-common.c:535
 #: util/grub-mkimage.c:315 util/setup.c:791
-#, fuzzy, c-format
+#, c-format
 msgid "cannot sync `%s': %s"
-msgstr "no se puede buscar «%s»: %s"
+msgstr "no se pudo sincronizar «%s»: %s"
 
 #: util/editenv.c:64
 #, c-format
@@ -5915,10 +5911,11 @@ msgstr ""
 "La partición PReP no está vacía. Si está seguro de que desea usarla, ejecute "
 "dd para limpiarla: «%s»"
 
+# TODO (MAAV): Repensar
 #: util/grub-install.c:1888 util/grub-install.c:1932
 #, c-format
 msgid "efibootmgr failed to register the boot entry: %s"
-msgstr ""
+msgstr "efibootmgr no pudo registrar la entrada de arranque: %s"
 
 #: util/grub-install.c:1916
 msgid "EFI bootloader id isn't specified."
@@ -6127,10 +6124,10 @@ msgstr ""
 "prefijo anteriormente proporcionado, pero el prefijo puede ser modificado "
 "por opciones posteriores"
 
+# TODO (MAAV): Repensar
 #: util/grub-mkimage.c:74
-#, fuzzy
 msgid "embed FILE as a device tree (DTB)\n"
-msgstr "embebe el FICHERO como una configuración temprana"
+msgstr "embebe FICHERO como un árbol de dispositivos (DTB)\n"
 
 #: util/grub-mkimage.c:76
 msgid "embed FILE as an early config"
@@ -6179,9 +6176,9 @@ msgid "Prefix not specified (use the -p option)."
 msgstr "Prefijo no especificado (use la opción -p)."
 
 #: util/grub-mkimage.c:318 util/setup.c:793
-#, fuzzy, c-format
+#, c-format
 msgid "cannot close `%s': %s"
-msgstr "no se puede abrir «%s»: %s"
+msgstr "no se puede cerrar «%s»: %s"
 
 #: util/grub-mkimagexx.c:2191
 #, c-format
@@ -6379,9 +6376,8 @@ msgid "enabling %s support ..."
 msgstr "activando el soporte de %s..."
 
 #: util/grub-mkrescue.c:486
-#, fuzzy
 msgid "xorriso not found"
-msgstr "%s: no encontrado"
+msgstr "no se encontró xorriso"
 
 #: util/grub-mkrescue.c:623
 msgid ""

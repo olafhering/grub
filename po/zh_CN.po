@@ -5,15 +5,15 @@
 # Xin Ye <alyex.ye@gmail.com>, 2009.
 # Eleanor Chen <chenyueg@gmail.com>, 2010.
 # Aron Xu <happyaron.xu@gmail.com>, 2009, 2010, 2011.
-# Boyuan Yang <073plan@gmail.com>, 2018.
+# Boyuan Yang <073plan@gmail.com>, 2018, 2019.
 # wwj402 <wwj402@gmail.com>, 2018.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub 2.02-pre3\n"
+"Project-Id-Version: grub 2.04-pre1\n"
 "Report-Msgid-Bugs-To: bug-grub@gnu.org\n"
-"POT-Creation-Date: 2019-04-09 03:12+0200\n"
-"PO-Revision-Date: 2018-10-02 13:57-0400\n"
+"POT-Creation-Date: 2019-07-04 16:09+0200\n"
+"PO-Revision-Date: 2019-04-25 17:01-0400\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: grub-core/bus/usb/serial/ftdi.c:145 grub-core/bus/usb/serial/pl2303.c:158
 #: grub-core/term/ieee1275/escc.c:169 grub-core/term/ns8250.c:202
@@ -99,9 +99,9 @@ msgstr ""
 #: grub-core/kern/elf.c:117 grub-core/kern/elfXX.c:29
 #: grub-core/kern/elfXX.c:156 grub-core/loader/arm/linux.c:319
 #: grub-core/loader/arm64/linux.c:330 grub-core/loader/arm64/xen_boot.c:356
-#: grub-core/loader/efi/chainloader.c:270
-#: grub-core/loader/efi/chainloader.c:291
-#: grub-core/loader/efi/chainloader.c:323 grub-core/loader/efi/fdt.c:138
+#: grub-core/loader/efi/chainloader.c:276
+#: grub-core/loader/efi/chainloader.c:297
+#: grub-core/loader/efi/chainloader.c:329 grub-core/loader/efi/fdt.c:138
 #: grub-core/loader/i386/bsd.c:1276 grub-core/loader/i386/bsd.c:2116
 #: grub-core/loader/i386/bsdXX.c:20 grub-core/loader/i386/bsdXX.c:36
 #: grub-core/loader/i386/bsdXX.c:63 grub-core/loader/i386/bsdXX.c:357
@@ -133,7 +133,7 @@ msgstr ""
 #: grub-core/loader/xnu.c:816 grub-core/loader/xnu.c:871
 #: grub-core/loader/xnu.c:914 grub-core/loader/xnu.c:952
 #: grub-core/loader/xnu_resume.c:68 grub-core/loader/xnu_resume.c:153
-#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2290
+#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2288
 #, c-format
 msgid "premature end of file %s"
 msgstr "文件 %s 过早结束"
@@ -161,7 +161,7 @@ msgstr "错误: %s。\n"
 #: grub-core/loader/arm/linux.c:259 grub-core/loader/arm64/linux.c:265
 #: grub-core/loader/arm64/linux.c:321 grub-core/loader/arm64/linux.c:340
 #: grub-core/loader/arm64/xen_boot.c:344 grub-core/loader/arm64/xen_boot.c:367
-#: grub-core/loader/efi/chainloader.c:283 grub-core/osdep/unix/dl.c:48
+#: grub-core/loader/efi/chainloader.c:289 grub-core/osdep/unix/dl.c:48
 #: grub-core/osdep/windows/dl.c:46 grub-core/script/lexer.c:156
 #: grub-core/script/lexer.c:182
 msgid "out of memory"
@@ -201,7 +201,7 @@ msgstr "列出设备。"
 #: grub-core/loader/arm/linux.c:472 grub-core/loader/arm64/linux.c:243
 #: grub-core/loader/arm64/linux.c:297 grub-core/loader/arm64/xen_boot.c:398
 #: grub-core/loader/arm64/xen_boot.c:411 grub-core/loader/arm64/xen_boot.c:462
-#: grub-core/loader/efi/chainloader.c:210 grub-core/loader/i386/bsd.c:1462
+#: grub-core/loader/efi/chainloader.c:216 grub-core/loader/i386/bsd.c:1462
 #: grub-core/loader/i386/bsd.c:1807 grub-core/loader/i386/bsd.c:2085
 #: grub-core/loader/i386/coreboot/chainloader.c:438
 #: grub-core/loader/i386/linux.c:656 grub-core/loader/i386/linux.c:1041
@@ -415,7 +415,7 @@ msgstr "创建类似 BIOS 的结构以与已有操作系统保持后向兼容性
 
 #: grub-core/commands/efi/loadbios.c:214
 msgid "BIOS_DUMP [INT10_DUMP]"
-msgstr ""
+msgstr "BIOS_DUMP [INT10_DUMP]"
 
 #: grub-core/commands/efi/loadbios.c:215
 msgid "Load BIOS dump."
@@ -424,50 +424,45 @@ msgstr "载入 BIOS 转储。"
 #: grub-core/commands/efi/shim_lock.c:76
 #, c-format
 msgid "module cannot be loaded in UEFI secure boot mode: %s"
-msgstr ""
+msgstr "模块在 UEFI 安全启动模式下无法加载：%s"
 
 #: grub-core/commands/efi/shim_lock.c:98
 #, c-format
 msgid "cannot boot due to dangerous module in memory: %s"
-msgstr ""
+msgstr "因内存中有危险模块而无法引导启动：%s"
 
 #: grub-core/commands/efi/shim_lock.c:116
-#, fuzzy
 msgid "bad shim signature"
-msgstr "无效的签名"
+msgstr "无效的 shim 签名"
 
 #: grub-core/commands/efi/tpm.c:149 grub-core/commands/efi/tpm.c:189
 #: grub-core/commands/efi/tpm.c:256 grub-core/commands/efi/tpm.c:306
-#, fuzzy
 msgid "Command failed"
-msgstr "alloc-mem 失败"
+msgstr "命令失败"
 
 #: grub-core/commands/efi/tpm.c:151 grub-core/commands/efi/tpm.c:191
 #: grub-core/commands/efi/tpm.c:258 grub-core/commands/efi/tpm.c:308
-#, fuzzy
 msgid "Invalid parameter"
-msgstr "无效参数 %s"
+msgstr "无效参数"
 
 #: grub-core/commands/efi/tpm.c:154 grub-core/commands/efi/tpm.c:194
 #: grub-core/commands/efi/tpm.c:261 grub-core/commands/efi/tpm.c:311
 msgid "Output buffer too small"
-msgstr ""
+msgstr "输出缓冲太小"
 
 #: grub-core/commands/efi/tpm.c:156 grub-core/commands/efi/tpm.c:196
 #: grub-core/commands/efi/tpm.c:263 grub-core/commands/efi/tpm.c:313
-#, fuzzy
 msgid "TPM unavailable"
-msgstr "设备ID：不可用"
+msgstr "TPM 不可用"
 
 #: grub-core/commands/efi/tpm.c:158 grub-core/commands/efi/tpm.c:198
 #: grub-core/commands/efi/tpm.c:265 grub-core/commands/efi/tpm.c:315
-#, fuzzy
 msgid "Unknown TPM error"
-msgstr "未知的系统错误"
+msgstr "未知的 TPM 错误"
 
 #: grub-core/commands/efi/tpm.c:240 grub-core/commands/efi/tpm.c:288
 msgid "cannot allocate TPM event buffer"
-msgstr ""
+msgstr "无法分配 TPM 事件缓冲"
 
 #: grub-core/commands/eval.c:63
 msgid "STRING ..."
@@ -578,14 +573,12 @@ msgid "Check if FILE is ARM EFI file"
 msgstr "检查文件是否为 ARM EFI 文件"
 
 #: grub-core/commands/file.c:94
-#, fuzzy
 msgid "Check if FILE is RISC-V 32bit EFI file"
-msgstr "检查文件是否为 ARM EFI 文件"
+msgstr "检查文件是否为 RISC-V 32位 EFI 文件"
 
 #: grub-core/commands/file.c:96
-#, fuzzy
 msgid "Check if FILE is RISC-V 64bit EFI file"
-msgstr "检查文件是否为 IA64 EFI 文件"
+msgstr "检查文件是否为 RISC-V 64位 EFI 文件"
 
 #: grub-core/commands/file.c:98
 msgid "Check if FILE is hiberfil.sys in hibernated state"
@@ -844,26 +837,26 @@ msgstr "显示文件或内存的原始内容。"
 
 #: grub-core/commands/i386/cmosdump.c:58
 msgid "Show raw dump of the CMOS contents."
-msgstr ""
+msgstr "显示 CMOS 内容的原始转储。"
 
 #: grub-core/commands/i386/cmostest.c:108
 #: grub-core/commands/i386/cmostest.c:111
 #: grub-core/commands/i386/cmostest.c:114
 msgid "BYTE:BIT"
-msgstr ""
+msgstr "字节:比特"
 
 #: grub-core/commands/i386/cmostest.c:109
 msgid "Test bit at BYTE:BIT in CMOS."
-msgstr ""
+msgstr "测试 CMOS 中 字节:比特 位置的位。"
 
 #: grub-core/commands/i386/cmostest.c:112
 msgid "Clear bit at BYTE:BIT in CMOS."
-msgstr ""
+msgstr "清除 CMOS 中 字节:比特 位置的位。"
 
 #. TRANSLATORS: A bit may be either set (1) or clear (0).
 #: grub-core/commands/i386/cmostest.c:116
 msgid "Set bit at BYTE:BIT in CMOS."
-msgstr ""
+msgstr "设置 CMOS 中 字节:比特 位置的位。"
 
 #: grub-core/commands/i386/coreboot/cb_timestamps.c:120
 msgid "Show coreboot boot time statistics."
@@ -912,7 +905,7 @@ msgstr "没有驱动器被重新映射"
 #. on the right current GRUB vision.
 #: grub-core/commands/i386/pc/drivemap.c:191
 msgid "OS disk #num ------> GRUB/BIOS device"
-msgstr ""
+msgstr "系统磁盘 #编号 ----> GRUB/BIOS 设备"
 
 #: grub-core/commands/i386/pc/drivemap.c:413
 msgid "-l | -r | [-s] grubdev osdisk."
@@ -949,27 +942,27 @@ msgstr ""
 
 #: grub-core/commands/i386/pc/lsapm.c:86
 msgid "16-bit protected interface supported\n"
-msgstr ""
+msgstr "支持16位保护接口\n"
 
 #: grub-core/commands/i386/pc/lsapm.c:87
 msgid "16-bit protected interface unsupported\n"
-msgstr ""
+msgstr "不支持16位保护接口\n"
 
 #: grub-core/commands/i386/pc/lsapm.c:89
 msgid "32-bit protected interface supported\n"
-msgstr ""
+msgstr "支持32位保护接口\n"
 
 #: grub-core/commands/i386/pc/lsapm.c:90
 msgid "32-bit protected interface unsupported\n"
-msgstr ""
+msgstr "不支持32位保护接口\n"
 
 #: grub-core/commands/i386/pc/lsapm.c:92
 msgid "CPU Idle slows down processor\n"
-msgstr ""
+msgstr "CPU 空闲使得处理器变慢\n"
 
 #: grub-core/commands/i386/pc/lsapm.c:93
 msgid "CPU Idle doesn't slow down processor\n"
-msgstr ""
+msgstr "CPU 空闲不使得处理器变慢\n"
 
 #: grub-core/commands/i386/pc/lsapm.c:95
 msgid "APM disabled\n"
@@ -997,18 +990,18 @@ msgstr "显示 APM 信息。"
 #. This error happens if none is specified.
 #: grub-core/commands/i386/pc/play.c:88
 msgid "filename or tempo and notes expected"
-msgstr ""
+msgstr "期望得到文件名或节奏速度或音符"
 
 #: grub-core/commands/i386/pc/play.c:113 grub-core/commands/i386/pc/play.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid tempo in %s"
-msgstr "无效命令%s。\n"
+msgstr "%s 中的无效节奏速度（tempo）"
 
 #: grub-core/commands/i386/pc/play.c:151 grub-core/commands/macbless.c:172
 #: grub-core/fs/archelp.c:260 grub-core/fs/bfs.c:621 grub-core/fs/bfs.c:704
 #: grub-core/fs/btrfs.c:1726 grub-core/fs/btrfs.c:1755
 #: grub-core/fs/btrfs.c:1799 grub-core/fs/btrfs.c:1882
-#: grub-core/fs/btrfs.c:1906 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:689
+#: grub-core/fs/btrfs.c:1906 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:696
 #: grub-core/fs/minix.c:426 grub-core/fs/ufs.c:544 grub-core/fs/zfs/zfs.c:2083
 #: grub-core/fs/zfs/zfs.c:2095 grub-core/fs/zfs/zfs.c:2301
 #: grub-core/net/http.c:120
@@ -1023,9 +1016,8 @@ msgid "unrecognized number"
 msgstr "无法识别的数字"
 
 #: grub-core/commands/i386/pc/play.c:190
-#, fuzzy
 msgid "FILE | TEMPO [PITCH1 DURATION1] [PITCH2 DURATION2] ... "
-msgstr "文件 | "
+msgstr "文件 | 节奏速度 [音调1 持续时间1] [音调2 持续时间2] ... "
 
 #: grub-core/commands/i386/pc/play.c:191
 msgid "Play a tune."
@@ -1101,7 +1093,7 @@ msgstr "不要更新 LED 状态"
 
 #: grub-core/commands/i386/pc/sendkey.c:372
 msgid "[KEYSTROKE1] [KEYSTROKE2] ..."
-msgstr ""
+msgstr "[按键1] [按键2] ..."
 
 #. TRANSLATORS: It can emulate multiple
 #. keypresses.
@@ -1124,9 +1116,8 @@ msgstr "VARNAME"
 #: grub-core/commands/i386/rdmsr.c:55 grub-core/commands/i386/rdmsr.c:60
 #: grub-core/commands/i386/rdmsr.c:65 grub-core/commands/i386/wrmsr.c:47
 #: grub-core/commands/i386/wrmsr.c:52 grub-core/commands/i386/wrmsr.c:57
-#, fuzzy
 msgid "unsupported instruction"
-msgstr "不支持的 gzip 格式"
+msgstr "不支持的指令"
 
 #: grub-core/commands/i386/rdmsr.c:77 grub-core/commands/i386/wrmsr.c:69
 #: grub-core/commands/i386/wrmsr.c:77 grub-core/net/dns.c:727
@@ -1140,24 +1131,23 @@ msgstr "地址"
 
 #: grub-core/commands/i386/rdmsr.c:95
 msgid "Read a CPU model specific register."
-msgstr ""
+msgstr "读取一个 CPU 品牌特有的寄存器。"
 
 #: grub-core/commands/i386/wrmsr.c:86
-#, fuzzy
 msgid "ADDR VALUE"
-msgstr "地址 值 [掩码]"
+msgstr "地址 值"
 
 #: grub-core/commands/i386/wrmsr.c:87
 msgid "Write a value to a CPU model specific register."
-msgstr ""
+msgstr "向一个 CPU 品牌特有的寄存器写入值。"
 
 #: grub-core/commands/ieee1275/suspend.c:34
 msgid "Run `go' to resume GRUB."
-msgstr ""
+msgstr "运行“go”以恢复 GRUB 运行。"
 
 #: grub-core/commands/ieee1275/suspend.c:45
 msgid "Return to IEEE1275 prompt."
-msgstr "返回 Open Firmware 提示符。"
+msgstr "回到 IEEE1275 提示符。"
 
 #: grub-core/commands/iorw.c:123 grub-core/commands/iorw.c:127
 #: grub-core/commands/iorw.c:131 grub-core/gdb/gdb.c:79
@@ -1165,33 +1155,28 @@ msgid "PORT"
 msgstr "端口"
 
 #: grub-core/commands/iorw.c:123
-#, fuzzy
 msgid "Read 8-bit value from PORT."
-msgstr "从指定端口读取字节。"
+msgstr "从指定端口读取8比特值。"
 
 #: grub-core/commands/iorw.c:127
-#, fuzzy
 msgid "Read 16-bit value from PORT."
-msgstr "从指定端口读取字节。"
+msgstr "从指定端口读取16比特值。"
 
 #: grub-core/commands/iorw.c:131
-#, fuzzy
 msgid "Read 32-bit value from PORT."
-msgstr "从指定端口读取字节。"
+msgstr "从指定端口读取32比特值。"
 
 #: grub-core/commands/iorw.c:135 grub-core/commands/iorw.c:139
 msgid "PORT VALUE [MASK]"
 msgstr "端口 值 [掩码]"
 
 #: grub-core/commands/iorw.c:136
-#, fuzzy
 msgid "Write 8-bit VALUE to PORT."
-msgstr "向指定端口写入字节类型值。"
+msgstr "向指定端口写入8比特值。"
 
 #: grub-core/commands/iorw.c:140
-#, fuzzy
 msgid "Write 16-bit VALUE to PORT."
-msgstr "向指定端口写入字节类型值。"
+msgstr "向指定端口写入16比特值。"
 
 #: grub-core/commands/iorw.c:143 grub-core/commands/memrw.c:137
 #: grub-core/commands/memrw.c:141 grub-core/commands/memrw.c:145
@@ -1199,9 +1184,8 @@ msgid "ADDR VALUE [MASK]"
 msgstr "地址 值 [掩码]"
 
 #: grub-core/commands/iorw.c:144
-#, fuzzy
 msgid "Write 32-bit VALUE to PORT."
-msgstr "向指定端口写入字节类型值。"
+msgstr "向指定端口写入32比特值。"
 
 #: grub-core/commands/keylayouts.c:215 grub-core/commands/loadenv.c:61
 #: grub-core/commands/nativedisk.c:189 grub-core/efiemu/main.c:235
@@ -1258,14 +1242,12 @@ msgid "Parse legacy config in new context"
 msgstr "在新环境下解析旧版配置"
 
 #: grub-core/commands/legacycfg.c:847
-#, fuzzy
 msgid "Parse legacy config in same context taking only menu entries"
-msgstr "在相同环境下解析旧版配置"
+msgstr "在相同环境下解析旧版配置，只处理菜单项"
 
 #: grub-core/commands/legacycfg.c:852
-#, fuzzy
 msgid "Parse legacy config in new context taking only menu entries"
-msgstr "在新环境下解析旧版配置"
+msgstr "在新环境下解析旧版配置，只处理菜单项"
 
 #: grub-core/commands/legacycfg.c:856
 msgid "[--no-mem-option] [--type=TYPE] FILE [ARG ...]"
@@ -1310,9 +1292,8 @@ msgid "Skip signature-checking of the environment file."
 msgstr "跳过对环境文件的签名检查。"
 
 #: grub-core/commands/loadenv.c:451
-#, fuzzy
 msgid "[-f FILE] [-s|--skip-sig] [variable_name_to_whitelist] [...]"
-msgstr "[-f 文件] 变量名 [...]"
+msgstr "[-f 文件] [-s|--skip-sig] [要加入白名单的变量名] [...]"
 
 #: grub-core/commands/loadenv.c:452
 msgid "Load variables from environment block file."
@@ -1359,14 +1340,12 @@ msgid "List devices and files."
 msgstr "列出设备和文件。"
 
 #: grub-core/commands/lsacpi.c:255
-#, fuzzy
 msgid "Show version 1 tables only."
-msgstr "仅显示 v1 表。"
+msgstr "仅显示版本 1 的表。"
 
 #: grub-core/commands/lsacpi.c:256
-#, fuzzy
 msgid "Show version 2 and version 3 tables only."
-msgstr "仅显示 v2 和 v3 表。"
+msgstr "仅显示版本 2 和版本 3 的表。"
 
 #: grub-core/commands/lsacpi.c:306
 msgid "Show ACPI information."
@@ -1406,21 +1385,21 @@ msgstr ""
 
 #: grub-core/commands/lsmmap.c:42
 msgid "RAM holding coreboot tables"
-msgstr ""
+msgstr "存有 coreboot 表的 RAM"
 
 #: grub-core/commands/lsmmap.c:43
 msgid "RAM holding firmware code"
-msgstr ""
+msgstr "存有固件代码的 RAM"
 
 #: grub-core/commands/lsmmap.c:52
 #, c-format
 msgid "base_addr = 0x%llx, length = 0x%llx, %s\n"
-msgstr ""
+msgstr "基本地址 = 0x%llx，长度 = 0x%llx，%s\n"
 
 #: grub-core/commands/lsmmap.c:55
 #, c-format
 msgid "base_addr = 0x%llx, length = 0x%llx, type = 0x%x\n"
-msgstr ""
+msgstr "基本地址 = 0x%llx，长度 = 0x%llx，类型 = 0x%x\n"
 
 #: grub-core/commands/lsmmap.c:79
 msgid "List memory map provided by firmware."
@@ -1439,34 +1418,28 @@ msgid "Bless DIR of HFS or HFS+ partition for PPC macs."
 msgstr ""
 
 #: grub-core/commands/memrw.c:125
-#, fuzzy
 msgid "Read 8-bit value from ADDR."
-msgstr "从指定地址读取字节"
+msgstr "从指定地址读取8比特值。"
 
 #: grub-core/commands/memrw.c:129
-#, fuzzy
 msgid "Read 16-bit value from ADDR."
-msgstr "从指定地址读取字节"
+msgstr "从指定地址读取16比特值。"
 
 #: grub-core/commands/memrw.c:133
-#, fuzzy
 msgid "Read 32-bit value from ADDR."
-msgstr "从指定地址读取字节"
+msgstr "从指定地址读取32比特值。"
 
 #: grub-core/commands/memrw.c:138
-#, fuzzy
 msgid "Write 8-bit VALUE to ADDR."
-msgstr "向指定地址写入 byte 类型值。"
+msgstr "向指定地址写入8比特值。"
 
 #: grub-core/commands/memrw.c:142
-#, fuzzy
 msgid "Write 16-bit VALUE to ADDR."
-msgstr "向指定地址写入 byte 类型值。"
+msgstr "向指定地址写入16比特值。"
 
 #: grub-core/commands/memrw.c:146
-#, fuzzy
 msgid "Write 32-bit VALUE to ADDR."
-msgstr "向指定地址写入 byte 类型值。"
+msgstr "向指定地址写入32比特值。"
 
 #: grub-core/commands/menuentry.c:31
 msgid "Menu entry type."
@@ -1486,7 +1459,7 @@ msgstr "允许引导此项的用户列表。"
 
 #: grub-core/commands/menuentry.c:33
 msgid "USERNAME[,USERNAME]"
-msgstr ""
+msgstr "用户名[,用户名]"
 
 #: grub-core/commands/menuentry.c:36
 msgid "Keyboard key to quickly boot this entry."
@@ -1511,7 +1484,7 @@ msgstr "菜单项类型。"
 #. anyone can boot it.
 #: grub-core/commands/menuentry.c:44
 msgid "This entry can be booted by any user."
-msgstr ""
+msgstr "该项可以由任何用户引导启动。"
 
 #: grub-core/commands/menuentry.c:323 grub-core/commands/menuentry.c:328
 #: grub-core/tests/test_blockarg.c:46
@@ -1533,7 +1506,7 @@ msgstr "定义一个子菜单。"
 #.
 #: grub-core/commands/minicmd.c:162
 msgid "Name\tRef Count\tDependencies\n"
-msgstr ""
+msgstr "名称\t引用计数\t依赖\n"
 
 #: grub-core/commands/minicmd.c:201
 msgid "Show this message."
@@ -1541,7 +1514,7 @@ msgstr "显示此消息。"
 
 #: grub-core/commands/minicmd.c:204
 msgid "ADDR [SIZE]"
-msgstr ""
+msgstr "地址 [大小]"
 
 #: grub-core/commands/minicmd.c:204
 msgid "Show memory contents."
@@ -1595,9 +1568,9 @@ msgid "Written SPD bytes: %d B.\n"
 msgstr ""
 
 #: grub-core/commands/mips/loongson/lsspd.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "Total flash size: %d B.\n"
-msgstr "翻译表总大小：%d\n"
+msgstr "flash 总大小：%d B。\n"
 
 #: grub-core/commands/mips/loongson/lsspd.c:79
 msgid "Memory type: DDR2."
@@ -1695,7 +1668,7 @@ msgstr ""
 
 #: grub-core/commands/pcidump.c:41 grub-core/commands/setpci.c:71
 msgid "Select device by its position on the bus."
-msgstr ""
+msgstr "使用在总线上的位置选择设备。"
 
 #: grub-core/commands/pcidump.c:42 grub-core/commands/setpci.c:72
 msgid "[bus]:[slot][.func]"
@@ -1711,15 +1684,15 @@ msgstr "缺失“%c”符号"
 
 #: grub-core/commands/pcidump.c:168
 msgid "[-s POSITION] [-d DEVICE]"
-msgstr ""
+msgstr "[-s 位置] [-d 设备]"
 
 #: grub-core/commands/pcidump.c:169
 msgid "Show raw dump of the PCI configuration space."
-msgstr ""
+msgstr "显示 PCI 配置空间的原始转储数据。"
 
 #: grub-core/commands/pgp.c:45
 msgid "Skip signature-checking of the public key file."
-msgstr ""
+msgstr "跳过公钥文件的签名检查。"
 
 #. TRANSLATORS: it's about GNUPG signatures.
 #: grub-core/commands/pgp.c:71 grub-core/commands/pgp.c:81
@@ -1765,19 +1738,19 @@ msgstr "[-s|--skip-sig] 公钥文件"
 
 #: grub-core/commands/pgp.c:999
 msgid "Add PUBKEY_FILE to trusted keys."
-msgstr ""
+msgstr "向信任密钥列表中添加指定<公钥文件>。"
 
 #: grub-core/commands/pgp.c:1003
 msgid "Show the list of trusted keys."
-msgstr ""
+msgstr "显示信任密钥列表。"
 
 #: grub-core/commands/pgp.c:1005
 msgid "PUBKEY_ID"
-msgstr ""
+msgstr "公钥ID"
 
 #: grub-core/commands/pgp.c:1006
 msgid "Remove PUBKEY_ID from trusted keys."
-msgstr ""
+msgstr "从信任密钥中删除所指定<公钥ID>对应的项。"
 
 #: grub-core/commands/probe.c:40 grub-core/commands/tr.c:32
 msgid "Set a variable to return value."
@@ -1969,9 +1942,8 @@ msgid "Register %x of %x:%02x.%x is %x\n"
 msgstr ""
 
 #: grub-core/commands/setpci.c:333
-#, fuzzy
 msgid "[-s POSITION] [-d DEVICE] [-v VAR] REGISTER[=VALUE[:MASK]]"
-msgstr "[-s 位置] [-d 设备] [-v 变量] [寄存器][=值[:掩码]]"
+msgstr "[-s 位置] [-d 设备] [-v 变量] 寄存器[=值[:掩码]]"
 
 #: grub-core/commands/setpci.c:335
 msgid "Manipulate PCI devices."
@@ -2112,7 +2084,7 @@ msgstr "速度：%s \n"
 
 #: grub-core/commands/testspeed.c:107
 msgid "[-s SIZE] FILENAME"
-msgstr ""
+msgstr "[-s 大小] 文件名"
 
 #: grub-core/commands/testspeed.c:108
 msgid "Test file read speed."
@@ -2133,15 +2105,15 @@ msgstr "命令 [参数]"
 
 #: grub-core/commands/time.c:62
 msgid "Measure time used by COMMAND"
-msgstr ""
+msgstr "测量给定<命令>所使用的时间"
 
 #: grub-core/commands/tr.c:33
 msgid "Translate to upper case."
-msgstr ""
+msgstr "转换至大写。"
 
 #: grub-core/commands/tr.c:34
 msgid "Translate to lower case."
-msgstr ""
+msgstr "转换至小写。"
 
 #: grub-core/commands/tr.c:119
 msgid "[OPTIONS] [SET1] [SET2] [STRING]"
@@ -2161,19 +2133,18 @@ msgstr "未进行操作，成功。"
 msgid "Do nothing, unsuccessfully."
 msgstr "未进行操作，失败。"
 
-#: grub-core/commands/usbtest.c:212
+#: grub-core/commands/usbtest.c:221
 msgid "Test USB support."
 msgstr "测试 USB 支持。"
 
 #: grub-core/commands/verifiers.c:120
 #, c-format
 msgid "verification requested but nobody cares: %s"
-msgstr ""
+msgstr "请求进行验证但没有人关心结果：%s"
 
 #: grub-core/commands/verifiers.c:140
-#, fuzzy
 msgid "big file signature isn't implemented yet"
-msgstr "重定位 0x%x 尚未实现"
+msgstr "大文件签名尚未实现"
 
 #: grub-core/commands/videoinfo.c:61
 msgid "Text-only "
@@ -2194,7 +2165,7 @@ msgstr ""
 
 #: grub-core/commands/videoinfo.c:80
 msgid "YUV "
-msgstr ""
+msgstr "YUV "
 
 #. TRANSLATORS: "Planar" is the video memory where you have to write
 #. in several different banks "plans" to control the different color
@@ -2312,9 +2283,8 @@ msgstr "列出 Xen 存储。"
 #. TRANSLATORS: GRUBUUID stands for "filesystem
 #. UUID as used in GRUB".
 #: grub-core/commands/xnu_uuid.c:110
-#, fuzzy
 msgid "[-l] GRUBUUID [VARNAME]"
-msgstr "GRUBUUID [变量]"
+msgstr "[-l] GRUBUUID [变量名]"
 
 #: grub-core/commands/xnu_uuid.c:111
 #, fuzzy
@@ -2493,9 +2463,8 @@ msgid "Delete the specified loopback drive."
 msgstr "删除回环设备项。"
 
 #: grub-core/disk/loopback.c:237
-#, fuzzy
 msgid "[-d] DEVICENAME FILE."
-msgstr "[-d|-p] 设备名 文件名。"
+msgstr "[-d] 设备名 文件."
 
 #. TRANSLATORS: The file itself is not destroyed
 #. or transformed into drive.
@@ -2520,7 +2489,7 @@ msgid "relocation 0x%x is not implemented yet"
 msgstr "重定位 0x%x 尚未实现"
 
 #: grub-core/efiemu/loadcore.c:200 grub-core/efiemu/loadcore.c:237
-#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2362
+#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2360
 msgid "no symbol table"
 msgstr "没有符号表"
 
@@ -2566,7 +2535,7 @@ msgid "List the loaded fonts."
 msgstr "列出已加载的字库。"
 
 #: grub-core/fs/archelp.c:216 grub-core/fs/archelp.c:278
-#: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:729
+#: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:736
 #: grub-core/fs/minix.c:369 grub-core/fs/ufs.c:454
 msgid "too deep nesting of symlinks"
 msgstr "太多层符号链接嵌套"
@@ -2584,7 +2553,7 @@ msgstr "尝试越过文件结束位置进行读取"
 msgid "not a directory"
 msgstr "不是目录"
 
-#: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:828
+#: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:835
 #: grub-core/fs/zfs/zfs.c:3801
 msgid "not a regular file"
 msgstr "不是普通文件"
@@ -2633,9 +2602,8 @@ msgid "Enter ZFS password: "
 msgstr "输入 ZFS 口令："
 
 #: grub-core/fs/zfs/zfscrypt.c:476
-#, fuzzy
 msgid "[-h|-p|-r] [FILE]"
-msgstr "[-l|-h|-a] [文件 ...]"
+msgstr "[-h|-p|-r] [文件]"
 
 #: grub-core/fs/zfs/zfscrypt.c:477
 msgid "Import ZFS wrapping key stored in FILE."
@@ -2809,7 +2777,7 @@ msgstr ""
 #.
 #: grub-core/fs/zfs/zfsinfo.c:332
 msgid "No virtual device tree available"
-msgstr ""
+msgstr "没有可用的虚拟设备树"
 
 #: grub-core/fs/zfs/zfsinfo.c:431
 msgid "Print ZFS info about DEVICE."
@@ -2817,7 +2785,7 @@ msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:433
 msgid "FILESYSTEM [VARIABLE]"
-msgstr ""
+msgstr "文件系统 [变量]"
 
 #: grub-core/fs/zfs/zfsinfo.c:434
 msgid "Print ZFS-BOOTFSOBJ or store it into VARIABLE"
@@ -2827,7 +2795,7 @@ msgstr ""
 #. in remote debugger, namely to tell it to establish connection.
 #: grub-core/gdb/gdb.c:48
 msgid "Now connect the remote debugger, please."
-msgstr ""
+msgstr "现在请连接远程调试工具。"
 
 #. TRANSLATORS: GDB stub is a small part of
 #. GDB functionality running on local host
@@ -2835,7 +2803,7 @@ msgstr ""
 #. connect to it.
 #: grub-core/gdb/gdb.c:84
 msgid "Start GDB stub on given port"
-msgstr ""
+msgstr "在给定端口上启动 GDB stub"
 
 #. TRANSLATORS: this refers to triggering
 #. a breakpoint so that the user will land
@@ -2846,7 +2814,7 @@ msgstr ""
 
 #: grub-core/gdb/gdb.c:91
 msgid "Stop GDB stub"
-msgstr ""
+msgstr "停止 GDB stub"
 
 #: grub-core/gettext/gettext.c:85
 msgid "premature end of file"
@@ -2878,7 +2846,7 @@ msgstr "按回车引导选定的操作系统，按 e 编辑引导命令，按 c 
 
 #: grub-core/gfxmenu/gui_label.c:194
 msgid "enter: boot, `e': options, `c': cmd-line"
-msgstr ""
+msgstr "输入：boot、“e”：选项、“c”：命令行"
 
 #: grub-core/gfxmenu/gui_progress_bar.c:339 grub-core/normal/menu_text.c:446
 #, c-format
@@ -3045,7 +3013,7 @@ msgstr "设置根设备。"
 
 #. TRANSLATORS: There are many devices in device map.
 #: grub-core/kern/emu/main.c:102 util/grub-probe.c:733 util/grub-setup.c:85
-#, fuzzy, c-format
+#, c-format
 msgid "use FILE as the device map [default=%s]"
 msgstr "使用指定文件作为设备表 [默认=%s]"
 
@@ -3183,7 +3151,7 @@ msgstr "打印 backtrace 回溯信息。"
 #: grub-core/lib/gnulib/argp-help.c:149
 #, c-format
 msgid "ARGP_HELP_FMT: %s value is less than or equal to %s"
-msgstr ""
+msgstr "ARGP_HELP_FMT：%s 值比 %s 更小或与其相等"
 
 #: grub-core/lib/gnulib/argp-help.c:225
 #, c-format
@@ -3204,7 +3172,7 @@ msgstr ""
 msgid ""
 "Mandatory or optional arguments to long options are also mandatory or "
 "optional for any corresponding short options."
-msgstr ""
+msgstr "对长选项的必需或可选参数对于任何对应的短选项也是相应必需或可选的。"
 
 #: grub-core/lib/gnulib/argp-help.c:1620
 msgid "  or: "
@@ -3247,7 +3215,7 @@ msgstr "设置程序名称"
 
 #: grub-core/lib/gnulib/argp-parse.c:86
 msgid "hang for SECS seconds (default 3600)"
-msgstr ""
+msgstr "挂起指定 SECS 秒所给定的时间（默认为 3600）"
 
 #: grub-core/lib/gnulib/argp-parse.c:143
 msgid "print program version"
@@ -3309,7 +3277,7 @@ msgstr "无法删除非空目录\n"
 #: grub-core/lib/gnulib/openat-die.c:57
 #, c-format
 msgid "failed to return to initial working directory"
-msgstr ""
+msgstr "返回初始工作目录失败"
 
 #: grub-core/lib/gnulib/regcomp.c:135 grub-core/osdep/aros/hostdisk.c:523
 msgid "Success"
@@ -3340,9 +3308,8 @@ msgid "Invalid back reference"
 msgstr "无效的后向引用"
 
 #: grub-core/lib/gnulib/regcomp.c:156
-#, fuzzy
 msgid "Unmatched [, [^, [:, [., or [="
-msgstr "未匹配的 [ 或 [^"
+msgstr "未匹配的 [、[^、[:、[. 或 [="
 
 #: grub-core/lib/gnulib/regcomp.c:159
 msgid "Unmatched ( or \\("
@@ -3358,7 +3325,7 @@ msgstr "\\{\\} 的无效内容"
 
 #: grub-core/lib/gnulib/regcomp.c:168
 msgid "Invalid range end"
-msgstr ""
+msgstr "无效的范围结束"
 
 #: grub-core/lib/gnulib/regcomp.c:171
 msgid "Memory exhausted"
@@ -3455,7 +3422,7 @@ msgstr "载入 DTB 文件。"
 #: grub-core/loader/arm64/linux.c:59
 msgid ""
 "plain image kernel not supported - rebuild with CONFIG_(U)EFI_STUB enabled"
-msgstr ""
+msgstr "不支持普通内核镜像 - 请启用 CONFIG_(U)EFI_STUB 重新构建内核"
 
 #: grub-core/loader/arm64/xen_boot.c:156
 msgid "failed to get FDT"
@@ -3474,9 +3441,8 @@ msgid "Load a xen module."
 msgstr "载入 xen 模块。"
 
 #: grub-core/loader/efi/appleloader.c:231
-#, fuzzy
 msgid "[OPTS]"
-msgstr "[选项...]"
+msgstr "[选项]"
 
 #. TRANSLATORS: This command is used on EFI to
 #. switch to BIOS mode and boot the OS requiring
@@ -3485,7 +3451,7 @@ msgstr "[选项...]"
 msgid "Boot BIOS-based system."
 msgstr "引导基于 BIOS 的系统。"
 
-#: grub-core/loader/efi/chainloader.c:415
+#: grub-core/loader/efi/chainloader.c:421
 #: grub-core/loader/i386/pc/chainloader.c:303
 msgid "Load another boot loader."
 msgstr "载入其他引导程序。"
@@ -3747,7 +3713,7 @@ msgstr "无法定位 FPSWA 驱动"
 
 #: grub-core/loader/ia64/efi/linux.c:132
 msgid "FPSWA protocol wasn't able to find the interface"
-msgstr ""
+msgstr "FPSWA 协议未能找到接口"
 
 #: grub-core/loader/ia64/efi/linux.c:580
 msgid "No FPSWA found"
@@ -3920,9 +3886,8 @@ msgid "perform a bootp autoconfiguration"
 msgstr "执行 bootp 自动配置"
 
 #: grub-core/net/bootp.c:877
-#, fuzzy
 msgid "perform a DHCP autoconfiguration"
-msgstr "执行 bootp 自动配置"
+msgstr "执行 DHCP 自动配置"
 
 #: grub-core/net/bootp.c:879
 msgid "VAR INTERFACE NUMBER DESCRIPTION"
@@ -3939,7 +3904,7 @@ msgstr "未配置 DNS 服务器"
 
 #: grub-core/net/dns.c:522
 msgid "domain name component is too long"
-msgstr ""
+msgstr "域名名称部分过长"
 
 #: grub-core/net/dns.c:618 grub-core/net/dns.c:666
 msgid "no DNS record found"
@@ -3967,7 +3932,7 @@ msgstr "偏好 ipv5"
 
 #: grub-core/net/dns.c:759
 msgid "ADDRESS DNSSERVER"
-msgstr ""
+msgstr "地址 DNS服务器"
 
 #: grub-core/net/dns.c:760
 msgid "Perform a DNS lookup"
@@ -3975,7 +3940,7 @@ msgstr "进行一次 DNS 查找"
 
 #: grub-core/net/dns.c:762 grub-core/net/dns.c:765
 msgid "DNSSERVER"
-msgstr ""
+msgstr "DNS服务器"
 
 #: grub-core/net/dns.c:763
 msgid "Add a DNS server"
@@ -4080,7 +4045,7 @@ msgstr ""
 #. TRANSLATORS: it refers to the network address.
 #: grub-core/net/net.c:1167
 msgid "temporary"
-msgstr ""
+msgstr "临时"
 
 #: grub-core/net/net.c:1190
 #, c-format
@@ -4355,23 +4320,23 @@ msgstr "PiB"
 #. TRANSLATORS: that's the list of binary unit prefixes.
 #: grub-core/normal/misc.c:40
 msgid "K"
-msgstr ""
+msgstr "K"
 
 #: grub-core/normal/misc.c:40
 msgid "M"
-msgstr ""
+msgstr "M"
 
 #: grub-core/normal/misc.c:40
 msgid "G"
-msgstr ""
+msgstr "G"
 
 #: grub-core/normal/misc.c:40
 msgid "T"
-msgstr ""
+msgstr "T"
 
 #: grub-core/normal/misc.c:40
 msgid "P"
-msgstr ""
+msgstr "P"
 
 #. TRANSLATORS: that's the list of binary unit prefixes.
 #: grub-core/normal/misc.c:42
@@ -4473,7 +4438,7 @@ msgstr "无法打开配置文件“%s”：%s"
 #: grub-core/osdep/basic/compress.c:8 grub-core/osdep/basic/compress.c:14
 #: grub-core/osdep/basic/compress.c:20
 msgid "no compression is available for your platform"
-msgstr ""
+msgstr "您的平台没有可用的压缩选项"
 
 #: grub-core/osdep/basic/no_platform.c:30
 #: grub-core/osdep/windows/platform.c:418
@@ -4510,9 +4475,8 @@ msgstr "无法挂载加密卷“%s”：%s"
 #.
 #: grub-core/osdep/freebsd/getroot.c:82 grub-core/osdep/freebsd/getroot.c:164
 #: grub-core/osdep/freebsd/getroot.c:258 grub-core/osdep/freebsd/getroot.c:316
-#, fuzzy
 msgid "couldn't open geom"
-msgstr "无法打开设备"
+msgstr "无法打开 geom"
 
 #: grub-core/osdep/freebsd/getroot.c:182 grub-core/osdep/freebsd/getroot.c:277
 msgid "couldn't find geli consumer"
@@ -4609,7 +4573,7 @@ msgstr ""
 #: grub-core/osdep/linux/blocklist.c:122
 #, c-format
 msgid "can't retrieve blocklists: %s"
-msgstr ""
+msgstr "无法获取块列表：%s"
 
 #: grub-core/osdep/linux/blocklist.c:84
 msgid "blocksize is not divisible by 512"
@@ -4617,31 +4581,31 @@ msgstr ""
 
 #: grub-core/osdep/linux/blocklist.c:86
 msgid "invalid zero blocksize"
-msgstr ""
+msgstr "无效的零块大小"
 
 #: grub-core/osdep/linux/blocklist.c:90 util/setup.c:744
 msgid "can't retrieve blocklists"
-msgstr ""
+msgstr "无法获取块列表"
 
 #: grub-core/osdep/linux/getroot.c:154
 #, c-format
 msgid "ioctl RAID_VERSION error: %s"
-msgstr ""
+msgstr "ioctl RAID_VERSION 错误：%s"
 
 #: grub-core/osdep/linux/getroot.c:160 grub-core/osdep/linux/getroot.c:164
 #, c-format
 msgid "unsupported RAID version: %d.%d"
-msgstr ""
+msgstr "不支持的 RAID 版本：%d.%d"
 
 #: grub-core/osdep/linux/getroot.c:169
 #, c-format
 msgid "ioctl GET_ARRAY_INFO error: %s"
-msgstr ""
+msgstr "ioctl GET_ARRAY_INFO 错误：%s"
 
 #: grub-core/osdep/linux/getroot.c:178
 #, c-format
 msgid "ioctl GET_DISK_INFO error: %s"
-msgstr ""
+msgstr "ioctl GET_DISK_INFO 错误：%s"
 
 #: grub-core/osdep/linux/getroot.c:608 grub-core/osdep/linux/getroot.c:678
 #: grub-core/osdep/linux/hostdisk.c:126 grub-core/osdep/unix/getroot.c:253
@@ -4690,9 +4654,8 @@ msgid "Unable to create pipe: %s"
 msgstr "无法创建管道：%s"
 
 #: grub-core/osdep/unix/getroot.c:370
-#, fuzzy
 msgid "cannot save the original directory"
-msgstr "无法恢复原始目录"
+msgstr "无法保存原始目录"
 
 #: grub-core/osdep/unix/getroot.c:423 grub-core/osdep/unix/getroot.c:480
 #: grub-core/osdep/unix/getroot.c:489
@@ -4704,9 +4667,9 @@ msgstr "无法恢复原始目录"
 #: grub-core/osdep/unix/relpath.c:73 grub-core/osdep/unix/relpath.c:97
 #: util/getroot.c:160 util/getroot.c:162 util/grub-install.c:774
 #: util/grub-macbless.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "cannot stat `%s': %s"
-msgstr "无法打开“%s”"
+msgstr "无法对“%s”运行 stat：%s"
 
 #: grub-core/osdep/unix/hostdisk.c:293
 #, c-format
@@ -4744,10 +4707,13 @@ msgid ""
 "prompt, type:\n"
 "  %s\n"
 msgstr ""
+"“nvsetenv”失败。\n"
+"您必须手动设置“boot-device”变量。在 IEEE1275 命令提示符下，输入：\n"
+"  %s\n"
 
 #: grub-core/osdep/unix/platform.c:240
 msgid "You will have to set `SystemPartition' and `OSLoader' manually."
-msgstr ""
+msgstr "您必须手动设置“SystemPartition”和“OSLoader”。"
 
 #. TRANSLATORS: canonical pathname is the
 #. complete one e.g. /etc/fstab. It has
@@ -4884,7 +4850,7 @@ msgstr ""
 #. anywhere else.
 #: grub-core/script/execute.c:227
 msgid "not in function body"
-msgstr ""
+msgstr "不在函数体中"
 
 #: grub-core/script/execute.c:371
 #, c-format
@@ -4893,7 +4859,7 @@ msgstr "无效的变量名“%s”"
 
 #: grub-core/script/execute.c:953
 msgid "cannot allocate command buffer"
-msgstr ""
+msgstr "无法分配命令缓冲区"
 
 #: grub-core/script/lexer.c:144 util/grub-fstest.c:330
 msgid "unexpected end of file"
@@ -5098,7 +5064,7 @@ msgstr ""
 msgid "              total memory: %d KiB\n"
 msgstr "              总计内存：%d KiB\n"
 
-#: grub-core/video/video.c:596 grub-core/video/video.c:760
+#: grub-core/video/video.c:596 grub-core/video/video.c:762
 msgid "no suitable video mode found"
 msgstr ""
 
@@ -5107,7 +5073,6 @@ msgid "access denied"
 msgstr "访问被拒绝"
 
 #: include/grub/util/install.h:30 include/grub/util/install.h:35
-#, fuzzy
 msgid "MODULES"
 msgstr "模块"
 
@@ -5181,9 +5146,9 @@ msgstr ""
 
 #: util/editenv.c:59 util/grub-editenv.c:201 util/grub-install-common.c:535
 #: util/grub-mkimage.c:315 util/setup.c:791
-#, fuzzy, c-format
+#, c-format
 msgid "cannot sync `%s': %s"
-msgstr "无法 seek \"%s\"：%s"
+msgstr "无法 sync \"%s\"：%s"
 
 #: util/editenv.c:64
 #, c-format
@@ -5280,9 +5245,9 @@ msgid "read error at offset %llu: %s"
 msgstr "在偏移 %llu 处发生读取错误：%s"
 
 #: util/grub-fstest.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "cannot open OS file `%s': %s"
-msgstr "无法打开文件 %s"
+msgstr "无法打开 OS文件“%s”：%s"
 
 #: util/grub-fstest.c:225 util/misc.c:126
 #, c-format
@@ -5351,9 +5316,8 @@ msgid "hex FILE"
 msgstr "hex 文件"
 
 #: util/grub-fstest.c:511
-#, fuzzy
 msgid "Show contents of FILE in hex."
-msgstr "显示文件内容。"
+msgstr "以十六进制显示文件内容。"
 
 #: util/grub-fstest.c:512
 msgid "crc FILE"
@@ -5415,7 +5379,7 @@ msgstr ""
 
 #: util/grub-fstest.c:524 util/grub-mount.c:457
 msgid "Load zfs crypto key."
-msgstr ""
+msgstr "加载 zfs 加密密钥。"
 
 #: util/grub-fstest.c:526
 msgid "Uncompress data."
@@ -5547,7 +5511,7 @@ msgstr "多于一个安装设备？"
 #, c-format
 msgid ""
 "install GRUB images under the directory DIR/%s instead of the %s directory"
-msgstr ""
+msgstr "在目录 DIR/%s 下安装 GRUB 镜像，而不使用 %s 目录"
 
 #: util/grub-install.c:256 util/grub-probe.c:734
 msgid "TARGET"
@@ -5655,7 +5619,7 @@ msgstr "[选项] 文件或设备"
 
 #: util/grub-install.c:362
 msgid "Install GRUB on your drive."
-msgstr ""
+msgstr "在您的驱动器上安装 GRUB。"
 
 #: util/grub-install.c:363
 #, c-format
@@ -5793,7 +5757,7 @@ msgstr ""
 #: util/grub-menulst2cfg.c:44
 #, c-format
 msgid "Usage: %s [INFILE [OUTFILE]]\n"
-msgstr ""
+msgstr "用法：%s [输入文件 [输出文件]]\n"
 
 #: util/grub-mkfont.c:157
 #, c-format
@@ -5848,11 +5812,11 @@ msgstr ""
 #: util/grub-mkfont.c:622
 #, c-format
 msgid "WARNING: unsupported font feature parameters: %x\n"
-msgstr ""
+msgstr "警告：不支持的自体特性参数：%x\n"
 
 #: util/grub-mkfont.c:936 util/grub-mkrescue.c:98 util/grub-mkstandalone.c:48
 msgid "save output in FILE [required]"
-msgstr ""
+msgstr "将输出保存到指定文件 [必需]"
 
 #. TRANSLATORS: some font files may have multiple faces (fonts).
 #. This option is used to chose among them, the first face being '0'.
@@ -5933,17 +5897,17 @@ msgstr "必须指定输出文件"
 
 #: util/grub-mkfont.c:1185
 msgid "FT_Init_FreeType fails"
-msgstr ""
+msgstr "FT_Init_FreeType 失败"
 
 #: util/grub-mkfont.c:1199
 #, c-format
 msgid "can't open file %s, index %d: error %d"
-msgstr ""
+msgstr "无法打开文件 %s，索引 %d：错误 %d"
 
 #: util/grub-mkfont.c:1229
 #, c-format
 msgid "can't set %dx%d font size: Freetype error %d: %s"
-msgstr ""
+msgstr "无法设置 %dx%d 字体大小：Freetype 错误 %d：%s"
 
 #: util/grub-mkimage.c:67
 #, fuzzy
@@ -5982,7 +5946,7 @@ msgstr ""
 
 #: util/grub-mkimage.c:100 util/grub-mkstandalone.c:62
 msgid "generate an image in FORMAT"
-msgstr ""
+msgstr "以指定格式生成镜像"
 
 #: util/grub-mkimage.c:101 util/grub-mkstandalone.c:63
 msgid "available formats:"
@@ -6008,12 +5972,12 @@ msgstr "目标格式未指定（使用 -O 选项）。"
 
 #: util/grub-mkimage.c:282
 msgid "Prefix not specified (use the -p option)."
-msgstr ""
+msgstr "未指定前缀（使用 -p 选项）。"
 
 #: util/grub-mkimage.c:318 util/setup.c:793
-#, fuzzy, c-format
+#, c-format
 msgid "cannot close `%s': %s"
-msgstr "无法打开“%s”：%s"
+msgstr "无法关闭“%s”：%s"
 
 #: util/grub-mkimagexx.c:2191
 #, c-format
@@ -6056,7 +6020,7 @@ msgstr "TFTP 服务器的根目录"
 
 #: util/grub-mknetdir.c:49
 msgid "relative subdirectory on network server"
-msgstr ""
+msgstr "网络服务器上的相对子目录"
 
 #: util/grub-mknetdir.c:88
 msgid ""
@@ -6111,12 +6075,12 @@ msgstr "无法为盐获取随机数据"
 #: util/grub-mkpasswd-pbkdf2.c:184
 #, c-format
 msgid "cryptographic error number %d"
-msgstr ""
+msgstr "加密错误编号 %d"
 
 #: util/grub-mkpasswd-pbkdf2.c:203
 #, c-format
 msgid "PBKDF2 hash of your password is %s\n"
-msgstr ""
+msgstr "您的密码的 PBKDF2 散列为 %s\n"
 
 #: util/grub-mkrelpath.c:67
 msgid "No path is specified.\n"
@@ -6138,7 +6102,7 @@ msgstr ""
 #. TRANSLATORS: xorriso is a program for creating ISOs and burning CDs.
 #: util/grub-mkrescue.c:103
 msgid "use FILE as xorriso [optional]"
-msgstr ""
+msgstr "使用指定文件作为 xorriso [可选]。"
 
 #: util/grub-mkrescue.c:109
 msgid "use STRING as product name"
@@ -6171,11 +6135,11 @@ msgstr ""
 
 #: util/grub-mkrescue.c:134
 msgid "Option -- switches to native xorriso command mode."
-msgstr ""
+msgstr "选项 -- 切换至原生 xorriso 命令模式。"
 
 #: util/grub-mkrescue.c:135
 msgid "Mail xorriso support requests to <bug-xorriso@gnu.org>."
-msgstr ""
+msgstr "请将 xorriso 的支持请求发送至 <bug-xorriso@gnu.org>。"
 
 #: util/grub-mkrescue.c:221 util/grub-mkstandalone.c:114
 #, fuzzy
@@ -6188,9 +6152,8 @@ msgid "enabling %s support ..."
 msgstr "正在启用 %s 支持 ..."
 
 #: util/grub-mkrescue.c:486
-#, fuzzy
 msgid "xorriso not found"
-msgstr "%s：未找到"
+msgstr "xorriso 未找到"
 
 #: util/grub-mkrescue.c:623
 msgid ""
@@ -6219,7 +6182,7 @@ msgstr ""
 
 #: util/grub-mount.c:552
 msgid "IMAGE1 [IMAGE2 ...] MOUNTPOINT"
-msgstr ""
+msgstr "镜像1 [镜像2 ...] 挂载点"
 
 #: util/grub-mount.c:575
 msgid "need an image and mountpoint"
@@ -6227,16 +6190,16 @@ msgstr "需要一个镜像和挂载点"
 
 #: util/grub-probe.c:731
 msgid "given argument is a system device, not a path"
-msgstr ""
+msgstr "所给的参数是一个系统设备，不是路径"
 
 #: util/grub-probe.c:736
 msgid "separate items in output using ASCII NUL characters"
-msgstr ""
+msgstr "使用 ASCII NUL 空字符分隔输出中的各项"
 
 #: util/grub-probe.c:754
 #, c-format
 msgid "[default=%s]"
-msgstr ""
+msgstr "[默认=%s]"
 
 #: util/grub-probe.c:756
 msgid "print TARGET"
@@ -6247,9 +6210,8 @@ msgid "available targets:"
 msgstr "可用目标："
 
 #: util/grub-probe.c:839
-#, fuzzy
 msgid "[OPTION]... [PATH|DEVICE]"
-msgstr "[选项] 文件或设备"
+msgstr "[选项]... [路径|设备]"
 
 #: util/grub-probe.c:840
 msgid ""
@@ -6263,11 +6225,11 @@ msgstr "从指定文件读取文本。"
 
 #: util/grub-render-label.c:62
 msgid "use COLOR for text"
-msgstr ""
+msgstr "为字体使用指定颜色"
 
 #: util/grub-render-label.c:64
 msgid "use COLOR for background"
-msgstr ""
+msgstr "为背景使用指定颜色"
 
 #. TRANSLATORS: The result is always stored to file and
 #. never shown directly, so don't use "show" as synonym for render. Use "create" if
@@ -6278,7 +6240,7 @@ msgstr ""
 
 #: util/grub-render-label.c:73
 msgid "use FILE as font (PF2)."
-msgstr ""
+msgstr "使用指定文件作为字体（PF2）。"
 
 #. TRANSLATORS: This file takes a text and creates a graphical representation of it,
 #. putting the result into .disk_label file. The result is always stored to file and
@@ -6309,17 +6271,17 @@ msgstr "%u 行存在语法错误\n"
 #: util/grub-script-check.c:212
 #, c-format
 msgid "Script `%s' contains no commands and will do nothing\n"
-msgstr ""
+msgstr "脚本“%s”没有包含任何命令，什么都不做\n"
 
 #: util/grub-setup.c:79
-#, fuzzy, c-format
+#, c-format
 msgid "use FILE as the boot image [default=%s]"
-msgstr "使用 FILE 作为引导镜像 [默认=%s]"
+msgstr "使用指定文件作为引导镜像 [默认=%s]"
 
 #: util/grub-setup.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "use FILE as the core image [default=%s]"
-msgstr "使用 FILE 作为核心镜像 [默认=%s]"
+msgstr "使用指定文件作为核心镜像 [默认=%s]"
 
 #: util/grub-setup.c:210
 msgid "No device is specified.\n"
@@ -6346,7 +6308,7 @@ msgstr "无效的设备“%s”。\n"
 
 #: util/grub-syslinux2cfg.c:64
 msgid "root directory as it will be seen on runtime [default=/]."
-msgstr ""
+msgstr "运行时将使用的根目录 [默认=/]。"
 
 #: util/grub-syslinux2cfg.c:69
 msgid ""
@@ -6360,7 +6322,7 @@ msgstr "将输出写入指定文件 [默认=stdout]"
 
 #: util/grub-syslinux2cfg.c:148
 msgid "Transform syslinux config into GRUB one."
-msgstr ""
+msgstr "将 syslinux 配置转换为 GRUB 配置。"
 
 #: util/mkimage.c:688 util/mkimage.c:717 util/mkimage.c:734
 msgid "cannot compress the kernel image"
@@ -6372,9 +6334,8 @@ msgid "unknown compression %d"
 msgstr "未知压缩 %d"
 
 #: util/mkimage.c:1088
-#, fuzzy
 msgid "Decompressor is too big"
-msgstr "核心镜像太大"
+msgstr "解压器过大"
 
 #: util/mkimage.c:1133
 #, c-format
@@ -6485,23 +6446,20 @@ msgid ""
 msgstr "正在试图将 GRUB 安装至未分区的磁盘或一个分区。这是一个坏主意。"
 
 #: util/setup.c:483
-#, fuzzy
 msgid ""
 "Attempting to install GRUB to a disk with multiple partition labels.  This "
 "is not supported yet."
-msgstr ""
-"正在试图将 GRUB 安装至有多个分区标签的磁盘，或同时有分区标签和文件系统的磁"
-"盘。这样的操作尚未被支持。"
+msgstr "正在试图将 GRUB 安装至有多个分区标签的磁盘。这样的操作尚未被支持。"
 
 #: util/setup.c:489
 #, c-format
 msgid "Partition style `%s' doesn't support embedding"
-msgstr ""
+msgstr "“%s”分区样式不支持嵌入"
 
 #: util/setup.c:496
 #, c-format
 msgid "File system `%s' doesn't support embedding"
-msgstr ""
+msgstr "文件系统“%s”不支持嵌入"
 
 #: util/setup.c:537
 msgid "Your embedding area is unusually small.  core.img won't fit in it."
@@ -6516,10 +6474,9 @@ msgid "core.img version mismatch"
 msgstr "core.img 版本不匹配"
 
 #: util/setup.c:675
-#, fuzzy
 msgid ""
 "embedding is not possible, but this is required for RAID and LVM install"
-msgstr "无法嵌入，但在跨盘安装时是必须的"
+msgstr "无法嵌入，但这在 RAID 和 安装时是必须的"
 
 #: util/setup.c:682
 #, c-format
@@ -6529,7 +6486,7 @@ msgstr "无法确定 %s 上的文件系统"
 #: util/setup.c:685
 #, c-format
 msgid "filesystem `%s' doesn't support blocklists"
-msgstr ""
+msgstr "文件系统“%s”不支持块列表"
 
 #. TRANSLATORS: cross-disk refers to /boot being on one disk
 #. but MBR on another.
@@ -6549,15 +6506,15 @@ msgstr ""
 #. TRANSLATORS: Here GRUB refuses to continue with blocklist install.
 #: util/setup.c:705
 msgid "will not proceed with blocklists"
-msgstr ""
+msgstr "停止进行块列表安装"
 
 #: util/setup.c:817 util/setup.c:837
 msgid "blocklists are invalid"
-msgstr ""
+msgstr "块列表无效"
 
 #: util/setup.c:847
 msgid "blocklists are incomplete"
-msgstr ""
+msgstr "块列表不完整"
 
 #~ msgid "%s: option '--%s' doesn't allow an argument\n"
 #~ msgstr "%s：选项“--%s”不允许有参数\n"

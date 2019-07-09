@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub-2.02-pre3\n"
+"Project-Id-Version: grub-2.04-pre1\n"
 "Report-Msgid-Bugs-To: bug-grub@gnu.org\n"
-"POT-Creation-Date: 2019-04-09 03:12+0200\n"
-"PO-Revision-Date: 2017-03-24 00:51+0100\n"
+"POT-Creation-Date: 2019-07-04 16:09+0200\n"
+"PO-Revision-Date: 2019-04-10 23:24+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "Language: hr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -46,7 +46,7 @@ msgstr "nepodržana duljina riječi serijskog ulaza"
 
 #: grub-core/commands/acpi.c:42
 msgid "Don't load host tables specified by comma-separated list."
-msgstr "Ne učitavaj tablice računala određene u zarezom odvojenom popisu"
+msgstr "Ne učitavaj tablice računala određene u zarezom odvojenom popisu."
 
 #: grub-core/commands/acpi.c:45
 msgid "Load only tables specified by comma-separated list."
@@ -96,9 +96,9 @@ msgstr ""
 #: grub-core/kern/elf.c:117 grub-core/kern/elfXX.c:29
 #: grub-core/kern/elfXX.c:156 grub-core/loader/arm/linux.c:319
 #: grub-core/loader/arm64/linux.c:330 grub-core/loader/arm64/xen_boot.c:356
-#: grub-core/loader/efi/chainloader.c:270
-#: grub-core/loader/efi/chainloader.c:291
-#: grub-core/loader/efi/chainloader.c:323 grub-core/loader/efi/fdt.c:138
+#: grub-core/loader/efi/chainloader.c:276
+#: grub-core/loader/efi/chainloader.c:297
+#: grub-core/loader/efi/chainloader.c:329 grub-core/loader/efi/fdt.c:138
 #: grub-core/loader/i386/bsd.c:1276 grub-core/loader/i386/bsd.c:2116
 #: grub-core/loader/i386/bsdXX.c:20 grub-core/loader/i386/bsdXX.c:36
 #: grub-core/loader/i386/bsdXX.c:63 grub-core/loader/i386/bsdXX.c:357
@@ -130,7 +130,7 @@ msgstr ""
 #: grub-core/loader/xnu.c:816 grub-core/loader/xnu.c:871
 #: grub-core/loader/xnu.c:914 grub-core/loader/xnu.c:952
 #: grub-core/loader/xnu_resume.c:68 grub-core/loader/xnu_resume.c:153
-#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2290
+#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2288
 #, c-format
 msgid "premature end of file %s"
 msgstr "prijevremeni kraj datoteke %s"
@@ -160,7 +160,7 @@ msgstr "greška: %s.\n"
 #: grub-core/loader/arm/linux.c:259 grub-core/loader/arm64/linux.c:265
 #: grub-core/loader/arm64/linux.c:321 grub-core/loader/arm64/linux.c:340
 #: grub-core/loader/arm64/xen_boot.c:344 grub-core/loader/arm64/xen_boot.c:367
-#: grub-core/loader/efi/chainloader.c:283 grub-core/osdep/unix/dl.c:48
+#: grub-core/loader/efi/chainloader.c:289 grub-core/osdep/unix/dl.c:48
 #: grub-core/osdep/windows/dl.c:46 grub-core/script/lexer.c:156
 #: grub-core/script/lexer.c:182
 msgid "out of memory"
@@ -200,7 +200,7 @@ msgstr "Popis uređaja."
 #: grub-core/loader/arm/linux.c:472 grub-core/loader/arm64/linux.c:243
 #: grub-core/loader/arm64/linux.c:297 grub-core/loader/arm64/xen_boot.c:398
 #: grub-core/loader/arm64/xen_boot.c:411 grub-core/loader/arm64/xen_boot.c:462
-#: grub-core/loader/efi/chainloader.c:210 grub-core/loader/i386/bsd.c:1462
+#: grub-core/loader/efi/chainloader.c:216 grub-core/loader/i386/bsd.c:1462
 #: grub-core/loader/i386/bsd.c:1807 grub-core/loader/i386/bsd.c:2085
 #: grub-core/loader/i386/coreboot/chainloader.c:438
 #: grub-core/loader/i386/linux.c:656 grub-core/loader/i386/linux.c:1041
@@ -384,7 +384,7 @@ msgstr "Ne izlazi prateći novi redak."
 
 #: grub-core/commands/echo.c:31
 msgid "Enable interpretation of backslash escapes."
-msgstr "Omogući tumačenje obrnute kose crte"
+msgstr "Omogući tumačenje obrnute kose crte."
 
 #: grub-core/commands/echo.c:134
 msgid "[-e|-n] STRING"
@@ -428,50 +428,45 @@ msgstr "Učitaj BIOS sadržaj ispisivanja."
 #: grub-core/commands/efi/shim_lock.c:76
 #, c-format
 msgid "module cannot be loaded in UEFI secure boot mode: %s"
-msgstr ""
+msgstr "module se ne može učitati u UEFI secure načinu pokretanja: %s"
 
 #: grub-core/commands/efi/shim_lock.c:98
 #, c-format
 msgid "cannot boot due to dangerous module in memory: %s"
-msgstr ""
+msgstr "ne može se učitati zbog opasnih modula u memoriji: %s"
 
 #: grub-core/commands/efi/shim_lock.c:116
-#, fuzzy
 msgid "bad shim signature"
-msgstr "nevaljani potpis"
+msgstr "nevaljani shim potpis"
 
 #: grub-core/commands/efi/tpm.c:149 grub-core/commands/efi/tpm.c:189
 #: grub-core/commands/efi/tpm.c:256 grub-core/commands/efi/tpm.c:306
-#, fuzzy
 msgid "Command failed"
-msgstr "neuspjela promjena lokacije memorije"
+msgstr "Neuspjela naredba"
 
 #: grub-core/commands/efi/tpm.c:151 grub-core/commands/efi/tpm.c:191
 #: grub-core/commands/efi/tpm.c:258 grub-core/commands/efi/tpm.c:308
-#, fuzzy
 msgid "Invalid parameter"
-msgstr "Neispravan parametar %s"
+msgstr "Neispravan parametar"
 
 #: grub-core/commands/efi/tpm.c:154 grub-core/commands/efi/tpm.c:194
 #: grub-core/commands/efi/tpm.c:261 grub-core/commands/efi/tpm.c:311
 msgid "Output buffer too small"
-msgstr ""
+msgstr "Izlazni međuspremnik je premalen"
 
 #: grub-core/commands/efi/tpm.c:156 grub-core/commands/efi/tpm.c:196
 #: grub-core/commands/efi/tpm.c:263 grub-core/commands/efi/tpm.c:313
-#, fuzzy
 msgid "TPM unavailable"
-msgstr "Putanja: nedostupna"
+msgstr "TPM nedostupan"
 
 #: grub-core/commands/efi/tpm.c:158 grub-core/commands/efi/tpm.c:198
 #: grub-core/commands/efi/tpm.c:265 grub-core/commands/efi/tpm.c:315
-#, fuzzy
 msgid "Unknown TPM error"
-msgstr "Nepoznata greška sustava"
+msgstr "Nepoznata TPM greška"
 
 #: grub-core/commands/efi/tpm.c:240 grub-core/commands/efi/tpm.c:288
 msgid "cannot allocate TPM event buffer"
-msgstr ""
+msgstr "nemoguće premještanje TPM međuspremnika događaja"
 
 #: grub-core/commands/eval.c:63
 msgid "STRING ..."
@@ -590,14 +585,12 @@ msgid "Check if FILE is ARM EFI file"
 msgstr "Provjeri je li DATOTEKA ARM EFI datoteka"
 
 #: grub-core/commands/file.c:94
-#, fuzzy
 msgid "Check if FILE is RISC-V 32bit EFI file"
-msgstr "Provjeri je li DATOTEKA ARM EFI datoteka"
+msgstr "Provjeri je li DATOTEKA RISC-V 32bitna EFI datoteka"
 
 #: grub-core/commands/file.c:96
-#, fuzzy
 msgid "Check if FILE is RISC-V 64bit EFI file"
-msgstr "Provjeri je li DATOTEKA  IA64 EFI datoteka"
+msgstr "Provjeri je li DATOTEKA RISC-V 64bitna EFI datoteka"
 
 #: grub-core/commands/file.c:98
 msgid "Check if FILE is hiberfil.sys in hibernated state"
@@ -739,7 +732,7 @@ msgstr ""
 #: grub-core/commands/hashsum.c:297 grub-core/commands/hashsum.c:302
 #: grub-core/commands/hashsum.c:307 grub-core/commands/hashsum.c:313
 msgid "Compute or check hash checksum."
-msgstr "Proračunaj ili provjeri zbroj jedinstvene vrijednosti"
+msgstr "Proračunaj ili provjeri zbroj jedinstvene vrijednosti."
 
 #: grub-core/commands/hashsum.c:290 grub-core/commands/hashsum.c:295
 #: grub-core/commands/hashsum.c:300 grub-core/commands/hashsum.c:305
@@ -850,7 +843,7 @@ msgstr "Preskoči pomak bitova na početku datoteke."
 
 #: grub-core/commands/hexdump.c:33
 msgid "Read only LENGTH bytes."
-msgstr "Bajtovi DULJINE samo-za-čitanje"
+msgstr "Bajtovi DULJINE samo-za-čitanje."
 
 #: grub-core/commands/hexdump.c:125
 msgid "[OPTIONS] FILE_OR_DEVICE"
@@ -862,7 +855,7 @@ msgstr "Prikaži osnovni sadržaj datoteke ili memorije."
 
 #: grub-core/commands/i386/cmosdump.c:58
 msgid "Show raw dump of the CMOS contents."
-msgstr "Prikaži osnovni ispis CMOS sadržaja"
+msgstr "Prikaži osnovni ispis CMOS sadržaja."
 
 #: grub-core/commands/i386/cmostest.c:108
 #: grub-core/commands/i386/cmostest.c:111
@@ -1026,7 +1019,7 @@ msgstr "Neispravan tempo u %s"
 #: grub-core/fs/archelp.c:260 grub-core/fs/bfs.c:621 grub-core/fs/bfs.c:704
 #: grub-core/fs/btrfs.c:1726 grub-core/fs/btrfs.c:1755
 #: grub-core/fs/btrfs.c:1799 grub-core/fs/btrfs.c:1882
-#: grub-core/fs/btrfs.c:1906 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:689
+#: grub-core/fs/btrfs.c:1906 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:696
 #: grub-core/fs/minix.c:426 grub-core/fs/ufs.c:544 grub-core/fs/zfs/zfs.c:2083
 #: grub-core/fs/zfs/zfs.c:2095 grub-core/fs/zfs/zfs.c:2301
 #: grub-core/net/http.c:120
@@ -1141,9 +1134,8 @@ msgstr "VARNAZIV"
 #: grub-core/commands/i386/rdmsr.c:55 grub-core/commands/i386/rdmsr.c:60
 #: grub-core/commands/i386/rdmsr.c:65 grub-core/commands/i386/wrmsr.c:47
 #: grub-core/commands/i386/wrmsr.c:52 grub-core/commands/i386/wrmsr.c:57
-#, fuzzy
 msgid "unsupported instruction"
-msgstr "nepodržan gzip format"
+msgstr "nepodržana instrukcija"
 
 #: grub-core/commands/i386/rdmsr.c:77 grub-core/commands/i386/wrmsr.c:69
 #: grub-core/commands/i386/wrmsr.c:77 grub-core/net/dns.c:727
@@ -1153,20 +1145,19 @@ msgstr "neispravan argument"
 #: grub-core/commands/i386/rdmsr.c:94 grub-core/commands/memrw.c:125
 #: grub-core/commands/memrw.c:129 grub-core/commands/memrw.c:133
 msgid "ADDR"
-msgstr "ADDR"
+msgstr "ADRESA"
 
 #: grub-core/commands/i386/rdmsr.c:95
 msgid "Read a CPU model specific register."
-msgstr ""
+msgstr "Pročitaj poseban registar CPU modela."
 
 #: grub-core/commands/i386/wrmsr.c:86
-#, fuzzy
 msgid "ADDR VALUE"
-msgstr "VRIJEDNOST ADRESE [MASKA]"
+msgstr "VRIJEDNOST ADRESE"
 
 #: grub-core/commands/i386/wrmsr.c:87
 msgid "Write a value to a CPU model specific register."
-msgstr ""
+msgstr "Zapiši vrijednost u poseban registar CPU modela."
 
 #: grub-core/commands/ieee1275/suspend.c:34
 msgid "Run `go' to resume GRUB."
@@ -1777,7 +1768,7 @@ msgstr "Dodaj PUBKEY_DATOTEKU u pouzdane ključeve."
 
 #: grub-core/commands/pgp.c:1003
 msgid "Show the list of trusted keys."
-msgstr "Prikaži popis pouzdanih ključeva"
+msgstr "Prikaži popis pouzdanih ključeva."
 
 #: grub-core/commands/pgp.c:1005
 msgid "PUBKEY_ID"
@@ -1898,7 +1889,7 @@ msgstr ""
 
 #: grub-core/commands/search_wrap.c:34
 msgid "Search devices by a file."
-msgstr "Pretraži uređaje prema datoteci"
+msgstr "Pretraži uređaje prema datoteci."
 
 #: grub-core/commands/search_wrap.c:35
 msgid "Search devices by a filesystem label."
@@ -2182,19 +2173,18 @@ msgstr "Ne čini ništa, uspješno."
 msgid "Do nothing, unsuccessfully."
 msgstr "Ne čini ništa, neuspješno."
 
-#: grub-core/commands/usbtest.c:212
+#: grub-core/commands/usbtest.c:221
 msgid "Test USB support."
 msgstr "Testiraj USB podršku."
 
 #: grub-core/commands/verifiers.c:120
 #, c-format
 msgid "verification requested but nobody cares: %s"
-msgstr ""
+msgstr "provjera je zatražena ali, nikoga nije briga: %s"
 
 #: grub-core/commands/verifiers.c:140
-#, fuzzy
 msgid "big file signature isn't implemented yet"
-msgstr "izdvajanje 0x%x još nije implementirano"
+msgstr "potpis velike datoteke još nije implementiran"
 
 #: grub-core/commands/videoinfo.c:61
 msgid "Text-only "
@@ -2273,7 +2263,7 @@ msgstr "neispravna pojedinost video načina rada `%s'"
 
 #: grub-core/commands/videoinfo.c:168
 msgid "List of supported video modes:"
-msgstr "Popis podržanih video načina rada"
+msgstr "Popis podržanih video načina rada:"
 
 #: grub-core/commands/videoinfo.c:169
 msgid "Legend: mask/position=red/green/blue/reserved"
@@ -2524,7 +2514,7 @@ msgstr "[-d] DATOTEKA NAZIVA UREĐAJA."
 #. or transformed into drive.
 #: grub-core/disk/loopback.c:240
 msgid "Make a virtual drive from a file."
-msgstr "Stvori virtualni uređaj iz datoteke"
+msgstr "Stvori virtualni uređaj iz datoteke."
 
 #: grub-core/efiemu/i386/loadcore32.c:111
 #: grub-core/efiemu/i386/loadcore64.c:125 grub-core/kern/arm/dl.c:256
@@ -2543,7 +2533,7 @@ msgid "relocation 0x%x is not implemented yet"
 msgstr "izdvajanje 0x%x još nije implementirano"
 
 #: grub-core/efiemu/loadcore.c:200 grub-core/efiemu/loadcore.c:237
-#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2362
+#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2360
 msgid "no symbol table"
 msgstr "nema tablice simbola"
 
@@ -2589,7 +2579,7 @@ msgid "List the loaded fonts."
 msgstr "Prikaži učitana slova."
 
 #: grub-core/fs/archelp.c:216 grub-core/fs/archelp.c:278
-#: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:729
+#: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:736
 #: grub-core/fs/minix.c:369 grub-core/fs/ufs.c:454
 msgid "too deep nesting of symlinks"
 msgstr "preduboko ugniježđenje simboličke poveznice"
@@ -2607,7 +2597,7 @@ msgstr "pokušaj čitanja završetka kraja datoteke"
 msgid "not a directory"
 msgstr "nije direktorij"
 
-#: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:828
+#: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:835
 #: grub-core/fs/zfs/zfs.c:3801
 msgid "not a regular file"
 msgstr "nije obična datoteka"
@@ -2936,7 +2926,7 @@ msgstr "Pozdrav svijete"
 
 #: grub-core/hello/hello.c:45
 msgid "Say `Hello World'."
-msgstr "Reci 'Pozdrav svijete'"
+msgstr "Reci 'Pozdrav svijete'."
 
 #: grub-core/io/gzio.c:409 grub-core/kern/file.c:210
 msgid "attempt to seek outside of the file"
@@ -3295,29 +3285,29 @@ msgid "(PROGRAM ERROR) Option should have been recognized!?"
 msgstr "(GREŠKA PROGRAMA) Mogućnost je trebala biti prepoznata!?"
 
 #: grub-core/lib/gnulib/getopt.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous\n"
-msgstr "%s: mogućnost `-W %s' je neodređena\n"
+msgstr "%s: mogućnost '%s%s' je neodređena\n"
 
 #: grub-core/lib/gnulib/getopt.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous; possibilities:"
-msgstr "%s: mogućnost „%s” je neodređena, mogućnosti:"
+msgstr "%s: mogućnost '%s%s' je neodređena, mogućnosti:"
 
 #: grub-core/lib/gnulib/getopt.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unrecognized option '%s%s'\n"
-msgstr "%s: nepoznata mogućnost '%c%s'\n"
+msgstr "%s: nepoznata mogućnost '%s%s'\n"
 
 #: grub-core/lib/gnulib/getopt.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' doesn't allow an argument\n"
-msgstr "%s: mogućnost '%c%s' ne dopušta argument\n"
+msgstr "%s: mogućnost '%s%s' ne dopušta argument\n"
 
 #: grub-core/lib/gnulib/getopt.c:360
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' requires an argument\n"
-msgstr "%s: mogućnost '--%s' zahtijeva argument\n"
+msgstr "%s: mogućnost '%s%s' zahtijeva argument\n"
 
 #: grub-core/lib/gnulib/getopt.c:621
 #, c-format
@@ -3330,14 +3320,14 @@ msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: mogućnost zahtijeva argument -- %c\n"
 
 #: grub-core/lib/gnulib/openat-die.c:38
-#, fuzzy, c-format
+#, c-format
 msgid "unable to record current working directory"
-msgstr "nemoguća obnova izvornog direktorija"
+msgstr "nemoguće snimanje trenutnog radnog direktorija"
 
 #: grub-core/lib/gnulib/openat-die.c:57
 #, c-format
 msgid "failed to return to initial working directory"
-msgstr ""
+msgstr "nemoguć povratak u početni radni direktorij"
 
 #: grub-core/lib/gnulib/regcomp.c:135 grub-core/osdep/aros/hostdisk.c:523
 msgid "Success"
@@ -3368,9 +3358,8 @@ msgid "Invalid back reference"
 msgstr "Neispravna povratna referenca"
 
 #: grub-core/lib/gnulib/regcomp.c:156
-#, fuzzy
 msgid "Unmatched [, [^, [:, [., or [="
-msgstr "Neuparena [ ili [^"
+msgstr "Neuparena [, [^, [:, [., ili [="
 
 #: grub-core/lib/gnulib/regcomp.c:159
 msgid "Unmatched ( or \\("
@@ -3514,7 +3503,7 @@ msgstr "[MOGUĆNOSTI]"
 msgid "Boot BIOS-based system."
 msgstr "Pokreni BIOS temeljeni sustav."
 
-#: grub-core/loader/efi/chainloader.c:415
+#: grub-core/loader/efi/chainloader.c:421
 #: grub-core/loader/i386/pc/chainloader.c:303
 msgid "Load another boot loader."
 msgstr "Učitaj dodatni učitač pokretanja."
@@ -3531,7 +3520,7 @@ msgstr "Koristi serijsku konzolu."
 #: grub-core/loader/i386/bsd.c:105 grub-core/loader/i386/bsd.c:131
 #: grub-core/loader/i386/bsd.c:159
 msgid "Ask for file name to reboot from."
-msgstr "Pitaj za naziv datoteke ponovnog pokretanja"
+msgstr "Pitaj za naziv datoteke ponovnog pokretanja."
 
 #: grub-core/loader/i386/bsd.c:106
 msgid "Use CD-ROM as root."
@@ -3814,9 +3803,8 @@ msgid "Load a multiboot module."
 msgstr "Učitaj modul višestrukog pokretanja."
 
 #: grub-core/loader/riscv/linux.c:30 grub-core/loader/riscv/linux.c:40
-#, fuzzy
 msgid "Linux not supported yet"
-msgstr "interpretator nije podržan"
+msgstr "Linux još nije podržan"
 
 #: grub-core/loader/xnu.c:1416 grub-core/term/gfxterm_background.c:45
 msgid "Background image mode."
@@ -3913,14 +3901,13 @@ msgid "no DHCP options found"
 msgstr "nema pronađenih DHCP mogućnosti"
 
 #: grub-core/net/bootp.c:682
-#, fuzzy
 msgid "invalid DHCP option code"
-msgstr "nema pronađenih DHCP mogućnosti"
+msgstr "neispravan kôd DHCP mogućnosti"
 
 #: grub-core/net/bootp.c:686
-#, fuzzy, c-format
+#, c-format
 msgid "no DHCP option %u found"
-msgstr "nema prnađenih DHCP mogućnosti %d"
+msgstr "nema pronađenih DHCP mogućnosti %u"
 
 #: grub-core/net/bootp.c:743
 #, c-format
@@ -3945,9 +3932,8 @@ msgid "perform a bootp autoconfiguration"
 msgstr "pokreni bootp automatsko podešavanje"
 
 #: grub-core/net/bootp.c:877
-#, fuzzy
 msgid "perform a DHCP autoconfiguration"
-msgstr "pokreni bootp automatsko podešavanje"
+msgstr "pokreni DHCP automatsko podešavanje"
 
 #: grub-core/net/bootp.c:879
 msgid "VAR INTERFACE NUMBER DESCRIPTION"
@@ -3957,7 +3943,7 @@ msgstr "VAR SUČELJE BROJ OPIS"
 msgid ""
 "retrieve DHCP option and save it into VAR. If VAR is - then print the value."
 msgstr ""
-"Preuzmi DHCP mogućnost i spremi ju u VAR. Ako VAR postoji - tada ispiši "
+"preuzmi DHCP mogućnost i spremi ju u VAR. Ako VAR postoji - tada ispiši "
 "vrijednost."
 
 #: grub-core/net/dns.c:459
@@ -4147,7 +4133,7 @@ msgstr "KRATAK NAZIV"
 
 #: grub-core/net/net.c:1771
 msgid "Delete a network address."
-msgstr "Obriši adresu mreže"
+msgstr "Obriši adresu mreže."
 
 #. TRANSLATORS: "gw" is a keyword.
 #: grub-core/net/net.c:1774
@@ -4160,7 +4146,7 @@ msgstr "Dodaj rutu mreže."
 
 #: grub-core/net/net.c:1778
 msgid "Delete a network route."
-msgstr "Obriši rutu mreže"
+msgstr "Obriši rutu mreže."
 
 #: grub-core/net/net.c:1780
 msgid "list network routes"
@@ -4568,7 +4554,7 @@ msgstr "pokušaj čitanja slike jezgre `%s' s GRUBA"
 #: grub-core/osdep/generic/blocklist.c:57
 #, c-format
 msgid "attempting to read the core image `%s' from GRUB again"
-msgstr "Ponovni pokušaj čitanja slike jezgre `%s' s GRUBA"
+msgstr "ponovni pokušaj čitanja slike jezgre `%s' s GRUBA"
 
 #: grub-core/osdep/generic/blocklist.c:115
 #, c-format
@@ -4724,9 +4710,8 @@ msgid "Unable to create pipe: %s"
 msgstr "Nemoguće stvaranje slivnika: %s"
 
 #: grub-core/osdep/unix/getroot.c:370
-#, fuzzy
 msgid "cannot save the original directory"
-msgstr "nemoguća obnova izvornog direktorija"
+msgstr "nemoguća spremanje izvornog direktorija"
 
 #: grub-core/osdep/unix/getroot.c:423 grub-core/osdep/unix/getroot.c:480
 #: grub-core/osdep/unix/getroot.c:489
@@ -4759,7 +4744,7 @@ msgid ""
 "You will have to set `boot-device' variable manually"
 msgstr ""
 "nemoguć pronalazak IEEE1275 putanje uređaja za %s.\n"
-"Morate postaviti `boot-device' varijablu ručno."
+"Morate postaviti `boot-device' varijablu ručno"
 
 #. TRANSLATORS: This message is shown when required executable `%s'
 #. isn't found.
@@ -4937,7 +4922,7 @@ msgstr "neispravan naziv varijable `%s'"
 
 #: grub-core/script/execute.c:953
 msgid "cannot allocate command buffer"
-msgstr ""
+msgstr "nemoguće premještanje naredbenog međuspremnika"
 
 #: grub-core/script/lexer.c:144 util/grub-fstest.c:330
 msgid "unexpected end of file"
@@ -5141,7 +5126,7 @@ msgstr "  VBE info:   inačica: %d.%d  OEM softver rev: %d.%d\n"
 msgid "              total memory: %d KiB\n"
 msgstr "              ukupno memorije: %d KiB\n"
 
-#: grub-core/video/video.c:596 grub-core/video/video.c:760
+#: grub-core/video/video.c:596 grub-core/video/video.c:762
 msgid "no suitable video mode found"
 msgstr "nema pronađenog prikladnog video načina rada"
 
@@ -5159,7 +5144,7 @@ msgstr "predučitaj određene module MODULI"
 
 #: include/grub/util/install.h:33
 msgid "embed a specific DTB"
-msgstr ""
+msgstr "ugradi određeni DTB"
 
 #: include/grub/util/install.h:36
 msgid "install only MODULES and their dependencies [default=all]"
@@ -5222,9 +5207,9 @@ msgstr "postavi DATOTEKU kao javni ključ za provjeru potpisa"
 
 #: util/editenv.c:59 util/grub-editenv.c:201 util/grub-install-common.c:535
 #: util/grub-mkimage.c:315 util/setup.c:791
-#, fuzzy, c-format
+#, c-format
 msgid "cannot sync `%s': %s"
-msgstr "nemoguća pretraga `%s': %s"
+msgstr "nemoguće usklađivanje `%s': %s"
 
 #: util/editenv.c:64
 #, c-format
@@ -5297,12 +5282,12 @@ msgstr ""
 
 #: util/grub-editenv.c:162
 msgid "invalid environment block"
-msgstr "Neispravan blok okruženja"
+msgstr "neispravan blok okruženja"
 
 #: util/grub-editenv.c:217
 #, c-format
 msgid "invalid parameter %s"
-msgstr "Neispravan parametar %s"
+msgstr "neispravan parametar %s"
 
 #: util/grub-editenv.c:222
 msgid "environment block too small"
@@ -5552,7 +5537,7 @@ msgstr "Nepoznat format sažimanja %s"
 #: util/grub-install-common.c:400
 #, c-format
 msgid "Unrecognized compression `%s'"
-msgstr "neprepoznato sažimanje `%s'"
+msgstr "Neprepoznato sažimanje `%s'"
 
 #: util/grub-install-common.c:509
 #, c-format
@@ -5642,7 +5627,7 @@ msgstr ""
 
 #: util/grub-install.c:282 util/grub-setup.c:89
 msgid "do not probe for filesystems in DEVICE"
-msgstr "ne sondiraj datotečne sustave u UREĐAJIMA."
+msgstr "ne sondiraj datotečne sustave u UREĐAJIMA"
 
 #: util/grub-install.c:284
 msgid "do not install bootsector"
@@ -5807,7 +5792,7 @@ msgstr ""
 #: util/grub-install.c:1888 util/grub-install.c:1932
 #, c-format
 msgid "efibootmgr failed to register the boot entry: %s"
-msgstr ""
+msgstr "efibootmgr nije uspio registrirati unos pokretanja: %s"
 
 #: util/grub-install.c:1916
 msgid "EFI bootloader id isn't specified."
@@ -5979,7 +5964,7 @@ msgstr "Pretvori uobičajen format datoteke slova u PF2"
 #: util/grub-mkfont.c:1182 util/grub-mkrescue.c:483
 #: util/grub-mkstandalone.c:306
 msgid "output file must be specified"
-msgstr "Izlazna datoteka mora biti određena"
+msgstr "izlazna datoteka mora biti određena"
 
 #: util/grub-mkfont.c:1185
 msgid "FT_Init_FreeType fails"
@@ -6007,14 +5992,13 @@ msgid ""
 "Implies `-p (memdisk)/boot/grub' and overrides any prefix supplied "
 "previously, but the prefix itself can be overridden by later options"
 msgstr ""
-"postavi DATOTEKU kao memdisk sliku\n"
+"ugradi DATOTEKU kao memdisk sliku\n"
 "Uključuje `-p (memdisk)/boot/grub' i zaobilazi bilo koji prefiks prije "
 "omogućen, ali sam prefiks može se zaobići kasnijim mogućnostima"
 
 #: util/grub-mkimage.c:74
-#, fuzzy
 msgid "embed FILE as a device tree (DTB)\n"
-msgstr "ugradi DATOTEKU kao početno podešavanje"
+msgstr "ugradi DATOTEKU kao stablo uređaja (DTB)\n"
 
 #: util/grub-mkimage.c:76
 msgid "embed FILE as an early config"
@@ -6063,9 +6047,9 @@ msgid "Prefix not specified (use the -p option)."
 msgstr "Prefiks nije određen (koristi -p mogućnost)."
 
 #: util/grub-mkimage.c:318 util/setup.c:793
-#, fuzzy, c-format
+#, c-format
 msgid "cannot close `%s': %s"
-msgstr "nemoguće otvoriti `%s': %s"
+msgstr "nemoguće zatvoriti `%s': %s"
 
 #: util/grub-mkimagexx.c:2191
 #, c-format
@@ -6250,9 +6234,8 @@ msgid "enabling %s support ..."
 msgstr "omogućavanje %s podrške..."
 
 #: util/grub-mkrescue.c:486
-#, fuzzy
 msgid "xorriso not found"
-msgstr "%s: nije pronađen"
+msgstr "xorriso nije pronađen"
 
 #: util/grub-mkrescue.c:623
 msgid ""
@@ -6462,7 +6445,7 @@ msgid ""
 "fwstart.img doesn't match the known good version. proceed at your own risk"
 msgstr ""
 "fwstart.img se ne podudara s poznatom valjanom inačicom. Nastavljate na "
-"vlastit rizik."
+"vlastit rizik"
 
 #: util/mkimage.c:1575 util/mkimage.c:1601
 msgid "firmware image is too big"

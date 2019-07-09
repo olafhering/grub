@@ -5,21 +5,21 @@
 #
 # Andriy Rysin <arysin@gmail.com>, 2011.
 # Vladimir Serbinenko <phcoder@gmail.com>, 2012.
-# Yuri Chornoivan <yurchor@ukr.net>, 2012, 2013, 2017.
+# Yuri Chornoivan <yurchor@ukr.net>, 2012, 2013, 2017, 2019.
 msgid ""
 msgstr ""
-"Project-Id-Version: grub 2.02-pre3\n"
+"Project-Id-Version: grub 2.04-pre1\n"
 "Report-Msgid-Bugs-To: bug-grub@gnu.org\n"
-"POT-Creation-Date: 2019-04-09 03:12+0200\n"
-"PO-Revision-Date: 2017-02-04 11:34+0200\n"
+"POT-Creation-Date: 2019-07-04 16:09+0200\n"
+"PO-Revision-Date: 2019-04-09 14:42+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <translation-team-uk@lists.sourceforge.net>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 19.03.70\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -105,9 +105,9 @@ msgstr ""
 #: grub-core/kern/elf.c:117 grub-core/kern/elfXX.c:29
 #: grub-core/kern/elfXX.c:156 grub-core/loader/arm/linux.c:319
 #: grub-core/loader/arm64/linux.c:330 grub-core/loader/arm64/xen_boot.c:356
-#: grub-core/loader/efi/chainloader.c:270
-#: grub-core/loader/efi/chainloader.c:291
-#: grub-core/loader/efi/chainloader.c:323 grub-core/loader/efi/fdt.c:138
+#: grub-core/loader/efi/chainloader.c:276
+#: grub-core/loader/efi/chainloader.c:297
+#: grub-core/loader/efi/chainloader.c:329 grub-core/loader/efi/fdt.c:138
 #: grub-core/loader/i386/bsd.c:1276 grub-core/loader/i386/bsd.c:2116
 #: grub-core/loader/i386/bsdXX.c:20 grub-core/loader/i386/bsdXX.c:36
 #: grub-core/loader/i386/bsdXX.c:63 grub-core/loader/i386/bsdXX.c:357
@@ -139,7 +139,7 @@ msgstr ""
 #: grub-core/loader/xnu.c:816 grub-core/loader/xnu.c:871
 #: grub-core/loader/xnu.c:914 grub-core/loader/xnu.c:952
 #: grub-core/loader/xnu_resume.c:68 grub-core/loader/xnu_resume.c:153
-#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2290
+#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2288
 #, c-format
 msgid "premature end of file %s"
 msgstr "завчасне завершення файла %s"
@@ -169,7 +169,7 @@ msgstr "помилка: %s.\n"
 #: grub-core/loader/arm/linux.c:259 grub-core/loader/arm64/linux.c:265
 #: grub-core/loader/arm64/linux.c:321 grub-core/loader/arm64/linux.c:340
 #: grub-core/loader/arm64/xen_boot.c:344 grub-core/loader/arm64/xen_boot.c:367
-#: grub-core/loader/efi/chainloader.c:283 grub-core/osdep/unix/dl.c:48
+#: grub-core/loader/efi/chainloader.c:289 grub-core/osdep/unix/dl.c:48
 #: grub-core/osdep/windows/dl.c:46 grub-core/script/lexer.c:156
 #: grub-core/script/lexer.c:182
 msgid "out of memory"
@@ -209,7 +209,7 @@ msgstr "Показати список пристроїв."
 #: grub-core/loader/arm/linux.c:472 grub-core/loader/arm64/linux.c:243
 #: grub-core/loader/arm64/linux.c:297 grub-core/loader/arm64/xen_boot.c:398
 #: grub-core/loader/arm64/xen_boot.c:411 grub-core/loader/arm64/xen_boot.c:462
-#: grub-core/loader/efi/chainloader.c:210 grub-core/loader/i386/bsd.c:1462
+#: grub-core/loader/efi/chainloader.c:216 grub-core/loader/i386/bsd.c:1462
 #: grub-core/loader/i386/bsd.c:1807 grub-core/loader/i386/bsd.c:2085
 #: grub-core/loader/i386/coreboot/chainloader.c:438
 #: grub-core/loader/i386/linux.c:656 grub-core/loader/i386/linux.c:1041
@@ -440,49 +440,45 @@ msgstr "Завантажити дамп BIOS."
 #, c-format
 msgid "module cannot be loaded in UEFI secure boot mode: %s"
 msgstr ""
+"модуль не може бути завантажено у режимі захищеного завантаження UEFI: %s"
 
 #: grub-core/commands/efi/shim_lock.c:98
 #, c-format
 msgid "cannot boot due to dangerous module in memory: %s"
-msgstr ""
+msgstr "завантаження неможливе через небезпечний модуль у пам'яті: %s"
 
 #: grub-core/commands/efi/shim_lock.c:116
-#, fuzzy
 msgid "bad shim signature"
-msgstr "некоректний підпис"
+msgstr "некоректний підпис прокладки"
 
 #: grub-core/commands/efi/tpm.c:149 grub-core/commands/efi/tpm.c:189
 #: grub-core/commands/efi/tpm.c:256 grub-core/commands/efi/tpm.c:306
-#, fuzzy
 msgid "Command failed"
-msgstr "помилка alloc-mem"
+msgstr "Помилка під час виконання команди"
 
 #: grub-core/commands/efi/tpm.c:151 grub-core/commands/efi/tpm.c:191
 #: grub-core/commands/efi/tpm.c:258 grub-core/commands/efi/tpm.c:308
-#, fuzzy
 msgid "Invalid parameter"
-msgstr "некоректний параметр, %s"
+msgstr "Некоректний параметр"
 
 #: grub-core/commands/efi/tpm.c:154 grub-core/commands/efi/tpm.c:194
 #: grub-core/commands/efi/tpm.c:261 grub-core/commands/efi/tpm.c:311
 msgid "Output buffer too small"
-msgstr ""
+msgstr "Буфер виведення є надто малим"
 
 #: grub-core/commands/efi/tpm.c:156 grub-core/commands/efi/tpm.c:196
 #: grub-core/commands/efi/tpm.c:263 grub-core/commands/efi/tpm.c:313
-#, fuzzy
 msgid "TPM unavailable"
-msgstr "Шлях: недоступний"
+msgstr "TPM є недоступним"
 
 #: grub-core/commands/efi/tpm.c:158 grub-core/commands/efi/tpm.c:198
 #: grub-core/commands/efi/tpm.c:265 grub-core/commands/efi/tpm.c:315
-#, fuzzy
 msgid "Unknown TPM error"
-msgstr "Невідома системна помилка"
+msgstr "Невідома помилка TPM"
 
 #: grub-core/commands/efi/tpm.c:240 grub-core/commands/efi/tpm.c:288
 msgid "cannot allocate TPM event buffer"
-msgstr ""
+msgstr "не вдалося розмістити у пам'яті буфер подій TPM"
 
 #: grub-core/commands/eval.c:63
 msgid "STRING ..."
@@ -600,14 +596,12 @@ msgid "Check if FILE is ARM EFI file"
 msgstr "Перевірити, чи є ФАЙЛ файлом ARM EFI"
 
 #: grub-core/commands/file.c:94
-#, fuzzy
 msgid "Check if FILE is RISC-V 32bit EFI file"
-msgstr "Перевірити, чи є ФАЙЛ файлом ARM EFI"
+msgstr "Перевірити, чи є ФАЙЛ 32-бітовим файлом RISC-V"
 
 #: grub-core/commands/file.c:96
-#, fuzzy
 msgid "Check if FILE is RISC-V 64bit EFI file"
-msgstr "Перевірити, чи є ФАЙЛ файлом IA64 EFI"
+msgstr "Перевірити, чи є ФАЙЛ 64-бітовим файлом RISC-V"
 
 #: grub-core/commands/file.c:98
 msgid "Check if FILE is hiberfil.sys in hibernated state"
@@ -1039,7 +1033,7 @@ msgstr "Некоректний ритм у %s"
 #: grub-core/fs/archelp.c:260 grub-core/fs/bfs.c:621 grub-core/fs/bfs.c:704
 #: grub-core/fs/btrfs.c:1726 grub-core/fs/btrfs.c:1755
 #: grub-core/fs/btrfs.c:1799 grub-core/fs/btrfs.c:1882
-#: grub-core/fs/btrfs.c:1906 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:689
+#: grub-core/fs/btrfs.c:1906 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:696
 #: grub-core/fs/minix.c:426 grub-core/fs/ufs.c:544 grub-core/fs/zfs/zfs.c:2083
 #: grub-core/fs/zfs/zfs.c:2095 grub-core/fs/zfs/zfs.c:2301
 #: grub-core/net/http.c:120
@@ -1154,9 +1148,8 @@ msgstr "НАЗВА_ЗМІННОЇ"
 #: grub-core/commands/i386/rdmsr.c:55 grub-core/commands/i386/rdmsr.c:60
 #: grub-core/commands/i386/rdmsr.c:65 grub-core/commands/i386/wrmsr.c:47
 #: grub-core/commands/i386/wrmsr.c:52 grub-core/commands/i386/wrmsr.c:57
-#, fuzzy
 msgid "unsupported instruction"
-msgstr "Непідтримуваний формат gzip"
+msgstr "непідтримувана інструкція"
 
 #: grub-core/commands/i386/rdmsr.c:77 grub-core/commands/i386/wrmsr.c:69
 #: grub-core/commands/i386/wrmsr.c:77 grub-core/net/dns.c:727
@@ -1170,16 +1163,15 @@ msgstr "АДРЕСА"
 
 #: grub-core/commands/i386/rdmsr.c:95
 msgid "Read a CPU model specific register."
-msgstr ""
+msgstr "Прочитати специфічний для моделі процесора регістр."
 
 #: grub-core/commands/i386/wrmsr.c:86
-#, fuzzy
 msgid "ADDR VALUE"
-msgstr "АДРЕСА ЗНАЧЕННЯ [МАСКА]"
+msgstr "АДРЕСА ЗНАЧЕННЯ"
 
 #: grub-core/commands/i386/wrmsr.c:87
 msgid "Write a value to a CPU model specific register."
-msgstr ""
+msgstr "Записати значення до специфічного для моделі процесора регістра."
 
 #: grub-core/commands/ieee1275/suspend.c:34
 msgid "Run `go' to resume GRUB."
@@ -2204,7 +2196,7 @@ msgstr "Нічого не виконувати, успішне завершен�
 msgid "Do nothing, unsuccessfully."
 msgstr "Нічого не виконувати, невдале завершення."
 
-#: grub-core/commands/usbtest.c:212
+#: grub-core/commands/usbtest.c:221
 msgid "Test USB support."
 msgstr "Перевірка підтримки USB."
 
@@ -2212,11 +2204,11 @@ msgstr "Перевірка підтримки USB."
 #, c-format
 msgid "verification requested but nobody cares: %s"
 msgstr ""
+"отримано запит щодо перевірки, але обробки результатів не передбачено: %s"
 
 #: grub-core/commands/verifiers.c:140
-#, fuzzy
 msgid "big file signature isn't implemented yet"
-msgstr "зміну розташування 0x%x ще не реалізовано"
+msgstr "підтримку великих підписів файлів ще не реалізовано"
 
 #: grub-core/commands/videoinfo.c:61
 msgid "Text-only "
@@ -2567,7 +2559,7 @@ msgid "relocation 0x%x is not implemented yet"
 msgstr "зміну розташування 0x%x ще не реалізовано"
 
 #: grub-core/efiemu/loadcore.c:200 grub-core/efiemu/loadcore.c:237
-#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2362
+#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2360
 msgid "no symbol table"
 msgstr "немає таблиці символів"
 
@@ -2613,7 +2605,7 @@ msgid "List the loaded fonts."
 msgstr "Список завантажених шрифтів."
 
 #: grub-core/fs/archelp.c:216 grub-core/fs/archelp.c:278
-#: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:729
+#: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:736
 #: grub-core/fs/minix.c:369 grub-core/fs/ufs.c:454
 msgid "too deep nesting of symlinks"
 msgstr "занадто високий рівень вкладеності символічних посилань"
@@ -2631,7 +2623,7 @@ msgstr "спроба читання даних за кінцем файла"
 msgid "not a directory"
 msgstr "не є каталогом"
 
-#: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:828
+#: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:835
 #: grub-core/fs/zfs/zfs.c:3801
 msgid "not a regular file"
 msgstr "не є звичайним файлом"
@@ -3327,29 +3319,29 @@ msgid "(PROGRAM ERROR) Option should have been recognized!?"
 msgstr "(ПОМИЛКА ПРОГРАМИ) Параметр має розпізнаватися!?"
 
 #: grub-core/lib/gnulib/getopt.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous\n"
-msgstr "%s: параметр «-W %s» не є однозначним\n"
+msgstr "%s: параметр «%s%s» не є однозначним\n"
 
 #: grub-core/lib/gnulib/getopt.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous; possibilities:"
-msgstr "%s: неоднозначний параметр «%s»; можливі варіанти:"
+msgstr "%s: неоднозначний параметр «%s%s»; можливі варіанти:"
 
 #: grub-core/lib/gnulib/getopt.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unrecognized option '%s%s'\n"
-msgstr "%s: невідомий параметр «%c%s»\n"
+msgstr "%s: невідомий параметр «%s%s»\n"
 
 #: grub-core/lib/gnulib/getopt.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' doesn't allow an argument\n"
-msgstr "%s: додавання аргументів до параметра «%c%s» не передбачено\n"
+msgstr "%s: додавання аргументів до параметра «%s%s» не передбачено\n"
 
 #: grub-core/lib/gnulib/getopt.c:360
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' requires an argument\n"
-msgstr "%s: до параметра «--%s» слід додати аргумент\n"
+msgstr "%s: до параметра «%s%s» слід додати аргумент\n"
 
 #: grub-core/lib/gnulib/getopt.c:621
 #, c-format
@@ -3362,14 +3354,14 @@ msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: до параметра слід додати аргумент — «%c»\n"
 
 #: grub-core/lib/gnulib/openat-die.c:38
-#, fuzzy, c-format
+#, c-format
 msgid "unable to record current working directory"
-msgstr "не вдалося відновити початковий каталог"
+msgstr "не вдалося записати поточний робочий каталог"
 
 #: grub-core/lib/gnulib/openat-die.c:57
 #, c-format
 msgid "failed to return to initial working directory"
-msgstr ""
+msgstr "не вдалося повернутися до початкового робочого каталогу"
 
 #: grub-core/lib/gnulib/regcomp.c:135 grub-core/osdep/aros/hostdisk.c:523
 msgid "Success"
@@ -3400,9 +3392,8 @@ msgid "Invalid back reference"
 msgstr "Некоректне зворотне посилання"
 
 #: grub-core/lib/gnulib/regcomp.c:156
-#, fuzzy
 msgid "Unmatched [, [^, [:, [., or [="
-msgstr "Неврівноважена послідовність [ або [^"
+msgstr "Неврівноважена послідовність [, [^, [:, [. або [="
 
 #: grub-core/lib/gnulib/regcomp.c:159
 msgid "Unmatched ( or \\("
@@ -3546,7 +3537,7 @@ msgstr "[ПАРАМЕТРИ]"
 msgid "Boot BIOS-based system."
 msgstr "Завантажити систему, засновану на BIOS."
 
-#: grub-core/loader/efi/chainloader.c:415
+#: grub-core/loader/efi/chainloader.c:421
 #: grub-core/loader/i386/pc/chainloader.c:303
 msgid "Load another boot loader."
 msgstr "Завантажити інший інструмент завантаження."
@@ -3847,9 +3838,8 @@ msgid "Load a multiboot module."
 msgstr "Завантажити модуль multiboot."
 
 #: grub-core/loader/riscv/linux.c:30 grub-core/loader/riscv/linux.c:40
-#, fuzzy
 msgid "Linux not supported yet"
-msgstr "підтримки інтерпретації не передбачено"
+msgstr "Підтримки Linux ще не передбачено"
 
 #: grub-core/loader/xnu.c:1416 grub-core/term/gfxterm_background.c:45
 msgid "Background image mode."
@@ -3947,14 +3937,13 @@ msgid "no DHCP options found"
 msgstr "не знайдено параметрів DHCP"
 
 #: grub-core/net/bootp.c:682
-#, fuzzy
 msgid "invalid DHCP option code"
-msgstr "не знайдено параметрів DHCP"
+msgstr "некоректний код параметра DHCP"
 
 #: grub-core/net/bootp.c:686
-#, fuzzy, c-format
+#, c-format
 msgid "no DHCP option %u found"
-msgstr "не знайдено параметра %d DHCP"
+msgstr "не знайдено параметра %u DHCP"
 
 #: grub-core/net/bootp.c:743
 #, c-format
@@ -3979,9 +3968,8 @@ msgid "perform a bootp autoconfiguration"
 msgstr "виконати автоматичне налаштування bootp"
 
 #: grub-core/net/bootp.c:877
-#, fuzzy
 msgid "perform a DHCP autoconfiguration"
-msgstr "виконати автоматичне налаштування bootp"
+msgstr "виконати автоматичне налаштування DHCP"
 
 #: grub-core/net/bootp.c:879
 msgid "VAR INTERFACE NUMBER DESCRIPTION"
@@ -4764,9 +4752,8 @@ msgid "Unable to create pipe: %s"
 msgstr "Не вдалося створити канал передавання даних: %s"
 
 #: grub-core/osdep/unix/getroot.c:370
-#, fuzzy
 msgid "cannot save the original directory"
-msgstr "не вдалося відновити початковий каталог"
+msgstr "не вдалося зберегти початковий каталог"
 
 #: grub-core/osdep/unix/getroot.c:423 grub-core/osdep/unix/getroot.c:480
 #: grub-core/osdep/unix/getroot.c:489
@@ -4986,7 +4973,7 @@ msgstr "некоректна назва змінної, «%s»"
 
 #: grub-core/script/execute.c:953
 msgid "cannot allocate command buffer"
-msgstr ""
+msgstr "не вдалося розмістити у пам'яті буфер команд"
 
 #: grub-core/script/lexer.c:144 util/grub-fstest.c:330
 msgid "unexpected end of file"
@@ -5191,7 +5178,7 @@ msgstr ""
 msgid "              total memory: %d KiB\n"
 msgstr "              загалом пам’яті: %d КіБ\n"
 
-#: grub-core/video/video.c:596 grub-core/video/video.c:760
+#: grub-core/video/video.c:596 grub-core/video/video.c:762
 msgid "no suitable video mode found"
 msgstr "не знайдено відповідного відеорежиму"
 
@@ -5209,7 +5196,7 @@ msgstr "попередньо завантажити вказані МОДУЛІ"
 
 #: include/grub/util/install.h:33
 msgid "embed a specific DTB"
-msgstr ""
+msgstr "вбудувати специфічний DTB"
 
 #: include/grub/util/install.h:36
 msgid "install only MODULES and their dependencies [default=all]"
@@ -5272,9 +5259,9 @@ msgstr "вбудувати ФАЙЛ як відкритий ключ для пе
 
 #: util/editenv.c:59 util/grub-editenv.c:201 util/grub-install-common.c:535
 #: util/grub-mkimage.c:315 util/setup.c:791
-#, fuzzy, c-format
+#, c-format
 msgid "cannot sync `%s': %s"
-msgstr "не вдалося виконати seek для «%s»: %s"
+msgstr "не вдалося синхронізувати «%s»: %s"
 
 #: util/editenv.c:64
 #, c-format
@@ -5865,7 +5852,7 @@ msgstr ""
 #: util/grub-install.c:1888 util/grub-install.c:1932
 #, c-format
 msgid "efibootmgr failed to register the boot entry: %s"
-msgstr ""
+msgstr "efibootmgr не вдалося зареєструвати запис завантаження: %s"
 
 #: util/grub-install.c:1916
 msgid "EFI bootloader id isn't specified."
@@ -6072,9 +6059,8 @@ msgstr ""
 "параметрами, вказаними пізніше"
 
 #: util/grub-mkimage.c:74
-#, fuzzy
 msgid "embed FILE as a device tree (DTB)\n"
-msgstr "вбудувати ФАЙЛ як файл попереднього налаштування"
+msgstr "вбудувати ФАЙЛ як ієрархію пристроїв (DTB)\n"
 
 #: util/grub-mkimage.c:76
 msgid "embed FILE as an early config"
@@ -6123,9 +6109,9 @@ msgid "Prefix not specified (use the -p option)."
 msgstr "Не вказано префікс (скористайтеся параметром -p)."
 
 #: util/grub-mkimage.c:318 util/setup.c:793
-#, fuzzy, c-format
+#, c-format
 msgid "cannot close `%s': %s"
-msgstr "не вдалося відкрити «%s»: %s"
+msgstr "не вдалося закрити «%s»: %s"
 
 #: util/grub-mkimagexx.c:2191
 #, c-format
@@ -6318,9 +6304,8 @@ msgid "enabling %s support ..."
 msgstr "вмикаємо підтримку %s ..."
 
 #: util/grub-mkrescue.c:486
-#, fuzzy
 msgid "xorriso not found"
-msgstr "%s: не знайдено"
+msgstr "xorriso не знайдено"
 
 #: util/grub-mkrescue.c:623
 msgid ""
