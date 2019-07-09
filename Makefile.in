@@ -1522,8 +1522,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.util.am \
 	COPYING ChangeLog INSTALL NEWS README THANKS TODO \
 	build-aux/compile build-aux/config.guess \
 	build-aux/config.rpath build-aux/config.sub build-aux/depcomp \
-	build-aux/install-sh build-aux/mdate-sh build-aux/missing \
-	build-aux/texinfo.tex
+	build-aux/install-sh build-aux/missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)

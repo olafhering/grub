@@ -1,3 +1,386 @@
+2019-07-04  Daniel Kiper  <daniel.kiper@oracle.com>
+
+	Release 2.04
+
+2019-06-24  Thomas Schmitt  <scdbackup@gmx.net>
+
+	docs: Document workaround for grub-mkrescue with older MacBooks
+	Add a description of the workaround for firmware of older MacBooks
+	which stalls with a grub-mkrescue ISO image for x86_64-efi target
+	on an USB stick.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-06-24  Eric Snowberg  <eric.snowberg@oracle.com>
+
+	docs: Bootstrap changes required for older distros
+	Some older distros do not contain gettext 0.18. Document the workaround
+	to use the bootstrap utility on these systems.
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-06-07  Leif Lindholm  <leif.lindholm@linaro.org>
+
+	ia64: build fix in cache.h
+	Add IA64 to the architectures excluding a declaration for
+	grub_arch_sync_dma_caches().
+
+	IA64 does not include any of the source files that require the function,
+	but was overlooked for d8901e3ba115 ("cache: Fix compilation for ppc,
+	sparc and arm64").
+
+	Add it to the list of excluding architectures in order to not get
+	missing symbol errors when running grub-mkimage.
+
+	Reported-by: Alexander Graf <agraf@csgraf.de>
+	Tested-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-06-07  Vladimir 'phcoder' Serbinenko  <phcoder@gmail.com>
+
+	hostfs: #undef open and close.
+	Unlike in case of disks in this case it's just a single place, so it's easier
+	to just #undef
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-06-03  John Paul Adrian Glaubitz  <glaubitz@physik.fu-berlin.de>
+
+	f2fs: Disable gcc9 -Waddress-of-packed-member
+	Disable the -Wadress-of-packaed-member diagnostic for the grub_f2fs_label
+	function since the result is found to be false postive.
+
+	A pointer to the 'volume_name' member of 'struct grub_f2fs_superblock' is
+	guaranteed to be aligned as the offset of 'volume_name' within the struct
+	is dividable by the natural alignment on both 32- and 64-bit targets.
+
+	grub-core/fs/f2fs.c: In function ‘grub_f2fs_label’:
+	grub-core/fs/f2fs.c:1253:60: error: taking address of packed member of ‘struct grub_f2fs_superblock’ may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	 1253 |     *label = (char *) grub_f2fs_utf16_to_utf8 (data->sblock.volume_name);
+	      |                                                ~~~~~~~~~~~~^~~~~~~~~~~~
+	cc1: all warnings being treated as errors
+
+	Reported-by: Neil MacLeod <neil@nmacleod.com>
+	Tested-by: Neil MacLeod <neil@nmacleod.com>
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-05-20  Vincent Legoll  <vincent.legoll@gmail.com>
+
+	grub-mkrescue: Fix error message about the wrong command having failed: mformat instead of mcopy
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-05-20  Mathieu Trudel-Lapierre  <mathieu.tl@gmail.com>
+
+	video: skip 'text' gfxpayload if not supported, to fallback to default
+	On UEFI, 'text' gfxpayload is not supported, but we still reach parse_modespec()
+	with it, which will obviously fail. Fortunately, whatever gfxpayload is set,
+	we still still have the 'auto' default to fall back to. Allow getting to this
+	fallback by not trying to parse 'text' as a modespec.
+
+	This is because 'text' correctly doesn't parse as a modespec, and ought to have
+	been ignored before we got to that point, just like it is immediately picked if
+	we're running on a system where 'text' is a supported video mode.
+
+	Bug: https://savannah.gnu.org/bugs/index.php?56217
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-05-20  Ovidiu Panait  <ovidiu.panait@windriver.com>
+
+	grub-mkconfig: Use -c instead of --printf for stat
+	"--printf" only works with the stat variant provided by coreutils.
+
+	With busybox, stat will fail with the following error:
+	stat: unrecognized option '--printf=%T'
+
+	Usage: stat [OPTIONS] FILE...
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-05-20  Michael Chang  <mchang@suse.com>
+
+	f2fs: Fix gcc9 error -Werror=maybe-uninitialized
+	The function grub_get_node_path() could return uninitialized offset with
+	level == 0 if the block is greater than direct_index + 2 * direct_blks +
+	2 * indirect_blks + dindirect_blks. The uninitialized offset is then used
+	by function grub_f2fs_get_block() because level == 0 is valid and
+	meaningful return to be processed.
+
+	The fix is to set level = -1 as return value by grub_get_node_path() to
+	signify an error that the input block cannot be handled. Any caller
+	should therefore check level is negative or not before processing the
+	output.
+
+	Reported-by: Neil MacLeod <neil@nmacleod.com>
+	Tested-by: Neil MacLeod <neil@nmacleod.com>
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-05-06  Alexander Graf  <agraf@csgraf.de>
+
+	arm: Align section alignment with manual relocation offset code
+	The arm relocation code has a manual special case for EFI binaries to
+	add the natural alignment to its own relocation awareness.
+
+	Since commit a51f953f4ee87 ("mkimage: Align efi sections on 4k
+	boundary") we changed that alignment from 0x400 to 0x1000 bytes. Reflect
+	the change in that branch that we forgot as well.
+
+	This fixes running 32bit arm grub efi binaries for me again.
+
+	Fixes: a51f953f4ee87 ("mkimage: Align efi sections on 4k boundary")
+	Reported-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+	Reported-by: Steve McIntyre <steve@einval.com>
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+	Tested-by: Julien ROBIN <julien.robin28@free.fr>
+	Reviewed-by: Leif Lindholm <leif.lindholm@linaro.org>
+	Tested-by: Leif Lindholm <leif.lindholm@linaro.org>
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-05-06  Alexander Graf  <agraf@csgraf.de>
+
+	arm: Move trampolines into code section
+	When creating T32->A32 transition jumps, the relocation code in grub
+	will generate trampolines. These trampolines live in the .data section
+	of our PE binary which means they are not marked as executable.
+
+	This misbehavior was unmasked by commit a51f953f4ee87 ("mkimage: Align
+	efi sections on 4k boundary") which made the X/NX boundary more obvious
+	because everything became page aligned.
+
+	To put things into proper order, let's move the arm trampolines into the
+	.text section instead. That way everyone knows they are executable.
+
+	Fixes: a51f953f4ee87 ("mkimage: Align efi sections on 4k boundary")
+	Reported-by: Julien ROBIN <julien.robin28@free.fr>
+	Reported-by: Leif Lindholm <leif.lindholm@linaro.org>
+	Tested-by: Julien ROBIN <julien.robin28@free.fr>
+	Reviewed-by: Leif Lindholm <leif.lindholm@linaro.org>
+	Tested-by: Leif Lindholm <leif.lindholm@linaro.org>
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-04-23  Michael Chang  <mchang@suse.com>
+
+	efi: Fix gcc9 error -Waddress-of-packed-member
+	The address of fp->path_name could be unaligned since seeking into the
+	device path buffer for a given node could end in byte boundary.
+
+	The fix is allocating aligned buffer by grub_malloc for holding the
+	UTF16 string copied from fp->path_name, and after using that buffer as
+	argument for grub_utf16_to_utf8 to convert it to UTF8 string.
+
+	[  255s] ../../grub-core/kern/efi/efi.c: In function 'grub_efi_get_filename':
+	[  255s] ../../grub-core/kern/efi/efi.c:410:60: error: taking address of packed member of 'struct grub_efi_file_path_device_path' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[  255s]   410 |    p = (char *) grub_utf16_to_utf8 ((unsigned char *) p, fp->path_name, len);
+	[  255s]       |                                                          ~~^~~~~~~~~~~
+	[  255s] ../../grub-core/kern/efi/efi.c: In function 'grub_efi_print_device_path':
+	[  255s] ../../grub-core/kern/efi/efi.c:900:33: error: taking address of packed member of 'struct grub_efi_file_path_device_path' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[  255s]   900 |     *grub_utf16_to_utf8 (buf, fp->path_name,
+	[  255s]       |                               ~~^~~~~~~~~~~
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-04-23  Michael Chang  <mchang@suse.com>
+
+	chainloader: Fix gcc9 error -Waddress-of-packed-member
+	The address of fp->path_name could be unaligned since seeking into the
+	device path buffer for a given node could end in byte boundary.
+
+	The fix is using aligned buffer allocated by grub_malloc for receiving
+	the converted UTF16 string by grub_utf8_to_utf16 and also the processing
+	after. The resulting string then gets copied to fp->path_name.
+
+	[  243s] ../../grub-core/loader/efi/chainloader.c: In function 'copy_file_path':
+	[  243s] ../../grub-core/loader/efi/chainloader.c:136:32: error: taking address of packed member of 'struct grub_efi_file_path_device_path' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[  243s]   136 |   size = grub_utf8_to_utf16 (fp->path_name, len * GRUB_MAX_UTF16_PER_UTF8,
+	[  243s]       |                              ~~^~~~~~~~~~~
+	[  243s] ../../grub-core/loader/efi/chainloader.c:138:12: error: taking address of packed member of 'struct grub_efi_file_path_device_path' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[  243s]   138 |   for (p = fp->path_name; p < fp->path_name + size; p++)
+	[  243s]       |            ^~
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-04-23  Michael Chang  <mchang@suse.com>
+
+	usbtest: Disable gcc9 -Waddress-of-packed-member
+	Disable the -Wadress-of-packaed-member diagnostic for the
+	grub_usb_get_string function since the result is false postive. The
+	descstrp->str is found to be aligned in the buffer allocated for 'struct
+	grub_usb_desc_str'.
+
+	[  229s] ../../grub-core/commands/usbtest.c: In function 'grub_usb_get_string':
+	[  229s] ../../grub-core/commands/usbtest.c:104:58: error: taking address of packed member of 'struct grub_usb_desc_str' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[  229s]   104 |   *grub_utf16_to_utf8 ((grub_uint8_t *) *string, descstrp->str,
+	[  229s]       |                                                  ~~~~~~~~^~~~~
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-04-23  Michael Chang  <mchang@suse.com>
+
+	acpi: Fix gcc9 error -Waddress-of-packed-member
+	Simply adds the missing packed attribute to 'struct grub_acpi_madt'.
+
+	[  233s] ../../grub-core/commands/lsacpi.c: In function 'disp_acpi_xsdt_table':
+	[  233s] ../../grub-core/commands/lsacpi.c:201:27: error: converting a packed 'struct grub_acpi_table_header' pointer (alignment 1) to a 'struct grub_acpi_madt' pointer (alignment 4) may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[  233s]   201 |  disp_madt_table ((struct grub_acpi_madt *) t);
+	[  233s]       |                           ^~~~~~~~~~~~~~
+	[  233s] In file included from ../../grub-core/commands/lsacpi.c:23:
+	[  233s] ../../include/grub/acpi.h:50:8: note: defined here
+	[  233s]    50 | struct grub_acpi_table_header
+	[  233s]       |        ^~~~~~~~~~~~~~~~~~~~~~
+	[  233s] ../../include/grub/acpi.h:90:8: note: defined here
+	[  233s]    90 | struct grub_acpi_madt
+	[  233s]       |        ^~~~~~~~~~~~~~
+	[  233s] ../../grub-core/commands/lsacpi.c: In function 'disp_acpi_rsdt_table':
+	[  233s] ../../grub-core/commands/lsacpi.c:225:27: error: converting a packed 'struct grub_acpi_table_header' pointer (alignment 1) to a 'struct grub_acpi_madt' pointer (alignment 4) may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[  233s]   225 |  disp_madt_table ((struct grub_acpi_madt *) t);
+	[  233s]       |                           ^~~~~~~~~~~~~~
+	[  233s] In file included from ../../grub-core/commands/lsacpi.c:23:
+	[  233s] ../../include/grub/acpi.h:50:8: note: defined here
+	[  233s]    50 | struct grub_acpi_table_header
+	[  233s]       |        ^~~~~~~~~~~~~~~~~~~~~~
+	[  233s] ../../include/grub/acpi.h:90:8: note: defined here
+	[  233s]    90 | struct grub_acpi_madt
+	[  233s]       |        ^~~~~~~~~~~~~~
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-04-23  Michael Chang  <mchang@suse.com>
+
+	hfsplus: Fix gcc9 error with -Waddress-of-packed-member
+	The catkey->name could be unaligned since the address of 'void* record'
+	is calculated as offset in bytes to a malloc buffer.
+
+	The fix is using aligned buffer allocated by grub_malloc for holding
+	the UTF16 string copied from catkey->name. And use that buffer as
+	argument for grub_utf16_to_utf8 to convert to UTF8 strings.
+
+	In addition, using a new copy of buffer rather than catkey->name itself
+	for processing the endianess conversion, we can also get rid of the hunk
+	restoring byte order of catkey->name to what it was previously.
+
+	[   59s] ../grub-core/fs/hfsplus.c: In function 'list_nodes':
+	[   59s] ../grub-core/fs/hfsplus.c:738:57: error: taking address of packed member of 'struct grub_hfsplus_catkey' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[   59s]   738 |   *grub_utf16_to_utf8 ((grub_uint8_t *) filename, catkey->name,
+	[   59s]       |                                                   ~~~~~~^~~~~~
+	[   59s] ../grub-core/fs/hfsplus.c: In function 'grub_hfsplus_label':
+	[   59s] ../grub-core/fs/hfsplus.c:1019:57: error: taking address of packed member of 'struct grub_hfsplus_catkey' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[   59s]  1019 |   *grub_utf16_to_utf8 ((grub_uint8_t *) (*label), catkey->name,
+	[   59s]       |                                                   ~~~~~~^~~~~~
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-04-23  Michael Chang  <mchang@suse.com>
+
+	hfs: Fix gcc9 error -Waddress-of-packed-member
+	Simply adds the missing packed attribute to 'struct grub_hfs_extent'.
+
+	[   83s] ../grub-core/fs/hfs.c: In function 'grub_hfs_iterate_records':
+	[   83s] ../grub-core/fs/hfs.c:699:9: error: taking address of packed member of 'struct grub_hfs_sblock' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[   83s]   699 |      ? (&data->sblock.catalog_recs)
+	[   83s]       |        ~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+	[   83s] ../grub-core/fs/hfs.c:700:9: error: taking address of packed member of 'struct grub_hfs_sblock' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[   83s]   700 |      : (&data->sblock.extent_recs));
+	[   83s]       |        ~^~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-04-23  Michael Chang  <mchang@suse.com>
+
+	jfs: Disable gcc9 -Waddress-of-packed-member
+	Disable the -Wadress-of-packaed-member diagnostic for the
+	grub_jfs_getent function since the result is found to be false postive.
+
+	The leaf is read into memory as continous chunks in size of 32 bytes and
+	the pointer to its base is aligned, which also guarentee its member
+	leaf->namepart is aligned.
+
+	[   60s] ../grub-core/fs/jfs.c: In function 'grub_jfs_getent':
+	[   60s] ../grub-core/fs/jfs.c:557:44: error: taking address of packed member of 'struct grub_jfs_leaf_dirent' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[   60s]   557 |   le_to_cpu16_copy (filename + strpos, leaf->namepart, len < diro->data->namecomponentlen ? len
+	[   60s]       |                                        ~~~~^~~~~~~~~~
+	[   60s] ../grub-core/fs/jfs.c:570:48: error: taking address of packed member of 'struct grub_jfs_leaf_next_dirent' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[   60s]   570 |  le_to_cpu16_copy (filename + strpos, next_leaf->namepart, len < 15 ? len : 15);
+	[   60s]       |                                       ~~~~~~~~~^~~~~~~~~~
+	[   60s] cc1: all warnings being treated as errors
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-04-23  Michael Chang  <mchang@suse.com>
+
+	cpio: Disable gcc9 -Waddress-of-packed-member
+	Disable the -Wadress-of-packaed-member diagnostic for the
+	grub_cpio_find_file function since the result is found to be false
+	postive. Any pointers to member of the 'struct head hd' is aligned even
+	if the structure is packed without paddings.
+
+	[   59s] In file included from ../grub-core/fs/cpio.c:51:
+	[   59s] ../grub-core/fs/cpio_common.c: In function 'grub_cpio_find_file':
+	[   59s] ../grub-core/fs/cpio_common.c:58:31: error: taking address of packed member of 'struct head' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[   59s]    58 |   data->size = read_number (hd.filesize, ARRAY_SIZE (hd.filesize));
+	[   59s]       |                             ~~^~~~~~~~~
+	[   59s] ../grub-core/fs/cpio_common.c:60:29: error: taking address of packed member of 'struct head' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[   59s]    60 |     *mtime = read_number (hd.mtime, ARRAY_SIZE (hd.mtime));
+	[   59s]       |                           ~~^~~~~~
+	[   59s] ../grub-core/fs/cpio_common.c:61:28: error: taking address of packed member of 'struct head' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[   59s]    61 |   modeval = read_number (hd.mode, ARRAY_SIZE (hd.mode));
+	[   59s]       |                          ~~^~~~~
+	[   59s] ../grub-core/fs/cpio_common.c:62:29: error: taking address of packed member of 'struct head' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[   59s]    62 |   namesize = read_number (hd.namesize, ARRAY_SIZE (hd.namesize));
+	[   59s]       |                           ~~^~~~~~~~~
+	[   59s] In file included from ../grub-core/fs/cpio_be.c:51:
+	[   59s] ../grub-core/fs/cpio_common.c: In function 'grub_cpio_find_file':
+	[   59s] ../grub-core/fs/cpio_common.c:58:31: error: taking address of packed member of 'struct head' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[   59s]    58 |   data->size = read_number (hd.filesize, ARRAY_SIZE (hd.filesize));
+	[   59s]       |                             ~~^~~~~~~~~
+	[   59s] ../grub-core/fs/cpio_common.c:60:29: error: taking address of packed member of 'struct head' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[   59s]    60 |     *mtime = read_number (hd.mtime, ARRAY_SIZE (hd.mtime));
+	[   59s]       |                           ~~^~~~~~
+	[   59s] ../grub-core/fs/cpio_common.c:61:28: error: taking address of packed member of 'struct head' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[   59s]    61 |   modeval = read_number (hd.mode, ARRAY_SIZE (hd.mode));
+	[   59s]       |                          ~~^~~~~
+	[   59s] ../grub-core/fs/cpio_common.c:62:29: error: taking address of packed member of 'struct head' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+	[   59s]    62 |   namesize = read_number (hd.namesize, ARRAY_SIZE (hd.namesize));
+	[   59s]       |                           ~~^~~~~~~~~
+
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-04-23  Heinrich Schuchardt  <xypron.glpk@gmx.de>
+
+	efi: Avoid NULL dereference if FilePath is NULL
+	The UEFI specification allows LoadImage() to be called with a memory
+	location only and without a device path. In this case FilePath will not be
+	set in the EFI_LOADED_IMAGE_PROTOCOL.
+
+	So in function grub_efi_get_filename() the device path argument may be
+	NULL. As we cannot determine the device path in this case just return NULL
+	from the function.
+
+	Reviewed-by: Leif Lindholm <leif.lindholm@linaro.org>
+	Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+
+2019-04-23  Daniel Kiper  <daniel.kiper@oracle.com>
+
+	x86/msr: Fix build with older GCC versions
+	Some older GCC versions produce following error when x86 MSR modules are build:
+
+	  In file included from commands/i386/rdmsr.c:29:0:
+	  ../include/grub/i386/rdmsr.h:27:29: error: no previous prototype for ‘grub_msr_read’ [-Werror=missing-prototypes]
+	   extern inline grub_uint64_t grub_msr_read (grub_uint32_t msr_id)
+	                               ^
+	  cc1: all warnings being treated as errors
+
+	This happens due to lack of support for a such usage of extern keyword
+	in older GCCs. Additionally, this usage is not consistent with the rest
+	of codebase. So, replace it with static keyword.
+
+	Additionally, fix incorrect coding style.
+
+	Reported-by: Eric Snowberg <eric.snowberg@oracle.com>
+	Reported-by: adrian15 <adrian15sgd@gmail.com>
+	Reviewed-by: Vladimir 'phcoder' Serbinenko <phcoder@gmail.com>
+	Reviewed-by: Eric Snowberg <eric.snowberg@oracle.com>
+	Tested-by: adrian15 <adrian15sgd@gmail.com>
+
 2019-04-09  Vladimir Serbinenko  <phcoder@gmail.com>
 
 	Release 2.04~rc1

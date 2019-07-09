@@ -1,4 +1,4 @@
-From ed24123f8ec53ae5a16e11f17428d5325a3b864b Mon Sep 17 00:00:00 2001
+From cddbc2be5f993322a43b2660da588129c19b510a Mon Sep 17 00:00:00 2001
 From: Michael Chang <mchang@suse.com>
 Date: Thu, 27 Oct 2016 17:42:19 -0400
 Subject: bootp: Add processing DHCPACK packet from HTTP Boot

@@ -1,4 +1,4 @@
-From d7955d52f26faefc79cb54e5f50557e16587efb6 Mon Sep 17 00:00:00 2001
+From 251da10a71401aeafb6878918129dafaa430c877 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:30 +0000
 Subject: Add configure option to use vt.handoff=7
@@ -18,7 +18,7 @@ Patch-Name: vt-handoff.patch
  2 files changed, 38 insertions(+), 1 deletion(-)
 
 diff --git a/configure.ac b/configure.ac
-index c061e3d19..e3dca49fa 100644
+index dbc429ce0..e382c7480 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1890,6 +1890,17 @@ else

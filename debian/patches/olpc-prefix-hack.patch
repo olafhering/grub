@@ -1,4 +1,4 @@
-From f5a0c855c8f25ff1f6df59a524a438d3f39485a8 Mon Sep 17 00:00:00 2001
+From f268916868b7b2a6b0012a23fb6f434eb208b834 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Mon, 13 Jan 2014 12:12:50 +0000
 Subject: Hack prefix for OLPC

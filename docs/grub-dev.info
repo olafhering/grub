@@ -1,7 +1,7 @@
-This is grub-dev.info, produced by makeinfo version 6.5 from
+This is grub-dev.info, produced by makeinfo version 6.3 from
 grub-dev.texi.
 
-This developer manual is for GNU GRUB (version 2.04~rc1, 8 April 2019).
+This developer manual is for GNU GRUB (version 2.04, 24 June 2019).
 
    Copyright (C) 1999,2000,2001,2002,2004,2005,2006,2008,2009,2010,2011
 Free Software Foundation, Inc.
@@ -25,10 +25,9 @@ This is the developer documentation of GNU GRUB, the GRand Unified
 Bootloader, a flexible and powerful boot loader program for a wide range
 of architectures.
 
-   This edition documents version 2.04~rc1.
+   This edition documents version 2.04.
 
-   This developer manual is for GNU GRUB (version 2.04~rc1, 8 April
-2019).
+   This developer manual is for GNU GRUB (version 2.04, 24 June 2019).
 
    Copyright (C) 1999,2000,2001,2002,2004,2005,2006,2008,2009,2010,2011
 Free Software Foundation, Inc.
@@ -539,6 +538,38 @@ You may also need to update the patches in
    To add a new Gnulib module or remove one that is no longer needed,
 change 'gnulib_modules' in 'bootstrap.conf'.  Again, run './bootstrap'
 and whatever else you need to make sure it works.
+
+   Bootstrapping from an older distribution containing gettext version <
+0.18.3, will require a patch similar to this to be applied first before
+running the './bootstrap' utility:
+
+     diff --git a/bootstrap.conf b/bootstrap.conf
+     index 988dda0..a3193a9 100644
+     --- a/bootstrap.conf
+     +++ b/bootstrap.conf
+     @ -67,7 +67,7 @ SKIP_PO=t
+     buildreq="\
+     autoconf   2.63
+     automake   1.11
+     -gettext    0.18.3
+     +gettext    0.17
+     git        1.5.5
+     tar        -
+     "
+     diff --git a/configure.ac b/configure.ac
+     index 08b518f..99f5b36 100644
+     --- a/configure.ac
+     +++ b/configure.ac
+     @ -362,7 +362,7 @ AC_CHECK_PROG(HAVE_CXX, $CXX, yes, no)
+
+     AC_GNU_SOURCE
+     AM_GNU_GETTEXT([external])
+     -AM_GNU_GETTEXT_VERSION([0.18.3])
+     +AM_GNU_GETTEXT_VERSION([0.17])
+     AC_SYS_LARGEFILE
+
+     # Identify characteristics of the host architecture.
+
 
 
 File: grub-dev.info,  Node: Porting,  Next: Error Handling,  Prev: Updating External Code,  Up: Top
@@ -2583,43 +2614,43 @@ Index
 
 
 Tag Table:
-Node: Top641
-Node: Getting the source code1789
-Node: Coding style2750
-Node: Naming Conventions3159
-Node: Functions3444
-Node: Variables4318
-Node: Types5433
-Node: Macros6034
-Node: Comments6366
-Node: Multi-Line Comments6975
-Node: Finding your way around7900
-Node: Contributing Changes11216
-Node: Getting started12321
-Node: Typical Developer Experience16373
-Node: When you are approved for write access to project's files17415
-Node: Updating External Code18848
-Node: Gnulib19119
-Node: Porting20078
-Node: Error Handling31842
-Node: Stack and heap size36934
-Node: BIOS port memory map39567
-Node: Video Subsystem40416
-Node: Video API40890
-Node: Example usage of Video API61339
-Node: Bitmap API62919
-Node: PFF2 Font File Format65452
-Node: Introduction65692
-Node: File Structure67195
-Node: Font Metrics72113
-Node: Graphical Menu Software Design73261
-Node: Introduction_273553
-Node: Startup Sequence74287
-Node: GUI Components75138
-Node: Command Line Window77738
-Node: Verifiers framework78690
-Node: Copying This Manual81298
-Node: GNU Free Documentation License81543
-Node: Index103936
+Node: Top637
+Node: Getting the source code1777
+Node: Coding style2738
+Node: Naming Conventions3147
+Node: Functions3432
+Node: Variables4306
+Node: Types5421
+Node: Macros6022
+Node: Comments6354
+Node: Multi-Line Comments6963
+Node: Finding your way around7888
+Node: Contributing Changes11204
+Node: Getting started12309
+Node: Typical Developer Experience16361
+Node: When you are approved for write access to project's files17403
+Node: Updating External Code18836
+Node: Gnulib19107
+Node: Porting20969
+Node: Error Handling32733
+Node: Stack and heap size37825
+Node: BIOS port memory map40458
+Node: Video Subsystem41307
+Node: Video API41781
+Node: Example usage of Video API62230
+Node: Bitmap API63810
+Node: PFF2 Font File Format66343
+Node: Introduction66583
+Node: File Structure68086
+Node: Font Metrics73004
+Node: Graphical Menu Software Design74152
+Node: Introduction_274444
+Node: Startup Sequence75178
+Node: GUI Components76029
+Node: Command Line Window78629
+Node: Verifiers framework79581
+Node: Copying This Manual82189
+Node: GNU Free Documentation License82434
+Node: Index104827
 
 End Tag Table

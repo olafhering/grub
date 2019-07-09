@@ -1,4 +1,4 @@
-From 27ae08401fed638b8e1b4b96cc2c3f45562798a5 Mon Sep 17 00:00:00 2001
+From bff220e7e6189f09678b9a25e9e92fc65b327268 Mon Sep 17 00:00:00 2001
 From: Evan Broder <evan@ebroder.net>
 Date: Mon, 13 Jan 2014 12:13:29 +0000
 Subject: Add configure option to enable gfxpayload=keep dynamically
@@ -22,7 +22,7 @@ Patch-Name: gfxpayload-dynamic.patch
  create mode 100644 grub-core/commands/i386/pc/hwmatch.c
 
 diff --git a/configure.ac b/configure.ac
-index ebfcb618a..c061e3d19 100644
+index 7dda5bb32..dbc429ce0 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1879,6 +1879,17 @@ else

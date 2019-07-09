@@ -1,4 +1,4 @@
-From 0c53bd7fad07a07ccd0f8671422dcb914d475b57 Mon Sep 17 00:00:00 2001
+From 2904de3e9a1f2789442813696c3fbbd59b993443 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:26 +0000
 Subject: Add configure option to reduce visual clutter at boot time
@@ -59,7 +59,7 @@ index 9e8f9911b..d2c4ce8e5 100644
  /* We don't need those.  */
  #define MINILZO_CFG_SKIP_LZO_PTR 1
 diff --git a/configure.ac b/configure.ac
-index 47102bfb5..4ddee8a7c 100644
+index 1e5abc67d..ea00ccd69 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1857,6 +1857,17 @@ else

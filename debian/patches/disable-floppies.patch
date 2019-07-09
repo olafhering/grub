@@ -1,4 +1,4 @@
-From 069e6593fc700d24abc9735d3e7b2888d5143aea Mon Sep 17 00:00:00 2001
+From 42e4cfb46a2a617eb7dc1526700ab6015710222e Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Mon, 13 Jan 2014 12:12:54 +0000
 Subject: Disable use of floppy devices

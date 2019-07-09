@@ -1,17 +1,17 @@
 # Swedish strings for grub
-# Copyright (C) 2009 - 2017 Free Software Foundation, Inc.
+# Copyright (C) 2009 - 2019 Free Software Foundation, Inc.
 # This file is distributed under the same license as the grub package.
 # Martin Bagge <brother@bsnet.se>, 2009.
 # Daniel Nylander <po@danielnylander.se>, 2009, 2010, 2012.
-# Josef Andersson <josef.andersson@fripost.org>, 2014, 2016, 2017.
+# Josef Andersson <josef.andersson@fripost.org>, 2014, 2016, 2017, 2019.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: grub 2.02-pre3\n"
+"Project-Id-Version: grub 2.04-pre1\n"
 "Report-Msgid-Bugs-To: bug-grub@gnu.org\n"
-"POT-Creation-Date: 2019-04-09 03:12+0200\n"
-"PO-Revision-Date: 2017-02-09 22:53+0100\n"
-"Last-Translator: Josef Andersson <josef.andersson@fripost.org>\n"
+"POT-Creation-Date: 2019-07-04 16:09+0200\n"
+"PO-Revision-Date: 2019-05-08 22:53+0100\n"
+"Last-Translator: Josef Andersson <l10nl18nsweja@gmail.com>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -97,9 +97,9 @@ msgstr ""
 #: grub-core/kern/elf.c:117 grub-core/kern/elfXX.c:29
 #: grub-core/kern/elfXX.c:156 grub-core/loader/arm/linux.c:319
 #: grub-core/loader/arm64/linux.c:330 grub-core/loader/arm64/xen_boot.c:356
-#: grub-core/loader/efi/chainloader.c:270
-#: grub-core/loader/efi/chainloader.c:291
-#: grub-core/loader/efi/chainloader.c:323 grub-core/loader/efi/fdt.c:138
+#: grub-core/loader/efi/chainloader.c:276
+#: grub-core/loader/efi/chainloader.c:297
+#: grub-core/loader/efi/chainloader.c:329 grub-core/loader/efi/fdt.c:138
 #: grub-core/loader/i386/bsd.c:1276 grub-core/loader/i386/bsd.c:2116
 #: grub-core/loader/i386/bsdXX.c:20 grub-core/loader/i386/bsdXX.c:36
 #: grub-core/loader/i386/bsdXX.c:63 grub-core/loader/i386/bsdXX.c:357
@@ -131,7 +131,7 @@ msgstr ""
 #: grub-core/loader/xnu.c:816 grub-core/loader/xnu.c:871
 #: grub-core/loader/xnu.c:914 grub-core/loader/xnu.c:952
 #: grub-core/loader/xnu_resume.c:68 grub-core/loader/xnu_resume.c:153
-#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2290
+#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2288
 #, c-format
 msgid "premature end of file %s"
 msgstr "för tidigt slut på filen %s"
@@ -162,7 +162,7 @@ msgstr "fel: %s.\n"
 #: grub-core/loader/arm/linux.c:259 grub-core/loader/arm64/linux.c:265
 #: grub-core/loader/arm64/linux.c:321 grub-core/loader/arm64/linux.c:340
 #: grub-core/loader/arm64/xen_boot.c:344 grub-core/loader/arm64/xen_boot.c:367
-#: grub-core/loader/efi/chainloader.c:283 grub-core/osdep/unix/dl.c:48
+#: grub-core/loader/efi/chainloader.c:289 grub-core/osdep/unix/dl.c:48
 #: grub-core/osdep/windows/dl.c:46 grub-core/script/lexer.c:156
 #: grub-core/script/lexer.c:182
 msgid "out of memory"
@@ -202,7 +202,7 @@ msgstr "Lista enheter."
 #: grub-core/loader/arm/linux.c:472 grub-core/loader/arm64/linux.c:243
 #: grub-core/loader/arm64/linux.c:297 grub-core/loader/arm64/xen_boot.c:398
 #: grub-core/loader/arm64/xen_boot.c:411 grub-core/loader/arm64/xen_boot.c:462
-#: grub-core/loader/efi/chainloader.c:210 grub-core/loader/i386/bsd.c:1462
+#: grub-core/loader/efi/chainloader.c:216 grub-core/loader/i386/bsd.c:1462
 #: grub-core/loader/i386/bsd.c:1807 grub-core/loader/i386/bsd.c:2085
 #: grub-core/loader/i386/coreboot/chainloader.c:438
 #: grub-core/loader/i386/linux.c:656 grub-core/loader/i386/linux.c:1041
@@ -427,50 +427,45 @@ msgstr "Läs in BIOS-dump."
 #: grub-core/commands/efi/shim_lock.c:76
 #, c-format
 msgid "module cannot be loaded in UEFI secure boot mode: %s"
-msgstr ""
+msgstr "det går inte att läsa in modulen i UEFI secure boot-läge: %s"
 
 #: grub-core/commands/efi/shim_lock.c:98
 #, c-format
 msgid "cannot boot due to dangerous module in memory: %s"
-msgstr ""
+msgstr "det går inte att starta på grund av farlig modul i minnet: %s"
 
 #: grub-core/commands/efi/shim_lock.c:116
-#, fuzzy
 msgid "bad shim signature"
-msgstr "dålig signatur"
+msgstr "dålig shim-signatur"
 
 #: grub-core/commands/efi/tpm.c:149 grub-core/commands/efi/tpm.c:189
 #: grub-core/commands/efi/tpm.c:256 grub-core/commands/efi/tpm.c:306
-#, fuzzy
 msgid "Command failed"
 msgstr "Misslyckades med alloc-mem"
 
 #: grub-core/commands/efi/tpm.c:151 grub-core/commands/efi/tpm.c:191
 #: grub-core/commands/efi/tpm.c:258 grub-core/commands/efi/tpm.c:308
-#, fuzzy
 msgid "Invalid parameter"
-msgstr "ogiltig parameter %s"
+msgstr "Ogiltig parameter"
 
 #: grub-core/commands/efi/tpm.c:154 grub-core/commands/efi/tpm.c:194
 #: grub-core/commands/efi/tpm.c:261 grub-core/commands/efi/tpm.c:311
 msgid "Output buffer too small"
-msgstr ""
+msgstr "Utdatabuffert för liten"
 
 #: grub-core/commands/efi/tpm.c:156 grub-core/commands/efi/tpm.c:196
 #: grub-core/commands/efi/tpm.c:263 grub-core/commands/efi/tpm.c:313
-#, fuzzy
 msgid "TPM unavailable"
-msgstr "Sökväg: inte tillgänglig"
+msgstr "TPM ej tillgänglig"
 
 #: grub-core/commands/efi/tpm.c:158 grub-core/commands/efi/tpm.c:198
 #: grub-core/commands/efi/tpm.c:265 grub-core/commands/efi/tpm.c:315
-#, fuzzy
 msgid "Unknown TPM error"
-msgstr "Okänt systemfel"
+msgstr "Okänt TPM-fel"
 
 #: grub-core/commands/efi/tpm.c:240 grub-core/commands/efi/tpm.c:288
 msgid "cannot allocate TPM event buffer"
-msgstr ""
+msgstr "det går inte att allokera TPM event-buffert"
 
 #: grub-core/commands/eval.c:63
 msgid "STRING ..."
@@ -582,14 +577,12 @@ msgid "Check if FILE is ARM EFI file"
 msgstr "Kontrollera om FIL är en ARM EFI-fil"
 
 #: grub-core/commands/file.c:94
-#, fuzzy
 msgid "Check if FILE is RISC-V 32bit EFI file"
-msgstr "Kontrollera om FIL är en ARM EFI-fil"
+msgstr "Kontrollera om FIL är en RISC-V 32bit EFI-fil"
 
 #: grub-core/commands/file.c:96
-#, fuzzy
 msgid "Check if FILE is RISC-V 64bit EFI file"
-msgstr "Kontrollera om FIL är en IA64 EFI-fil"
+msgstr "Kontrollera om FIL är en RISC-V 64bit EFI-fil"
 
 #: grub-core/commands/file.c:98
 msgid "Check if FILE is hiberfil.sys in hibernated state"
@@ -1016,7 +1009,7 @@ msgstr "Ogiltigt tempo %s"
 #: grub-core/fs/archelp.c:260 grub-core/fs/bfs.c:621 grub-core/fs/bfs.c:704
 #: grub-core/fs/btrfs.c:1726 grub-core/fs/btrfs.c:1755
 #: grub-core/fs/btrfs.c:1799 grub-core/fs/btrfs.c:1882
-#: grub-core/fs/btrfs.c:1906 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:689
+#: grub-core/fs/btrfs.c:1906 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:696
 #: grub-core/fs/minix.c:426 grub-core/fs/ufs.c:544 grub-core/fs/zfs/zfs.c:2083
 #: grub-core/fs/zfs/zfs.c:2095 grub-core/fs/zfs/zfs.c:2301
 #: grub-core/net/http.c:120
@@ -1131,9 +1124,8 @@ msgstr "VARNAMN"
 #: grub-core/commands/i386/rdmsr.c:55 grub-core/commands/i386/rdmsr.c:60
 #: grub-core/commands/i386/rdmsr.c:65 grub-core/commands/i386/wrmsr.c:47
 #: grub-core/commands/i386/wrmsr.c:52 grub-core/commands/i386/wrmsr.c:57
-#, fuzzy
 msgid "unsupported instruction"
-msgstr "gzip-formatet stöds ej"
+msgstr "instruktionen stöds ej"
 
 #: grub-core/commands/i386/rdmsr.c:77 grub-core/commands/i386/wrmsr.c:69
 #: grub-core/commands/i386/wrmsr.c:77 grub-core/net/dns.c:727
@@ -1147,16 +1139,15 @@ msgstr "ADR"
 
 #: grub-core/commands/i386/rdmsr.c:95
 msgid "Read a CPU model specific register."
-msgstr ""
+msgstr "Läs av ett processorspecifikt register."
 
 #: grub-core/commands/i386/wrmsr.c:86
-#, fuzzy
 msgid "ADDR VALUE"
-msgstr "ADDR VALUE [MASK]"
+msgstr "ADDR VALUE"
 
 #: grub-core/commands/i386/wrmsr.c:87
 msgid "Write a value to a CPU model specific register."
-msgstr ""
+msgstr "Skriv ett värde til ett processorspecifikt register."
 
 #: grub-core/commands/ieee1275/suspend.c:34
 msgid "Run `go' to resume GRUB."
@@ -2164,19 +2155,18 @@ msgstr "Gör ingenting, lyckas."
 msgid "Do nothing, unsuccessfully."
 msgstr "Gör ingenting, misslyckas."
 
-#: grub-core/commands/usbtest.c:212
+#: grub-core/commands/usbtest.c:221
 msgid "Test USB support."
 msgstr "Testa USB-stöd."
 
 #: grub-core/commands/verifiers.c:120
 #, c-format
 msgid "verification requested but nobody cares: %s"
-msgstr ""
+msgstr "verifiering begärd men ingen bryr sig: %s"
 
 #: grub-core/commands/verifiers.c:140
-#, fuzzy
 msgid "big file signature isn't implemented yet"
-msgstr "omflyttning 0x%x är inte implementerad än"
+msgstr "signering av stor fil är inte implementerad än"
 
 #: grub-core/commands/videoinfo.c:61
 msgid "Text-only "
@@ -2525,7 +2515,7 @@ msgid "relocation 0x%x is not implemented yet"
 msgstr "omflyttning 0x%x är inte implementerad än"
 
 #: grub-core/efiemu/loadcore.c:200 grub-core/efiemu/loadcore.c:237
-#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2362
+#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2360
 msgid "no symbol table"
 msgstr "ingen symboltabell"
 
@@ -2571,7 +2561,7 @@ msgid "List the loaded fonts."
 msgstr "Lista inlästa typsnitt."
 
 #: grub-core/fs/archelp.c:216 grub-core/fs/archelp.c:278
-#: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:729
+#: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:736
 #: grub-core/fs/minix.c:369 grub-core/fs/ufs.c:454
 msgid "too deep nesting of symlinks"
 msgstr "för djup nästling av symlänkar"
@@ -2589,7 +2579,7 @@ msgstr "försökte att läsa förbi filens slut"
 msgid "not a directory"
 msgstr "inte en katalog"
 
-#: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:828
+#: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:835
 #: grub-core/fs/zfs/zfs.c:3801
 msgid "not a regular file"
 msgstr "inte en vanlig fil"
@@ -3282,29 +3272,29 @@ msgid "(PROGRAM ERROR) Option should have been recognized!?"
 msgstr "(PROGRAMFEL) Flaggan borde ha känts igen!?"
 
 #: grub-core/lib/gnulib/getopt.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous\n"
-msgstr "%s: flaggan ”-W %s” är tvetydig\n"
+msgstr "%s: flaggan ”%s%s” är tvetydig\n"
 
 #: grub-core/lib/gnulib/getopt.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous; possibilities:"
-msgstr "%s: flaggan ”%s” är tvetydig; möjligheter:"
+msgstr "%s: flaggan ”%s%s” är tvetydig; möjligheter:"
 
 #: grub-core/lib/gnulib/getopt.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unrecognized option '%s%s'\n"
-msgstr "%s: okänd flagga ”%c%s”\n"
+msgstr "%s: okänd flagga ”%s%s”\n"
 
 #: grub-core/lib/gnulib/getopt.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' doesn't allow an argument\n"
-msgstr "%s: flaggan ”%c%s” tillåter inte argument\n"
+msgstr "%s: flaggan ”%s%s” tillåter inte argument\n"
 
 #: grub-core/lib/gnulib/getopt.c:360
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' requires an argument\n"
-msgstr "%s: flaggan ”--%s” kräver ett argument\n"
+msgstr "%s: flaggan ”%s%s” kräver ett argument\n"
 
 #: grub-core/lib/gnulib/getopt.c:621
 #, c-format
@@ -3317,14 +3307,14 @@ msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: flaggan kräver ett argument -- ”%c”\n"
 
 #: grub-core/lib/gnulib/openat-die.c:38
-#, fuzzy, c-format
+#, c-format
 msgid "unable to record current working directory"
-msgstr "kan inte återställa originalkatalogen"
+msgstr "kan inte återställa aktuell arbetskatalog"
 
 #: grub-core/lib/gnulib/openat-die.c:57
 #, c-format
 msgid "failed to return to initial working directory"
-msgstr ""
+msgstr "misslyckades med att återgå till ursprunglig arbetskatalog"
 
 #: grub-core/lib/gnulib/regcomp.c:135 grub-core/osdep/aros/hostdisk.c:523
 msgid "Success"
@@ -3355,9 +3345,8 @@ msgid "Invalid back reference"
 msgstr "Ogiltig bakåtreferens"
 
 #: grub-core/lib/gnulib/regcomp.c:156
-#, fuzzy
 msgid "Unmatched [, [^, [:, [., or [="
-msgstr "Omatchad [ eller [^"
+msgstr "Omatchad [, [^, [:, [., eller [="
 
 #: grub-core/lib/gnulib/regcomp.c:159
 msgid "Unmatched ( or \\("
@@ -3499,7 +3488,7 @@ msgstr "[FLAGGOR]"
 msgid "Boot BIOS-based system."
 msgstr "Starta upp BIOS-baserat system."
 
-#: grub-core/loader/efi/chainloader.c:415
+#: grub-core/loader/efi/chainloader.c:421
 #: grub-core/loader/i386/pc/chainloader.c:303
 msgid "Load another boot loader."
 msgstr "Läs in en annan starthanterare."
@@ -3799,9 +3788,8 @@ msgid "Load a multiboot module."
 msgstr "Läs in en modul för flervalsstart."
 
 #: grub-core/loader/riscv/linux.c:30 grub-core/loader/riscv/linux.c:40
-#, fuzzy
 msgid "Linux not supported yet"
-msgstr "interpret stöds ej"
+msgstr "Linux stöds ej ännu"
 
 #: grub-core/loader/xnu.c:1416 grub-core/term/gfxterm_background.c:45
 msgid "Background image mode."
@@ -3898,14 +3886,13 @@ msgid "no DHCP options found"
 msgstr "inga DHCP-flaggor hittades"
 
 #: grub-core/net/bootp.c:682
-#, fuzzy
 msgid "invalid DHCP option code"
-msgstr "inga DHCP-flaggor hittades"
+msgstr "ogiltig DHCP-flagg-kod"
 
 #: grub-core/net/bootp.c:686
-#, fuzzy, c-format
+#, c-format
 msgid "no DHCP option %u found"
-msgstr "ingen DHCP-flagga %d hittades"
+msgstr "ingen DHCP-flagga %u hittades"
 
 #: grub-core/net/bootp.c:743
 #, c-format
@@ -3930,9 +3917,8 @@ msgid "perform a bootp autoconfiguration"
 msgstr "genomför en bootp autokonfiguration"
 
 #: grub-core/net/bootp.c:877
-#, fuzzy
 msgid "perform a DHCP autoconfiguration"
-msgstr "genomför en bootp autokonfiguration"
+msgstr "genomför en DHCP-autokonfiguration"
 
 #: grub-core/net/bootp.c:879
 msgid "VAR INTERFACE NUMBER DESCRIPTION"
@@ -4710,9 +4696,8 @@ msgid "Unable to create pipe: %s"
 msgstr "Kunde inte skapa rör: %s"
 
 #: grub-core/osdep/unix/getroot.c:370
-#, fuzzy
 msgid "cannot save the original directory"
-msgstr "kan inte återställa originalkatalogen"
+msgstr "det går inte att spara originalkatalogen"
 
 #: grub-core/osdep/unix/getroot.c:423 grub-core/osdep/unix/getroot.c:480
 #: grub-core/osdep/unix/getroot.c:489
@@ -4926,7 +4911,7 @@ msgstr "ogiltigt variabelnamn ”%s”"
 
 #: grub-core/script/execute.c:953
 msgid "cannot allocate command buffer"
-msgstr ""
+msgstr "det går inte att allokera kommandobuffert"
 
 #: grub-core/script/lexer.c:144 util/grub-fstest.c:330
 msgid "unexpected end of file"
@@ -5130,7 +5115,7 @@ msgstr "  VBE info:   version: %d.%d  OEM programvara rev: %d.%d\n"
 msgid "              total memory: %d KiB\n"
 msgstr "              totalt minne: %d KiB\n"
 
-#: grub-core/video/video.c:596 grub-core/video/video.c:760
+#: grub-core/video/video.c:596 grub-core/video/video.c:762
 msgid "no suitable video mode found"
 msgstr "inget passande videoläge hittades"
 
@@ -5148,7 +5133,7 @@ msgstr "förinläs specificerade moduler MODULER"
 
 #: include/grub/util/install.h:33
 msgid "embed a specific DTB"
-msgstr ""
+msgstr "bädda in en specifik DTB"
 
 #: include/grub/util/install.h:36
 msgid "install only MODULES and their dependencies [default=all]"
@@ -5211,9 +5196,9 @@ msgstr "bädda in FIL som öppen nyckel för signaturkontroll"
 
 #: util/editenv.c:59 util/grub-editenv.c:201 util/grub-install-common.c:535
 #: util/grub-mkimage.c:315 util/setup.c:791
-#, fuzzy, c-format
+#, c-format
 msgid "cannot sync `%s': %s"
-msgstr "kan inte söka ”%s”: %s"
+msgstr "det går inte att synkronisera ”%s”: %s"
 
 #: util/editenv.c:64
 #, c-format
@@ -5797,7 +5782,7 @@ msgstr ""
 #: util/grub-install.c:1888 util/grub-install.c:1932
 #, c-format
 msgid "efibootmgr failed to register the boot entry: %s"
-msgstr ""
+msgstr "efibootmgr misslyckades med att registrera uppstartsposten: %s"
 
 #: util/grub-install.c:1916
 msgid "EFI bootloader id isn't specified."
@@ -6002,9 +5987,8 @@ msgstr ""
 "prefixet själv kan bli åsidosatt med senare alternativ."
 
 #: util/grub-mkimage.c:74
-#, fuzzy
 msgid "embed FILE as a device tree (DTB)\n"
-msgstr "bädda in FIL som en tidig konfiguration"
+msgstr "bädda in FIL som ett enhetsträd (DTB)\n"
 
 #: util/grub-mkimage.c:76
 msgid "embed FILE as an early config"
@@ -6053,9 +6037,9 @@ msgid "Prefix not specified (use the -p option)."
 msgstr "Prefix ej specificerat (använd alternativet -p)."
 
 #: util/grub-mkimage.c:318 util/setup.c:793
-#, fuzzy, c-format
+#, c-format
 msgid "cannot close `%s': %s"
-msgstr "kan inte öppna ”%s”: %s"
+msgstr "det går inte att stänga ”%s”: %s"
 
 #: util/grub-mkimagexx.c:2191
 #, c-format
@@ -6241,9 +6225,8 @@ msgid "enabling %s support ..."
 msgstr "aktiverar stöd för %s …"
 
 #: util/grub-mkrescue.c:486
-#, fuzzy
 msgid "xorriso not found"
-msgstr "%s: hittades inte"
+msgstr "xorriso hittades inte"
 
 #: util/grub-mkrescue.c:623
 msgid ""

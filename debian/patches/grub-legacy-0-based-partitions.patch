@@ -1,4 +1,4 @@
-From 6385ffa66da8d9c0134b62635bfb5256f9384cdb Mon Sep 17 00:00:00 2001
+From fbb34837e1b3185dd2a55d8aeb9b23a8fcc50d54 Mon Sep 17 00:00:00 2001
 From: Robert Millan <rmh@aybabtu.com>
 Date: Mon, 13 Jan 2014 12:12:53 +0000
 Subject: Support running grub-probe in grub-legacy's update-grub

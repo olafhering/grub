@@ -1,4 +1,4 @@
-From de641250fdb219af791784c555175bd69b50de6f Mon Sep 17 00:00:00 2001
+From 904799066563906ca3650c234b3b0a590b52b1ab Mon Sep 17 00:00:00 2001
 From: Steve McIntyre <93sam@debian.org>
 Date: Wed, 3 Dec 2014 01:25:12 +0000
 Subject: Add support for forcing EFI installation to the removable media path

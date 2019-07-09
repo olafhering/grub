@@ -1,4 +1,4 @@
-From bbf01ab3b91cbee715c0f204e2c34b7d1a3b97fd Mon Sep 17 00:00:00 2001
+From 030f7c065c91bdfa93fbe666b7bc284af3bb5167 Mon Sep 17 00:00:00 2001
 From: Jeroen Dekkers <jeroen@dekkers.ch>
 Date: Sat, 12 Jan 2019 21:02:18 +0100
 Subject: at_keyboard: initialize keyboard in module init if keyboard is ready

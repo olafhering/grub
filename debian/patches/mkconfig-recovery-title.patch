@@ -1,4 +1,4 @@
-From d7f0ac5e5796d345e5db893bf4307bf14d547241 Mon Sep 17 00:00:00 2001
+From 1ff07175f797154b36c322acaf33ec7e562c7502 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:33 +0000
 Subject: Add GRUB_RECOVERY_TITLE option
@@ -21,7 +21,7 @@ Patch-Name: mkconfig-recovery-title.patch
  7 files changed, 17 insertions(+), 7 deletions(-)
 
 diff --git a/docs/grub.texi b/docs/grub.texi
-index 6736032d7..f002cb97f 100644
+index a835d0ae4..3ec35d315 100644
 --- a/docs/grub.texi
 +++ b/docs/grub.texi
 @@ -1536,6 +1536,11 @@ a console is restricted or limited.
@@ -37,7 +37,7 @@ index 6736032d7..f002cb97f 100644
  
  The following options are still accepted for compatibility with existing
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-index 871e7fb21..4134b6feb 100644
+index 307214310..9c1da6477 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
 @@ -196,6 +196,10 @@ GRUB_ACTUAL_DEFAULT="$GRUB_DEFAULT"

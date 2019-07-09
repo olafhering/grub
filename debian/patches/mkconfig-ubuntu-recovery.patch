@@ -1,4 +1,4 @@
-From 397ab153295533147505cbe40f49f648e73a0ae8 Mon Sep 17 00:00:00 2001
+From 8d20c29dbd3dfb7a475ade30d33b9d9b80069107 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:06 +0000
 Subject: "single" -> "recovery" when friendly-recovery is installed
@@ -23,7 +23,7 @@ Patch-Name: mkconfig-ubuntu-recovery.patch
  3 files changed, 26 insertions(+), 3 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 08b518fcc..47102bfb5 100644
+index 7656f2434..1e5abc67d 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1846,6 +1846,17 @@ fi

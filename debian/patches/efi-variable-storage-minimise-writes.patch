@@ -1,4 +1,4 @@
-From 916b4075d56d378458adf55749f80dea298e82e3 Mon Sep 17 00:00:00 2001
+From 4746efb5deb68fb95ea5b172fef043a03c0532b7 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 11 Mar 2019 11:17:43 +0000
 Subject: Minimise writes to EFI variable storage
@@ -180,7 +180,7 @@ index 8a24b23f0..59e41423b 100644
  
  script = {
 diff --git a/configure.ac b/configure.ac
-index e3dca49fa..800c51ee1 100644
+index e382c7480..883245553 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -443,6 +443,18 @@ AC_CHECK_HEADER([util.h], [

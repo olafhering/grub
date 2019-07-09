@@ -1,14 +1,14 @@
 # German translation for grub.
 # Copyright (C) 2009 Free Software Foundation, Inc.
 # This file is distributed under the same license as the grub package.
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2010-2013, 2017.
 #
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2010-2013, 2017, 2019.
 msgid ""
 msgstr ""
-"Project-Id-Version: grub-2.02-pre3\n"
+"Project-Id-Version: grub-2.04-pre1\n"
 "Report-Msgid-Bugs-To: bug-grub@gnu.org\n"
-"POT-Creation-Date: 2019-04-09 03:12+0200\n"
-"PO-Revision-Date: 2017-02-04 14:00+0100\n"
+"POT-Creation-Date: 2019-07-04 16:09+0200\n"
+"PO-Revision-Date: 2019-04-09 19:23+0200\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
 "Language: de@hebrew\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "כּס-בּוּגש: רעפּוֹרת תראנשלאתִיוֹנ עררוֹרש תוֹ תהע לאנגוּאגע-תעאמ אדדרעשש.\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"כּס-גענעראתוֹר: פּוֹעדִית 1.8.11\n"
+"כּס-גענעראתוֹר: לוֹכּאלִיזע 18.12.3\n"
 
 #: grub-core/bus/usb/serial/ftdi.c:145 grub-core/bus/usb/serial/pl2303.c:158
 #: grub-core/term/ieee1275/escc.c:169 grub-core/term/ns8250.c:202
@@ -96,9 +96,9 @@ msgstr ""
 #: grub-core/kern/elf.c:117 grub-core/kern/elfXX.c:29
 #: grub-core/kern/elfXX.c:156 grub-core/loader/arm/linux.c:319
 #: grub-core/loader/arm64/linux.c:330 grub-core/loader/arm64/xen_boot.c:356
-#: grub-core/loader/efi/chainloader.c:270
-#: grub-core/loader/efi/chainloader.c:291
-#: grub-core/loader/efi/chainloader.c:323 grub-core/loader/efi/fdt.c:138
+#: grub-core/loader/efi/chainloader.c:276
+#: grub-core/loader/efi/chainloader.c:297
+#: grub-core/loader/efi/chainloader.c:329 grub-core/loader/efi/fdt.c:138
 #: grub-core/loader/i386/bsd.c:1276 grub-core/loader/i386/bsd.c:2116
 #: grub-core/loader/i386/bsdXX.c:20 grub-core/loader/i386/bsdXX.c:36
 #: grub-core/loader/i386/bsdXX.c:63 grub-core/loader/i386/bsdXX.c:357
@@ -130,7 +130,7 @@ msgstr ""
 #: grub-core/loader/xnu.c:816 grub-core/loader/xnu.c:871
 #: grub-core/loader/xnu.c:914 grub-core/loader/xnu.c:952
 #: grub-core/loader/xnu_resume.c:68 grub-core/loader/xnu_resume.c:153
-#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2290
+#: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2288
 #, c-format
 msgid "premature end of file %s"
 msgstr "וּנערוארתעתעש ענדע דער דאתעִי %s"
@@ -160,7 +160,7 @@ msgstr "פֿעהלער: %s.\n"
 #: grub-core/loader/arm/linux.c:259 grub-core/loader/arm64/linux.c:265
 #: grub-core/loader/arm64/linux.c:321 grub-core/loader/arm64/linux.c:340
 #: grub-core/loader/arm64/xen_boot.c:344 grub-core/loader/arm64/xen_boot.c:367
-#: grub-core/loader/efi/chainloader.c:283 grub-core/osdep/unix/dl.c:48
+#: grub-core/loader/efi/chainloader.c:289 grub-core/osdep/unix/dl.c:48
 #: grub-core/osdep/windows/dl.c:46 grub-core/script/lexer.c:156
 #: grub-core/script/lexer.c:182
 msgid "out of memory"
@@ -200,7 +200,7 @@ msgstr "גערֶתע אוּפֿלִישתענ."
 #: grub-core/loader/arm/linux.c:472 grub-core/loader/arm64/linux.c:243
 #: grub-core/loader/arm64/linux.c:297 grub-core/loader/arm64/xen_boot.c:398
 #: grub-core/loader/arm64/xen_boot.c:411 grub-core/loader/arm64/xen_boot.c:462
-#: grub-core/loader/efi/chainloader.c:210 grub-core/loader/i386/bsd.c:1462
+#: grub-core/loader/efi/chainloader.c:216 grub-core/loader/i386/bsd.c:1462
 #: grub-core/loader/i386/bsd.c:1807 grub-core/loader/i386/bsd.c:2085
 #: grub-core/loader/i386/coreboot/chainloader.c:438
 #: grub-core/loader/i386/linux.c:656 grub-core/loader/i386/linux.c:1041
@@ -429,50 +429,46 @@ msgstr "בִּיוֹש-שִיצהערוּנג לאדענ."
 #: grub-core/commands/efi/shim_lock.c:76
 #, c-format
 msgid "module cannot be loaded in UEFI secure boot mode: %s"
-msgstr ""
+msgstr "מוֹדוּל כּאננ ִימ שִיצהערענ וּעפִֿי-בּוֹוֹתמוֹדוּש נִיצהת געלאדענ וערדענ: %s"
 
 #: grub-core/commands/efi/shim_lock.c:98
 #, c-format
 msgid "cannot boot due to dangerous module in memory: %s"
 msgstr ""
+"ועגענ עִינעש געפֶֿהרלִיצהענ מוֹדוּלש ִימ שפּעִיצהער כּאננ נִיצהת געבּוֹוֹתעת וערדענ: %s"
 
 #: grub-core/commands/efi/shim_lock.c:116
-#, fuzzy
 msgid "bad shim signature"
-msgstr "פֿאלשצהע שִיגנאתוּר"
+msgstr "פֿאלשצהע שהִימ-שִיגנאתוּר"
 
 #: grub-core/commands/efi/tpm.c:149 grub-core/commands/efi/tpm.c:189
 #: grub-core/commands/efi/tpm.c:256 grub-core/commands/efi/tpm.c:306
-#, fuzzy
 msgid "Command failed"
-msgstr "רעאד געשצהעִיתערת"
+msgstr "בּעפֿעהלשאוּשפֻֿהרוּנג פֿעהלגעשצהלאגענ"
 
 #: grub-core/commands/efi/tpm.c:151 grub-core/commands/efi/tpm.c:191
 #: grub-core/commands/efi/tpm.c:258 grub-core/commands/efi/tpm.c:308
-#, fuzzy
 msgid "Invalid parameter"
-msgstr "וּנגֻלתִיגער פּאראמעתער %s"
+msgstr "וּנגֻלתִיגער פּאראמעתער"
 
 #: grub-core/commands/efi/tpm.c:154 grub-core/commands/efi/tpm.c:194
 #: grub-core/commands/efi/tpm.c:261 grub-core/commands/efi/tpm.c:311
 msgid "Output buffer too small"
-msgstr ""
+msgstr "אוּשגאבּעפּוּפֿפֿער ִישת זוּ כּלעִינ"
 
 #: grub-core/commands/efi/tpm.c:156 grub-core/commands/efi/tpm.c:196
 #: grub-core/commands/efi/tpm.c:263 grub-core/commands/efi/tpm.c:313
-#, fuzzy
 msgid "TPM unavailable"
-msgstr "פּפֿאד: נִיצהת בֿערפֻֿגבּאר"
+msgstr "תפּמ ִישת נִיצהת בֿערפֻֿגבּאר"
 
 #: grub-core/commands/efi/tpm.c:158 grub-core/commands/efi/tpm.c:198
 #: grub-core/commands/efi/tpm.c:265 grub-core/commands/efi/tpm.c:315
-#, fuzzy
 msgid "Unknown TPM error"
-msgstr "וּנבּעכּאננתער שיִשתעמפֿעהלער"
+msgstr "וּנבּעכּאננתער תפּמ-פֿעהלער"
 
 #: grub-core/commands/efi/tpm.c:240 grub-core/commands/efi/tpm.c:288
 msgid "cannot allocate TPM event buffer"
-msgstr ""
+msgstr "תפּמ-ערעִיגנִישפּוּפֿפֿער כּאננ נִיצהת בּעלעגת וערדענ"
 
 #: grub-core/commands/eval.c:63
 msgid "STRING ..."
@@ -589,14 +585,12 @@ msgid "Check if FILE is ARM EFI file"
 msgstr "ֻבּערפֻּפֿענ, וֹבּ דאתעִי עִינע ארמ-עפִֿי-דאתעִי ִישת"
 
 #: grub-core/commands/file.c:94
-#, fuzzy
 msgid "Check if FILE is RISC-V 32bit EFI file"
-msgstr "ֻבּערפֻּפֿענ, וֹבּ דאתעִי עִינע ארמ-עפִֿי-דאתעִי ִישת"
+msgstr "ֻבּערפּרֻפֿענ, וֹבּ דאתעִי עִינע 32-בִּית-רִישצ-בֿ-עפִֿי-דאתעִי ִישת"
 
 #: grub-core/commands/file.c:96
-#, fuzzy
 msgid "Check if FILE is RISC-V 64bit EFI file"
-msgstr "ֻבּערפֻּפֿענ, וֹבּ דאתעִי עִינע ִיא64-עפִֿי-דאתעִי ִישת"
+msgstr "ֻבּערפּרֻפֿענ, וֹבּ דאתעִי עִינע 64-בִּית-רִישצ-בֿ-עפִֿי-דאתעִי ִישת"
 
 #: grub-core/commands/file.c:98
 msgid "Check if FILE is hiberfil.sys in hibernated state"
@@ -1024,7 +1018,7 @@ msgstr "וּנגֻלתִיגעש תעמפּוֹ ִינ %s"
 #: grub-core/fs/archelp.c:260 grub-core/fs/bfs.c:621 grub-core/fs/bfs.c:704
 #: grub-core/fs/btrfs.c:1726 grub-core/fs/btrfs.c:1755
 #: grub-core/fs/btrfs.c:1799 grub-core/fs/btrfs.c:1882
-#: grub-core/fs/btrfs.c:1906 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:689
+#: grub-core/fs/btrfs.c:1906 grub-core/fs/fshelp.c:257 grub-core/fs/jfs.c:696
 #: grub-core/fs/minix.c:426 grub-core/fs/ufs.c:544 grub-core/fs/zfs/zfs.c:2083
 #: grub-core/fs/zfs/zfs.c:2095 grub-core/fs/zfs/zfs.c:2301
 #: grub-core/net/http.c:120
@@ -1139,9 +1133,8 @@ msgstr "בֿארנאמע"
 #: grub-core/commands/i386/rdmsr.c:55 grub-core/commands/i386/rdmsr.c:60
 #: grub-core/commands/i386/rdmsr.c:65 grub-core/commands/i386/wrmsr.c:47
 #: grub-core/commands/i386/wrmsr.c:52 grub-core/commands/i386/wrmsr.c:57
-#, fuzzy
 msgid "unsupported instruction"
-msgstr "נִיצהת וּנתערשתֻתזתעש גזִיפּ-פֿוֹרמאת"
+msgstr "נִיצהת וּנתערשתֻתזתע אנועִישוּנג"
 
 #: grub-core/commands/i386/rdmsr.c:77 grub-core/commands/i386/wrmsr.c:69
 #: grub-core/commands/i386/wrmsr.c:77 grub-core/net/dns.c:727
@@ -1155,16 +1148,15 @@ msgstr "אדדר"
 
 #: grub-core/commands/i386/rdmsr.c:95
 msgid "Read a CPU model specific register."
-msgstr ""
+msgstr "עִינ פֻֿר דאש צפּוּ-מוֹדעלל שפּעזִיפִֿישצהעש רעגִישתער לעשענ."
 
 #: grub-core/commands/i386/wrmsr.c:86
-#, fuzzy
 msgid "ADDR VALUE"
-msgstr "אדדר וערת [מאשכּע]"
+msgstr "אדר וערת"
 
 #: grub-core/commands/i386/wrmsr.c:87
 msgid "Write a value to a CPU model specific register."
-msgstr ""
+msgstr "עִינענ וערת ִינ דאש פֻֿר דאש צפּוּ-מוֹדעלל שפּעזִיפִֿישצהע רעגִישתער שצהרעִיבּענ."
 
 #: grub-core/commands/ieee1275/suspend.c:34
 msgid "Run `go' to resume GRUB."
@@ -1206,7 +1198,7 @@ msgstr "16-בִּית-וערת נאצה פּוֹרת שצהרעִיבּענ."
 #: grub-core/commands/iorw.c:143 grub-core/commands/memrw.c:137
 #: grub-core/commands/memrw.c:141 grub-core/commands/memrw.c:145
 msgid "ADDR VALUE [MASK]"
-msgstr "אדדר וערת [מאשכּע]"
+msgstr "אדר וערת [מאשכּע]"
 
 #: grub-core/commands/iorw.c:144
 msgid "Write 32-bit VALUE to PORT."
@@ -2176,19 +2168,18 @@ msgstr "נִיצהתש תוּנ, ערפֿוֹלגרעִיצה."
 msgid "Do nothing, unsuccessfully."
 msgstr "נִיצהתש תוּנ, נִיצהת ערפֿוֹלגרעִיצה."
 
-#: grub-core/commands/usbtest.c:212
+#: grub-core/commands/usbtest.c:221
 msgid "Test USB support."
 msgstr "וּשבּ-וּנתערשתֻתזוּנג ֻבּערפּרֻפֿענ."
 
 #: grub-core/commands/verifiers.c:120
 #, c-format
 msgid "verification requested but nobody cares: %s"
-msgstr ""
+msgstr "בֿערִיפִֿיזִיערוּנג ִישת ערפֿוֹרדערלִיצה, אבּער נִיעמאנד נִיממת נוֹתִיז דאבֿוֹנ: %s"
 
 #: grub-core/commands/verifiers.c:140
-#, fuzzy
 msgid "big file signature isn't implemented yet"
-msgstr "נעוּזוּועִישוּנג 0כּס%x ִישת נוֹצה נִיצהת ִימפּלעמענתִיערת"
+msgstr "גרוֹססע דאתעִישִיגנאתוּר ִישת נוֹצה נִיצהת ִימפּלעמענתִיערת"
 
 #: grub-core/commands/videoinfo.c:61
 msgid "Text-only "
@@ -2539,7 +2530,7 @@ msgid "relocation 0x%x is not implemented yet"
 msgstr "נעוּזוּועִישוּנג 0כּס%x ִישת נוֹצה נִיצהת ִימפּלעמענתִיערת"
 
 #: grub-core/efiemu/loadcore.c:200 grub-core/efiemu/loadcore.c:237
-#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2362
+#: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2360
 msgid "no symbol table"
 msgstr "כּעִינע שיִמבּוֹלתאבּעללע"
 
@@ -2585,7 +2576,7 @@ msgid "List the loaded fonts."
 msgstr "דִיע געלאדענענ שצהרִיפֿתענ אוּפֿלִישתענ."
 
 #: grub-core/fs/archelp.c:216 grub-core/fs/archelp.c:278
-#: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:729
+#: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:736
 #: grub-core/fs/minix.c:369 grub-core/fs/ufs.c:454
 msgid "too deep nesting of symlinks"
 msgstr "זוּ תִיעפֿ בֿערשצהאצהתעלתע שיִמבּוֹלִישצהע בֿערכּנֻפּפֿוּנגענ"
@@ -2603,7 +2594,7 @@ msgstr "בֿערשוּצה, הִינתער דעמ ענדע דער דאתעִי �
 msgid "not a directory"
 msgstr "ִישת כּעִינ בֿערזעִיצהנִיש"
 
-#: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:828
+#: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:835
 #: grub-core/fs/zfs/zfs.c:3801
 msgid "not a regular file"
 msgstr "כּעִינע רעגוּלֶרע דאתעִי"
@@ -3296,29 +3287,29 @@ msgid "(PROGRAM ERROR) Option should have been recognized!?"
 msgstr "(פּרוֹגראממפֿעהלער) וֹפּתִיוֹנ הֶתתע ערכּאננת וערדענ מֻששענ!?"
 
 #: grub-core/lib/gnulib/getopt.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous\n"
-msgstr "%s: וֹפּתִיוֹנ »-ו %s« ִישת נִיצהת עִינדעוּתִיג\n"
+msgstr "%s: וֹפּתִיוֹנ »%s%s« ִישת נִיצהת עִינדעוּתִיג\n"
 
 #: grub-core/lib/gnulib/getopt.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous; possibilities:"
-msgstr "%s: וֹפּתִיוֹנ »%s« ִישת מעהרדעוּתִיג; מֵגלִיצהכּעִיתענ:"
+msgstr "%s: וֹפּתִיוֹנ »%s%s« ִישת מעהרדעוּתִיג; מֵגלִיצהכּעִיתענ:"
 
 #: grub-core/lib/gnulib/getopt.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unrecognized option '%s%s'\n"
-msgstr "%s: וּנבּעכּאננתע וֹפּתִיוֹנ »%c%s«\n"
+msgstr "%s: וּנבּעכּאננתע וֹפּתִיוֹנ »%s%s«\n"
 
 #: grub-core/lib/gnulib/getopt.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' doesn't allow an argument\n"
-msgstr "%s: וֹפּתִיוֹנ »%c%s« ערלאוּבּת כּעִינ ארגוּמענת\n"
+msgstr "%s: וֹפּתִיוֹנ »%s%s« ערלאוּבּת כּעִינ ארגוּמענת\n"
 
 #: grub-core/lib/gnulib/getopt.c:360
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' requires an argument\n"
-msgstr "%s: וֹפּתִיוֹנ »%s« ערוארתעת עִינ ארגוּמענת\n"
+msgstr "%s: וֹפּתִיוֹנ »%s%s« ערוארתעת עִינ ארגוּמענת\n"
 
 #: grub-core/lib/gnulib/getopt.c:621
 #, c-format
@@ -3331,14 +3322,14 @@ msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: וֹפּתִיוֹנ ערפֿוֹרדערת עִינ ארגוּמענת -- »%c«\n"
 
 #: grub-core/lib/gnulib/openat-die.c:38
-#, fuzzy, c-format
+#, c-format
 msgid "unable to record current working directory"
-msgstr "נִיצהת לעערער וֹרדנער כּאננ נִיצהת ענתפֿערנת וערדענ\n"
+msgstr ""
 
 #: grub-core/lib/gnulib/openat-die.c:57
 #, c-format
 msgid "failed to return to initial working directory"
-msgstr ""
+msgstr "רֻצכּכּעהר זוּמ ִינִיתִיאלענ ארבּעִיתשבֿערזעִיצהנִיש ִישת פֿעהלגעשצהלאגענ"
 
 #: grub-core/lib/gnulib/regcomp.c:135 grub-core/osdep/aros/hostdisk.c:523
 msgid "Success"
@@ -3369,9 +3360,8 @@ msgid "Invalid back reference"
 msgstr "וּנגֻלתִיגע רֻצכּרעפֿערענז"
 
 #: grub-core/lib/gnulib/regcomp.c:156
-#, fuzzy
 msgid "Unmatched [, [^, [:, [., or [="
-msgstr "כּעִינ געגענשתֻצכּ פֻֿר [ וֹדער [^"
+msgstr "כּעִינ געגענשתֻצכּ פֻֿר [, [^, [:, [. וֹדער [="
 
 #: grub-core/lib/gnulib/regcomp.c:159
 msgid "Unmatched ( or \\("
@@ -3485,6 +3475,8 @@ msgstr "דתבּ-דאתעִי לאדענ."
 msgid ""
 "plain image kernel not supported - rebuild with CONFIG_(U)EFI_STUB enabled"
 msgstr ""
+"עִינפֿאצהעש כּערנעל-אבּבִּילד וִירד נִיצהת וּנתערשתֻתזת – ערשתעללענ שִיע עש מִית "
+"אכּתִיבִֿיערתעמ צוֹנפִֿיג_(וּ)עפִֿי_שתוּבּ נעוּ"
 
 #: grub-core/loader/arm64/xen_boot.c:156
 msgid "failed to get FDT"
@@ -3513,7 +3505,7 @@ msgstr "[וֹפּתִיוֹנענ]"
 msgid "Boot BIOS-based system."
 msgstr "בִּיוֹש-בּאשִיערתעש שיִשתעמ בּוֹוֹתענ."
 
-#: grub-core/loader/efi/chainloader.c:415
+#: grub-core/loader/efi/chainloader.c:421
 #: grub-core/loader/i386/pc/chainloader.c:303
 msgid "Load another boot loader."
 msgstr "עִינענ אנדערענ בּוֹוֹתלוֹאדער לאדענ."
@@ -3814,9 +3806,8 @@ msgid "Load a multiboot module."
 msgstr "עִינ מוּלתִיבּוֹוֹת-מוֹדוּל לאדענ."
 
 #: grub-core/loader/riscv/linux.c:30 grub-core/loader/riscv/linux.c:40
-#, fuzzy
 msgid "Linux not supported yet"
-msgstr "ִינתערפּרעתִיערוּנג וִירד נִיצהת וּנתערשתֻתזת"
+msgstr "לִינוּכּס וִירד נוֹצה נִיצהת וּנתערשתֻתזת"
 
 #: grub-core/loader/xnu.c:1416 grub-core/term/gfxterm_background.c:45
 msgid "Background image mode."
@@ -3913,14 +3904,13 @@ msgid "no DHCP options found"
 msgstr "כּעִינע דהצפּ-וֹפּתִיוֹנענ געפֿוּנדענ"
 
 #: grub-core/net/bootp.c:682
-#, fuzzy
 msgid "invalid DHCP option code"
-msgstr "כּעִינע דהצפּ-וֹפּתִיוֹנענ געפֿוּנדענ"
+msgstr "וּנגֻלתִיגער דהצפּ-וֹפּתִיוֹנשצוֹדע"
 
 #: grub-core/net/bootp.c:686
-#, fuzzy, c-format
+#, c-format
 msgid "no DHCP option %u found"
-msgstr "כּעִינע דהצפּ-וֹפּתִיוֹנ %d געפֿוּנדענ"
+msgstr "כּעִינע דהצפּ-וֹפּתִיוֹנ %u געפֿוּנדענ"
 
 #: grub-core/net/bootp.c:743
 #, c-format
@@ -3945,9 +3935,8 @@ msgid "perform a bootp autoconfiguration"
 msgstr "עִינע בּוֹוֹתפּ-אוּתוֹכּוֹנפִֿיגוּראתִיוֹנ אוּשפֻֿהרענ"
 
 #: grub-core/net/bootp.c:877
-#, fuzzy
 msgid "perform a DHCP autoconfiguration"
-msgstr "עִינע בּוֹוֹתפּ-אוּתוֹכּוֹנפִֿיגוּראתִיוֹנ אוּשפֻֿהרענ"
+msgstr "עִינע דהצפּ-אוּתוֹכּוֹנפִֿיגוּראתִיוֹנ אוּשפֻֿהרענ"
 
 #: grub-core/net/bootp.c:879
 msgid "VAR INTERFACE NUMBER DESCRIPTION"
@@ -4727,9 +4716,8 @@ msgid "Unable to create pipe: %s"
 msgstr "ועִיתערלעִיתוּנג כּוֹננתע נִיצהת אנגעלעגת וערדענ: %s"
 
 #: grub-core/osdep/unix/getroot.c:370
-#, fuzzy
 msgid "cannot save the original directory"
-msgstr "וֹרִיגִינאלבֿערזעִיצהנִיש כּאננ נִיצהת וִיעדערהערגעשתעללת וערדענ"
+msgstr "וֹרִיגִינאלבֿערזעִיצהנִיש כּאננ נִיצהת געשפּעִיצהערת וערדענ"
 
 #: grub-core/osdep/unix/getroot.c:423 grub-core/osdep/unix/getroot.c:480
 #: grub-core/osdep/unix/getroot.c:489
@@ -4944,7 +4932,7 @@ msgstr "וּנגֻלתִיגער בֿארִיאבּלעננאמע »%s«"
 
 #: grub-core/script/execute.c:953
 msgid "cannot allocate command buffer"
-msgstr ""
+msgstr "בּעפֿעהלשפּוּפֿפֿער כּאננ נִיצהת בּעלעגת וערדענ"
 
 #: grub-core/script/lexer.c:144 util/grub-fstest.c:330
 msgid "unexpected end of file"
@@ -5149,7 +5137,7 @@ msgstr "  בֿבּע-ִינפֿוֹ:   בֿערשִיוֹנ: %d.%d  וֹעמ-ש�
 msgid "              total memory: %d KiB\n"
 msgstr "              געשאמתשפּעִיצהער: %d כִּיבּ\n"
 
-#: grub-core/video/video.c:596 grub-core/video/video.c:760
+#: grub-core/video/video.c:596 grub-core/video/video.c:762
 msgid "no suitable video mode found"
 msgstr "כּעִינ פּאששענדער בִֿידעוֹמוֹדוּש געפֿוּנדענ"
 
@@ -5167,7 +5155,7 @@ msgstr "ִינ מוֹדוּלע אנגעגעבּענע מוֹדוּלע בֿוֹ
 
 #: include/grub/util/install.h:33
 msgid "embed a specific DTB"
-msgstr ""
+msgstr "עִינע שפּעזִיפִֿישצהע דתבּ עִינבּעתתענ"
 
 #: include/grub/util/install.h:36
 msgid "install only MODULES and their dependencies [default=all]"
@@ -5230,9 +5218,9 @@ msgstr "דאתעִי אלש ֵפֿפֿענתלִיצהענ שצהלֻששעל ז
 
 #: util/editenv.c:59 util/grub-editenv.c:201 util/grub-install-common.c:535
 #: util/grub-mkimage.c:315 util/setup.c:791
-#, fuzzy, c-format
+#, c-format
 msgid "cannot sync `%s': %s"
-msgstr "»%s« כּאננ נִיצהת דוּרצהשוּצהת וערדענ: %s"
+msgstr "»%s« כּאננ נִיצהת שיִנצהרוֹנִישִיערת וערדענ: %s"
 
 #: util/editenv.c:64
 #, c-format
@@ -5820,7 +5808,7 @@ msgstr ""
 #: util/grub-install.c:1888 util/grub-install.c:1932
 #, c-format
 msgid "efibootmgr failed to register the boot entry: %s"
-msgstr ""
+msgstr "עפִֿיבּוֹוֹתמגר שצהלוּג בּעִימ רעגִישתרִיערענ דעש בּוֹוֹת-עִינתראגש פֿעהל: %s"
 
 #: util/grub-install.c:1916
 msgid "EFI bootloader id isn't specified."
@@ -6026,9 +6014,8 @@ msgstr ""
 "וִיעדערוּמ אוּססער כּראפֿת געשעתזת וערדענ"
 
 #: util/grub-mkimage.c:74
-#, fuzzy
 msgid "embed FILE as a device tree (DTB)\n"
-msgstr "דאתעִי אלש אנפֿאנגשכּוֹנפִֿיגוּראתִיוֹנ עִינבּעתתענ"
+msgstr "דאתעִי אלש גערֶתעבּאוּמ (דתבּ) עִינבּעתתענ\n"
 
 #: util/grub-mkimage.c:76
 msgid "embed FILE as an early config"
@@ -6077,9 +6064,9 @@ msgid "Prefix not specified (use the -p option)."
 msgstr "פּרֶפִֿיכּס ווּרדע נִיצהת אנגעגעבּענ (בֿערוענדענ שִיע דִיע וֹפּתִיוֹנ -פּ)"
 
 #: util/grub-mkimage.c:318 util/setup.c:793
-#, fuzzy, c-format
+#, c-format
 msgid "cannot close `%s': %s"
-msgstr "»%s« כּאננ נִיצהת געֵפֿפֿנעת וערדענ: %s"
+msgstr "»%s« כּאננ נִיצהת געשצהלוֹששענ וערדענ: %s"
 
 #: util/grub-mkimagexx.c:2191
 #, c-format
@@ -6269,9 +6256,8 @@ msgid "enabling %s support ..."
 msgstr "וּנתערשתֻתזוּנג פֻֿר %s וִירד אכּתִיבִֿיערת …"
 
 #: util/grub-mkrescue.c:486
-#, fuzzy
 msgid "xorriso not found"
-msgstr "%s: נִיצהת געפֿוּנדענ"
+msgstr "כּסוֹררִישוֹ ווּרדע נִיצהת געפֿוּנדענ"
 
 #: util/grub-mkrescue.c:623
 msgid ""
@@ -6664,1191 +6650,3 @@ msgstr "בּלוֹצכּלִישתענ שִינד וּנגֻלתִיג"
 #: util/setup.c:847
 msgid "blocklists are incomplete"
 msgstr "בּלוֹצכּלִישתענ שִינד וּנבֿוֹללשתֶנדִיג"
-
-#~ msgid "%.*s: ARGP_HELP_FMT parameter must be positive"
-#~ msgstr "%.*s: פּאראמעתער פֻֿר ארגפּ_העלפּ_פֿמת מוּשש פּוֹשִיתִיבֿ שעִינ"
-
-#~ msgid "%s: option '--%s' doesn't allow an argument\n"
-#~ msgstr "%s: וֹפּתִיוֹנ »--%s« ערלאוּבּת כּעִינ ארגוּמענת\n"
-
-#~ msgid "%s: unrecognized option '--%s'\n"
-#~ msgstr "%s: וּנבּעכּאננתע וֹפּתִיוֹנ »--%s«\n"
-
-#~ msgid "%s: option '-W %s' doesn't allow an argument\n"
-#~ msgstr "%s: וֹפּתִיוֹנ »-ו %s« ערלאוּבּת כּעִינ ארגוּמענת\n"
-
-#~ msgid "%s: option '-W %s' requires an argument\n"
-#~ msgstr "%s: וֹפּתִיוֹנ »-ו %s« ערפֿוֹרדערת עִינ ארגוּמענת\n"
-
-#~ msgid "Usage: %s -o OUTPUT CKBMAP_ARGUMENTS...\\n"
-#~ msgstr "אוּפֿרוּפֿ: %s -וֹ אוּשגאבּע צכּבּמאפּ_ארגוּמענתע...\\נ"
-
-#~ msgid "Make GRUB keyboard layout file."
-#~ msgstr "עִינע גרוּבּ-תאשתאתוּרלאיִוֹוּתדאתעִי ערשתעללענ."
-
-#~ msgid "print this message and exit"
-#~ msgstr "דִיעשע מעלדוּנג אנזעִיגענ וּנד בּעענדענ"
-
-#~ msgid "print the version information and exit"
-#~ msgstr "בֿערשִיוֹנשִינפֿוֹרמאתִיוֹנענ אוּשגעבּענ וּנד בּעענדענ"
-
-#~ msgid "%s generates a keyboard layout for GRUB using ckbcomp\\n"
-#~ msgstr "%s ערשתעללת עִינע תאשתאתוּרבּעלעגוּנג פֻֿר גרוּבּ מִיתתעלש צכּבּצוֹמפּ\\נ"
-
-#~ msgid "Report bugs to <bug-grub@gnu.org>."
-#~ msgstr "מעלדענ שִיע פֿעהלער אנ <בּוּג-גרוּבּ@גנוּ.וֹרג>."
-
-#~ msgid "%s: option requires an argument -- `%s'\\n"
-#~ msgstr "%s: וֹפּתִיוֹנ ערוארתעת עִינ ארגוּמענת -- »%s«\\נ"
-
-#~ msgid "Usage: %s [OPTION]\\n"
-#~ msgstr "אוּפֿרוּפֿ: %s [וֹפּתִיוֹנ]\\נ"
-
-#~ msgid "Generate a grub config file"
-#~ msgstr "עִינע גרוּבּ-כּוֹנפִֿיגוּראתִיוֹנשדאתעִי ערשתעללענ"
-
-#~ msgid "output generated config to FILE [default=stdout]"
-#~ msgstr "ערשתעללתע כּוֹנפִֿיגוּראתִיוֹנ ִינ דאתעִי אוּשגעבּענ [בֿוֹרגאבּע=שתדוֹוּת]"
-
-#~ msgid "Unrecognized option `%s'\\n"
-#~ msgstr "וּנערכּאננתע וֹפּתִיוֹנ »%s«\\נ"
-
-#~ msgid "%s: You must run this as root\\n"
-#~ msgstr "%s: שִיע מֻששענ דִיעש אלש רוֹוֹת אוּשפֻֿהרענ\\נ"
-
-#~ msgid "%s: Not found.\\n"
-#~ msgstr "%s: נִיצהת געפֿוּנדענ.\\נ"
-
-#~ msgid "Generating grub configuration file ..."
-#~ msgstr "גרוּבּ-כּוֹנפִֿיגוּראתִיוֹנשדאתעִי וִירד ערשתעללת …"
-
-#~ msgid ""
-#~ "Syntax errors are detected in generated GRUB config file.\n"
-#~ "Ensure that there are no errors in /etc/default/grub\n"
-#~ "and /etc/grub.d/* files or please file a bug report with\n"
-#~ "%s file attached."
-#~ msgstr ""
-#~ "ִינ דער ערזעוּגתענ גרוּבּ-כּוֹנפִֿיגוּראתִיוֹנשדאתעִי ווּרדענ\n"
-#~ "שיִנתאכּספֿעהלער ענתדעצכּת. שתעללענ שִיע שִיצהער, דאש דִיע דאתעִיענ\n"
-#~ "/עתצ/דעפֿאוּלת/גרוּבּ וּנד /עתצ/גרוּבּ.ד/* פֿעהלערפֿרעִי שִינד וֹדער\n"
-#~ "ערשתעללענ שִיע עִינענ פֿעהלערבּערִיצהת מִית %s אלש אנהאנג."
-
-#~ msgid "done"
-#~ msgstr "ערלעדִיגת"
-
-#~ msgid "Warning:"
-#~ msgstr "וארנוּנג:"
-
-#~ msgid "Usage: %s [OPTION] MENU_ENTRY\\n"
-#~ msgstr "אוּפֿרוּפֿ: %s [וֹפּתִיוֹנ] מענֻעִינתראג\\נ"
-
-#~ msgid "Set the default boot menu entry for GRUB, for the next boot only."
-#~ msgstr ""
-#~ "דענ שתאנדארד-בּוֹוֹתעִינתראג פֻֿר גרוּבּ פֿעשתלעגענ (נוּר פֻֿר דענ נֶצהשתענ "
-#~ "בּוֹוֹתבֿוֹרגאנג)."
-
-#~ msgid ""
-#~ "expect GRUB images under the directory DIR/%s instead of the %s directory"
-#~ msgstr ""
-#~ "גרוּבּ-אבּבִּילדער ווּרדענ ִימ בֿערזעִיצהנִיש בֿערז/%s אנשתעללע בֿוֹנ %s ערוארתעת"
-
-#~ msgid "More than one menu entry?"
-#~ msgstr "מעהר אלש עִינ מענֻעִינתראג?"
-
-#~ msgid "Menu entry not specified."
-#~ msgstr "כּעִינ מענֻעִינתראג אנגעגעבּענ."
-
-#~ msgid "Set the default boot menu entry for GRUB."
-#~ msgstr "דענ בֿוֹרעִינגעשתעללתענ בּוֹוֹתעִינתראג פֻֿר גרוּבּ פֿעשתלעגענ."
-
-#~ msgid "This requires setting GRUB_DEFAULT=saved in %s/default/grub.\\n"
-#~ msgstr ""
-#~ "דִיעש ערפֿוֹרדערת דִיע עִינשתעללוּנג גרוּבּ_דעפֿאוּלת=שאבֿעד ִינ %s/דעפֿאוּלת/גרוּבּ.\\נ"
-
-#~ msgid "MENU_ENTRY is a number, a menu item title or a menu item identifier."
-#~ msgstr ""
-#~ "מענֻעִינתראג ִישת עִינע זאהל, עִינ תִיתעל וֹדער בּעזעִיצהנער עִינעש מענֻעִינתראגש."
-
-#~ msgid ""
-#~ "Requested serial terminal but GRUB_SERIAL_COMMAND is unspecified. Default "
-#~ "parameters will be used."
-#~ msgstr ""
-#~ "שערִיעללעש תערמִינאל ווּרדע אנגעפֿוֹרדערת, אבּער גרוּבּ_שערִיאל_צוֹממאנד ווּרדע "
-#~ "נִיצהת אנגעגעבּענ. שתאנדארדפּאראמעתער וערדענ בֿערוענדעת."
-
-#~ msgid "Found theme: %s\\n"
-#~ msgstr "תהעמא געפֿוּנדענ: %s\\נ"
-
-#~ msgid "Found background: %s\\n"
-#~ msgstr "הִינתערגרוּנד געפֿוּנדענ: %s\\נ"
-
-#~ msgid "Unsupported image format"
-#~ msgstr "בִּילדפֿוֹרמאת נִיצהת וּנתערשתֻתזת"
-
-#~ msgid ""
-#~ "Setting GRUB_TIMEOUT to a non-zero value when GRUB_HIDDEN_TIMEOUT is set "
-#~ "is no longer supported."
-#~ msgstr ""
-#~ "גרוּבּ_תִימעוֹוּת אוּפֿ עִינענ בֿוֹנ נוּלל בֿערשצהִיעדענענ וערת שעתזענ, ועננ "
-#~ "גרוּבּ_הִידדענ_תִימעוֹוּת אלש נִיצהת מעהר וּנתערשתֻתזת אנגעגעבּענ וִירד."
-
-#~ msgid "Found GNU Mach: %s"
-#~ msgstr "גנוּ מאצה ווּרדע געפֿוּנדענ: %s"
-
-#~ msgid "Found Hurd module: %s"
-#~ msgstr "הוּרד-מוֹדוּל געפֿוּנדענ: %s"
-
-#~ msgid "Some Hurd stuff found, but not enough to boot."
-#~ msgstr ""
-#~ "הוּרד-בּעשתאנדתעִילע ווּרדענ געפֿוּנדענ, דִיע אבּער זוּמ בּוֹוֹתענ נִיצהת אוּשרעִיצהענ."
-
-#~ msgid "%s, with Hurd %s (recovery mode)"
-#~ msgstr "%s, מִית הוּרד %s (וִיעדערהערשתעללוּנגשמוֹדוּש)"
-
-#~ msgid "%s, with Hurd %s"
-#~ msgstr "%s, מִית הוּרד %s"
-
-#~ msgid ""
-#~ "Please don't use old title `%s' for GRUB_DEFAULT, use `%s' (for versions "
-#~ "before 2.00) or `%s' (for 2.00 or later)"
-#~ msgstr ""
-#~ "בִּיתתע בֿערוענדענ שִיע נִיצהת דענ אלתענ תִיתעל »%s« פֻֿר גרוּבּ_דעפֿאוּלת, בֿערוענדענ "
-#~ "שִיע »%s« (פֻֿר בֿערשִיוֹנענ בֿוֹר 2.00) וֹדער »%s« (פֻֿר 2.00 וֹדער נעוּער)"
-
-#~ msgid "Loading GNU Mach ..."
-#~ msgstr "גנוּ מאצה וִירד געלאדענ …"
-
-#~ msgid "Loading the Hurd ..."
-#~ msgstr "הוּרד וִירד געלאדענ …"
-
-#~ msgid "Advanced options for %s"
-#~ msgstr "ערועִיתערתע וֹפּתִיוֹנענ פֻֿר %s"
-
-#~ msgid "Loading kernel of Illumos ..."
-#~ msgstr "ִיללוּמוֹש-כּערנעל וִירד געלאדענ …"
-
-#~ msgid "%s, with kFreeBSD %s (recovery mode)"
-#~ msgstr "%s, מִית כּפֿרעעבּשד %s (וִיעדערהערשתעללוּנגשמוֹדוּש)"
-
-#~ msgid "%s, with kFreeBSD %s"
-#~ msgstr "%s, מִית כּפֿרעעבּשד %s"
-
-#~ msgid "Loading kernel of FreeBSD %s ..."
-#~ msgstr "פֿרעעבּשד-כּערנעל %s וִירד געלאדענ …"
-
-#~ msgid "Found kernel of FreeBSD: %s\\n"
-#~ msgstr "פֿרעעבּשד-כּערנעל געפֿוּנדענ: %s\\נ"
-
-#~ msgid "Found kernel module directory: %s\\n"
-#~ msgstr "כּערנעל-מוֹדוּלבֿערזעִיצהנִיש געפֿוּנדענ: %s\\נ"
-
-#~ msgid "%s, with Linux %s (recovery mode)"
-#~ msgstr "%s, מִית לִינוּכּס %s (וִיעדערהערשתעללוּנגשמוֹדוּש)"
-
-#~ msgid "%s, with Linux %s"
-#~ msgstr "%s, מִית לִינוּכּס %s"
-
-#~ msgid "Loading Linux %s ..."
-#~ msgstr "לִינוּכּס %s וִירד געלאדענ …"
-
-#~ msgid "Loading initial ramdisk ..."
-#~ msgstr "ִינִיתִיאלע ראמדִישכּ וִירד געלאדענ …"
-
-#~ msgid "Found linux image: %s\\n"
-#~ msgstr "לִינוּכּס-אבּבִּילד געפֿוּנדענ: %s\\נ"
-
-#~ msgid "Found initrd image: %s\\n"
-#~ msgstr "ִינִיתרד-אבּבִּילד געפֿוּנדענ: %s\\נ"
-
-#~ msgid "%s, with kernel %s (via %s, recovery mode)"
-#~ msgstr "%s, מִית כּערנעל %s (ֻבּער %s, וִיעדערהערשתעללוּנגשמוֹדוּש)"
-
-#~ msgid "%s, with kernel %s (via %s)"
-#~ msgstr "%s, מִית כּערנעל %s (ֻבּער %s)"
-
-#~ msgid "Found NetBSD kernel: %s\\n"
-#~ msgstr "נעתבּשד-כּערנעל געפֿוּנדענ: %s\\נ"
-
-#~ msgid "Windows Vista/7 (loader)"
-#~ msgstr "וִינדוֹוש בִֿישתא/7 (לאדער)"
-
-#~ msgid "Windows NT/2000/XP (loader)"
-#~ msgstr "וִינדוֹוש נת/2000/כּספּ (לאדער)"
-
-#~ msgid "Found %s on %s (%s)\\n"
-#~ msgstr "%s אוּפֿ %s געפֿוּנדענ (%s)\\נ"
-
-#~ msgid "(32-bit)"
-#~ msgstr "(32-בִּית)"
-
-#~ msgid "(64-bit)"
-#~ msgstr "(64-בִּית)"
-
-#~ msgid "(on %s)"
-#~ msgstr "(אוּפֿ %s)"
-
-#~ msgid "%s, with Xen %s and Linux %s (recovery mode)"
-#~ msgstr "%s, מִית כּסענ %s וּנד לִינוּכּס %s (וִיעדערהערשתעללוּנגשמוֹדוּש)"
-
-#~ msgid "%s, with Xen %s and Linux %s"
-#~ msgstr "%s, מִית כּסענ %s וּנד לִינוּכּס %s"
-
-#~ msgid "%s, with Xen hypervisor"
-#~ msgstr "%s, מִית כּסענ-היִפּערבִֿישוֹר"
-
-#~ msgid "Loading Xen %s ..."
-#~ msgstr "כּסענ %s וִירד געלאדענ …"
-
-#~ msgid "Xen hypervisor, version %s"
-#~ msgstr "כּסענ-היִפּערבִֿישוֹר, בֿערשִיוֹנ %s"
-
-#~ msgid "Advanced options for %s (with Xen hypervisor)"
-#~ msgstr "ערועִיתערתע וֹפּתִיוֹנענ פֻֿר %s (מִית כּסענ-היִפּערבִֿישוֹר)"
-
-#~ msgid "Found %s on %s\\n"
-#~ msgstr "%s אוּפֿ %s געפֿוּנדענ\\נ"
-
-#~ msgid "%s is not yet supported by grub-mkconfig.\\n"
-#~ msgstr "%s וִירד בֿוֹנ גרוּבּ-מכּצוֹנפִֿיג נוֹצה נִיצהת וּנתערשתֻתזת.\\נ"
-
-#~ msgid "Unsupported substitution flag: 0x%x\n"
-#~ msgstr "נִיצהת וּנתערשתֻתזתעש ערשעתזוּנגש-פֿלאג: 0כּס%x\n"
-
-#~ msgid "Unknown gsub font feature 0x%x (%s)\n"
-#~ msgstr "וּנבּעכּאננתעש גשוּבּ-שצהרִיפֿתמערכּמאל 0כּס%x (%s)\n"
-
-#~| msgid "Assume input is hex."
-#~ msgid "assume isolinux."
-#~ msgstr "עִינגאבּע וִירד אלש העכּסאדעזִימאל אנגענוֹממענ."
-
-#~| msgid "Assume input is hex."
-#~ msgid "assume pxelinux."
-#~ msgstr "עִינגאבּע וִירד אלש העכּסאדעזִימאל אנגענוֹממענ."
-
-#~| msgid "Assume input is hex."
-#~ msgid "assume syslinux."
-#~ msgstr "עִינגאבּע וִירד אלש העכּסאדעזִימאל אנגענוֹממענ."
-
-#~| msgid ""
-#~| "%s copies GRUB images into net_directory/subdir/target_cpu-platform\\n"
-#~ msgid "copies GRUB images into net_directory/subdir/target_cpu-platform."
-#~ msgstr ""
-#~ "%s כּוֹפִּיערת גרוּבּ-אבּבִּילדער ִינ נעתז_וֹרדנער/וּנתערוֹרדנער/צפּוּ-זִיעלפּלאתתפֿוֹרמ\\נ"
-
-#~| msgid ""
-#~| "%s generates a bootable rescue image with specified source files, source "
-#~| "directories, or mkisofs options listed by the output of `%s'\\n"
-#~ msgid ""
-#~ "Generates a bootable rescue image with specified source files, source "
-#~ "directories, or mkisofs options listed by the output of `%s'.\n"
-#~ "\n"
-#~ "Option -- switches to native xorriso command mode.\n"
-#~ "\n"
-#~ "Mail xorriso support requests to <bug-xorriso@gnu.org>."
-#~ msgstr ""
-#~ "%s ערשתעללת עִינ בּוֹוֹתפֶֿהִיגעש רעתתוּנגש-אבּבִּילד אוּש דענ אנגעגעבּענענ "
-#~ "קוּעללדאתעִיענ, קוּעללוֹרדנערנ וֹדער מכִּישוֹפֿש-וֹפּתִיוֹנענ, ועלצהע דִיע אוּשגאבּע בֿוֹנ "
-#~ "»%s« אוּפֿלִישתעת\\נ"
-
-#~ msgid ""
-#~ "print filesystem module, GRUB drive, system device, partition map module, "
-#~ "abstraction module or cryptographic container UUID [default=fs]"
-#~ msgstr ""
-#~ "דאתעִישיִשתעממוֹדוּל, גרוּבּ-לאוּפֿוערכּ, שיִשתעמגערֶת, פּארתִיתִיוֹנשזוּוֹרדנוּנגשמוֹדוּל, "
-#~ "אבּשתראכּתִיוֹנשמוֹדוּל וֹדער וּוִּיד דעש כּריִפּתוֹגראפִֿישצהענ צוֹנתאִינערש אוּשגעבּענ "
-#~ "[בֿוֹרגאבּע=פֿש]"
-
-#~| msgid "set prefix directory [default=%s]"
-#~ msgid "use DIR as root directory [default=/]"
-#~ msgstr "פּרֶפִֿיכּס-וֹרדנער פֿעשתלעגענ [בֿוֹרגאבּע=%s]"
-
-#~ msgid "Address range not associated with RAM"
-#~ msgstr "אדרעששבּערעִיצה ענתשפּרִיצהת נִיצהת דעמ ראמ"
-
-#~ msgid "grub_memalign is not supported on your system"
-#~ msgstr "גרוּבּ_מעמאלִיגנ וִירד אוּפֿ ִיהרעמ שיִשתעמ נִיצהת וּנתערשתֻתזת"
-
-#~ msgid "If FILENAME is `-', the default value %s is used."
-#~ msgstr "פֿאללש דאתעִינאמע »-« ִישת, דאננ וִירד דער בֿוֹרגאבּעוערת %s בֿערוענדעת. "
-
-#~ msgid "save only the ASCII bitmaps"
-#~ msgstr "נוּר דִיע אשצִיִי-בִּיתמאפּש שפּעִיצהערנ"
-
-#~ msgid "create width summary file"
-#~ msgstr "בּרעִיתענדעפִֿינִיתִיוֹנ ִינ דאתעִי שפּעִיצהערנ"
-
-#~ msgid "Option --ascii-bitmaps doesn't accept ranges (it always uses ASCII)."
-#~ msgstr ""
-#~ "דִיע וֹפּתִיוֹנ --אשצִיִי-בִּיתמאפּש וּנתערשתֻתזת כּעִינע בּערעִיצהע (בֿערוענדעת שתעתש "
-#~ "אשצִיִי)."
-
-#~ msgid "WARNING: your random generator isn't known to be secure\n"
-#~ msgstr ""
-#~ "וארנוּנג: דִיע שִיצהערהעִית ִיהרעש זוּפֿאללשזאהלענגענעראתוֹרש ִישת וּנבּעכּאננת\n"
-
-#~ msgid "failed to read the first sector of the core image"
-#~ msgstr "לעשענ דעש ערשתענ שעכּתוֹרש דעש צוֹרע-אבּבִּילדעש ִישת געשצהעִיתערת"
-
-#~ msgid "use FILE as grub-setup"
-#~ msgstr "דאתעִי אלש גרוּבּ-שעתוּפּ בֿערוענדענ"
-
-#~ msgid "use FILE as grub-mkrelpath"
-#~ msgstr "דאתעִי אלש גרוּבּ-מכּרעלפּאתה בֿערוענדענ"
-
-#~ msgid "use FILE as grub-probe"
-#~ msgstr "דאתעִי אלש גרוּבּ-פּרוֹבּע בֿערוענדענ"
-
-#~ msgid "INSTALL_DEVICE must be system device filename."
-#~ msgstr "ִינשתאללאתִיוֹנשגערֶת מוּשש אלש נאמע עִינער שיִשתעמדאתעִי אנגעגעבּענ וערדענ."
-
-#~ msgid ""
-#~ "Path `%s' is not readable by GRUB on boot. Installation is impossible. "
-#~ "Aborting.\\n"
-#~ msgstr ""
-#~ "פּפֿאד »%s« ִישת בּעִימ בּוֹוֹתענ בֿוֹנ גרוּבּ נִיצהת לעשבּאר. דִיע ִינשתאללאתִיוֹנ ִישת "
-#~ "וּנמֵגלִיצה, וִירד אבּגעבּרוֹצהענ.\\נ"
-
-#~ msgid "Auto-detection of a filesystem of %s failed.\\n"
-#~ msgstr "אוּתוֹמאתִישצהע ערכּעננוּנג דעש דאתעִישיִשתעמש בֿוֹנ %s ִישת געשצהעִיתערת.\\נ"
-
-#~ msgid "Try with --recheck."
-#~ msgstr "בֿערשוּצהענ שִיע מִית --רעצהעצכּ."
-
-#~ msgid ""
-#~ "If the problem persists please report this together with the output of %s "
-#~ "to <%s>"
-#~ msgstr ""
-#~ "פֿאללש דאש פּרוֹבּלעמ ועִיתערהִינ בּעשתעהת, מעלדענ שִיע דִיעש אלש פֿעהלער זוּשאממענ "
-#~ "מִית דער אוּשגאבּע בֿוֹנ %s אנ <%s>"
-
-#~ msgid "`%s' failed.\\n"
-#~ msgstr "»%s« ִישת פֿעהלגעשצהלאגענ.\\נ"
-
-#~ msgid ""
-#~ "Can't find GRUB drive for %s; unable to create EFI Boot Manager entry.\\n"
-#~ msgstr ""
-#~ "גרוּבּ-לאוּפֿוערכּ פֻֿר %s כּוֹננתע נִיצהת געפֿוּנדענ וערדענ. דער עפִֿי-בּוֹוֹתמאנאגער-"
-#~ "עִינתראג כּוֹננתע נִיצהת ערשתעללת וערדענ.\\נ"
-
-#~ msgid "Generating grub.cfg ..."
-#~ msgstr "גרוּבּ.צפֿג וִירד ערשתעללת …"
-
-#~ msgid "use FILE as grub-glue-efi"
-#~ msgstr "דאתעִי אלש גרוּבּ-גלוּע-עפִֿי בֿערוענדענ"
-
-#~ msgid "use FILE as grub-render-label"
-#~ msgstr "דאתעִי אלש גרוּבּ-רענדער-לאבּעל בֿערוענדענ"
-
-#~ msgid "Packed pixel "
-#~ msgstr "געפּאצכּתע פִּיכּסעל "
-
-#~ msgid "use GRUB images from DIR. Takes precedence over target"
-#~ msgstr "גרוּבּ-אבּבִּילדער ִינ וֹרדנער בֿערוענדענ. ערהֶלת בֿוֹרראנג געגענֻבּער דעמ זִיעל"
-
-#~ msgid "Storage info for `%s' does not include name"
-#~ msgstr "שפּעִיצהערִינפֿוֹ פֻֿר »%s« ענתהֶלת כּעִינענ נאמענ"
-
-#~ msgid "Bogus name length for storage info for `%s'"
-#~ msgstr "פֿאלשצהע נאמענשלֶנגע פֻֿר שפּעִיצהערִינפֿוֹ פֻֿר »%s«"
-
-#~ msgid "Storage name for `%s' not NUL-terminated"
-#~ msgstr "שפּעִיצהערנאמע פֻֿר »%s« ִישת נִיצהת נוּל-תערמִינִיערת"
-
-#~ msgid "Couldn't find physical volume `%s'. Check your device.map"
-#~ msgstr ""
-#~ "פּהיִשִישצהער דאתענתרֶגער %s כּוֹננתע נִיצהת געפֿוּנדענ וערדענ. ֻבּערפּרֻפֿענ שִיע ִיהרע "
-#~ "דעבִֿיצע.מאפּ"
-
-#~ msgid "diskboot.img is not one sector size"
-#~ msgstr "דִיע גרֵססע בֿוֹנ דִישכּבּוֹוֹת.ִימג ענתשפּרִיצהת נִיצהת עִינעמ שעכּתוֹר"
-
-#~ msgid "loopback command fails"
-#~ msgstr "לוֹוֹפּבּאצכּ-בּעפֿעהלש ִישת פֿעהלגעשצהלאגענ."
-
-#~ msgid "cryptomount command fails: %s"
-#~ msgstr "צריִפּתוֹמוֹוּנת-בּעפֿעהל ִישת פֿעהלגעשצהלאגענ: %s"
-
-#~ msgid "%s: option requires an argument -- `%s'"
-#~ msgstr "%s: וֹפּתִיוֹנ ערוארתעת עִינ ארגוּמענת -- »%s«"
-
-#~ msgid "Make GRUB rescue image."
-#~ msgstr "עִינ אבּבִּילד עִינעש גרוּבּ-רעתתוּנגשמעדִיוּמש ערשתעללענ"
-
-#~ msgid "Show v2 and v3 tablesv only."
-#~ msgstr "נוּר בֿ2- וּנד בֿ3-תאבּעללענ דארשתעללענ."
-
-#~ msgid "Unknown "
-#~ msgstr "וּנבּעכּאננת"
-
-#~ msgid "Map table size exceeded"
-#~ msgstr "מאכּסִימאלע תאבּעללענגרֵססע ֻבּערשצהרִיתתענ"
-
-#~ msgid "Try `%s --help' for more information.\n"
-#~ msgstr "רוּפֿענ שִיע »%s --העלפּ« אוּפֿ, וּמ ועִיתערע ִינפֿוֹרמאתִיוֹנענ זוּ ערהאלתענ.\n"
-
-#~ msgid ""
-#~ "Usage: %s [OPTION]...\n"
-#~ "\n"
-#~ "GRUB emulator.\n"
-#~ "\n"
-#~ "  -r, --root-device=DEV     use DEV as the root device [default=host]\n"
-#~ "  -m, --device-map=FILE     use FILE as the device map [default=%s]\n"
-#~ "  -d, --directory=DIR       use GRUB files in the directory DIR [default="
-#~ "%s]\n"
-#~ "  -v, --verbose             print verbose messages\n"
-#~ "  -H, --hold[=SECONDS]      wait until a debugger will attach\n"
-#~ "  -h, --help                display this message and exit\n"
-#~ "  -V, --version             print version information and exit\n"
-#~ "\n"
-#~ "Report bugs to <%s>.\n"
-#~ msgstr ""
-#~ "אוּפֿרוּפֿ: %s [וֹפּתִיוֹנ]...\n"
-#~ "\n"
-#~ "גרוּבּ-עמוּלאתוֹר.\n"
-#~ "\n"
-#~ "  -ר, --רוֹוֹת-דעבִֿיצע=דעבֿ     גערֶת אלש רוֹוֹת-גערֶת בֿערוענדענ [בֿוֹרגאבּע=הוֹשת]\n"
-#~ "  -מ, --דעבִֿיצע-מאפּ=פִֿילע     דאתעִי אלש גערֶתעזוּוֹרדנוּנג בֿערוענדענ [בֿוֹרגאבּע="
-#~ "%s]\n"
-#~ "  -ד, --דִירעצתוֹריִ=דִיר       גרוּבּ-דאתעִיענ ִינ וֹרדנער בֿערוענדענ [בֿוֹרגאבּע="
-#~ "%s]\n"
-#~ "  -בֿ, --בֿערבּוֹשע             אוּשפֻֿהרלִיצהע מעלדוּנגענ אנזעִיגענ\n"
-#~ "  -ה, --הוֹלד[=שעצוֹנדש]      וארתענ, בִּיש שִיצה עִינ דעבּוּגגער עִינכּלִינכּת\n"
-#~ "  -ה, --העלפּ                דִיעשע מעלדוּנג אנזעִיגענ וּנד בּעענדענ\n"
-#~ "  -בֿ, --בֿערשִיוֹנ             בֿערשִיוֹנשִינפֿוֹרמאתִיוֹנ אנזעִיגענ וּנד בּעענדענ\n"
-#~ "\n"
-#~ "פֿעהלער בִּיתתע אנ <%s> מעלדענ.\n"
-
-#~ msgid ""
-#~ "%s is deprecated. Use set gfxpayload=text before linux command instead.\n"
-#~ msgstr ""
-#~ "%s ִישת בֿעראלתעת. בֿערוענדענ שִיע שתאתתדעששענ גפֿכּספּאיִלוֹאד=תעכּסת בֿוֹר דעמ "
-#~ "לִינוּכּס-בּעפֿעהל.\n"
-
-#~ msgid "Serial terminal not available on this platform."
-#~ msgstr "עִינ שערִיעללעש תערמִינאל ִישת אוּפֿ דִיעשער פּלאתתפֿוֹרמ נִיצהת בֿערפֻֿגבּאר."
-
-#~ msgid "Usage: %s [OPTION] install_device"
-#~ msgstr "אוּפֿרוּפֿ: %s [וֹפּתִיוֹנ] ִינשתאללאתִיוֹנשגערֶת"
-
-#~ msgid "Usage: %s [OPTION] [install_device]"
-#~ msgstr "אוּפֿרוּפֿ: %s [וֹפּתִיוֹנ] [ִינשתאללאתִיוֹנשגערֶת]"
-
-#~ msgid "the ID of bootloader."
-#~ msgstr "דִיע כּעננוּנג דעש בּוֹוֹתלוֹאדערש"
-
-#~ msgid ""
-#~ "UUID needed with ata mod, but the filesystem containing %s does not "
-#~ "support UUIDs.\\n"
-#~ msgstr ""
-#~ "ִימ אתא-מוֹדוּש וִירד עִינע וּוִּיד בּענֵתִיגת, אבּער דאש דאתעִישיִשתעמ %s וּנתערשתֻתזת "
-#~ "כּעִינע וּוִּידש.\\נ"
-
-#~ msgid ""
-#~ "UUID needed with cross-disk installs, but the filesystem containing %s "
-#~ "does not support UUIDs.\\n"
-#~ msgstr ""
-#~ "פֻֿר פּלאתתענֻבּערגרעִיפֿענדע ִינשתאללאתִיוֹנענ וִירד עִינע וּוִּיד בּענֵתִיגת, אבּער דאש "
-#~ "דאתעִישיִשתעמ, ועלצהעש %s ענתהֶלת, וּנתערשתֻתזת כּעִינע וּוִּידש.\\נ"
-
-#~ msgid "No font for video terminal found."
-#~ msgstr "כּעִינע שצהרִיפֿת פֻֿר בִֿידעוֹ-תערמִינאל געפֿוּנדענ."
-
-#~ msgid "Usage: %s [OPTION] install_device\\n"
-#~ msgstr "אוּפֿרוּפֿ: %s [וֹפּתִיוֹנ] ִינשתאללאתִיוֹנשגערֶת\\נ"
-
-#~ msgid "Usage: %s [OPTION] entry\\n"
-#~ msgstr "אוּפֿרוּפֿ: %s [וֹפּתִיוֹנ] עִינגאבּע\\נ"
-
-#, fuzzy
-#~ msgid "file name expected"
-#~ msgstr "עִינ ארגוּמענת ווּרדע ערוארתעת"
-
-#~ msgid "can't find command %s"
-#~ msgstr "בּעפֿעהל %s כּאננ נִיצהת געפֿוּנדענ וערדענ."
-
-#~ msgid "Load an additional file."
-#~ msgstr "עִינע זוּשֶתזלִיצהע דאתעִי לאדענ."
-
-#~ msgid "can't open device"
-#~ msgstr "גערֶת כּאננ נִיצהת געֵפֿפֿנעת וערדענ"
-
-#, fuzzy
-#~ msgid "unknown architecture type 0x%x"
-#~ msgstr "וּנבּעכּאננתער גערֶתעתיִפּ %s\n"
-
-#, fuzzy
-#~ msgid "invalid ELF format"
-#~ msgstr "וּנגֻלתִיגעש זעִילענפֿוֹרמאת: %s"
-
-#, fuzzy
-#~ msgid "start symbol is not defined"
-#~ msgstr "אדרעששע נִיצהת געפֿוּנדענ"
-
-#~ msgid "No open parenthesis found"
-#~ msgstr "כּעִינע ֵפֿפֿנענדע כּלאממער געפֿוּנדענ"
-
-#~ msgid "No close parenthesis found"
-#~ msgstr "כּעִינע שצהלִיעססענדע כּלאממער געפֿוּנדענ"
-
-#~ msgid "No filename found"
-#~ msgstr "כּעִינ דאתעִינאמע געפֿוּנדענ"
-
-#, fuzzy
-#~ msgid "unrecognised netword interface `%s'"
-#~ msgstr "נִיצהת ערכּאננתע שצהנִיתתשתעללע %s"
-
-#~ msgid "At least 3 arguments are expected"
-#~ msgstr "עש וערדענ מִינדעשתענש דרעִי ארגוּמענתע ערוארתעת"
-
-#, fuzzy
-#~ msgid "cannot seek the file `%s': %s"
-#~ msgstr "דאתעִי %s כּאננ נִיצהת דוּרצהשוּצהת וערדענ"
-
-#, fuzzy
-#~ msgid "cannot read the file `%s': %s"
-#~ msgstr "דאתעִי %s כּאננ נִיצהת געלעשענ וערדענ"
-
-#, fuzzy
-#~ msgid "Read 8-bit from PORT."
-#~ msgstr "בּיִתע אוּש פּוֹרת לעשענ."
-
-#, fuzzy
-#~ msgid "Read 16-bit from PORT."
-#~ msgstr "בּיִתע אוּש פּוֹרת לעשענ."
-
-#, fuzzy
-#~ msgid "Read 32-bit from PORT."
-#~ msgstr "בּיִתע אוּש פּוֹרת לעשענ."
-
-#~ msgid "Make partition hidden"
-#~ msgstr "פּארתִיתִיוֹנ אלש בֿערבּוֹרגענ מארכִּיערענ"
-
-#~ msgid "Check hash list file."
-#~ msgstr "האשה-לִישתענדאתעִי ֻבּערפּרֻפֿענ."
-
-#~ msgid "BadRAM"
-#~ msgstr "בּאדראמ"
-
-#~ msgid "Menu entry definition as a string."
-#~ msgstr "דעפִֿינִיתִיוֹנ דעש מענֻעִינתראגש אלש זעִיצהענכּעתתע."
-
-#~ msgid "Device %d\n"
-#~ msgstr "גערֶת %d\n"
-
-#~ msgid "Variable names to update with matches."
-#~ msgstr "זוּ אכּתוּאלִישִיערענדע בֿארִיאבּלעננאמענ אנהאנד בֿוֹנ ֻבּערעִינשתִיממוּנגענ."
-
-#~ msgid "  Failed"
-#~ msgstr "  פֿעהלגעשצהלאגענ"
-
-#~ msgid "Firmware is marked as tainted, refusing to initialize."
-#~ msgstr ""
-#~ "פִֿירמוארע ִישת אלש פֿעהלערהאפֿת מארכִּיערת, ִינִיתִיאלִישִיערוּנג וִירד בֿערועִיגערת."
-
-#~ msgid "State: "
-#~ msgstr "שתאתוּש:"
-
-#~ msgid "removed "
-#~ msgstr "ענתפֿערנת"
-
-#~ msgid "offline "
-#~ msgstr "וֹפֿפֿלִינע "
-
-#~ msgid "online"
-#~ msgstr "וֹנלִינע"
-
-#~ msgid "Unknown VDEV type: %s\n"
-#~ msgstr "וּנבּעכּאננתער בֿדעבֿ-תיִפּ: %s\n"
-
-#~ msgid "Authenticate users"
-#~ msgstr "בּענוּתזער לעגִיתִימִיערענ"
-
-#~ msgid "UTF-8 visual"
-#~ msgstr "וּתפֿ-8 בִֿישוּעלל"
-
-#~ msgid "Unknown"
-#~ msgstr "וּנבּעכּאננת"
-
-#~ msgid "Unknown key %s\n"
-#~ msgstr "וּנבּעכּאננתער שצהלֻששעל %s\n"
-
-#~ msgid "do not probe any floppy drive"
-#~ msgstr "כּעִינ דִישכּעתתענלאוּפֿוערכּ ֻבּערפּרֻפֿענ"
-
-#~ msgid "Expose v1 tables."
-#~ msgstr "בֿ1-תאבּעללענ דארשתעללענ."
-
-#~ msgid ""
-#~ "\n"
-#~ "Glyph #%d, U+%04x\n"
-#~ msgstr ""
-#~ "\n"
-#~ "גליִפּה #%d, וּ+%04x\n"
-
-#~ msgid "Fake BIOS."
-#~ msgstr "פֿאכּע-בִּיוֹש."
-
-#~ msgid "Read word from PORT."
-#~ msgstr "ווֹרד אוּש פּוֹרת לעשענ."
-
-#~ msgid "Read dword from PORT."
-#~ msgstr "דווֹרד אוּש פּוֹרת לעשענ."
-
-#~ msgid "Write word VALUE to PORT."
-#~ msgstr "ווֹרד-וערת ִינ פּוֹרת שצהרעִיבּענ."
-
-#~ msgid "Write dword VALUE to PORT."
-#~ msgstr "דווֹרד-וערת ִינ פּוֹרת שצהרעִיבּענ."
-
-#~ msgid "Read word from ADDR."
-#~ msgstr "ווֹרד אוּש אדדר לעשענ."
-
-#~ msgid "Read dword from ADDR."
-#~ msgstr "דווֹרד אוּש אדדר לעשענ."
-
-#~ msgid "Write word VALUE to ADDR."
-#~ msgstr "ווֹרד-וערת ִינ אדדר שצהרעִיבּענ."
-
-#~ msgid "Write dword VALUE to ADDR."
-#~ msgstr "דווֹרד-וערת ִינ אדדר שצהרעִיבּענ."
-
-#~ msgid "USERNAME"
-#~ msgstr "בּענוּתזערנאמע"
-
-#~ msgid "Dump memory."
-#~ msgstr "שפּעִיצהערִינהאלת שִיצהערנ."
-
-#~ msgid "Hex dump FILE."
-#~ msgstr "העכּס-דוּמפּ בֿוֹנ דאתעִי."
-
-#~ msgid "Error loading file %s: %s\n"
-#~ msgstr "פֿעהלער בּעִימ לאדענ דער דאתעִי %s: %s\n"
-
-#~ msgid "STR"
-#~ msgstr "זעִיצהענכּעתתע"
-
-#~ msgid "Use FILE as the device map [default=%s]"
-#~ msgstr "דאתעִי אלש גערֶתעבֿערזעִיצהנִיש בֿערוענדענ [בֿוֹרגאבּע=%s]"
-
-#~ msgid "Use DEV as the root device [default=guessed]"
-#~ msgstr "גערֶת אלש רוֹוֹת-גערֶת בֿערוענדענ [בֿוֹרגאבּע=בֿערמוּתוּנג]"
-
-#~ msgid "Install even if problems are detected"
-#~ msgstr "תרוֹתזדעמ ִינשתאללִיערענ, אוּצה ועננ פּרוֹבּלעמע אוּפֿתרעתענ"
-
-#~ msgid "DIRECTORY"
-#~ msgstr "וֹרדנער"
-
-#~ msgid "[--shift] [--ctrl] [--alt]"
-#~ msgstr "[--שהִיפֿת] [--צתרל] [--אלת]"
-
-#~ msgid "[-1|-2]"
-#~ msgstr "[-1|-2]"
-
-#~ msgid "KEY"
-#~ msgstr "שצהלֻששעל"
-
-#~ msgid "cannot get the real path of `%s'"
-#~ msgstr "רעאלער פּפֿאד בֿוֹנ »%s« כּאננ נִיצהת ערמִיתתעלת וערדענ"
-
-#~ msgid "premature end of file %s: "
-#~ msgstr "וּנערוארתעתעש ענדע דער דאתעִי %s:"
-
-#~ msgid "[n]"
-#~ msgstr "[נ]"
-
-#~ msgid "Print verbose messages."
-#~ msgstr "אוּשפֻֿהרלִיצהע מעלדוּנגענ אוּשגעבּענ."
-
-#~ msgid "no output file is specified"
-#~ msgstr "כּעִינע אוּשגאבּעדאתעִי אנגעגעבּענ"
-
-#~ msgid "No terminator in the core image"
-#~ msgstr "כּעִינ תערמִינאתוֹר ִימ צוֹרע-אבּבִּילד"
-
-#~ msgid "DEV"
-#~ msgstr "גערֶת"
-
-#~ msgid "output file must be given"
-#~ msgstr "אוּשגאבּעדאתעִי מוּשש אנגעגעבּענ וערדענ"
-
-#~ msgid "format must be specified"
-#~ msgstr "פֿוֹרמאת מוּשש אנגעגעבּענ וערדענ"
-
-#~ msgid "fstat failed"
-#~ msgstr "פֿשתאת געשצהעִיתערת"
-
-#~ msgid "no device.map"
-#~ msgstr "כּעִינע דעבִֿיצע.מאפּ"
-
-#, fuzzy
-#~ msgid "cannot stat `%s'"
-#~ msgstr "»%s« כּאננ נִיצהת געֵפֿפֿנעת וערדענ"
-
-#~ msgid "write error"
-#~ msgstr "שצהרעִיבּפֿעהלער"
-
-#~ msgid "seek error"
-#~ msgstr "שוּצהפֿעהלער"
-
-#~ msgid "Couldn't open %s for reading: %s\n"
-#~ msgstr "»%s« כּוֹננתע נִיצהת זוּמ לעשענ געֵפֿפֿנעת וערדענ: %s\n"
-
-#~ msgid "Couldn't open %s for writing: %s\n"
-#~ msgstr "»%s« כּוֹננתע נִיצהת זוּמ שצהרעִיבּענ געֵפֿפֿנעת וערדענ: %s\n"
-
-#~ msgid "set output file"
-#~ msgstr "אוּשגאבּעדאתעִי פֿעשתלעגענ"
-
-#~ msgid "the core image is too big"
-#~ msgstr "צוֹרע-אבּבִּילד ִישת זוּ גרוֹסס"
-
-#~ msgid "cannot open %s"
-#~ msgstr "%s כּאננ נִיצהת געֵפֿפֿנעת וערדענ"
-
-#~ msgid ""
-#~ "Usage: %s [OPTIONS]\n"
-#~ "\n"
-#~ "Report bugs to <%s>.\n"
-#~ msgstr ""
-#~ "אוּפֿרוּפֿ: %s [וֹפּתִיוֹנענ]\n"
-#~ "\n"
-#~ "מעלדענ שִיע פֿעהלער אנ <%s>.\n"
-
-#~ msgid "Couldn't open input file: %s\n"
-#~ msgstr "עִינגאבּעדאתעִי כּאננ נִיצהת געֵפֿפֿנעת וערדענ: %s\n"
-
-#~ msgid "Couldn't open output file: %s\n"
-#~ msgstr "אוּשגאבּעדאתעִי כּאננ נִיצהת געֵפֿפֿנעת וערדענ: %s\n"
-
-#, fuzzy
-#~ msgid "cannot open 'vendor' node of `%s'"
-#~ msgstr "»%s« כּאננ נִיצהת געֵפֿפֿנעת וערדענ"
-
-#, fuzzy
-#~ msgid "cannot read 'vendor' node of `%s'"
-#~ msgstr "%llu בּיִתעש כֵּננענ נִיצהת אוּש %s געלעשענ וערדענ"
-
-#, fuzzy
-#~ msgid "cannot open SAS PHY ID `%s'\n"
-#~ msgstr "»%s« כּאננ נִיצהת געֵפֿפֿנעת וערדענ"
-
-#~ msgid "fflush failed"
-#~ msgstr "פֿפֿלוּשה געשצהעִיתערת"
-
-#, fuzzy
-#~ msgid "cannot stat %s"
-#~ msgstr "%s כּאננ נִיצהת געֵפֿפֿנעת וערדענ"
-
-#~ msgid "cannot read %s"
-#~ msgstr "%s כּאננ נִיצהת געלעשענ וערדענ"
-
-#~ msgid "write failed"
-#~ msgstr "שצהרעִיבּפֿעהלער"
-
-#~ msgid "Unload PXE environment."
-#~ msgstr "פּכּסע-וּמגעבּוּנג ענתלאדענ."
-
-#~ msgid "[DEVICE]"
-#~ msgstr "[גערֶת]"
-
-#~ msgid "open error"
-#~ msgstr "פֿעהלער בּעִימ ֵפֿפֿנענ"
-
-#~ msgid "Must use absolute path.\n"
-#~ msgstr "אבּשוֹלוּתער פּפֿאד ִישת נוֹתוענדִיג.\n"
-
-#~ msgid "the core image is too small"
-#~ msgstr "צוֹרע-אבּבִּילד ִישת זוּ כּלעִינ"
-
-#~ msgid "prefix is too long"
-#~ msgstr "פּרֶפִֿיכּס ִישת זוּ לאנג"
-
-#~ msgid ""
-#~ "Usage: %s [OPTION]... [MODULES]\n"
-#~ "\n"
-#~ "Make a bootable image of GRUB.\n"
-#~ "\n"
-#~ "  -d, --directory=DIR     use images and modules under DIR [default=%s/"
-#~ "@platform@]\n"
-#~ "  -p, --prefix=DIR        set grub_prefix directory [default=%s]\n"
-#~ "  -m, --memdisk=FILE      embed FILE as a memdisk image\n"
-#~ "  -c, --config=FILE       embed FILE as boot config\n"
-#~ "  -n, --note              add NOTE segment for CHRP Open Firmware\n"
-#~ "  -o, --output=FILE       output a generated image to FILE "
-#~ "[default=stdout]\n"
-#~ "  -O, --format=FORMAT     generate an image in format\n"
-#~ "                          available formats: %s\n"
-#~ "  -C, --compression=(xz|none|auto)  choose the compression to use\n"
-#~ "  -h, --help              display this message and exit\n"
-#~ "  -V, --version           print version information and exit\n"
-#~ "  -v, --verbose           print verbose messages\n"
-#~ "\n"
-#~ "Report bugs to <%s>.\n"
-#~ msgstr ""
-#~ "אוּפֿרוּפֿ: %s [וֹפּתִיוֹנ]... [מוֹדוּלע]\n"
-#~ "\n"
-#~ "ערשתעללענ עִינעש בּוֹוֹתפֶֿהִיגענ גרוּבּ-אבּבִּילדעש.\n"
-#~ "\n"
-#~ "  -ד, --דִירעצתוֹריִ=וֹרדנ     אבּבִּילדער וּנד מוֹדוּלע ִינ וֹרדנ בֿערוענדענ [בֿוֹרגאבּע="
-#~ "%s/@פּלאתפֿוֹרמ@]\n"
-#~ "  -פּ, --פּרעפִֿיכּס=וֹרדנ        וֹרדנער פֻֿר גרוּבּ_פּרעפִֿיכּס פֿעשתלעגענ [בֿוֹרגאבּע="
-#~ "%s]\n"
-#~ "  -מ, --מעמדִישכּ=דאתעִי      דאתעִי אלש מעמדִישכּ-אבּבִּילד עִינבּעתתענ\n"
-#~ "  -צ, --צוֹנפִֿיג=דאתעִי       דאתעִי אלש בּוֹוֹת-כּוֹנפִֿיגוּראתִיוֹנ עִינבּעתתענ\n"
-#~ "  -נ, --נוֹתע              נוֹתע-שעגמענת פֻֿר צהרפּ וֹפּענ פִֿירמוארע הִינזוּפֻֿגענ\n"
-#~ "  -וֹ, --וֹוּתפּוּת=דאתעִי       ערזעוּגתעש אבּבִּילד ִינ דאתעִי אוּשגעבּענ "
-#~ "[בֿוֹרגאבּע=שתדוֹוּת]\n"
-#~ "  -וֹ, --פֿוֹרמאת=פֿוֹרמאת  אבּבִּילד ִינ פֿוֹרמאת ערזעוּגענ [בֿוֹרגאבּע=שתדוֹוּת]\n"
-#~ "                          בֿערפֻֿגבּארע פֿוֹרמאתע: %s\n"
-#~ "  -צ, --צוֹמפּרעששִיוֹנ=(כּסז|נוֹנע|אוּתוֹ)  זוּ בֿערוענדענדע כּוֹמפּרעששִיוֹנ\n"
-#~ "  -ה, --העלפּ              דִיעשע מעלדוּנג אנזעִיגענ וּנד בּעענדענ\n"
-#~ "  -בֿ, --בֿערשִיוֹנ           בֿערשִיוֹנשִינפֿוֹרמאתִיוֹנ אנזעִיגענ וּנד בּעענדענ\n"
-#~ "  -בֿ, --בֿערבּוֹשע           אוּשפֻֿהרלִיצהע מעלדוּנגענ אנזעִיגענ\n"
-#~ "\n"
-#~ "פֿעהלער בִּיתתע אנ <%s> מעלדענ.\n"
-
-#~ msgid ""
-#~ "embedding is not possible, but this is required when the root device is "
-#~ "on a RAID array or LVM volume"
-#~ msgstr ""
-#~ "עִינבּעתתוּנג ִישת נִיצהת מֵגלִיצה, יעדוֹצה ערפֿוֹרדערלִיצה, ועננ דאש רוֹוֹת-גערֶת שִיצה ִ"
-#~ "ינ עִינעמ ראִיד-בֿערבּוּנד וֹדער עִינעמ לבֿמ-דאתענתרֶגער בּעפִֿינדעת."
-
-#~ msgid "cannot guess the root device. Specify the option `--root-device'"
-#~ msgstr ""
-#~ "דאש רוֹוֹת-גערֶת כּאננ נִיצהת ערמִיתתעלת וערדענ. בֿערוענדענ שִיע דִיע וֹפּתִיוֹנ »--"
-#~ "רוֹוֹת-דעבִֿיצע«."
-
-#~ msgid "List compatible VESA BIOS extension video modes."
-#~ msgstr "כּוֹמפּאתִיבּלע בֿעשא בִּיוֹש-ערועִיתערוּנשמוֹדִי פֻֿר בִֿידעוֹ אוּפֿלִישתענ."
-
-#~ msgid "Test VESA BIOS Extension 2.0+ support."
-#~ msgstr "וּנתערשתֻתזוּנג פֻֿר בֿעשא בִּיוֹש-ערועִיתערוּנג 2.0+ ֻבּערפּרֻפֿענ."
-
-#~ msgid "Set the root device."
-#~ msgstr "רוֹוֹת-גערֶת פֿעשתלעגענ."
-
-#~ msgid "Simulate a hard drive with partitions."
-#~ msgstr "עִינענ דאתענתרֶגער מִית פּארתִיתִיוֹנענ שִימוּלִיערענ."
-
-#~ msgid ""
-#~ "Attempting to install GRUB to a partition instead of the MBR.  This is a "
-#~ "BAD idea."
-#~ msgstr ""
-#~ "עש וִירד בֿערשוּצהת, גרוּבּ ִינ עִינע פּארתִיתִיוֹנ אנשתעללע ִינ דענ מבּר זוּ ִ"
-#~ "ינשתאללִיערענ. דאש ִישת עִינע שצהלעצהתע ִידעע."
-
-#~ msgid "if you really want blocklists, use --force"
-#~ msgstr ""
-#~ "בּענוּתזענ שִיע --פֿוֹרצע, ועננ שִיע וִירכּלִיצה בּלוֹצכּלִישתענ בֿערוענדענ ווֹללענ."
-
-#~ msgid "A boot catalog exists and appears corrupted.\n"
-#~ msgstr "עִינ בּוֹוֹת-כּאתאלוֹג עכּסִישתִיערת, שצהעִינת אבּער בּעשצהֶדִיגת זוּ שעִינ.\n"
-
-#~ msgid "Please check the following file: %s.\n"
-#~ msgstr "בִּיתתע ֻבּערפּרֻפֿענ שִיע פֿוֹלגענדע דאתעִי: %s.\n"
-
-#~ msgid "This file must be removed before a bootable CD can be done.\n"
-#~ msgstr ""
-#~ "דִיעשע דאתעִי מוּשש ענתפֿערנת וערדענ, בּעבֿוֹר עִינע בּוֹוֹתפֶֿהִיגע צד ערשתעללת וערדענ "
-#~ "כּאננ.\n"
-
-#~ msgid "Error creating boot catalog (%s)"
-#~ msgstr "פֿעהלער בּעִימ ערשתעללענ דעש בּוֹוֹת-כּאתאלוֹגש (%s)"
-
-#~ msgid "Error writing to boot catalog (%s)"
-#~ msgstr "פֿעהלער בּעִימ שפּעִיצהערנ דעש בּוֹוֹת-כּאתאלוֹגש (%s)"
-
-#~ msgid "Boot catalog cannot be found!\n"
-#~ msgstr "בּוֹוֹת-כּאתאלוֹג כּאננ נִיצהת געפֿוּנדענ וערדענ!\n"
-
-#~ msgid "Boot image cannot be found!\n"
-#~ msgstr "בּוֹוֹת-אבּבִּילד כּאננ נִיצהת געפֿוּנדענ וערדענ!\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Size of boot image is %d sectors"
-#~ msgstr ""
-#~ "\n"
-#~ "דאש בּוֹוֹת-אבּבִּילד וּמפֿאששת %d שעכּתוֹרענ"
-
-#~ msgid "No emulation\n"
-#~ msgstr "כּעִינע עמוּלאתִיוֹנ\n"
-
-#~ msgid "Emulating a 1.44 meg floppy\n"
-#~ msgstr "עִינע 1,44 מבּ-דִישכּעתתע עמוּלִיערענ\n"
-
-#~ msgid "Emulating a 2.88 meg floppy\n"
-#~ msgstr "עִינע 2,88 מבּ-דִישכּעתתע עמוּלִיערענ\n"
-
-#~ msgid "Emulating a 1.2 meg floppy\n"
-#~ msgstr "עִינע 1,2 מבּ-דִישכּעתתע עמוּלִיערענ\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Error - boot image is not the an allowable size.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "פֿעהלער - בּוֹוֹת-אבּבִּילד האת כּעִינע אכּזעפּתאבּלע גרֵססע.\n"
-
-#~ msgid "Error opening boot catalog for update"
-#~ msgstr "פֿעהלער בּעִימ ֵפֿפֿנענ דעש בּוֹוֹת-כּאתאלוֹגש זוּמ אכּתוּאלִישִיערענ"
-
-#~ msgid "Error writing to boot catalog"
-#~ msgstr "פֿעהלער בּעִימ שצהרעִיבּענ ִינ דענ בּוֹוֹת-כּאתאלוֹג"
-
-#~ msgid "Error opening boot image file '%s' for update"
-#~ msgstr "פֿעהלער בּעִימ ֵפֿפֿנענ דער בּוֹוֹת-אבּבִּילדדאתעִי »%s« זוּמ אכּתוּאלִישִיערענ"
-
-#~ msgid "Boot image file '%s' changed unexpectedly"
-#~ msgstr "בּוֹוֹת-אבּבִּילדדאתעִי »%s« ווּרדע וּנערוארתעת געֶנדערת"
-
-#~ msgid "Error writing to boot image (%s)"
-#~ msgstr "פֿעהלער בּעִימ שצהרעִיבּענ ִינ דאש בּוֹוֹת-אבּבִּילד (%s)"
-
-#~ msgid "Unable to generate sane path tables - too many directories (%d)\n"
-#~ msgstr ""
-#~ "ערזעוּגוּנג דער שאנע-פּפֿאדתאבּעללענ ִישת נִיצהת מֵגלִיצה - זוּ בִֿיעלע וֹרדנער (%d)\n"
-
-#~ msgid "Entry %d not in path tables\n"
-#~ msgstr "עִינתראג %d נִיצהת ִינ פּפֿאדתאבּעללענ בֿוֹרהאנדענ\n"
-
-#~ msgid "Joliet path table lengths do not match %d %d\n"
-#~ msgstr "לֶנגענ דער יוֹלִיעת-פּפֿאדתאבּעללענ %d %d שתִיממענ נִיצהת ֻבּערעִינ\n"
-
-#~ msgid "Unable to locate relocated directory\n"
-#~ msgstr "געֶנדערתער וֹרדנער כּאננ נִיצהת געפֿוּנדענ וערדענ\n"
-
-#~ msgid "Fatal goof - unable to find directory location\n"
-#~ msgstr "פֿאתאלער פֿעהלער - וֹרת דעש וֹרדנערש כּאננ נִיצהת געפֿוּנדענ וערדענ\n"
-
-#~ msgid "Unexpected joliet directory length %d %d %s\n"
-#~ msgstr "וּנערוארתעתע לֶנגע דעש יוֹלִיעת-וֹרדנערש %d %d %s\n"
-
-#~ msgid "Using \"%s\"\n"
-#~ msgstr "»%s« וִירד בֿערוענדעת\n"
-
-#~ msgid "%s:%d: name required\n"
-#~ msgstr "%s:%d: נאמע ערפֿוֹרדערלִיצה\n"
-
-#~ msgid "%s:%d: equals sign required\n"
-#~ msgstr "%s:%d: גלעִיצההעִיתשזעִיצהענ ערפֿוֹרדערלִיצה\n"
-
-#~ msgid "%s:%d: field name \"%s\" unknown\n"
-#~ msgstr "%s:%d: פֿעלדנאמע »%s« ִישת וּנבּעכּאננת\n"
-
-#~ msgid "Usage: %s [options] file...\n"
-#~ msgstr "אוּפֿרוּפֿ: %s [וֹפּתִיוֹנענ] דאתעִי...\n"
-
-#~ msgid "Required boot image pathname missing\n"
-#~ msgstr "פּפֿאדנאמע דעש בּוֹוֹת-אבּבִּילדעש ִישת נוֹתוענדִיג, פֿעהלת אבּער\n"
-
-#~ msgid "Required boot catalog pathname missing\n"
-#~ msgstr "פּפֿאדנאמע דעש בּוֹוֹת-כּאתאלוֹגש ִישת נוֹתוענדִיג, פֿעהלת אבּער\n"
-
-#~ msgid "Ignoring -no-emul-boot (no-emulation is the default behaviour)\n"
-#~ msgstr ""
-#~ "-נוֹ-עמוּל-בּוֹוֹת וִירד ִיגנוֹרִיערת (נוֹ-עמוּלאתִיוֹנ ִישת דאש שתאנדארדבֿערהאלתענ)\n"
-
-#~ msgid "Abstract filename string too long\n"
-#~ msgstr "»אבּשתראצת«-זעִיצהענכּעתתע פֻֿר דאתעִינאמע ִישת זוּ לאנג\n"
-
-#~ msgid "Application-id string too long\n"
-#~ msgstr "»אפּפּלִיצאתִיוֹנ-ִיד«-זעִיצהענכּעתתע ִישת זוּ לאנג\n"
-
-#~ msgid "Bibliographic filename string too long\n"
-#~ msgstr "»בִּיבּלִיוֹגראפּהִיצ«-זעִיצהענכּעתתע פֻֿר דאתעִינאמע ִישת זוּ לאנג\n"
-
-#~ msgid "Copyright filename string too long\n"
-#~ msgstr "»צוֹפּיִרִיגהת«-זעִיצהענכּעתתע פֻֿר דאתעִינאמע ִישת זוּ לאנג\n"
-
-#~ msgid "Preparer string too long\n"
-#~ msgstr "»פּרעפּארער«-זעִיצהענכּעתתע ִישת זוּ לאנג\n"
-
-#~ msgid "Publisher string too long\n"
-#~ msgstr "»פּוּבּלִישהער«-זעִיצהענכּעתתע ִישת זוּ לאנג\n"
-
-#~ msgid "System ID string too long\n"
-#~ msgstr "»שיִשתעמ ִיד«-זעִיצהענכּעתתע ִישת זוּ לאנג\n"
-
-#~ msgid "Volume ID string too long\n"
-#~ msgstr "»בֿוֹלוּמע ִיד«-זעִיצהענכּעתתע ִישת זוּ לאנג\n"
-
-#~ msgid "Volume set ID string too long\n"
-#~ msgstr "»בֿוֹלוּמע שעת ִיד«-זעִיצהענכּעתתע ִישת זוּ לאנג\n"
-
-#~ msgid "Volume set sequence number too big\n"
-#~ msgstr "שעקוּענזנוּממער דעש דאתענתרֶגערשאתזעש ִישת זוּ גרוֹסס\n"
-
-#~ msgid "date string must be 16 characters.\n"
-#~ msgstr "דאתוּמשזעִיצהענכּעתתע מוּשש אוּש 16 זעִיצהענ בּעשתעהענ.\n"
-
-#~ msgid "Warning: setrlimit"
-#~ msgstr "וארנוּנג: שעתרלִימִית"
-
-#~ msgid "Multisession usage bug: Must specify -C if -M is used.\n"
-#~ msgstr ""
-#~ "פֻֿר מעהרפֿאצהשִיתזוּנגענ מוּשש -צ אנגעגעבּענ וערדענ, פֿאללש -מ בּענוּתזת וִירד.\n"
-
-#~ msgid ""
-#~ "Warning: -C specified without -M: old session data will not be merged.\n"
-#~ msgstr ""
-#~ "וארנוּנג: -צ ווּרדע וֹהנע -מ אנגעגעבּענ: אלתע שִיתזוּנגשדאתענ וערדענ נִיצהת "
-#~ "בּערֻצכּשִיצהתִיגת.\n"
-
-#~ msgid "re-directing all messages to %s\n"
-#~ msgstr "אללע מעלדוּנגענ וערדענ זוּ %s וּמגעלעִיתעת\n"
-
-#~ msgid "Unable to open previous session image %s\n"
-#~ msgstr "אבּבִּילד דער בֿוֹרהערִיגענ שִיתזוּנג %s כּאננ נִיצהת געֵפֿפֿנעת וערדענ\n"
-
-#~ msgid "Joliet tree sort failed.\n"
-#~ msgstr "שוֹרתִיערוּנג דעש יוֹלִיעת-בּאוּמש ִישת געשצהעִיתערת.\n"
-
-#~ msgid "Unable to open /dev/null\n"
-#~ msgstr "/דעבֿ/נוּלל כּאננ נִיצהת געֵפֿפֿנעת וערדענ\n"
-
-#~ msgid "Unable to open disc image file\n"
-#~ msgstr "אבּבִּילדדאתעִי דער פּלאתתע כּאננ נִיצהת געֵפֿפֿנעת וערדענ\n"
-
-#~ msgid "%llu extents written (%llu MiB)\n"
-#~ msgstr "%llu עִינהעִיתענ געשצהרִיעבּענ (%llu מִיבּ)\n"
-
-#~ msgid "Seek error on old image\n"
-#~ msgstr "פֿעהלער בּעִימ דוּרצהשוּצהענ עִינעש אלתענ אבּבִּילדעש\n"
-
-#~ msgid "**Bad RR version attribute"
-#~ msgstr "**פֿאלשצהעש רר-בֿערשִיוֹנשאתתרִיבּוּת"
-
-#~ msgid ""
-#~ "Warning: Neither Rock Ridge (-R) nor TRANS.TBL (-T) name translations "
-#~ "were found on previous session. ISO (8.3) file names have been used "
-#~ "instead.\n"
-#~ msgstr ""
-#~ "וארנוּנג: ועדער רוֹצכּרִידגע (-ר) נוֹצה תראנש.תבּל (-ת)-נאמענשֻבּערשעתזוּנגענ "
-#~ "ווּרדענ ִינ דער בֿוֹרהערִיגענ שִיתזוּנג געפֿוּנדענ. ִישוֹ (8.3)-דאתעִינאמענ ווּרדענ "
-#~ "שתאתתדעששענ בֿערוענדעת.\n"
-
-#~ msgid "Read error on old image %s\n"
-#~ msgstr "פֿעהלער בּעִימ לעשענ דעש אלתענ אבּבִּילדעש %s\n"
-
-#~ msgid "Special parameters for cdwrite not specified with -C\n"
-#~ msgstr "שפּעזִיעללע פּאראמעתער פֻֿר צדורִיתע ווּרדענ נִיצהת מִית -צ אנגעגעבּענ\n"
-
-#~ msgid "Malformed cdwrite parameters\n"
-#~ msgstr "וּנגֻלתִיגע פּאראמעתער פֻֿר צדורִיתע\n"
-
-#~ msgid "Unable to insert transparent compressed file - name conflict\n"
-#~ msgstr ""
-#~ "תראנשפּארענתע כּוֹמפּרִימִיערתע דאתעִי כּאננ נִיצהת עִינגעפֻֿגת וערדענ - "
-#~ "נאמענשכּוֹנפֿלִיכּת\n"
-
-#~ msgid "Extension record too long\n"
-#~ msgstr "ערועִיתערוּנגשאוּפֿזעִיצהנוּנג ִישת זוּ לאנג\n"
-
-#~ msgid "Fatal goof\n"
-#~ msgstr "פֿאתאלער פֿעהלער\n"
-
-#~ msgid "Unable to  generate unique  name for file %s\n"
-#~ msgstr "עִינדעוּתִיגער נאמע פֻֿר דאתעִי %s כּאננ נִיצהת ערזעוּגת וערדענ\n"
-
-#~ msgid "Fatal error - RR overflow for file %s\n"
-#~ msgstr "פֿאתאלער פֿעהלער - רר-ֻבּערלאוּפֿ פֻֿר דאתעִי %s\n"
-
-#~ msgid "Translation table size mismatch %d %d\n"
-#~ msgstr "גרֵססע דער ֻבּערשעתזוּנגשתאבּעללענ %d %d שתִיממת נִיצהת ֻבּערעִינ\n"
-
-#~ msgid "Unable to locate directory parent\n"
-#~ msgstr "וֹרת דעש עלתערנוֹרדנערש כּאננ נִיצהת בּעשתִיממת וערדענ\n"
-
-#~ msgid "Scanning %s\n"
-#~ msgstr "%s וִירד עִינגעלעשענ\n"
-
-#~ msgid "Overflow of stat buffer\n"
-#~ msgstr "ֻבּערלאוּפֿ דעש שתאת-זוִישצהענשפּעִיצהערש\n"
-
-#~ msgid "Excluded by match: %s\n"
-#~ msgstr "אוּשגעשצהלוֹששענ נאצה ֻבּערעִינשתִיממוּנג: %s\n"
-
-#~ msgid "Excluded: %s\n"
-#~ msgstr "אוּשגעשצהלוֹששענ: %s\n"
-
-#~ msgid "Non-existant or inaccessible: %s\n"
-#~ msgstr "נִיצהת בֿוֹרהאנדענ וֹדער כּעִינ זוּגרִיפֿפֿ מֵגלִיצה: %s\n"
-
-#~ msgid "Unable to stat file %s - ignoring and continuing.\n"
-#~ msgstr ""
-#~ "שתאתוּשערמִיתתלוּנג דער דאתעִי %s נִיצהת מֵגלִיצה - וִירד ִיגנוֹרִיערת וּנד "
-#~ "פֿוֹרתגעשעתזת.\n"
-
-#~ msgid "Symlink %s ignored - continuing.\n"
-#~ msgstr "שיִמבּוֹלִישצהע בֿערכּנֻפּפֿוּנג %s וִירד ִיגנוֹרִיערת וּנד פֿוֹרתגעשעתזת.\n"
-
-#~ msgid "Already cached directory seen (%s)\n"
-#~ msgstr "בּערעִיתש זוִישצהענגעשפּעִיצהערתער וֹרדנער ערכּאננת (%s)\n"
-
-#~ msgid "File %s is not readable (%s) - ignoring\n"
-#~ msgstr "דאתעִי %s ִישת נִיצהת לעשבּאר (%s) - וִירד ִיגנוֹרִיערת\n"
-
-#~ msgid "Directory loop - fatal goof (%s %lx %lu).\n"
-#~ msgstr "וֹרדנערשצהלעִיפֿע - פֿאתאלער פֿעהלער (%s %lx %lu).\n"
-
-#~ msgid "Unknown file type %s - ignoring and continuing.\n"
-#~ msgstr "וּנבּעכּאננתער דאתעִיתיִפּ %s - וִירד ִיגנוֹרִיערת וּנד פֿוֹרתגעשעתזת.\n"
-
-#~ msgid "Hidden from ISO9660 tree: %s\n"
-#~ msgstr "ִימ ִישוֹ9660-בּאוּמ בֿערבּוֹרגענ: %s\n"
-
-#~ msgid "Hidden from Joliet tree: %s\n"
-#~ msgstr "ִימ יוֹלִיעת-בּאוּמ בֿערבּוֹרגענ: %s\n"
-
-#~ msgid "Directories too deep  %s\n"
-#~ msgstr "וֹרדנערתִיעפֿע %s זוּ גרוֹסס\n"
-
-#~ msgid "Unable to locate child directory in parent list\n"
-#~ msgstr "כִּינדוֹרדנער כּאננ ִינ עלתערנלִישתע נִיצהת געפֿוּנדענ וערדענ\n"
-
-#~ msgid "call to search_tree_file with an absolute path, stripping\n"
-#~ msgstr ""
-#~ "אוּפֿרוּפֿ בֿוֹנ שעארצה_תרעע_פִֿילע מִית אבּשוֹלוּתעמ פּפֿאד, וִירד אבּגעשצהנִיתתענ\n"
-
-#~ msgid "initial path separator. Hope this was intended...\n"
-#~ msgstr "אנפֶֿנגלִיצהער פּפֿאדתרעננער. הוֹפֿפֿענתלִיצה ואר דִיעש בּעאבּשִיצהתִיגת...\n"
-
-#~ msgid "Cannot open '%s'"
-#~ msgstr "»%s« כּאננ נִיצהת געֵפֿפֿנעת וערדענ"
-
-#~ msgid "cannot open %s\n"
-#~ msgstr "%s כּאננ נִיצהת געֵפֿפֿנעת וערדענ\n"
-
-#~ msgid "%6.2f%% done, estimate finish %s"
-#~ msgstr "%6.2פֿ%% אבּגעשצהלוֹששענ, בֿוֹראוּששִיצהתלִיצה בּעענדעת %s"
-
-#~ msgid "Unexpected directory length %d %d %s\n"
-#~ msgstr "וּנערוארתעתע וֹרדנערלֶנגע %d %d %s\n"
-
-#~ msgid "Path table lengths do not match %d %d\n"
-#~ msgstr "לֶנגענ דער פּפֿאדתאבּעללענ %d %d שתִיממענ נִיצהת ֻבּערעִינ\n"
-
-#~ msgid "Total extents scheduled to be written = %llu\n"
-#~ msgstr "געפּלאנתע זוּ שצהרעִיבּענדע עִינהעִיתענ = %llu\n"
-
-#~ msgid "Total extents actually written = %llu\n"
-#~ msgstr "געשאמתע דערזעִית געשצהרִיעבּענע עִינהעִיתענ = %llu\n"
-
-#~ msgid ""
-#~ "Number of extents written different than what was predicted.  Please "
-#~ "fix.\n"
-#~ msgstr ""
-#~ "אנזאהל דער זוּ שצהרעִיבּענדענ עִינהעִיתענ אנדערש אלש ערוארתעת. בִּיתתע "
-#~ "בּערִיצהתִיגענ.\n"
-
-#~ msgid "Predicted = %d, written = %llu\n"
-#~ msgstr "ערוארתעת = %d, געשצהרִיעבּענ = %llu\n"
-
-#~ msgid "Total rockridge attributes bytes: %d\n"
-#~ msgstr "געשאמתגרֵססע דער רוֹצכּרִידגע-אתתרִיבּוּתע ִינ בּיִתעש: %d\n"
-
-#~ msgid "Path table size(bytes): %d\n"
-#~ msgstr "גרֵססע דער פּפֿאדתאבּעללע ִינ בּיִתעש: %d\n"

@@ -1,4 +1,4 @@
-From 01a545c437b646c5fa571313153bc5ba57507a82 Mon Sep 17 00:00:00 2001
+From 8e6b05dbc0a21e8d2a6e8ef2bb831f0bf8ff3a6d Mon Sep 17 00:00:00 2001
 From: Ian Campbell <ijc@hellion.org.uk>
 Date: Sat, 6 Sep 2014 12:20:12 +0100
 Subject: grub-install: Install PV Xen binaries into the upstream specified

@@ -1,5 +1,6 @@
-grub2 (2.04~rc1-4) UNRELEASED; urgency=medium
+grub2 (2.04-1) UNRELEASED; urgency=medium
 
+  * New upstream release.
   * debian/upstream/signing-key.asc: Add signing key of new upstream
     maintainer (Daniel Kiper).
 

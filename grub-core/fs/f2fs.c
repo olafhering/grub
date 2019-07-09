@@ -702,7 +702,7 @@ grub_get_node_path (struct grub_f2fs_inode *inode, grub_uint32_t block,
   grub_uint32_t dindirect_blks = indirect_blks * NIDS_PER_BLOCK;
   grub_uint32_t direct_index = DEF_ADDRS_PER_INODE;
   int n = 0;
-  int level = 0;
+  int level = -1;
 
   if (inode->i_inline & F2FS_INLINE_XATTR)
     direct_index -= F2FS_INLINE_XATTR_ADDRS;
@@ -712,6 +712,7 @@ grub_get_node_path (struct grub_f2fs_inode *inode, grub_uint32_t block,
   if (block < direct_index)
     {
       offset[n] = block;
+      level = 0;
       goto got;
     }
 
@@ -860,6 +861,10 @@ grub_f2fs_get_block (grub_fshelp_node_t node, grub_disk_addr_t block_ofs)
   int level, i;
 
   level = grub_get_node_path (inode, block_ofs, offset, noffset);
+
+  if (level < 0)
+    return -1;
+
   if (level == 0)
     return grub_le_to_cpu32 (inode->i_addr[offset[0]]);
 
@@ -1235,6 +1240,11 @@ grub_f2fs_utf16_to_utf8 (grub_uint16_t *in_buf_le)
   return out_buf;
 }
 
+#if __GNUC__ >= 9
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Waddress-of-packed-member"
+#endif
+
 static grub_err_t
 grub_f2fs_label (grub_device_t device, char **label)
 {
@@ -1254,6 +1264,10 @@ grub_f2fs_label (grub_device_t device, char **label)
 
   return grub_errno;
 }
+
+#if __GNUC__ >= 9
+#pragma GCC diagnostic pop
+#endif
 
 static grub_err_t
 grub_f2fs_uuid (grub_device_t device, char **uuid)

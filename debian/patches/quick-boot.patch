@@ -1,4 +1,4 @@
-From 5f4601fe91e0d8b172922d6f49e27782cb98254e Mon Sep 17 00:00:00 2001
+From 20154f1a5e0606fc488df60ac28a4d186cda22bd Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:28 +0000
 Subject: Add configure option to bypass boot menu if possible
@@ -33,7 +33,7 @@ Patch-Name: quick-boot.patch
  7 files changed, 141 insertions(+), 13 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 4ddee8a7c..ebfcb618a 100644
+index ea00ccd69..7dda5bb32 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1868,6 +1868,17 @@ else
@@ -55,7 +55,7 @@ index 4ddee8a7c..ebfcb618a 100644
  
  AC_SUBST([FONT_SOURCE])
 diff --git a/docs/grub.texi b/docs/grub.texi
-index 308b25074..6736032d7 100644
+index 87795075a..a835d0ae4 100644
 --- a/docs/grub.texi
 +++ b/docs/grub.texi
 @@ -1522,6 +1522,20 @@ This option may be set to a list of GRUB module names separated by spaces.
@@ -115,7 +115,7 @@ index ebf5a0f10..42c82290d 100644
  	{
  	  pos = grub_term_save_pos ();
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-index 90ec26d65..871e7fb21 100644
+index d18bf972f..307214310 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
 @@ -250,7 +250,8 @@ export GRUB_DEFAULT \

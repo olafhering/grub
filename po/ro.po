@@ -1,28 +1,29 @@
-# Punjabi Translation for grub
-# Copyright (C) 2012 Free Software Foundation, Inc.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2019 Free Software Foundation, Inc.
 # This file is distributed under the same license as the grub package.
+# Daniel Șerbănescu <daniel@serbanescu.dk>, 2019.
 #
-# A S Alam <aalam@users.sf.net>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: grub 2.0.0-pre6\n"
+"Project-Id-Version: grub 2.04-pre1\n"
 "Report-Msgid-Bugs-To: bug-grub@gnu.org\n"
 "POT-Creation-Date: 2019-07-04 16:09+0200\n"
-"PO-Revision-Date: 2012-05-19 19:45+0530\n"
-"Last-Translator: A S Alam <aalam@users.sf.net>\n"
-"Language-Team: Punjabi <punjabi-l10n@lists.sourceforge.net>\n"
-"Language: pa\n"
+"PO-Revision-Date: 2019-04-16 19:25+0200\n"
+"Last-Translator: Daniel Șerbănescu <daniel@serbanescu.dk>\n"
+"Language-Team: Romanian <translation-team-ro@lists.sourceforge.net>\n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Poedit 2.2.1\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n==0 || (n!=1 && n%100>=1 && n"
+"%100<=19) ? 1 : 2);\n"
 
 #: grub-core/bus/usb/serial/ftdi.c:145 grub-core/bus/usb/serial/pl2303.c:158
 #: grub-core/term/ieee1275/escc.c:169 grub-core/term/ns8250.c:202
 msgid "unsupported serial port speed"
-msgstr "ਗ਼ੈਰ-ਸਹਾਇਕ ਸੀਰੀਅਲ ਪੋਰਟ ਸਪੀਡ"
+msgstr ""
 
 #: grub-core/bus/usb/serial/ftdi.c:151 grub-core/bus/usb/serial/pl2303.c:164
 #: grub-core/term/efi/serial.c:116 grub-core/term/ieee1275/escc.c:175
@@ -35,33 +36,33 @@ msgstr ""
 #: grub-core/term/efi/serial.c:122 grub-core/term/ieee1275/escc.c:181
 #: grub-core/term/ns8250.c:213 grub-core/term/serial.c:267
 msgid "unsupported serial port stop bits number"
-msgstr "ਗ਼ੈਰ-ਸਹਾਇਕ ਸੀਰੀਅਲ ਪੋਰਟ ਸਟਾਪ ਬਿੱਟ ਨੰਬਰ"
+msgstr ""
 
 #: grub-core/bus/usb/serial/ftdi.c:161 grub-core/bus/usb/serial/pl2303.c:174
 #: grub-core/term/efi/serial.c:126 grub-core/term/ieee1275/escc.c:185
 #: grub-core/term/ns8250.c:217
 msgid "unsupported serial port word length"
-msgstr "ਗ਼ੈਰ-ਸਹਾਇਕ ਸੀਰੀਅਲ ਪੋਰਟ ਸ਼ਬਦ ਲੰਬਾਈ"
+msgstr ""
 
 #: grub-core/commands/acpi.c:42
 msgid "Don't load host tables specified by comma-separated list."
-msgstr "ਕਾਮਿਆਂ ਨਾਲ ਵੱਖ ਕੀਤੀ ਲਿਸਟ ਤੋਂ ਹੋਸਟ ਟੇਬਲ ਲੋਡ ਨਾ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/acpi.c:45
 msgid "Load only tables specified by comma-separated list."
-msgstr "ਕਾਮਿਆਂ-ਨਾਲ ਵੱਖ ਕੀਤੀ ਸੂਚੀ ਰਾਹੀਂ ਦਿੱਤੇ ਟੇਬਲ ਹੀ ਲੋਡ ਕਰੋ"
+msgstr ""
 
 #: grub-core/commands/acpi.c:46
 msgid "Export version 1 tables to the OS."
-msgstr "ਵਰਜਨ 1 ਟੇਬਲ ਨੂੰ OS ਲਈ ਐਕਸਪੋਰਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/acpi.c:47
 msgid "Export version 2 and version 3 tables to the OS."
-msgstr "OS ਲਈ ਵਰਜਨ 2 ਅਤੇ ਵਰਜਨ 3 ਟੇਬਲ ਐਕਸਪੋਰਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/acpi.c:48
 msgid "Set OEMID of RSDP, XSDT and RSDT."
-msgstr "RSDP, XSDT ਅਤੇ RSDT ਦਾ OEMID ਸੈੱਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/acpi.c:50
 msgid "Set OEMTABLE ID of RSDP, XSDT and RSDT."
@@ -73,11 +74,11 @@ msgstr ""
 
 #: grub-core/commands/acpi.c:54
 msgid "Set creator field of RSDP, XSDT and RSDT."
-msgstr "RSDP, XSDT ਅਤੇ RSDT ਲਈ ਕਰੀਏਟਰ ਖੇਤਰ ਦਿਉ।"
+msgstr ""
 
 #: grub-core/commands/acpi.c:56
 msgid "Set creator revision of RSDP, XSDT and RSDT."
-msgstr "RSDP, XSDT ਅਤੇ RSDT ਲਈ ਕਰੀਏਟਰ ਰੀਵਿਜ਼ਨ ਸੈੱਟ ਕਰੋ"
+msgstr ""
 
 #. TRANSLATORS: "hangs" here is a noun, not a verb.
 #: grub-core/commands/acpi.c:58
@@ -130,15 +131,13 @@ msgstr ""
 #: grub-core/loader/xnu_resume.c:165 util/grub-mkimagexx.c:2288
 #, c-format
 msgid "premature end of file %s"
-msgstr "ਫਾਇਲ %s ਦਾ ਅਧੂਰਾ ਅੰਤ"
+msgstr ""
 
 #: grub-core/commands/acpi.c:779
 msgid ""
 "[-1|-2] [--exclude=TABLE1,TABLE2|--load-only=TABLE1,TABLE2] FILE1 [FILE2] "
 "[...]"
 msgstr ""
-"[-1|-2] [--exclude=TABLE1,TABLE2|--load-only=TABLE1,TABLE2] FILE1 [FILE2] "
-"[...]"
 
 #: grub-core/commands/acpi.c:782
 msgid "Load host ACPI tables and tables specified by arguments."
@@ -147,7 +146,7 @@ msgstr ""
 #: grub-core/commands/acpihalt.c:368 grub-core/kern/err.c:110
 #, c-format
 msgid "error: %s.\n"
-msgstr "ਗਲਤੀ: %s\n"
+msgstr ""
 
 #: grub-core/commands/acpihalt.c:368 grub-core/kern/emu/misc.c:95
 #: grub-core/kern/emu/misc.c:105 grub-core/kern/emu/misc.c:134
@@ -161,7 +160,7 @@ msgstr "ਗਲਤੀ: %s\n"
 #: grub-core/osdep/windows/dl.c:46 grub-core/script/lexer.c:156
 #: grub-core/script/lexer.c:182
 msgid "out of memory"
-msgstr "ਮੈਮੋਰੀ ਖਤਮ ਹੋਈ"
+msgstr ""
 
 #: grub-core/commands/acpihalt.c:374 grub-core/disk/cryptodisk.c:587
 #: grub-core/disk/cryptodisk.c:632 grub-core/kern/emu/hostdisk.c:307
@@ -174,16 +173,16 @@ msgstr "ਮੈਮੋਰੀ ਖਤਮ ਹੋਈ"
 #: util/misc.c:95 util/setup.c:814 util/setup.c:833
 #, c-format
 msgid "cannot read `%s': %s"
-msgstr "`%s' ਨੂੰ ਪੜ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s"
+msgstr ""
 
 #. TRANSLATORS: It's computer shutdown using ACPI, not disabling ACPI.
 #: grub-core/commands/acpihalt.c:452
 msgid "ACPI shutdown failed"
-msgstr "ACPI ਬੰਦ ਕਰਨਾ ਫੇਲ੍ਹ ਹੈ"
+msgstr ""
 
 #: grub-core/commands/arc/lsdev.c:51
 msgid "List devices."
-msgstr "ਜੰਤਰ ਦੀ ਸੂਚੀ।"
+msgstr ""
 
 #: grub-core/commands/blocklist.c:122 grub-core/commands/cat.c:57
 #: grub-core/commands/configfile.c:35 grub-core/commands/efi/loadbios.c:168
@@ -222,7 +221,7 @@ msgstr "ਜੰਤਰ ਦੀ ਸੂਚੀ।"
 #: grub-core/loader/xnu.c:1427 grub-core/loader/xnu.c:1453
 #: grub-core/video/readers/jpeg.c:812 grub-core/video/readers/png.c:1123
 msgid "filename expected"
-msgstr "ਫਾਇਲ-ਨਾਂ ਦੀ ਲੋੜ ਸੀ"
+msgstr ""
 
 #. TRANSLATORS: "embed" is a verb (command description).  "
 #: grub-core/commands/blocklist.c:154 grub-core/commands/cat.c:163
@@ -253,11 +252,11 @@ msgstr "ਫਾਇਲ-ਨਾਂ ਦੀ ਲੋੜ ਸੀ"
 #: util/grub-setup.c:80 util/grub-setup.c:84 util/grub-syslinux2cfg.c:74
 #: util/grub-syslinux2cfg.c:147
 msgid "FILE"
-msgstr "ਫਾਇਲ"
+msgstr ""
 
 #: grub-core/commands/blocklist.c:154
 msgid "Print a block list."
-msgstr "ਬਲਾਕ ਲਿਸਟ ਪਰਿੰਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/boot.c:147 grub-core/commands/legacycfg.c:533
 #: grub-core/commands/legacycfg.c:574 grub-core/loader/arm64/linux.c:250
@@ -274,17 +273,16 @@ msgstr "ਬਲਾਕ ਲਿਸਟ ਪਰਿੰਟ ਕਰੋ।"
 #: grub-core/loader/xnu.c:1258 grub-core/loader/xnu.c:1289
 #: grub-core/loader/xnu.c:1430
 msgid "you need to load the kernel first"
-msgstr "ਤੁਹਾਨੂੰ ਪਹਿਲਾਂ ਕਰਨਲ ਲੋਡ ਕਰਨ ਦੀ ਲੋੜ ਹੈ।"
+msgstr ""
 
 #: grub-core/commands/boot.c:189
 msgid "Boot an operating system."
-msgstr "ਓਪਰੇਟਿੰਗ ਸਿਸਟਮ ਬੂਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/boottime.c:36
 #: grub-core/commands/i386/coreboot/cb_timestamps.c:108
-#, fuzzy
 msgid "No boot time statistics is available\n"
-msgstr "ਕੋਈ ਡਿਸਕ ਕੈਸ਼ ਅੰਕੜੇ ਉਪਲੱਬਧ ਨਹੀਂ ਹਨ\n"
+msgstr ""
 
 #: grub-core/commands/boottime.c:59
 msgid "Show boot time statistics."
@@ -293,15 +291,15 @@ msgstr ""
 #: grub-core/commands/cacheinfo.c:40
 #, c-format
 msgid "Disk cache statistics: hits = %lu (%lu.%02lu%%), misses = %lu\n"
-msgstr "ਡਿਸਕ ਕੈਸ਼ ਅੰਕੜੇ: ਸਹੀ = %lu (%lu.%02lu%%), ਖੁੰਝੇ = %lu\n"
+msgstr ""
 
 #: grub-core/commands/cacheinfo.c:45
 msgid "No disk cache statistics available\n"
-msgstr "ਕੋਈ ਡਿਸਕ ਕੈਸ਼ ਅੰਕੜੇ ਉਪਲੱਬਧ ਨਹੀਂ ਹਨ\n"
+msgstr ""
 
 #: grub-core/commands/cacheinfo.c:56
 msgid "Get disk cache info."
-msgstr "ਡਿਸਕ ਕੈਸ਼ ਜਾਣਕਾਰੀ ਲਵੋ।"
+msgstr ""
 
 #: grub-core/commands/cat.c:33
 msgid "Accept DOS-style CR/NL line endings."
@@ -309,7 +307,7 @@ msgstr ""
 
 #: grub-core/commands/cat.c:163 grub-core/commands/minicmd.c:198
 msgid "Show the contents of a file."
-msgstr "ਫਾਇਲ ਦੀ ਸਮੱਗਰੀ ਵੇਖੋ।"
+msgstr ""
 
 #: grub-core/commands/cmp.c:43 grub-core/commands/i386/pc/drivemap.c:239
 #: grub-core/commands/i386/wrmsr.c:60 grub-core/commands/iorw.c:85
@@ -318,17 +316,17 @@ msgstr "ਫਾਇਲ ਦੀ ਸਮੱਗਰੀ ਵੇਖੋ।"
 #: grub-core/commands/regexp.c:113 grub-core/mmap/mmap.c:517
 #: grub-core/net/dns.c:639
 msgid "two arguments expected"
-msgstr "ਦੋ ਆਰਗੂਮੈਂਟ ਦੀ ਲੋੜ ਹੈ"
+msgstr ""
 
 #: grub-core/commands/cmp.c:45
 #, c-format
 msgid "Compare file `%s' with `%s':\n"
-msgstr "`%s' ਫਾਇਲ ਦੀ `%s' ਨਾਲ ਤੁਲਨਾ:\n"
+msgstr ""
 
 #: grub-core/commands/cmp.c:54
 #, c-format
 msgid "Files differ in size: %llu [%s], %llu [%s]\n"
-msgstr "ਫਾਇਲ ਆਕਾਰ ਵਿੱਚ ਅੰਤਰ: %llu [%s], %llu [%s]\n"
+msgstr ""
 
 #: grub-core/commands/cmp.c:81
 #, c-format
@@ -338,41 +336,40 @@ msgstr ""
 #. TRANSLATORS: it's always exactly 2 files.
 #: grub-core/commands/cmp.c:93
 msgid "The files are identical.\n"
-msgstr "ਫਾਇਲਾਂ ਇਕੋ ਜੇਹੀਆਂ ਹਨ।\n"
+msgstr ""
 
 #: grub-core/commands/cmp.c:113
 msgid "FILE1 FILE2"
-msgstr "ਫਾਇਲ1 ਫਾਇਲ2"
+msgstr ""
 
 #: grub-core/commands/cmp.c:113
 msgid "Compare two files."
-msgstr "ਦੋ ਫਾਇਲਾਂ ਦੀ ਤੁਲਨਾ।"
+msgstr ""
 
 #: grub-core/commands/configfile.c:65
 msgid "Load another config file."
-msgstr "ਹੋਰ ਸੰਰਚਨਾ ਫਾਇਲ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/configfile.c:69 grub-core/commands/configfile.c:87
 msgid "Load another config file without changing context."
-msgstr "ਬਿਨਾਂ ਪਰਸੰਗ ਬਦਲੇ ਹੋਰ ਸੰਰਚਨਾ ਫਾਇਲ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/configfile.c:75
 msgid ""
 "Load another config file without changing context but take only menu entries."
-msgstr "ਬਿਨਾਂ ਪਰਸੰਗ ਬਦਲੇ ਬਿਨਾਂ, ਪਰ ਕੇਵਲ ਮੇਨੂ ਐਟਰੀਆਂ ਨਾਲ ਹੋਰ ਸੰਰਚਨਾ ਫਾਇਲ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/configfile.c:81
-#, fuzzy
 msgid "Load another config file but take only menu entries."
-msgstr "ਬਿਨਾਂ ਪਰਸੰਗ ਬਦਲੇ ਬਿਨਾਂ, ਪਰ ਕੇਵਲ ਮੇਨੂ ਐਟਰੀਆਂ ਨਾਲ ਹੋਰ ਸੰਰਚਨਾ ਫਾਇਲ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/date.c:141
 msgid "[[year-]month-day] [hour:minute[:second]]"
-msgstr "[[year-]month-day] [hour:minute[:second]]"
+msgstr ""
 
 #: grub-core/commands/date.c:142
 msgid "Display/set current datetime."
-msgstr "ਮੌਜੂਦਾ ਸਮਾਂ-ਮਿਤੀ ਵੇਖਾਓ/ਸੈੱਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/echo.c:30
 msgid "Do not output the trailing newline."
@@ -384,11 +381,11 @@ msgstr ""
 
 #: grub-core/commands/echo.c:134
 msgid "[-e|-n] STRING"
-msgstr "[-e|-n] ਲਾਈਨ"
+msgstr ""
 
 #: grub-core/commands/echo.c:134
 msgid "Display a line of text."
-msgstr "ਟੈਕਸਟ ਦੀ ਲਾਈਨ ਵੇਖੋ।"
+msgstr ""
 
 #: grub-core/commands/efi/efifwsetup.c:82
 msgid "Reboot into firmware setup menu."
@@ -396,15 +393,15 @@ msgstr ""
 
 #: grub-core/commands/efi/fixvideo.c:107
 msgid "Fix video problem."
-msgstr "ਵਿਡੀਓ ਸਮੱਸਿਆ ਠੀਕ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/efi/loadbios.c:52
 msgid "ROM image is present."
-msgstr "ROM ਈਮੇਜ਼ ਮੌਜੂਦ ਹੈ।"
+msgstr ""
 
 #: grub-core/commands/efi/loadbios.c:70
 msgid "Can't enable ROM area."
-msgstr "ROM ਖੇਤਰ ਚਾਲੂ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ।"
+msgstr ""
 
 #: grub-core/commands/efi/loadbios.c:209
 msgid ""
@@ -413,11 +410,11 @@ msgstr ""
 
 #: grub-core/commands/efi/loadbios.c:214
 msgid "BIOS_DUMP [INT10_DUMP]"
-msgstr "BIOS_DUMP [INT10_DUMP]"
+msgstr ""
 
 #: grub-core/commands/efi/loadbios.c:215
 msgid "Load BIOS dump."
-msgstr "BIOS ਡੰਪ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/efi/shim_lock.c:76
 #, c-format
@@ -435,15 +432,13 @@ msgstr ""
 
 #: grub-core/commands/efi/tpm.c:149 grub-core/commands/efi/tpm.c:189
 #: grub-core/commands/efi/tpm.c:256 grub-core/commands/efi/tpm.c:306
-#, fuzzy
 msgid "Command failed"
-msgstr "ਬੰਦ ਕਰਨਾ ਫੇਲ੍ਹ ਹੈ"
+msgstr ""
 
 #: grub-core/commands/efi/tpm.c:151 grub-core/commands/efi/tpm.c:191
 #: grub-core/commands/efi/tpm.c:258 grub-core/commands/efi/tpm.c:308
-#, fuzzy
 msgid "Invalid parameter"
-msgstr "ਗਲਤ ਪੈਰਾਮੀਟਰ %s"
+msgstr ""
 
 #: grub-core/commands/efi/tpm.c:154 grub-core/commands/efi/tpm.c:194
 #: grub-core/commands/efi/tpm.c:261 grub-core/commands/efi/tpm.c:311
@@ -452,24 +447,21 @@ msgstr ""
 
 #: grub-core/commands/efi/tpm.c:156 grub-core/commands/efi/tpm.c:196
 #: grub-core/commands/efi/tpm.c:263 grub-core/commands/efi/tpm.c:313
-#, fuzzy
 msgid "TPM unavailable"
-msgstr "ਪਾਥ: ਨਾ-ਉਪਲੱਬਧ"
+msgstr ""
 
 #: grub-core/commands/efi/tpm.c:158 grub-core/commands/efi/tpm.c:198
 #: grub-core/commands/efi/tpm.c:265 grub-core/commands/efi/tpm.c:315
-#, fuzzy
 msgid "Unknown TPM error"
-msgstr "ਅਣਜਾਣ ਸਿਸਟਮ ਗਲਤੀ"
+msgstr ""
 
 #: grub-core/commands/efi/tpm.c:240 grub-core/commands/efi/tpm.c:288
 msgid "cannot allocate TPM event buffer"
 msgstr ""
 
 #: grub-core/commands/eval.c:63
-#, fuzzy
 msgid "STRING ..."
-msgstr "STRING"
+msgstr ""
 
 #: grub-core/commands/eval.c:64
 msgid "Evaluate arguments as GRUB commands"
@@ -611,12 +603,11 @@ msgstr ""
 #: grub-core/commands/test.c:436 grub-core/commands/true.c:39
 #: grub-core/script/execute.c:247 grub-core/script/execute.c:1039
 msgid "false"
-msgstr "ਗਲਤ"
+msgstr ""
 
 #: grub-core/commands/file.c:684
-#, fuzzy
 msgid "OPTIONS FILE"
-msgstr "[OPTIONS] FONT_FILES"
+msgstr ""
 
 #: grub-core/commands/file.c:685
 msgid "Check if FILE is of specified type."
@@ -626,16 +617,16 @@ msgstr ""
 #. hd0,msdos1=/dev/sda1 doesn't exist.
 #: grub-core/commands/gptsync.c:140 grub-core/kern/disk.c:258
 msgid "no such partition"
-msgstr "ਇੰਝ ਦਾ ਕੋਈ ਭਾਗ ਨਹੀਂ"
+msgstr ""
 
 #: grub-core/commands/gptsync.c:240
 #, c-format
 msgid "New MBR is written to `%s'\n"
-msgstr "ਨਵਾਂ MBR `%s' ਉੱਤੇ ਲਿਖਿਆ ਗਿਆ ਹੈ\n"
+msgstr ""
 
 #: grub-core/commands/gptsync.c:252
 msgid "DEVICE [PARTITION[+/-[TYPE]]] ..."
-msgstr "DEVICE [PARTITION[+/-[TYPE]]] ..."
+msgstr ""
 
 #. TRANSLATORS: MBR type is one-byte partition
 #. type id.
@@ -650,15 +641,15 @@ msgstr ""
 msgid ""
 "Halts the computer.  This command does not work on all firmware "
 "implementations."
-msgstr "ਕੰਪਿਊਟਰ ਬੰਦ ਕਰਦੀ ਹੈ। ਇਹ ਕਮਾਂਡ ਸਭ ਫਿਰਮਵੇਅਰ ਸਥਾਪਨ ਨਾਲ ਕੰਮ ਨਹੀਂ ਕਰਦੀ ਹੈ।"
+msgstr ""
 
 #: grub-core/commands/hashsum.c:32
 msgid "Specify hash to use."
-msgstr "ਵਰਤਣ ਲਈ ਹੈਸ਼ ਦਿਉ।"
+msgstr ""
 
 #: grub-core/commands/hashsum.c:32
 msgid "HASH"
-msgstr "ਹੈਸ਼"
+msgstr ""
 
 #: grub-core/commands/hashsum.c:33
 msgid "Check hashes of files with hash list FILE."
@@ -666,7 +657,7 @@ msgstr ""
 
 #: grub-core/commands/hashsum.c:35
 msgid "Base directory for hash list."
-msgstr "ਹੈਸ਼ ਲਿਸਟ ਲਈ ਮੁੱਢਲੀ ਡਾਇਰੈਕਟਰੀ।"
+msgstr ""
 
 #. TRANSLATORS: platform here isn't identifier. It can be translated.
 #: grub-core/commands/hashsum.c:35 grub-core/commands/ls.c:150
@@ -680,34 +671,34 @@ msgstr "ਹੈਸ਼ ਲਿਸਟ ਲਈ ਮੁੱਢਲੀ ਡਾਇਰੈਕਟ�
 #: util/grub-setup.c:82 util/grub-syslinux2cfg.c:63 util/grub-syslinux2cfg.c:65
 #: util/grub-syslinux2cfg.c:67 util/grub-syslinux2cfg.c:71
 msgid "DIR"
-msgstr "ਡਾਇ"
+msgstr ""
 
 #: grub-core/commands/hashsum.c:37
 msgid "Don't stop after first error."
-msgstr "ਪਹਿਲੀ ਗਲਤੀ ਦੇ ਬਾਅਦ ਨਾ ਰੁਕੋ।"
+msgstr ""
 
 #: grub-core/commands/hashsum.c:38
 msgid "Uncompress file before checksumming."
-msgstr "ਚੈਕ-ਸਮ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਫਾਇਲ ਅਣ-ਕੰਪਰੈਸ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/hashsum.c:163
 #, c-format
 msgid "%s: READ ERROR\n"
-msgstr "%s: ਪੜ੍ਹਨ ਗਲਤੀ\n"
+msgstr ""
 
 #: grub-core/commands/hashsum.c:177
 #, c-format
 msgid "%s: HASH MISMATCH\n"
-msgstr "%s: ਹੈਸ਼ ਮਿਲਦਾ ਨਹੀਂ\n"
+msgstr ""
 
 #: grub-core/commands/hashsum.c:188
 #, c-format
 msgid "%s: OK\n"
-msgstr "%s:  ਠੀਕ ਹੈ\n"
+msgstr ""
 
 #: grub-core/commands/hashsum.c:282
 msgid "-h HASH [-c FILE [-p PREFIX]] [FILE1 [FILE2 ...]]"
-msgstr "-h HASH [-c FILE [-p PREFIX]] [FILE1 [FILE2 ...]]"
+msgstr ""
 
 #. TRANSLATORS: "hash checksum" is just to
 #. be a bit more precise, you can treat it as
@@ -716,61 +707,55 @@ msgstr "-h HASH [-c FILE [-p PREFIX]] [FILE1 [FILE2 ...]]"
 #: grub-core/commands/hashsum.c:297 grub-core/commands/hashsum.c:302
 #: grub-core/commands/hashsum.c:307 grub-core/commands/hashsum.c:313
 msgid "Compute or check hash checksum."
-msgstr "ਹੈਸ਼ ਚੈਕ-ਸਮ ਕੱਢੋ ਜਾਂ ਚੈਕ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/hashsum.c:290 grub-core/commands/hashsum.c:295
 #: grub-core/commands/hashsum.c:300 grub-core/commands/hashsum.c:305
 #: grub-core/commands/hashsum.c:311
 msgid "[-c FILE [-p PREFIX]] [FILE1 [FILE2 ...]]"
-msgstr "[-c FILE [-p PREFIX]] [FILE1 [FILE2 ...]]"
+msgstr ""
 
 #: grub-core/commands/hdparm.c:33
 msgid ""
 "Set Advanced Power Management\n"
 "(1=low, ..., 254=high, 255=off)."
 msgstr ""
-"ਤਕਨੀਕੀ ਪਾਵਰ ਪਰਬੰਧ ਸੈੱਟ ਕਰੋ\n"
-"(1=ਘੱਟ, ..., 254=ਵੱਧ, 255=ਬੰਦ)"
 
 #: grub-core/commands/hdparm.c:36
 msgid "Display power mode."
-msgstr "ਪਾਵਰਡ ਮੋਡ ਵੇਖਾਉ।"
+msgstr ""
 
 #: grub-core/commands/hdparm.c:37
 msgid "Freeze ATA security settings until reset."
-msgstr "ATA ਸੁਰੱਖਿਆ ਸੈਟਿੰਗ ਮੁੜ-ਸੈੱਟ ਕਰਨ ਤੱਕ ਫਰੀਜ਼ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/hdparm.c:39
 msgid "Display SMART health status."
-msgstr "ਸਮਾਰਟ ਹੈਲਥ ਹਾਲਤ ਵੇਖਾਉ।"
+msgstr ""
 
 #: grub-core/commands/hdparm.c:40
 msgid ""
 "Set Automatic Acoustic Management\n"
 "(0=off, 128=quiet, ..., 254=fast)."
 msgstr ""
-"ਆਟੋਮੈਟਿਕ ਅਕੁਟਿਕ ਪਰਬੰਧ ਸੈੱਟ ਕਰੋ\n"
-"(0=ਬੰਦ, 128=ਸ਼ਾਤ, ..., 254=ਤੇਜ਼)।"
 
 #: grub-core/commands/hdparm.c:43
 msgid ""
 "Set standby timeout\n"
 "(0=off, 1=5s, 2=10s, ..., 240=20m, 241=30m, ...)."
 msgstr ""
-"ਸਟੈਂਡਬਾਏ ਸਮਾਂ-ਸਮਾਪਤੀ ਸੈੱਟ\n"
-"(0=off, 1=5s, 2=10s, ..., 240=20m, 241=30m, ...)."
 
 #: grub-core/commands/hdparm.c:46
 msgid "Set drive to standby mode."
-msgstr "ਸਟੈਂਡਬਾਏ ਮੋਡ ਲਈ ਡਰਾਇਵ ਸੈੱਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/hdparm.c:47
 msgid "Set drive to sleep mode."
-msgstr "ਸਲੀਪ ਮੋਡ ਲਈ ਡਰਾਇਵ ਸੈੱਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/hdparm.c:48
 msgid "Print drive identity and settings."
-msgstr "ਡਰਾਇਵ ਪਛਾਣ ਅਤੇ ਸੈਟਿੰਗ ਪਰਿੰਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/hdparm.c:50
 msgid "Show raw contents of ATA IDENTIFY sector."
@@ -778,11 +763,11 @@ msgstr ""
 
 #: grub-core/commands/hdparm.c:52
 msgid "Disable/enable SMART (0/1)."
-msgstr "SMART ਬੰਦ/ਚਾਲੂ (0/1)।"
+msgstr ""
 
 #: grub-core/commands/hdparm.c:53
 msgid "Do not print messages."
-msgstr "ਸੁਨੇਹੇ ਪਰਿੰਟ ਨਾ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/hdparm.c:286 grub-core/commands/i386/rdmsr.c:68
 #: grub-core/commands/iorw.c:47 grub-core/commands/legacycfg.c:760
@@ -798,55 +783,54 @@ msgstr "ਸੁਨੇਹੇ ਪਰਿੰਟ ਨਾ ਕਰੋ।"
 #: grub-core/normal/context.c:194 grub-core/script/execute.c:131
 #: grub-core/term/gfxterm_background.c:136
 msgid "one argument expected"
-msgstr "ਇੱਕ ਆਰਗੂਮੈਂਟ ਚਾਹੀਦੀ ਸੀ"
+msgstr ""
 
 #: grub-core/commands/hdparm.c:440
 msgid "[OPTIONS] DISK"
-msgstr "[OPTIONS] ਡਿਸਕ"
+msgstr "[OPȚIUNI] DISC"
 
 #: grub-core/commands/hdparm.c:441
 msgid "Get/set ATA disk parameters."
-msgstr "ATA ਡਿਸਕ ਪੈਰਾਮੀਟਰ ਲਵੋ/ਸੈੱਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/help.c:132 grub-core/lib/arg.c:109
 #: grub-core/lib/gnulib/argp-help.c:1616
 msgid "Usage:"
-msgstr "ਵਰਤੋਂ:"
+msgstr "Utilizare:"
 
 #: grub-core/commands/help.c:146
 msgid "[PATTERN ...]"
-msgstr "[ਪੈਟਰਨ ...]"
+msgstr "[MOSTRĂ...]"
 
 #: grub-core/commands/help.c:147
 msgid "Show a help message."
-msgstr "ਮੱਦਦ ਸੁਨੇਹਾ ਵੇਖਾਉ।"
+msgstr ""
 
 #: grub-core/commands/hexdump.c:31
 msgid "Skip offset bytes from the beginning of file."
-msgstr "ਫਾਇਲ ਦੇ ਸ਼ੁਰੂ ਤੋਂ ਆਫਸੈੱਟ ਬਾਈਟ ਛੱਡੋ।"
+msgstr ""
 
 #: grub-core/commands/hexdump.c:33
 msgid "Read only LENGTH bytes."
-msgstr "ਕੇਵਲ LENGTH ਬਾਈਟ ਪੜ੍ਹੋ।"
+msgstr ""
 
 #: grub-core/commands/hexdump.c:125
 msgid "[OPTIONS] FILE_OR_DEVICE"
-msgstr "[OPTIONS] FILE_OR_DEVICE"
+msgstr "[OPȚIUNI] FIȘIER_SAU_DISPOZITIV"
 
 #: grub-core/commands/hexdump.c:126
 msgid "Show raw contents of a file or memory."
-msgstr "ਫਾਇਲ ਜਾਂ ਮੈਮੋਰੀ ਦੀ ਕੱਚੀ ਸਮੱਗਰੀ ਵੇਖਾਉ।"
+msgstr ""
 
 #: grub-core/commands/i386/cmosdump.c:58
-#, fuzzy
 msgid "Show raw dump of the CMOS contents."
-msgstr "ਮੈਮੋਰੀ ਸਮੱਗਰੀ ਵੇਖਾਉ।"
+msgstr ""
 
 #: grub-core/commands/i386/cmostest.c:108
 #: grub-core/commands/i386/cmostest.c:111
 #: grub-core/commands/i386/cmostest.c:114
 msgid "BYTE:BIT"
-msgstr "BYTE:BIT"
+msgstr "OCTET:BIT"
 
 #: grub-core/commands/i386/cmostest.c:109
 msgid "Test bit at BYTE:BIT in CMOS."
@@ -866,24 +850,22 @@ msgid "Show coreboot boot time statistics."
 msgstr ""
 
 #: grub-core/commands/i386/coreboot/cbls.c:137
-#, fuzzy
 msgid "List coreboot tables."
-msgstr "ਮੌਜੂਦਾ ਵੇਰੀਬਲ ਵੇਖਾਓ।"
+msgstr ""
 
 #. TRANSLATORS: "(default)" at the end means that this option is used if
 #. no argument is specified.
 #: grub-core/commands/i386/cpuid.c:36
 msgid "Check if CPU supports 64-bit (long) mode (default)."
-msgstr "ਚੈੱਕ ਕਰੋ ਕਿ ਕੀ CPU 64-ਬਿੱਟ (ਲੰਮਾ) ਮੋਡ ਲਈ ਸਹਾਇਕ ਹੈ (ਡਿਫਾਲਟ)।"
+msgstr ""
 
 #: grub-core/commands/i386/cpuid.c:37
-#, fuzzy
 msgid "Check if CPU supports Physical Address Extension."
-msgstr "ਚੈੱਕ ਕਰੋ ਕਿ ਕੀ CPU 64-ਬਿੱਟ (ਲੰਮਾ) ਮੋਡ ਲਈ ਸਹਾਇਕ ਹੈ (ਡਿਫਾਲਟ)।"
+msgstr ""
 
 #: grub-core/commands/i386/cpuid.c:119
 msgid "Check for CPU features."
-msgstr "CPU ਫੀਚਰਾਂ ਲਈ ਚੈੱਕ ਕਰੋ।"
+msgstr ""
 
 #. TRANSLATORS: In this file "mapping" refers to a change GRUB makes so if
 #. your language doesn't have an equivalent of "mapping" you can
@@ -891,46 +873,46 @@ msgstr "CPU ਫੀਚਰਾਂ ਲਈ ਚੈੱਕ ਕਰੋ।"
 #.
 #: grub-core/commands/i386/pc/drivemap.c:43
 msgid "Show the current mappings."
-msgstr "ਮੌਜੂਦਾ ਮੈਪਿੰਗ ਵੇਖੋ।"
+msgstr ""
 
 #: grub-core/commands/i386/pc/drivemap.c:44
 msgid "Reset all mappings to the default values."
-msgstr "ਸਭ ਮੈਪਿੰਗ ਲਈ ਡਿਫਾਲਟ ਮੁੱਲ ਸੈੱਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/i386/pc/drivemap.c:45
 msgid "Perform both direct and reverse mappings."
-msgstr "ਸਿੱਧੀ ਅਤੇ ਉਲਟ ਮੈਪਿੰਗ ਵਰਤੋਂ।"
+msgstr ""
 
 #: grub-core/commands/i386/pc/drivemap.c:184
 msgid "No drives have been remapped"
-msgstr "ਕੋਈ ਡਰਾਇਵ ਮੁੜ-ਮੈਪ ਨਹੀਂ ਕੀਤੀ ਗਈ ਹੈ"
+msgstr ""
 
 #. TRANSLATORS:  This is the header of mapping list.
 #. On the left is how OS will see the disks and
 #. on the right current GRUB vision.
 #: grub-core/commands/i386/pc/drivemap.c:191
 msgid "OS disk #num ------> GRUB/BIOS device"
-msgstr "OS ਡਿਸਕ #num ------> GRUB/BIOS ਜੰਤਰ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/drivemap.c:413
 msgid "-l | -r | [-s] grubdev osdisk."
-msgstr "-l | -r | [-s] grubdev osdisk."
+msgstr ""
 
 #: grub-core/commands/i386/pc/drivemap.c:414
 msgid "Manage the BIOS drive mappings."
-msgstr "BIOS ਡਰਾਇਵ ਮੈਪਿੰਗ ਪਰਬੰਧ।"
+msgstr ""
 
 #: grub-core/commands/i386/pc/halt.c:31
 msgid "Do not use APM to halt the computer."
-msgstr "APM ਨੂੰ ਕੰਪਿਊਟਰ ਬੰਦ ਕਰਨ ਨਾ ਵਰਤੋਂ।"
+msgstr ""
 
 #: grub-core/commands/i386/pc/halt.c:119
 msgid "Halt the system, if possible using APM."
-msgstr "ਜੇ APM ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਸੰਭਵ ਹੋਵੇ ਤਾਂ ਸਿਸਟਮ ਬੰਦ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/i386/pc/lsapm.c:75
 msgid "no APM found"
-msgstr "APM ਨਹੀਂ ਲੱਭਿਆ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/lsapm.c:77
 #, c-format
@@ -940,54 +922,50 @@ msgid ""
 "16-bit CS = 0x%x, len = 0x%x\n"
 "DS = 0x%x, len = 0x%x\n"
 msgstr ""
-"ਵਰਜਨ %u.%u\n"
-"32-ਬਿੱਟ CS = 0x%x, len = 0x%x, ਆਫਸੈਟ = 0x%x\n"
-"16-ਬਿੱਟ CS = 0x%x, len = 0x%x\n"
-"DS = 0x%x, len = 0x%x\n"
 
 #: grub-core/commands/i386/pc/lsapm.c:86
 msgid "16-bit protected interface supported\n"
-msgstr "16-ਬਿੱਟ ਸੁਰੱਖਿਅਤ ਇੰਟਰਫੇਸ ਸਹਾਇਕ ਹੈ\n"
+msgstr ""
 
 #: grub-core/commands/i386/pc/lsapm.c:87
 msgid "16-bit protected interface unsupported\n"
-msgstr "16-ਬਿੱਟ ਸੁਰੱਖਿਅਤ ਇੰਟਰਫੇਸ ਗ਼ੈਰ-ਸਹਾਇਕ ਹੈ\n"
+msgstr ""
 
 #: grub-core/commands/i386/pc/lsapm.c:89
 msgid "32-bit protected interface supported\n"
-msgstr "32-ਬਿੱਟ ਸੁਰੱਖਿਅਤ ਇੰਟਰਫੇਸ ਸਹਾਇਕ ਹੈ\n"
+msgstr ""
 
 #: grub-core/commands/i386/pc/lsapm.c:90
 msgid "32-bit protected interface unsupported\n"
-msgstr "32-ਬਿੱਟ ਸੁਰੱਖਿਅਤ ਇੰਟਰਫੇਸ ਗ਼ੈਰ-ਸਹਾਇਕ ਹੈ\n"
+msgstr ""
 
 #: grub-core/commands/i386/pc/lsapm.c:92
 msgid "CPU Idle slows down processor\n"
-msgstr "CPU ਆਈਡਲ ਪਰੋਸੈਸਰ ਨੂੰ ਹੌਲੀ ਕਰਦਾ ਹੈ\n"
+msgstr ""
 
 #: grub-core/commands/i386/pc/lsapm.c:93
 msgid "CPU Idle doesn't slow down processor\n"
-msgstr "CPU ਆਈਡਲ ਪਰੋਸੈਸਰ ਨੂੰ ਹੌਲੀ ਨਹੀਂ ਕਰਦਾ\n"
+msgstr ""
 
 #: grub-core/commands/i386/pc/lsapm.c:95
 msgid "APM disabled\n"
-msgstr "APM ਬੰਦ ਕਰੋ\n"
+msgstr ""
 
 #: grub-core/commands/i386/pc/lsapm.c:95
 msgid "APM enabled\n"
-msgstr "APM ਚਾਲੂ ਹੈ\n"
+msgstr ""
 
 #: grub-core/commands/i386/pc/lsapm.c:97
 msgid "APM disengaged\n"
-msgstr "APM ਰੁੱਝਿਆ ਨਹੀ ਹੈ\n"
+msgstr ""
 
 #: grub-core/commands/i386/pc/lsapm.c:97
 msgid "APM engaged\n"
-msgstr "APM ਰੁੱਝਿਆ ਹੈ\n"
+msgstr ""
 
 #: grub-core/commands/i386/pc/lsapm.c:107
 msgid "Show APM information."
-msgstr "APM ਜਾਣਕਾਰੀ ਵੇਖਾਉ।"
+msgstr ""
 
 #. TRANSLATORS: It's musical notes, not the notes
 #. you take. Play command expects arguments which can
@@ -998,9 +976,9 @@ msgid "filename or tempo and notes expected"
 msgstr ""
 
 #: grub-core/commands/i386/pc/play.c:113 grub-core/commands/i386/pc/play.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid tempo in %s"
-msgstr "ਗਲਤ ਕਮਾਂਡ %s।\n"
+msgstr ""
 
 #: grub-core/commands/i386/pc/play.c:151 grub-core/commands/macbless.c:172
 #: grub-core/fs/archelp.c:260 grub-core/fs/bfs.c:621 grub-core/fs/bfs.c:704
@@ -1012,33 +990,33 @@ msgstr "ਗਲਤ ਕਮਾਂਡ %s।\n"
 #: grub-core/net/http.c:120
 #, c-format
 msgid "file `%s' not found"
-msgstr "ਫਾਇਲ `%s' ਨਹੀਂ ਲੱਭੀ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/play.c:162 grub-core/commands/i386/pc/play.c:171
 #: grub-core/kern/misc.c:419 grub-core/script/execute.c:138
 #: grub-core/script/execute.c:244
 msgid "unrecognized number"
-msgstr "ਬੇਪਛਾਣ ਨੰਬਰ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/play.c:190
 msgid "FILE | TEMPO [PITCH1 DURATION1] [PITCH2 DURATION2] ... "
-msgstr "FILE | TEMPO [PITCH1 DURATION1] [PITCH2 DURATION2] ... "
+msgstr ""
 
 #: grub-core/commands/i386/pc/play.c:191
 msgid "Play a tune."
-msgstr "ਟਿਊਨ ਚਲਾਉ।"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:39
 msgid "set numlock mode"
-msgstr "numlock ਮੋਡ ਸੈੱਟ ਕਰੋ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:40
 msgid "set capslock mode"
-msgstr "capslock ਮੋਡ ਸੈੱਟ ਕਰੋ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:41
 msgid "set scrolllock mode"
-msgstr "scrolllock ਮੋਡ ਸੈੱਟ ਕਰੋ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:42
 msgid "set insert mode"
@@ -1050,55 +1028,55 @@ msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:44
 msgid "press left shift"
-msgstr "ਖੱਬੀ ਸਿਫਟ ਦੱਬੋ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:45
 msgid "press right shift"
-msgstr "ਸੱਜੀ ਸਿਫਟ ਦੱਬੋ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:46
 msgid "press SysRq"
-msgstr "SysRq ਦੱਬੋ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:47
 msgid "press NumLock key"
-msgstr "NumLock ਸਵਿੱਚ ਦੱਬੋ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:48
 msgid "press CapsLock key"
-msgstr "CapsLock ਸਵਿੱਚ ਦੱਬੋ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:49
 msgid "press ScrollLock key"
-msgstr "ScrollLock ਸਵਿੱਚ ਦੱਬੋ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:50
 msgid "press Insert key"
-msgstr "Insert ਸਵਿੱਚ ਦੱਬੋ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:51
 msgid "press left alt"
-msgstr "ਖੱਬੀ alt ਦੱਬੋ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:52
 msgid "press right alt"
-msgstr "ਸੱਜੀ alt ਦੱਬੋ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:53
 msgid "press left ctrl"
-msgstr "ਖੱਬੀ ctrl ਦੱਬੋ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:54
 msgid "press right ctrl"
-msgstr "ਸੱਜੀ ctrl ਦੱਬੋ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:55
 msgid "don't update LED state"
-msgstr "LED ਹਾਲਤ ਅੱਪਡੇਟ ਨਾ ਕਰੋ"
+msgstr ""
 
 #: grub-core/commands/i386/pc/sendkey.c:372
 msgid "[KEYSTROKE1] [KEYSTROKE2] ..."
-msgstr "[KEYSTROKE1] [KEYSTROKE2] ..."
+msgstr ""
 
 #. TRANSLATORS: It can emulate multiple
 #. keypresses.
@@ -1116,34 +1094,31 @@ msgstr ""
 #: grub-core/commands/search_wrap.c:40 grub-core/commands/setpci.c:74
 #: grub-core/commands/tr.c:32
 msgid "VARNAME"
-msgstr "VARNAME"
+msgstr ""
 
 #: grub-core/commands/i386/rdmsr.c:55 grub-core/commands/i386/rdmsr.c:60
 #: grub-core/commands/i386/rdmsr.c:65 grub-core/commands/i386/wrmsr.c:47
 #: grub-core/commands/i386/wrmsr.c:52 grub-core/commands/i386/wrmsr.c:57
-#, fuzzy
 msgid "unsupported instruction"
-msgstr "ਗ਼ੈਰ-ਸਹਾਇਕ gzip ਫਾਰਮੈਟ"
+msgstr ""
 
 #: grub-core/commands/i386/rdmsr.c:77 grub-core/commands/i386/wrmsr.c:69
 #: grub-core/commands/i386/wrmsr.c:77 grub-core/net/dns.c:727
-#, fuzzy
 msgid "invalid argument"
-msgstr "ਗਲਤ ਪੈਰਾਮੀਟਰ %s"
+msgstr ""
 
 #: grub-core/commands/i386/rdmsr.c:94 grub-core/commands/memrw.c:125
 #: grub-core/commands/memrw.c:129 grub-core/commands/memrw.c:133
 msgid "ADDR"
-msgstr "ADDR"
+msgstr ""
 
 #: grub-core/commands/i386/rdmsr.c:95
 msgid "Read a CPU model specific register."
 msgstr ""
 
 #: grub-core/commands/i386/wrmsr.c:86
-#, fuzzy
 msgid "ADDR VALUE"
-msgstr "ADDR VALUE [MASK]"
+msgstr ""
 
 #: grub-core/commands/i386/wrmsr.c:87
 msgid "Write a value to a CPU model specific register."
@@ -1151,7 +1126,7 @@ msgstr ""
 
 #: grub-core/commands/ieee1275/suspend.c:34
 msgid "Run `go' to resume GRUB."
-msgstr "GRUB ਨੂੰ ਮੁੜ-ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ `go' ਚਲਾਉ।"
+msgstr ""
 
 #: grub-core/commands/ieee1275/suspend.c:45
 msgid "Return to IEEE1275 prompt."
@@ -1160,40 +1135,40 @@ msgstr ""
 #: grub-core/commands/iorw.c:123 grub-core/commands/iorw.c:127
 #: grub-core/commands/iorw.c:131 grub-core/gdb/gdb.c:79
 msgid "PORT"
-msgstr "PORT"
+msgstr ""
 
 #: grub-core/commands/iorw.c:123
 msgid "Read 8-bit value from PORT."
-msgstr "ਪੋਰਟ ਤੋਂ 8-ਬਿੱਟ ਮੁੱਲ ਪੜ੍ਹੋ।"
+msgstr ""
 
 #: grub-core/commands/iorw.c:127
 msgid "Read 16-bit value from PORT."
-msgstr "ਪੋਰਟ ਤੋਂ 16-ਬਿੱਟ ਮੁੱਲ ਪੜ੍ਹੋ।"
+msgstr ""
 
 #: grub-core/commands/iorw.c:131
 msgid "Read 32-bit value from PORT."
-msgstr "ਪੋਰਟ ਤੋਂ 32-ਬਿੱਟ ਮੁੱਲ ਪੜ੍ਹੋ।"
+msgstr ""
 
 #: grub-core/commands/iorw.c:135 grub-core/commands/iorw.c:139
 msgid "PORT VALUE [MASK]"
-msgstr "PORT VALUE [MASK]"
+msgstr ""
 
 #: grub-core/commands/iorw.c:136
 msgid "Write 8-bit VALUE to PORT."
-msgstr "ਪੋਰਟ ਉੱਤੇ 8-ਬਿੱਟ ਮੁੱਲ ਲਿਖੋ।"
+msgstr ""
 
 #: grub-core/commands/iorw.c:140
 msgid "Write 16-bit VALUE to PORT."
-msgstr "ਪੋਰਟ ਉੱਤੇ 16-ਬਿੱਟ ਮੁੱਲ ਲਿਖੋ।"
+msgstr ""
 
 #: grub-core/commands/iorw.c:143 grub-core/commands/memrw.c:137
 #: grub-core/commands/memrw.c:141 grub-core/commands/memrw.c:145
 msgid "ADDR VALUE [MASK]"
-msgstr "ADDR VALUE [MASK]"
+msgstr ""
 
 #: grub-core/commands/iorw.c:144
 msgid "Write 32-bit VALUE to PORT."
-msgstr "ਪੋਰਟ ਉੱਤੇ 32-ਬਿੱਟ ਮੁੱਲ ਲਿਖੋ।"
+msgstr ""
 
 #: grub-core/commands/keylayouts.c:215 grub-core/commands/loadenv.c:61
 #: grub-core/commands/nativedisk.c:189 grub-core/efiemu/main.c:235
@@ -1201,25 +1176,25 @@ msgstr "ਪੋਰਟ ਉੱਤੇ 32-ਬਿੱਟ ਮੁੱਲ ਲਿਖੋ।"
 #: grub-core/kern/device.c:42 grub-core/kern/dl.c:740
 #, c-format
 msgid "variable `%s' isn't set"
-msgstr "ਵੇਰੀਬਲ `%s' ਸੈਟ ਨਹੀਂ ਹੈ।"
+msgstr ""
 
 #: grub-core/commands/keylayouts.c:301
 msgid "Load a keyboard layout."
-msgstr "ਕੀਬੋਰਡ ਲੇਆਉਟ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #. TRANSLATORS: "Check" in a sense that if this key is pressed then
 #. "true" is returned, otherwise "false".
 #: grub-core/commands/keystatus.c:32
 msgid "Check Shift key."
-msgstr "ਸਿਫ਼ਟ ਸਵਿੱਚ ਵੇਖੋ।"
+msgstr ""
 
 #: grub-core/commands/keystatus.c:33
 msgid "Check Control key."
-msgstr "ਕੰਟਰੋਲ ਸਵਿੱਚ ਵੇਖੋ।"
+msgstr ""
 
 #: grub-core/commands/keystatus.c:34
 msgid "Check Alt key."
-msgstr "ਆਲਟ ਸਵਿੱਚ ਵੇਖੋ।"
+msgstr ""
 
 #. TRANSLATORS: there are 3 modifiers.
 #: grub-core/commands/keystatus.c:106
@@ -1232,12 +1207,12 @@ msgstr ""
 #: util/grub-file.c:100 util/grub-fstest.c:57 util/grub-mount.c:69
 #, c-format
 msgid "can't find command `%s'"
-msgstr "ਕਮਾਂਡ `%s' ਲੱਭੀ ਨਹੀਂ ਜਾ ਸਕਦੀ।"
+msgstr ""
 
 #: grub-core/commands/legacycfg.c:813 grub-core/normal/auth.c:225
 #: util/grub-mkpasswd-pbkdf2.c:139
 msgid "Enter password: "
-msgstr "ਪਾਸਵਰਡ ਦਿਓ: "
+msgstr ""
 
 #. TRANSLATORS: "legacy config" means
 #. "config as used by grub-legacy".
@@ -1259,7 +1234,7 @@ msgstr ""
 
 #: grub-core/commands/legacycfg.c:856
 msgid "[--no-mem-option] [--type=TYPE] FILE [ARG ...]"
-msgstr "[--no-mem-option] [--type=TYPE] FILE [ARG ...]"
+msgstr ""
 
 #: grub-core/commands/legacycfg.c:857
 msgid "Simulate grub-legacy `kernel' command"
@@ -1267,7 +1242,7 @@ msgstr ""
 
 #: grub-core/commands/legacycfg.c:861 grub-core/commands/legacycfg.c:865
 msgid "FILE [ARG ...]"
-msgstr "ਫਾਇਲ [ARG ...]"
+msgstr ""
 
 #: grub-core/commands/legacycfg.c:862
 msgid "Simulate grub-legacy `initrd' command"
@@ -1279,7 +1254,7 @@ msgstr ""
 
 #: grub-core/commands/legacycfg.c:870 grub-core/commands/legacycfg.c:875
 msgid "[--md5] PASSWD [FILE]"
-msgstr "[--md5] PASSWD [ਫਾਇਲ]"
+msgstr ""
 
 #: grub-core/commands/legacycfg.c:871
 msgid "Simulate grub-legacy `password' command"
@@ -1293,32 +1268,31 @@ msgstr ""
 #. for loading and storing environment.
 #: grub-core/commands/loadenv.c:37
 msgid "Specify filename."
-msgstr "ਫਾਇਲ-ਨਾਂ ਦਿਉ।"
+msgstr ""
 
 #: grub-core/commands/loadenv.c:39
 msgid "Skip signature-checking of the environment file."
 msgstr ""
 
 #: grub-core/commands/loadenv.c:451
-#, fuzzy
 msgid "[-f FILE] [-s|--skip-sig] [variable_name_to_whitelist] [...]"
-msgstr "[-f FILE] variable_name [...]"
+msgstr ""
 
 #: grub-core/commands/loadenv.c:452
 msgid "Load variables from environment block file."
-msgstr "ਇੰਵਾਇਰਨਮੈਂਟ ਬਲਾਕ ਫਾਇਲ ਤੋਂ ਵੇਰੀਬਲ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/loadenv.c:455
 msgid "[-f FILE]"
-msgstr "[-f ਫਾਇਲ]"
+msgstr ""
 
 #: grub-core/commands/loadenv.c:456
 msgid "List variables from environment block file."
-msgstr "ਇੰਵਾਇਰਨਮੈਂਟ ਬਲਾਕ ਫਾਇਲ ਤੋਂ ਵੇਰੀਬਲ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/loadenv.c:460
 msgid "[-f FILE] variable_name [...]"
-msgstr "[-f FILE] variable_name [...]"
+msgstr ""
 
 #: grub-core/commands/loadenv.c:461
 msgid "Save variables to environment block file."
@@ -1326,53 +1300,53 @@ msgstr ""
 
 #: grub-core/commands/ls.c:40
 msgid "Show a long list with more detailed information."
-msgstr "ਹੋਰ ਵੇਰਵੇ ਸਮੇਤ ਜਾਣਕਾਰੀ ਲਈ ਲੰਮੀ ਸੂਚੀ ਵੇਖੋ।"
+msgstr ""
 
 #: grub-core/commands/ls.c:41
 msgid "Print sizes in a human readable format."
-msgstr "ਮਨੁੱਖੀ ਪੜਨਯੋਗ ਫਾਰਮੈਟ 'ਚ ਆਕਾਰ ਪਰਿੰਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/ls.c:42
 msgid "List all files."
-msgstr "ਸਭ ਫਾਇਲਾਂ ਦੀ ਸੂਚੀ"
+msgstr ""
 
 #: grub-core/commands/ls.c:73
 msgid "Network protocols:"
-msgstr "ਨੈਟਵਰਕ ਪਰੋਟੋਕਾਲ:"
+msgstr ""
 
 #: grub-core/commands/ls.c:295
 msgid "[-l|-h|-a] [FILE ...]"
-msgstr "[-l|-h|-a] [ਫਾਇਲ ...]"
+msgstr ""
 
 #: grub-core/commands/ls.c:296
 msgid "List devices and files."
-msgstr "ਜੰਤਰ ਅਤੇ ਫਾਇਲਾਂ ਵੇਖੋ।"
+msgstr ""
 
 #: grub-core/commands/lsacpi.c:255
 msgid "Show version 1 tables only."
-msgstr "ਕੇਵਲ ਵਰਜਨ 1 ਟੇਬਲ ਹੀ ਵੇਖੋ।"
+msgstr ""
 
 #: grub-core/commands/lsacpi.c:256
 msgid "Show version 2 and version 3 tables only."
-msgstr "ਕੇਵਲ ਵਰਜਨ 2 ਅਤੇ ਵਰਜਨ 3 ਟੇਬਲ ਹੀ ਵੇਖੋ।"
+msgstr ""
 
 #: grub-core/commands/lsacpi.c:306
 msgid "Show ACPI information."
-msgstr "ACPI ਜਾਣਕਾਰੀ ਵੇਖੋ।"
+msgstr ""
 
 #: grub-core/commands/lsmmap.c:31
 msgid "available RAM"
-msgstr "ਉਪਲੱਬਧ RAM"
+msgstr ""
 
 #: grub-core/commands/lsmmap.c:32
 msgid "reserved RAM"
-msgstr "ਰਾਖਵੀਂ RAM"
+msgstr ""
 
 #. TRANSLATORS: this refers to memory where ACPI tables are stored
 #. and which can be used by OS once it loads ACPI tables.
 #: grub-core/commands/lsmmap.c:35
 msgid "ACPI reclaimable RAM"
-msgstr "ACPI ਵਲੋਂ ਮੁੜ-ਦਾਅਵੇ-ਯੋਗ RAM"
+msgstr ""
 
 #. TRANSLATORS: this refers to memory which ACPI-compliant OS
 #. is required to save accross hibernations.
@@ -1382,7 +1356,7 @@ msgstr ""
 
 #: grub-core/commands/lsmmap.c:39
 msgid "faulty RAM (BadRAM)"
-msgstr "ਖਰਾਬ RAM (BadRAM)"
+msgstr ""
 
 #: grub-core/commands/lsmmap.c:40
 msgid "persistent RAM"
@@ -1393,31 +1367,30 @@ msgid "persistent RAM (legacy)"
 msgstr ""
 
 #: grub-core/commands/lsmmap.c:42
-#, fuzzy
 msgid "RAM holding coreboot tables"
-msgstr "RAM ਕੋਲ ਫਿਰਮਵੇਅਰ ਕੋਡ ਹੈ"
+msgstr ""
 
 #: grub-core/commands/lsmmap.c:43
 msgid "RAM holding firmware code"
-msgstr "RAM ਕੋਲ ਫਿਰਮਵੇਅਰ ਕੋਡ ਹੈ"
+msgstr ""
 
 #: grub-core/commands/lsmmap.c:52
 #, c-format
 msgid "base_addr = 0x%llx, length = 0x%llx, %s\n"
-msgstr "base_addr = 0x%llx, ਲੰਬਾਈ = 0x%llx, %s\n"
+msgstr ""
 
 #: grub-core/commands/lsmmap.c:55
 #, c-format
 msgid "base_addr = 0x%llx, length = 0x%llx, type = 0x%x\n"
-msgstr "base_addr = 0x%llx, ਲੰਬਾਈ = 0x%llx, type = 0x%x\n"
+msgstr ""
 
 #: grub-core/commands/lsmmap.c:79
 msgid "List memory map provided by firmware."
-msgstr "ਫਿਰਮਵੇਅਰ ਵਲੋਂ ਦਿੱਤੇ ਮੈਮੋਰੀ ਮੈਪ ਵੇਖਾਓ।"
+msgstr ""
 
 #: grub-core/commands/lspci.c:232
 msgid "List PCI devices."
-msgstr "PCI ਜੰਤਰਾਂ ਦੀ ਸੂਚੀ।"
+msgstr ""
 
 #: grub-core/commands/macbless.c:224
 msgid "Bless FILE of HFS or HFS+ partition for intel macs."
@@ -1453,7 +1426,7 @@ msgstr ""
 
 #: grub-core/commands/menuentry.c:31
 msgid "Menu entry type."
-msgstr "ਮੇਨੂ ਐਂਟਰੀ ਕਿਸਮ।"
+msgstr ""
 
 #: grub-core/commands/menuentry.c:31 grub-core/commands/menuentry.c:38
 #: grub-core/commands/menuentry.c:39 grub-core/gettext/gettext.c:520
@@ -1461,15 +1434,15 @@ msgstr "ਮੇਨੂ ਐਂਟਰੀ ਕਿਸਮ।"
 #: util/grub-mknetdir.c:51 util/grub-mkrescue.c:109 util/grub-mkrescue.c:110
 #: util/grub-mount.c:453 util/grub-render-label.c:65
 msgid "STRING"
-msgstr "STRING"
+msgstr ""
 
 #: grub-core/commands/menuentry.c:33
 msgid "List of users allowed to boot this entry."
-msgstr "ਇਹ ਐਂਟਰੀ ਨੂੰ ਬੂਟ ਕਰਨ ਦੇ ਯੋਗ ਯੂਜ਼ਰ ਦੀ ਸੂਚੀ।"
+msgstr ""
 
 #: grub-core/commands/menuentry.c:33
 msgid "USERNAME[,USERNAME]"
-msgstr "USERNAME[,USERNAME]"
+msgstr ""
 
 #: grub-core/commands/menuentry.c:36
 msgid "Keyboard key to quickly boot this entry."
@@ -1477,7 +1450,7 @@ msgstr ""
 
 #: grub-core/commands/menuentry.c:36
 msgid "KEYBOARD_KEY"
-msgstr "KEYBOARD_KEY"
+msgstr ""
 
 #: grub-core/commands/menuentry.c:38
 msgid "Use STRING as menu entry body."
@@ -1485,7 +1458,7 @@ msgstr ""
 
 #: grub-core/commands/menuentry.c:39
 msgid "Menu entry identifier."
-msgstr "ਮੇਨੂ ਐਂਟਰੀ ਪਛਾਣਕਰਤਾ।"
+msgstr ""
 
 #. TRANSLATORS: menu entry can either be bootable by anyone or only by
 #. handful of users. By default when security is active only superusers can
@@ -1493,20 +1466,20 @@ msgstr "ਮੇਨੂ ਐਂਟਰੀ ਪਛਾਣਕਰਤਾ।"
 #. anyone can boot it.
 #: grub-core/commands/menuentry.c:44
 msgid "This entry can be booted by any user."
-msgstr "ਇਹ ਐਂਟਰੀ ਨੂੰ ਕਿਸੇ ਵੀ ਯੂਜ਼ਰ ਵਲੋਂ ਬੂਟ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ।"
+msgstr ""
 
 #: grub-core/commands/menuentry.c:323 grub-core/commands/menuentry.c:328
 #: grub-core/tests/test_blockarg.c:46
 msgid "BLOCK"
-msgstr "ਬਲਾਕ"
+msgstr ""
 
 #: grub-core/commands/menuentry.c:323
 msgid "Define a menu entry."
-msgstr "ਮੇਨੂ ਐਂਟਰੀ ਦਿਉ।"
+msgstr ""
 
 #: grub-core/commands/menuentry.c:328
 msgid "Define a submenu."
-msgstr "ਸਬ-ਮੇਨੂ ਦਿਉ।"
+msgstr ""
 
 #. TRANSLATORS: this is module list header.  Name
 #. is module name, Ref Count is a reference counter
@@ -1519,32 +1492,32 @@ msgstr ""
 
 #: grub-core/commands/minicmd.c:201
 msgid "Show this message."
-msgstr "ਇਹ ਸੁਨੇਹਾ ਵੇਖਾਉ।"
+msgstr ""
 
 #: grub-core/commands/minicmd.c:204
 msgid "ADDR [SIZE]"
-msgstr "ADDR [SIZE]"
+msgstr ""
 
 #: grub-core/commands/minicmd.c:204
 msgid "Show memory contents."
-msgstr "ਮੈਮੋਰੀ ਸਮੱਗਰੀ ਵੇਖਾਉ।"
+msgstr ""
 
 #: grub-core/commands/minicmd.c:207 grub-core/kern/corecmd.c:188
 #: util/grub-install.c:275
 msgid "MODULE"
-msgstr "ਮੋਡੀਊਲ"
+msgstr ""
 
 #: grub-core/commands/minicmd.c:207
 msgid "Remove a module."
-msgstr "ਮੋਡੀਊਲ ਹਟਾਉ।"
+msgstr ""
 
 #: grub-core/commands/minicmd.c:210
 msgid "Show loaded modules."
-msgstr "ਲੋਡ ਕੀਤੇ ਮੋਡੀਊਲ ਵੇਖਾਉ।"
+msgstr ""
 
 #: grub-core/commands/minicmd.c:213
 msgid "Exit from GRUB."
-msgstr "ਗਰੱਬ ਤੋਂ ਬਾਹਰ ਆਉ।"
+msgstr ""
 
 #: grub-core/commands/mips/loongson/lsspd.c:42
 msgid "No CS5536 found"
@@ -1602,7 +1575,7 @@ msgstr ""
 #: grub-core/commands/probe.c:124 util/grub-probe.c:450
 #, c-format
 msgid "%s does not support UUIDs"
-msgstr "%s UUID ਲਈ ਸਹਾਇਕ ਨਹੀਂ ਹੈ।"
+msgstr ""
 
 #: grub-core/commands/nativedisk.c:325
 msgid "[MODULE1 MODULE2 ...]"
@@ -1633,19 +1606,19 @@ msgstr ""
 #: grub-core/lib/arg.c:351
 #, c-format
 msgid "unknown argument `%s'"
-msgstr "ਅਣਜਾਣ ਆਰਗੂਮੈਂਟ `%s'"
+msgstr ""
 
 #: grub-core/commands/parttool.c:344
 msgid "PARTITION COMMANDS"
-msgstr "ਪਾਰਟੀਸ਼ਨ ਕਮਾਂਡ"
+msgstr ""
 
 #: grub-core/commands/password.c:85
 msgid "USER PASSWORD"
-msgstr "ਯੂਜ਼ਰ ਪਾਸਵਰਡ"
+msgstr ""
 
 #: grub-core/commands/password.c:86
 msgid "Set user password (plaintext). Unrecommended and insecure."
-msgstr "ਯੂਜ਼ਰ ਪਾਸਵਰਡ ਦਿਉ (ਪਲੇਨ-ਟੈਕਸਟ)। ਗ਼ੈਰ-ਸਿਫਾਰਸ਼ੀ ਅਤੇ ਅਸੁਰੱਖਿਅਤ"
+msgstr ""
 
 #. TRANSLATORS: it means that the string which
 #. was supposed to be a password hash doesn't
@@ -1657,15 +1630,15 @@ msgstr "ਯੂਜ਼ਰ ਪਾਸਵਰਡ ਦਿਉ (ਪਲੇਨ-ਟੈਕਸਟ)
 #: grub-core/commands/password_pbkdf2.c:150
 #: grub-core/commands/password_pbkdf2.c:179
 msgid "invalid PBKDF2 password"
-msgstr "ਗਲਤ PBKDF2 ਪਾਸਵਰਡ"
+msgstr ""
 
 #: grub-core/commands/password_pbkdf2.c:202
 msgid "USER PBKDF2_PASSWORD"
-msgstr "USER PBKDF2_PASSWORD"
+msgstr ""
 
 #: grub-core/commands/password_pbkdf2.c:203
 msgid "Set user password (PBKDF2). "
-msgstr "ਯੂਜ਼ਰ ਪਾਸਵਰਡ (PBKDF2) ਦਿਉ। "
+msgstr ""
 
 #: grub-core/commands/pcidump.c:39 grub-core/commands/setpci.c:69
 msgid "Select device by vendor and device IDs."
@@ -1673,15 +1646,15 @@ msgstr ""
 
 #: grub-core/commands/pcidump.c:40 grub-core/commands/setpci.c:70
 msgid "[vendor]:[device]"
-msgstr "[vendor]:[device]"
+msgstr ""
 
 #: grub-core/commands/pcidump.c:41 grub-core/commands/setpci.c:71
 msgid "Select device by its position on the bus."
-msgstr "ਜੰਤਰ ਨੂੰ ਬਸ ਉੱਤੇ ਇਸ ਦੀ ਸਥਿਤੀ ਨਾਲ ਚੁਣੋ।"
+msgstr ""
 
 #: grub-core/commands/pcidump.c:42 grub-core/commands/setpci.c:72
 msgid "[bus]:[slot][.func]"
-msgstr "[bus]:[slot][.func]"
+msgstr ""
 
 #: grub-core/commands/pcidump.c:109 grub-core/commands/pcidump.c:138
 #: grub-core/commands/setpci.c:183 grub-core/commands/setpci.c:214
@@ -1689,12 +1662,11 @@ msgstr "[bus]:[slot][.func]"
 #: grub-core/kern/emu/hostdisk.c:473 grub-core/kern/file.c:44
 #, c-format
 msgid "missing `%c' symbol"
-msgstr "ਨਾ-ਮੌਜੂਦ `%c' ਨਿਸ਼ਾਨ"
+msgstr ""
 
 #: grub-core/commands/pcidump.c:168
-#, fuzzy
 msgid "[-s POSITION] [-d DEVICE]"
-msgstr "[OPTION]... [PATH|DEVICE]"
+msgstr ""
 
 #: grub-core/commands/pcidump.c:169
 msgid "Show raw dump of the PCI configuration space."
@@ -1723,16 +1695,16 @@ msgstr ""
 
 #. TRANSLATORS: %08x is 32-bit key id.
 #: grub-core/commands/pgp.c:636 grub-core/commands/pgp.c:812
-#, fuzzy, c-format
+#, c-format
 msgid "public key %08x not found"
-msgstr "ਫਿਜ਼ੀਕਲ ਵਾਲੀਅਮ %s ਨਹੀਂ ਲੱਭਿਆ"
+msgstr ""
 
 #: grub-core/commands/pgp.c:651 grub-core/disk/diskfilter.c:772
 #: grub-core/disk/diskfilter.c:782 grub-core/fs/ntfs.c:404
 #: grub-core/fs/zfs/zfs.c:1933 grub-core/normal/menu.c:428
 #, c-format
 msgid "module `%s' isn't loaded"
-msgstr "ਮੋਡੀਊਲ `%s' ਲੋਡ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ"
+msgstr ""
 
 #: grub-core/commands/pgp.c:994
 msgid "[-s|--skip-sig] FILE SIGNATURE_FILE [PUBKEY_FILE]"
@@ -1770,7 +1742,7 @@ msgstr ""
 #. the diven disk.
 #: grub-core/commands/probe.c:43
 msgid "Determine driver."
-msgstr "ਡਰਾਇਵਰ ਜਾਣੋ।"
+msgstr ""
 
 #: grub-core/commands/probe.c:44
 msgid "Determine partition map type."
@@ -1778,42 +1750,42 @@ msgstr ""
 
 #: grub-core/commands/probe.c:45
 msgid "Determine filesystem type."
-msgstr "ਫਾਇਲ ਸਿਸਟਮ ਕਿਸਮ ਜਾਣੋ।"
+msgstr ""
 
 #: grub-core/commands/probe.c:46
 msgid "Determine filesystem UUID."
-msgstr "ਫਾਇਲ ਸਿਸਟਮ UUID ਜਾਣੋ।"
+msgstr ""
 
 #: grub-core/commands/probe.c:47
 msgid "Determine filesystem label."
-msgstr "ਫਾਇਲ ਸਿਸਟਮ ਲੇਬਲ ਜਾਣੋ।"
+msgstr ""
 
 #: grub-core/commands/probe.c:139 grub-core/commands/probe.c:146
 #: util/grub-probe.c:462
 #, c-format
 msgid "filesystem `%s' does not support labels"
-msgstr "ਫਾਇਲ ਸਿਸਟਮ `%s' ਲੇਬਲ ਲਈ ਸਹਾਇਕ ਨਹੀਂ ਹੈ"
+msgstr ""
 
 #: grub-core/commands/probe.c:165 grub-core/fs/zfs/zfsinfo.c:430
 #: grub-core/loader/i386/bsd.c:169 util/grub-setup.c:223
 msgid "DEVICE"
-msgstr "ਜੰਤਰ"
+msgstr ""
 
 #: grub-core/commands/probe.c:166
 msgid "Retrieve device info."
-msgstr "ਜੰਤਰ ਜਾਣਕਾਰੀ ਲਵੋ।"
+msgstr ""
 
 #: grub-core/commands/read.c:85
 msgid "[ENVVAR]"
-msgstr "[ENVVAR]"
+msgstr ""
 
 #: grub-core/commands/read.c:86
 msgid "Set variable with user input."
-msgstr "ਯੂਜ਼ਰ ਇੰਪੁੱਟ ਨਾਲ ਵੇਰੀਬਲ ਸੈੱਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/reboot.c:40
 msgid "Reboot the computer."
-msgstr "ਕੰਪਿਊਟਰ ਮੁੜ-ਚਾਲੂ ਕਰੋ।"
+msgstr ""
 
 #. TRANSLATORS: in regexp you can mark some
 #. groups with parentheses. These groups are
@@ -1830,14 +1802,14 @@ msgstr ""
 
 #: grub-core/commands/regexp.c:45
 msgid "[NUMBER:]VARNAME"
-msgstr "[NUMBER:]VARNAME"
+msgstr ""
 
 #. TRANSLATORS: This are two arguments. So it's
 #. two separate units to translate and pay
 #. attention not to reverse them.
 #: grub-core/commands/regexp.c:157
 msgid "REGEXP STRING"
-msgstr "REGEXP STRING"
+msgstr ""
 
 #: grub-core/commands/regexp.c:158
 msgid "Test if REGEXP matches STRING."
@@ -1845,7 +1817,7 @@ msgstr ""
 
 #: grub-core/commands/search.c:324
 msgid "NAME [VARIABLE] [HINTS]"
-msgstr "NAME [VARIABLE] [HINTS]"
+msgstr ""
 
 #: grub-core/commands/search_file.c:4
 msgid ""
@@ -1867,23 +1839,23 @@ msgstr ""
 
 #: grub-core/commands/search_wrap.c:34
 msgid "Search devices by a file."
-msgstr "ਜੰਤਰ ਫਾਇਲ ਨਾਲ ਲੱਭੋ।"
+msgstr ""
 
 #: grub-core/commands/search_wrap.c:35
 msgid "Search devices by a filesystem label."
-msgstr "ਫਾਇਲ-ਸਿਸਟਮ ਲੇਬਲ ਰਾਹੀਂ ਜੰਤਰ ਲੱਭੋ।"
+msgstr ""
 
 #: grub-core/commands/search_wrap.c:37
 msgid "Search devices by a filesystem UUID."
-msgstr "ਫਾਇਲ-ਸਿਸਟਮ UUID ਰਾਹੀਂ ਜੰਤਰ ਲੱਭੋ।"
+msgstr ""
 
 #: grub-core/commands/search_wrap.c:40
 msgid "Set a variable to the first device found."
-msgstr "ਪਹਿਲੇ ਲੱਭੇ ਜੰਤਰ ਲਈ ਵੇਰੀਬਲ ਸੈੱਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/search_wrap.c:42
 msgid "Do not probe any floppy drive."
-msgstr "ਕਿਸੇ ਫਲਾਪੀ ਡਰਾਇਵ ਦੀ ਖੋਜ ਨਾ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/search_wrap.c:44
 msgid ""
@@ -1894,7 +1866,7 @@ msgstr ""
 #: grub-core/commands/search_wrap.c:53 grub-core/commands/search_wrap.c:57
 #: grub-core/commands/search_wrap.c:61 grub-core/commands/search_wrap.c:65
 msgid "HINT"
-msgstr "HINT"
+msgstr ""
 
 #: grub-core/commands/search_wrap.c:47
 msgid ""
@@ -1928,7 +1900,7 @@ msgstr ""
 
 #: grub-core/commands/search_wrap.c:207
 msgid "[-f|-l|-u|-s|-n] [--hint HINT [--hint HINT] ...] NAME"
-msgstr "[-f|-l|-u|-s|-n] [--hint HINT [--hint HINT] ...] ਨਾਂ"
+msgstr ""
 
 #: grub-core/commands/search_wrap.c:209
 msgid ""
@@ -1943,9 +1915,8 @@ msgid "Register %x of %x:%02x.%x is %x\n"
 msgstr ""
 
 #: grub-core/commands/setpci.c:333
-#, fuzzy
 msgid "[-s POSITION] [-d DEVICE] [-v VAR] REGISTER[=VALUE[:MASK]]"
-msgstr "[-s POSITION] [-d DEVICE] [-v VAR] [REGISTER][=VALUE[:MASK]]"
+msgstr ""
 
 #: grub-core/commands/setpci.c:335
 msgid "Manipulate PCI devices."
@@ -1953,7 +1924,7 @@ msgstr ""
 
 #: grub-core/commands/sleep.c:32
 msgid "Verbose countdown."
-msgstr "ਵਰਬੋਸ ਗਿਣਤੀ।"
+msgstr ""
 
 #: grub-core/commands/sleep.c:33
 msgid "Allow to interrupt with ESC."
@@ -1961,11 +1932,11 @@ msgstr ""
 
 #: grub-core/commands/sleep.c:109
 msgid "NUMBER_OF_SECONDS"
-msgstr "NUMBER_OF_SECONDS"
+msgstr ""
 
 #: grub-core/commands/sleep.c:110
 msgid "Wait for a specified number of seconds."
-msgstr "ਦਿੱਤੇ ਸਕਿੰਟ ਲਈ ਉਡੀਕੋ ਜੀ।"
+msgstr ""
 
 #: grub-core/commands/syslinuxcfg.c:50 util/grub-syslinux2cfg.c:66
 msgid "root directory of the syslinux disk [default=/]."
@@ -1985,9 +1956,8 @@ msgid "assume input is a pxelinux configuration file."
 msgstr ""
 
 #: grub-core/commands/syslinuxcfg.c:57 util/grub-syslinux2cfg.c:77
-#, fuzzy
 msgid "assume input is a syslinux configuration file."
-msgstr "ਇੰਪੁੱਟ ਨੂੰ ਵਾਕ ਮੰਨੋ।"
+msgstr ""
 
 #. TRANSLATORS: "syslinux config" means
 #. "config as used by syslinux".
@@ -2000,55 +1970,53 @@ msgid "Execute syslinux config in new context"
 msgstr ""
 
 #: grub-core/commands/syslinuxcfg.c:201
-#, fuzzy
 msgid "Execute syslinux config in same context taking only menu entries"
-msgstr "ਬਿਨਾਂ ਪਰਸੰਗ ਬਦਲੇ ਬਿਨਾਂ, ਪਰ ਕੇਵਲ ਮੇਨੂ ਐਟਰੀਆਂ ਨਾਲ ਹੋਰ ਸੰਰਚਨਾ ਫਾਇਲ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/syslinuxcfg.c:207
-#, fuzzy
 msgid "Execute syslinux config in new context taking only menu entries"
-msgstr "ਬਿਨਾਂ ਪਰਸੰਗ ਬਦਲੇ ਬਿਨਾਂ, ਪਰ ਕੇਵਲ ਮੇਨੂ ਐਟਰੀਆਂ ਨਾਲ ਹੋਰ ਸੰਰਚਨਾ ਫਾਇਲ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/terminal.c:90
 msgid "no terminal specified"
-msgstr "ਕੋਈ ਟਰਮੀਨਲ ਨਹੀਂ ਦਿੱਤਾ।"
+msgstr ""
 
 #: grub-core/commands/terminal.c:112 grub-core/commands/terminal.c:139
 #, c-format
 msgid "terminal `%s' isn't found"
-msgstr "ਟਰਮੀਨਲ `%s' ਨਹੀਂ ਲੱਭਿਆ"
+msgstr ""
 
 #: grub-core/commands/terminal.c:244
 msgid "Active input terminals:"
-msgstr "ਸਰਗਰਮ ਇੰਪੁੱਟ ਟਰਮੀਨਲ:"
+msgstr ""
 
 #: grub-core/commands/terminal.c:245
 msgid "Available input terminals:"
-msgstr "ਉਪਲੱਬਧ ਇੰਪੁੱਟ ਟਰਮੀਨਲ:"
+msgstr ""
 
 #: grub-core/commands/terminal.c:261
 msgid "Active output terminals:"
-msgstr "ਉਪਲੱਬਧ ਆਉਟਪੁੱਟ ਟਰਮੀਨਲ:"
+msgstr ""
 
 #: grub-core/commands/terminal.c:262
 msgid "Available output terminals:"
-msgstr "ਉਪਲੱਬਧ ਆਉਟਪੁੱਟ ਟਰਮੀਨਲ:"
+msgstr ""
 
 #: grub-core/commands/terminal.c:271 grub-core/commands/terminal.c:276
 msgid "[--append|--remove] [TERMINAL1] [TERMINAL2] ..."
-msgstr "[--append|--remove] [TERMINAL1] [TERMINAL2] ..."
+msgstr ""
 
 #: grub-core/commands/terminal.c:273
 msgid "List or select an input terminal."
-msgstr "ਇੰਪੁੱਟ ਟਰਮੀਨਲ ਵੇਖਾਉ ਜਾਂ ਚੁਣੋ।"
+msgstr ""
 
 #: grub-core/commands/terminal.c:278
 msgid "List or select an output terminal."
-msgstr "ਆਉਟਪੁੱਟ ਟਰਮੀਨਲ ਵੇਖਾਉ ਜਾਂ ਚੁਣੋ।"
+msgstr ""
 
 #: grub-core/commands/test.c:444
 msgid "EXPRESSION ]"
-msgstr "ਸਮੀਕਰਨ ]"
+msgstr ""
 
 #: grub-core/commands/test.c:444 grub-core/commands/test.c:447
 msgid "Evaluate an expression."
@@ -2056,20 +2024,19 @@ msgstr ""
 
 #: grub-core/commands/test.c:447
 msgid "EXPRESSION"
-msgstr "ਸਮੀਕਰਨ"
+msgstr ""
 
 #: grub-core/commands/testload.c:164
 msgid "Load the same file in multiple ways."
-msgstr "ਇੱਕੋ ਫਾਇਲ ਨੂੰ ਕੋਈ ਢੰਗਾਂ ਨਾਲ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/testspeed.c:35
 msgid "Specify size for each read operation"
 msgstr ""
 
 #: grub-core/commands/testspeed.c:58
-#, fuzzy
 msgid "invalid block size"
-msgstr "ਗਲਤ ਫੋਂਟ ਰੇਜ਼"
+msgstr ""
 
 #: grub-core/commands/testspeed.c:80
 #, c-format
@@ -2077,14 +2044,14 @@ msgid "File size: %s\n"
 msgstr ""
 
 #: grub-core/commands/testspeed.c:83
-#, fuzzy, c-format
+#, c-format
 msgid "Elapsed time: %d.%03d s \n"
-msgstr "ਬਾਕੀ ਸਮਾਂ: %d.%03d ਸਕਿੰਟ \n"
+msgstr ""
 
 #: grub-core/commands/testspeed.c:92
-#, fuzzy, c-format
+#, c-format
 msgid "Speed: %s \n"
-msgstr "Devid: %s\n"
+msgstr ""
 
 #: grub-core/commands/testspeed.c:107
 msgid "[-s SIZE] FILENAME"
@@ -2096,16 +2063,16 @@ msgstr ""
 
 #: grub-core/commands/time.c:38 grub-core/script/execute.c:974
 msgid "no command is specified"
-msgstr "ਕੋਈ ਕਮਾਂਡ ਨਹੀਂ ਦਿੱਤੀ"
+msgstr ""
 
 #: grub-core/commands/time.c:50
 #, c-format
 msgid "Elapsed time: %d.%03d seconds \n"
-msgstr "ਬਾਕੀ ਸਮਾਂ: %d.%03d ਸਕਿੰਟ \n"
+msgstr ""
 
 #: grub-core/commands/time.c:61
 msgid "COMMAND [ARGS]"
-msgstr "COMMAND [ARGS]"
+msgstr ""
 
 #: grub-core/commands/time.c:62
 msgid "Measure time used by COMMAND"
@@ -2121,7 +2088,7 @@ msgstr ""
 
 #: grub-core/commands/tr.c:119
 msgid "[OPTIONS] [SET1] [SET2] [STRING]"
-msgstr ""
+msgstr "[OPȚIUNI] [SET1] [SET2] [ȘIR_DE_CARACTERE]"
 
 #: grub-core/commands/tr.c:120
 msgid "Translate SET1 characters to SET2 in STRING."
@@ -2130,16 +2097,16 @@ msgstr ""
 #. TRANSLATORS: it's a command description.
 #: grub-core/commands/true.c:50
 msgid "Do nothing, successfully."
-msgstr "ਕੁਝ ਨਾ ਕਰੋ, ਸਫ਼ਲ ਰਿਹਾ।"
+msgstr ""
 
 #. TRANSLATORS: it's a command description.
 #: grub-core/commands/true.c:54
 msgid "Do nothing, unsuccessfully."
-msgstr "ਕੁਝ ਨਾ ਕਰੋ, ਅਸਫ਼ਲ ਰਿਹਾ।"
+msgstr ""
 
 #: grub-core/commands/usbtest.c:221
 msgid "Test USB support."
-msgstr "USB ਸਹਿਯੋਗ ਟੈਸਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/commands/verifiers.c:120
 #, c-format
@@ -2152,14 +2119,14 @@ msgstr ""
 
 #: grub-core/commands/videoinfo.c:61
 msgid "Text-only "
-msgstr "ਕੇਵਲ ਟੈਕਸਟ "
+msgstr ""
 
 #. TRANSLATORS: "Direct color" is a mode when the color components
 #. are written dirrectly into memory.
 #: grub-core/commands/videoinfo.c:66
 #, c-format
 msgid "Direct color, mask: %d/%d/%d/%d  pos: %d/%d/%d/%d"
-msgstr "ਸਿੱਧਾ ਰੰਗ, ਮਾਸਕ: %d/%d/%d/%d  pos: %d/%d/%d/%d"
+msgstr ""
 
 #. TRANSLATORS: In "paletted color" mode you write the index of the color
 #. in the palette. Synonyms include "packed pixel".
@@ -2169,36 +2136,36 @@ msgstr ""
 
 #: grub-core/commands/videoinfo.c:80
 msgid "YUV "
-msgstr "YUV "
+msgstr ""
 
 #. TRANSLATORS: "Planar" is the video memory where you have to write
 #. in several different banks "plans" to control the different color
 #. components of the same pixel.
 #: grub-core/commands/videoinfo.c:85
 msgid "Planar "
-msgstr "ਪਲੇਨਰ "
+msgstr ""
 
 #: grub-core/commands/videoinfo.c:87
 msgid "Hercules "
-msgstr "ਹਰੀਕੁਲਸ "
+msgstr ""
 
 #: grub-core/commands/videoinfo.c:89
 msgid "CGA "
-msgstr "CGA "
+msgstr ""
 
 #. TRANSLATORS: Non-chain 4 is a 256-color planar
 #. (unchained) video memory mode.
 #: grub-core/commands/videoinfo.c:93
 msgid "Non-chain 4 "
-msgstr "ਗੈਰ-ਚੇਨ 4 "
+msgstr ""
 
 #: grub-core/commands/videoinfo.c:95
 msgid "Monochrome "
-msgstr "ਇਕਹੇਰਾ ਰੰਗ "
+msgstr ""
 
 #: grub-core/commands/videoinfo.c:97
 msgid "Unknown video mode "
-msgstr "ਅਣਜਾਣ ਵਿਡੀਓ ਮੋਡ "
+msgstr ""
 
 #: grub-core/commands/videoinfo.c:111
 msgid "  EDID checksum invalid"
@@ -2207,51 +2174,51 @@ msgstr ""
 #: grub-core/commands/videoinfo.c:116
 #, c-format
 msgid "  EDID version: %u.%u\n"
-msgstr "  EDID ਵਰਜਨ: %u.%u\n"
+msgstr ""
 
 #: grub-core/commands/videoinfo.c:120
 #, c-format
 msgid "    Preferred mode: %ux%u\n"
-msgstr "    ਪਸੰਦੀਦਾ ਮੋਡ: %ux%u\n"
+msgstr ""
 
 #: grub-core/commands/videoinfo.c:123
 msgid "    No preferred mode available\n"
-msgstr "    ਕੋਈ ਪਸੰਦੀਦਾ ਮੋਡ ਉਪਲੱਬਧ ਨਹੀਂ\n"
+msgstr ""
 
 #: grub-core/commands/videoinfo.c:146 grub-core/video/video.c:490
 #: grub-core/video/video.c:498 grub-core/video/video.c:509
 #: grub-core/video/video.c:520 grub-core/video/video.c:528
 #, c-format
 msgid "invalid video mode specification `%s'"
-msgstr "ਗਲਤ ਵਿਡੀਓ ਮੋਡ ਹਦਾਇਤ `%s'"
+msgstr ""
 
 #: grub-core/commands/videoinfo.c:168
 msgid "List of supported video modes:"
-msgstr "ਸਹਾਇਕ ਵਿਡੀਓ ਮੋਡ ਦੀ ਸੂਚੀ:"
+msgstr ""
 
 #: grub-core/commands/videoinfo.c:169
 msgid "Legend: mask/position=red/green/blue/reserved"
-msgstr "ਸੰਕੇਤ: ਮਾਸਕ/ਸਥਿਤੀ=ਲਾਲ/ਹਰਾ/ਨੀਲਾ/ਰਾਖਵਾਂ"
+msgstr ""
 
 #: grub-core/commands/videoinfo.c:176
 #, c-format
 msgid "Adapter `%s':\n"
-msgstr "ਅਡੈਪਟਰ `%s':\n"
+msgstr ""
 
 #: grub-core/commands/videoinfo.c:180
 msgid "  No info available"
-msgstr "  ਕੋਈ ਜਾਣਕਾਰੀ ਨਹੀਂ"
+msgstr ""
 
 #: grub-core/commands/videoinfo.c:198
 msgid "  Failed to initialize video adapter"
-msgstr "  ਵਿਡੀਓ ਅਡੈਪਟਰ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਫੇਲ੍ਹ ਹੈ"
+msgstr ""
 
 #. TRANSLATORS: "x" has to be entered in,
 #. like an identifier, so please don't
 #. use better Unicode codepoints.
 #: grub-core/commands/videoinfo.c:239 grub-core/commands/videoinfo.c:248
 msgid "[WxH[xD]]"
-msgstr "[WxH[xD]]"
+msgstr ""
 
 #: grub-core/commands/videoinfo.c:240 grub-core/commands/videoinfo.c:249
 msgid ""
@@ -2264,7 +2231,7 @@ msgstr ""
 #. use better Unicode codepoints.
 #: grub-core/commands/videotest.c:225
 msgid "[WxH]"
-msgstr "[WxH]"
+msgstr ""
 
 #. TRANSLATORS: Here, on the other hand, it's
 #. nicer to use unicode cross instead of x.
@@ -2274,7 +2241,7 @@ msgstr ""
 
 #: grub-core/commands/videotest.c:231
 msgid "Test video subsystem."
-msgstr "ਵਿਡੀਓ ਸਬ-ਸਿਸਟਮ ਟੈਸਟ।"
+msgstr ""
 
 #: grub-core/commands/xen/lsxen.c:80 grub-core/commands/xen/lsxen.c:82
 msgid "[DIR]"
@@ -2288,7 +2255,7 @@ msgstr ""
 #. UUID as used in GRUB".
 #: grub-core/commands/xnu_uuid.c:110
 msgid "[-l] GRUBUUID [VARNAME]"
-msgstr "[-l] GRUBUUID [VARNAME]"
+msgstr ""
 
 #: grub-core/commands/xnu_uuid.c:111
 msgid ""
@@ -2312,12 +2279,12 @@ msgstr ""
 
 #: grub-core/disk/cryptodisk.c:40
 msgid "Mount by UUID."
-msgstr "UUID ਰਾਹੀਂ ਮਾਊਂਟ।"
+msgstr ""
 
 #. TRANSLATORS: It's still restricted to cryptodisks only.
 #: grub-core/disk/cryptodisk.c:42
 msgid "Mount all."
-msgstr "ਸਭ ਮਾਊਂਟ।"
+msgstr ""
 
 #: grub-core/disk/cryptodisk.c:43
 msgid "Mount all volumes with `boot' flag set."
@@ -2352,7 +2319,7 @@ msgstr ""
 #: util/resolve.c:246 util/setup.c:783
 #, c-format
 msgid "cannot open `%s': %s"
-msgstr "`%s' ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s"
+msgstr ""
 
 #: grub-core/disk/cryptodisk.c:583 grub-core/disk/cryptodisk.c:628
 #: grub-core/kern/emu/hostdisk.c:270 grub-core/kern/emu/hostfs.c:142
@@ -2364,11 +2331,11 @@ msgstr ""
 
 #: grub-core/disk/cryptodisk.c:1144
 msgid "SOURCE|-u UUID|-a|-b"
-msgstr "SOURCE|-u UUID|-a|-b"
+msgstr ""
 
 #: grub-core/disk/cryptodisk.c:1145
 msgid "Mount a crypto device."
-msgstr "ਕ੍ਰਿਪਟੂ ਜੰਤਰ ਮਾਊਂਟ ਕਰੋ।"
+msgstr ""
 
 #. TRANSLATORS: This message kicks in during the detection of
 #. which modules needs to be included in core image. This happens
@@ -2385,7 +2352,7 @@ msgstr ""
 #: grub-core/disk/diskfilter.c:480
 #, c-format
 msgid "physical volume %s not found"
-msgstr "ਫਿਜ਼ੀਕਲ ਵਾਲੀਅਮ %s ਨਹੀਂ ਲੱਭਿਆ"
+msgstr ""
 
 #: grub-core/disk/efi/efidisk.c:600 grub-core/disk/efi/efidisk.c:623
 #, c-format
@@ -2394,15 +2361,15 @@ msgstr ""
 
 #: grub-core/disk/geli.c:75
 msgid "Couldn't load sha256"
-msgstr "sha256 ਲੋਡ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ"
+msgstr ""
 
 #: grub-core/disk/geli.c:85
 msgid "Couldn't load sha512"
-msgstr "sha512 ਲੋਡ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ"
+msgstr ""
 
 #: grub-core/disk/geli.c:216 grub-core/disk/geli.c:220
 msgid "couldn't read ELI metadata"
-msgstr "ELI ਮੇਟਾਡਾਟਾ ਪੜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ"
+msgstr ""
 
 #: grub-core/disk/geli.c:231
 msgid "wrong ELI magic or version"
@@ -2410,30 +2377,30 @@ msgstr ""
 
 #: grub-core/disk/geli.c:435 grub-core/disk/luks.c:329
 msgid "Attempting to decrypt master key..."
-msgstr "...ਮਾਸਟਰ ਕੁੰਜੀ ਡਿ-ਕ੍ਰਿਪਟ ਦੀ ਕੋਸ਼ਿਸ਼ ਜਾਰੀ"
+msgstr ""
 
 #: grub-core/disk/geli.c:441 grub-core/disk/luks.c:347
 #, c-format
 msgid "Enter passphrase for %s%s%s (%s): "
-msgstr "%s%s%s (%s) ਲਈ ਸ਼ਬਦ ਦਿਉ: "
+msgstr ""
 
 #. TRANSLATORS: It's a cryptographic key slot: one element of an array
 #. where each element is either empty or holds a key.
 #: grub-core/disk/geli.c:530 grub-core/disk/luks.c:451
 #, c-format
 msgid "Slot %d opened\n"
-msgstr "ਸਲਾਟ %d ਖੁੱਲ੍ਹੀ ਹੈ\n"
+msgstr ""
 
 #: grub-core/disk/i386/pc/biosdisk.c:470 grub-core/disk/i386/pc/biosdisk.c:524
 #: grub-core/disk/i386/pc/biosdisk.c:534 grub-core/kern/disk_common.c:47
 #, c-format
 msgid "attempt to read or write outside of disk `%s'"
-msgstr "ਡਿਸਕ `%s' ਤੋਂ ਬਾਹਰ ਪੜਨ ਜਾਂ ਲਿਖਣ ਦੀ ਕੋਸ਼ਿਸ਼"
+msgstr ""
 
 #: grub-core/disk/i386/pc/biosdisk.c:491 grub-core/disk/i386/pc/biosdisk.c:611
 #: grub-core/disk/scsi.c:726
 msgid "cannot write to CD-ROM"
-msgstr "CD-ROM ਉੱਤੇ ਲਿਖਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ"
+msgstr ""
 
 #: grub-core/disk/i386/pc/biosdisk.c:662
 msgid ""
@@ -2460,17 +2427,17 @@ msgstr ""
 #. not wiped, avoid to scare user.
 #: grub-core/disk/loopback.c:45
 msgid "Delete the specified loopback drive."
-msgstr "ਦਿੱਤਾ ਲੂਪ-ਬੈਕ ਜੰਤਰ ਹਟਾਉ।"
+msgstr ""
 
 #: grub-core/disk/loopback.c:237
 msgid "[-d] DEVICENAME FILE."
-msgstr "[-d] DEVICENAME ਫਾਇਲ।"
+msgstr ""
 
 #. TRANSLATORS: The file itself is not destroyed
 #. or transformed into drive.
 #: grub-core/disk/loopback.c:240
 msgid "Make a virtual drive from a file."
-msgstr "ਫਾਇਲ ਤੋਂ ਵਰਚੁਅਲ ਡਰਾਇਵ ਬਣਾਉ।"
+msgstr ""
 
 #: grub-core/efiemu/i386/loadcore32.c:111
 #: grub-core/efiemu/i386/loadcore64.c:125 grub-core/kern/arm/dl.c:256
@@ -2491,7 +2458,7 @@ msgstr ""
 #: grub-core/efiemu/loadcore.c:200 grub-core/efiemu/loadcore.c:237
 #: grub-core/loader/i386/bsdXX.c:317 util/grub-mkimagexx.c:2360
 msgid "no symbol table"
-msgstr "ਕੋਈ ਸਿੰਬਲ ਟੇਬਲ ਨਹੀਂ"
+msgstr ""
 
 #: grub-core/efiemu/loadcore.c:346 grub-core/kern/dl.c:609
 #: grub-core/loader/ia64/efi/linux.c:345 grub-core/loader/mips/linux.c:248
@@ -2516,23 +2483,23 @@ msgstr ""
 #: grub-core/efiemu/symbols.c:92 grub-core/kern/dl.c:376
 #, c-format
 msgid "symbol `%s' not found"
-msgstr "ਸਿੰਬਲ `%s' ਨਹੀਂ ਲੱਭਿਆ"
+msgstr ""
 
 #: grub-core/font/font_cmd.c:52
 msgid "Loaded fonts:"
-msgstr "ਲੋਡ ਕੀਤੇ ਫੋਂਟ:"
+msgstr ""
 
 #: grub-core/font/font_cmd.c:74
 msgid "FILE..."
-msgstr "...ਫਾਇਲ"
+msgstr ""
 
 #: grub-core/font/font_cmd.c:75
 msgid "Specify one or more font files to load."
-msgstr "ਲੋਡ ਕਰਨ ਲਈ ਇੱਕ ਜਾਂ ਵੱਧ ਫੋਂਟ ਫਾਇਲਾਂ ਦਿਉ।"
+msgstr ""
 
 #: grub-core/font/font_cmd.c:78
 msgid "List the loaded fonts."
-msgstr "ਲੋਡ ਕੀਤੇ ਫੋਂਟ ਦੀ ਸੂਚੀ।"
+msgstr ""
 
 #: grub-core/fs/archelp.c:216 grub-core/fs/archelp.c:278
 #: grub-core/fs/btrfs.c:1815 grub-core/fs/fshelp.c:227 grub-core/fs/jfs.c:736
@@ -2551,12 +2518,12 @@ msgstr ""
 #: grub-core/fs/reiserfs.c:732 grub-core/fs/ufs.c:531 grub-core/fs/ufs.c:671
 #: grub-core/fs/zfs/zfs.c:2831 grub-core/fs/zfs/zfs.c:4247
 msgid "not a directory"
-msgstr "ਡਾਇਰੈਕਟਰੀ ਨਹੀਂ ਹੈ"
+msgstr ""
 
 #: grub-core/fs/btrfs.c:2063 grub-core/fs/fshelp.c:307 grub-core/fs/jfs.c:835
 #: grub-core/fs/zfs/zfs.c:3801
 msgid "not a regular file"
-msgstr "ਨਿਯਮਤ ਫਾਇਲ ਨਹੀਂ"
+msgstr ""
 
 #: grub-core/fs/btrfs.c:2157 grub-core/fs/zfs/zfs.c:4333
 #: grub-core/partmap/msdos.c:400
@@ -2567,11 +2534,11 @@ msgstr ""
 #: grub-core/fs/ufs.c:757 grub-core/kern/fs.c:168 grub-core/kern/fs.c:180
 #, c-format
 msgid "invalid file name `%s'"
-msgstr "ਗਲਤ ਫਾਇਲ ਨਾਂ `%s'"
+msgstr ""
 
 #: grub-core/fs/zfs/zfs.c:453
 msgid "checksum verification failed"
-msgstr "ਚੈਕਸਮ ਜਾਂਚ ਫੇਲ੍ਹ ਹੋਈ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfs.c:1465
 msgid "couldn't find a necessary member device of multi-device filesystem"
@@ -2579,31 +2546,31 @@ msgstr ""
 
 #: grub-core/fs/zfs/zfscrypt.c:292
 msgid "no decryption key available"
-msgstr "ਕੋਈ ਡਿ-ਕ੍ਰਿਪਟਸ਼ਨ ਕੁੰਜੀ ਉਪਲੱਬਧ ਨਹੀਂ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfscrypt.c:304
 msgid "MAC verification failed"
-msgstr "MAC ਜਾਂਚ ਫੇਲ੍ਹ ਹੋਈ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfscrypt.c:413
 msgid "Assume input is raw."
-msgstr "ਇੰਪੁੱਟ ਨੂੰ ਰਾਅ ਮੰਨੋ।"
+msgstr ""
 
 #: grub-core/fs/zfs/zfscrypt.c:414
 msgid "Assume input is hex."
-msgstr "ਇੰਪੁੱਟ ਨੂੰ ਹੈਕਸਾ ਮੰਨੋ।"
+msgstr ""
 
 #: grub-core/fs/zfs/zfscrypt.c:415
 msgid "Assume input is passphrase."
-msgstr "ਇੰਪੁੱਟ ਨੂੰ ਵਾਕ ਮੰਨੋ।"
+msgstr ""
 
 #: grub-core/fs/zfs/zfscrypt.c:437 util/grub-fstest.c:553 util/grub-mount.c:483
 msgid "Enter ZFS password: "
-msgstr "ZFS ਪਾਸਵਰਡ ਦਿਉ: "
+msgstr ""
 
 #: grub-core/fs/zfs/zfscrypt.c:476
 msgid "[-h|-p|-r] [FILE]"
-msgstr "[-h|-p|-r] [FILE]"
+msgstr ""
 
 #: grub-core/fs/zfs/zfscrypt.c:477
 msgid "Import ZFS wrapping key stored in FILE."
@@ -2611,29 +2578,29 @@ msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:51
 msgid "Virtual device is removed"
-msgstr "ਵਰਚੁਅਲ ਜੰਤਰ ਹਟਾਇਆ ਗਿਆ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:57
 msgid "Virtual device is faulted"
-msgstr "ਵਰਚੁਅਲ ਜੰਤਰ ਖਰਾਬ ਹੈ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:63
 msgid "Virtual device is offline"
-msgstr "ਵਰਚੁਅਲ ਜੰਤਰ ਆਫਲਾਈਨ ਹੈ"
+msgstr ""
 
 #. TRANSLATORS: degraded doesn't mean broken but that some of
 #. component are missing but virtual device as whole is still usable.
 #: grub-core/fs/zfs/zfsinfo.c:70
 msgid "Virtual device is degraded"
-msgstr "ਵਰਚੁਅਲ ਜੰਤਰ ਡੀ-ਗਰੇਡ ਕੀਤਾ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:73
 msgid "Virtual device is online"
-msgstr "ਵਰਚੁਅਲ ਜੰਤਰ ਆਨਲਾਈਨ ਹੈ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:89
 msgid "Incorrect virtual device: no type available"
-msgstr "ਗਲਤ ਵਰਚੁਅਲ ਜੰਤਰ: ਕੋਈ ਕਿਸਮ ਉਪਲੱਬਧ ਨਹੀਂ"
+msgstr ""
 
 #. TRANSLATORS: The virtual devices form a tree (in graph-theoretical
 #. sense). The nodes like mirror or raidz have children: member devices.
@@ -2646,30 +2613,30 @@ msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:113
 msgid "Bootpath: unavailable\n"
-msgstr "ਬੂਟ-ਪਾਥ: ਨਾ-ਉਪਲੱਬਧ\n"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:115
 #, c-format
 msgid "Bootpath: %s\n"
-msgstr "ਬੂਟ-ਪਾਥ: %s\n"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:120
 msgid "Path: unavailable"
-msgstr "ਪਾਥ: ਨਾ-ਉਪਲੱਬਧ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:122
 #, c-format
 msgid "Path: %s\n"
-msgstr "ਪਾਥ: %s\n"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:127
 msgid "Devid: unavailable"
-msgstr "Devid: ਨਾ-ਉਪਲੱਬਧ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:129
 #, c-format
 msgid "Devid: %s\n"
-msgstr "Devid: %s\n"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:148
 msgid "This VDEV is a mirror"
@@ -2681,9 +2648,8 @@ msgid "This VDEV is a RAIDZ%llu\n"
 msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:158
-#, fuzzy
 msgid "Incorrect VDEV"
-msgstr "ਗਲਤ ਮਿੱਰਰ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:161
 #, c-format
@@ -2710,22 +2676,22 @@ msgstr ""
 #: grub-core/fs/zfs/zfsinfo.c:193
 #, c-format
 msgid "Unknown virtual device type: %s\n"
-msgstr "ਅਣਜਾਣ ਵਰਚੁਅਲ ਜੰਤਰ ਕਿਸਮ: %s\n"
+msgstr ""
 
 #. TRANSLATORS: Here we speak about ZFS pools it's semi-marketing,
 #. semi-technical term by Sun/Oracle and should be translated in sync with
 #. other ZFS-related software and documentation.
 #: grub-core/fs/zfs/zfsinfo.c:254
 msgid "Pool state: active"
-msgstr "ਪੂਲ ਹਾਲਤ: ਸਰਗਰਮ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:255
 msgid "Pool state: exported"
-msgstr "ਪੂਲ ਹਾਲਤ: ਐਕਸਪੋਰਟ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:256
 msgid "Pool state: destroyed"
-msgstr "ਪੂਲ ਹਾਲਤ: ਨਸ਼ਟ ਕੀਤਾ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:257
 msgid "Pool state: reserved for hot spare"
@@ -2741,7 +2707,7 @@ msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:260
 msgid "Pool state: unavailable"
-msgstr "ਪੂਲ ਹਾਲਤ: ਨਾ-ਉਪਲੱਬਧ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:261
 msgid "Pool state: potentially active"
@@ -2749,25 +2715,25 @@ msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:306
 msgid "Pool name: unavailable"
-msgstr "ਪੂਲ ਨਾਂ: ਨਾ-ਉਪਲੱਬਧ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:308
 #, c-format
 msgid "Pool name: %s\n"
-msgstr "ਪੂਲ ਨਾਂ: %s\n"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:313
 msgid "Pool GUID: unavailable"
-msgstr "ਪੂਲ GUID: ਨਾ-ਮੌਜੂਦ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:315
 #, c-format
 msgid "Pool GUID: %016llx\n"
-msgstr "ਪੂਲ GUID: %016llx\n"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:320
 msgid "Unable to retrieve pool state"
-msgstr "ਪੂਲ ਹਾਲਤ ਲੈਣ ਲਈ ਅਸਮਰੱਥ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:322
 msgid "Unrecognized pool state"
@@ -2778,7 +2744,7 @@ msgstr ""
 #.
 #: grub-core/fs/zfs/zfsinfo.c:332
 msgid "No virtual device tree available"
-msgstr "ਕੋਈ ਵਰਚੁਅਲ ਜੰਤਰ ਟਰੀ ਉਪਲੱਬਧ ਨਹੀਂ"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:431
 msgid "Print ZFS info about DEVICE."
@@ -2786,7 +2752,7 @@ msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:433
 msgid "FILESYSTEM [VARIABLE]"
-msgstr "FILESYSTEM [VARIABLE]"
+msgstr ""
 
 #: grub-core/fs/zfs/zfsinfo.c:434
 msgid "Print ZFS-BOOTFSOBJ or store it into VARIABLE"
@@ -2819,7 +2785,7 @@ msgstr ""
 
 #: grub-core/gettext/gettext.c:85
 msgid "premature end of file"
-msgstr "ਫਾਇਲ ਦਾ ਅੰਤ ਅਚਾਨਕ ਹੈ।"
+msgstr ""
 
 #. TRANSLATORS: It refers to passing the string through gettext.
 #. So it's "translate" in the same meaning as in what you're
@@ -2827,30 +2793,34 @@ msgstr "ਫਾਇਲ ਦਾ ਅੰਤ ਅਚਾਨਕ ਹੈ।"
 #.
 #: grub-core/gettext/gettext.c:525
 msgid "Translates the string with the current settings."
-msgstr "ਲਾਈਨਾਂ ਨੂੰ ਮੌਜੂਦਾ ਸੈਟਿੰਗ ਨਾਲ ਅਨੁਵਾਦ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/gfxmenu/gui_label.c:186 grub-core/normal/menu_text.c:184
 msgid ""
 "Press enter to boot the selected OS, `e' to edit the commands before booting "
 "or `c' for a command-line. ESC to return previous menu."
 msgstr ""
+"Apăsați enter pentru a inițializa (boot) sistemul de operare selectat, „e” "
+"pentru a edita comenzile înaintea inițializării sau „c” pentru o linie de "
+"comandă. ESC pentru a reveni la meniul anterior."
 
 #: grub-core/gfxmenu/gui_label.c:190 grub-core/normal/menu_text.c:192
 msgid ""
 "Press enter to boot the selected OS, `e' to edit the commands before booting "
 "or `c' for a command-line."
 msgstr ""
-"ਚੁਣੇ ਓਪਰੇਟਿੰਗ ਸਿਸਟਮ (OS) ਵਿੱਚ ਬੂਟ ਕਰਨ ਲਈ Enter, ਬੂਟ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਕਮਾਂਡ ਸੋਧਣ ਲਈ `e' ਜਾਂ "
-"ਕਮਾਂਡ-ਲਾਈਨ ਲਈ `c' ਦੱਬੋ।"
+"Apăsați enter pentru a inițializa (boot) sistemul de operare selectat, „e” "
+"pentru a edita comenzile înaintea inițializării sau „c” pentru o linie de "
+"comandă."
 
 #: grub-core/gfxmenu/gui_label.c:194
 msgid "enter: boot, `e': options, `c': cmd-line"
-msgstr "enter: ਬੂਟ, `e': ਚੋਣਾਂ, `c': ਕਮਾਂਡ-ਲਾਈਨ"
+msgstr "enter: boot, `e': opțiuni, `c': linia-de-comandă"
 
 #: grub-core/gfxmenu/gui_progress_bar.c:339 grub-core/normal/menu_text.c:446
 #, c-format
 msgid "The highlighted entry will be executed automatically in %ds."
-msgstr ""
+msgstr "Intrarea evidențiată va fi executată automat în %ds."
 
 #. TRANSLATORS:  's' stands for seconds.
 #. It's a standalone timeout notification.
@@ -2858,7 +2828,7 @@ msgstr ""
 #: grub-core/gfxmenu/gui_progress_bar.c:344
 #, c-format
 msgid "%ds remaining."
-msgstr "%ds ਬਾਕੀ।"
+msgstr "%ds rămase."
 
 #. TRANSLATORS:  's' stands for seconds.
 #. It's a standalone timeout notification.
@@ -2871,15 +2841,15 @@ msgstr "%ds"
 
 #: grub-core/gfxmenu/view.c:103
 msgid "GRUB Boot Menu"
-msgstr "ਗਰੱਬ ਬੂਟ ਮੇਨੂ"
+msgstr "Meniul de Boot GRUB"
 
 #: grub-core/hello/hello.c:36
 msgid "Hello World"
-msgstr "ਹੈਲੋ ਵਰਲਡ"
+msgstr "Salutări lume"
 
 #: grub-core/hello/hello.c:45
 msgid "Say `Hello World'."
-msgstr "`Hello World' ਕਹੋ।"
+msgstr ""
 
 #: grub-core/io/gzio.c:409 grub-core/kern/file.c:210
 msgid "attempt to seek outside of the file"
@@ -2889,11 +2859,11 @@ msgstr ""
 #. complete lack of gzip support.
 #: grub-core/io/gzio.c:1228 grub-core/io/gzio.c:1237 grub-core/io/gzio.c:1244
 msgid "unsupported gzip format"
-msgstr "ਗ਼ੈਰ-ਸਹਾਇਕ gzip ਫਾਰਮੈਟ"
+msgstr "format gzip nesuportat"
 
 #: grub-core/io/lzopio.c:511
 msgid "lzop file corrupted"
-msgstr "lzop ਫਾਇਲ ਨਿਕਾਰਾ ਹੈ"
+msgstr "fișier corupt lzop"
 
 #: grub-core/io/xzio.c:278
 msgid "xz file corrupted or unsupported block options"
@@ -2914,36 +2884,36 @@ msgstr ""
 
 #: grub-core/kern/corecmd.c:178
 msgid "[ENVVAR=VALUE]"
-msgstr "[ENVVAR=VALUE]"
+msgstr "[VARIABILĂ_DE_MEDIU=VALOARE]"
 
 #: grub-core/kern/corecmd.c:179
 msgid "Set an environment variable."
-msgstr "ਇੰਵਾਇਰਨਮੈਂਟ ਵੇਰੀਬਲ ਸੈੱਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/kern/corecmd.c:183
 msgid "ENVVAR"
-msgstr "ENVVAR"
+msgstr ""
 
 #: grub-core/kern/corecmd.c:184
 msgid "Remove an environment variable."
-msgstr "ਇੰਵਾਇਰਨਮੈਂਟ ਵੇਰੀਬਲ ਹਟਾਉ।"
+msgstr ""
 
 #: grub-core/kern/corecmd.c:186
 msgid "[ARG]"
-msgstr "[ARG]"
+msgstr ""
 
 #: grub-core/kern/corecmd.c:186
 msgid "List devices or files."
-msgstr "ਜੰਤਰ ਜਾਂ ਫਾਇਲਾਂ ਦੀ ਸੂਚੀ।"
+msgstr ""
 
 #: grub-core/kern/corecmd.c:188
 msgid "Insert a module."
-msgstr "ਮੋਡੀਊਲ ਸ਼ਾਮਿਲ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/kern/disk.c:236 grub-core/net/net.c:1390
 #, c-format
 msgid "disk `%s' not found"
-msgstr "ਡਿਸਕ `%s' ਨਹੀਂ ਲੱਭੀ"
+msgstr ""
 
 #: grub-core/kern/disk_common.c:27
 msgid "attempt to read or write outside of partition"
@@ -2965,7 +2935,7 @@ msgstr ""
 #: util/misc.c:129 util/setup.c:788
 #, c-format
 msgid "cannot write to `%s': %s"
-msgstr "`%s' ਉੱਤੇ ਲਿਖਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s"
+msgstr ""
 
 #. TRANSLATORS: Only one entry is ignored. However the suggestion
 #. is to correct/delete the whole file.
@@ -2998,16 +2968,16 @@ msgstr ""
 #: grub-core/kern/emu/hostfs.c:76 grub-core/kern/emu/hostfs.c:109
 #, c-format
 msgid "can't open `%s': %s"
-msgstr "`%s' ਨੂੰ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s"
+msgstr ""
 
 #: grub-core/kern/emu/main.c:99 util/grub-fstest.c:516 util/grub-mount.c:452
 msgid "DEVICE_NAME"
-msgstr "DEVICE_NAME"
+msgstr ""
 
 #: grub-core/kern/emu/main.c:99 grub-core/loader/i386/bsd.c:136
 #: grub-core/loader/i386/bsd.c:169 util/grub-fstest.c:516 util/grub-mount.c:452
 msgid "Set root device."
-msgstr "ਰੂਟ ਜੰਤਰ ਸੈੱਟ ਕਰੋ।"
+msgstr ""
 
 #. TRANSLATORS: There are many devices in device map.
 #: grub-core/kern/emu/main.c:102 util/grub-probe.c:733 util/grub-setup.c:85
@@ -3032,11 +3002,11 @@ msgstr ""
 #: util/grub-render-label.c:74 util/grub-script-check.c:52 util/grub-setup.c:90
 #: util/grub-syslinux2cfg.c:78
 msgid "print verbose messages."
-msgstr "ਵੇਰਵੇ ਸਮੇਤ ਸੁਨੇਹੇ ਛਾਪੋ।"
+msgstr ""
 
 #: grub-core/kern/emu/main.c:109 grub-core/lib/gnulib/argp-parse.c:85
 msgid "SECS"
-msgstr "ਸਕਿੰਟ"
+msgstr ""
 
 #: grub-core/kern/emu/main.c:109
 msgid "wait until a debugger will attach"
@@ -3061,7 +3031,7 @@ msgstr ""
 #: util/grub-script-check.c:160 util/grub-setup.c:262
 #: util/grub-syslinux2cfg.c:163
 msgid "Error in parsing command line arguments\n"
-msgstr "ਕਮਾਂਡ ਲਾਈਨ ਆਰਗੂਮੈਂਟ ਪਾਰਸ ਕਰਨ ਵਿੱਚ ਗਲਤੀ।\n"
+msgstr ""
 
 #. TRANSLATORS: In this case GRUB tells user what he has to do.
 #: grub-core/kern/emu/main.c:248
@@ -3072,40 +3042,40 @@ msgstr ""
 #: grub-core/kern/emu/misc.c:48
 #, c-format
 msgid "%s: warning:"
-msgstr "%s: ਚੇਤਾਵਨੀ:"
+msgstr ""
 
 #: grub-core/kern/emu/misc.c:64
 #, c-format
 msgid "%s: info:"
-msgstr "%s: ਜਾਣਕਾਰੀ:"
+msgstr ""
 
 #: grub-core/kern/emu/misc.c:79 util/grub-fstest.c:567 util/grub-fstest.c:576
 #: util/grub-mount.c:497 util/grub-mount.c:505
 #, c-format
 msgid "%s: error:"
-msgstr "%s: ਗਲਤੀ:"
+msgstr ""
 
 #: grub-core/kern/emu/misc.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "file `%s' is too big"
-msgstr "ਫਿਰਮਵੇਅਰ ਈਮੇਜ਼ ਬਹੁਤ ਵੱਡਾ ਹੈ"
+msgstr ""
 
 #: grub-core/kern/fs.c:120
 msgid "unknown filesystem"
-msgstr "ਅਣਜਾਣ ਫਾਇਲ ਸਿਸਟਮ"
+msgstr ""
 
 #: grub-core/kern/mips/arc/init.c:273 grub-core/kern/mips/loongson/init.c:301
 msgid "Shutdown failed"
-msgstr "ਬੰਦ ਕਰਨਾ ਫੇਲ੍ਹ ਹੈ"
+msgstr ""
 
 #: grub-core/kern/mips/arc/init.c:285
 msgid "Exit failed"
-msgstr "ਬਾਹਰ ਜਾਣ ਲਈ ਫੇਲ੍ਹ"
+msgstr ""
 
 #: grub-core/kern/misc.c:351 grub-core/kern/misc.c:408 include/grub/misc.h:269
 #: include/grub/misc.h:278
 msgid "overflow is detected"
-msgstr "ਓਵਰਫਲੋ ਖੋਜਿਆ"
+msgstr ""
 
 #: grub-core/kern/partition.c:51 grub-core/partmap/bsdlabel.c:108
 #, c-format
@@ -3115,15 +3085,15 @@ msgstr ""
 #: grub-core/kern/rescue_parser.c:73 util/grub-editenv.c:292
 #, c-format
 msgid "Unknown command `%s'.\n"
-msgstr "ਅਣਜਾਣ ਕਮਾਂਡ `%s'।\n"
+msgstr ""
 
 #: grub-core/lib/arg.c:31
 msgid "Display this help and exit."
-msgstr "ਇਹ ਮੱਦਦ ਵੇਖਾਉ ਅਤੇ ਬੰਦ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/lib/arg.c:33
 msgid "Display the usage of this command and exit."
-msgstr "ਇਸ ਕਮਾਂਡ ਦੀ ਵਰਤੋਂ ਵੇਖਾਉ ਅਤੇ ਬੰਦ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/lib/arg.c:362
 #, c-format
@@ -3174,102 +3144,102 @@ msgstr ""
 
 #: grub-core/lib/gnulib/argp-help.c:1620
 msgid "  or: "
-msgstr "  ਜਾਂ: "
+msgstr ""
 
 #: grub-core/lib/gnulib/argp-help.c:1632
 msgid " [OPTION...]"
-msgstr "[ਚੋਣ...]"
+msgstr ""
 
 #: grub-core/lib/gnulib/argp-help.c:1659
-#, fuzzy, c-format
+#, c-format
 msgid "Try '%s --help' or '%s --usage' for more information.\n"
-msgstr "ਹੋਰ ਜਾਣਕਾਰੀ ਲਈ `%s --help' ਜਾਂ `%s --usage' ਨਾਲ ਕੋਸ਼ਿਸ਼ ਕਰੋ।\n"
+msgstr ""
 
 #: grub-core/lib/gnulib/argp-help.c:1687
 #, c-format
 msgid "Report bugs to %s.\n"
-msgstr "ਬੱਗ ਜਾਣਕਾਰੀ %s ਨੂੰ ਭੇਜੋ।\n"
+msgstr ""
 
 #: grub-core/lib/gnulib/argp-help.c:1888 grub-core/lib/gnulib/error.c:195
 msgid "Unknown system error"
-msgstr "ਅਣਜਾਣ ਸਿਸਟਮ ਗਲਤੀ"
+msgstr ""
 
 #: grub-core/lib/gnulib/argp-parse.c:81
 msgid "give this help list"
-msgstr "ਇਹ ਮੱਦਦ ਸੂਚੀ ਦਿਉ"
+msgstr ""
 
 #: grub-core/lib/gnulib/argp-parse.c:82
 msgid "give a short usage message"
-msgstr "ਸੰਖੇਪ ਵਰਤੋਂ ਸੁਨੇਹਾ ਦਿਉ"
+msgstr ""
 
 #: grub-core/lib/gnulib/argp-parse.c:83 util/grub-mkfont.c:946
 msgid "NAME"
-msgstr "ਨਾਂ"
+msgstr ""
 
 #: grub-core/lib/gnulib/argp-parse.c:84
 msgid "set the program name"
-msgstr "ਪਰੋਗਰਾਮ ਨਾਂ ਸੈੱਟ ਕਰੋ"
+msgstr ""
 
 #: grub-core/lib/gnulib/argp-parse.c:86
 msgid "hang for SECS seconds (default 3600)"
-msgstr "ਸਕਿੰਟ ਸਕਿੰਟਾਂ ਲਈ ਰੋਕੋ (ਮੂਲ 3600)"
+msgstr ""
 
 #: grub-core/lib/gnulib/argp-parse.c:143
 msgid "print program version"
-msgstr "ਪਰੋਗਰਾਮ ਵਰਜਨ ਛਾਪੋ"
+msgstr "afișează versiunea programului"
 
 #: grub-core/lib/gnulib/argp-parse.c:160
 msgid "(PROGRAM ERROR) No version known!?"
-msgstr "(PROGRAM ERROR) ਕੋਈ ਜਾਣਿਆ ਵਰਜਨ ਨਹੀਂ!?"
+msgstr ""
 
 #: grub-core/lib/gnulib/argp-parse.c:613
 #, c-format
 msgid "%s: Too many arguments\n"
-msgstr "%s: ਬਹੁਤ ਆਰਗੂਮੈਂਟ\n"
+msgstr ""
 
 #: grub-core/lib/gnulib/argp-parse.c:759
 msgid "(PROGRAM ERROR) Option should have been recognized!?"
 msgstr ""
 
 #: grub-core/lib/gnulib/getopt.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous\n"
-msgstr "%s: ਚੋਣ '%s' ਗਲਤ ਹੈ\n"
+msgstr ""
 
 #: grub-core/lib/gnulib/getopt.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous; possibilities:"
-msgstr "%s: ਚੋਣ '%s' ਗਲਤ ਹੈ\n"
+msgstr ""
 
 #: grub-core/lib/gnulib/getopt.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unrecognized option '%s%s'\n"
-msgstr "%s: ਬੇ-ਪਛਾਣ ਚੋਣ '%c%s'\n"
+msgstr ""
 
 #: grub-core/lib/gnulib/getopt.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' doesn't allow an argument\n"
-msgstr "'%s: ਚੋਣ '%c%s' ਇੱਕ ਆਰਗੂਮੈਂਟ ਨਹੀਂ ਲੈਂਦੀ\n"
+msgstr ""
 
 #: grub-core/lib/gnulib/getopt.c:360
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' requires an argument\n"
-msgstr "%s: ਚੋਣ '--%s' ਲਈ ਇੱਕ ਆਰਗੂਮੈਂਟ ਚਾਹੀਦਾ\n"
+msgstr ""
 
 #: grub-core/lib/gnulib/getopt.c:621
 #, c-format
 msgid "%s: invalid option -- '%c'\n"
-msgstr "%s: ਗਲਤ ਚੋਣ -- '%c'\n"
+msgstr ""
 
 #: grub-core/lib/gnulib/getopt.c:636 grub-core/lib/gnulib/getopt.c:682
 #, c-format
 msgid "%s: option requires an argument -- '%c'\n"
-msgstr "%s: ਚੋਣ ਲਈ ਆਰਗੂਮੈਂਟ ਚਾਹੀਦਾ ਹੈ --'%c'\n"
+msgstr ""
 
 #: grub-core/lib/gnulib/openat-die.c:38
-#, fuzzy, c-format
+#, c-format
 msgid "unable to record current working directory"
-msgstr "ਅਸਲੀ ਡਾਇਰੈਕਟਰੀ ਰੀ-ਸਟੋਰ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ"
+msgstr ""
 
 #: grub-core/lib/gnulib/openat-die.c:57
 #, c-format
@@ -3278,15 +3248,15 @@ msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:135 grub-core/osdep/aros/hostdisk.c:523
 msgid "Success"
-msgstr "ਸਫ਼ਲ"
+msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:138
 msgid "No match"
-msgstr "ਕੋਈ ਮੇਲ ਨਹੀਂ"
+msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:141
 msgid "Invalid regular expression"
-msgstr "ਗਲਤ ਰੈਗੂਲਰ ਸਮੀਕਰਨ"
+msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:144
 msgid "Invalid collation character"
@@ -3294,7 +3264,7 @@ msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:147
 msgid "Invalid character class name"
-msgstr "ਗਲਤ ਕਰੈਕਟਰ ਕਲਾਸ ਨਾਂ"
+msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:150
 msgid "Trailing backslash"
@@ -3305,17 +3275,16 @@ msgid "Invalid back reference"
 msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:156
-#, fuzzy
 msgid "Unmatched [, [^, [:, [., or [="
-msgstr "ਨਾ ਮਿਲਦੇ [ ਜਾਂ [^"
+msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:159
 msgid "Unmatched ( or \\("
-msgstr "ਨਾ ਮਿਲਦੇ ( ਜਾਂ \\("
+msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:162
 msgid "Unmatched \\{"
-msgstr "ਨਾ-ਮਿਲਦੇ \\{"
+msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:165
 msgid "Invalid content of \\{\\}"
@@ -3323,11 +3292,11 @@ msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:168
 msgid "Invalid range end"
-msgstr "ਗਲਤ ਅੰਤ ਰੇਜ਼"
+msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:171
 msgid "Memory exhausted"
-msgstr "ਮੈਮੋਰੀ ਖਤਮ ਹੋਈ"
+msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:174
 msgid "Invalid preceding regular expression"
@@ -3339,23 +3308,23 @@ msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:180
 msgid "Regular expression too big"
-msgstr "ਨਿਯਮਤ ਸਮੀਕਰਨ ਬਹੁਤ ਵੱਡੀ ਹੈ"
+msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:183
 msgid "Unmatched ) or \\)"
-msgstr "ਨਾ ਮਿਲਦੇ ) ਜਾਂ \\)"
+msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:531
 msgid "unknown regexp error"
-msgstr "ਅਣਜਾਣ regexp ਗਲਤੀ"
+msgstr ""
 
 #: grub-core/lib/gnulib/regcomp.c:676
 msgid "No previous regular expression"
-msgstr "ਕੋਈ ਪਿਛਲਾ ਨਿਯਮਤ ਸਮੀਕਰਨ ਨਹੀਂ"
+msgstr ""
 
 #: grub-core/lib/i386/halt.c:77
 msgid "GRUB doesn't know how to halt this machine yet!"
-msgstr "ਗਰੱਬ ਨਹੀਂ ਜਾਣਦਾ ਹੈ ਕਿ ਇਹ ਮਸ਼ੀਨ ਨੂੰ ਕਿਵੇਂ ਰੋਕਣਾ ਹੈ!"
+msgstr ""
 
 #: grub-core/lib/legacy_parse.c:75
 msgid "Default server is ${net_default_server}"
@@ -3370,7 +3339,7 @@ msgstr ""
 
 #: grub-core/lib/mips/arc/reboot.c:32 grub-core/lib/mips/loongson/reboot.c:61
 msgid "Reboot failed"
-msgstr "ਮੁੜ-ਚਾਲੂ ਕਰਨ ਲਈ ਫੇਲ੍ਹ"
+msgstr ""
 
 #: grub-core/lib/random.c:113
 msgid "[LENGTH]"
@@ -3385,14 +3354,12 @@ msgid "device tree must be supplied (see `devicetree' command)"
 msgstr ""
 
 #: grub-core/loader/arm/linux.c:334
-#, fuzzy
 msgid "invalid zImage"
-msgstr "ਗਲਤ ਫੋਂਟ ਰੇਜ਼"
+msgstr ""
 
 #: grub-core/loader/arm/linux.c:450 grub-core/loader/efi/fdt.c:144
-#, fuzzy
 msgid "invalid device tree"
-msgstr "ਗਲਤ ਜੰਤਰ `%s'।\n"
+msgstr ""
 
 #: grub-core/loader/arm/linux.c:493 grub-core/loader/arm64/linux.c:383
 #: grub-core/loader/i386/linux.c:1125 grub-core/loader/i386/pc/linux.c:479
@@ -3402,7 +3369,7 @@ msgstr "ਗਲਤ ਜੰਤਰ `%s'।\n"
 #: grub-core/loader/riscv/linux.c:50
 #: grub-core/loader/sparc64/ieee1275/linux.c:511
 msgid "Load Linux."
-msgstr "ਲੀਨਕਸ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/loader/arm/linux.c:495 grub-core/loader/arm64/linux.c:385
 #: grub-core/loader/i386/linux.c:1127 grub-core/loader/i386/pc/linux.c:482
@@ -3412,13 +3379,12 @@ msgstr "ਲੀਨਕਸ ਲੋਡ ਕਰੋ।"
 #: grub-core/loader/riscv/linux.c:52
 #: grub-core/loader/sparc64/ieee1275/linux.c:513
 msgid "Load initrd."
-msgstr "initrd ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #. TRANSLATORS: DTB stands for device tree blob.
 #: grub-core/loader/arm/linux.c:498 grub-core/loader/efi/fdt.c:169
-#, fuzzy
 msgid "Load DTB file."
-msgstr "XNU ਈਮੇਜ਼ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/loader/arm64/linux.c:59
 msgid ""
@@ -3430,53 +3396,50 @@ msgid "failed to get FDT"
 msgstr ""
 
 #: grub-core/loader/arm64/xen_boot.c:418
-#, fuzzy
 msgid "you need to load the Xen Hypervisor first"
-msgstr "ਤੁਹਾਨੂੰ ਪਹਿਲਾਂ ਕਰਨਲ ਲੋਡ ਕਰਨ ਦੀ ਲੋੜ ਹੈ।"
+msgstr ""
 
 #: grub-core/loader/arm64/xen_boot.c:516
-#, fuzzy
 msgid "Load a xen hypervisor."
-msgstr "%s, Xen ਹਾਈਪਰਵਾਈਜ਼ਰ ਨਾਲ"
+msgstr ""
 
 #: grub-core/loader/arm64/xen_boot.c:519
-#, fuzzy
 msgid "Load a xen module."
-msgstr "ਮੋਡੀਊਲ ਹਟਾਉ।"
+msgstr ""
 
 #: grub-core/loader/efi/appleloader.c:231
 msgid "[OPTS]"
-msgstr "[OPTS]"
+msgstr ""
 
 #. TRANSLATORS: This command is used on EFI to
 #. switch to BIOS mode and boot the OS requiring
 #. BIOS.
 #: grub-core/loader/efi/appleloader.c:235
 msgid "Boot BIOS-based system."
-msgstr "BIOS-ਅਧਾਰਿਤ ਸਿਸਟਮ ਬੂਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/loader/efi/chainloader.c:421
 #: grub-core/loader/i386/pc/chainloader.c:303
 msgid "Load another boot loader."
-msgstr "ਹੋਰ ਬੂਟ ਲੋਡਰ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:103
 msgid "Display output on all consoles."
-msgstr "ਸਭ ਕਨਸੋਲ ਉੱਤੇ ਆਉਟਪੁੱਟ ਵੇਖੋ।"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:104 grub-core/loader/i386/bsd.c:138
 #: grub-core/loader/i386/bsd.c:171
 msgid "Use serial console."
-msgstr "ਸੀਰੀਅਥ ਕਨਸੋਲ ਵਰਤੋਂ।"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:105 grub-core/loader/i386/bsd.c:131
 #: grub-core/loader/i386/bsd.c:159
 msgid "Ask for file name to reboot from."
-msgstr "ਮੁੜ-ਚਾਲੂ ਕਰਨ ਲਈ ਫਾਇਲ ਨਾਂ ਪੁੱਛੋ।"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:106
 msgid "Use CD-ROM as root."
-msgstr "CD-ROM ਨੂੰ ਰੂਟ ਵਜੋਂ ਵਰਤੋਂ।"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:107
 msgid "Invoke user configuration routing."
@@ -3493,7 +3456,7 @@ msgstr ""
 
 #: grub-core/loader/i386/bsd.c:110
 msgid "Disable all boot output."
-msgstr "ਸਭ ਬੂਟ ਆਉਟਪੁੱਟ ਬੰਦ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:112
 msgid "Wait for keypress after every line of output."
@@ -3506,7 +3469,7 @@ msgstr ""
 #: grub-core/loader/i386/bsd.c:115 grub-core/loader/i386/bsd.c:134
 #: grub-core/loader/i386/bsd.c:165
 msgid "Boot into single mode."
-msgstr "ਸਿੰਗਲ ਮੋਡ ਵਿੱਚ ਬੂਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:116 grub-core/loader/i386/bsd.c:166
 msgid "Boot with verbose messages."
@@ -3514,34 +3477,34 @@ msgstr ""
 
 #: grub-core/loader/i386/bsd.c:132 grub-core/loader/i386/bsd.c:160
 msgid "Don't reboot, just halt."
-msgstr "ਮੁੜ-ਚਾਲੂ ਨਾ ਕਰੋ, ਸਿਰਫ਼ ਰੋਕੋ।"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:133 grub-core/loader/i386/bsd.c:161
 msgid "Change configured devices."
-msgstr "ਸੰਰਚਿਤ ਜੰਤਰ ਬਦਲੋ।"
+msgstr ""
 
 #. TRANSLATORS: "com" is static and not to be translated. It refers to
 #. serial ports e.g. com1.
 #.
 #: grub-core/loader/i386/bsd.c:142
 msgid "comUNIT[,SPEED]"
-msgstr "comUNIT[,SPEED]"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:157
 msgid "Disable SMP."
-msgstr "SMP ਬੰਦ।"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:158
 msgid "Disable ACPI."
-msgstr "ACPI ਬੰਦ।"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:164
 msgid "Don't display boot diagnostic messages."
-msgstr "ਬੂਟ ਜਾਂਚ-ਪੜਤਾਲ ਸੁਨੇਹੇ ਨਾ ਵੇਖਾਉ।"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:167
 msgid "Boot with debug messages."
-msgstr "ਡੀਬੱਗ ਸੁਨੇਹਿਆਂ ਨਾਲ ਬੂਟ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:168
 msgid "Suppress normal output (warnings remain)."
@@ -3552,23 +3515,23 @@ msgstr ""
 #.
 #: grub-core/loader/i386/bsd.c:175
 msgid "[ADDR|comUNIT][,SPEED]"
-msgstr "[ADDR|comUNIT][,SPEED]"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:489 grub-core/loader/i386/bsd.c:555
 msgid "name"
-msgstr "ਨਾਂ"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:489 grub-core/loader/i386/bsd.c:555
 msgid "type"
-msgstr "ਕਿਸਮ"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:489 grub-core/loader/i386/bsd.c:555
 msgid "addr"
-msgstr "addr"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:490 grub-core/loader/i386/bsd.c:556
 msgid "size"
-msgstr "ਸਾਈਜ਼"
+msgstr ""
 
 #: grub-core/loader/i386/bsd.c:1147 grub-core/loader/i386/linux.c:466
 #: grub-core/loader/i386/xnu.c:1030
@@ -3619,7 +3582,7 @@ msgstr ""
 #. let it untranslated.
 #: grub-core/loader/i386/coreboot/chainloader.c:510
 msgid "Load another coreboot payload"
-msgstr "ਹੋਰ ਕੋਰਬੂਟ ਪਲੇਅਲੋਡ ਲੋਡ ਕਰੋ"
+msgstr ""
 
 #: grub-core/loader/i386/linux.c:876
 msgid "Legacy `ask' parameter no longer supported."
@@ -3642,12 +3605,12 @@ msgstr ""
 
 #: grub-core/loader/i386/pc/chainloader.c:302
 msgid "[--force|--bpb] FILE"
-msgstr "[--force|--bpb] FILE"
+msgstr ""
 
 #: grub-core/loader/i386/pc/freedos.c:148 util/setup.c:293
 #, c-format
 msgid "the size of `%s' is too large"
-msgstr "`%s' ਦਾ ਆਕਾਰ ਬਹੁਤ ਵੱਡਾ ਹੈ"
+msgstr ""
 
 #: grub-core/loader/i386/pc/freedos.c:183
 msgid "Load FreeDOS kernel.sys."
@@ -3655,7 +3618,7 @@ msgstr ""
 
 #: grub-core/loader/i386/pc/ntldr.c:155
 msgid "Load NTLDR or BootMGR."
-msgstr "NTLDR ਜਾਂ BootMGR ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #. TRANSLATORS: it's about guessing which GRUB disk
 #. is which Plan9 disk. If your language has no
@@ -3669,15 +3632,15 @@ msgstr ""
 
 #: grub-core/loader/i386/pc/plan9.c:60
 msgid "GRUBDEVICE=PLAN9DEVICE"
-msgstr "GRUBDEVICE=PLAN9DEVICE"
+msgstr ""
 
 #: grub-core/loader/i386/pc/plan9.c:599
 msgid "KERNEL ARGS"
-msgstr "KERNEL ARGS"
+msgstr ""
 
 #: grub-core/loader/i386/pc/plan9.c:599
 msgid "Load Plan9 kernel."
-msgstr "Plan9 ਕਰਨਲ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/loader/i386/pc/pxechainloader.c:161
 msgid "Load a PXE image."
@@ -3692,13 +3655,12 @@ msgid "initrd already loaded"
 msgstr ""
 
 #: grub-core/loader/i386/xen.c:968
-#, fuzzy
 msgid "Load module."
-msgstr "ਮੋਡੀਊਲ ਹਟਾਉ।"
+msgstr ""
 
 #: grub-core/loader/i386/xnu.c:1003
 msgid "Press any key to launch xnu"
-msgstr "xnu ਚਲਾਉਣ ਲਈ ਕੋਈ ਵੀ ਸਵਿੱਚ ਦੱਬੋ।"
+msgstr ""
 
 #. TRANSLATORS: `device-properties'
 #. is a variable name,
@@ -3717,20 +3679,20 @@ msgstr ""
 
 #: grub-core/loader/ia64/efi/linux.c:580
 msgid "No FPSWA found"
-msgstr "FPSWA ਨਹੀਂ ਲੱਭਿਆ"
+msgstr ""
 
 #: grub-core/loader/ia64/efi/linux.c:582
 #, c-format
 msgid "FPSWA revision: %x\n"
-msgstr "FPSWA ਰੀਵਿਜ਼ਨ: %x\n"
+msgstr ""
 
 #: grub-core/loader/ia64/efi/linux.c:591
 msgid "FILE [ARGS...]"
-msgstr "FILE [ARGS...]"
+msgstr ""
 
 #: grub-core/loader/ia64/efi/linux.c:597
 msgid "Display FPSWA version."
-msgstr "FPSWA ਵਰਜਨ ਵੇਖਾਉ।"
+msgstr ""
 
 #: grub-core/loader/multiboot.c:248
 msgid "WARNING: no console will be available to OS"
@@ -3753,13 +3715,12 @@ msgid "Load a multiboot module."
 msgstr ""
 
 #: grub-core/loader/riscv/linux.c:30 grub-core/loader/riscv/linux.c:40
-#, fuzzy
 msgid "Linux not supported yet"
-msgstr "ਸਹਾਇਕ ਵਿਡੀਓ ਮੋਡ ਦੀ ਸੂਚੀ:"
+msgstr ""
 
 #: grub-core/loader/xnu.c:1416 grub-core/term/gfxterm_background.c:45
 msgid "Background image mode."
-msgstr "ਬੈਕਗਰਾਊਂਡ ਚਿੱਤਰ ਮੋਡ।"
+msgstr ""
 
 #. TRANSLATORS: This refers to background image mode (stretched or
 #. in left-top corner). Note that GRUB will accept only original
@@ -3772,15 +3733,15 @@ msgstr "ਬੈਕਗਰਾਊਂਡ ਚਿੱਤਰ ਮੋਡ।"
 #. string.
 #: grub-core/loader/xnu.c:1416 grub-core/term/gfxterm_background.c:55
 msgid "stretch|normal"
-msgstr "stretch|normal"
+msgstr ""
 
 #: grub-core/loader/xnu.c:1482
 msgid "Load XNU image."
-msgstr "XNU ਈਮੇਜ਼ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/loader/xnu.c:1484
 msgid "Load 64-bit XNU image."
-msgstr "64-ਬਿੱਜ਼ XNU ਈਮੇਜ਼ ਲੋਡ ਕਰੋ।"
+msgstr ""
 
 #: grub-core/loader/xnu.c:1486
 msgid "Load XNU extension package."
@@ -3797,7 +3758,7 @@ msgstr ""
 #.
 #: grub-core/loader/xnu.c:1495
 msgid "DIRECTORY [OSBundleRequired]"
-msgstr "ਡਾਇਰੈਕਟਰੀ [OSBundleRequired]"
+msgstr ""
 
 #. TRANSLATORS: There are many extensions
 #. in extension directory.
@@ -3820,7 +3781,7 @@ msgstr ""
 
 #: grub-core/mmap/mmap.c:538
 msgid "ADDR1,MASK1[,ADDR2,MASK2[,...]]"
-msgstr "ADDR1,MASK1[,ADDR2,MASK2[,...]]"
+msgstr ""
 
 #: grub-core/mmap/mmap.c:539
 msgid "Declare memory regions as faulty (badram)."
@@ -3828,11 +3789,11 @@ msgstr ""
 
 #: grub-core/mmap/mmap.c:541
 msgid "FROM[K|M|G] TO[K|M|G]"
-msgstr "ਤੋਂ[K|M|G] ਤੱਕ[K|M|G]"
+msgstr ""
 
 #: grub-core/mmap/mmap.c:542
 msgid "Remove any memory regions in specified range."
-msgstr "ਦਿੱਤੀ ਰੇਜ਼ ਵਿੱਚ ਕੋਈ ਵੀ ਮੈਮੋਰੀ ਖੇਤਰ ਹਟਾਉ।"
+msgstr ""
 
 #: grub-core/net/bootp.c:653
 msgid "four arguments expected"
@@ -3845,21 +3806,20 @@ msgstr ""
 
 #: grub-core/net/bootp.c:664
 msgid "no DHCP info found"
-msgstr "DHCP ਜਾਣਕਾਰੀ ਨਹੀਂ ਲੱਭੀ"
+msgstr ""
 
 #: grub-core/net/bootp.c:674
 msgid "no DHCP options found"
 msgstr ""
 
 #: grub-core/net/bootp.c:682
-#, fuzzy
 msgid "invalid DHCP option code"
-msgstr "%s: ਗਲਤ ਚੋਣ -- '%c'\n"
+msgstr ""
 
 #: grub-core/net/bootp.c:686
-#, fuzzy, c-format
+#, c-format
 msgid "no DHCP option %u found"
-msgstr "DHCP ਜਾਣਕਾਰੀ ਨਹੀਂ ਲੱਭੀ"
+msgstr ""
 
 #: grub-core/net/bootp.c:743
 #, c-format
@@ -3877,16 +3837,15 @@ msgstr ""
 
 #: grub-core/net/bootp.c:873 grub-core/net/bootp.c:876
 msgid "[CARD]"
-msgstr "[CARD]"
+msgstr ""
 
 #: grub-core/net/bootp.c:874
 msgid "perform a bootp autoconfiguration"
-msgstr "ਬੂਟ ਆਟੋ-ਸੰਰਚਨਾ ਕਰੋ"
+msgstr ""
 
 #: grub-core/net/bootp.c:877
-#, fuzzy
 msgid "perform a DHCP autoconfiguration"
-msgstr "ਬੂਟ ਆਟੋ-ਸੰਰਚਨਾ ਕਰੋ"
+msgstr ""
 
 #: grub-core/net/bootp.c:879
 msgid "VAR INTERFACE NUMBER DESCRIPTION"
@@ -3931,7 +3890,7 @@ msgstr ""
 
 #: grub-core/net/dns.c:759
 msgid "ADDRESS DNSSERVER"
-msgstr "ADDRESS DNSSERVER"
+msgstr ""
 
 #: grub-core/net/dns.c:760
 msgid "Perform a DNS lookup"
@@ -3939,7 +3898,7 @@ msgstr ""
 
 #: grub-core/net/dns.c:762 grub-core/net/dns.c:765
 msgid "DNSSERVER"
-msgstr "DNSSERVER"
+msgstr ""
 
 #: grub-core/net/dns.c:763
 msgid "Add a DNS server"
@@ -3963,9 +3922,8 @@ msgstr ""
 
 #: grub-core/net/drivers/ieee1275/ofnet.c:326
 #: grub-core/net/drivers/ieee1275/ofnet.c:359
-#, fuzzy
 msgid "interpret is not supported"
-msgstr "16-ਬਿੱਟ ਸੁਰੱਖਿਅਤ ਇੰਟਰਫੇਸ ਸਹਾਇਕ ਹੈ\n"
+msgstr ""
 
 #: grub-core/net/drivers/ieee1275/ofnet.c:336
 msgid "alloc-mem failed"
@@ -4007,18 +3965,18 @@ msgstr ""
 
 #: grub-core/net/net.c:661
 msgid "destination unreachable"
-msgstr "ਟਿਕਾਣਾ ਵਰਤਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ"
+msgstr ""
 
 #. TRANSLATORS: route loop is a condition when e.g.
 #. to contact server A you need to go through B
 #. and to contact B you need to go through A.
 #: grub-core/net/net.c:684
 msgid "route loop detected"
-msgstr "ਰੂਟ ਲੂਪ ਖੋਜਿਆ"
+msgstr ""
 
 #: grub-core/net/net.c:700
 msgid "address not found"
-msgstr "ਐਡਰੈਸ ਨਹੀਂ ਲੱਭਿਆ"
+msgstr ""
 
 #: grub-core/net/net.c:704
 msgid "you can't delete this address"
@@ -4040,17 +3998,17 @@ msgstr ""
 
 #: grub-core/net/net.c:1023
 msgid "card not found"
-msgstr "ਕਾਰਡ ਨਹੀਂ ਲੱਭਿਆ"
+msgstr ""
 
 #. TRANSLATORS: it refers to the network address.
 #: grub-core/net/net.c:1167
 msgid "temporary"
-msgstr "ਆਰਜ਼ੀ"
+msgstr ""
 
 #: grub-core/net/net.c:1190
 #, c-format
 msgid "Unknown address type %d\n"
-msgstr "ਅਣਜਾਣ ਐਡਰੈਸ ਕਿਸਮ %d\n"
+msgstr ""
 
 #: grub-core/net/net.c:1298
 msgid "no server is specified"
@@ -4114,114 +4072,114 @@ msgstr ""
 
 #: grub-core/net/tcp.c:681
 msgid "connection refused"
-msgstr "ਕੁਨੈਕਸ਼ਨ ਤੋਂ ਇਨਕਾਰ ਕੀਤਾ"
+msgstr "conexiune refuzată"
 
 #: grub-core/net/tcp.c:684
 msgid "connection timeout"
-msgstr "ਕੁਨੈਕਸ਼ਨ ਸਮਾਂ-ਸਮਾਪਤ"
+msgstr "conexiunea a expirat"
 
 #: grub-core/normal/auth.c:220
 msgid "Enter username: "
-msgstr "ਯੂਜ਼ਰ ਨਾਂ ਦਿਉ: "
+msgstr "Introduceți numele de utilizator: "
 
 #: grub-core/normal/auth.c:269
 msgid "[USERLIST]"
-msgstr "[USERLIST]"
+msgstr "[LISTA_DE_UTILIZATORI]"
 
 #: grub-core/normal/auth.c:270
 msgid "Check whether user is in USERLIST."
-msgstr ""
+msgstr "Verificați dacă utilizatorul se află în LISTA_DE_UTILIZATORI."
 
 #: grub-core/normal/cmdline.c:174 grub-core/normal/menu_entry.c:1068
 msgid "Possible commands are:"
-msgstr "ਸੰਭਾਵਿਤ ਕਮਾਂਡ ਹਨ:"
+msgstr "Comenzile posibile sunt:"
 
 #: grub-core/normal/cmdline.c:177 grub-core/normal/menu_entry.c:1072
 msgid "Possible devices are:"
-msgstr "ਸੰਭਾਵਿਤ ਜੰਤਰ:"
+msgstr "Dispozitivele posibile sunt:"
 
 #: grub-core/normal/cmdline.c:180 grub-core/normal/menu_entry.c:1076
 msgid "Possible files are:"
-msgstr "ਸੰਭਾਵਿਤ ਫਾਇਲਾਂ:"
+msgstr "Fișierele posibile sunt:"
 
 #: grub-core/normal/cmdline.c:183 grub-core/normal/menu_entry.c:1080
 msgid "Possible partitions are:"
-msgstr "ਸੰਭਾਵਿਤ ਪਾਰਟੀਸ਼ਨ:"
+msgstr "Partițiile posibile sunt:"
 
 #: grub-core/normal/cmdline.c:186 grub-core/normal/menu_entry.c:1084
 msgid "Possible arguments are:"
-msgstr "ਸੰਭਾਵਿਤ ਆਰਗੂਮੈਂਟ:"
+msgstr "Argumentele posibile sunt:"
 
 #. TRANSLATORS: this message is used if none of above matches.
 #. This shouldn't happen but please use the general term for
 #. "thing" or "object".
 #: grub-core/normal/cmdline.c:192 grub-core/normal/menu_entry.c:1088
 msgid "Possible things are:"
-msgstr ""
+msgstr "Lucrurile posibile sunt:"
 
 #: grub-core/normal/color.c:81
 #, c-format
 msgid "Warning: syntax error (missing slash) in `%s'\n"
-msgstr ""
+msgstr "Avertisment: eroare de sintaxă (lipsește un slash) în „%s”\n"
 
 #: grub-core/normal/color.c:90
 #, c-format
 msgid "Warning: invalid foreground color `%s'\n"
-msgstr ""
+msgstr "Avertisment: culoare de prim-plan nevalidă „%s”\n"
 
 #: grub-core/normal/color.c:96
 #, c-format
 msgid "Warning: invalid background color `%s'\n"
-msgstr ""
+msgstr "Avertisment: culoare de fundal nevalidă „%s”\n"
 
 #: grub-core/normal/context.c:206
 msgid "ENVVAR [ENVVAR] ..."
-msgstr "ENVVAR [ENVVAR] ..."
+msgstr ""
 
 #: grub-core/normal/context.c:207
 msgid "Export variables."
-msgstr ""
+msgstr "Exportă variabilele."
 
 #: grub-core/normal/datetime.c:25
 msgid "Sunday"
-msgstr "ਐਤਵਾਰ"
+msgstr "Duminică"
 
 #: grub-core/normal/datetime.c:26
 msgid "Monday"
-msgstr "ਸੋਮਵਾਰ"
+msgstr "Luni"
 
 #: grub-core/normal/datetime.c:27
 msgid "Tuesday"
-msgstr "ਮੰਗਲਵਾਰ"
+msgstr "Marţi"
 
 #: grub-core/normal/datetime.c:28
 msgid "Wednesday"
-msgstr "ਬੁੱਧਵਾਰ"
+msgstr "Miercuri"
 
 #: grub-core/normal/datetime.c:29
 msgid "Thursday"
-msgstr "ਵੀਰਵਾਰ"
+msgstr "Joi"
 
 #: grub-core/normal/datetime.c:30
 msgid "Friday"
-msgstr "ਸ਼ੁੱਕਰਵਾਰ"
+msgstr "Vineri"
 
 #: grub-core/normal/datetime.c:31
 msgid "Saturday"
-msgstr "ਸ਼ਨਿੱਚਰਵਾਰ"
+msgstr "Sâmbătă"
 
 #: grub-core/normal/dyncmd.c:187
 msgid "module isn't loaded"
-msgstr "ਮੋਡੀਊਲ ਲੋਡ ਨਹੀਂ ਹੈ"
+msgstr ""
 
 #: grub-core/normal/main.c:211
 #, c-format
 msgid "GNU GRUB  version %s"
-msgstr "ਗਨੂ ਗਰਬ ਵਰਜਨ %s"
+msgstr "GNU GRUB  versiunea %s"
 
 #: grub-core/normal/main.c:360
 msgid "ESC at any time exits."
-msgstr "ਕਿਸੇ ਵੀ ਸਮੇਂ ਬਾਹਰ ਜਾਣ ਲਈ ESC।"
+msgstr "ESC oricând pentru a ieși."
 
 #: grub-core/normal/main.c:363
 #, c-format
@@ -4234,38 +4192,38 @@ msgstr ""
 #. TRANSLATORS: it's command line prompt.
 #: grub-core/normal/main.c:395
 msgid ">"
-msgstr ">"
+msgstr ""
 
 #. TRANSLATORS: it's command line prompt.
 #: grub-core/normal/main.c:398
 msgid "grub>"
-msgstr "grub>"
+msgstr ""
 
 #: grub-core/normal/main.c:518
 msgid "Clear the screen."
-msgstr "ਸਕਰੀਨ ਸਾਫ਼ ਕਰੋ।"
+msgstr "Curăță ecranul."
 
 #: grub-core/normal/main.c:527
 msgid "Enter normal mode."
-msgstr "ਸਧਾਰਨ ਮੋਡ 'ਚ ਜਾਉ।"
+msgstr "Intră în modul normal."
 
 #: grub-core/normal/main.c:529
 msgid "Exit from normal mode."
-msgstr "ਸਧਾਰਨ ਮੋਡ ਵਿੱਚੋਂ ਬਾਹਰ ਆਉ।"
+msgstr "Ieșire din modul normal."
 
 #: grub-core/normal/menu.c:66 grub-core/normal/menu_entry.c:1449
 msgid "Press any key to continue..."
-msgstr "ਜਾਰੀ ਰੱਖਣ ਲਈ ਕੋਈ ਵੀ ਸਵਿੱਚ ਦੱਬੋ..."
+msgstr "Apăsați orice tastă pentru a continua..."
 
 #: grub-core/normal/menu.c:815
 #, c-format
 msgid "Booting `%s'"
-msgstr "`%s' ਬੂਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
+msgstr "Se inițializează „%s”"
 
 #: grub-core/normal/menu.c:827
 #, c-format
 msgid "Falling back to `%s'"
-msgstr "`%s' ਲਈ ਫਾਲਬੈਕ"
+msgstr ""
 
 #: grub-core/normal/menu.c:843
 msgid "Failed to boot both default and fallback entries.\n"
@@ -4273,7 +4231,7 @@ msgstr ""
 
 #: grub-core/normal/menu_entry.c:1171
 msgid "Booting a command list"
-msgstr "ਕਮਾਂਡ ਸੂਚੀ ਬੂਟ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
+msgstr ""
 
 #: grub-core/normal/menu_text.c:160
 msgid ""
@@ -4281,11 +4239,16 @@ msgid ""
 "Ctrl-x or F10 to boot, Ctrl-c or F2 for a command-line or ESC to discard "
 "edits and return to the GRUB menu."
 msgstr ""
+"Editare minimă în stilul Emacs este suportată. TAB listează completări. "
+"Apăsați Ctrl-x sau F10 pentru a inițializa sistemul (boot), Ctrl-c sau F2 "
+"pentru o linie de comandă sau ESC pentru a renunța la modificări și a reveni "
+"în meniul GRUB."
 
 #: grub-core/normal/menu_text.c:170
 #, c-format
 msgid "Use the %C and %C keys to select which entry is highlighted."
 msgstr ""
+"Utilizați tastele %C și %C pentru a selecta care intrare este evidențiată."
 
 #. TRANSLATORS: that's the list of binary unit prefixes.
 #: grub-core/normal/misc.c:38
@@ -4361,37 +4324,37 @@ msgstr ""
 #: grub-core/normal/misc.c:96
 #, c-format
 msgid "Partition %s:"
-msgstr "ਪਾਰਟੀਸ਼ਨ %s:"
+msgstr ""
 
 #: grub-core/normal/misc.c:101
 #, c-format
 msgid "Device %s:"
-msgstr "ਜੰਤਰ %s:"
+msgstr ""
 
 #: grub-core/normal/misc.c:107
 msgid "Filesystem cannot be accessed"
-msgstr "ਫਾਇਲ-ਸਿਸਟਮ ਵਰਤਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ"
+msgstr ""
 
 #: grub-core/normal/misc.c:121
 #, c-format
 msgid "Filesystem type %s"
-msgstr "ਫਾਇਲ ਸਿਸਟਮ ਕਿਸਮ %s"
+msgstr ""
 
 #: grub-core/normal/misc.c:131
 #, c-format
 msgid "- Label `%s'"
-msgstr "- ਲੇਬਲ `%s'"
+msgstr ""
 
 #. TRANSLATORS: Arguments are year, month, day, hour, minute,
 #. second, day of the week (translated).
 #: grub-core/normal/misc.c:148
 #, c-format
 msgid "- Last modification time %d-%02d-%02d %02d:%02d:%02d %s"
-msgstr "- ਆਖਰੀ ਸੋਧ ਸਮਾਂ %d-%02d-%02d %02d:%02d:%02d %s"
+msgstr ""
 
 #: grub-core/normal/misc.c:171
 msgid "No known filesystem detected"
-msgstr "ਅਣਜਾਣ ਫਾਇਲ ਸਿਸਟਮ ਕਿਸਮ ਖੋਜੀ"
+msgstr ""
 
 #: grub-core/normal/misc.c:174
 #, c-format
@@ -4405,36 +4368,35 @@ msgstr ""
 
 #: grub-core/normal/misc.c:180
 msgid " - Total size unknown"
-msgstr " - ਕੁੱਲ ਆਕਾਰ ਅਣਜਾਣ"
+msgstr ""
 
 #: grub-core/normal/misc.c:182
-#, fuzzy, c-format
+#, c-format
 msgid " - Total size %llu%sKiB"
-msgstr " -  ਕੁੱਲ ਆਕਾਰ %llu ਸੈਕਟਰ"
+msgstr ""
 
 #. TRANSLATORS: Replace dot with appropriate decimal separator for
 #. your language.
 #: grub-core/normal/misc.c:186
 msgid ".5"
-msgstr ""
+msgstr ".5"
 
 #. TRANSLATORS: This has to fit on one line.  It's ok to include few
 #. words but don't write poems.
 #: grub-core/normal/term.c:82
 msgid "--MORE--"
-msgstr "--ਹੋਰ--"
+msgstr "--MAI MULT--"
 
 #: grub-core/osdep/aros/config.c:92 grub-core/osdep/unix/config.c:137
 #: grub-core/osdep/windows/config.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "cannot open configuration file `%s': %s"
-msgstr "OS ਫਾਇਲ `%s' ਖੋਲ੍ਹੀ ਨਹੀਂ ਜਾ ਸਕਦੀ: %s"
+msgstr ""
 
 #: grub-core/osdep/basic/compress.c:8 grub-core/osdep/basic/compress.c:14
 #: grub-core/osdep/basic/compress.c:20
-#, fuzzy
 msgid "no compression is available for your platform"
-msgstr "ਤੁਹਾਡੇ ਪਲੇਟਫਾਰਮ ਲਈ ਕੋਈ ਇਸ਼ਾਰਾ ਨਹੀਂ ਹੈ। ਕਾਰਗੁਜ਼ਾਰੀ ਘਟਣ ਦੀ ਉਮੀਦ ਹੈ।"
+msgstr ""
 
 #: grub-core/osdep/basic/no_platform.c:30
 #: grub-core/osdep/windows/platform.c:418
@@ -4464,7 +4426,7 @@ msgstr ""
 #: grub-core/osdep/freebsd/getroot.c:202
 #, c-format
 msgid "can't mount encrypted volume `%s': %s"
-msgstr "ਇੰਕ੍ਰਿਪਟ ਕੀਤੇ ਵਾਲੀਅਮ `%s' ਨੂੰ ਮਾਊਂਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ: %s"
+msgstr ""
 
 #. TRANSLATORS: geom is the name of (k)FreeBSD device framework.
 #. Usually left untranslated.
@@ -4472,7 +4434,7 @@ msgstr "ਇੰਕ੍ਰਿਪਟ ਕੀਤੇ ਵਾਲੀਅਮ `%s' ਨੂੰ 
 #: grub-core/osdep/freebsd/getroot.c:82 grub-core/osdep/freebsd/getroot.c:164
 #: grub-core/osdep/freebsd/getroot.c:258 grub-core/osdep/freebsd/getroot.c:316
 msgid "couldn't open geom"
-msgstr "geom ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਸਕਿਆ"
+msgstr ""
 
 #: grub-core/osdep/freebsd/getroot.c:182 grub-core/osdep/freebsd/getroot.c:277
 msgid "couldn't find geli consumer"
@@ -4506,12 +4468,11 @@ msgstr ""
 #: grub-core/osdep/generic/blocklist.c:115
 #, c-format
 msgid "cannot read `%s' correctly"
-msgstr "`%s' ਨੂੰ ਠੀਕ ਤਰ੍ਹਾਂ ਪੜਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ"
+msgstr ""
 
 #: grub-core/osdep/generic/blocklist.c:126
-#, fuzzy
 msgid "failed to read the sectors of the core image"
-msgstr "ਕੋਰ ਈਮੇਜ਼ ਵਿੱਚ ਕੋਈ ਟਰਮੀਨੇਟਰ ਨਹੀਂ ਹੈ"
+msgstr ""
 
 #. TRANSLATORS: On GNU/Hurd, a "translator" is similar to a filesystem
 #. mount, but handled by a userland daemon, whose invocation command line
@@ -4586,22 +4547,22 @@ msgstr ""
 #: grub-core/osdep/linux/getroot.c:154
 #, c-format
 msgid "ioctl RAID_VERSION error: %s"
-msgstr "ioctl RAID_VERSION ਗਲਤੀ: %s"
+msgstr ""
 
 #: grub-core/osdep/linux/getroot.c:160 grub-core/osdep/linux/getroot.c:164
 #, c-format
 msgid "unsupported RAID version: %d.%d"
-msgstr "ਗ਼ੈਰ-ਸਹਾਇਕ ਰੇਡ ਵਰਜਨ: %d.%d"
+msgstr "versiune RAID nesuportată: %d.%d"
 
 #: grub-core/osdep/linux/getroot.c:169
 #, c-format
 msgid "ioctl GET_ARRAY_INFO error: %s"
-msgstr "ioctl GET_ARRAY_INFO ਗਲਤੀ: %s"
+msgstr ""
 
 #: grub-core/osdep/linux/getroot.c:178
 #, c-format
 msgid "ioctl GET_DISK_INFO error: %s"
-msgstr "ioctl GET_DISK_INFO ਗਲਤੀ: %s"
+msgstr ""
 
 #: grub-core/osdep/linux/getroot.c:608 grub-core/osdep/linux/getroot.c:678
 #: grub-core/osdep/linux/hostdisk.c:126 grub-core/osdep/unix/getroot.c:253
@@ -4609,7 +4570,7 @@ msgstr "ioctl GET_DISK_INFO ਗਲਤੀ: %s"
 #: grub-core/osdep/unix/platform.c:100
 #, c-format
 msgid "Unable to open stream from %s: %s"
-msgstr "%s ਤੋਂ ਸਟਰੀਮ ਖੋਲ੍ਹਣ ਲਈ ਅਸਮਰੱਥ: %s"
+msgstr ""
 
 #: grub-core/osdep/linux/getroot.c:1033
 #, c-format
@@ -4629,14 +4590,14 @@ msgid "failed to get canonical path of `%s'"
 msgstr ""
 
 #: grub-core/osdep/linux/ofpath.c:740
-#, fuzzy, c-format
+#, c-format
 msgid "unknown device type %s"
-msgstr "ਅਣਜਾਣ ਜੰਤਰ ਕਿਸਮ %s\n"
+msgstr ""
 
 #: grub-core/osdep/linux/ofpath.c:758 util/ieee1275/grub-ofpathname.c:39
 #, c-format
 msgid "Usage: %s DEVICE\n"
-msgstr "ਵਰਤੋਂUsage: %s ਜੰਤਰ\n"
+msgstr ""
 
 #: grub-core/osdep/unix/exec.c:86 grub-core/osdep/unix/exec.c:172
 #: grub-core/osdep/unix/exec.c:217
@@ -4647,17 +4608,16 @@ msgstr ""
 #: grub-core/osdep/unix/exec.c:166 grub-core/osdep/unix/exec.c:211
 #, c-format
 msgid "Unable to create pipe: %s"
-msgstr "ਪਾਈਪ ਬਣਾਉਣ ਲਈ ਅਸਮਰੱਥ: %s"
+msgstr ""
 
 #: grub-core/osdep/unix/getroot.c:370
-#, fuzzy
 msgid "cannot save the original directory"
-msgstr "ਅਸਲੀ ਡਾਇਰੈਕਟਰੀ ਰੀ-ਸਟੋਰ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ"
+msgstr ""
 
 #: grub-core/osdep/unix/getroot.c:423 grub-core/osdep/unix/getroot.c:480
 #: grub-core/osdep/unix/getroot.c:489
 msgid "cannot restore the original directory"
-msgstr "ਅਸਲੀ ਡਾਇਰੈਕਟਰੀ ਰੀ-ਸਟੋਰ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ"
+msgstr ""
 
 #. TRANSLATORS: "stat" comes from the name of POSIX function.
 #: grub-core/osdep/unix/getroot.c:551 grub-core/osdep/unix/hostdisk.c:61
@@ -4669,14 +4629,14 @@ msgid "cannot stat `%s': %s"
 msgstr ""
 
 #: grub-core/osdep/unix/hostdisk.c:293
-#, fuzzy, c-format
+#, c-format
 msgid "cannot make temporary file: %s"
-msgstr "ਫਾਇਲ %s ਦਾ ਨਾਂ %s ਬਦਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ"
+msgstr ""
 
 #: grub-core/osdep/unix/hostdisk.c:311
-#, fuzzy, c-format
+#, c-format
 msgid "cannot make temporary directory: %s"
-msgstr "ਅਸਲੀ ਡਾਇਰੈਕਟਰੀ ਰੀ-ਸਟੋਰ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ"
+msgstr ""
 
 #: grub-core/osdep/unix/platform.c:77
 #, c-format
@@ -4688,9 +4648,9 @@ msgstr ""
 #. TRANSLATORS: This message is shown when required executable `%s'
 #. isn't found.
 #: grub-core/osdep/unix/platform.c:149 grub-core/osdep/unix/platform.c:189
-#, fuzzy, c-format
+#, c-format
 msgid "%s: not found"
-msgstr "%s: ਨਹੀਂ ਲੱਭਿਆ\\n"
+msgstr ""
 
 #: grub-core/osdep/unix/platform.c:225
 #, c-format
@@ -4703,7 +4663,7 @@ msgstr ""
 
 #: grub-core/osdep/unix/platform.c:240
 msgid "You will have to set `SystemPartition' and `OSLoader' manually."
-msgstr "ਤੁਹਾਨੂੰ `SystemPartition' ਅਤੇ `OSLoader' ਖੁਦ ਸੈੱਟ ਕਰਨਾ ਪਵੇਗਾ।"
+msgstr ""
 
 #. TRANSLATORS: canonical pathname is the
 #. complete one e.g. /etc/fstab. It has
@@ -4715,12 +4675,11 @@ msgstr ""
 
 #: grub-core/osdep/windows/hostdisk.c:151
 msgid "cygwin_conv_path() failed"
-msgstr "cygwin_conv_path() ਫੇਲ੍ਹ ਹੈ"
+msgstr ""
 
 #: grub-core/osdep/windows/hostdisk.c:501 util/grub-install.c:570
-#, fuzzy
 msgid "couldn't retrieve random data"
-msgstr "ELI ਮੇਟਾਡਾਟਾ ਪੜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ"
+msgstr ""
 
 #: grub-core/osdep/windows/platform.c:97
 msgid "Insufficient privileges to access firmware, assuming BIOS"
@@ -4731,9 +4690,8 @@ msgid "no EFI routines are available when running in BIOS mode"
 msgstr ""
 
 #: grub-core/osdep/windows/platform.c:240
-#, fuzzy
 msgid "unexpected EFI error"
-msgstr "ਫਾਇਲ ਦਾ ਅਸਧਾਰਨ ਅੰਤ"
+msgstr ""
 
 #: grub-core/osdep/windows/platform.c:315
 msgid "Couldn't find a free BootNNNN slot"
@@ -4789,11 +4747,11 @@ msgstr ""
 
 #: grub-core/parttool/msdospart.c:39
 msgid "Make partition active"
-msgstr "ਪਾਰਟੀਸ਼ ਨੂੰ ਐਕਟਿਵ ਬਣਾਓ"
+msgstr ""
 
 #: grub-core/parttool/msdospart.c:51
 msgid "not a primary partition"
-msgstr "ਕੋਈ ਪ੍ਰਾਈਮਰੀ ਪਾਰਟੀਸ਼ਨ ਨਹੀਂ"
+msgstr ""
 
 #: grub-core/parttool/msdospart.c:69
 #, c-format
@@ -4807,7 +4765,7 @@ msgstr ""
 
 #: grub-core/parttool/msdospart.c:87
 msgid "Change partition type"
-msgstr "ਪਾਰਟੀਸ਼ਨ ਕਿਸਮ ਬਦਲੋ"
+msgstr ""
 
 #: grub-core/parttool/msdospart.c:88
 msgid "Set `hidden' flag in partition type"
@@ -4843,7 +4801,7 @@ msgstr ""
 #: grub-core/script/execute.c:371
 #, c-format
 msgid "invalid variable name `%s'"
-msgstr "ਗਲਤ ਵੇਰੀਬਲ ਨਾਂ `%s'"
+msgstr ""
 
 #: grub-core/script/execute.c:953
 msgid "cannot allocate command buffer"
@@ -4851,20 +4809,20 @@ msgstr ""
 
 #: grub-core/script/lexer.c:144 util/grub-fstest.c:330
 msgid "unexpected end of file"
-msgstr "ਫਾਇਲ ਦਾ ਅਸਧਾਰਨ ਅੰਤ"
+msgstr ""
 
 #: grub-core/script/main.c:55 grub-core/script/main.c:57
 #: grub-core/script/main.c:59 grub-core/script/main.c:67
 msgid "[NUM]"
-msgstr "[NUM]"
+msgstr ""
 
 #: grub-core/script/main.c:55
 msgid "Exit from loops"
-msgstr "ਲੂਪਾਂ ਤੋਂ ਬਾਹਰ"
+msgstr ""
 
 #: grub-core/script/main.c:57
 msgid "Continue loops"
-msgstr "ਲੂਪਾਂ ਨਾਲ ਜਾਰੀ"
+msgstr ""
 
 #. TRANSLATORS: Positional arguments are
 #. arguments $0, $1, $2, ...
@@ -4874,7 +4832,7 @@ msgstr ""
 
 #: grub-core/script/main.c:64
 msgid "[VALUE]..."
-msgstr "[VALUE]..."
+msgstr "[VALOARE]..."
 
 #: grub-core/script/main.c:65
 msgid "Set positional parameters."
@@ -4891,7 +4849,7 @@ msgstr ""
 
 #: grub-core/term/gfxterm_background.c:176
 msgid "[-m (stretch|normal)] FILE"
-msgstr "[-m (stretch|normal)] ਫਾਇਲ"
+msgstr ""
 
 #: grub-core/term/gfxterm_background.c:177
 msgid "Load background image for active terminal."
@@ -4901,20 +4859,19 @@ msgstr ""
 #: util/grub-install.c:303 util/grub-mkrescue.c:107 util/grub-mkrescue.c:108
 #: util/grub-render-label.c:61 util/grub-render-label.c:63
 msgid "COLOR"
-msgstr "ਰੰਗ"
+msgstr ""
 
 #: grub-core/term/gfxterm_background.c:183
 msgid "Set background color for active terminal."
 msgstr ""
 
 #: grub-core/term/i386/coreboot/cbmemc.c:139
-#, fuzzy
 msgid "Show CBMEM console content."
-msgstr "ਮੈਮੋਰੀ ਸਮੱਗਰੀ ਵੇਖਾਉ।"
+msgstr ""
 
 #: grub-core/term/serial.c:57
 msgid "Set the serial unit."
-msgstr "ਸੀਰੀਅਲ ਯੂਨਿਟ ਦਿਉ।"
+msgstr ""
 
 #: grub-core/term/serial.c:58
 msgid "Set the serial port address."
@@ -4937,9 +4894,8 @@ msgid "Set the serial port stop bits."
 msgstr ""
 
 #: grub-core/term/serial.c:63
-#, fuzzy
 msgid "Set the base frequency."
-msgstr "ਸੀਰੀਅਲ ਯੂਨਿਟ ਦਿਉ।"
+msgstr ""
 
 #: grub-core/term/serial.c:64
 msgid "Enable/disable RTS/CTS."
@@ -4951,17 +4907,16 @@ msgid "serial port `%s' isn't found"
 msgstr ""
 
 #: grub-core/term/serial.c:254
-#, fuzzy
 msgid "unsupported serial port flow control"
-msgstr "ਗ਼ੈਰ-ਸਹਾਇਕ ਸੀਰੀਅਲ ਪੋਰਟ ਸ਼ਬਦ ਲੰਬਾਈ"
+msgstr ""
 
 #: grub-core/term/serial.c:429
 msgid "[OPTIONS...]"
-msgstr "[OPTIONS...]"
+msgstr "[OPȚIUNI...]"
 
 #: grub-core/term/serial.c:430
 msgid "Configure serial port."
-msgstr "ਸੀਰੀਅਲ ਪੋਰਟ ਸੰਰਚਨਾ।"
+msgstr ""
 
 #: grub-core/term/terminfo.c:184
 #, c-format
@@ -4986,7 +4941,7 @@ msgstr ""
 
 #: grub-core/term/terminfo.c:680
 msgid "Unknown encoding"
-msgstr "ਅਣਜਾਣ ਇੰਕੋਡਿੰਗ"
+msgstr "Codare necunoscută"
 
 #: grub-core/term/terminfo.c:684
 msgid "Current terminfo types:"
@@ -5012,7 +4967,7 @@ msgstr ""
 #. use better Unicode codepoints.
 #: grub-core/term/terminfo.c:706
 msgid "WIDTHxHEIGHT."
-msgstr "WIDTHxHEIGHT"
+msgstr ""
 
 #: grub-core/term/terminfo.c:746
 msgid "incorrect terminal dimensions specification"
@@ -5025,7 +4980,7 @@ msgstr ""
 
 #: grub-core/term/terminfo.c:785
 msgid "[[-a|-u|-v] [-g WxH] TERM [TYPE]]"
-msgstr "[[-a|-u|-v] [-g WxH] TERM [TYPE]]"
+msgstr ""
 
 #: grub-core/term/terminfo.c:786
 msgid "Set terminfo type of TERM  to TYPE.\n"
@@ -5052,19 +5007,19 @@ msgstr ""
 #: grub-core/video/i386/pc/vbe.c:1198
 #, c-format
 msgid "              total memory: %d KiB\n"
-msgstr "              ਕੁੱਲ ਮੈਮੋਰੀ: %d KiB\n"
+msgstr ""
 
 #: grub-core/video/video.c:596 grub-core/video/video.c:762
 msgid "no suitable video mode found"
-msgstr "ਕੋਈ ਢੁੱਕਵਾਂ ਵਿਡੀਓ ਮੋਡ ਨਹੀਂ ਲੱਭਿਆ"
+msgstr ""
 
 #: include/grub/crypto.h:403
 msgid "access denied"
-msgstr "ਅਸੈੱਸ ਪਾਬੰਦੀ ਹੈ"
+msgstr ""
 
 #: include/grub/util/install.h:30 include/grub/util/install.h:35
 msgid "MODULES"
-msgstr "ਮੋਡੀਊਲ"
+msgstr ""
 
 #: include/grub/util/install.h:31
 msgid "pre-load specified modules MODULES"
@@ -5109,9 +5064,8 @@ msgid "compress GRUB files [optional]"
 msgstr ""
 
 #: include/grub/util/install.h:48 util/grub-mkimage.c:83
-#, fuzzy
 msgid "choose the compression to use for core image"
-msgstr "ਵਰਤਣ ਲਈ ਕੰਪਰੈਸ਼ਨ ਚੁਣੋ"
+msgstr ""
 
 #. TRANSLATORS: platform here isn't identifier. It can be translated.
 #: include/grub/util/install.h:51 include/grub/util/install.h:54
@@ -5136,23 +5090,23 @@ msgstr ""
 
 #: util/editenv.c:59 util/grub-editenv.c:201 util/grub-install-common.c:535
 #: util/grub-mkimage.c:315 util/setup.c:791
-#, fuzzy, c-format
+#, c-format
 msgid "cannot sync `%s': %s"
-msgstr "`%s' ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s"
+msgstr ""
 
 #: util/editenv.c:64
 #, c-format
 msgid "cannot rename the file %s to %s"
-msgstr "ਫਾਇਲ %s ਦਾ ਨਾਂ %s ਬਦਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ"
+msgstr ""
 
 #: util/getroot.c:402
 #, c-format
 msgid "disk does not exist, so falling back to partition device %s"
-msgstr "ਡਿਸਕ ਮੌਜੂਦ ਨਹੀਂ ਹੈ, ਪਾਰਟੀਸ਼ਨ ਜੰਤਰ %s ਉੱਤੇ ਵਾਪਸ ਆਇਆ ਜਾ ਰਿਹਾ ਹੈ"
+msgstr ""
 
 #: util/grub-editenv.c:45 util/grub-fstest.c:506
 msgid "Commands:"
-msgstr "ਕਮਾਂਡਾਂ:"
+msgstr ""
 
 #: util/grub-editenv.c:47
 msgid "Create a blank environment block file."
@@ -5160,37 +5114,37 @@ msgstr ""
 
 #: util/grub-editenv.c:49
 msgid "List the current variables."
-msgstr "ਮੌਜੂਦਾ ਵੇਰੀਬਲ ਵੇਖਾਓ।"
+msgstr ""
 
 #. TRANSLATORS: "set" is a keyword. It's a summary of "set" subcommand.
 #: util/grub-editenv.c:51
 msgid "set [NAME=VALUE ...]"
-msgstr "set [NAME=VALUE ...]"
+msgstr ""
 
 #: util/grub-editenv.c:52
 msgid "Set variables."
-msgstr "ਵੇਰੀਬਲ ਸੈੱਟ।"
+msgstr ""
 
 #. TRANSLATORS: "unset" is a keyword. It's a summary of "unset" subcommand.
 #: util/grub-editenv.c:54
 msgid "unset [NAME ...]"
-msgstr "unset [NAME ...]"
+msgstr ""
 
 #: util/grub-editenv.c:55
 msgid "Delete variables."
-msgstr "ਵੇਰੀਬਲ ਹਟਾਓ।"
+msgstr ""
 
 #: util/grub-editenv.c:57
 msgid "Options:"
-msgstr "ਚੋਣਾਂ:"
+msgstr ""
 
 #: util/grub-editenv.c:84
 msgid "You need to specify at least one command.\n"
-msgstr "ਤੁਹਾਨੂੰ ਘੱਟੋ-ਘੱਟ ਇੱਕ ਕਮਾਂਡ ਦੇਣਾ ਪਵੇਗੀ।\n"
+msgstr ""
 
 #: util/grub-editenv.c:113
 msgid "FILENAME COMMAND"
-msgstr "FILENAME COMMAND"
+msgstr ""
 
 #: util/grub-editenv.c:114
 msgid "Tool to edit environment block."
@@ -5212,7 +5166,7 @@ msgstr ""
 #: util/grub-editenv.c:217
 #, c-format
 msgid "invalid parameter %s"
-msgstr "ਗਲਤ ਪੈਰਾਮੀਟਰ %s"
+msgstr ""
 
 #: util/grub-editenv.c:222
 msgid "environment block too small"
@@ -5236,12 +5190,12 @@ msgstr ""
 #: util/grub-fstest.c:210
 #, c-format
 msgid "cannot open OS file `%s': %s"
-msgstr "OS ਫਾਇਲ `%s' ਖੋਲ੍ਹੀ ਨਹੀਂ ਜਾ ਸਕਦੀ: %s"
+msgstr ""
 
 #: util/grub-fstest.c:225 util/misc.c:126
 #, c-format
 msgid "cannot write to the stdout: %s"
-msgstr "stdout ਲਈ ਲਿਖਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s"
+msgstr ""
 
 #: util/grub-fstest.c:259
 #, c-format
@@ -5251,7 +5205,7 @@ msgstr ""
 #: util/grub-fstest.c:280 util/grub-fstest.c:314
 #, c-format
 msgid "OS file %s open error: %s"
-msgstr "OS ਫਾਇਲ %s ਖੋਲ੍ਹਣ 'ਚ ਗਲਤੀ: %s"
+msgstr ""
 
 #: util/grub-fstest.c:402 util/grub-mount.c:392
 #, c-format
@@ -5269,7 +5223,7 @@ msgstr ""
 
 #: util/grub-fstest.c:507
 msgid "ls PATH"
-msgstr "ls PATH"
+msgstr ""
 
 #: util/grub-fstest.c:507
 msgid "List files in PATH."
@@ -5277,7 +5231,7 @@ msgstr ""
 
 #: util/grub-fstest.c:508
 msgid "cp FILE LOCAL"
-msgstr "cp FILE LOCAL"
+msgstr ""
 
 #: util/grub-fstest.c:508
 msgid "Copy FILE to local file LOCAL."
@@ -5285,7 +5239,7 @@ msgstr ""
 
 #: util/grub-fstest.c:509
 msgid "cat FILE"
-msgstr "cat FILE"
+msgstr ""
 
 #: util/grub-fstest.c:509
 msgid "Copy FILE to standard output."
@@ -5293,7 +5247,7 @@ msgstr ""
 
 #: util/grub-fstest.c:510
 msgid "cmp FILE LOCAL"
-msgstr "cmp FILE LOCAL"
+msgstr ""
 
 #: util/grub-fstest.c:510
 msgid "Compare FILE with local file LOCAL."
@@ -5301,7 +5255,7 @@ msgstr ""
 
 #: util/grub-fstest.c:511
 msgid "hex FILE"
-msgstr "hex FILE"
+msgstr ""
 
 #: util/grub-fstest.c:511
 msgid "Show contents of FILE in hex."
@@ -5309,7 +5263,7 @@ msgstr ""
 
 #: util/grub-fstest.c:512
 msgid "crc FILE"
-msgstr "crc FILE"
+msgstr ""
 
 #: util/grub-fstest.c:512
 msgid "Get crc32 checksum of FILE."
@@ -5317,7 +5271,7 @@ msgstr ""
 
 #: util/grub-fstest.c:513
 msgid "blocklist FILE"
-msgstr "blocklist FILE"
+msgstr ""
 
 #: util/grub-fstest.c:513
 msgid "Display blocklist of FILE."
@@ -5325,7 +5279,7 @@ msgstr ""
 
 #: util/grub-fstest.c:514
 msgid "xnu_uuid DEVICE"
-msgstr "xnu_uuid ਜੰਤਰ"
+msgstr ""
 
 #: util/grub-fstest.c:514
 msgid "Compute XNU UUID of the device."
@@ -5337,7 +5291,7 @@ msgstr ""
 #: util/grub-mkpasswd-pbkdf2.c:46 util/grub-mkpasswd-pbkdf2.c:47
 #: util/grub-mkpasswd-pbkdf2.c:48
 msgid "NUM"
-msgstr "NUM"
+msgstr ""
 
 #: util/grub-fstest.c:517
 msgid "Skip N bytes from output file."
@@ -5349,20 +5303,20 @@ msgstr ""
 
 #: util/grub-fstest.c:519
 msgid "Specify the number of input files."
-msgstr "ਇੰਪੁੱਟ ਫਾਇਲਾਂ ਦੀ ਗਿਣਤੀ ਦਿਉ।"
+msgstr ""
 
 #: util/grub-fstest.c:520 util/grub-mount.c:453
 msgid "Set debug environment variable."
-msgstr "ਡੀਬੱਗ ਇੰਵਾਇਰਨਮੈਂਟ ਵੇਰੀਬਲ ਦਿਉ।"
+msgstr ""
 
 #: util/grub-fstest.c:521 util/grub-mount.c:454
 msgid "Mount crypto devices."
-msgstr "ਕ੍ਰਿਪਟੂ ਜੰਤਰ ਮਾਊਂਟ ਕਰੋ।"
+msgstr ""
 
 #. TRANSLATORS: "prompt" is a keyword.
 #: util/grub-fstest.c:524 util/grub-mount.c:457
 msgid "FILE|prompt"
-msgstr "FILE|prompt"
+msgstr ""
 
 #: util/grub-fstest.c:524 util/grub-mount.c:457
 msgid "Load zfs crypto key."
@@ -5370,11 +5324,11 @@ msgstr ""
 
 #: util/grub-fstest.c:526
 msgid "Uncompress data."
-msgstr "ਅਣ-ਕੰਪਰੈਸ ਡਾਟਾ।"
+msgstr ""
 
 #: util/grub-fstest.c:605
 msgid "Invalid disk count.\n"
-msgstr "ਗਲਤ ਡਿਸਕ ਗਿਣਤੀ।\n"
+msgstr ""
 
 #. TRANSLATORS: disk count is optional but if it's there it must
 #. be before disk list. So please don't imply disk count as mandatory.
@@ -5385,24 +5339,24 @@ msgstr ""
 
 #: util/grub-fstest.c:633
 msgid "No command is specified.\n"
-msgstr "ਕਮਾਂਡ ਨਹੀਂ ਦਿੱਤੀ।\n"
+msgstr ""
 
 #: util/grub-fstest.c:638
 msgid "Not enough parameters to command.\n"
-msgstr "ਕਮਾਂਡ ਲਈ ਲੋੜੀਦੇ ਪੈਰਾਮੀਟਰ ਨਹੀਂ।\n"
+msgstr ""
 
 #: util/grub-fstest.c:711
 #, c-format
 msgid "Invalid command %s.\n"
-msgstr "ਗਲਤ ਕਮਾਂਡ %s।\n"
+msgstr ""
 
 #: util/grub-fstest.c:724
 msgid "IMAGE_PATH COMMANDS"
-msgstr "IMAGE_PATH COMMANDS"
+msgstr ""
 
 #: util/grub-fstest.c:725 util/grub-mount.c:553
 msgid "Debug tool for filesystem driver."
-msgstr "ਫਾਇਲ-ਸਿਸਟਮ ਡਰਾਇਵਰ ਲਈ ਡੀਬੱਗ ਟੂਲ।"
+msgstr ""
 
 #: util/grub-glue-efi.c:53
 msgid "set input filename for 32-bit part."
@@ -5419,7 +5373,7 @@ msgstr ""
 #: util/grub-glue-efi.c:94 util/grub-mklayout.c:476
 #: util/grub-mkpasswd-pbkdf2.c:86 util/grub-render-label.c:131
 msgid "[OPTIONS]"
-msgstr "[ਚੋਣਾਂ]"
+msgstr ""
 
 #: util/grub-glue-efi.c:95
 msgid "Glue 32-bit and 64-bit binary into Apple universal one."
@@ -5430,25 +5384,25 @@ msgid "Missing input file\n"
 msgstr ""
 
 #: util/grub-install-common.c:127 util/grub-install-common.c:151
-#, fuzzy, c-format
+#, c-format
 msgid "cannot copy `%s' to `%s': %s"
-msgstr "`%s' ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s"
+msgstr ""
 
 #: util/grub-install-common.c:147
-#, fuzzy, c-format
+#, c-format
 msgid "can't compress `%s' to `%s'"
-msgstr "`%s' ਨੂੰ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s"
+msgstr ""
 
 #: util/grub-install-common.c:196 util/grub-install-common.c:552
 #: util/grub-install-common.c:579 util/grub-install-common.c:621
-#, fuzzy, c-format
+#, c-format
 msgid "cannot open directory `%s': %s"
-msgstr "`%s' ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s"
+msgstr ""
 
 #: util/grub-install-common.c:212
-#, fuzzy, c-format
+#, c-format
 msgid "cannot delete `%s': %s"
-msgstr "`%s' ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s"
+msgstr ""
 
 #: util/grub-install-common.c:324 util/grub-mkimage.c:209
 msgid "grub-mkimage is compiled without XZ support"
@@ -5457,22 +5411,22 @@ msgstr ""
 #: util/grub-install-common.c:332 util/grub-mkimage.c:217
 #, c-format
 msgid "Unknown compression format %s"
-msgstr "ਅਣਜਾਣ ਕੰਪਰੈਸ਼ਨ ਫਾਰਮੈਟ %s"
+msgstr ""
 
 #: util/grub-install-common.c:400
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized compression `%s'"
-msgstr "%s: ਬੇ-ਪਛਾਣ ਚੋਣ '--%s'\n"
+msgstr ""
 
 #: util/grub-install-common.c:509
-#, fuzzy, c-format
+#, c-format
 msgid "unknown target format %s"
-msgstr "ਅਣਜਾਣ ਟਾਰਗੇਟ ਫਾਰਮੈਟ %s\n"
+msgstr ""
 
 #: util/grub-install-common.c:700
-#, fuzzy, c-format
+#, c-format
 msgid "cannot find locale `%s'"
-msgstr "ਕਮਾਂਡ `%s' ਲੱਭੀ ਨਹੀਂ ਜਾ ਸਕਦੀ।"
+msgstr ""
 
 #: util/grub-install-common.c:939
 #, c-format
@@ -5480,18 +5434,18 @@ msgid "%s doesn't exist. Please specify --target or --directory"
 msgstr ""
 
 #: util/grub-install-common.c:948 util/grub-install-common.c:951
-#, fuzzy, c-format
+#, c-format
 msgid "invalid modinfo file `%s'"
-msgstr "ਗਲਤ ਫਾਇਲ ਨਾਂ `%s'"
+msgstr ""
 
 #: util/grub-install-common.c:966
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown platform `%s-%s'"
-msgstr "ਅਣਜਾਣ ਆਰਗੂਮੈਂਟ `%s'"
+msgstr ""
 
 #: util/grub-install.c:238
 msgid "More than one install device?"
-msgstr "ਇੱਕ ਤੋਂ ਵੱਧ ਇੰਸਟਾਲ ਜੰਤਰ ਹਨ?"
+msgstr ""
 
 #: util/grub-install.c:251
 #, c-format
@@ -5501,7 +5455,7 @@ msgstr ""
 
 #: util/grub-install.c:256 util/grub-probe.c:734
 msgid "TARGET"
-msgstr "ਟਾਰਗੇਟ"
+msgstr ""
 
 #. TRANSLATORS: "TARGET" as in "target platform".
 #: util/grub-install.c:258
@@ -5521,11 +5475,11 @@ msgstr ""
 
 #: util/grub-install.c:270
 msgid "delete device map if it already exists"
-msgstr "ਜੰਤਰ ਮੈਪ ਜੇ ਮੌਜੂਦ ਹੋਵੇ ਤਾਂ ਹਟਾ ਦਿਉ"
+msgstr ""
 
 #: util/grub-install.c:272 util/grub-setup.c:87
 msgid "install even if problems are detected"
-msgstr "ਭਾਵੇਂ ਸਮੱਸਿਆ ਆਵੇ ਤਾਂ ਵੀ ਇੰਸਟਾਲ ਕਰੋ"
+msgstr ""
 
 #: util/grub-install.c:274
 msgid "use identifier file even if UUID is available"
@@ -5545,7 +5499,7 @@ msgstr ""
 
 #: util/grub-install.c:282 util/grub-setup.c:89
 msgid "do not probe for filesystems in DEVICE"
-msgstr "ਜੰਤਰ ਵਿੱਚ ਫਾਇਲ-ਸਿਸਟਮ ਲਈ ਜਾਂਚ ਨਾ ਕਰੋ"
+msgstr ""
 
 #: util/grub-install.c:284
 msgid "do not install bootsector"
@@ -5564,12 +5518,11 @@ msgstr ""
 
 #: util/grub-install.c:295
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #: util/grub-install.c:296
-#, fuzzy
 msgid "the ID of bootloader. This option is only available on EFI and Macs."
-msgstr "ਬੂਟ ਲੋਡ ਦਾ ID ਹੈ। ਇਹ ਚੋਣ ਕੇਵਲ EFI ਲਈ ਹੀ ਉਪਲੱਬਧ ਹੈ।"
+msgstr ""
 
 #: util/grub-install.c:298
 msgid "use DIR as the EFI System Partition root."
@@ -5596,13 +5549,12 @@ msgid "use STRING as product version"
 msgstr ""
 
 #: util/grub-install.c:361
-#, fuzzy
 msgid "[OPTION] [INSTALL_DEVICE]"
-msgstr "ਵਰਤੋ: %s [OPTION] [INSTALL_DEVICE]"
+msgstr ""
 
 #: util/grub-install.c:362
 msgid "Install GRUB on your drive."
-msgstr "ਆਪਣੀ ਡਰਾਇਵ ਉੱਤੇ ਗਰਬ ਇੰਸਟਾਲ ਕਰੋ"
+msgstr ""
 
 #: util/grub-install.c:363
 #, c-format
@@ -5627,26 +5579,24 @@ msgid "Installing for %s platform.\n"
 msgstr ""
 
 #: util/grub-install.c:939
-#, fuzzy
 msgid "install device isn't specified"
-msgstr "ਇੰਸਟਾਲ ਜੰਤਰ ਨਹੀਂ ਦਿੱਤਾ ਹੈ।"
+msgstr ""
 
 #: util/grub-install.c:1057
-#, fuzzy
 msgid "cannot find EFI directory"
-msgstr "ਡਾਇਰੈਕਟਰੀ ਨਹੀਂ ਹੈ"
+msgstr ""
 
 #: util/grub-install.c:1060 util/grub-install.c:1209 util/grub-install.c:1254
 #: util/grub-macbless.c:76 util/grub-probe.c:329 util/setup.c:316
 #, c-format
 msgid "cannot find a device for %s (is /dev mounted?)"
-msgstr "%s ਲਈ ਜੰਤਰ ਲੱਭਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ (ਕੀ /dev ਮਾਊਂਟ ਹੈ?)"
+msgstr ""
 
 #: util/grub-install.c:1069 util/grub-install.c:1217 util/grub-install.c:1270
 #: util/grub-install.c:1365 util/grub-macbless.c:80 util/grub-probe.c:372
 #, c-format
 msgid "cannot find a GRUB drive for %s.  Check your device.map"
-msgstr "%s ਲਈ ਗਰਬ ਡਰਾਇਵ ਲੱਭੀ ਨਹੀਂ ਜਾ ਸਕਦੀ। ਆਪਣੀ device.map ਵੇਖੋ"
+msgstr ""
 
 #: util/grub-install.c:1087
 #, c-format
@@ -5670,14 +5620,13 @@ msgid ""
 msgstr ""
 
 #: util/grub-install.c:1410 util/grub-install.c:1772 util/grub-install.c:1872
-#, fuzzy, c-format
+#, c-format
 msgid "Can't create file: %s"
-msgstr "ਪਾਈਪ ਬਣਾਉਣ ਲਈ ਅਸਮਰੱਥ: %s"
+msgstr ""
 
 #: util/grub-install.c:1491
-#, fuzzy
 msgid "no hints available for your platform. Expect reduced performance"
-msgstr "ਤੁਹਾਡੇ ਪਲੇਟਫਾਰਮ ਲਈ ਕੋਈ ਇਸ਼ਾਰਾ ਨਹੀਂ ਹੈ। ਕਾਰਗੁਜ਼ਾਰੀ ਘਟਣ ਦੀ ਉਮੀਦ ਹੈ।"
+msgstr ""
 
 #. TRANSLATORS: This is a prefix in the log to indicate that usually
 #. a command would be executed but due to an option was skipped.
@@ -5706,9 +5655,8 @@ msgid "efibootmgr failed to register the boot entry: %s"
 msgstr ""
 
 #: util/grub-install.c:1916
-#, fuzzy
 msgid "EFI bootloader id isn't specified."
-msgstr "ਇੰਸਟਾਲ ਜੰਤਰ ਨਹੀਂ ਦਿੱਤਾ ਹੈ।"
+msgstr ""
 
 #: util/grub-install.c:1950
 msgid "WARNING: no platform-specific install was performed"
@@ -5716,7 +5664,7 @@ msgstr ""
 
 #: util/grub-install.c:1957
 msgid "Installation finished. No error reported."
-msgstr "ਇੰਸਟਾਲੇਸ਼ਨ ਪੂਰੀ ਹੋਈ। ਕੋਈ ਗਲਤੀ ਨਹੀਂ ਮਿਲੀ।"
+msgstr ""
 
 #: util/grub-macbless.c:101
 msgid "bless for x86-based macs"
@@ -5728,7 +5676,7 @@ msgstr ""
 
 #: util/grub-macbless.c:136 util/grub-probe.c:823
 msgid "No path or device is specified.\n"
-msgstr "ਕੋਈ ਪਾਥ ਜਾਂ ਜੰਤਰ ਨਹੀਂ ਦਿੱਤਾ ਹੈ।\n"
+msgstr ""
 
 #: util/grub-macbless.c:157
 msgid "--ppc PATH|--x86 FILE"
@@ -5741,7 +5689,7 @@ msgstr ""
 #: util/grub-menulst2cfg.c:44
 #, c-format
 msgid "Usage: %s [INFILE [OUTFILE]]\n"
-msgstr "ਵਰਤੋ: %s [INFILE [OUTFILE]]\n"
+msgstr ""
 
 #: util/grub-mkfont.c:157
 #, c-format
@@ -5811,26 +5759,26 @@ msgstr ""
 
 #: util/grub-mkfont.c:943
 msgid "FROM-TO[,FROM-TO]"
-msgstr "FROM-TO[,FROM-TO]"
+msgstr ""
 
 #. TRANSLATORS: It refers to the range of characters in font.
 #: util/grub-mkfont.c:945
 msgid "set font range"
-msgstr "ਫੋਂਟ ਰੇਜ਼ ਦਿਓ"
+msgstr ""
 
 #. TRANSLATORS: "family name" for font is just a generic name without suffix
 #. like "Bold".
 #: util/grub-mkfont.c:949
 msgid "set font family name"
-msgstr "ਫੋਂਟ ਫੈਮਲੀ ਨਾਂ ਦਿਓ"
+msgstr ""
 
 #: util/grub-mkfont.c:950
 msgid "SIZE"
-msgstr "ਆਕਾਰ"
+msgstr ""
 
 #: util/grub-mkfont.c:950
 msgid "set font size"
-msgstr "ਫੋਂਟ ਆਕਾਰ ਸੈੱਟ ਕਰੋ"
+msgstr ""
 
 #: util/grub-mkfont.c:951
 msgid "set font descent"
@@ -5842,15 +5790,15 @@ msgstr ""
 
 #: util/grub-mkfont.c:953
 msgid "convert to bold font"
-msgstr "ਗੂੜੇ ਫੋਂਟ ਵਿੱਚ ਬਦਲੋ"
+msgstr ""
 
 #: util/grub-mkfont.c:954
 msgid "force autohint"
-msgstr "ਆਟੋ-ਹਿੰਟ ਲਈ ਮਜ਼ਬੂਰ"
+msgstr ""
 
 #: util/grub-mkfont.c:955
 msgid "disable hinting"
-msgstr "ਹਿੰਟਿੰਗ ਬੰਦ ਹੈ"
+msgstr ""
 
 #. TRANSLATORS: some fonts contain bitmap rendering for
 #. some sizes. This option forces rerendering even if
@@ -5858,16 +5806,16 @@ msgstr "ਹਿੰਟਿੰਗ ਬੰਦ ਹੈ"
 #.
 #: util/grub-mkfont.c:961
 msgid "ignore bitmap strikes when loading"
-msgstr "ਲੋਡ ਕਰਨ ਦੇ ਦੌਰਾਨ ਬਿਟਮੈਪ ਅਣਡਿੱਠਾ ਕਰੋ"
+msgstr ""
 
 #. TRANSLATORS: It refers to the range of characters in font.
 #: util/grub-mkfont.c:1059 util/grub-mkfont.c:1075
 msgid "invalid font range"
-msgstr "ਗਲਤ ਫੋਂਟ ਰੇਜ਼"
+msgstr ""
 
 #: util/grub-mkfont.c:1151
 msgid "[OPTIONS] FONT_FILES"
-msgstr "[OPTIONS] FONT_FILES"
+msgstr ""
 
 #: util/grub-mkfont.c:1152
 msgid "Convert common font file formats into PF2"
@@ -5876,16 +5824,16 @@ msgstr ""
 #: util/grub-mkfont.c:1182 util/grub-mkrescue.c:483
 #: util/grub-mkstandalone.c:306
 msgid "output file must be specified"
-msgstr "ਆਉਟਪੁੱਟ ਫਾਇਲ ਦੇਣਾ ਲਾਜ਼ਮੀ ਹੈ"
+msgstr ""
 
 #: util/grub-mkfont.c:1185
 msgid "FT_Init_FreeType fails"
-msgstr "FT_Init_FreeType ਫੇਲ੍ਹ ਹੈ"
+msgstr ""
 
 #: util/grub-mkfont.c:1199
 #, c-format
 msgid "can't open file %s, index %d: error %d"
-msgstr "ਫਾਇਲ %s, ਇੰਡੈਕਸ %d ਖੋਲੀ ਨਹੀਂ ਜਾ ਸਕਦੀ: ਗਲਤੀ %d"
+msgstr ""
 
 #: util/grub-mkfont.c:1229
 #, c-format
@@ -5893,9 +5841,8 @@ msgid "can't set %dx%d font size: Freetype error %d: %s"
 msgstr ""
 
 #: util/grub-mkimage.c:67
-#, fuzzy
 msgid "set prefix directory"
-msgstr "ਡਾਇਰੈਕਟਰੀ ਨਹੀਂ ਹੈ"
+msgstr ""
 
 #. TRANSLATORS: "memdisk" here isn't an identifier, it can be translated.
 #. "embed" is a verb (command description).  "
@@ -5925,28 +5872,28 @@ msgstr ""
 
 #: util/grub-mkimage.c:82
 msgid "FORMAT"
-msgstr "ਫਾਰਮੈਟ"
+msgstr ""
 
 #: util/grub-mkimage.c:100 util/grub-mkstandalone.c:62
 msgid "generate an image in FORMAT"
-msgstr "ਫਾਰਮੈਟ ਵਿੱਚ ਈਮੇਜ਼ ਤਿਆਰ ਕੀਤਾ"
+msgstr ""
 
 #: util/grub-mkimage.c:101 util/grub-mkstandalone.c:63
 msgid "available formats:"
-msgstr "ਉਪਲੱਬਧ ਫਾਰਮੈਟ:"
+msgstr ""
 
 #: util/grub-mkimage.c:152 util/grub-mkstandalone.c:96
 #, c-format
 msgid "unknown target format %s\n"
-msgstr "ਅਣਜਾਣ ਟਾਰਗੇਟ ਫਾਰਮੈਟ %s\n"
+msgstr ""
 
 #: util/grub-mkimage.c:242
 msgid "[OPTION]... [MODULES]"
-msgstr "[OPTION]... [MODULES]"
+msgstr ""
 
 #: util/grub-mkimage.c:243
 msgid "Make a bootable image of GRUB."
-msgstr "ਗਰਬ ਦਾ ਬੂਟ ਹੋਣਯੋਗ ਈਮੇਜ਼ ਬਣਾਉ।"
+msgstr ""
 
 #: util/grub-mkimage.c:273 util/grub-mkstandalone.c:309
 msgid "Target format not specified (use the -O option)."
@@ -5957,9 +5904,9 @@ msgid "Prefix not specified (use the -p option)."
 msgstr ""
 
 #: util/grub-mkimage.c:318 util/setup.c:793
-#, fuzzy, c-format
+#, c-format
 msgid "cannot close `%s': %s"
-msgstr "`%s' ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s"
+msgstr ""
 
 #: util/grub-mkimagexx.c:2191
 #, c-format
@@ -5997,7 +5944,7 @@ msgstr ""
 
 #: util/grub-mknetdir.c:47
 msgid "root directory of TFTP server"
-msgstr "TFP ਸਰਵਰ ਲਈ ਰੂਟ ਡਾਇਰੈਕਟਰੀ"
+msgstr ""
 
 #: util/grub-mknetdir.c:49
 msgid "relative subdirectory on network server"
@@ -6010,9 +5957,9 @@ msgid ""
 msgstr ""
 
 #: util/grub-mknetdir.c:146
-#, fuzzy, c-format
+#, c-format
 msgid "unsupported platform %s"
-msgstr "ਗੈਰ ਸਹਾਇਕ ਪਲੇਟਫਾਰਮ %s\\n"
+msgstr ""
 
 #. TRANSLATORS: First %s is replaced by platform name. Second one by filename.
 #: util/grub-mknetdir.c:165
@@ -6027,27 +5974,27 @@ msgstr ""
 
 #: util/grub-mkpasswd-pbkdf2.c:47
 msgid "Length of generated hash"
-msgstr "ਤਿਆਰ ਕੀਤੇ ਹੈਸ਼ ਦੀ ਲੰਬਾਈ"
+msgstr ""
 
 #: util/grub-mkpasswd-pbkdf2.c:48
 msgid "Length of salt"
-msgstr "ਸਾਲਟ ਦੀ ਲੰਬਾਈ"
+msgstr ""
 
 #: util/grub-mkpasswd-pbkdf2.c:87
 msgid "Generate PBKDF2 password hash."
-msgstr "PBKDF2 ਪਾਸਵਰਡ ਹੈਸ਼ ਬਣਾਉ।"
+msgstr ""
 
 #: util/grub-mkpasswd-pbkdf2.c:144 util/grub-mkpasswd-pbkdf2.c:151
 msgid "failure to read password"
-msgstr "ਪਾਸਵਰਡ ਪੜ੍ਹਨ ਲਈ ਫੇਲ੍ਹ ਹੈ"
+msgstr ""
 
 #: util/grub-mkpasswd-pbkdf2.c:146
 msgid "Reenter password: "
-msgstr "ਪਾਸਵਰਡ ਮੁੜ-ਦਿਓ: "
+msgstr ""
 
 #: util/grub-mkpasswd-pbkdf2.c:160
 msgid "passwords don't match"
-msgstr "ਪਾਸਵਰਡ ਮੇਲ ਨਹੀਂ ਖਾ ਰਿਹਾ"
+msgstr ""
 
 #: util/grub-mkpasswd-pbkdf2.c:169
 msgid "couldn't retrieve random data for salt"
@@ -6056,24 +6003,24 @@ msgstr ""
 #: util/grub-mkpasswd-pbkdf2.c:184
 #, c-format
 msgid "cryptographic error number %d"
-msgstr "ਕ੍ਰਿਪਟੋਗਰਾਫਿਕ ਗਲਤੀ ਨੰਬਰ %d"
+msgstr ""
 
 #: util/grub-mkpasswd-pbkdf2.c:203
 #, c-format
 msgid "PBKDF2 hash of your password is %s\n"
-msgstr "ਤੁਹਾਡੇ ਪਾਸਵਰਡ ਦਾ PBKDF2 ਹੈਸ਼ %s ਹੈ\n"
+msgstr ""
 
 #: util/grub-mkrelpath.c:67
 msgid "No path is specified.\n"
-msgstr "ਕੋਈ ਪਾਥ ਨਹੀਂ ਦਿੱਤਾ।\n"
+msgstr ""
 
 #: util/grub-mkrelpath.c:78
 msgid "PATH"
-msgstr "ਪਾਥ"
+msgstr ""
 
 #: util/grub-mkrelpath.c:79
 msgid "Transform a system filename into GRUB one."
-msgstr "ਸਿਸਟਮ ਫਾਇਲ-ਨਾਂ ਨੂੰ ਗਰਬ ਵਿੱਚ ਬਦਲੋ।"
+msgstr ""
 
 #: util/grub-mkrescue.c:100
 msgid "save ROM images in DIR [optional]"
@@ -6122,19 +6069,17 @@ msgid "Mail xorriso support requests to <bug-xorriso@gnu.org>."
 msgstr ""
 
 #: util/grub-mkrescue.c:221 util/grub-mkstandalone.c:114
-#, fuzzy
 msgid "[OPTION] SOURCE..."
-msgstr "ਵਰਤੋਂ: %s [OPTION] SOURCE...\\n"
+msgstr ""
 
 #: util/grub-mkrescue.c:257 util/grub-mkrescue.c:300 util/grub-mkrescue.c:588
-#, fuzzy, c-format
+#, c-format
 msgid "enabling %s support ..."
-msgstr "%s ਸਹਿਯੋਗ ਚਾਲੂ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ ...\\n"
+msgstr ""
 
 #: util/grub-mkrescue.c:486
-#, fuzzy
 msgid "xorriso not found"
-msgstr "ਕਾਰਡ ਨਹੀਂ ਲੱਭਿਆ"
+msgstr ""
 
 #: util/grub-mkrescue.c:623
 msgid ""
@@ -6159,15 +6104,15 @@ msgstr ""
 
 #: util/grub-mount.c:552
 msgid "IMAGE1 [IMAGE2 ...] MOUNTPOINT"
-msgstr "IMAGE1 [IMAGE2 ...] MOUNTPOINT"
+msgstr ""
 
 #: util/grub-mount.c:575
 msgid "need an image and mountpoint"
-msgstr "ਈਮੇਜ਼ ਅਤੇ ਮਾਊਂਟ-ਪੁਆਇੰਟ ਚਾਹੀਦਾ ਹੈ"
+msgstr ""
 
 #: util/grub-probe.c:731
 msgid "given argument is a system device, not a path"
-msgstr "ਦਿੱਤਾ ਆਰਗੂਮੈਂਟ ਸਿਸਟਮ ਜੰਤਰ ਹੈ ਨਾ ਕਿ ਪਾਥ"
+msgstr ""
 
 #: util/grub-probe.c:736
 msgid "separate items in output using ASCII NUL characters"
@@ -6179,18 +6124,16 @@ msgid "[default=%s]"
 msgstr ""
 
 #: util/grub-probe.c:756
-#, fuzzy
 msgid "print TARGET"
-msgstr "ਟਾਰਗੇਟ"
+msgstr ""
 
 #: util/grub-probe.c:757
-#, fuzzy
 msgid "available targets:"
-msgstr "ਉਪਲੱਬਧ ਫਾਰਮੈਟ:"
+msgstr ""
 
 #: util/grub-probe.c:839
 msgid "[OPTION]... [PATH|DEVICE]"
-msgstr "[OPTION]... [PATH|DEVICE]"
+msgstr ""
 
 #: util/grub-probe.c:840
 msgid ""
@@ -6230,13 +6173,12 @@ msgid "Render Apple .disk_label."
 msgstr ""
 
 #: util/grub-render-label.c:158 util/grub-syslinux2cfg.c:169
-#, fuzzy
 msgid "Missing arguments\n"
-msgstr "%s: ਬਹੁਤ ਆਰਗੂਮੈਂਟ\n"
+msgstr ""
 
 #: util/grub-script-check.c:87
 msgid "[PATH]"
-msgstr "[ਪਾਥ]"
+msgstr ""
 
 #: util/grub-script-check.c:88
 msgid "Checks GRUB script configuration file for syntax errors."
@@ -6245,7 +6187,7 @@ msgstr ""
 #: util/grub-script-check.c:207
 #, c-format
 msgid "Syntax error at line %u\n"
-msgstr "ਲਾਈਨ %u ਉੱਤੇ ਸੰਟੈਕਸ ਗਲਤੀ\n"
+msgstr ""
 
 #: util/grub-script-check.c:212
 #, c-format
@@ -6264,7 +6206,7 @@ msgstr ""
 
 #: util/grub-setup.c:210
 msgid "No device is specified.\n"
-msgstr "ਕੋਈ ਜੰਤਰ ਨਹੀਂ ਦਿੱਤਾ।\n"
+msgstr ""
 
 #: util/grub-setup.c:224
 msgid ""
@@ -6275,12 +6217,12 @@ msgstr ""
 
 #: util/grub-setup.c:228
 msgid "DEVICE must be an OS device (e.g. /dev/sda)."
-msgstr "ਜੰਤਰ OS ਜੰਤਰ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ (ਜਿਵੇਂ ਕਿ /dev/sda)।"
+msgstr ""
 
 #: util/grub-setup.c:297
 #, c-format
 msgid "Invalid device `%s'.\n"
-msgstr "ਗਲਤ ਜੰਤਰ `%s'।\n"
+msgstr ""
 
 #: util/grub-syslinux2cfg.c:64
 msgid "root directory as it will be seen on runtime [default=/]."
@@ -6297,18 +6239,17 @@ msgid "write output to FILE [default=stdout]."
 msgstr ""
 
 #: util/grub-syslinux2cfg.c:148
-#, fuzzy
 msgid "Transform syslinux config into GRUB one."
-msgstr "ਸਿਸਟਮ ਫਾਇਲ-ਨਾਂ ਨੂੰ ਗਰਬ ਵਿੱਚ ਬਦਲੋ।"
+msgstr ""
 
 #: util/mkimage.c:688 util/mkimage.c:717 util/mkimage.c:734
 msgid "cannot compress the kernel image"
-msgstr "ਕਰਨਲ ਈਮੇਜ਼ ਕੰਪਰੈਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ"
+msgstr ""
 
 #: util/mkimage.c:766 util/mkimage.c:1077
-#, fuzzy, c-format
+#, c-format
 msgid "unknown compression %d"
-msgstr "ਅਣਜਾਣ ਕੰਪਰੈਸ਼ਨ %d\n"
+msgstr ""
 
 #: util/mkimage.c:1088
 msgid "Decompressor is too big"
@@ -6320,9 +6261,9 @@ msgid "core image is too big (0x%x > 0x%x)"
 msgstr ""
 
 #: util/mkimage.c:1140
-#, fuzzy, c-format
+#, c-format
 msgid "kernel image is too big (0x%x > 0x%x)"
-msgstr "ਫਿਰਮਵੇਅਰ ਈਮੇਜ਼ ਬਹੁਤ ਵੱਡਾ ਹੈ"
+msgstr ""
 
 #: util/mkimage.c:1220 util/mkimage.c:1501
 #, c-format
@@ -6336,12 +6277,12 @@ msgstr ""
 
 #: util/mkimage.c:1575 util/mkimage.c:1601
 msgid "firmware image is too big"
-msgstr "ਫਿਰਮਵੇਅਰ ਈਮੇਜ਼ ਬਹੁਤ ਵੱਡਾ ਹੈ"
+msgstr ""
 
 #: util/resolve.c:93
 #, c-format
 msgid "invalid line format: %s"
-msgstr "ਗਲਤ ਲਾਈਨ ਫਾਰਮੈਟ: %s"
+msgstr ""
 
 #: util/setup.c:167
 msgid "the first sector of the core file is not sector-aligned"
@@ -6363,7 +6304,7 @@ msgstr ""
 #: util/setup.c:290
 #, c-format
 msgid "the size of `%s' is too small"
-msgstr "`%s' ਦਾ ਆਕਾਰ ਬਹੁਤ ਛੋਟਾ ਹੈ"
+msgstr ""
 
 #: util/setup.c:428
 msgid ""
@@ -6425,7 +6366,7 @@ msgstr ""
 #: util/setup.c:496
 #, c-format
 msgid "File system `%s' doesn't support embedding"
-msgstr "ਫਾਇਲ ਸਿਸਟਮ `%s' ਇੰਬੈਡ ਕਰਨ ਲਈ ਸਹਾਇਕ ਨਹੀਂ ਹੈ"
+msgstr ""
 
 #: util/setup.c:537
 msgid "Your embedding area is unusually small.  core.img won't fit in it."
@@ -6433,11 +6374,11 @@ msgstr ""
 
 #: util/setup.c:559 util/setup.c:725 util/setup.c:844
 msgid "no terminator in the core image"
-msgstr "ਕੋਰ ਈਮੇਜ਼ ਵਿੱਚ ਕੋਈ ਟਰਮੀਨੇਟਰ ਨਹੀਂ ਹੈ"
+msgstr ""
 
 #: util/setup.c:622
 msgid "core.img version mismatch"
-msgstr "core.img ਵਰਜਨ ਮਿਲਦਾ ਨਹੀਂ ਹੈ"
+msgstr ""
 
 #: util/setup.c:675
 msgid ""
@@ -6447,12 +6388,12 @@ msgstr ""
 #: util/setup.c:682
 #, c-format
 msgid "can't determine filesystem on %s"
-msgstr "%s ਉੱਤੇ ਫਾਇਲ-ਸਿਸਟਮ ਜਾਣਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ"
+msgstr ""
 
 #: util/setup.c:685
 #, c-format
 msgid "filesystem `%s' doesn't support blocklists"
-msgstr "ਫਾਇਲ-ਸਿਸਟਮ `%s' ਬਲਾਕ-ਲਿਸਟ ਲਈ ਸਹਾਇਕ ਨਹੀਂ ਹੈ"
+msgstr ""
 
 #. TRANSLATORS: cross-disk refers to /boot being on one disk
 #. but MBR on another.
@@ -6479,159 +6420,3 @@ msgstr ""
 #: util/setup.c:847
 msgid "blocklists are incomplete"
 msgstr ""
-
-#~ msgid "Address range not associated with RAM"
-#~ msgstr "ਐਡਰੈਸ ਰੇਜ਼ RAM ਨਾਲ ਸਬੰਧਿਤ ਨਹੀਂ ਹੈ"
-
-#~ msgid "Packed pixel "
-#~ msgstr "ਪੈਕ ਕੀਤੇ ਪਿਕਸਲ "
-
-#~ msgid "%s: option '--%s' doesn't allow an argument\n"
-#~ msgstr "%s: ਚੋਣ '--%s' ਇੱਕ ਆਰਗੂਮੈਂਟ ਨਹੀਂ ਲੈਂਦੀ\n"
-
-#~ msgid "%s: option '-W %s' is ambiguous\n"
-#~ msgstr "%s: ਚੋਣ '-W %s' ਸਧਾਰਨ ਹੈ।\n"
-
-#~ msgid "%s: option '-W %s' doesn't allow an argument\n"
-#~ msgstr "%s: ਚੋਣ '-W %s' ਲਈ ਇੱਕ ਆਰਗੂਮੈਂਟ ਨਹੀਂ ਚਾਹੀਦਾ\n"
-
-#~ msgid "create width summary file"
-#~ msgstr "ਚੌੜਾਈ ਸਾਰ ਫਾਇਲ ਬਣਾਓ"
-
-#~ msgid "Found theme: %s\\n"
-#~ msgstr "ਥੀਮ ਲੱਭਿਆ: %s\\n"
-
-#~ msgid "Found background: %s\\n"
-#~ msgstr "ਬੈਕਗਰਾਊਂਡ ਲੱਭੀ: %s\\n"
-
-#~ msgid "Unsupported image format"
-#~ msgstr "ਗ਼ੈਰ-ਸਹਾਇਕ ਈਮੇਜ਼ ਫਾਰਮੈਟ"
-
-#~ msgid "Found GNU Mach: %s"
-#~ msgstr "ਗਨੂ ਮੈਸ਼ ਲੱਭਿਆ: %s"
-
-#~ msgid "Found Hurd module: %s"
-#~ msgstr "ਹੁਰਡ ਮੋਡੀਊਲ ਲੱਭਿਆ: %s"
-
-#~ msgid "Loading GNU Mach ..."
-#~ msgstr "...ਗਨੂ ਮੈਸ਼ ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
-
-#~ msgid "Advanced options for %s"
-#~ msgstr "% ਲਈ ਤਕਨੀਕੀ ਚੋਣਾਂ"
-
-#~ msgid "Found kernel module directory: %s\\n"
-#~ msgstr "ਕਰਨਲ ਮੋਡੀਊਲ ਡਾਇਰੈਕਟਰੀ ਲੱਭੀ: %s\\n"
-
-#~ msgid "%s, with Linux %s (recovery mode)"
-#~ msgstr "%s, ਲੀਨਕਸ %s ਨਾਲ (ਰਿਕਵਰੀ ਮੋਡ)"
-
-#~ msgid "%s, with Linux %s"
-#~ msgstr "%s, ਲੀਨਕਸ %s ਨਾਲ"
-
-#~ msgid "Loading Linux %s ..."
-#~ msgstr "ਲੀਨਕਸ %s ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ ..."
-
-#~ msgid "Loading initial ramdisk ..."
-#~ msgstr "initial ramdisk ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ ..."
-
-#~ msgid "Found linux image: %s\\n"
-#~ msgstr "linux ਈਮੇਜ਼ ਲੱਭਿਆ: %s\\n"
-
-#~ msgid "Found initrd image: %s\\n"
-#~ msgstr "initrd ਈਮੇਜ਼ ਲੱਭਿਆ: %s\\n"
-
-#~ msgid "Windows Vista/7 (loader)"
-#~ msgstr "Windows Vista/7 (ਲੋਡਰ)"
-
-#~ msgid "Windows NT/2000/XP (loader)"
-#~ msgstr "Windows NT/2000/XP (ਲੋਡਰ)"
-
-#~ msgid "Found %s on %s (%s)\\n"
-#~ msgstr "%2$s (%3$s) ਉੱਤੇ %1$s ਲੱਭਿਆ\\n"
-
-#~ msgid "Loading Xen %s ..."
-#~ msgstr "Xen %s ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
-
-#~ msgid "Xen hypervisor, version %s"
-#~ msgstr "Xen ਹਾਈਪਰਵਾਈਜ਼ਰ, ਵਰਜਨ %s"
-
-#~ msgid "Advanced options for %s (with Xen hypervisor)"
-#~ msgstr "%s ਲਈ ਤਕਨੀਕੀ ਚੋਣਾਂ (Xen ਹਾਈਪਰਵਾਈਜ਼ਰ ਨਾਲ)"
-
-#~ msgid "(32-bit)"
-#~ msgstr "(32-ਬਿੱਟ)"
-
-#~ msgid "(64-bit)"
-#~ msgstr "(64-ਬਿੱਟ)"
-
-#~ msgid "(on %s)"
-#~ msgstr "(%s ਉੱਤੇ)"
-
-#~ msgid "Found %s on %s\\n"
-#~ msgstr "%2$s ਉੱਤੇ %1$s ਲੱਭਿਆ\\n"
-
-#~ msgid "print this message and exit"
-#~ msgstr "ਇਹ ਸੁਨੇਹਾ ਛਾਪੋ ਅਤੇ ਬੰਦ ਕਰੋ"
-
-#~ msgid "print the version information and exit"
-#~ msgstr "ਵਰਜਨ ਜਾਣਕਾਰੀ ਛਾਪੋ ਅਤੇ ਬੰਦ ਕਰੋ"
-
-#~ msgid "INSTALL_DEVICE must be system device filename."
-#~ msgstr "INSTALL_DEVICE ਸਿਸਟਮ ਜੰਤਰ ਫਾਇਲ-ਨਾਂ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।"
-
-#~ msgid "Report bugs to <bug-grub@gnu.org>."
-#~ msgstr "ਬੱਗ ਜਾਣਕਾਰੀ <bug-grub@gnu.org> ਨੂੰ ਭੇਜੋ"
-
-#~ msgid ""
-#~ "Path `%s' is not readable by GRUB on boot. Installation is impossible. "
-#~ "Aborting.\\n"
-#~ msgstr ""
-#~ "ਬੂਟ (boot) ਉੱਤੇ ਪਾਥ `%s' ਗਰਬ ਵਲੋਂ ਪੜਨਯੋਗ ਨਹੀਂ ਹੈ। ਇੰਸਟਾਲੇਸ਼ਨ ਅਸੰਭਵ ਹੈ। ਅਧੂਰਾ ਛੱਡਿਆ।\\n"
-
-#~ msgid "Auto-detection of a filesystem of %s failed.\\n"
-#~ msgstr "%s ਦੇ ਫਾਇਲ-ਸਿਸਟਮ ਦੀ ਆਪੇ-ਖੋਜ ਫੇਲ੍ਹ ਹੋਈ।\\n"
-
-#~ msgid "Try with --recheck."
-#~ msgstr "--recheck ਨਾਲ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
-
-#~ msgid "`%s' failed.\\n"
-#~ msgstr "`%s' ਫੇਲ੍ਹ ਹੈ\\n"
-
-#~ msgid "Usage: %s -o OUTPUT CKBMAP_ARGUMENTS...\\n"
-#~ msgstr "ਵਰਤੋ: %s -o OUTPUT CKBMAP_ARGUMENTS...\\n"
-
-#~ msgid "Make GRUB keyboard layout file."
-#~ msgstr "GRUB ਕੀਬੋਰਡ ਲੇਆਉਟ ਫਾਇਲ ਬਣਾਉ।"
-
-#~ msgid "Usage: %s [OPTION]\\n"
-#~ msgstr "ਵਰਤੋ: %s [OPTION]\\n"
-
-#~ msgid "Generate a grub config file"
-#~ msgstr "grub ਸੰਰਚਨਾ ਫਾਇਲ ਤਿਆਰ ਕਰੋ"
-
-#~ msgid "%s: You must run this as root\\n"
-#~ msgstr "%s: ਇਹ ਚਲਾਉਣ ਲਈ ਤੁਹਾਨੂੰ ਰੂਟ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ\\n"
-
-#~ msgid "Generating grub.cfg ..."
-#~ msgstr "...grub.cfg ਤਿਆਰ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
-
-#~ msgid "done"
-#~ msgstr "ਸਮਾਪਤ"
-
-#~ msgid "Warning:"
-#~ msgstr "ਚੇਤਾਵਨੀ:"
-
-#~ msgid "Usage: %s [OPTION] MENU_ENTRY\\n"
-#~ msgstr "ਵਰਤੋ: %s [OPTION] MENU_ENTRY\\n"
-
-#~ msgid "Set the default boot menu entry for GRUB, for the next boot only."
-#~ msgstr "ਗਰਬ ਲਈ ਮੂਲ ਬੂਟ ਮੇਨੂ ਐਂਟਰੀ ਸੈੱਟ ਕਰੋ, ਕੇਵਲ ਅਗਲੇ ਬੂਟ ਲਈ ਹੀ।"
-
-#~ msgid "More than one menu entry?"
-#~ msgstr "ਇੱਕ ਤੋਂ ਵੱਧ ਮੇਨੂ ਐਂਟਰੀਆਂ?"
-
-#~ msgid "Menu entry not specified."
-#~ msgstr "ਮੇਨੂ ਐਂਟਰੀ ਨਹੀਂ ਦਿੱਤੀ ਗਈ।"
-
-#~ msgid "Set the default boot menu entry for GRUB."
-#~ msgstr "ਗਰਬ ਲਈ ਮੂਲ ਬੂਟ ਮੇਨੂ ਐਂਟਰੀ ਸੈੱਟ ਕਰੋ।"

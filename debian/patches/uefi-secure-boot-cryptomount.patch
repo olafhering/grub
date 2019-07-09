@@ -1,4 +1,4 @@
-From f97ce9f260c83fd2ff000795efdbe060276efb6b Mon Sep 17 00:00:00 2001
+From 3a717fc40702f20869d1b3bc49885bbaab7769dd Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Herv=C3=A9=20Werner?= <dud225@hotmail.com>
 Date: Mon, 28 Jan 2019 17:24:23 +0100
 Subject: Fix setup on Secure Boot systems where cryptodisk is in use
