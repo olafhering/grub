@@ -9,6 +9,7 @@ grub2 (2.04-2) UNRELEASED; urgency=medium
   * debian/apport/source_grub2.py:
     - Avoid star import.
     - Fix flake8 errors.
+  * Run gentpl.py with python3.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 09 Jul 2019 15:04:41 +0100
 

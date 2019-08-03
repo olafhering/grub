@@ -5,7 +5,7 @@ Maintainer: GRUB Maintainers <pkg-grub-devel@alioth-lists.debian.net>
 Uploaders: Felix Zielcke <fzielcke@z-51.de>, Jordi Mallach <jordi@debian.org>, Colin Watson <cjwatson@debian.org>, Ian Campbell <ijc@debian.org>, Steve McIntyre <93sam@debian.org>
 Build-Depends: debhelper-compat (= 10),
  patchutils,
- python,
+ python3,
  flex,
  bison,
  po-debconf,

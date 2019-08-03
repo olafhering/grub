@@ -166,6 +166,7 @@ override_dh_autoreconf:
 		cp -a debian/grub-extras/$$extra debian/grub-extras-enabled/; \
 	done
 	env -u DH_OPTIONS GRUB_CONTRIB=$(CURDIR)/debian/grub-extras-enabled \
+		PYTHON=python3 \
 		dh_autoreconf -- ./autogen.sh
 
 debian/stamps/configure-grub-common: debian/stamps/configure-grub-$(COMMON_PLATFORM)
