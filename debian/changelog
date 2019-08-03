@@ -6,7 +6,9 @@ grub2 (2.04-2) UNRELEASED; urgency=medium
 
   [ Colin Watson ]
   * Use debhelper-compat instead of debian/compat.
-  * debian/apport/source_grub2.py: Avoid star import.
+  * debian/apport/source_grub2.py:
+    - Avoid star import.
+    - Fix flake8 errors.
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 09 Jul 2019 15:04:41 +0100
 
