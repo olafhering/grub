@@ -1,4 +1,4 @@
-grub2 (2.04-2) UNRELEASED; urgency=medium
+grub2 (2.04-2) unstable; urgency=medium
 
   [ James Clarke ]
   * Only Build-Depend on libefiboot-dev and libefivar-dev on Linux
@@ -11,7 +11,7 @@ grub2 (2.04-2) UNRELEASED; urgency=medium
     - Fix flake8 errors.
   * Run gentpl.py with python3.
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 09 Jul 2019 15:04:41 +0100
+ -- Colin Watson <cjwatson@debian.org>  Sat, 03 Aug 2019 13:42:49 +0100
 
 grub2 (2.04-1) unstable; urgency=medium
 
