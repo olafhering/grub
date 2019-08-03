@@ -4,6 +4,9 @@ grub2 (2.04-2) UNRELEASED; urgency=medium
   * Only Build-Depend on libefiboot-dev and libefivar-dev on Linux
     architectures, since they're Linux-only.
 
+  [ Colin Watson ]
+  * Use debhelper-compat instead of debian/compat.
+
  -- Colin Watson <cjwatson@debian.org>  Tue, 09 Jul 2019 15:04:41 +0100
 
 grub2 (2.04-1) unstable; urgency=medium
