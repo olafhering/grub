@@ -12,10 +12,16 @@ the full text of the license.
 
 from __future__ import print_function
 
-from apport.hookutils import *
 import os
-import subprocess
 import re
+import subprocess
+
+from apport.hookutils import (
+    attach_default_grub,
+    attach_file,
+    attach_file_if_exists,
+    path_to_key,
+)
 
 def check_shell_syntax(path):
     ''' Check the syntax of a shell script '''
