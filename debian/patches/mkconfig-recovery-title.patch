@@ -1,4 +1,4 @@
-From 1ff07175f797154b36c322acaf33ec7e562c7502 Mon Sep 17 00:00:00 2001
+From a99af7f000456fd552fa19e5ef79a9216957ecab Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:33 +0000
 Subject: Add GRUB_RECOVERY_TITLE option

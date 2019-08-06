@@ -675,6 +675,7 @@ case "$1" in
                          cut -d' ' -f1)"
         case $bootloader_id in
           kubuntu) bootloader_id=ubuntu ;;
+          devuan) bootloader_id=debian ;;
         esac
         if [ "$bootloader_id" ] && [ -d "/boot/efi/EFI/$bootloader_id" ]; then
           case @PACKAGE@ in

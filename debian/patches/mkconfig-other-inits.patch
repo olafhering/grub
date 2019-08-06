@@ -1,4 +1,4 @@
-From 025817840e1674f9159bb602dde699deec035181 Mon Sep 17 00:00:00 2001
+From 64fc36ca08725830680b65dae49fcc1fedcff5a8 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@debian.org>
 Date: Sat, 3 Jan 2015 12:04:59 +0000
 Subject: Generate alternative init entries in advanced menu
