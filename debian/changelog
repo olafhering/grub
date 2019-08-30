@@ -1,11 +1,11 @@
-grub2 (2.04-3) UNRELEASED; urgency=medium
+grub2 (2.04-3) unstable; urgency=medium
 
   * Apply patch from James Clarke to fix BIOS Boot Partition support on
     sparc64 (closes: #931969).
   * Fix UEFI installation for Devuan (thanks, Ivan J.; closes: #932966).
   * Add probe module to signed UEFI images (closes: #936082).
 
- -- Colin Watson <cjwatson@debian.org>  Tue, 06 Aug 2019 10:45:38 +0100
+ -- Colin Watson <cjwatson@debian.org>  Fri, 30 Aug 2019 13:50:41 +0100
 
 grub2 (2.04-2) unstable; urgency=medium
 
