@@ -2,6 +2,7 @@ grub2 (2.04-3) UNRELEASED; urgency=medium
 
   * Apply patch from James Clarke to fix BIOS Boot Partition support on
     sparc64 (closes: #931969).
+  * Fix UEFI installation for Devuan (thanks, Ivan J.; closes: #932966).
 
  -- Colin Watson <cjwatson@debian.org>  Tue, 06 Aug 2019 10:45:38 +0100
 
