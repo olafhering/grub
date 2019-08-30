@@ -122,6 +122,7 @@ CD_MODULES="
 	part_gpt
 	password_pbkdf2
 	png
+	probe
 	reboot
 	regexp
 	search
