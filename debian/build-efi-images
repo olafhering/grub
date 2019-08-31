@@ -216,6 +216,6 @@ NET_MODULES="$CD_MODULES
 "$grub_mkimage" -O "$platform" -o "$outdir/grubnet$efi_name-installer.efi" \
 	-d "$grub_core" -c "$workdir/grub-bootstrap.cfg" \
 	-m "$workdir/memdisk-netboot.fat" \
-	-p "${efi_vendor}-installer/$deb_arch/grub" $NET_MODULES
+	-p "/${efi_vendor}-installer/$deb_arch/grub" $NET_MODULES
 
 exit 0
