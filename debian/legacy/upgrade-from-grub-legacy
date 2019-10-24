@@ -8,7 +8,9 @@ fi
 echo RESET grub-pc/install_devices | debconf-communicate >/dev/null
 
 # Pretend we're upgrading grub-pc.  This will make our postinst DTRT.
-UPGRADE_FROM_GRUB_LEGACY=1 \
+DPKG_MAINTSCRIPT_NAME=postinst \
+  DPKG_MAINTSCRIPT_PACKAGE=grub-pc \
+  UPGRADE_FROM_GRUB_LEGACY=1 \
   /var/lib/dpkg/info/grub-pc.postinst configure dummy-version
 
 if test ! -f /boot/grub/grub.cfg ; then
