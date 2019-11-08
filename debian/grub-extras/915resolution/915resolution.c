@@ -758,13 +758,23 @@ static void set_mode(vbios_map * map, cardinal mode, cardinal x, cardinal y, car
                         vbios_modeline_type2 * modeline = &res->modelines[j];
                         
                         if (modeline->x1 == xprev && modeline->y1 == yprev) {
+                            unsigned long clock;
+                            word hsyncstart, hsyncend, hblank;
+                            word vsyncstart, vsyncend, vblank;
+
                             modeline->x1 = modeline->x2 = x-1;
                             modeline->y1 = modeline->y2 = y-1;
 
-                            gtf_timings(x, y, freqs[j], &modeline->clock,
-                                    &modeline->hsyncstart, &modeline->hsyncend,
-                                    &modeline->hblank, &modeline->vsyncstart,
-                                    &modeline->vsyncend, &modeline->vblank);
+                            gtf_timings(x, y, freqs[j], &clock,
+                                    &hsyncstart, &hsyncend, &hblank,
+                                    &vsyncstart, &vsyncend, &vblank);
+                            modeline->clock = clock;
+                            modeline->hsyncstart = hsyncstart;
+                            modeline->hsyncend = hsyncend;
+                            modeline->hblank = hblank;
+                            modeline->vsyncstart = vsyncstart;
+                            modeline->vsyncend = vsyncend;
+                            modeline->vblank = vblank;
 
                             if (htotal)
                                 modeline->htotal = htotal;
@@ -790,13 +800,24 @@ static void set_mode(vbios_map * map, cardinal mode, cardinal x, cardinal y, car
                         vbios_modeline_type3 * modeline = &res->modelines[j];
                         
                         if (modeline->x1 == xprev && modeline->y1 == yprev) {
+                            unsigned long clock;
+                            word hsyncstart, hsyncend, hblank;
+                            word vsyncstart, vsyncend, vblank;
+
                             modeline->x1 = modeline->x2 = x-1;
                             modeline->y1 = modeline->y2 = y-1;
                             
-                            gtf_timings(x, y, freqs[j], &modeline->clock,
-                                    &modeline->hsyncstart, &modeline->hsyncend,
-                                    &modeline->hblank, &modeline->vsyncstart,
-                                    &modeline->vsyncend, &modeline->vblank);
+                            gtf_timings(x, y, freqs[j], &clock,
+                                    &hsyncstart, &hsyncend, &hblank,
+                                    &vsyncstart, &vsyncend, &vblank);
+                            modeline->clock = clock;
+                            modeline->hsyncstart = hsyncstart;
+                            modeline->hsyncend = hsyncend;
+                            modeline->hblank = hblank;
+                            modeline->vsyncstart = vsyncstart;
+                            modeline->vsyncend = vsyncend;
+                            modeline->vblank = vblank;
+
                             if (htotal)
                                 modeline->htotal = htotal;
                             else
