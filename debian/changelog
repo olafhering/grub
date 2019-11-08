@@ -8,6 +8,10 @@ grub2 (2.04-4) UNRELEASED; urgency=medium
     DPKG_MAINTSCRIPT_PACKAGE when calling grub-pc.postinst manually (closes:
     #943387).
 
+  [ Colin Watson ]
+  * Use policy-compliant architecture wildcards in libefiboot-dev and
+    libefivar-dev build-dependencies.
+
  -- Colin Watson <cjwatson@debian.org>  Sat, 31 Aug 2019 22:34:14 +0100
 
 grub2 (2.04-3) unstable; urgency=medium
