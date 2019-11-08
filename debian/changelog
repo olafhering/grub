@@ -11,6 +11,7 @@ grub2 (2.04-4) UNRELEASED; urgency=medium
   [ Colin Watson ]
   * Use policy-compliant architecture wildcards in libefiboot-dev and
     libefivar-dev build-dependencies.
+  * Build with GCC 9 (closes: #944166).
 
  -- Colin Watson <cjwatson@debian.org>  Sat, 31 Aug 2019 22:34:14 +0100
 
