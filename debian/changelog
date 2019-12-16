@@ -1,11 +1,11 @@
-grub2 (2.04-5) UNRELEASED; urgency=medium
+grub2 (2.04-5) unstable; urgency=medium
 
   * Cherry-pick from upstream:
     - verifiers: Blocklist fallout cleanup (this was one cause of a build
       failure on hurd-i386, though may not be the only one).
   * Only recommend grub-efi-*-signed on the architectures where they exist.
 
- -- Colin Watson <cjwatson@debian.org>  Thu, 12 Dec 2019 00:15:35 +0000
+ -- Colin Watson <cjwatson@debian.org>  Mon, 16 Dec 2019 15:48:45 +0000
 
 grub2 (2.04-4) unstable; urgency=medium
 
