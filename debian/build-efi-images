@@ -104,6 +104,7 @@ CD_MODULES="
 	help
 	hfsplus
 	iso9660
+	jfs
 	jpeg
 	keystatus
 	loadenv
