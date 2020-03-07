@@ -6,6 +6,12 @@ grub2 (2.04-6) UNRELEASED; urgency=medium
   [ Steve McIntyre ]
   * Add jfs module to signed UEFI images. Closes: #950959
 
+  [ Colin Watson ]
+  * Drop mkconfig-mid-upgrade.patch; it was only needed for upgrades from
+    GRUB 1.99 (now a long time ago) and can inappropriately hide problems
+    when /etc/grub.d/00_header should have been updated but wasn't (closes:
+    #953201).
+
  -- Steve McIntyre <93sam@debian.org>  Sun, 09 Feb 2020 01:24:20 +0000
 
 grub2 (2.04-5) unstable; urgency=medium

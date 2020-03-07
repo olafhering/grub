@@ -1,4 +1,4 @@
-From 9ea692b8c6f42c4c69e1d82217d7c5aae68187d8 Mon Sep 17 00:00:00 2001
+From c5ab3241ea94f769437b08a26fa15b0872b03da4 Mon Sep 17 00:00:00 2001
 From: James Clarke <jrtc27@jrtc27.com>
 Date: Thu, 18 Jul 2019 14:31:55 +0200
 Subject: [PATCH] sparc64: Fix BIOS Boot Partition support

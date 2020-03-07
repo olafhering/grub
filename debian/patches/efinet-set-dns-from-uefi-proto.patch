@@ -1,4 +1,4 @@
-From 563ed9650433306740919af81fe0b4d453ed24ed Mon Sep 17 00:00:00 2001
+From b9b962cbf2657ee5912b6951654c6c6e1965fc3e Mon Sep 17 00:00:00 2001
 From: Michael Chang <mchang@suse.com>
 Date: Thu, 27 Oct 2016 17:43:21 -0400
 Subject: efinet: Setting DNS server from UEFI protocol

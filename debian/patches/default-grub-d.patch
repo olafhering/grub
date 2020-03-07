@@ -1,4 +1,4 @@
-From 413121ddac2aa1484b0dc6fd3a32aad0d417aa80 Mon Sep 17 00:00:00 2001
+From 83446ff328321ff05818fee1ed150f8efd4730b8 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:10 +0000
 Subject: Read /etc/default/grub.d/*.cfg after /etc/default/grub
@@ -178,10 +178,10 @@ index 65effa9f3..5478030fd 100644
 +  free (cfgdir);
  }
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-index b506d63bf..d18bf972f 100644
+index 45cd4cc54..8a1bc0441 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -164,6 +164,11 @@ fi
+@@ -157,6 +157,11 @@ fi
  if test -f ${sysconfdir}/default/grub ; then
    . ${sysconfdir}/default/grub
  fi

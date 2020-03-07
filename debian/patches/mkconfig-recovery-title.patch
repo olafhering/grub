@@ -1,4 +1,4 @@
-From a99af7f000456fd552fa19e5ef79a9216957ecab Mon Sep 17 00:00:00 2001
+From 24f2301bae760f8d3dcf5d06b75bea1f647263ea Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:33 +0000
 Subject: Add GRUB_RECOVERY_TITLE option
@@ -37,10 +37,10 @@ index a835d0ae4..3ec35d315 100644
  
  The following options are still accepted for compatibility with existing
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-index 307214310..9c1da6477 100644
+index 8752777e0..0aa41da93 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -196,6 +196,10 @@ GRUB_ACTUAL_DEFAULT="$GRUB_DEFAULT"
+@@ -189,6 +189,10 @@ GRUB_ACTUAL_DEFAULT="$GRUB_DEFAULT"
  
  if [ "x${GRUB_ACTUAL_DEFAULT}" = "xsaved" ] ; then GRUB_ACTUAL_DEFAULT="`"${grub_editenv}" - list | sed -n '/^saved_entry=/ s,^saved_entry=,,p'`" ; fi
  
@@ -51,7 +51,7 @@ index 307214310..9c1da6477 100644
  
  # These are defined in this script, export them here so that user can
  # override them.
-@@ -251,7 +255,8 @@ export GRUB_DEFAULT \
+@@ -244,7 +248,8 @@ export GRUB_DEFAULT \
    GRUB_BADRAM \
    GRUB_OS_PROBER_SKIP_LIST \
    GRUB_DISABLE_SUBMENU \

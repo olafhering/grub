@@ -10,7 +10,6 @@ mkrescue-efi-modules.patch
 mkconfig-loopback.patch
 restore-mkdevicemap.patch
 gettext-quiet.patch
-mkconfig-mid-upgrade.patch
 install-efi-fallback.patch
 mkconfig-ubuntu-recovery.patch
 install-locale-langpack.patch

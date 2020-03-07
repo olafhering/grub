@@ -1,4 +1,4 @@
-From e9b78b987ed3607c12f0888963fa79e48143ecd0 Mon Sep 17 00:00:00 2001
+From 2184aa277150cf09db79c9e44b36556899ddc5c4 Mon Sep 17 00:00:00 2001
 From: Colin Watson <cjwatson@ubuntu.com>
 Date: Mon, 13 Jan 2014 12:13:28 +0000
 Subject: Add configure option to bypass boot menu if possible
@@ -115,10 +115,10 @@ index ebf5a0f10..42c82290d 100644
  	{
  	  pos = grub_term_save_pos ();
 diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-index d18bf972f..307214310 100644
+index 8a1bc0441..8752777e0 100644
 --- a/util/grub-mkconfig.in
 +++ b/util/grub-mkconfig.in
-@@ -250,7 +250,8 @@ export GRUB_DEFAULT \
+@@ -243,7 +243,8 @@ export GRUB_DEFAULT \
    GRUB_ENABLE_CRYPTODISK \
    GRUB_BADRAM \
    GRUB_OS_PROBER_SKIP_LIST \
