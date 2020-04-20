@@ -11,6 +11,8 @@ grub2 (2.04-6) UNRELEASED; urgency=medium
     GRUB 1.99 (now a long time ago) and can inappropriately hide problems
     when /etc/grub.d/00_header should have been updated but wasn't (closes:
     #953201).
+  * Cherry-pick from upstream:
+    - btrfs: Add support for new RAID1C34 profiles (closes: #958236).
 
  -- Steve McIntyre <93sam@debian.org>  Sun, 09 Feb 2020 01:24:20 +0000
 

@@ -58,3 +58,4 @@ no-devicetree-if-secure-boot.patch
 grub-install-removable-shim.patch
 sparc64-fix-bios-boot-partition-support.patch
 verifiers-blocklist-fallout.patch
+btrfs-raid1c34.patch
