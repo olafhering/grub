@@ -1,4 +1,4 @@
-grub2 (2.04-6) UNRELEASED; urgency=medium
+grub2 (2.04-6) unstable; urgency=medium
 
   [ Romain Perier ]
   * Add f2fs module to signed UEFI images
@@ -14,7 +14,7 @@ grub2 (2.04-6) UNRELEASED; urgency=medium
   * Cherry-pick from upstream:
     - btrfs: Add support for new RAID1C34 profiles (closes: #958236).
 
- -- Steve McIntyre <93sam@debian.org>  Sun, 09 Feb 2020 01:24:20 +0000
+ -- Colin Watson <cjwatson@debian.org>  Mon, 20 Apr 2020 01:03:08 +0100
 
 grub2 (2.04-5) unstable; urgency=medium
 
