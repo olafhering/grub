@@ -115,7 +115,7 @@ argp_parser (int key, char *arg, struct argp_state *state)
 
 struct argp argp = {
   options, argp_parser, N_("[OPTION] SOURCE..."),
-  N_("Generate a standalone image (containing all modules) in the selected format")"\v"N_("Graft point syntax (E.g. /boot/grub/grub.cfg=./grub.cfg) is accepted"),
+  N_("Generate a standalone image (containing all modules) in the selected format")"\v"N_("Graft point syntax (E.g. /boot/grub/grub.cfg=./grub.cfg) is accepted. The path on the right must point to a regular file."),
   NULL, help_filter, NULL
 };
 
@@ -191,8 +191,10 @@ add_tar_file (const char *from,
 
   COMPILE_TIME_ASSERT (sizeof (hd) == 512);
 
-  if (grub_util_is_special_file (from))
-    return;
+  if (grub_util_is_special_file (from)) {
+      grub_util_warn (_("skip: %s is not a regular file"), from);
+      return;
+  }
 
   optr = tcn = xmalloc (strlen (to) + 1);
   for (iptr = to; *iptr == '/'; iptr++);
