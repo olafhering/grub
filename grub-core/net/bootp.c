@@ -394,7 +394,7 @@ grub_net_configure_by_dhcp_ack (const char *name,
       boot_file = (const char *) opt;
       boot_file_len = opt_len;
     }
-  else if (size > OFFSET_OF (boot_file, bp) && !(overload && GRUB_DHCP_OPT_OVERLOAD_FILE) &&
+  else if (size > OFFSET_OF (boot_file, bp) && !(overload & GRUB_DHCP_OPT_OVERLOAD_FILE) &&
           bp->boot_file[0])
     {
       boot_file = bp->boot_file;
