@@ -20,6 +20,7 @@
 #include <grub/env.h>
 #include <grub/i18n.h>
 #include <grub/command.h>
+#include <grub/net.h>
 #include <grub/net/ip.h>
 #include <grub/net/netbuff.h>
 #include <grub/net/udp.h>
@@ -348,6 +349,9 @@ grub_net_configure_by_dhcp_ack (const char *name,
   grub_uint8_t opt_len, overload = 0;
   const char *boot_file = 0, *server_name = 0;
   grub_size_t boot_file_len, server_name_len;
+  char *vci_server_name = NULL;
+  char *vci_boot_file = NULL;
+  char *vci_protocol = NULL;
 
   addr.type = GRUB_NET_NETWORK_LEVEL_PROTOCOL_IPV4;
   addr.ipv4 = bp->your_ip;
@@ -397,6 +401,22 @@ grub_net_configure_by_dhcp_ack (const char *name,
       boot_file_len = sizeof (bp->boot_file);
     }
 
+  opt = find_dhcp_option (bp, size, GRUB_NET_BOOTP_VENDOR_CLASS_IDENTIFIER, &opt_len);
+  if (opt && opt_len)
+    {
+      grub_env_set_net_property (name, "vendor_class_identifier", (const char *) opt, opt_len);
+      if (opt_len == sizeof ("HTTPClient") - 1
+	  && grub_strncmp ((const char *) opt, "HTTPClient", opt_len) == 0
+	  && (boot_file && boot_file_len)
+	  && dissect_url (boot_file, boot_file_len, &vci_protocol, &vci_server_name, &vci_boot_file))
+	{
+	  server_name = vci_server_name;
+	  server_name_len = grub_strlen (vci_server_name);
+	  boot_file = vci_boot_file;
+	  boot_file_len = grub_strlen (vci_boot_file);
+	}
+    }
+
   if (bp->server_ip)
     {
       grub_snprintf (server_ip, sizeof (server_ip), "%d.%d.%d.%d",
@@ -424,7 +444,7 @@ grub_net_configure_by_dhcp_ack (const char *name,
 
   if (device && !*device && bp->server_ip)
     {
-      *device = grub_xasprintf ("tftp,%s", server_ip);
+      *device = grub_xasprintf ("%s,%s", vci_protocol ? : "tftp", server_ip);
       grub_print_error ();
     }
 
@@ -438,7 +458,13 @@ grub_net_configure_by_dhcp_ack (const char *name,
 	}
       if (device && !*device)
 	{
-	  *device = grub_xasprintf ("tftp,%s", server_name);
+	  *device = grub_xasprintf ("%s,%s", vci_protocol ? : "tftp", server_name);
+	  grub_print_error ();
+	}
+      else if (device && vci_protocol)
+	{
+	  grub_free (*device);
+	  *device = grub_xasprintf ("%s,%s", vci_protocol, server_name);
 	  grub_print_error ();
 	}
     }
@@ -541,7 +567,12 @@ grub_net_configure_by_dhcp_ack (const char *name,
 
       val = grub_malloc (2 * opt_len + 4 + 1);
       if (!val)
+	{
+	  grub_free (vci_protocol);
+	  grub_free (vci_boot_file);
+	  grub_free (vci_server_name);
           return inter;
+	}
 
       for (i = 0; i < opt_len; i++)
         {
@@ -567,6 +598,9 @@ grub_net_configure_by_dhcp_ack (const char *name,
   else
     grub_errno = GRUB_ERR_NONE;
 
+  grub_free (vci_protocol);
+  grub_free (vci_boot_file);
+  grub_free (vci_server_name);
   return inter;
 }
 
