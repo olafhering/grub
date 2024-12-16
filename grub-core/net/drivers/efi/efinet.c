@@ -347,8 +347,8 @@ grub_efi_net_config_real (grub_efi_handle_t hnd, char **device,
 			  char **path)
 {
   struct grub_net_card *card;
-  grub_efi_device_path_t *dp;
-  struct grub_net_network_level_interface *inter;
+  grub_efi_device_path_t *dp = NULL;
+  struct grub_net_network_level_interface *inter = NULL;
   grub_efi_device_path_t *vlan_dp;
   grub_efi_uint16_t vlan_dp_len;
   grub_efi_vlan_device_path_t *vlan;
@@ -410,11 +410,35 @@ grub_efi_net_config_real (grub_efi_handle_t hnd, char **device,
       continue;
     pxe_mode = pxe->mode;
 
-    inter = grub_net_configure_by_dhcp_ack (card->name, card, 0,
-					    (struct grub_net_bootp_packet *)
-					    &pxe_mode->dhcp_ack,
-					    sizeof (pxe_mode->dhcp_ack),
-					    1, device, path);
+    if (pxe_mode->using_ipv6)
+      {
+	grub_dprintf ("efinet", "using ipv6 and dhcpv6\n");
+	grub_dprintf ("efinet", "dhcp_ack_received: %s%s\n",
+		      pxe_mode->dhcp_ack_received ? "yes" : "no",
+		      pxe_mode->dhcp_ack_received ? "" : " cannot continue");
+	if (!pxe_mode->dhcp_ack_received)
+	  continue;
+
+	inter = grub_net_configure_by_dhcpv6_reply (card->name, card, 0,
+						    (struct grub_net_dhcp6_packet *)
+						    &pxe_mode->dhcp_ack,
+						    sizeof (pxe_mode->dhcp_ack),
+						    1, device, path);
+	if (grub_errno)
+	  grub_print_error ();
+	if (device && path)
+	  grub_dprintf ("efinet", "device: `%s' path: `%s'\n", *device, *path);
+      }
+    else
+      {
+	grub_dprintf ("efinet", "using ipv4 and dhcp\n");
+	inter = grub_net_configure_by_dhcp_ack (card->name, card, 0,
+						(struct grub_net_bootp_packet *)
+						&pxe_mode->dhcp_ack,
+						sizeof (pxe_mode->dhcp_ack),
+						1, device, path);
+	grub_dprintf ("efinet", "device: `%s' path: `%s'\n", *device, *path);
+      }
 
     if (inter != NULL)
       {
