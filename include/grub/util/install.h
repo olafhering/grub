@@ -310,4 +310,6 @@ grub_set_install_backup_ponr (void)
 }
 #endif
 
+int
+grub_install_sync_fs_journal (const char *path);
 #endif
