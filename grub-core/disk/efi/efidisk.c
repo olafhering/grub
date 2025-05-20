@@ -130,7 +130,10 @@ find_parent_device (struct grub_efidisk_data *devices,
 
   ldp = grub_efi_find_last_device_path (dp);
   if (! ldp)
+  {
+    grub_free (dp);
     return 0;
+  }
 
   ldp->type = GRUB_EFI_END_DEVICE_PATH_TYPE;
   ldp->subtype = GRUB_EFI_END_ENTIRE_DEVICE_PATH_SUBTYPE;
@@ -163,7 +166,10 @@ is_child (struct grub_efidisk_data *child,
 
   ldp = grub_efi_find_last_device_path (dp);
   if (! ldp)
+  {
+    grub_free (dp);
     return 0;
+  }
 
   ldp->type = GRUB_EFI_END_DEVICE_PATH_TYPE;
   ldp->subtype = GRUB_EFI_END_ENTIRE_DEVICE_PATH_SUBTYPE;
