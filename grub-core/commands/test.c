@@ -94,6 +94,24 @@ get_fileinfo (char *path, struct test_parse_ctx *ctx)
       return;
     }
 
+  if (! dev->disk && dev->net)
+    {
+      grub_file_t file;
+
+      file = grub_file_open (path , GRUB_FILE_TYPE_GET_SIZE
+			     | GRUB_FILE_TYPE_NO_DECOMPRESS);
+      ctx->file_exists = file ? 1 : 0;
+      ctx->file_info.dir = 0;
+      ctx->file_info.mtimeset = 0;
+      ctx->filename = NULL;
+      grub_errno = GRUB_ERR_NONE;
+      if (file)
+	grub_file_close (file);
+      grub_free (device_name);
+      grub_device_close (dev);
+      return;
+    }
+
   fs = grub_fs_probe (dev);
   if (! fs)
     {
