@@ -250,6 +250,14 @@ tftp_receive (grub_net_udp_socket_t sock __attribute__ ((unused)),
       grub_netbuff_free (nb);
       return GRUB_ERR_NONE;
     case TFTP_ERROR:
+      if (data->have_oack == 1 && data->block == 0)
+	{
+	  file->device->net->eof = 1;
+	  file->device->net->stall = 1;
+	  /* Do not send closed error code back to server in tftp_close() */
+	  grub_net_udp_close (data->sock);
+	  data->sock = NULL;
+	}
       data->have_oack = 1;
       grub_error (GRUB_ERR_IO, "%s", tftph->u.err.errmsg);
       grub_error_save (&data->save_err);
