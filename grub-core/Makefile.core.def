@@ -1087,6 +1087,11 @@ module = {
 };
 
 module = {
+  name = mfa;
+  common = commands/mfa.c;
+};
+
+module = {
   name = minicmd;
   common = commands/minicmd.c;
 };
