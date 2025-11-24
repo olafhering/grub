@@ -45,7 +45,7 @@ static grub_efi_handle_t last_verified_image_handle = NULL;
  * drivers/firmware/efi/libstub/secureboot.c:efi_get_secureboot().
  */
 grub_uint8_t
-grub_efi_get_secureboot (void)
+grub_efi_get_secureboot_real (bool check_moksb)
 {
   static grub_guid_t efi_variable_guid = GRUB_EFI_GLOBAL_VARIABLE_GUID;
   grub_efi_status_t status;
@@ -78,6 +78,16 @@ grub_efi_get_secureboot (void)
   if ((*secboot == 0) || (*setupmode == 1))
     {
       secureboot = GRUB_EFI_SECUREBOOT_MODE_DISABLED;
+      goto out;
+    }
+
+  grub_dprintf ("efi",
+		"MokSBState check enabled in GRUB: %s\n",
+		(check_moksb == true) ? "yes" : "no");
+
+  if (check_moksb == false)
+    {
+      secureboot = GRUB_EFI_SECUREBOOT_MODE_ENABLED;
       goto out;
     }
 
@@ -224,6 +234,29 @@ struct grub_file_verifier shim_lock_verifier =
   };
 
 void
+grub_shim_lock_protocol_setup (void)
+{
+  /*
+   * Skip only if UEFI Secure Boot is really disabled in firmware, no shim lock
+   * is being detected so this ensures that UEFI LoadImage() is used.
+   */
+  if (grub_efi_get_secureboot_real (false) != GRUB_EFI_SECUREBOOT_MODE_ENABLED)
+    return;
+
+  /*
+   * Set up shim protocol if UEFI Secure Boot is enabled or shim is in insecure
+   * mode. Either the legacy fallback loader or the shim loader, which overrides
+   * UEFI LoadImage(), will be used.
+   */
+  /* Find both shim protocols. */
+  shim_loader = grub_efi_locate_protocol (&shim_loader_guid, 0);
+  shim_lock = grub_efi_locate_protocol (&shim_lock_guid, 0);
+  /* Register shim loader if supported. */
+  if (shim_loader != NULL)
+    grub_efi_register_loader (shim_loader);
+}
+
+void
 grub_shim_lock_verifier_setup (void)
 {
   struct grub_module_header *header;
@@ -231,10 +264,6 @@ grub_shim_lock_verifier_setup (void)
   /* Secure Boot is off. Ignore shim. */
   if (grub_efi_get_secureboot () != GRUB_EFI_SECUREBOOT_MODE_ENABLED)
     return;
-
-  /* Find both shim protocols. */
-  shim_loader = grub_efi_locate_protocol (&shim_loader_guid, 0);
-  shim_lock = grub_efi_locate_protocol (&shim_lock_guid, 0);
 
   /* shim is missing, check if GRUB image is built with --disable-shim-lock. */
   if (shim_loader == NULL && shim_lock == NULL)
@@ -248,9 +277,6 @@ grub_shim_lock_verifier_setup (void)
 
   /* Enforce shim_lock_verifier. */
   grub_verifier_register (&shim_lock_verifier);
-
-  /* Register shim loader if supported. */
-  grub_efi_register_loader (shim_loader);
 
   grub_env_set ("shim_lock", "y");
   grub_env_export ("shim_lock");

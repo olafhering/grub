@@ -106,6 +106,12 @@ grub_efi_init (void)
   grub_efi_mm_init ();
 
   /*
+   * Set up the shim protocol, the result is used to determine if fallback
+   * legacy loader or LoadImage() override by shim loader should be used.
+   */
+  grub_shim_lock_protocol_setup ();
+
+  /*
    * Lockdown the GRUB and register the shim_lock verifier
    * if the UEFI Secure Boot is enabled.
    */

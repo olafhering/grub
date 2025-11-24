@@ -30,7 +30,13 @@
 
 #ifdef GRUB_MACHINE_EFI
 extern grub_uint8_t
-EXPORT_FUNC (grub_efi_get_secureboot) (void);
+EXPORT_FUNC (grub_efi_get_secureboot_real) (bool check_moksb);
+
+static inline grub_uint8_t
+grub_efi_get_secureboot (void)
+{
+  return grub_efi_get_secureboot_real (true);
+}
 
 extern bool
 EXPORT_FUNC (grub_is_using_legacy_shim_lock_protocol) (void);
@@ -40,6 +46,10 @@ EXPORT_FUNC (grub_efi_get_last_verified_image_handle) (void);
 
 extern void
 grub_shim_lock_verifier_setup (void);
+
+extern void
+grub_shim_lock_protocol_setup (void);
+
 #else
 static inline grub_uint8_t
 grub_efi_get_secureboot (void)
