@@ -1323,6 +1323,12 @@ script = {
   common = tests/tpm2_key_protector_test.in;
 };
 
+script = {
+  testcase = native;
+  name = mfa_key_protector_test;
+  common = tests/mfa_key_protector_test.in;
+};
+
 program = {
   testcase = native;
   name = example_unit_test;

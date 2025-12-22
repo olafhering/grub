@@ -1,0 +1,123 @@
+#! @BUILD_SHEBANG@ -e
+
+# Test GRUBs ability to unlock a LUKS partition using the MFA key protector
+# (File + Password combination)
+#
+# Copyright (C) 2025 Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+grubshell=@builddir@/grub-shell
+
+. "@builddir@/grub-core/modinfo.sh"
+
+if [ x${grub_modinfo_platform} != xemu ]; then
+  exit 77
+fi
+
+builddir="@builddir@"
+
+# Force build directory components
+PATH="${builddir}:${PATH}"
+export PATH
+
+if [ "x${EUID}" = "x" ] ; then
+  EUID=`id -u`
+fi
+
+if [ "${EUID}" != 0 ] ; then
+   echo "not root; cannot test mfa."
+   exit 99
+fi
+
+if ! command -v cryptsetup >/dev/null 2>&1; then
+   echo "cryptsetup not installed; cannot test mfa."
+   exit 99
+fi
+
+mfatestdir="`mktemp -d "${TMPDIR:-/tmp}/$(basename "$0").XXXXXXXXXX"`" || exit 99
+
+disksize=20M
+
+passphrase="top secret"
+luksfile=${mfatestdir}/luks.disk
+keypart1=${mfatestdir}/key_part1.bin
+keypart2=${mfatestdir}/key_part2.txt
+lukskeyfile=${mfatestdir}/luks_key.bin
+
+# Choose a low iteration number to reduce the time to decrypt the disk
+csopt="--type luks2 --pbkdf pbkdf2 --iter-time 1000"
+
+timeout=20
+testoutput=${mfatestdir}/testoutput
+vtext="TEST VERIFIED"
+
+# Cleanup on exit
+cleanup() {
+    RET=$?
+    if [ "${RET}" -eq 0 ]; then
+	rm -rf "$mfatestdir" || :
+    fi
+}
+trap cleanup EXIT INT TERM KILL QUIT
+
+ret=0
+
+# Part 1: A random binary file (Factor 1)
+dd if=/dev/urandom of="${keypart1}" bs=1 count=64 >/dev/null 2>&1
+
+# Part 2: A password (Factor 2)
+echo -n "${passphrase}" > "${keypart2}"
+
+# Combine them to create the actual LUKS Key
+cat "${keypart1}" "${keypart2}" > "${lukskeyfile}"
+
+# Setup the LUKS2 image with the combined key
+truncate -s ${disksize} "${luksfile}" || exit 99
+cryptsetup luksFormat -q ${csopt} "${luksfile}" "${lukskeyfile}" || exit 99
+
+# Open the device to write the verification text
+luksdev=/dev/mapper/`basename "${mfatestdir}"`
+cryptsetup open --key-file "${lukskeyfile}" "${luksfile}" `basename "${luksdev}"` || exit 99
+
+# Write "TEST VERIFIED" to the start of the mapped device
+echo "${vtext}" > "${luksdev}"
+
+# Close the device
+cryptsetup close "${luksdev}"
+
+
+grub_cfg=${mfatestdir}/testcase.cfg
+
+# Generate the GRUB script.
+# We use the explicit 'pw_key_protector_init' with '-p' to automate the password entry
+# so the test does not hang waiting for user input.
+cat > "${grub_cfg}" <<EOF
+loopback luks (host)${luksfile}
+file_key_protector_init -k (host)${keypart1}
+pw_key_protector_init -p "${passphrase}"
+mfa_key_protector_init -1 file -2 password
+if cryptomount -a --protector mfa; then
+    cat (crypto0)+1
+fi
+EOF
+
+${grubshell} --timeout=${timeout} < "${grub_cfg}" > "${testoutput}" || ret=$?
+
+if [ "${ret}" -eq 0 ]; then
+    if grep -q "^${vtext}$" "${testoutput}"; then
+	echo "MFA [File + Password]: PASS"
+	exit 0
+    else
+	echo "MFA [File + Password]: FAIL (Verification text not found)"
+	echo "Output was:"
+	cat "${testoutput}"
+	exit 1
+    fi
+else
+    echo "grub-emu exited with error: ${ret}" >&2
+    exit 99
+fi
