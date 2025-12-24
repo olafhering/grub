@@ -1089,6 +1089,11 @@ module = {
 };
 
 module = {
+  name = password_argon2;
+  common = commands/password_argon2.c;
+};
+
+module = {
   name = password_pbkdf2;
   common = commands/password_pbkdf2.c;
 };
