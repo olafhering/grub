@@ -355,6 +355,49 @@ cl_insert (struct cmdline_term *cl_terms, unsigned nterms,
     }
 }
 
+static void
+skip_word_rev (struct cmdline_term *cl_terms, unsigned nterms,
+	       grub_uint32_t *buf, grub_size_t *lpos,
+	       grub_size_t *llen, int delete)
+{
+  grub_size_t endpos = *lpos;
+  /* trailing whitespace sequence */
+  while (*lpos > 0 && grub_isspace(buf[*lpos - 1]))
+    --*lpos;
+  /* alphanumeric sequence */
+  while (*lpos > 0 && grub_isalnum(buf[*lpos - 1]))
+    --*lpos;
+  /* skip one char if the above logic yielded nothing and we can */
+  if (*lpos > 0 && endpos - *lpos == 0)
+    --*lpos;
+  cl_set_pos_all (cl_terms, nterms, *lpos);
+  if (delete)
+    cl_delete (cl_terms, nterms, buf, *lpos, llen, endpos - *lpos);
+}
+
+static void
+skip_word_fwd (struct cmdline_term *cl_terms, unsigned nterms,
+	       grub_uint32_t *buf, grub_size_t *lpos,
+	       grub_size_t *llen, int delete)
+{
+  grub_size_t endpos = *lpos;
+  /* leading whitespace sequence */
+  while (endpos < *llen && grub_isspace(buf[endpos]))
+    ++endpos;
+  /* alphanumeric sequence */
+  while (endpos < *llen && grub_isalnum(buf[endpos]))
+    ++endpos;
+  /* skip one char if the above logic yielded nothing and we can */
+  if (endpos < *llen && endpos - *lpos == 0)
+    ++endpos;
+  if (delete)
+    cl_delete (cl_terms, nterms, buf, *lpos, llen, endpos - *lpos);
+  else
+    {
+      *lpos = endpos;
+      cl_set_pos_all (cl_terms, nterms, *lpos);
+    }
+}
 
 /* Get a command-line. If ESC is pushed, return zero,
    otherwise return command line.  */
@@ -646,6 +689,23 @@ grub_cmdline_get (const char *prompt_translated)
 	case GRUB_TERM_CTRL | 'y':
 	  if (kill_buf)
 	    cl_insert (cl_terms, nterms, &lpos, &llen, &max_len, &buf, kill_buf);
+	  break;
+
+	case GRUB_TERM_CTRL | GRUB_TERM_KEY_LEFT:
+	  skip_word_rev (cl_terms, nterms, buf, &lpos, &llen, 0);
+	  break;
+
+	case GRUB_TERM_CTRL | GRUB_TERM_KEY_RIGHT:
+	  skip_word_fwd (cl_terms, nterms, buf, &lpos, &llen, 0);
+	  break;
+
+	case GRUB_TERM_CTRL | 'w':
+	case GRUB_TERM_ALT | GRUB_TERM_BACKSPACE:
+	  skip_word_rev (cl_terms, nterms, buf, &lpos, &llen, 1);
+	  break;
+
+	case GRUB_TERM_CTRL | GRUB_TERM_KEY_DC:
+	  skip_word_fwd (cl_terms, nterms, buf, &lpos, &llen, 1);
 	  break;
 
 	case GRUB_TERM_ESC:
