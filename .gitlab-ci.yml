@@ -1,0 +1,81 @@
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+default:
+  image: quay.io/grub/debian-trixie-grub
+
+stages:
+  - pages
+  - bootstrap
+  - build
+
+pages:
+  stage: pages
+  image: ruby:3.2
+  script:
+    - gem install bundler
+    - bundle install
+    - bundle exec jekyll build -d public
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - index.html
+  artifacts:
+    paths:
+      - public
+
+bootstrap:
+  stage: bootstrap
+  script:
+    - ./bootstrap
+  artifacts:
+    when: always
+    untracked: true
+    paths:
+      - gnulib/
+
+build:
+  stage: build
+  dependencies:
+    - bootstrap
+  script:
+    - |
+      set -x
+      PATH="$CROSS_C/ia64-linux/bin:$CROSS_C/loongarch64-linux/bin:$CROSS_C/riscv32-linux/bin:$PATH"
+      i="${TARGET}"
+      j="${PLATFORM}"
+      if [ "$j" = efi ] && [ "$i" != ia64-linux ] && [ "$i" != loongarch64-linux ] && [ "$i" != riscv64-linux-gnu ]; then
+        ./configure --target="$i" --with-platform="$j" --enable-stack-protector --enable-grub-mkfont --prefix="$(pwd)/grub-dist"
+      else
+        ./configure --target="$i" --with-platform="$j" --enable-grub-mkfont --prefix="$(pwd)/grub-dist"
+      fi
+      make --quiet install
+      make --quiet distclean
+  parallel:
+    matrix:
+      - TARGET: aarch64-linux-gnu
+        PLATFORM: [efi]
+      - TARGET: arm-linux-gnueabihf
+        PLATFORM: [coreboot, efi, uboot]
+      - TARGET: i386
+        PLATFORM: [coreboot, efi, ieee1275, multiboot, pc, qemu, xen, xen_pvh]
+      - TARGET: ia64-linux
+        PLATFORM: [efi]
+      - TARGET: loongarch64-linux
+        PLATFORM: [efi]
+      - TARGET: mips-linux-gnu
+        PLATFORM: [arc, qemu_mips]
+      - TARGET: mipsel-linux-gnu
+        PLATFORM: [arc, loongson, qemu_mips]
+      - TARGET: powerpc64-linux-gnu
+        PLATFORM: [ieee1275]
+      - TARGET: riscv32-linux
+        PLATFORM: [efi]
+      - TARGET: riscv64-linux-gnu
+        PLATFORM: [efi]
+      - TARGET: sparc64-linux-gnu
+        PLATFORM: [ieee1275]
+      - TARGET: x86_64
+        PLATFORM: [efi, emu, xen]
