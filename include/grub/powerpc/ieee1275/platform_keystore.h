@@ -96,7 +96,6 @@ struct grub_pks
 };
 typedef struct grub_pks grub_pks_t;
 
-#if defined(__powerpc__)
 /* Initialization of the Platform Keystore. */
 extern void
 grub_pks_keystore_init (void);
@@ -108,16 +107,4 @@ EXPORT_FUNC (grub_pks_get_keystore) (void);
 /* Free allocated memory. */
 extern void
 EXPORT_FUNC (grub_pks_free_data) (void);
-#else
-static inline grub_pks_t *
-grub_pks_get_keystore (void)
-{
-  return NULL;
-}
-
-static inline void
-grub_pks_free_data (void)
-{
-}
-#endif /* __powerpc__ */
 #endif

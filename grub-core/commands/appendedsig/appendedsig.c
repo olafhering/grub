@@ -33,7 +33,9 @@
 #include <libtasn1.h>
 #include <grub/env.h>
 #include <grub/lockdown.h>
+#if !defined(GRUB_MACHINE_EMU)
 #include <grub/powerpc/ieee1275/platform_keystore.h>
+#endif
 #include <grub/efi/pks.h>
 
 #include "appendedsig.h"
@@ -123,8 +125,10 @@ static bool check_sigs = false;
  */
 static bool append_key_mgmt = false;
 
+#if !defined(GRUB_MACHINE_EMU)
 /* Platform KeyStore db and dbx. */
 static grub_pks_t *pks_keystore;
+#endif
 
 /* Appended signature size. */
 static grub_size_t append_sig_len = 0;
@@ -344,6 +348,7 @@ add_hash (grub_uint8_t *const data, const grub_size_t data_size, sb_database_t *
   return GRUB_ERR_NONE;
 }
 
+#if !defined(GRUB_MACHINE_EMU)
 static bool
 is_hash (const grub_packed_guid_t *guid)
 {
@@ -370,6 +375,7 @@ is_x509 (const grub_packed_guid_t *guid)
 
   return false;
 }
+#endif
 
 static bool
 is_cert_match (const grub_x509_cert_t *cert1, const grub_x509_cert_t *cert2)
@@ -1269,6 +1275,7 @@ grub_cmd_add_dbx_hash (grub_extcmd_context_t ctxt, int argc __attribute__ ((unus
   return rc;
 }
 
+#if !defined(GRUB_MACHINE_EMU)
 /* Add the X.509 certificates/binary hash to the db list from PKS. */
 static grub_err_t
 load_pks2db (void)
@@ -1330,6 +1337,7 @@ load_pks2dbx (void)
 
   return GRUB_ERR_NONE;
 }
+#endif
 
 /*
  * Extract the X.509 certificates from the ELF Note header, parse it, and add
@@ -1378,6 +1386,7 @@ load_elf2db (void)
 static void
 create_dbs_from_pks (void)
 {
+#if !defined(GRUB_MACHINE_EMU)
   grub_err_t err;
 
   err = load_pks2dbx ();
@@ -1402,6 +1411,7 @@ create_dbs_from_pks (void)
                 "the dbx list now has %u keys\n",
                 db.hash_entries + db.cert_entries,
                 dbx.hash_entries + dbx.cert_entries);
+#endif
 }
 
 /* Free db list memory */
@@ -1611,10 +1621,12 @@ GRUB_MOD_INIT (appendedsig)
   if (grub_is_lockdown () == GRUB_LOCKDOWN_ENABLED)
     check_sigs = true;
 
+#if !defined(GRUB_MACHINE_EMU)
   /* If PKS keystore is available, use dynamic key management. */
   pks_keystore = grub_pks_get_keystore ();
   if (pks_keystore != NULL)
     append_key_mgmt = true;
+#endif
 
   /*
    * This is appended signature verification environment variable. It is
