@@ -863,6 +863,11 @@ copy_locales (const char *dstd)
 		  || grub_strcmp (ext, ".gmo") == 0))
 	{
 	  srcf = grub_util_path_concat (2, locale_dir, de->d_name);
+	  if (grub_util_is_directory (srcf))
+	    {
+	      free (srcf);
+	      continue;
+	    }
 	  dstf = grub_util_path_concat (2, dstd, de->d_name);
 	  ext = grub_strrchr (dstf, '.');
 	  grub_strcpy (ext, ".mo");
