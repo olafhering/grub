@@ -54,8 +54,8 @@ esac
 if ( [ "x${GRUB_DEVICE_UUID}" = "x" ] && [ "x${GRUB_DEVICE_PARTUUID}" = "x" ] ) \
     || ( [ "x${GRUB_DISABLE_LINUX_UUID}" = "xtrue" ] \
 	&& [ "x${GRUB_DISABLE_LINUX_PARTUUID}" = "xtrue" ] ) \
-    || ( ! test -e "/dev/disk/by-uuid/${GRUB_DEVICE_UUID}" \
-	&& ! test -e "/dev/disk/by-partuuid/${GRUB_DEVICE_PARTUUID}" ) \
+    || ( ! findfs UUID="${GRUB_DEVICE_UUID}" > /dev/null 2>&1 \
+	&& ! findfs PARTUUID="${GRUB_DEVICE_PARTUUID}" > /dev/null 2>&1 ) \
     || ( test -e "${GRUB_DEVICE}" && uses_abstraction "${GRUB_DEVICE}" lvm ); then
   LINUX_ROOT_DEVICE=${GRUB_DEVICE}
 elif [ "x${GRUB_DEVICE_UUID}" = "x" ] \
