@@ -134,6 +134,7 @@ grub_mdraid_detect (grub_disk_t disk,
       struct grub_diskfilter_vg *array;
       char *uuid;
       grub_uint64_t sb_sz, data_end, sb_end;
+      grub_uint32_t raid_disks;
 
       if (size == GRUB_DISK_SIZE_UNKNOWN && minor_version == 0)
 	continue;
@@ -159,12 +160,14 @@ grub_mdraid_detect (grub_disk_t disk,
 	  || grub_le_to_cpu64 (sb.super_offset) != sector)
 	continue;
 
+      raid_disks = grub_le_to_cpu32 (sb.raid_disks);
+
       /*
        * The first check follows the Linux kernel's data_size
        * validation from v6.8-rc5.
        */
       if (grub_le_to_cpu64 (sb.data_size) < 10 ||
-	  grub_le_to_cpu64 (sb.raid_disks) > GRUB_MDRAID_MAX_DISKS)
+	  raid_disks > GRUB_MDRAID_MAX_DISKS)
 	{
 	  grub_dprintf ("mdraid1x", "Corrupted superblock\n");
 	  return NULL;
@@ -174,7 +177,7 @@ grub_mdraid_detect (grub_disk_t disk,
        * Total size of superblock: 256 bytes plus 2 bytes per device
        * in the array.
        */
-      sb_sz = sizeof (struct grub_raid_super_1x) + grub_le_to_cpu64 (sb.raid_disks) * 2;
+      sb_sz = sizeof (struct grub_raid_super_1x) + raid_disks * 2;
 
       if (grub_add (grub_le_to_cpu64 (sb.super_offset),
 		    (ALIGN_UP(sb_sz, GRUB_MD_SECTOR_SIZE) >> GRUB_MD_SECTOR_SHIFT), &sb_end))
