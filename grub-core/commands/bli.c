@@ -75,9 +75,11 @@ get_part_uuid (const char *device_name, char **part_uuid)
 
   if (grub_strcmp (device->disk->partition->partmap->name, "gpt") != 0)
     {
-      status = grub_error (GRUB_ERR_BAD_PART_TABLE,
-			   N_("this is not a GPT partition table: %s"), device_name);
-      goto fail;
+      grub_dprintf ("bli", "%s is not a GPT partition, partuuid skipped\n", device_name);
+      *part_uuid = NULL;
+      grub_disk_close (disk);
+      grub_device_close (device);
+      return GRUB_ERR_NONE;
     }
 
   if (grub_disk_read (disk, device->disk->partition->offset,
@@ -120,7 +122,7 @@ set_loader_device_part_uuid (void)
     status = grub_efi_set_variable_to_string ("LoaderDevicePartUUID", &bli_vendor_guid, part_uuid,
 					      GRUB_EFI_VARIABLE_BOOTSERVICE_ACCESS |
 					      GRUB_EFI_VARIABLE_RUNTIME_ACCESS);
-  else
+  else if (status != GRUB_ERR_NONE)
     grub_error (status, N_("unable to determine partition UUID of boot device"));
 
   grub_free (part_uuid);
