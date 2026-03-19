@@ -52,7 +52,11 @@ build:
         ./configure --target="$i" --with-platform="$j" --enable-grub-mkfont --prefix="$(pwd)/grub-dist"
       fi
       make --quiet install
-      make --quiet distclean
+      make --quiet html
+      make --quiet pdf
+  artifacts:
+    untracked: true
+    expire_in: 1 week
   parallel:
     matrix:
       - TARGET: aarch64-linux-gnu
