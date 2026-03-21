@@ -1575,6 +1575,19 @@ backward compatibility with previous behaviour, <UUID>@@/dev/* is also accepted
 for non-EFI chainloaders even if the device does not match, and comma and
 semicolon are also accepted as separator.
 
+@item GRUB_BOOTNEXT_DISABLE
+If set to @samp{true}, @command{grub-mkconfig} will not generate
+@command{bootnext} menu entries for other EFI boot manager entries detected
+via @command{efibootmgr}.  This disables the entire
+@file{31_efi_bootnext} script.
+
+@item GRUB_BOOTNEXT_OMIT_INACTIVE
+If set to @samp{true}, @command{grub-mkconfig} will skip EFI boot manager
+entries that are marked inactive (i.e. not flagged active with @samp{*} in
+@command{efibootmgr} output) when generating @command{bootnext} menu entries.
+By default inactive entries are included, since @samp{BootNext} can target
+them even when they are absent from @samp{BootOrder}.
+
 @item GRUB_DISABLE_SUBMENU
 Normally, @command{grub-mkconfig} will generate top level menu entry for
 the kernel with highest version number and put all other found kernels
@@ -4098,6 +4111,7 @@ Modules can be loaded via the @command{insmod} (@pxref{insmod}) command.
 * dsa_sexp_test_module::
 * echo_module::
 * efi_gop_module::
+* efibootnext_module::
 * efiemu_module::
 * efifwsetup_module::
 * efinet_module::
@@ -4695,6 +4709,11 @@ This module provides support for the @command{echo} to display a line of text.
 @section efi_gop
 This module provides support for the UEFI video output protocol "Graphics
 Output Protocol" (GOP).
+
+@node efibootnext_module
+@section efibootnext
+This module provides support for the command @command{bootnext} to set the
+UEFI @samp{BootNext} variable.  @xref{bootnext} for more information.
 
 @node efiemu_module
 @section efiemu
@@ -6679,6 +6698,7 @@ you forget a command, you can run the command @command{help}
 * blocklist::                   Print a block list
 * blscfg::                      Load Boot Loader Specification menu entries
 * boot::                        Start up your operating system
+* bootnext::                    Set EFI BootNext variable
 * cat::                         Show the contents of a file
 * clear::                       Clear the screen
 * cmosclean::                   Clear bit in CMOS
@@ -7085,6 +7105,18 @@ bootloaders.
 Boot the OS or chain-loader which has been loaded. Only necessary if
 running the fully interactive command-line (it is implicit at the end of
 a menu entry).
+@end deffn
+
+
+@node bootnext
+@subsection bootnext
+
+@deffn Command bootnext @var{[0x]XXXX}
+Set the UEFI @samp{BootNext} variable to @samp{Boot}@var{XXXX}, where
+@var{XXXX} is a hexadecimal boot entry number (with or without a @samp{0x}
+prefix).  The firmware will boot that entry exactly once on the next boot,
+without altering @samp{BootOrder}.  Use the @command{reboot} command
+afterwards to trigger the boot immediately.
 @end deffn
 
 

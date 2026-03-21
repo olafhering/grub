@@ -851,6 +851,12 @@ module = {
 };
 
 module = {
+  name = efibootnext;
+  efi = commands/efi/efibootnext.c;
+  enable = efi;
+};
+
+module = {
   name = efitextmode;
   efi = commands/efi/efitextmode.c;
   enable = efi;
