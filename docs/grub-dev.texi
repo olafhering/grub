@@ -888,7 +888,7 @@ overwritten at the breakpoint and will put them back when the breakpoint
 is hit. If GRUB is being run for the first time in QEMU, the firmware will
 be loading the GRUB image into memory where every byte is already set to 0.
 This means that if a breakpoint is set before GRUB is loaded, GDB will save
-the 0-byte(s) where the the special instruction will go. Then when the firmware
+the 0-byte(s) where the special instruction will go. Then when the firmware
 loads the GRUB image and because it is unaware of the debugger, it will
 write the GRUB image to memory, overwriting anything that was there previously ---
 notably in this case the instruction that implements the software breakpoint.

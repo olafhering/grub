@@ -3179,7 +3179,7 @@ Move to the start of the line.
 
 @item C-e
 @itemx END
-Move the the end of the line.
+Move the end of the line.
 
 @item C-d
 @itemx DEL
@@ -11125,7 +11125,7 @@ Set the key protector. Currently, @samp{tpm2} is the only supported key
 protector.
 
 @item --tpm2-asymmetric=@var{type}
-Choose the the type of SRK. The valid options are @samp{RSA} (@samp{RSA2048})
+Choose the type of SRK. The valid options are @samp{RSA} (@samp{RSA2048})
 and @samp{ECC} (@samp{ECC_NIST_P256}).(default: @samp{ECC})
 
 @item --tpm2-bank=@var{alg}

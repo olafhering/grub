@@ -34,7 +34,7 @@ static const char *names[] =
        and which can be used by OS once it loads ACPI tables.  */
     [GRUB_MEMORY_ACPI] = N_("ACPI reclaimable RAM"),
     /* TRANSLATORS: this refers to memory which ACPI-compliant OS
-       is required to save accross hibernations.  */
+       is required to save across hibernations.  */
     [GRUB_MEMORY_NVS] = N_("ACPI non-volatile storage RAM"),
     [GRUB_MEMORY_BADRAM] = N_("faulty RAM (BadRAM)"),
     [GRUB_MEMORY_PERSISTENT] = N_("persistent RAM"),

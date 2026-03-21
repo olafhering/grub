@@ -243,7 +243,7 @@ grub_gui_restore_viewport (const grub_video_rect_t *r)
   grub_video_set_viewport (r->x, r->y, r->width, r->height);
 }
 
-/* Set a new viewport relative the the current one, saving the current
+/* Set a new viewport relative the current one, saving the current
    viewport in OLD so it can be later restored.  */
 static __inline void
 grub_gui_set_viewport (const grub_video_rect_t *r, grub_video_rect_t *old)

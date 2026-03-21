@@ -470,7 +470,7 @@ grub_memalign (grub_size_t align, grub_size_t size)
   grow = size + align;
 
   /* We currently assume at least a 32-bit grub_size_t,
-     so limiting allocations to <adress space size> - 1MiB
+     so limiting allocations to <address space size> - 1MiB
      in name of sanity is beneficial. */
   if (grow > ~(grub_size_t) 0x100000)
     goto fail;

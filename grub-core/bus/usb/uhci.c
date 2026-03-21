@@ -750,13 +750,13 @@ grub_uhci_portstatus (grub_usb_controller_t dev,
   /* Reset the port.  */
   status = grub_uhci_readreg16 (u, reg) & ~GRUB_UHCI_PORTSC_RWC;
   grub_uhci_writereg16 (u, reg, status | (1 << 9));
-  grub_uhci_readreg16 (u, reg); /* Ensure it is writen... */
+  grub_uhci_readreg16 (u, reg); /* Ensure it is written... */
 
   /* Wait for the reset to complete.  XXX: How long exactly?  */
   grub_millisleep (50); /* For root hub should be nominaly 50ms */
   status = grub_uhci_readreg16 (u, reg) & ~GRUB_UHCI_PORTSC_RWC;
   grub_uhci_writereg16 (u, reg, status & ~(1 << 9));
-  grub_uhci_readreg16 (u, reg); /* Ensure it is writen... */
+  grub_uhci_readreg16 (u, reg); /* Ensure it is written... */
 
   /* Note: some debug prints were removed because they affected reset/enable timing. */
 
@@ -765,12 +765,12 @@ grub_uhci_portstatus (grub_usb_controller_t dev,
   /* Reset bits Connect & Enable Status Change */
   status = grub_uhci_readreg16 (u, reg) & ~GRUB_UHCI_PORTSC_RWC;
   grub_uhci_writereg16 (u, reg, status | (1 << 3) | GRUB_UHCI_REG_PORTSC_CONNECT_CHANGED);
-  grub_uhci_readreg16 (u, reg); /* Ensure it is writen... */
+  grub_uhci_readreg16 (u, reg); /* Ensure it is written... */
 
   /* Enable the port.  */
   status = grub_uhci_readreg16 (u, reg) & ~GRUB_UHCI_PORTSC_RWC;
   grub_uhci_writereg16 (u, reg, status | (1 << 2));
-  grub_uhci_readreg16 (u, reg); /* Ensure it is writen... */
+  grub_uhci_readreg16 (u, reg); /* Ensure it is written... */
 
   endtime = grub_get_time_ms () + 1000;
   while (! ((status = grub_uhci_readreg16 (u, reg)) & (1 << 2)))

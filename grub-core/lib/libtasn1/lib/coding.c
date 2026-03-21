@@ -253,7 +253,7 @@ asn1_encode_simple_der (unsigned int etype, const unsigned char *str,
 /*   der: string returned.                            */
 /*   der_len: number of meaningful bytes of DER       */
 /*            (der[0]..der[ans_len-1]). Initially it  */
-/*            if must store the lenght of DER.        */
+/*            if must store the length of DER.        */
 /* Return:                                            */
 /*   ASN1_MEM_ERROR when DER isn't big enough         */
 /*   ASN1_SUCCESS otherwise                           */
