@@ -1073,6 +1073,12 @@ uki_create_entry (grub_blsuki_entry_t *entry)
 	}
     }
 
+  if (title == NULL)
+    {
+      grub_dprintf ("blsuki", "Skipping file %s with no 'PRETTY_NAME' in '.osrel'.\n", entry->filename);
+      goto finish;
+    }
+
   options = blsuki_get_val (entry, ".cmdline", NULL);
 
   argv = grub_zalloc (2 * sizeof (char *));
