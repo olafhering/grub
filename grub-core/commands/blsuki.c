@@ -1059,6 +1059,8 @@ uki_create_entry (grub_blsuki_entry_t *entry)
   char *title = NULL;
   char *options = NULL;
   char *osrel, *osrel_line;
+  char *uname = NULL;
+  char *full_title = NULL;
   char *key = NULL;
   char *value = NULL;
   char *src = NULL;
@@ -1091,6 +1093,16 @@ uki_create_entry (grub_blsuki_entry_t *entry)
       goto finish;
     }
 
+  uname = blsuki_get_val (entry, ".uname", NULL);
+
+  if (uname != NULL)
+    {
+      title = grub_xasprintf ("%s (%s)", title, uname);
+
+      /* Save grub_xasprintf() result for freeing later */
+      full_title = title;
+    }
+
   options = blsuki_get_val (entry, ".cmdline", NULL);
 
   argv = grub_zalloc (2 * sizeof (char *));
@@ -1109,6 +1121,7 @@ uki_create_entry (grub_blsuki_entry_t *entry)
   grub_normal_add_menu_entry (1, argv, NULL, id, NULL, NULL, NULL, src, 0, entry);
 
  finish:
+  grub_free (full_title);
   grub_free (argv);
   grub_free (src);
   grub_free (options);
