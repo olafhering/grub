@@ -956,6 +956,8 @@ bls_create_entry (grub_blsuki_entry_t *entry)
   int argc = 0;
   const char **argv = NULL;
   char *title = NULL;
+  char *version = NULL;
+  char *full_title = NULL;
   char *linux_path = NULL;
   char *linux_cmd = NULL;
   char *initrd_cmd = NULL;
@@ -983,6 +985,7 @@ bls_create_entry (grub_blsuki_entry_t *entry)
     id[id_len - BLS_EXT_LEN] = '\0';
 
   title = blsuki_get_val (entry, "title", NULL);
+  version = blsuki_get_val (entry, "version", NULL);
   hotkey = blsuki_get_val (entry, "grub_hotkey", NULL);
   users = blsuki_expand_val (blsuki_get_val (entry, "grub_users", NULL));
   classes = blsuki_make_list (entry, "grub_class", NULL);
@@ -998,6 +1001,14 @@ bls_create_entry (grub_blsuki_entry_t *entry)
   argv = grub_malloc (size);
   if (argv == NULL)
     goto finish;
+
+  if (title != NULL && version != NULL)
+    {
+      title = grub_xasprintf ("%s (%s)", title, version);
+
+      /* Save grub_xasprintf() result for freeing later */
+      full_title = title;
+    }
 
   argv[0] = (title != NULL) ? title : linux_path;
   for (i = 1; i < argc; i++)
@@ -1025,6 +1036,7 @@ bls_create_entry (grub_blsuki_entry_t *entry)
   grub_normal_add_menu_entry (argc, argv, classes, id, users, hotkey, NULL, src, 0, entry);
 
  finish:
+  grub_free (full_title);
   grub_free (linux_cmd);
   grub_free (dt_cmd);
   grub_free (initrd_cmd);
