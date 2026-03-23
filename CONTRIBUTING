@@ -1,0 +1,48 @@
+Repository
+----------
+
+Since March 2026, GRUB repository moved from [1] into [2], see announcement [3] for
+further detail, where [2] is now a GitLab instance hosted on Freedesktop (https://www.freedesktop.org/wiki/).
+This means that [1] is no longer the main repository and latest upstream is
+tracked at [2]. This is an important change on the project's history, adopting newer
+tools to track contributions, provide feedback and tests for every change in a better
+and transparent way.
+
+Contributing
+------------
+
+If this is your first time contributing, create and account at [4] then request new account
+verification at [5] (required to avoid malicious actors). Fortunately, this is an only-once task.
+
+Once your account has been created and validated, fork [2] into your userspace, do your proper
+changes, e.g. bug fixes, enhancements, etc. and finally create a standard merge-request MR as any
+other gitlab/github project you have worked on in the past. If you do not know how to create
+a MR, please follow the general instructions at [6].
+
+Reviewers' workload changes from time to time, but you should expect comments on your MR(s) during the
+first days after submission, however keep in mind that this may take longer when complexity on the
+proposed change is higher but we are doing the best to keep the push-review-merge window as short
+as possible on any type of contribution.
+
+Issues
+------
+
+Issues can be created at [7], just make sure you have an account (and validated) as indicated above.
+
+Mailing list
+------------
+
+As with the code repository, the project migrated from the GNU mailing list [8] into freedesktop [9],
+so please use the latter for any concern or help you may need. Remember that [9] is no longer used for
+code contributions, these are done through merge-requests as explained above,  it it just an
+standard mailing-list used for asking questions and announcements.
+
+[1] https://cgit.git.savannah.gnu.org/cgit/grub.git
+[2] https://gitlab.freedesktop.org/gnu-grub/grub/
+[3] https://lists.gnu.org/archive/html/grub-devel/2026-03/msg00036.html
+[4] https://gitlab.freedesktop.org/users/sign_up
+[5] https://gitlab.freedesktop.org/freedesktop/freedesktop/-/wikis/home
+[6] https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/
+[7] https://gitlab.freedesktop.org/gnu-grub/grub/-/issues
+[8] https://lists.gnu.org/mailman/listinfo/grub-devel
+[9] https://lists.freedesktop.org/postorius/lists/grub-devel.lists.freedesktop.org/
