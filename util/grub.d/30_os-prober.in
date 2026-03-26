@@ -2,7 +2,7 @@
 set -e
 
 # grub-mkconfig helper script.
-# Copyright (C) 2006,2007,2008,2009  Free Software Foundation, Inc.
+# Copyright (C) 2006,2007,2008,2009,2026  Free Software Foundation, Inc.
 #
 # GRUB is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -54,8 +54,9 @@ osx_entry() {
     fi
     # TRANSLATORS: it refers on the OS residing on device %s
     onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
+        allowed_user_list="$(grub_get_auth_user_list $GRUB_SIMPLE_ACCESS_LEVEL)"
         cat << EOF
-menuentry '$(echo "${LONGNAME} $bitstr $onstr" | grub_quote)' --class osx --class darwin --class os \$menuentry_id_option 'osprober-xnu-$2-$(grub_get_device_id "${DEVICE}")'  {
+menuentry '$(echo "${LONGNAME} $bitstr $onstr" | grub_quote)' --class osx --class darwin --class os \$menuentry_id_option 'osprober-xnu-$2-$(grub_get_device_id "${DEVICE}")'  ${allowed_user_list}{
 EOF
 	save_default_entry | grub_add_tab
 	prepare_grub_to_access_device ${DEVICE} | grub_add_tab
@@ -161,10 +162,11 @@ for OS in ${OSPROBED} ; do
     chain)
 
 	  onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
+	  allowed_user_list="$(grub_get_auth_user_list $GRUB_SIMPLE_ACCESS_LEVEL)"
       cat << EOF
 # This menu entry is supported only on PC BIOS platforms.
 if [ "\$grub_platform" = "pc" ]; then
-menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' $CLASS --class os \$menuentry_id_option 'osprober-chain-$(grub_get_device_id "${DEVICE}")' {
+menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' $CLASS --class os \$menuentry_id_option 'osprober-chain-$(grub_get_device_id "${DEVICE}")' ${allowed_user_list}{
 EOF
       save_default_entry | grub_add_tab
       prepare_grub_to_access_device ${DEVICE} | grub_add_tab
@@ -196,10 +198,11 @@ EOF
 	EFIPATH=${DEVICE#*@}
 	DEVICE=${DEVICE%@*}
 	onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
+	allowed_user_list="$(grub_get_auth_user_list $GRUB_SIMPLE_ACCESS_LEVEL)"
       cat << EOF
 # This menu entry is supported only on EFI platforms.
 if [ "\$grub_platform" = "efi" ]; then
-menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' $CLASS --class os \$menuentry_id_option 'osprober-efi-$(grub_get_device_id "${DEVICE}")' {
+menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' $CLASS --class os \$menuentry_id_option 'osprober-efi-$(grub_get_device_id "${DEVICE}")' ${allowed_user_list}{
 EOF
       save_default_entry | sed -e "s/^/\t/"
       prepare_grub_to_access_device ${DEVICE} | sed -e "s/^/\t/"
@@ -263,8 +266,9 @@ EOF
 	fi
 
 	if [ "x$is_top_level" = xtrue ] && [ "x${GRUB_DISABLE_SUBMENU}" != xtrue ]; then
+            allowed_user_list="$(grub_get_auth_user_list $GRUB_SIMPLE_ACCESS_LEVEL)"
             cat << EOF
-menuentry '$(echo "$OS $onstr" | grub_quote)' $CLASS --class gnu-linux --class gnu --class os \$menuentry_id_option 'osprober-gnulinux-simple-$boot_device_id' {
+menuentry '$(echo "$OS $onstr" | grub_quote)' $CLASS --class gnu-linux --class gnu --class os \$menuentry_id_option 'osprober-gnulinux-simple-$boot_device_id' ${allowed_user_list}{
 EOF
 	    save_default_entry | grub_add_tab
 	    printf '%s\n' "${prepare_boot_cache}"
@@ -279,12 +283,14 @@ EOF
         cat << EOF
 }
 EOF
-	    echo "submenu '$(gettext_printf "Advanced options for %s" "${OS} $onstr" | grub_quote)' \$menuentry_id_option 'osprober-gnulinux-advanced-$boot_device_id' {"
+	    echo "submenu '$(gettext_printf "Advanced options for %s" "${OS} $onstr" | grub_quote)' \$menuentry_id_option 'osprober-gnulinux-advanced-$boot_device_id' $(grub_echo_unrestricted_maybe){"
 	    is_top_level=false
 	fi
 	title="${LLABEL} $onstr"
+        ## No recovery modes are included here.
+	allowed_user_list="$(grub_get_auth_user_list $GRUB_ADVANCED_ACCESS_LEVEL)"
         cat << EOF
-	menuentry '$(echo "$title" | grub_quote)' --class gnu-linux --class gnu --class os \$menuentry_id_option 'osprober-gnulinux-$LKERNEL-${recovery_params}-$boot_device_id' {
+	menuentry '$(echo "$title" | grub_quote)' --class gnu-linux --class gnu --class os \$menuentry_id_option 'osprober-gnulinux-$LKERNEL-${recovery_params}-$boot_device_id' ${allowed_user_list}{
 EOF
 	save_default_entry | sed -e "s/^/$grub_tab$grub_tab/"
 	printf '%s\n' "${prepare_boot_cache}" | grub_add_tab
@@ -320,8 +326,9 @@ EOF
     ;;
     hurd)
       onstr="$(gettext_printf "(on %s)" "${DEVICE}")"
+      allowed_user_list="$(grub_get_auth_user_list $GRUB_SIMPLE_ACCESS_LEVEL)"
       cat << EOF
-menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' --class hurd --class gnu --class os \$menuentry_id_option 'osprober-gnuhurd-/boot/gnumach.gz-false-$(grub_get_device_id "${DEVICE}")' {
+menuentry '$(echo "${LONGNAME} $onstr" | grub_quote)' --class hurd --class gnu --class os \$menuentry_id_option 'osprober-gnuhurd-/boot/gnumach.gz-false-$(grub_get_device_id "${DEVICE}")' ${allowed_user_list}{
 EOF
       save_default_entry | grub_add_tab
       prepare_grub_to_access_device ${DEVICE} | grub_add_tab
@@ -345,8 +352,9 @@ EOF
 EOF
     ;;
     minix)
+	  allowed_user_list="$(grub_get_auth_user_list $GRUB_SIMPLE_ACCESS_LEVEL)"
 	  cat << EOF
-menuentry "${LONGNAME} (on ${DEVICE}, Multiboot)" {
+menuentry "${LONGNAME} (on ${DEVICE}, Multiboot)" ${allowed_user_list}{
 EOF
          save_default_entry | sed -e "s/^/\t/"
          prepare_grub_to_access_device ${DEVICE} | sed -e "s/^/\t/"

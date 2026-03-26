@@ -2,7 +2,7 @@
 set -e
 
 # grub-mkconfig helper script.
-# Copyright (C) 2006,2007,2008,2009,2010  Free Software Foundation, Inc.
+# Copyright (C) 2006,2007,2008,2009,2010,2026  Free Software Foundation, Inc.
 #
 # GRUB is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -115,9 +115,11 @@ hurd_entry () {
       if [ x$type = xrecovery ] ; then
 	  title="$(gettext_printf "%s, with Hurd %s (recovery mode)" "${OS}" "${kernel_base}")"
 	  oldtitle="$OS using $kernel_base (recovery mode)"
+	  allowed_user_list="$(grub_get_auth_user_list $GRUB_RECOVERY_ACCESS_LEVEL)"
       else
 	  title="$(gettext_printf "%s, with Hurd %s" "${OS}" "${kernel_base}")"
 	  oldtitle="$OS using $kernel_base"
+	  allowed_user_list="$(grub_get_auth_user_list $GRUB_ADVANCED_ACCESS_LEVEL)"
       fi
       if [ x"$oldtitle" = x"$GRUB_ACTUAL_DEFAULT" ]; then
 	  quoted="$(echo "$GRUB_ACTUAL_DEFAULT" | grub_quote)"
@@ -125,11 +127,12 @@ hurd_entry () {
 	  grub_warn "$(gettext_printf "Please don't use old title \`%s' for GRUB_DEFAULT, use \`%s' (for versions before 2.00) or \`%s' (for 2.00 or later)" "$GRUB_ACTUAL_DEFAULT" "$replacement_title" "gnuhurd-advanced-$boot_device_id>'gnuhurd-$kernel-$type-$(grub_get_device_id "${GRUB_DEVICE_BOOT}")'")"
       fi
       sed "s/^/$submenu_indentation/" << EOF
-menuentry '$(echo "$title" | grub_quote)' ${CLASS} \$menuentry_id_option 'gnuhurd-$kernel-$type-$(grub_get_device_id "${GRUB_DEVICE_BOOT}")' {
+menuentry '$(echo "$title" | grub_quote)' ${CLASS} \$menuentry_id_option 'gnuhurd-$kernel-$type-$(grub_get_device_id "${GRUB_DEVICE_BOOT}")' ${allowed_user_list}{
 EOF
   else
+      allowed_user_list="$(grub_get_auth_user_list $GRUB_SIMPLE_ACCESS_LEVEL)"
       sed "s/^/$submenu_indentation/" << EOF
-menuentry '$(echo "$OS" | grub_quote)' ${CLASS} \$menuentry_id_option 'gnuhurd-simple-$(grub_get_device_id "${GRUB_DEVICE_BOOT}")' {
+menuentry '$(echo "$OS" | grub_quote)' ${CLASS} \$menuentry_id_option 'gnuhurd-simple-$(grub_get_device_id "${GRUB_DEVICE_BOOT}")' ${allowed_user_list}{
 EOF
   fi
 
@@ -256,7 +259,7 @@ for kernel in ${reverse_sorted_kernels}; do
       submenu_indentation="$grub_tab"
     
       # TRANSLATORS: %s is replaced with an OS name
-      echo "submenu '$(gettext_printf "Advanced options for %s" "${OS}" | grub_quote)' \$menuentry_id_option 'gnuhurd-advanced-$(grub_get_device_id "${GRUB_DEVICE_BOOT}")' {"
+      echo "submenu '$(gettext_printf "Advanced options for %s" "${OS}" | grub_quote)' \$menuentry_id_option 'gnuhurd-advanced-$(grub_get_device_id "${GRUB_DEVICE_BOOT}")' $(grub_echo_unrestricted_maybe){"
       is_top_level=false
   fi
 

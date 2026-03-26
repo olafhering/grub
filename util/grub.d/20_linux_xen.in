@@ -2,7 +2,7 @@
 set -e
 
 # grub-mkconfig helper script.
-# Copyright (C) 2006,2007,2008,2009,2010  Free Software Foundation, Inc.
+# Copyright (C) 2006,2007,2008,2009,2010,2026  Free Software Foundation, Inc.
 #
 # GRUB is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -120,8 +120,10 @@ linux_entry_xsm ()
   fi
   if [ x$type != xsimple ] ; then
       if [ x$type = xrecovery ] ; then
+	  allowed_user_list="$(grub_get_auth_user_list $GRUB_RECOVERY_ACCESS_LEVEL)"
 	  title="$(gettext_printf "%s, with Xen %s and Linux %s (recovery mode)" "${os}" "${entry_xen_version}" "${version}")"
       else
+	  allowed_user_list="$(grub_get_auth_user_list $GRUB_ADVANCED_ACCESS_LEVEL)"
 	  title="$(gettext_printf "%s, with Xen %s and Linux %s" "${os}" "${entry_xen_version}" "${version}")"
       fi
       replacement_title="$(echo "Advanced options for ${OS}" | sed 's,>,>>,g')>$(echo "$title" | sed 's,>,>>,g')"
@@ -130,10 +132,11 @@ linux_entry_xsm ()
          title_correction_code="${title_correction_code}if [ \"x\$default\" = '$quoted' ]; then default='$(echo "$replacement_title" | grub_quote)'; fi;"
          grub_warn "$(gettext_printf "Please don't use old title \`%s' for GRUB_DEFAULT, use \`%s' (for versions before 2.00) or \`%s' (for 2.00 or later)" "$GRUB_ACTUAL_DEFAULT" "$replacement_title" "gnulinux-advanced-$boot_device_id>gnulinux-$version-$type-$boot_device_id")"
       fi
-      echo "menuentry '$(echo "$title" | grub_quote)' ${CLASS} \$menuentry_id_option 'xen-gnulinux-$version-$type-$boot_device_id' {" | sed "s/^/$submenu_indentation/"
+      echo "menuentry '$(echo "$title" | grub_quote)' ${CLASS} \$menuentry_id_option 'xen-gnulinux-$version-$type-$boot_device_id' ${allowed_user_list}{" | sed "s/^/$submenu_indentation/"
   else
+      allowed_user_list="`grub_get_auth_user_list $GRUB_SIMPLE_ACCESS_LEVEL`"
       title="$(gettext_printf "%s, with Xen hypervisor" "${os}")"
-      echo "menuentry '$(echo "$title" | grub_quote)' ${CLASS} \$menuentry_id_option 'xen-gnulinux-simple-$boot_device_id' {" | sed "s/^/$submenu_indentation/"
+      echo "menuentry '$(echo "$title" | grub_quote)' ${CLASS} \$menuentry_id_option 'xen-gnulinux-simple-$boot_device_id' ${allowed_user_list}{" | sed "s/^/$submenu_indentation/"
   fi
   if [ x$type != xrecovery ] ; then
       save_default_entry | grub_add_tab | sed "s/^/$submenu_indentation/"
@@ -262,7 +265,7 @@ for current_xen in ${reverse_sorted_xen_list}; do
 	boot_device_id="$(grub_get_device_id "${GRUB_DEVICE}")"
     fi
     if [ "x$is_top_level" != xtrue ]; then
-	echo "	submenu '$(gettext_printf "Xen hypervisor, version %s" "${xen_version}" | grub_quote)' \$menuentry_id_option 'xen-hypervisor-$xen_version-$boot_device_id' {"
+	echo "	submenu '$(gettext_printf "Xen hypervisor, version %s" "${xen_version}" | grub_quote)' \$menuentry_id_option 'xen-hypervisor-$xen_version-$boot_device_id' $(grub_echo_unrestricted_maybe){"
     fi
     if ($grub_file --is-arm64-efi $current_xen); then
 	xen_loader="xen_hypervisor"
@@ -354,8 +357,8 @@ for current_xen in ${reverse_sorted_xen_list}; do
 		boot_device_id="$(grub_get_device_id "${GRUB_DEVICE}")"
 	    fi
             # TRANSLATORS: %s is replaced with an OS name
-	    echo "submenu '$(gettext_printf "Advanced options for %s (with Xen hypervisor)" "${OS}" | grub_quote)' \$menuentry_id_option 'gnulinux-advanced-$boot_device_id' {"
-	echo "	submenu '$(gettext_printf "Xen hypervisor, version %s" "${xen_version}" | grub_quote)' \$menuentry_id_option 'xen-hypervisor-$xen_version-$boot_device_id' {"
+	    echo "submenu '$(gettext_printf "Advanced options for %s (with Xen hypervisor)" "${OS}" | grub_quote)' \$menuentry_id_option 'gnulinux-advanced-$boot_device_id' $(grub_echo_unrestricted_maybe){"
+	echo "	submenu '$(gettext_printf "Xen hypervisor, version %s" "${xen_version}" | grub_quote)' \$menuentry_id_option 'xen-hypervisor-$xen_version-$boot_device_id' $(grub_echo_unrestricted_maybe){"
 	   is_top_level=false
 	fi
 

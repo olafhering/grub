@@ -2,7 +2,7 @@
 set -e
 
 # grub-mkconfig helper script.
-# Copyright (C) 2006,2007,2008,2009,2010,2011  Free Software Foundation, Inc.
+# Copyright (C) 2006,2007,2008,2009,2010,2011,2026  Free Software Foundation, Inc.
 #
 # GRUB is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,9 @@ case "${GRUB_DISTRIBUTOR}" in
   ;;
 esac
 
-echo "menuentry '$(echo "$OS" | grub_quote)' ${CLASS} \$menuentry_id_option 'illumos-$(grub_get_device_id "${GRUB_DEVICE_BOOT}")' {"
+allowed_user_list="$(grub_get_auth_user_list $GRUB_SIMPLE_ACCESS_LEVEL)"
+
+echo "menuentry '$(echo "$OS" | grub_quote)' ${CLASS} \$menuentry_id_option 'illumos-$(grub_get_device_id "${GRUB_DEVICE_BOOT}")' ${allowed_user_list}{"
 save_default_entry | grub_add_tab
 prepare_grub_to_access_device "${GRUB_DEVICE_BOOT}" | grub_add_tab
 message="$(gettext_printf "Loading kernel of Illumos ...")"

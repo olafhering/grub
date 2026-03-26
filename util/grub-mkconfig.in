@@ -207,6 +207,9 @@ if [ "x${GRUB_ACTUAL_DEFAULT}" = "xsaved" ] ; then GRUB_ACTUAL_DEFAULT="`"${grub
 # other than 0, all boot entries will require the superuser password to
 # access.
 if [ "x${GRUB_UNRESTRICTED_ACCESS_LEVEL}" = "x" ] ; then GRUB_UNRESTRICTED_ACCESS_LEVEL="1" ; fi
+if [ "x${GRUB_SIMPLE_ACCESS_LEVEL}" = "x" ] ; then GRUB_SIMPLE_ACCESS_LEVEL="0" ; fi
+if [ "x${GRUB_ADVANCED_ACCESS_LEVEL}" = "x" ] ; then GRUB_ADVANCED_ACCESS_LEVEL="0" ; fi
+if [ "x${GRUB_RECOVERY_ACCESS_LEVEL}" = "x" ] ; then GRUB_RECOVERY_ACCESS_LEVEL="0" ; fi
 
 
 # These are defined in this script, export them here so that user can
@@ -270,7 +273,10 @@ export GRUB_DEFAULT \
   GRUB_DISABLE_SUBMENU \
   GRUB_FORCE_EFI_ALL_VIDEO \
   GRUB_USERS \
-  GRUB_UNRESTRICTED_ACCESS_LEVEL
+  GRUB_UNRESTRICTED_ACCESS_LEVEL \
+  GRUB_SIMPLE_ACCESS_LEVEL \
+  GRUB_ADVANCED_ACCESS_LEVEL \
+  GRUB_RECOVERY_ACCESS_LEVEL
 
 if test "x${grub_cfg}" != "x"; then
   rm -f "${grub_cfg}.new"
