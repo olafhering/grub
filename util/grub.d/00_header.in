@@ -2,7 +2,7 @@
 set -e
 
 # grub-mkconfig helper script.
-# Copyright (C) 2006,2007,2008,2009,2010  Free Software Foundation, Inc.
+# Copyright (C) 2006,2007,2008,2009,2010,2026  Free Software Foundation, Inc.
 #
 # GRUB is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -41,6 +41,53 @@ if [ "x${GRUB_GFXMODE}" = "x" ] ; then GRUB_GFXMODE=auto ; fi
 if [ "x${GRUB_DEFAULT_BUTTON}" = "x" ] ; then GRUB_DEFAULT_BUTTON="$GRUB_DEFAULT" ; fi
 if [ "x${GRUB_DEFAULT_BUTTON}" = "xsaved" ] ; then GRUB_DEFAULT_BUTTON='${saved_entry}' ; fi
 if [ "x${GRUB_TIMEOUT_BUTTON}" = "x" ] ; then GRUB_TIMEOUT_BUTTON="$GRUB_TIMEOUT" ; fi
+
+if test "x$GRUB_USERS" != "x"; then
+    for pw_user_entry in $GRUB_USERS; do
+	pw_user_name="$(echo "$pw_user_entry" | cut -d ';' -f 1)"
+	pw_user_access="$(echo "$pw_user_entry" | cut -d ';' -f 2)"
+        pw_user_passtype="$(echo "$pw_user_entry" | cut -d ';' -f 3)"
+	pw_user_passhash="$(echo "$pw_user_entry" | cut -d ';' -f 4-)"
+	if test "x$pw_user_access" = "x0" ; then
+	    if test "x$pw_superuser_list" = "x" ; then
+		pw_superuser_list="$pw_user_name"
+	    else
+		pw_superuser_list="$pw_superuser_list $pw_user_name"
+	    fi
+	fi
+	case "x$pw_user_passtype" in
+	  xplain)
+	    echo "password $pw_user_name $pw_user_passhash"
+	  ;;
+	  xpbkdf2)
+	    echo "password_pbkdf2 $pw_user_name $pw_user_passhash"
+	  ;;
+	  xargon2)
+	    echo "password_argon2 $pw_user_name $pw_user_passhash"
+	  ;;
+	  x)
+	    gettext_printf "No password type specified for user %s, aborting." "$pw_user_name" >&2
+	    echo >&2
+	    exit 1;
+	  ;;
+	  x*)
+	    gettext_printf "Unrecognized password type %s specified for user %s, aborting." "$pw_user_passtype" "$pw_user_name" >&2
+	    echo >&2
+	    exit 1;
+	  ;;
+	esac
+    done
+    if test "x$pw_superuser_list" = "x" ; then
+	gettext "GRUB_USERS was defined, but no users with access level 0
+were set. This is not supported. Ensure that there are
+no errors in /etc/default/grub and /etc/grub.d/* files
+or please file a bug report." >&2
+	echo >&2
+	exit 1
+    fi
+    echo "set superusers=\"$pw_superuser_list\""
+    echo "export superusers"
+fi
 
 cat << EOF
 if [ -s \$prefix/grubenv ]; then

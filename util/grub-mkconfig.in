@@ -2,7 +2,7 @@
 set -e
 
 # Generate grub.cfg by inspecting /boot contents.
-# Copyright (C) 2006,2007,2008,2009,2010 Free Software Foundation, Inc.
+# Copyright (C) 2006,2007,2008,2009,2010,2026 Free Software Foundation, Inc.
 #
 # GRUB is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -196,6 +196,18 @@ GRUB_ACTUAL_DEFAULT="$GRUB_DEFAULT"
 
 if [ "x${GRUB_ACTUAL_DEFAULT}" = "xsaved" ] ; then GRUB_ACTUAL_DEFAULT="`"${grub_editenv}" - list | sed -n '/^saved_entry=/ s,^saved_entry=,,p'`" ; fi
 
+# We have to be careful here to not break existing password-protected setups.
+# The "Authentication and authorization" section of the GRUB manual documents
+# a method for setting the superuser password without access level support,
+# which relies on the assumption that all boot entries are only usable by the
+# superuser by default. Therefore setting the default access control level to
+# 0 would break things, because it would make all boot entries unrestricted by
+# default. Setting it to 1 ensures that if the user does not define any users
+# in GRUB_USERS and does not configure any grub.d scripts to use access levels
+# other than 0, all boot entries will require the superuser password to
+# access.
+if [ "x${GRUB_UNRESTRICTED_ACCESS_LEVEL}" = "x" ] ; then GRUB_UNRESTRICTED_ACCESS_LEVEL="1" ; fi
+
 
 # These are defined in this script, export them here so that user can
 # override them.
@@ -256,7 +268,9 @@ export GRUB_DEFAULT \
   GRUB_BADRAM \
   GRUB_OS_PROBER_SKIP_LIST \
   GRUB_DISABLE_SUBMENU \
-  GRUB_FORCE_EFI_ALL_VIDEO
+  GRUB_FORCE_EFI_ALL_VIDEO \
+  GRUB_USERS \
+  GRUB_UNRESTRICTED_ACCESS_LEVEL
 
 if test "x${grub_cfg}" != "x"; then
   rm -f "${grub_cfg}.new"

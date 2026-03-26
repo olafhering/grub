@@ -1,5 +1,5 @@
 # Helper library for grub-mkconfig
-# Copyright (C) 2007,2008,2009,2010  Free Software Foundation, Inc.
+# Copyright (C) 2007,2008,2009,2010,2026  Free Software Foundation, Inc.
 #
 # GRUB is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -346,5 +346,45 @@ grub_tab="	"
 
 grub_add_tab () {
   sed -e "s/^/$grub_tab/"
+}
+
+grub_get_auth_user_list () {
+  ggaul_access_level="$1"
+  ggaul_user_list=""
+  
+  # An access level is more privileged than another if it is closer to 0.
+  if test $GRUB_UNRESTRICTED_ACCESS_LEVEL -le $ggaul_access_level; then
+      echo "--unrestricted "
+      return
+  fi
+  
+  for ggaul_user_entry in $GRUB_USERS; do
+      ggaul_user_name="$(echo "$ggaul_user_entry" | cut -d ';' -f 1)"
+      ggaul_user_access="$(echo "$ggaul_user_entry" | cut -d ';' -f 2)"
+      
+      # There is no point adding superusers to the user list, they have
+      # access to everything anyway
+      if test "x$ggaul_user_access" = "x0"; then
+          continue
+      fi
+      
+      if test $ggaul_user_access -le $ggaul_access_level; then
+          if test "x$ggaul_user_list" = "x"; then
+              ggaul_user_list="$ggaul_user_name"
+          else
+              ggaul_user_list="$ggaul_user_list,$ggaul_user_name"
+          fi
+      fi
+  done
+  
+  if test "x$ggaul_user_list" != x; then
+      echo "--users $ggaul_user_list "
+  fi
+}
+
+grub_echo_unrestricted_maybe () {
+  if test "x$GRUB_USERS" != "x"; then
+    echo "--unrestricted "
+  fi
 }
 
