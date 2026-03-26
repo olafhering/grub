@@ -7,6 +7,7 @@ default:
 
 stages:
   - pages
+  - metadata
   - bootstrap
   - build
 
@@ -25,6 +26,11 @@ pages:
   artifacts:
     paths:
       - public
+
+signed-off-by:
+  stage: metadata
+  script:
+    - ./.gitlab-ci/metadata-sob.sh
 
 bootstrap:
   stage: bootstrap
