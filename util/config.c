@@ -117,5 +117,6 @@ grub_util_parse_config (FILE *f, struct grub_util_config *cfg, int simple)
 	  *optr = '\0';
 	}
     }
+  free (buffer);
 }
 
