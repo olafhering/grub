@@ -1260,9 +1260,14 @@ tpm2_protector_recover (const tpm2_protector_context_t *ctx,
       err = grub_error (GRUB_ERR_BAD_ARGUMENT, N_("Unknown Mode"));
     }
 
-  /* Cap the selected PCRs when the key is unsealed successfully */
-  if (ctx->cap_pcr_count > 0 && err == GRUB_ERR_NONE)
-    err = tpm2_protector_cap_pcrs (ctx);
+  /* Cap the selected PCRs */
+  if (ctx->cap_pcr_count > 0)
+    {
+      if (err == GRUB_ERR_NONE)
+	err = tpm2_protector_cap_pcrs (ctx);
+      else
+	tpm2_protector_cap_pcrs (ctx);
+    }
 
   return err;
 }
