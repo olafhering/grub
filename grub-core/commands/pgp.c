@@ -666,11 +666,13 @@ grub_verify_signature (grub_file_t f, const char *fsig,
 	break;
       err = grub_pubkey_write (&ctxt, readbuf, r);
       if (err)
-	return err;
+	goto fail;
     }
 
   grub_verify_signature_real (&ctxt, pkey);
  fail:
+  if (readbuf)
+    grub_free(readbuf);
   grub_pubkey_close_real (&ctxt);
   return grub_errno;
 }
