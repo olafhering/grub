@@ -196,9 +196,10 @@ grub_partition_msdos_iterate (grub_disk_t disk,
 	      if (hook (disk, &p, hook_data))
 		return grub_errno;
 	    }
-	  else if (p.number < 3)
-	    /* If this partition is a logical one, shouldn't increase the
-	       partition number.  */
+	  else if (! grub_msdos_partition_is_empty (e->type)
+	       && p.number < 3)
+	    /* If this partition is a primary one, increase the partition number.
+	       Do not increase for extended partitions or empty slots.  */
 	    p.number++;
 	}
 
