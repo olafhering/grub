@@ -248,32 +248,29 @@ grub_load_public_key (grub_file_t f)
       grub_dprintf ("crypt", "len = %x\n", (int) len);
 
       pend = grub_file_tell (f) + len;
-      if (type != GRUB_PGP_PACKET_PUBLIC_KEY
-	  && type != GRUB_PGP_PACKET_PUBLIC_SUBKEY
-	  && type != GRUB_PGP_PACKET_SECRET_KEY
-	  && type != GRUB_PGP_PACKET_SECRET_SUBKEY)
-	{
-	  grub_file_seek (f, pend);
-	  continue;
-	}
+      switch (type) {
+      case GRUB_PGP_PACKET_PUBLIC_KEY:
+      case GRUB_PGP_PACKET_PUBLIC_SUBKEY:
+        /* Public (sub)key: fall through to parsing */
+        break;
 
-      /*
-       * Secret key packets embed the public key in the same leading format,
-       * so signature checking still works with them.  Warn rather than reject:
-       * this runs at boot time, where a hard error could leave a system
-       * unbootable for users who imported a secret key by mistake.
-       *
-       * TODO: once this warning has shipped in a release (e.g. after GRUB
-       * 2.15), turn it into a hard rejection of secret key packets.
-       */
-      if (type == GRUB_PGP_PACKET_SECRET_KEY
-	  || type == GRUB_PGP_PACKET_SECRET_SUBKEY)
-	{
-	  grub_printf_ (N_("warning: secret key packet found in public key data; "
-			   "use the corresponding public key instead\n"));
-	  /* Pause so the warning is noticed past normal boot scroll-by. */
-	  grub_sleep (5);
-	}
+      case GRUB_PGP_PACKET_SECRET_KEY:
+      case GRUB_PGP_PACKET_SECRET_SUBKEY:
+        /*
+         * Secret (sub)key packets embed the public key in the same leading
+         * format, so signature checking still works with them. Reject them
+         * because having a secret key in /boot provides no security.
+         */
+        grub_error (GRUB_ERR_BAD_FILE_TYPE,
+                    N_("secret key packet found in signing key file; "
+                       "use the corresponding public key instead"));
+        goto fail;
+
+      default:
+        /* Unhandled packet type: jump over it */
+        grub_file_seek (f, pend);
+        continue;
+      }
 
       if (grub_file_read (f, &v, sizeof (v)) != sizeof (v))
 	{
