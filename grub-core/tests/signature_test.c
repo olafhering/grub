@@ -52,6 +52,7 @@ CREATE_PROC_SIGFILE (hi_rsa_sig, "hi_rsa.sig");
 CREATE_PROC_SIGFILE (hi_rsa_pub, "hi_rsa.pub");
 CREATE_PROC_SIGFILE (hi_rsa_sequoia_sig, "hi_rsa_sequoia.sig");
 CREATE_PROC_SIGFILE (hi_rsa_sequoia_pub, "hi_rsa_sequoia.pub");
+CREATE_PROC_SIGFILE (rsa_secret_key, "rsa_secret.key");
 
 static char *
 get_hi (grub_size_t *sz)
@@ -111,6 +112,7 @@ signature_test (void)
   grub_procfs_register ("hi_rsa.sig", &hi_rsa_sig_entry);
   grub_procfs_register ("hi_rsa_sequoia.pub", &hi_rsa_sequoia_pub_entry);
   grub_procfs_register ("hi_rsa_sequoia.sig", &hi_rsa_sequoia_sig_entry);
+  grub_procfs_register ("rsa_secret.key", &rsa_secret_key_entry);
 
   do_verify ("(proc)/hi", "(proc)/hi_dsa.sig", "(proc)/hi_dsa.pub",
              GRUB_ERR_NONE);
@@ -134,6 +136,13 @@ signature_test (void)
   do_verify ("(proc)/hj", "(proc)/hi_rsa_sequoia.sig", "(proc)/hi_rsa_sequoia.pub",
              GRUB_ERR_BAD_SIGNATURE);
 
+  /*
+   * Using a key file with secret key should fail. We don't create a separate
+   * .sig file because failure is expected at the key loading phase.
+   */
+  do_verify ("(proc)/hi", "(proc)/hi_rsa.sig", "(proc)/rsa_secret.key",
+             GRUB_ERR_BAD_FILE_TYPE);
+
   grub_procfs_unregister (&hi);
   grub_procfs_unregister (&hj);
   grub_procfs_unregister (&hi_dsa_sig_entry);
@@ -142,6 +151,7 @@ signature_test (void)
   grub_procfs_unregister (&hi_rsa_pub_entry);
   grub_procfs_unregister (&hi_rsa_sequoia_sig_entry);
   grub_procfs_unregister (&hi_rsa_sequoia_pub_entry);
+  grub_procfs_unregister (&rsa_secret_key_entry);
 }
 
 GRUB_FUNCTIONAL_TEST (signature_test, signature_test);
