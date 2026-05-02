@@ -160,6 +160,7 @@ EXTRA_DIST += po/gettext-patches/0001-Support-POTFILES-shell.patch
 EXTRA_DIST += po/gettext-patches/0002-Handle-gettext_printf-shell-function.patch
 EXTRA_DIST += po/gettext-patches/0003-Make-msgfmt-output-in-little-endian.patch
 EXTRA_DIST += po/gettext-patches/0004-Use-SHELL-rather-than-bin-sh.patch
+EXTRA_DIST += po/gettext-patches/0005-fix-parallel-build.patch
 
 EXTRA_DIST += po/POTFILES-shell.in
 EXTRA_DIST += po/README
