@@ -1376,7 +1376,9 @@ used to support vendor-specific power buttons.  @xref{Vendor power-on keys}.
 
 @item GRUB_DISTRIBUTOR
 Set by distributors of GRUB to their identifying name.  This is used to
-generate more informative menu entry titles.
+generate more informative menu entry titles. On an EFI system it is the
+default value for the @samp{--bootloader-id} parameter to
+@command{grub-install}.
 
 @item GRUB_TERMINAL_INPUT
 Select the terminal input device.  You may select multiple devices here,
