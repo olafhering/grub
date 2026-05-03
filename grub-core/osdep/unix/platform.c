@@ -79,7 +79,7 @@ get_ofpathname (const char *dev)
 }
 
 static int
-grub_install_remove_efi_entries_by_distributor (const char *efi_distributor)
+grub_install_efi_is_registered (const char *efifile_path, int *registered)
 {
   int fd;
   pid_t pid = grub_util_exec_pipe ((const char * []){ "efibootmgr", NULL }, &fd);
@@ -107,7 +107,6 @@ grub_install_remove_efi_entries_by_distributor (const char *efi_distributor)
   while (1)
     {
       int ret;
-      char *bootnum;
       ret = getline (&line, &len, fp);
       if (ret == -1)
 	break;
@@ -115,19 +114,19 @@ grub_install_remove_efi_entries_by_distributor (const char *efi_distributor)
 	  || line[sizeof ("Boot") - 1] < '0'
 	  || line[sizeof ("Boot") - 1] > '9')
 	continue;
-      if (!strcasestr (line, efi_distributor))
+      if (!strcasestr (line, efifile_path))
 	continue;
-      bootnum = line + sizeof ("Boot") - 1;
-      bootnum[4] = '\0';
-      if (!verbosity)
-	rc = grub_util_exec ((const char * []){ "efibootmgr", "-q",
-	      "-b", bootnum,  "-B", NULL });
-      else
-	rc = grub_util_exec ((const char * []){ "efibootmgr",
-	      "-b", bootnum, "-B", NULL });
+
+      if (verbosity)
+        {
+          grub_util_info (_("EFI already registered: path = `%s'"), efifile_path);
+        }
+
+      ++(*registered);
     }
 
   free (line);
+  fclose (fp);
   return rc;
 }
 
@@ -153,10 +152,17 @@ grub_install_register_efi (grub_device_t efidir_grub_dev,
 #ifdef __linux__
   grub_util_exec ((const char * []){ "modprobe", "-q", "efivars", NULL });
 #endif
-  /* Delete old entries from the same distributor.  */
-  ret = grub_install_remove_efi_entries_by_distributor (efi_distributor);
+  int registered = 0;
+  ret = grub_install_efi_is_registered (efifile_path, &registered);
   if (ret)
     return ret;
+
+  if (registered)
+    {
+      grub_util_warn (_("GRUB already registered with EFI at `%s', not modifying configuration.\n"
+                        "Use %s to check your boot configuration"), efifile_path, "efibootmgr");
+      return 0;
+    }
 
   char *efidir_part_str = xasprintf ("%d", efidir_part);
 
