@@ -17,8 +17,6 @@
  *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include <grub/dl.h>
 #include <grub/misc.h>
 #include <grub/charset.h>
@@ -69,26 +67,32 @@ dump_efi_variables(grub_efi_boolean_t dump_variable_content)
     grub_efi_status_t status;
     grub_efi_runtime_services_t *r;
     grub_efi_uintn_t variable_name_size;
+    grub_efi_uintn_t buffer_size;
     grub_efi_char16_t *variable_name;
     grub_uint8_t *variable_name_string = NULL;
     grub_guid_t vendor_guid;
 
     grub_memset (&vendor_guid, 0, sizeof (grub_guid_t));
-    variable_name_size = 512;
+    buffer_size = 512;
     r = grub_efi_system_table->runtime_services;
 
-    variable_name = grub_calloc (variable_name_size, sizeof(grub_efi_char16_t));
+    variable_name = grub_calloc (buffer_size, 1);
     if (variable_name == NULL)
        return grub_errno;
     *variable_name = 0; /* Start with empty string */
 
     while (1)
     {
+        variable_name_size = buffer_size;
         status = r->get_next_variable_name (&variable_name_size, variable_name, &vendor_guid);
         if (status == GRUB_EFI_BUFFER_TOO_SMALL)
         {
             grub_efi_char16_t *tmp;
-            tmp = grub_realloc (variable_name, variable_name_size * sizeof(grub_efi_char16_t));
+            /* According to UEFI VariableNameSize is parameter of in/out.
+              That means it recieves buffer size on input and returns the size
+              of enumerated variable on output, so we should treat differently. */
+            buffer_size = variable_name_size;
+            tmp = grub_realloc (variable_name, buffer_size);
             if (tmp == NULL)
             {
                 grub_free (variable_name);
@@ -106,7 +110,8 @@ dump_efi_variables(grub_efi_boolean_t dump_variable_content)
             return GRUB_ERR_INVALID_COMMAND;
         }
 
-        variable_name_string = grub_calloc (variable_name_size + 1, GRUB_MAX_UTF8_PER_UTF16);
+        variable_name_string = grub_calloc ((variable_name_size / sizeof (grub_efi_char16_t)) + 1, 
+                                            GRUB_MAX_UTF8_PER_UTF16);
         if (variable_name_string == NULL)
         {
             grub_free (variable_name);
