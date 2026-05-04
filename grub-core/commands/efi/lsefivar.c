@@ -117,7 +117,8 @@ dump_efi_variables(grub_efi_boolean_t dump_variable_content)
             grub_free (variable_name);
             return grub_errno;
         }
-        *grub_utf16_to_utf8 (variable_name_string, variable_name, variable_name_size) = '\0';
+        *grub_utf16_to_utf8 (variable_name_string, variable_name, 
+                            (variable_name_size / sizeof (grub_efi_char16_t))) = '\0';
         grub_printf ("%pG-%s\n", &vendor_guid, variable_name_string);
         if (dump_variable_content)
             dump_variable_data ((char*)variable_name_string, &vendor_guid);
