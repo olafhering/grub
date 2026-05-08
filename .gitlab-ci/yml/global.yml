@@ -1,5 +1,5 @@
 default:
-  image: quay.io/grub/debian-trixie-grub:2026-04-29.1
+  image: quay.io/grub/debian-trixie-grub:2026-05-14.1
 
 variables:
   SCRIPT_DIR: "./.gitlab-ci/script"
@@ -18,6 +18,18 @@ variables:
     - bootstrap
   script:
     - $SCRIPT_DIR/build.sh
+  artifacts:
+    paths:
+      - gnulib/
+    untracked: true
+    expire_in: 1 week
+    when: always
+
+.build-clang:
+  dependencies:
+    - bootstrap
+  script:
+    - $SCRIPT_DIR/build-clang.sh
   artifacts:
     paths:
       - gnulib/

@@ -30,6 +30,12 @@
       - TARGET: x86_64
         PLATFORM: [efi]
 
+.target-platform-clang-matrix:
+  parallel:
+    matrix:
+      - TARGET: x86_64
+        PLATFORM: [efi]
+
 .test-matrix:
   parallel:
     matrix:

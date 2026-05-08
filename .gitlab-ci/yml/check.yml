@@ -11,9 +11,15 @@ bootstrap:
   stage: bootstrap
   extends: .bootstrap
 
-build:
+build-gcc:
   stage: build
   extends: .build
+
+build-clang:
+  stage: build
+  extends:
+    - .build-clang
+    - .target-platform-clang-matrix
 
 check:
   stage: check
