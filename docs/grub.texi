@@ -6702,8 +6702,6 @@ you forget a command, you can run the command @command{help}
 * false::                       Do nothing, unsuccessfully
 * fdtdump::                     Retrieve device tree information
 * file::                        Test the provided file against a type
-* file_key_protector_init::     Initialize the file key protector
-* file_key_protector_clear::    Clear the file key protector
 * fwsetup::                     Reboot into the firmware setup menu
 * gdbinfo::                     Provide info for debugging with GDB
 * gettext::                     Translate a string
@@ -6726,8 +6724,6 @@ you forget a command, you can run the command @command{help}
 * lsmem::                       List free and allocated memory blocks
 * lsmemregions::                List memory regions
 * md5sum::                      Compute or check MD5 hash
-* mfa_key_protector_init::      Initialize the MFA key protector
-* mfa_key_protector_clear::     Clear the MFA key protector
 * module::                      Load module for multiboot kernel
 * multiboot::                   Load multiboot compliant kernel
 * nativedisk::                  Switch to native disk drivers
@@ -6740,8 +6736,6 @@ you forget a command, you can run the command @command{help}
 * plainmount::                  Open device encrypted in plain mode
 * play::                        Play a tune
 * probe::                       Retrieve device info
-* pw_key_protector_init::       Initialize the password key protector
-* pw_key_protector_clear::      Clear the password key protector
 * rdmsr::                       Read values from model-specific registers
 * read::                        Read user input
 * reboot::                      Reboot your computer
@@ -7581,40 +7575,6 @@ hibernated image
 @end deffn
 
 
-@node file_key_protector_init
-@subsection file_key_protector_init
-
-@deffn Command file_key_protector_init [ @option{--key-file} | @option{-k} @var{file_path}][ @option{--keyfile-offset} | @option{-O} @var{offset}][ @option{--keyfile-size} | @option{-S} @var{size}]
-Initialize the file key protector.
-
-This command configures the file key protector, which allows GRUB to read a
-cryptographic key (or a part of a key) from a file on the disk. This is commonly
-used in conjunction with the MFA key protector @xref{MFA key protector} or for
-automatic disk unlocking via a key file.
-
-The @option{-k} option specifies the path to the key file (@var{file_path}).
-The @option{-O} option skips the first @var{offset} bytes of the file. The key data is
-read starting from this offset. The default is 0.
-The @option{-S} option reads exactly @var{size} bytes of data from the file to
-use as the key. If this option is not specified, the entire file is typically used.
-
-Example:
-@example
-file_key_protector_init -k (hd0,gpt1)/efi/grub/keyfile.bin -O 512 -S 64
-@end example
-
-In this example, the file key protector reads 64 bytes from @file{keyfile.bin},
-starting at offset 512.
-@end deffn
-
-@node file_key_protector_clear
-@subsection file_key_protector_clear
-
-@deffn Command file_key_protector_clear
-Clear the file key protector if previously initialized.
-@end deffn
-
-
 @node fwsetup
 @subsection fwsetup
 
@@ -7918,43 +7878,6 @@ Alias for @code{hashsum --hash md5 arg @dots{}}. See command @command{hashsum}
 (@pxref{hashsum}) for full description.
 @end deffn
 
-@node mfa_key_protector_init
-@subsection mfa_key_protector_init
-
-@deffn Command mfa_key_protector_init [ @option{--protector1} | @option{-1} @var{protector1}] [@option{--protector2} | @option{-2} @var{protector2}]
-Initialize the Multi-Factor Authentication (MFA) key protector.
-
-The MFA key protector provides two-factor authentication for unlocking encrypted
-partitions (e.g., LUKS). It does not store the disk key itself but relies on a
-split-key architecture. The final disk key is derived by combining partial keys
-retrieved from two other specified key protectors.
-
-The options @option{--protector1} (or @option{-1}) and @option{--protector2}
-(or @option{-2}) specify the names of the two underlying key protectors to use
-(for example, @samp{file} and @samp{password}).
-
-The order of the protectors is crucial. The MFA key protector reconstructs the
-final key by concatenating the key from the first protector (@var{protector1})
-with the key from the second protector (@var{protector2}).
-
-Example:
-@example
-file_key_protector_init -k (hd0,gpt1)/efi/grub/keyfile.bin
-mfa_key_protector_init -1 file -2 password
-cryptomount -u <UUID> -P mfa
-@end example
-
-In this example, the first part of the key is read from a file, and the second
-part is requested from the user via a password prompt.
-@end deffn
-
-@node mfa_key_protector_clear
-@subsection mfa_key_protector_clear
-
-@deffn Command mfa_key_protector_clear
-Clear the MFA key protector if previously initialized.
-@end deffn
-
 @node module
 @subsection module
 
@@ -8186,28 +8109,6 @@ Retrieve device information. If option @option{--set} is given, assign result
 to variable @var{var}, otherwise print information on the screen.
 
 The option @option{--part-uuid} is currently only implemented for MSDOS and GPT formatted disks.
-@end deffn
-
-
-@node pw_key_protector_init
-@subsection pw_key_protector_init
-
-@deffn Command pw_key_protector_init [ @option{--password} | @option{-p} @var{password}]
-Initialize the password key protector. This allows providing a static
-password to the @command{cryptomount} command, enabling non-interactive
-unlocking. The option @option{--password} (or @option{-p}) sets the
-password in clear text.
-
-NOTE: In general, there is no need to invoke this command. By default, the
-password key protector is initialized implicitly and prompts the user for
-input interactively.
-@end deffn
-
-@node pw_key_protector_clear
-@subsection pw_key_protector_clear
-
-@deffn Command pw_key_protector_clear
-Clear the password key protector if previously initialized.
 @end deffn
 
 
@@ -9344,7 +9245,6 @@ environment variables and commands are listed in the same order.
 * Measured Boot::                      Measuring boot components
 * Lockdown::                           Lockdown when booting on a secure setup
 * TPM2 key protector::                 Managing disk key with TPM2 key protector
-* MFA key protector::                  Managing disk key with MFA key protector
 * Signing certificate and hash files:: Certificate and hash file signing
 * Signing GRUB itself::                Ensuring the integrity of the GRUB core image
 * Hardening::                          Configuration and customization to maximize security
@@ -10194,94 +10094,6 @@ it is an optional step. Setting it up requires additional manual intervention,
 which increases the risk of password leakage during the process. Moreover, the
 superuser list must be well maintained, and the password used cannot be
 synchronized with LUKS key rotation.
-
-@node MFA key protector
-@section Multi-Factor Authentication (MFA) key protector
-
-The MFA key protector enhances the security of encrypted partitions (such as LUKS)
-by enforcing a split-key architecture. Unlike standard key protectors that store
-or retrieve a single static key, the MFA protector derives the disk unlocking key
-by combining partial keys from two distinct sources.
-
-This approach ensures that an attacker cannot unlock the encrypted disk if they
-compromise only one of the factors (for example, stealing a USB drive with a key
-file but lacking the passphrase).
-
-The MFA key protector acts as a logic layer on top of other existing key
-protectors. It requires two underlying key protectors, referred to as
-@var{Protector 1} and @var{Protector 2}.
-
-@enumerate
-@item
-@var{Protector 1} retrieves the first segment of the key (e.g., from a file).
-@item
-@var{Protector 2} retrieves the second segment of the key (e.g., from user input).
-@item
-The MFA key protector concatenates these segments to reconstruct the final disk key.
-@end enumerate
-
-For a complete reference on the command syntax and options, please see
-@ref{mfa_key_protector_init}.
-
-@subsection Example Workflow
-
-Here are the sample commands to create a LUKS key (@file{luks.key}) by
-concatenating a 64-byte random file (@file{keyfile.bin}) and a user
-passphrase and enroll the key into the target partition (sda2).
-
-@example
-# Generate the random key file
-@kbd{dd if=/dev/random of=keyfile.bin bs=1 count=64}
-
-# Combine the key file and the user password
-@kbd{cp keyfile.bin luks.key}
-@kbd{read -p "password :" -s password && printf "%s" "$password" >> luks.key }
-
-# Enroll the combined key into LUKS
-@kbd{cryptsetup luksAddKey /dev/sda2 luks.key}
-@end example
-
-To unlock the partition, the underlying key protectors must be initialized
-first. The @command{file_key_protector_init} command configures the file
-protector by specifying the path to the key file (@file{keyfile.bin}). Note
-that the password key protector is initialized implicitly and requires no
-specific setup command.
-
-Once configured, use @command{mfa_key_protector_init} to define the order of
-the factors. Finally, when @command{cryptomount} is invoked with @option{-P mfa},
-GRUB retrieves the key file (Factor 1) and prompts the user for the
-passphrase (Factor 2).
-
-@example
-grub> @kbd{file_key_protector_init -k (hd0,gpt1)/efi/grub/keyfile.bin}
-grub> @kbd{mfa_key_protector_init -1 file -2 password}
-grub> @kbd{cryptomount -u <UUID> -P mfa}
-@end example
-
-Alternatively, the key file (@file{keyfile.bin}) can be sealed with the TPM
-to enhance security.
-
-@example
-@group
-@kbd{grub-protect --action=add \
-             --protector=tpm2 \
-             --tpm2-pcrs=0,2,4,7 \
-             --tpm2key \
-             --tpm2-keyfile=keyfile.bin \
-             --tpm2-outfile=/boot/efi/efi/grub/sealed.tpm}
-@end group
-@end example
-
-In this scenario, the MFA key protector is configured to retrieve the first
-key segment from the tpm2 key protector and the second from the password key
-protector.
-
-@example
-grub> @kbd{tpm2_key_protector_init -T (hd0,gpt1)/efi/grub/sealed.tpm}
-grub> @kbd{mfa_key_protector_init -1 tpm2 -2 password}
-grub> @kbd{cryptomount -u <UUID> -P mfa}
-@end example
-
 
 @node Signing certificate and hash files
 @section Signing certificate and hash files
