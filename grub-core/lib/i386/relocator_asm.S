@@ -19,6 +19,12 @@
 #include <grub/symbol.h>
 #include <grub/i386/memory.h>
 
+	/* 
+         * Code below is copied to a relocator chunk and executed there
+         * Put them in writable, non-executable .data section
+         */
+	.section .data
+
 	.p2align	2
 
 VARIABLE(grub_relocator_backward_start)

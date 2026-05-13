@@ -24,6 +24,12 @@
 
 #include "relocator_common.S"
 
+	/* 
+         * Code below is copied to a relocator chunk and executed there
+         * Put them in writable, non-executable .data section
+         */
+	.section .data
+
 	.p2align	4	/* force 16-byte alignment */
 
 VARIABLE(grub_relocator64_start)
