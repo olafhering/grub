@@ -109,6 +109,7 @@ grub_cpu_relocator_preamble (void *rels)
   grub_uint64_t *pt2 = pt3 + (npt3pages << PAGE_IDX_SIZE);
   grub_uint64_t *endpreamble = pt2 + (npt2pages << PAGE_IDX_SIZE);
   grub_uint64_t i;
+  grub_uint64_t firmware_cr3;
 
   /* movabs $pt4, %rax.  */
   *p++ = 0x48;
@@ -124,6 +125,13 @@ grub_cpu_relocator_preamble (void *rels)
   /* jmp $endpreamble.  */
   *p++ = 0xe9;
   *(grub_uint32_t *) p = (grub_uint8_t *) endpreamble - p - 4;
+
+  /*
+   * Inherit the firmware's PML4 so that high mappings (EFI runtime, MMIO, etc.)
+   * remain reachable while after switching to own page table.
+   */
+  asm volatile ("mov %%cr3, %0" : "=r" (firmware_cr3));
+  grub_memcpy (pt4, (void *) (firmware_cr3 & ~0xfffULL), GRUB_PAGE_SIZE);
 
   for (i = 0; i < npt3pages; i++)
     pt4[i] = ((grub_uint64_t) pt3 + (i << GRUB_PAGE_SHIFT)) | PAGE_PRESENT | PAGE_WRITABLE | PAGE_USER;
