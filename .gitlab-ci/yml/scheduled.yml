@@ -1,5 +1,13 @@
+trigger-build-clang:
+  stage: scheduled
+  trigger:
+    include: '.gitlab-ci/yml/build-clang.yml'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"
+
 trigger-x86_64-efi-check:
-  stage: check
+  stage: scheduled
   variables:
     TARGET: x86_64
     PLATFORM: efi
@@ -10,7 +18,7 @@ trigger-x86_64-efi-check:
     - if: $CI_PIPELINE_SOURCE == "web"
 
 trigger-aarch64-linux-gnu-efi-check:
-  stage: check
+  stage: scheduled
   variables:
     TARGET: aarch64-linux-gnu
     PLATFORM: efi

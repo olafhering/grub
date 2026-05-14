@@ -5,18 +5,13 @@ include:
 stages:
   - bootstrap
   - build
-  - check
 
 bootstrap:
   stage: bootstrap
   extends: .bootstrap
 
-build-gcc:
+build:
   stage: build
-  extends: .build
-
-check:
-  stage: check
   extends:
-    - .check
-    - .test-matrix
+    - .build-clang
+    - .target-platform-clang-matrix

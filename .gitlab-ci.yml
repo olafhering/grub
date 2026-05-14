@@ -4,12 +4,12 @@ include:
   - local: '.gitlab-ci/yml/metadata.yml'
   - local: '.gitlab-ci/yml/bootstrap.yml'
   - local: '.gitlab-ci/yml/build.yml'
-  - local: '.gitlab-ci/yml/trigger-check.yml'
+  - local: '.gitlab-ci/yml/scheduled.yml'
   - local: '.gitlab-ci/yml/pages.yml'
 
 stages:
   - metadata
   - bootstrap
   - build
-  - check
+  - scheduled
   - pages
