@@ -2711,6 +2711,14 @@ module = {
 };
 
 module = {
+  name = tpm_record_pcrs;
+  efi = commands/efi/tpm_record_pcrs.c;
+  cppflags = '-I$(srcdir)/lib/tss2';
+  enable = efi;
+  depends = tss2;
+};
+
+module = {
   name = tss2;
   common = lib/tss2/buffer.c;
   common = lib/tss2/tss2_mu.c;
