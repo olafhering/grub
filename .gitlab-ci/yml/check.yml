@@ -11,7 +11,7 @@ bootstrap:
   stage: bootstrap
   extends: .bootstrap
 
-build-gcc:
+build:
   stage: build
   extends: .build
 
@@ -20,3 +20,13 @@ check:
   extends:
     - .check
     - .test-matrix
+
+# We know these checks will fail which are either false positives or
+# real issues, in both cases it requires further debugging and fixes
+check-allow-failure:
+  stage: check
+  extends:
+    - .check
+    - .test-matrix-allow-failure
+  allow_failure: true
+

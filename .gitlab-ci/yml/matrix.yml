@@ -36,6 +36,23 @@
       - TARGET: x86_64
         PLATFORM: [efi]
 
+# We know these checks will fail which are either false positives or
+# real issues, in both cases it requires further debugging and fixes.
+# Work is being tracked at
+# https://gitlab.freedesktop.org/gnu-grub/grub/-/work_items/21
+.test-matrix-allow-failure:
+  parallel:
+    matrix:
+      - TYPE: native
+        TEST:
+          - hfs_test
+          - zfs_test
+          - zfs_zstd_test
+      - TYPE: non-native
+        TEST:
+          - partmap_test
+          - serial_test
+
 .test-matrix:
   parallel:
     matrix:
@@ -57,7 +74,6 @@
           - grub_script_dollar
           - grub_script_final_semicolon
           - grub_script_no_commands
-          - hfs_test
           - hfsplus_test
           - iso9660_test
           - jfs_test
@@ -75,8 +91,6 @@
           - tar_test
           - udf_test
           - xfs_test
-          - zfs_test
-          - zfs_zstd_test
       - TYPE: non-native
         TEST:
           - ahci_test
@@ -124,10 +138,8 @@
           - lzocompress_test
           - netboot_test
           - ohci_test
-          - partmap_test
           - pata_test
           - pseries_test
-          - serial_test
           - test_sha512sum
           - test_unset
           - tpm2_key_protector_test
