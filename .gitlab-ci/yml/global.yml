@@ -46,6 +46,9 @@ variables:
       for i in $(seq 0 64); do
         [ -e "/dev/loop$i" ] || mknod -m 0660 "/dev/loop$i" b 7 "$i" || :
       done
+      if [ -e /etc/init.d/zfs-fuse ]; then
+        /etc/init.d/zfs-fuse start || :
+      fi
   script:
     - make --quiet TESTS=$TEST check
   dependencies:
