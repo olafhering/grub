@@ -38,6 +38,14 @@ variables:
     when: always
 
 .check:
+  before_script:
+    - |
+      if [ ! -e /dev/loop-control ]; then
+        mknod -m 0660 /dev/loop-control c 10 237 || :
+      fi
+      for i in $(seq 0 64); do
+        [ -e "/dev/loop$i" ] || mknod -m 0660 "/dev/loop$i" b 7 "$i" || :
+      done
   script:
     - make --quiet TESTS=$TEST check
   dependencies:
