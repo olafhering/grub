@@ -1,0 +1,84 @@
+#! @BUILD_SHEBANG@
+set -ex
+
+# Run GRUB script in a Qemu instance
+# Copyright (C) 2026  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+. "@builddir@/grub-core/modinfo.sh"
+
+# PLATFORM: efibootnext is built for EFI platforms only (enable = efi).
+case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
+    *-efi) ;;
+    *) exit 77 ;;
+esac
+
+# This test asserts only the deterministic, firmware-independent
+# behaviour of the 'bootnext' command: its argument validation, and
+# its rejection of boot entry numbers that are not defined.  The
+# successful set + decoded-label path depends on which Boot#### entries
+# the firmware happens to define (numbers and labels vary by firmware),
+# so it is not asserted here.  No NVRAM write happens below anyway: every
+# case is expected to be rejected before BootNext would be set.
+out=$(@builddir@/grub-shell <<'EOF'
+insmod efibootnext
+
+# --- Argument validation ---
+# Error: no argument.
+if bootnext; then echo "E1 bad"; else echo "E1 ok"; fi
+# Error: too many arguments.
+if bootnext 1 2; then echo "E2 bad"; else echo "E2 ok"; fi
+# Error: not a hex number.
+if bootnext zzzz; then echo "E3 bad"; else echo "E3 ok"; fi
+# Error: out of range (> 0xffff).
+if bootnext 10000; then echo "E4 bad"; else echo "E4 ok"; fi
+
+# --- Target entry must exist ---
+# A syntactically valid, in-range number whose Boot#### entry does not
+# exist is rejected and BootNext is left unchanged.  No firmware defines
+# BootFFFF/BootFFFE/BootFFFD, and these all pass the argc, hex and range
+# checks, so the only thing that can reject them is the entry-existence
+# check.  The 0x-prefixed form is exercised here too.
+if bootnext FFFF;   then echo "N1 bad"; else echo "N1 ok"; fi
+if bootnext 0xFFFE; then echo "N2 bad"; else echo "N2 ok"; fi
+if bootnext fffd;   then echo "N3 bad"; else echo "N3 ok"; fi
+
+echo DONE
+EOF
+)
+
+# Fail loudly if the guest did not run to completion.
+if ! echo "$out" | grep -q '^DONE$'; then
+    echo "error: bootnext test did not complete; output:" >&2
+    echo "$out" >&2
+    exit 1
+fi
+
+# Any "<tag> bad" means a case behaved the opposite of what was expected.
+if echo "$out" | grep -q ' bad$'; then
+    echo "error: unexpected bootnext result; output:" >&2
+    echo "$out" >&2
+    exit 1
+fi
+
+for expect in \
+    'E1 ok' 'E2 ok' 'E3 ok' 'E4 ok' \
+    'N1 ok' 'N2 ok' 'N3 ok'; do
+    if ! echo "$out" | grep -qF "$expect"; then
+	echo "error: missing expected output: $expect" >&2
+	echo "$out" >&2
+	exit 1
+    fi
+done

@@ -7224,6 +7224,17 @@ Set the UEFI @samp{BootNext} variable to @samp{Boot}@var{XXXX}, where
 prefix).  The firmware will boot that entry exactly once on the next boot,
 without altering @samp{BootOrder}.  Use the @command{reboot} command
 afterwards to trigger the boot immediately.
+
+The target @samp{Boot}@var{XXXX} entry must already exist; pointing
+@samp{BootNext} at an undefined entry would silently do nothing on the
+next boot, so this is rejected and @samp{BootNext} is left unchanged.
+On success the entry's description (the label shown in the firmware boot
+menu) is printed when it can be decoded, for example:
+
+@example
+grub> @kbd{bootnext 0002}
+BootNext set to Boot0002: UEFI QEMU DVD-ROM QM00003
+@end example
 @end deffn
 
 

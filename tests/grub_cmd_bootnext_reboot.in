@@ -1,0 +1,126 @@
+#! @BUILD_SHEBANG@
+set -x
+
+# Run GRUB script in a Qemu instance
+# Copyright (C) 2026  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+# End-to-end check that 'bootnext NNNN; reboot' actually hands control to
+# the targeted boot entry: set BootNext from GRUB, reboot, and observe
+# the firmware boot that entry on the next boot.
+#
+# GRUB cannot read back which entry the firmware booted, and the
+# firmware-assigned Boot#### numbers are not contractual, so the target
+# is identified at run time using the label that 'bootnext' now prints
+# for an existing entry.  The label text is OVMF/qemu specific: if the
+# target cannot be confidently singled out the test SKIPs rather than
+# fails, so a firmware change cannot turn this into a false regression.
+
+. "@builddir@/grub-core/modinfo.sh"
+
+# Only verified on x86_64-efi; other EFI arches differ in how --disk is
+# attached and in the firmware's boot-option descriptions.
+case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
+    x86_64-efi) ;;
+    *) exit 77 ;;
+esac
+
+# The observable target disk is built with grub-mkstandalone + mtools.
+command -v mformat >/dev/null 2>&1 || exit 77
+test -x "@builddir@/grub-mkstandalone" || exit 77
+
+work=$(mktemp -d "${TMPDIR:-/tmp}/grub_bnx.XXXXXXXXXX") || exit 99
+trap 'rm -rf "$work"' EXIT
+
+# Observable BootNext target: a standalone GRUB EFI whose embedded config
+# announces itself and stops, so a successful BootNext boot produces a
+# unique serial marker and qemu exits promptly.
+cat > "$work/markercfg" <<'EOF'
+echo BOOTNEXT_TARGET_REACHED
+halt
+EOF
+@builddir@/grub-mkstandalone -O x86_64-efi -d "@builddir@/grub-core" \
+    -o "$work/bootx64.efi" "boot/grub/grub.cfg=$work/markercfg" || exit 99
+
+# Partitionless FAT disk holding it at the EFI removable media path.
+dd if=/dev/zero of="$work/disk.img" bs=1M count=24 2>/dev/null
+mformat -i "$work/disk.img" -v BNXTGT ::
+mmd -i "$work/disk.img" ::/EFI ::/EFI/BOOT
+mcopy -i "$work/disk.img" "$work/bootx64.efi" ::/EFI/BOOT/BOOTX64.EFI
+
+# --- Run 1: enumerate the firmware's boot options --------------------
+# 'bootnext NNNN' prints "BootNext set to BootNNNN: <label>" for an
+# existing entry (and errors for a missing one).  Sweep a generous range
+# and let the host pick the entry: GRUB script cannot capture a command's
+# output to choose inside the guest.
+enum=$(i=0; while [ $i -lt 64 ]; do printf 'bootnext %04X\n' $i; i=$((i+1)); done)
+
+out1=$(@builddir@/grub-shell --timeout=60 --disk="$work/disk.img" <<EOF | tr -d '\r'
+echo CD_RESCUE_RAN
+insmod efibootnext
+$enum
+echo ENUM_DONE
+EOF
+)
+printf '%s\n' "$out1"
+
+if ! printf '%s' "$out1" | grep -q 'CD_RESCUE_RAN'; then
+    echo "run 1 did not boot the rescue medium; cannot enumerate" >&2
+    exit 77
+fi
+
+# Pick the Boot#### whose label looks like the attached hard disk and is
+# clearly not the rescue optical medium.  The label is OVMF's generated
+# description (e.g. "UEFI QEMU HARDDISK QM00001"); exact text varies, so
+# if we cannot uniquely single one out we SKIP.
+sel=$(printf '%s\n' "$out1" \
+    | sed -n 's/^BootNext set to Boot\([0-9A-Fa-f]\{4\}\): \(.*\)$/\1 \2/p' \
+    | grep -iE 'harddisk|hd\(|ata\(' \
+    | grep -ivE 'dvd|cd-?rom|cdrom|atapi|optical' \
+    | awk '{print $1}' \
+    | sed '/^$/d')
+
+count=$(printf '%s\n' "$sel" | sed '/^$/d' | wc -l)
+if [ "$count" -ne 1 ]; then
+    echo "could not uniquely identify the target disk boot entry" >&2
+    echo "matched: [${sel:-none}]; skipping" >&2
+    exit 77
+fi
+target=$sel
+
+# --- Run 2: point BootNext at it, reboot, observe it boot ------------
+out2=$(@builddir@/grub-shell --timeout=60 --disk="$work/disk.img" <<EOF | tr -d '\r'
+echo CD_RESCUE_RAN
+insmod efibootnext
+insmod reboot
+bootnext $target
+reboot
+EOF
+)
+printf '%s\n' "$out2"
+
+# A genuine end-to-end pass needs BOTH: boot 1 was really the rescue
+# medium and set BootNext (not the disk booted by default), and the
+# BootNext-targeted disk ran on the next boot.
+if ! printf '%s' "$out2" | grep -q 'CD_RESCUE_RAN'; then
+    echo "run 2: rescue medium did not run BootNext setup" >&2
+    exit 1
+fi
+if printf '%s' "$out2" | grep -q 'BOOTNEXT_TARGET_REACHED'; then
+    echo "firmware honored BootNext -> Boot$target across reboot"
+    exit 0
+fi
+echo "run 2: BootNext target was not booted after reboot" >&2
+exit 1

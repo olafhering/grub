@@ -1374,6 +1374,18 @@ script = {
 
 script = {
   testcase = nonnative;
+  name = grub_cmd_bootnext;
+  common = tests/grub_cmd_bootnext.in;
+};
+
+script = {
+  testcase = nonnative;
+  name = grub_cmd_bootnext_reboot;
+  common = tests/grub_cmd_bootnext_reboot.in;
+};
+
+script = {
+  testcase = nonnative;
   name = file_filter_test;
   common = tests/file_filter_test.in;
 };
