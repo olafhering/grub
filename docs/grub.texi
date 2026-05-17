@@ -100,7 +100,7 @@ This edition documents version @value{VERSION}.
 * Modules::                     Available modules
 * Commands::                    Available builtin commands
 * Internationalisation::        Topics relating to language support
-* Security::                    Authentication, authorisation, and signatures
+* Security::                    Authentication, authorization, and signatures
 * Platform limitations::        Platform-specific limitations
 * Platform-specific operations:: Platform-specific operations
 * Supported kernels::           Supported kernels
@@ -9368,7 +9368,7 @@ environment variables and commands are listed in the same order.
 @chapter Security
 
 @menu
-* Authentication and authorisation::   Users and access control
+* Authentication and authorization::   Users and access control
 * Using GPG-style digital signatures:: Booting digitally signed code
 * Using appended signatures::          An alternative approach to booting digitally signed code
 * UEFI secure boot and shim::          Booting digitally signed PE files
@@ -9382,8 +9382,8 @@ environment variables and commands are listed in the same order.
 * Hardening::                          Configuration and customization to maximize security
 @end menu
 
-@node Authentication and authorisation
-@section Authentication and authorisation in GRUB
+@node Authentication and authorization
+@section Authentication and authorization in GRUB
 
 By default, the boot loader interface is accessible to anyone with physical
 access to the console: anyone can select and edit any menu entry, and anyone
@@ -9537,7 +9537,7 @@ set check_signatures=no
 @end example
 
 To prevent this, password-protection (@pxref{Authentication and
-authorisation}) is essential.  Note that even with GRUB password
+authorization}) is essential.  Note that even with GRUB password
 protection, GRUB itself cannot prevent someone with physical access to
 the machine from altering that machine's firmware (e.g., Coreboot
 or BIOS) configuration to cause the machine to boot from a different
@@ -10220,7 +10220,7 @@ files.
 
 It is worth mentioning that the built-in password support, as described in
 @samp{Authentication and Authorization in GRUB} (@pxref{Authentication and
-authorisation}), can also be used to protect the command-line interface from
+authorization}), can also be used to protect the command-line interface from
 unauthorized access. However, it is not recommended to rely on this approach as
 it is an optional step. Setting it up requires additional manual intervention,
 which increases the risk of password leakage during the process. Moreover, the
