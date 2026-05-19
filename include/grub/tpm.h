@@ -24,8 +24,6 @@
 #define GRUB_STRING_PCR 8
 #define GRUB_BINARY_PCR 9
 
-#define SHA1_DIGEST_SIZE 20
-
 #define TPM_BASE     0x0
 #define TPM_SUCCESS  TPM_BASE
 #define TPM_AUTHFAIL (TPM_BASE + 0x1)
