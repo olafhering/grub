@@ -100,6 +100,8 @@
           - example_grub_script_test
           - fddboot_test
           - file_filter_test
+          - grub_cmd_bootnext
+          - grub_cmd_bootnext_reboot
           - grub_cmd_cryptomount
           - grub_cmd_date
           - grub_cmd_echo
