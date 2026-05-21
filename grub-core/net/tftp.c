@@ -149,6 +149,7 @@ tftp_receive (grub_net_udp_socket_t sock __attribute__ ((unused)),
   if (nb->tail - nb->data < (grub_ssize_t) sizeof (tftph->opcode))
     {
       grub_dprintf ("tftp", "TFTP packet too small\n");
+      grub_netbuff_free (nb);
       return GRUB_ERR_NONE;
     }
 
@@ -159,17 +160,25 @@ tftp_receive (grub_net_udp_socket_t sock __attribute__ ((unused)),
       data->block_size = TFTP_DEFAULTSIZE_PACKET;
       data->have_oack = 1;
       for (ptr = nb->data + sizeof (tftph->opcode); ptr < nb->tail;)
-	{
-	  if (grub_memcmp (ptr, "tsize\0", sizeof ("tsize\0") - 1) == 0)
-	    data->file_size = grub_strtoul ((char *) ptr + sizeof ("tsize\0")
-					    - 1, 0, 0);
-	  if (grub_memcmp (ptr, "blksize\0", sizeof ("blksize\0") - 1) == 0)
-	    data->block_size = grub_strtoul ((char *) ptr + sizeof ("blksize\0")
-					     - 1, 0, 0);
-	  while (ptr < nb->tail && *ptr)
-	    ptr++;
-	  ptr++;
-	}
+        {
+          if ((grub_size_t) (nb->tail - ptr) >= sizeof ("tsize\0") - 1
+              && grub_memcmp (ptr, "tsize\0", sizeof ("tsize\0") - 1) == 0)
+            {
+              grub_uint8_t *val = ptr + sizeof ("tsize\0") - 1;
+              if (val < nb->tail && grub_memchr (val, '\0', nb->tail - val))
+                data->file_size = grub_strtoul ((char *) val, 0, 0);
+            }
+          if ((grub_size_t) (nb->tail - ptr) >= sizeof ("blksize\0") - 1
+              && grub_memcmp (ptr, "blksize\0", sizeof ("blksize\0") - 1) == 0)
+            {
+              grub_uint8_t *val = ptr + sizeof ("blksize\0") - 1;
+              if (val < nb->tail && grub_memchr (val, '\0', nb->tail - val))
+                data->block_size = grub_strtoul ((char *) val, 0, 0);
+            }
+          while (ptr < nb->tail && *ptr)
+            ptr++;
+          ptr++;
+        }
       data->block = 0;
       grub_netbuff_free (nb);
       err = ack (data, 0);
@@ -180,6 +189,7 @@ tftp_receive (grub_net_udp_socket_t sock __attribute__ ((unused)),
 						+ sizeof (tftph->u.data.block)))
 	{
 	  grub_dprintf ("tftp", "TFTP packet too small\n");
+	  grub_netbuff_free (nb);
 	  return GRUB_ERR_NONE;
 	}
 
@@ -207,9 +217,12 @@ tftp_receive (grub_net_udp_socket_t sock __attribute__ ((unused)),
 	  if (file->device->net->packs.count < 50)
 	    {
 	      err = ack (data, data->block + 1);
-	      if (err)
-		return err;
-	    }
+              if (err)
+                {
+                  grub_netbuff_free (nb);
+                  return err;
+                }
+            }
 	  else
 	    file->device->net->stall = 1;
 
@@ -258,6 +271,14 @@ tftp_receive (grub_net_udp_socket_t sock __attribute__ ((unused)),
 	  grub_net_udp_close (data->sock);
 	  data->sock = NULL;
 	}
+      if (nb->tail - nb->data < (grub_ssize_t) (sizeof (tftph->opcode)
+                                  + sizeof (tftph->u.err.errcode) + 1))
+        {
+          grub_netbuff_free (nb);
+          return GRUB_ERR_NONE;
+        }
+      /* Force null-termination... it may not be terminated from the packet. */
+      *(nb->tail - 1) = '\0';
       data->have_oack = 1;
       grub_error (GRUB_ERR_IO, "%s", tftph->u.err.errmsg);
       grub_error_save (&data->save_err);
