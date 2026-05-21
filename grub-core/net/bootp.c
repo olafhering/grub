@@ -218,6 +218,7 @@ find_dhcp_option (const struct grub_net_bootp_packet *bp, grub_size_t size,
   const grub_uint8_t *ptr;
   grub_uint8_t overload = 0;
   int end = 0;
+  int in_extra = 0;
   grub_size_t i;
 
   if (opt_len)
@@ -279,7 +280,11 @@ again:
 	  return &ptr[i];
 	}
 
-      if (tagtype == GRUB_NET_DHCP_OVERLOAD && taglength == 1)
+      /*
+       * RFC 2131 4.1: the overload option is only valid in the main options
+       * field.  Ignoring it elsewhere stops a crafted packet looping forever.
+       */
+      if (tagtype == GRUB_NET_DHCP_OVERLOAD && taglength == 1 && !in_extra)
 	overload = ptr[i];
 
       i += taglength;
@@ -315,6 +320,7 @@ again:
     ptr = (grub_uint8_t *) &bp->boot_file[0];
     size = sizeof (bp->boot_file);
     i = 0;
+    in_extra = 1;
     goto again;
   }
 
@@ -324,6 +330,7 @@ again:
     ptr = (grub_uint8_t *) &bp->server_name[0];
     size = sizeof (bp->server_name);
     i = 0;
+    in_extra = 1;
     goto again;
   }
 
