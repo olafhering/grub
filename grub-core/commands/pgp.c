@@ -530,7 +530,9 @@ static grub_err_t
 grub_verify_signature_real (struct grub_pubkey_context *ctxt,
 			    struct grub_public_key *pkey)
 {
-  gcry_mpi_t mpis[10];
+  gcry_mpi_t mpis[10] = {NULL};
+  gcry_sexp_t hsexp = NULL, pubkey = NULL, sig = NULL;
+  grub_size_t errof;
   grub_uint8_t pk = ctxt->v4.pkeyalgo;
   grub_size_t i;
   grub_uint8_t *readbuf = NULL;
@@ -646,9 +648,6 @@ grub_verify_signature_real (struct grub_pubkey_context *ctxt,
       goto fail;
     }
 
-  gcry_sexp_t hsexp, pubkey, sig;
-  grub_size_t errof;
-
   if(_gcry_sexp_build(&hsexp, &errof, "(data (flags %s) (hash %s %b))", pkalgos[pk].padding, ctxt->hash->name, ctxt->hash->mdlen, hval))
     goto fail;
 
@@ -665,11 +664,21 @@ grub_verify_signature_real (struct grub_pubkey_context *ctxt,
   if ((*pkalgos[pk].algo)->verify (sig, hsexp, pubkey))
     goto fail;
 
+  for (i = 0; i < pkalgos[pk].nmpisig; i++)
+    _gcry_mpi_release (mpis[i]);
+  _gcry_sexp_release (sig);
+  _gcry_sexp_release (hsexp);
+  _gcry_sexp_release (pubkey);
   grub_free (readbuf);
 
   return GRUB_ERR_NONE;
 
  fail:
+  for (i = 0; i < pkalgos[pk].nmpisig; i++)
+    _gcry_mpi_release (mpis[i]);
+  _gcry_sexp_release (sig);
+  _gcry_sexp_release (hsexp);
+  _gcry_sexp_release (pubkey);
   grub_free (readbuf);
   if (!grub_errno)
     return grub_error (GRUB_ERR_BAD_SIGNATURE, N_("bad signature"));
