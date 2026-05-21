@@ -68,6 +68,7 @@ parse_line (grub_file_t file, http_data_t data, char *ptr, grub_size_t len)
   /* LF without CR. */
   if (end == ptr + len)
     {
+      grub_free (data->errmsg);
       data->errmsg = grub_strdup (_("invalid HTTP header - LF without CR"));
       return GRUB_ERR_NONE;
     }
@@ -106,6 +107,7 @@ parse_line (grub_file_t file, http_data_t data, char *ptr, grub_size_t len)
       int code;
       if (grub_memcmp (ptr, "HTTP/1.1 ", sizeof ("HTTP/1.1 ") - 1) != 0)
 	{
+	  grub_free (data->errmsg);
 	  data->errmsg = grub_strdup (_("unsupported HTTP response"));
 	  data->first_line_recv = 1;
 	  return GRUB_ERR_NONE;
@@ -121,6 +123,7 @@ parse_line (grub_file_t file, http_data_t data, char *ptr, grub_size_t len)
 	  break;
 	case 404:
 	  data->err = GRUB_ERR_FILE_NOT_FOUND;
+	  grub_free (data->errmsg);
 	  data->errmsg = grub_xasprintf (_("file `%s' not found"), data->filename);
 	  data->first_line_recv = 1;
 	  return GRUB_ERR_NONE;
@@ -128,6 +131,7 @@ parse_line (grub_file_t file, http_data_t data, char *ptr, grub_size_t len)
 	  data->err = GRUB_ERR_NET_UNKNOWN_ERROR;
 	  /* TRANSLATORS: GRUB HTTP code is pretty young. So even perfectly
 	     valid answers like 403 will trigger this very generic message.  */
+	  grub_free (data->errmsg);
 	  data->errmsg = grub_xasprintf (_("unsupported HTTP error %d: %s"),
 					 code, ptr);
 	  data->first_line_recv = 1;
