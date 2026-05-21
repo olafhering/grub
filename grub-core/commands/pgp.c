@@ -358,6 +358,12 @@ grub_load_public_key (grub_file_t f)
 
       if (i < pkalgos[pk].nmpipub)
 	{
+	  grub_size_t j;
+	  for (j = 0; j < ARRAY_SIZE (sk->mpis); j++)
+	    {
+	      if (sk->mpis[j])
+	        _gcry_mpi_release (sk->mpis[j]);
+	    }
 	  grub_free (sk);
 	  goto fail;
 	}
