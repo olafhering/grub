@@ -311,12 +311,19 @@ check_blocklists (grub_envblk_t envblk, struct blocklist *blocklists,
 
       if (grub_disk_read (disk, p->sector - part_start,
                           p->offset, p->length, blockbuf))
-        return grub_errno;
+        {
+          grub_free (blockbuf);
+          return grub_errno;
+        }
 
       if (grub_memcmp (buf + index, blockbuf, p->length) != 0)
-	return grub_error (GRUB_ERR_FILE_READ_ERROR, "invalid blocklist");
+	{
+	  grub_free (blockbuf);
+	  return grub_error (GRUB_ERR_FILE_READ_ERROR, "invalid blocklist");
+	}
     }
 
+  grub_free (blockbuf);
   return GRUB_ERR_NONE;
 }
 
