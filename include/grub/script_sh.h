@@ -217,6 +217,30 @@ struct grub_lexer_param
 #define GRUB_LEXER_INITIAL_TEXT_SIZE   32
 #define GRUB_LEXER_INITIAL_RECORD_SIZE 256
 
+/*
+ * One entry per active grub_script_mem_record call awaiting its paired
+ * grub_script_mem_record_stop.  Stored in grub_parser_param so that the
+ * parse-error path can recover outer-scope allocation chains that bison
+ * would otherwise silently discard when unwinding its value stack.
+ */
+struct grub_script_mem_save
+{
+  struct grub_script_mem_save *next;
+  struct grub_script_mem *saved;
+  /*
+   * Outer state->scripts at the time of grub_script_mem_record; freed on
+   * error if bison discards the matching $<scripts>$ before the closing
+   * action can restore state->scripts.
+   */
+  struct grub_script *saved_scripts;
+  /*
+   * Value of state->mem_depth when this entry was pushed, so that
+   * grub_script_mem_record_stop only pops the entry made by its own
+   * grub_script_mem_record call.
+   */
+  unsigned int depth;
+};
+
 /* State of the parser as passes to the parser.  */
 struct grub_parser_param
 {
@@ -229,6 +253,16 @@ struct grub_parser_param
 
   /* The memory that was used while parsing and scanning.  */
   struct grub_script_mem *memused;
+
+  /*
+   * Stack of outer-scope mem chains saved by grub_script_mem_record.
+   * Popped by grub_script_mem_record_stop on the success path; drained
+   * by grub_script_parse's error path to free orphaned outer chains.
+   */
+  struct grub_script_mem_save *mem_saves;
+
+  /* Nesting depth of active grub_script_mem_record calls.  */
+  unsigned int mem_depth;
 
   /* The block argument scripts.  */
   struct grub_script *scripts;

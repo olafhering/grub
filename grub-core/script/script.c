@@ -68,25 +68,68 @@ grub_script_mem_free (struct grub_script_mem *mem)
     }
 }
 
-/* Start recording memory usage.  Returns the memory that should be
-   restored when calling stop.  */
+/*
+ * Start recording memory usage.  Returns the memory that should be
+ * restored when calling stop.  Also pushes the saved chain onto
+ * state->mem_saves so the parse-error path can free it even if bison
+ * discards the grammar's $<memory>$ value without calling record_stop.
+ */
 struct grub_script_mem *
 grub_script_mem_record (struct grub_parser_param *state)
 {
   struct grub_script_mem *mem = state->memused;
+  struct grub_script_mem_save *save;
+
   state->memused = 0;
+  state->mem_depth++;
+
+  save = grub_malloc (sizeof (*save));
+  if (save)
+    {
+      save->saved = mem;
+      /*
+       * Capture state->scripts before the grammar resets it.  Both block and
+       * function rules call grub_script_mem_record immediately before saving
+       * and zeroing state->scripts, so at this point it still holds the outer
+       * scripts.  These are tracked here so the error path can free them if
+       * bison discards $<scripts>$ without running the closing action.
+       */
+      save->saved_scripts = state->scripts;
+      save->depth = state->mem_depth;
+      save->next = state->mem_saves;
+      state->mem_saves = save;
+    }
 
   return mem;
 }
 
-/* Stop recording memory usage.  Restore previous recordings using
-   RESTORE.  Return the recorded memory.  */
+/*
+ * Stop recording memory usage.  Restore previous recordings using
+ * RESTORE.  Return the recorded memory.  Pops the corresponding entry
+ * from state->mem_saves (it is no longer orphaned), if one was pushed.
+ */
 struct grub_script_mem *
 grub_script_mem_record_stop (struct grub_parser_param *state,
 			     struct grub_script_mem *restore)
 {
   struct grub_script_mem *mem = state->memused;
+  struct grub_script_mem_save *save;
+
   state->memused = restore;
+
+  /*
+   * Only pop the entry pushed by the matching grub_script_mem_record.  If
+   * that allocation failed, the top entry belongs to an outer scope and
+   * must be kept for the parse-error cleanup.
+   */
+  save = state->mem_saves;
+  if (save && save->depth == state->mem_depth)
+    {
+      state->mem_saves = save->next;
+      grub_free (save);
+    }
+  state->mem_depth--;
+
   return mem;
 }
 
@@ -376,9 +419,49 @@ grub_script_parse (char *script,
   /* Parse the script.  */
   if (grub_script_yyparse (parsestate) || parsestate->err)
     {
-      struct grub_script_mem *memfree;
-      memfree = grub_script_mem_record_stop (parsestate, membackup);
-      grub_script_mem_free (memfree);
+      struct grub_script_mem_save *save;
+      struct grub_script *s, *t;
+
+      /* Free the innermost (possibly partial) block's allocations.  */
+      grub_script_mem_free (parsestate->memused);
+
+      /*
+       * Free outer-scope chains saved by grub_script_mem_record that were
+       * not unwound by a paired record_stop: bison discards $<memory>$
+       * values when it unwinds the parse stack on error, leaving the
+       * saved grub_script_mem chains unreachable via state->memused.
+       */
+      for (save = parsestate->mem_saves; save; )
+	{
+	  struct grub_script_mem_save *next = save->next;
+	  struct grub_script *s2, *t2;
+	  grub_script_mem_free (save->saved);
+	  /*
+	   * Free outer-scope scripts saved when grub_script_mem_record reset
+	   * state->scripts for the block/function body.  These are the same
+	   * values as the grammar's $<scripts>$ which bison discards on error
+	   * without running the closing action that would restore them.
+	   */
+	  for (s2 = save->saved_scripts; s2; s2 = t2)
+	    {
+	      t2 = s2->next_siblings;
+	      grub_script_free (s2);
+	    }
+	  grub_free (save);
+	  save = next;
+	}
+
+      /*
+       * Block arguments completed before the parse error are not tracked
+       * by the memused chain; they are separate grub_malloc allocations
+       * linked via parsestate->scripts.  Free them explicitly.
+       */
+      for (s = parsestate->scripts; s; s = t)
+	{
+	  t = s->next_siblings;
+	  grub_script_free (s);
+	}
+
       grub_script_lexer_fini (lexstate);
       grub_free (parsestate);
       grub_free (parsed);

@@ -210,6 +210,7 @@ grub_script_lexer_yywrap (struct grub_parser_param *parserstate,
 	  return 1;
 	}
       grub_strcpy (p, lexerstate->prefix);
+      grub_free (lexerstate->prefix);
       lexerstate->prefix = 0;
 
       grub_strcpy (p + plen, line);
@@ -280,8 +281,21 @@ grub_script_lexer_fini (struct grub_lexer_param *lexerstate)
   if (!lexerstate)
     return;
 
+  /*
+   * yylex_destroy()'s cleanup loop calls yy_delete_buffer (zeroing the
+   * current-buffer slot) then yypop_buffer_state (which returns immediately
+   * because the slot is NULL, never decrementing yy_buffer_stack_top).  If a
+   * resplit was in progress when the parser aborted (stack top > 0), the
+   * initial buffer at slot 0 is never reached and leaks.  Pre-drain the stack
+   * with yypop_buffer_state, which properly deletes and decrements; it is a
+   * no-op when the stack is already empty (normal <<EOF>> path).
+   */
+  yypop_buffer_state (lexerstate->yyscanner); /* resplit buf, if any */
+  yypop_buffer_state (lexerstate->yyscanner); /* initial buf, if not EOF-popped */
+
   yylex_destroy (lexerstate->yyscanner);
 
+  grub_free (lexerstate->prefix);
   grub_free (lexerstate->recording);
   grub_free (lexerstate->text);
   grub_free (lexerstate);
