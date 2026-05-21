@@ -224,7 +224,7 @@ x509_verify_key_usage (grub_uint8_t *value, grub_int32_t value_size)
   grub_int32_t rc;
   grub_err_t err = GRUB_ERR_NONE;
   grub_uint8_t usage = 0xff;
-  grub_int32_t usage_size = sizeof (usage_size);
+  grub_int32_t usage_size = sizeof (usage);
 
   rc = asn1_create_element (grub_gnutls_pkix_asn, "PKIX1.KeyUsage", &usage_asn);
   if (rc != ASN1_SUCCESS)
