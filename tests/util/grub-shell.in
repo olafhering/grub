@@ -710,6 +710,7 @@ if [ x$boot = xcoreboot ]; then
 elif [ x$boot = xemu ]; then
     test -n "$debug" || rm -rf "$rootdir"
     test -n "$debug" || rm -f "$roottar"
+    test -n "$debug" || rm -f "$device_map"
 fi
 if [ x$boot = xnet ]; then
     test -n "$debug" || rm -rf "$work_directory/netdir"
