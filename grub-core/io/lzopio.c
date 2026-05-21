@@ -396,9 +396,11 @@ test_header (grub_file_t file)
     goto CORRUPTED;
 
   lzopio->saved_off = 0;
+  grub_free (context);
   return 1;
 
 CORRUPTED:
+  grub_free (context);
   return 0;
 }
 
