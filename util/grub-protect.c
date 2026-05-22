@@ -408,8 +408,6 @@ protect_tpm2_get_policy_digest (protect_args_t *args, TPM2B_DIGEST_t *digest)
       },
     }
   };
-  TPML_PCR_SELECTION_t pcr_sel_out = {0};
-  TPML_DIGEST_t pcr_values = {0};
   TPM2B_DIGEST_t pcr_digest = {0};
   grub_size_t pcr_digest_len;
   TPM2B_MAX_BUFFER_t pcr_concat = {0};
@@ -420,26 +418,18 @@ protect_tpm2_get_policy_digest (protect_args_t *args, TPM2B_DIGEST_t *digest)
   TPMT_SYM_DEF_t symmetric = {0};
   TPMI_SH_AUTH_SESSION_t session = 0;
   TPM2B_DIGEST_t policy_digest = {0};
+  grub_uint32_t pcr_bitmask = 0;
+  TPM2B_DIGEST_t pcr_vals[TPM_MAX_PCRS];
   grub_uint8_t i;
+  grub_uint8_t sel_byte;
+  grub_uint8_t sel_bit;
   grub_err_t err;
 
-  /* PCR Read */
+  /* Build PCR selection bitmask */
   for (i = 0; i < args->tpm2_pcr_count; i++)
-    TPMS_PCR_SELECTION_SelectPCR (&pcr_sel.pcrSelections[0], args->tpm2_pcrs[i]);
-
-  rc = grub_tpm2_pcr_read (NULL, &pcr_sel, NULL, &pcr_sel_out, &pcr_values, NULL);
-  if (rc != TPM_RC_SUCCESS)
     {
-      fprintf (stderr, "Failed to read PCRs (TPM2_PCR_Read: 0x%x).\n", rc);
-      return GRUB_ERR_BAD_DEVICE;
-    }
-
-  if ((pcr_sel_out.count != pcr_sel.count) ||
-       (pcr_sel.pcrSelections[0].sizeOfSelect !=
-	pcr_sel_out.pcrSelections[0].sizeOfSelect))
-    {
-      fprintf (stderr, N_("Could not read all the specified PCRs.\n"));
-      return GRUB_ERR_BAD_DEVICE;
+      TPMS_PCR_SELECTION_SelectPCR (&pcr_sel.pcrSelections[0], args->tpm2_pcrs[i]);
+      pcr_bitmask |= 1u << args->tpm2_pcrs[i];
     }
 
   /* Compute PCR Digest */
@@ -454,18 +444,24 @@ protect_tpm2_get_policy_digest (protect_args_t *args, TPM2B_DIGEST_t *digest)
       return GRUB_ERR_OUT_OF_RANGE;
     }
 
-  pcr_cursor = pcr_concat.buffer;
-  for (i = 0; i < args->tpm2_pcr_count; i++)
+  /* Read all selected PCRs. */
+  err = grub_tss2_read_pcrs (pcr_bitmask, args->tpm2_bank, pcr_vals);
+  if (err != GRUB_ERR_NONE)
     {
-      if (pcr_values.digests[i].size != pcr_digest_len)
-	{
-	  fprintf (stderr,
-		   N_("Bad PCR value size: expected %llu bytes but got %u bytes.\n"),
-		   (long long unsigned int)pcr_digest_len, pcr_values.digests[i].size);
-	  return GRUB_ERR_BAD_ARGUMENT;
-	}
+      fprintf (stderr, N_("Failed to read PCRs.\n"));
+      return err;
+    }
 
-      grub_memcpy (pcr_cursor, pcr_values.digests[i].buffer, pcr_digest_len);
+  pcr_cursor = pcr_concat.buffer;
+  for (i = 0; i < TPM_MAX_PCRS; i++)
+    {
+      sel_byte = i / 8;
+      sel_bit = 1u << (i % 8);
+
+      if (!(pcr_sel.pcrSelections[0].pcrSelect[sel_byte] & sel_bit))
+	continue;
+
+      grub_memcpy (pcr_cursor, pcr_vals[i].buffer, pcr_digest_len);
       pcr_cursor += pcr_digest_len;
     }
   pcr_concat.size = pcr_concat_len;

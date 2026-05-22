@@ -21,9 +21,12 @@
 
 #include <grub/err.h>
 #include <tss2_types.h>
+#include <tss2_structs.h>
 
 extern grub_err_t grub_tss2_hash_name_to_id (const char *name, TPM_ALG_ID_t *id);
 extern grub_err_t grub_tss2_hash_id_to_digest_size (TPM_ALG_ID_t id, grub_size_t *size);
 extern const char *grub_tss2_hash_id_to_name (TPM_ALG_ID_t id);
+extern grub_err_t grub_tss2_read_pcrs (grub_uint32_t pcr_bitmask, TPM_ALG_ID_t alg_id,
+				       TPM2B_DIGEST_t digests[TPM_MAX_PCRS]);
 
 #endif /* GRUB_TSS2_UTIL_HEADER */

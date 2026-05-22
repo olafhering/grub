@@ -917,81 +917,35 @@ tpm2_protector_unseal (tpm2key_policy_t policy_seq, TPM_HANDLE_t sealed_handle,
   return err;
 }
 
-#define TPM_PCR_STR_SIZE (sizeof (TPMU_HA_t) * 2 + 1)
-
-static grub_err_t
-tpm2_protector_get_pcr_str (const TPM_ALG_ID_t algo, grub_uint32_t index, char *pcr_str, grub_uint16_t buf_size)
-{
-  TPML_PCR_SELECTION_t pcr_sel = {
-    .count = 1,
-    .pcrSelections = {
-      {
-	.hash = algo,
-	.sizeOfSelect = 3,
-	.pcrSelect = {0}
-      },
-    }
-  };
-  TPML_DIGEST_t digest = {0};
-  grub_uint16_t i;
-  TPM_RC_t rc;
-
-  if (buf_size < TPM_PCR_STR_SIZE)
-    {
-      grub_snprintf (pcr_str, buf_size, "insufficient buffer");
-      return GRUB_ERR_OUT_OF_MEMORY;
-    }
-
-  TPMS_PCR_SELECTION_SelectPCR (&pcr_sel.pcrSelections[0], index);
-
-  rc = grub_tpm2_pcr_read (NULL, &pcr_sel, NULL, NULL, &digest, NULL);
-  if (rc != TPM_RC_SUCCESS)
-    {
-      grub_snprintf (pcr_str, buf_size, "TPM2_PCR_Read: 0x%x", rc);
-      return GRUB_ERR_BAD_DEVICE;
-    }
-
-  /* Check the returned digest number and size */
-  if (digest.count != 1 || digest.digests[0].size > sizeof (TPMU_HA_t))
-    {
-      grub_snprintf (pcr_str, buf_size, "invalid digest");
-      return GRUB_ERR_BAD_DEVICE;
-    }
-
-  /* Print the digest to the buffer */
-  for (i = 0; i < digest.digests[0].size; i++)
-    grub_snprintf (pcr_str + 2 * i, buf_size - 2 * i, "%02x", digest.digests[0].buffer[i]);
-
-  return GRUB_ERR_NONE;
-}
-
 static void
 tpm2_protector_dump_pcr (const TPM_ALG_ID_t bank)
 {
   const char *algo_name;
-  char pcr_str[TPM_PCR_STR_SIZE];
+  TPM2B_DIGEST_t digests[TPM_MAX_PCRS];
   grub_uint8_t i;
+  grub_uint16_t j;
   grub_err_t err;
 
   algo_name = grub_tss2_hash_id_to_name (bank);
   if (algo_name == NULL)
     algo_name = "other";
 
-  /* Try to fetch PCR 0 */
-  err = tpm2_protector_get_pcr_str (bank, 0, pcr_str, sizeof (pcr_str));
+  err = grub_tss2_read_pcrs ((1u << TPM_MAX_PCRS) - 1, bank, digests);
   if (err != GRUB_ERR_NONE)
     {
-      grub_printf ("Unsupported PCR bank [%s]: %s\n", algo_name, pcr_str);
+      grub_printf ("Unsupported PCR bank [%s]: 0x%x\n", algo_name, (unsigned) err);
+      grub_errno = GRUB_ERR_NONE;
       return;
     }
 
   grub_printf ("TPM PCR [%s]:\n", algo_name);
 
-  grub_printf ("  %02d: %s\n", 0, pcr_str);
-  for (i = 1; i < TPM_MAX_PCRS; i++)
+  for (i = 0; i < TPM_MAX_PCRS; i++)
     {
-      tpm2_protector_get_pcr_str (bank, i, pcr_str, sizeof (pcr_str));
-      grub_printf ("  %02d: %s\n", i, pcr_str);
+      grub_printf ("  %02d: ", i);
+      for (j = 0; j < digests[i].size; j++)
+	grub_printf ("%02x", digests[i].buffer[j]);
+      grub_printf ("\n");
     }
 }
 

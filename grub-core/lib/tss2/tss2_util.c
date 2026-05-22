@@ -21,6 +21,7 @@
 #include <grub/misc.h>
 #include <grub/mm.h>
 
+#include <tpm2_cmd.h>
 #include <tss2_util.h>
 
 typedef struct
@@ -83,4 +84,82 @@ grub_tss2_hash_id_to_name (TPM_ALG_ID_t id)
       return hash_alg_table[i].name;
 
   return NULL;
+}
+
+grub_err_t
+grub_tss2_read_pcrs (grub_uint32_t pcr_bitmask, TPM_ALG_ID_t alg_id,
+		     TPM2B_DIGEST_t digests[TPM_MAX_PCRS])
+{
+  TPML_PCR_SELECTION_t remaining = {0};
+  TPML_PCR_SELECTION_t returned_sel;
+  TPML_DIGEST_t values;
+  grub_size_t expected_size;
+  grub_uint32_t k;
+  grub_uint8_t i;
+  grub_uint8_t byte, bit;
+  grub_uint8_t prev0, prev1, prev2;
+  TPM_RC_t rc;
+  grub_err_t err;
+
+  err = grub_tss2_hash_id_to_digest_size (alg_id, &expected_size);
+  if (err != GRUB_ERR_NONE)
+    return err;
+
+  grub_memset (digests, 0, sizeof (TPM2B_DIGEST_t) * TPM_MAX_PCRS);
+
+  remaining.count = 1;
+  remaining.pcrSelections[0].hash = alg_id;
+  remaining.pcrSelections[0].sizeOfSelect = TPM_PCR_SELECT_MAX;
+  for (i = 0; i < TPM_MAX_PCRS; i++)
+    if (pcr_bitmask & (1u << i))
+      TPMS_PCR_SELECTION_SelectPCR (&remaining.pcrSelections[0], i);
+
+  while (remaining.pcrSelections[0].pcrSelect[0] ||
+	 remaining.pcrSelections[0].pcrSelect[1] ||
+	 remaining.pcrSelections[0].pcrSelect[2])
+    {
+      grub_memset (&returned_sel, 0, sizeof (returned_sel));
+      grub_memset (&values, 0, sizeof (values));
+      k = 0;
+
+      rc = grub_tpm2_pcr_read (NULL, &remaining, NULL, &returned_sel, &values, NULL);
+      if (rc != TPM_RC_SUCCESS)
+	return grub_error (GRUB_ERR_BAD_DEVICE,
+			   N_("TPM2_PCR_Read failed: status=0x%x"), rc);
+
+      if (values.count == 0 ||
+	  returned_sel.count == 0 ||
+	  returned_sel.pcrSelections[0].sizeOfSelect == 0)
+	return grub_error (GRUB_ERR_BAD_DEVICE,
+			   N_("TPM2_PCR_Read returned no digests"));
+
+      prev0 = remaining.pcrSelections[0].pcrSelect[0];
+      prev1 = remaining.pcrSelections[0].pcrSelect[1];
+      prev2 = remaining.pcrSelections[0].pcrSelect[2];
+
+      for (i = 0; i < TPM_MAX_PCRS && k < values.count; i++)
+	{
+	  byte = i / 8;
+	  bit = 1u << (i % 8);
+
+	  if (!(returned_sel.pcrSelections[0].pcrSelect[byte] & bit))
+	    continue;
+
+	  if (values.digests[k].size != expected_size)
+	    return grub_error (GRUB_ERR_BAD_DEVICE,
+			       N_("unexpected digest size for PCR %d"), i);
+
+	  digests[i] = values.digests[k++];
+	  remaining.pcrSelections[0].pcrSelect[byte] &= ~bit;
+	}
+
+      /* Ensure that the TPM device returns non-redundant PCR digests. */
+      if (remaining.pcrSelections[0].pcrSelect[0] == prev0 &&
+	  remaining.pcrSelections[0].pcrSelect[1] == prev1 &&
+	  remaining.pcrSelections[0].pcrSelect[2] == prev2)
+	return grub_error (GRUB_ERR_BAD_DEVICE,
+			   N_("TPM2_PCR_Read made no progress; aborting"));
+    }
+
+  return GRUB_ERR_NONE;
 }
