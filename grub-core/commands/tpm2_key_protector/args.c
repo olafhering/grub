@@ -92,23 +92,6 @@ grub_tpm2_protector_parse_asymmetric (const char *value,
 }
 
 grub_err_t
-grub_tpm2_protector_parse_bank (const char *value, TPM_ALG_ID_t *bank)
-{
-  if (grub_strcasecmp (value, "SHA1") == 0)
-    *bank = TPM_ALG_SHA1;
-  else if (grub_strcasecmp (value, "SHA256") == 0)
-    *bank = TPM_ALG_SHA256;
-  else if (grub_strcasecmp (value, "SHA384") == 0)
-    *bank = TPM_ALG_SHA384;
-  else if (grub_strcasecmp (value, "SHA512") == 0)
-    *bank = TPM_ALG_SHA512;
-  else
-    return grub_error (GRUB_ERR_OUT_OF_RANGE, N_("value '%s' is not a valid PCR bank"), value);
-
-  return GRUB_ERR_NONE;
-}
-
-grub_err_t
 grub_tpm2_protector_parse_tpm_handle (const char *value, TPM_HANDLE_t *handle)
 {
   grub_uint64_t num;

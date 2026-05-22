@@ -220,6 +220,7 @@ program = {
   common = grub-core/lib/tss2/buffer.c;
   common = grub-core/lib/tss2/tss2_mu.c;
   common = grub-core/lib/tss2/tpm2_cmd.c;
+  common = grub-core/lib/tss2/tss2_util.c;
   common = grub-core/commands/tpm2_key_protector/args.c;
   common = grub-core/commands/tpm2_key_protector/tpm2key_asn1_tab.c;
   common = util/grub-protect.c;

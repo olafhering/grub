@@ -34,6 +34,7 @@
 
 #include <tss2_buffer.h>
 #include <tss2_mu.h>
+#include <tss2_util.h>
 #include <tcg2.h>
 #include <tpm2_args.h>
 #include <tpm2.h>
@@ -442,23 +443,9 @@ protect_tpm2_get_policy_digest (protect_args_t *args, TPM2B_DIGEST_t *digest)
     }
 
   /* Compute PCR Digest */
-  switch (args->tpm2_bank)
-    {
-    case TPM_ALG_SHA1:
-      pcr_digest_len = TPM_SHA1_DIGEST_SIZE;
-      break;
-    case TPM_ALG_SHA256:
-      pcr_digest_len = TPM_SHA256_DIGEST_SIZE;
-      break;
-    case TPM_ALG_SHA384:
-      pcr_digest_len = TPM_SHA384_DIGEST_SIZE;
-      break;
-    case TPM_ALG_SHA512:
-      pcr_digest_len = TPM_SHA512_DIGEST_SIZE;
-      break;
-    default:
-      return GRUB_ERR_BAD_ARGUMENT;
-    }
+  err = grub_tss2_hash_id_to_digest_size (args->tpm2_bank, &pcr_digest_len);
+  if (err != GRUB_ERR_NONE)
+    return err;
 
   pcr_concat_len = pcr_digest_len * args->tpm2_pcr_count;
   if (pcr_concat_len > TPM_MAX_DIGEST_BUFFER)
@@ -1447,7 +1434,7 @@ protect_argp_parser (int key, char *arg, struct argp_state *state)
 	  return EINVAL;
 	}
 
-      err = grub_tpm2_protector_parse_bank (arg, &args->tpm2_bank);
+      err = grub_tss2_hash_name_to_id (arg, &args->tpm2_bank);
       if (err != GRUB_ERR_NONE)
 	{
 	  if (grub_errno != GRUB_ERR_NONE)

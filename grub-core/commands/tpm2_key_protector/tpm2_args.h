@@ -41,9 +41,6 @@ extern grub_err_t
 grub_tpm2_protector_parse_asymmetric (const char *value, grub_srk_type_t *srk_type);
 
 extern grub_err_t
-grub_tpm2_protector_parse_bank (const char *value, TPM_ALG_ID_t *bank);
-
-extern grub_err_t
 grub_tpm2_protector_parse_tpm_handle (const char *value, TPM_HANDLE_t *handle);
 
 #endif /* ! GRUB_TPM2_INTERNAL_ARGS_HEADER */

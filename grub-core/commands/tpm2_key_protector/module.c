@@ -28,6 +28,7 @@
 #include <tss2_buffer.h>
 #include <tss2_types.h>
 #include <tss2_mu.h>
+#include <tss2_util.h>
 #include <tcg2.h>
 
 #include "tpm2_args.h"
@@ -972,15 +973,8 @@ tpm2_protector_dump_pcr (const TPM_ALG_ID_t bank)
   grub_uint8_t i;
   grub_err_t err;
 
-  if (bank == TPM_ALG_SHA1)
-    algo_name = "sha1";
-  else if (bank == TPM_ALG_SHA256)
-    algo_name = "sha256";
-  else if (bank == TPM_ALG_SHA384)
-    algo_name = "sha384";
-  else if (bank == TPM_ALG_SHA512)
-    algo_name = "sha512";
-  else
+  algo_name = grub_tss2_hash_id_to_name (bank);
+  if (algo_name == NULL)
     algo_name = "other";
 
   /* Try to fetch PCR 0 */
@@ -1403,8 +1397,8 @@ tpm2_protector_init_cmd_handler (grub_extcmd_context_t ctxt, int argc,
 
   if (state[OPTION_BANK].set)  /* bank */
     {
-      err = grub_tpm2_protector_parse_bank (state[OPTION_BANK].arg,
-					    &tpm2_protector_ctx.bank);
+      err = grub_tss2_hash_name_to_id (state[OPTION_BANK].arg,
+				       &tpm2_protector_ctx.bank);
       if (err != GRUB_ERR_NONE)
 	return err;
     }
@@ -1489,21 +1483,15 @@ tpm2_dump_pcr (grub_command_t cmd __attribute__((__unused__)),
 	       int argc, char *argv[])
 {
   TPM_ALG_ID_t pcr_bank;
+  grub_err_t err;
 
   if (argc == 0)
     pcr_bank = TPM_ALG_SHA256;
-  else if (grub_strcmp (argv[0], "sha1") == 0)
-    pcr_bank = TPM_ALG_SHA1;
-  else if (grub_strcmp (argv[0], "sha256") == 0)
-    pcr_bank = TPM_ALG_SHA256;
-  else if (grub_strcmp (argv[0], "sha384") == 0)
-    pcr_bank = TPM_ALG_SHA384;
-  else if (grub_strcmp (argv[0], "sha512") == 0)
-    pcr_bank = TPM_ALG_SHA512;
   else
     {
-      grub_printf ("Unknown PCR bank\n");
-      return GRUB_ERR_BAD_ARGUMENT;
+      err = grub_tss2_hash_name_to_id (argv[0], &pcr_bank);
+      if (err != GRUB_ERR_NONE)
+	return err;
     }
 
   tpm2_protector_dump_pcr (pcr_bank);
