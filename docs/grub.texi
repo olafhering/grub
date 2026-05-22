@@ -6887,6 +6887,7 @@ you forget a command, you can run the command @command{help}
 * tpm2_key_protector_init::     Initialize the TPM2 key protector
 * tpm2_key_protector_clear::    Clear the TPM2 key protector
 * tpm2_dump_pcr::               Dump TPM2 PCRs
+* tpm_record_pcrs::             Snapshot TPM PCRs to an EFI variable
 * true::                        Do nothing, successfully
 * trust::                       Add public key to list of trusted keys
 * uki::                         Load Unified Kernel Image menu entries
@@ -8917,6 +8918,61 @@ is not specified, @samp{sha256} is chosen by default.
 
 Since GRUB measures every command into PCR 8, invoking @command{tpm2_dump_pcr}
 also extends PCR 8, so PCR 8 will not be a stable value in GRUB shell.
+@end deffn
+
+@node tpm_record_pcrs
+@subsection tpm_record_pcrs
+
+@deffn Command tpm_record_pcrs [@option{--efivar}=@var{name} | @option{-E} @var{name}] [@option{--bank}=@var{bank} | @option{-b} @var{bank}] [@var{pcrlist}@dots{}]
+Read the current values of the specified TPM PCR registers and write them
+to an EFI variable so that the snapshot is accessible to the operating system
+after ExitBootServices.
+
+Note: Only TPM 2.0 is supported; TPM 1.x devices are not supported due to the
+lack of TPM 1.x command support in GRUB.
+
+Each @var{pcrlist} argument is a comma-separated sequence of PCR indices or
+inclusive ranges (e.g.@: @samp{0,2,7} or @samp{0-7}). The keyword @samp{all}
+selects all 24 PCRs. Multiple @var{pcrlist} arguments are combined. If no
+argument is given, all 24 PCRs are recorded.
+
+The @option{--bank} option selects the hash algorithm used to read the PCRs.
+Supported values are @samp{sha1}, @samp{sha256}, @samp{sha384}, and
+@samp{sha512}. The default is @samp{sha256}.
+
+The @option{--efivar} option sets the name of the EFI variable that receives
+the snapshot (default: @samp{GrubPcrSnapshot}). The name must not exceed 30
+characters; longer names are rejected and the default name is used instead.
+The variable is stored under a GRUB-specific GUID and is created with
+boot-service and runtime access but without the non-volatile attribute, so it
+exists only for the duration of the current boot.
+
+The output stored in the variable is plain text, one line per PCR:
+
+@example
+NN algo hexdigest
+@end example
+
+@noindent
+where @samp{NN} is the zero-padded PCR index and @samp{hexdigest} is the
+lower-case hexadecimal digest.  For example, the command:
+
+@example
+tpm_record_pcrs 0,2,4,7
+@end example
+
+@noindent
+would store the following in the @samp{GrubPcrSnapshot} variable:
+
+@example
+00 sha256 a3b4c5d6e7f8091a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a
+02 sha256 c7d3a19e4f2b8065d1a3e7f9b2c4d6e8f0a1b3c5d7e9f2a4b6c8d0e2f4a6b8c0
+04 sha256 9f8e7d6c5b4a39281726150403020100ffeeddccbbaa99887766554433221100
+07 sha256 1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b
+@end example
+
+If no EFI TCG2 protocol is available (i.e.@: no TPM 2.0 is present), the
+command exits successfully without writing anything.
 @end deffn
 
 @node true
