@@ -30,7 +30,7 @@ export TEXTDOMAINDIR="@localedir@"
 
 . "$pkgdatadir/grub-mkconfig_lib"
 
-if [ "${GRUB_BOOTNEXT_DISABLE}" = "true" ]; then
+if [ "${GRUB_DISABLE_BOOTNEXT}" = "true" ]; then
     exit 0
 fi
 

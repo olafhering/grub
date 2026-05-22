@@ -1,7 +1,7 @@
 #!@BUILD_SHEBANG@
 set -u
 
-# grub-mkconfig must export GRUB_BOOTNEXT_DISABLE so the disable knob
+# grub-mkconfig must export GRUB_DISABLE_BOOTNEXT so the disable knob
 # documented in /etc/default/grub actually reaches 31_efi_bootnext.
 # Copyright (C) 2026  Thomas Grainger <tagrain@gmail.com>
 #
@@ -18,10 +18,10 @@ set -u
 # You should have received a copy of the GNU General Public License
 # along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Strategy: build a sandbox /etc with GRUB_BOOTNEXT_DISABLE=true and the
+# Strategy: build a sandbox /etc with GRUB_DISABLE_BOOTNEXT=true and the
 # only grub.d helper being the unmodified 31_efi_bootnext.  Put an
 # efibootmgr stub on PATH that touches a sentinel file and exits
-# non-zero if invoked, then run grub-mkconfig.  If GRUB_BOOTNEXT_DISABLE
+# non-zero if invoked, then run grub-mkconfig.  If GRUB_DISABLE_BOOTNEXT
 # propagates the helper exits 0 at its very first check and never
 # reaches efibootmgr; the sentinel must not appear.  Without the export
 # the helper falls through and trips the stub.
@@ -77,14 +77,14 @@ done
 cat > "$tmp/bin/efibootmgr" <<EOF
 #!/bin/sh
 touch "$tmp/efibootmgr-called"
-echo "trap: efibootmgr invoked under GRUB_BOOTNEXT_DISABLE=true" >&2
+echo "trap: efibootmgr invoked under GRUB_DISABLE_BOOTNEXT=true" >&2
 exit 1
 EOF
 
 chmod +x "$tmp/bin"/*
 
 cat > "$tmp/etc/default/grub" <<'EOF'
-GRUB_BOOTNEXT_DISABLE=true
+GRUB_DISABLE_BOOTNEXT=true
 EOF
 
 cp "$src_helper" "$tmp/etc/grub.d/31_efi_bootnext"
@@ -110,7 +110,7 @@ if ! out=$(PATH="$tmp/bin:$PATH" "$tmp/bin/grub-mkconfig" 2>&1); then
 fi
 
 if [ -f "$tmp/efibootmgr-called" ]; then
-    echo "FAIL: 31_efi_bootnext invoked efibootmgr despite GRUB_BOOTNEXT_DISABLE=true;" >&2
+    echo "FAIL: 31_efi_bootnext invoked efibootmgr despite GRUB_DISABLE_BOOTNEXT=true;" >&2
     echo "      grub-mkconfig did not export the variable to grub.d children." >&2
     printf -- '--- grub-mkconfig output ---\n%s\n----------------------------\n' "$out" >&2
     exit 1

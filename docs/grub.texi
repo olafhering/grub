@@ -1576,7 +1576,7 @@ backward compatibility with previous behaviour, <UUID>@@/dev/* is also accepted
 for non-EFI chainloaders even if the device does not match, and comma and
 semicolon are also accepted as separator.
 
-@item GRUB_BOOTNEXT_DISABLE
+@item GRUB_DISABLE_BOOTNEXT
 If set to @samp{true}, @command{grub-mkconfig} will not generate
 @command{bootnext} menu entries for other EFI boot manager entries detected
 via @command{efibootmgr}.  This disables the entire
