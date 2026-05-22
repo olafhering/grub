@@ -1,0 +1,119 @@
+#!@BUILD_SHEBANG@
+set -u
+
+# grub-mkconfig must export GRUB_BOOTNEXT_DISABLE so the disable knob
+# documented in /etc/default/grub actually reaches 31_efi_bootnext.
+# Copyright (C) 2026  Thomas Grainger <tagrain@gmail.com>
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Strategy: build a sandbox /etc with GRUB_BOOTNEXT_DISABLE=true and the
+# only grub.d helper being the unmodified 31_efi_bootnext.  Put an
+# efibootmgr stub on PATH that touches a sentinel file and exits
+# non-zero if invoked, then run grub-mkconfig.  If GRUB_BOOTNEXT_DISABLE
+# propagates the helper exits 0 at its very first check and never
+# reaches efibootmgr; the sentinel must not appear.  Without the export
+# the helper falls through and trips the stub.
+
+# 31_efi_bootnext bails early on hosts without /sys/firmware/efi, which
+# would mask the bug.  Only run where the disable check is actually
+# exercised.
+if [ ! -d /sys/firmware/efi ]; then
+    echo "SKIP: /sys/firmware/efi not present on host" >&2
+    exit 77
+fi
+
+builddir="@builddir@"
+[ -d "$builddir" ] || builddir="$PWD"
+
+src_mkconfig="$builddir/grub-mkconfig"
+src_lib="$builddir/grub-mkconfig_lib"
+src_helper="$builddir/31_efi_bootnext"
+
+if [ ! -f "$src_mkconfig" ] || [ ! -f "$src_lib" ] || [ ! -f "$src_helper" ]; then
+    echo "SKIP: grub-mkconfig artifacts not built" >&2
+    exit 77
+fi
+
+tmp=$(mktemp -d "${TMPDIR:-/tmp}/grub-mkconfig-bootnext.XXXXXXXX") || exit 99
+trap 'rm -rf "$tmp"' EXIT INT TERM
+
+mkdir -p "$tmp/bin" "$tmp/etc/default" "$tmp/etc/grub.d" "$tmp/share/grub"
+
+cp "$src_lib" "$tmp/share/grub/grub-mkconfig_lib"
+
+# Stubs for tools grub-mkconfig invokes before walking grub.d.
+cat > "$tmp/bin/grub-probe" <<'STUB'
+#!/bin/sh
+for arg do
+  case "$arg" in
+    --target=device) echo /dev/null; exit 0 ;;
+    --target=fs) echo ext2; exit 0 ;;
+    --target=fs_uuid|--target=partuuid) echo dummy-uuid; exit 0 ;;
+  esac
+done
+exit 0
+STUB
+
+for t in grub-file grub-editenv grub-script-check; do
+    cat > "$tmp/bin/$t" <<'STUB'
+#!/bin/sh
+exit 0
+STUB
+done
+
+# Trap: if 31_efi_bootnext reaches efibootmgr, leave a sentinel behind.
+cat > "$tmp/bin/efibootmgr" <<EOF
+#!/bin/sh
+touch "$tmp/efibootmgr-called"
+echo "trap: efibootmgr invoked under GRUB_BOOTNEXT_DISABLE=true" >&2
+exit 1
+EOF
+
+chmod +x "$tmp/bin"/*
+
+cat > "$tmp/etc/default/grub" <<'EOF'
+GRUB_BOOTNEXT_DISABLE=true
+EOF
+
+cp "$src_helper" "$tmp/etc/grub.d/31_efi_bootnext"
+chmod +x "$tmp/etc/grub.d/31_efi_bootnext"
+
+# Derived grub-mkconfig: point installation paths at the sandbox and
+# replace the EUID root check with `if false` so it runs unprivileged.
+sed -e "s|^prefix=\".*\"\$|prefix=\"$tmp\"|" \
+    -e "s|^exec_prefix=\".*\"\$|exec_prefix=\"$tmp\"|" \
+    -e "s|^sbindir=\".*\"\$|sbindir=\"$tmp/bin\"|" \
+    -e "s|^bindir=\".*\"\$|bindir=\"$tmp/bin\"|" \
+    -e "s|^sysconfdir=\".*\"\$|sysconfdir=\"$tmp/etc\"|" \
+    -e "s|^datadir=\".*\"\$|datadir=\"$tmp/share\"|" \
+    -e "s|^datarootdir=\".*\"\$|datarootdir=\"$tmp/share\"|" \
+    -e 's|^if \[ "$EUID" != 0 \] ; then$|if false ; then|' \
+    "$src_mkconfig" > "$tmp/bin/grub-mkconfig"
+chmod +x "$tmp/bin/grub-mkconfig"
+
+if ! out=$(PATH="$tmp/bin:$PATH" "$tmp/bin/grub-mkconfig" 2>&1); then
+    echo "FAIL: grub-mkconfig exited non-zero" >&2
+    printf '%s\n' "$out" >&2
+    exit 1
+fi
+
+if [ -f "$tmp/efibootmgr-called" ]; then
+    echo "FAIL: 31_efi_bootnext invoked efibootmgr despite GRUB_BOOTNEXT_DISABLE=true;" >&2
+    echo "      grub-mkconfig did not export the variable to grub.d children." >&2
+    printf -- '--- grub-mkconfig output ---\n%s\n----------------------------\n' "$out" >&2
+    exit 1
+fi
+
+exit 0
