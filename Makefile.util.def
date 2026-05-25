@@ -819,6 +819,18 @@ script = {
 };
 
 script = {
+  name = qemu-linkup;
+  common = tests/util/qemu-linkup.in;
+  installdir = noinst;
+};
+
+script = {
+  testcase = nonnative;
+  name = net_http_transfer_test;
+  common = tests/net_http_transfer_test.in;
+};
+
+script = {
   testcase = native;
   name = erofs_test;
   common = tests/erofs_test.in;

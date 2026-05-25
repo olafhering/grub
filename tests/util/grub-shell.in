@@ -22,6 +22,7 @@ prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 datarootdir="@datarootdir@"
 builddir="@builddir@"
+abs_top_builddir="@abs_top_builddir@"
 srcdir="@srcdir@"
 PACKAGE_NAME=@PACKAGE_NAME@
 PACKAGE_TARNAME=@PACKAGE_TARNAME@
@@ -173,6 +174,7 @@ case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
     i386-pc)
 	boot=cd
 	qemu=qemu-system-i386
+	qemuopts="$qemuopts -netdev tap,id=hostnet0,ifname=tap0,script=${abs_top_builddir}/qemu-linkup,downscript=no -device virtio-net-pci,netdev=hostnet0"
 	console=console
 	netbootext=0
 	;;
@@ -237,6 +239,7 @@ case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
 		exit 1
 	    fi
 	fi
+	qemuopts="$qemuopts -netdev tap,id=hostnet0,ifname=tap0,script=${abs_top_builddir}/qemu-linkup,downscript=no -device virtio-net-pci,netdev=hostnet0"
 	;;
     arm64-efi)
 	qemu=qemu-system-aarch64

@@ -242,6 +242,7 @@ widthspec.bin
 !/m4/ax_check_link_flag.m4
 /minixfs_test
 /missing
+/net_http_transfer_test
 /netboot_test
 /nilfs2_test
 /ntfs_test
@@ -263,6 +264,7 @@ widthspec.bin
 /printf_test
 /priority_queue_unit_test
 /pseries_test
+/qemu-linkup
 /reiserfs_test
 /romfs_test
 /squashfs_test
