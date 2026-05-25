@@ -457,22 +457,39 @@ grub_net_configure_by_dhcp_ack (const char *name,
 
   if (server_name)
     {
+      char *sname;
+
       grub_env_set_net_property (name, "dhcp_server_name", server_name, server_name_len);
-      if (is_def && !grub_net_default_server)
+
+      /*
+       * server_name is not NUL-terminated and GRUB's printf lacks "%.*s", so
+       * make a NUL-terminated copy.
+       */
+      sname = grub_malloc (server_name_len + 1);
+      if (sname == NULL)
+	grub_print_error ();
+      else
 	{
-	  grub_net_default_server = grub_strdup (server_name);
-	  grub_print_error ();
-	}
-      if (device && !*device)
-	{
-	  *device = grub_xasprintf ("%s,%s", vci_protocol ? : "tftp", server_name);
-	  grub_print_error ();
-	}
-      else if (device && vci_protocol)
-	{
-	  grub_free (*device);
-	  *device = grub_xasprintf ("%s,%s", vci_protocol, server_name);
-	  grub_print_error ();
+	  grub_memcpy (sname, server_name, server_name_len);
+	  sname[server_name_len] = '\0';
+
+	  if (is_def && !grub_net_default_server)
+	    {
+	      grub_net_default_server = grub_strdup (sname);
+	      grub_print_error ();
+	    }
+	  if (device && !*device)
+	    {
+	      *device = grub_xasprintf ("%s,%s", vci_protocol ? : "tftp", sname);
+	      grub_print_error ();
+	    }
+	  else if (device && vci_protocol)
+	    {
+	      grub_free (*device);
+	      *device = grub_xasprintf ("%s,%s", vci_protocol, sname);
+	      grub_print_error ();
+	    }
+	  grub_free (sname);
 	}
     }
 
@@ -481,7 +498,12 @@ grub_net_configure_by_dhcp_ack (const char *name,
       grub_env_set_net_property (name, "boot_file", boot_file, boot_file_len);
       if (path)
 	{
-	  *path = grub_strndup (boot_file, boot_file_len);
+	  *path = grub_malloc (boot_file_len + 1);
+	  if (*path)
+	    {
+	      grub_memcpy (*path, boot_file, boot_file_len);
+	      (*path)[boot_file_len] = '\0';
+	    }
 	  grub_print_error ();
 	  if (*path)
 	    {
