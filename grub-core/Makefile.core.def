@@ -1696,6 +1696,18 @@ module = {
 };
 
 module = {
+  name = virtionet;
+  common = net/drivers/virtio/virtionet.c;
+  enable = i386_coreboot;
+  enable = i386_qemu;
+  enable = i386_multiboot;
+  enable = i386_ieee1275;
+  enable = i386_pc;
+  enable = i386_efi;
+  enable = x86_64_efi;
+};
+
+module = {
   name = gettext;
   common = gettext/gettext.c;
 };
