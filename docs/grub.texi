@@ -4438,6 +4438,7 @@ Modules can be loaded via the @command{insmod} (@pxref{insmod}) command.
 * videoinfo_module::
 * videotest_module::
 * videotest_checksum_module::
+* virtionet_module::
 * wrmsr_module::
 * xen_boot_module::
 * xfs_module::
@@ -6263,6 +6264,27 @@ specified width and height.
 @section videotest_checksum
 This module is intended for performing a functional test of the video
 functions in GRUB by displaying a test image and capturing a checksum.
+
+@node virtionet_module
+@section virtionet
+This module provides a network driver for a virtio-net device in GRUB, such as
+the emulated NIC provided by QEMU.  It uses the virtio-PCI interface and
+supports PCI ID Vendor 0x1AF4 / Device 0x1000 (transitional virtio network
+device, modern mode only) and Vendor 0x1AF4 / Device 0x1041 (non-transitional
+virtio network device).  Only modern-mode operation (requiring
+@code{VIRTIO_F_VERSION_1}) is supported; legacy mode is not.
+
+To use this module, load it with @command{insmod} and then assign an IP address
+to the virtual NIC with @command{net_add_addr}.  @xref{net_add_addr}.
+
+An example QEMU network configuration using a TAP interface (root permissions
+are typically required) is:
+@samp{-netdev tap,id=hostnet0,ifname=tap0,script=/path/to/qemu-linkup,downscript=no
+-device virtio-net-pci,netdev=hostnet0}
+
+This module is useful when BIOS or UEFI network services are unavailable (for
+example, when BIOS PXE is not used) or when no native network driver exists for
+the target configuration.
 
 @node wrmsr_module
 @section wrmsr
