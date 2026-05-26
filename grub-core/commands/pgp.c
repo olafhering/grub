@@ -31,6 +31,7 @@
 #include <grub/kernel.h>
 #include <grub/extcmd.h>
 #include <grub/verify.h>
+#include <grub/time.h>
 
 GRUB_MOD_LICENSE ("GPLv3+");
 
@@ -254,6 +255,24 @@ grub_load_public_key (grub_file_t f)
 	{
 	  grub_file_seek (f, pend);
 	  continue;
+	}
+
+      /*
+       * Secret key packets embed the public key in the same leading format,
+       * so signature checking still works with them.  Warn rather than reject:
+       * this runs at boot time, where a hard error could leave a system
+       * unbootable for users who imported a secret key by mistake.
+       *
+       * TODO: once this warning has shipped in a release (e.g. after GRUB
+       * 2.15), turn it into a hard rejection of secret key packets.
+       */
+      if (type == GRUB_PGP_PACKET_SECRET_KEY
+	  || type == GRUB_PGP_PACKET_SECRET_SUBKEY)
+	{
+	  grub_printf_ (N_("warning: secret key packet found in public key data; "
+			   "use the corresponding public key instead\n"));
+	  /* Pause so the warning is noticed past normal boot scroll-by. */
+	  grub_sleep (5);
 	}
 
       if (grub_file_read (f, &v, sizeof (v)) != sizeof (v))
