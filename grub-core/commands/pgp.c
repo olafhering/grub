@@ -46,6 +46,12 @@ static const struct grub_arg_option options[] =
     {0, 0, 0, 0, 0, 0}
   };
 
+/* OpenPGP packet tags (RFC 4880, section 4.3).  */
+#define GRUB_PGP_PACKET_SECRET_KEY	5
+#define GRUB_PGP_PACKET_PUBLIC_KEY	6
+#define GRUB_PGP_PACKET_SECRET_SUBKEY	7
+#define GRUB_PGP_PACKET_PUBLIC_SUBKEY	14
+
 static grub_err_t
 read_packet_header (grub_file_t sig, grub_uint8_t *out_type, grub_size_t *len)
 {
@@ -241,8 +247,10 @@ grub_load_public_key (grub_file_t f)
       grub_dprintf ("crypt", "len = %x\n", (int) len);
 
       pend = grub_file_tell (f) + len;
-      if (type != 6 && type != 14
-	  && type != 5 && type != 7)
+      if (type != GRUB_PGP_PACKET_PUBLIC_KEY
+	  && type != GRUB_PGP_PACKET_PUBLIC_SUBKEY
+	  && type != GRUB_PGP_PACKET_SECRET_KEY
+	  && type != GRUB_PGP_PACKET_SECRET_SUBKEY)
 	{
 	  grub_file_seek (f, pend);
 	  continue;
