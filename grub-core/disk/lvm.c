@@ -138,9 +138,11 @@ grub_lvm_detect (grub_disk_t disk,
   grub_err_t err;
   grub_uint64_t mda_offset, mda_size;
   grub_size_t ptr;
+  grub_uint64_t mda_raw_offset, mda_raw_size, mda_raw_end;
   char buf[GRUB_LVM_LABEL_SIZE];
   char vg_id[GRUB_LVM_ID_STRLEN+1];
   char pv_id[GRUB_LVM_ID_STRLEN+1];
+  char mdah_buf[sizeof (struct grub_lvm_mda_header) + sizeof (struct grub_lvm_raw_locn)];
   char *metadatabuf, *mda_end, *vgname;
   const char *p, *q;
   struct grub_lvm_label_header *lh = (struct grub_lvm_label_header *) buf;
@@ -220,19 +222,22 @@ grub_lvm_detect (grub_disk_t disk,
   mda_offset = grub_le_to_cpu64 (dlocn->offset);
   mda_size = grub_le_to_cpu64 (dlocn->size);
 
+  if (mda_size < GRUB_LVM_MDA_HEADER_SIZE)
+    {
+#ifdef GRUB_UTIL
+      grub_util_info ("LVM metadata area is too small");
+#endif
+      goto fail;
+    }
+
   /* It's possible to have multiple copies of metadata areas, we just use the
      first one.  */
-
-  /* Allocate buffer space for the circular worst-case scenario. */
-  metadatabuf = grub_calloc (2, mda_size);
-  if (! metadatabuf)
+  err = grub_disk_read (disk, 0, mda_offset, sizeof (mdah_buf), mdah_buf);
+  if (err)
     goto fail;
 
-  err = grub_disk_read (disk, 0, mda_offset, mda_size, metadatabuf);
-  if (err)
-    goto fail2;
+  mdah = (struct grub_lvm_mda_header *) mdah_buf;
 
-  mdah = (struct grub_lvm_mda_header *) metadatabuf;
   if ((grub_strncmp ((char *)mdah->magic, GRUB_LVM_FMTT_MAGIC,
 		     sizeof (mdah->magic)))
       || (grub_le_to_cpu32 (mdah->version) != GRUB_LVM_FMTT_VERSION))
@@ -242,42 +247,68 @@ grub_lvm_detect (grub_disk_t disk,
 #ifdef GRUB_UTIL
       grub_util_info ("unknown LVM metadata header");
 #endif
-      goto fail2;
+      goto fail;
     }
 
   rlocn = mdah->raw_locns;
-  if (grub_le_to_cpu64 (rlocn->offset) >= grub_le_to_cpu64 (mda_size))
+
+  mda_raw_size = grub_le_to_cpu64 (rlocn->size);
+  mda_raw_offset = grub_le_to_cpu64 (rlocn->offset);
+
+  if (grub_add (mda_raw_offset, mda_raw_size, &mda_raw_end) ||
+      grub_le_to_cpu64 (mdah->size) > mda_size ||
+      grub_le_to_cpu64 (mdah->size) < GRUB_LVM_MDA_HEADER_SIZE ||
+      mda_raw_size > grub_le_to_cpu64 (mdah->size) - GRUB_LVM_MDA_HEADER_SIZE ||
+      mda_raw_offset >= grub_le_to_cpu64 (mdah->size) ||
+      mda_raw_offset < GRUB_LVM_MDA_HEADER_SIZE)
     {
+      grub_error (GRUB_ERR_OUT_OF_RANGE, "invalid LVM metadata area size/offset");
 #ifdef GRUB_UTIL
-      grub_util_info ("metadata offset is beyond end of metadata area");
+      grub_util_info ("invalid LVM metadata area size/offset");
 #endif
-      goto fail2;
+      goto fail;
     }
 
-  if (grub_le_to_cpu64 (rlocn->offset) + grub_le_to_cpu64 (rlocn->size) >
-      grub_le_to_cpu64 (mdah->size))
+  if (mda_raw_size > GRUB_SIZE_MAX - 1)
+    goto fail;
+
+  metadatabuf = grub_malloc (mda_raw_size + 1);
+
+  if (! metadatabuf)
+    goto fail;
+
+  metadatabuf[mda_raw_size] = '\0';
+
+  if (mda_raw_end > grub_le_to_cpu64 (mdah->size))
     {
-      if (2 * mda_size < GRUB_LVM_MDA_HEADER_SIZE ||
-          (grub_le_to_cpu64 (rlocn->offset) + grub_le_to_cpu64 (rlocn->size) -
-	   grub_le_to_cpu64 (mdah->size) > mda_size - GRUB_LVM_MDA_HEADER_SIZE))
-	{
-#ifdef GRUB_UTIL
-	  grub_util_info ("cannot copy metadata wrap in circular buffer");
-#endif
-	  goto fail2;
-	}
+      err = grub_disk_read (disk, 0,
+			    mda_offset + mda_raw_offset,
+			    grub_le_to_cpu64 (mdah->size) - mda_raw_offset,
+			    metadatabuf);
+      if (err)
+	goto fail2;
 
       /* Metadata is circular. Copy the wrap in place. */
-      grub_memcpy (metadatabuf + mda_size,
-		   metadatabuf + GRUB_LVM_MDA_HEADER_SIZE,
-		   grub_le_to_cpu64 (rlocn->offset) +
-		   grub_le_to_cpu64 (rlocn->size) -
-		   grub_le_to_cpu64 (mdah->size));
+      err = grub_disk_read (disk, 0,
+			    mda_offset + GRUB_LVM_MDA_HEADER_SIZE,
+			    mda_raw_end - grub_le_to_cpu64 (mdah->size),
+			    metadatabuf + grub_le_to_cpu64 (mdah->size) - mda_raw_offset);
+      if (err)
+	goto fail2;
+    }
+  else
+    {
+      err = grub_disk_read (disk, 0,
+			    mda_offset + mda_raw_offset,
+			    mda_raw_size,
+			    metadatabuf);
+      if (err)
+	goto fail2;
     }
 
-  if (grub_add ((grub_size_t)metadatabuf,
-		(grub_size_t)grub_le_to_cpu64 (rlocn->offset),
-		&ptr))
+  p = q = metadatabuf;
+
+  if (grub_add ((grub_size_t)metadatabuf, (grub_size_t)mda_raw_size, &ptr))
     {
  error_parsing_metadata:
 #ifdef GRUB_UTIL
@@ -285,11 +316,6 @@ grub_lvm_detect (grub_disk_t disk,
 #endif
       goto fail2;
     }
-
-  p = q = (char *)ptr;
-
-  if (grub_add (ptr, (grub_size_t) grub_le_to_cpu64 (rlocn->size), &ptr))
-    goto error_parsing_metadata;
 
   mda_end = (char *)ptr;
 
