@@ -6851,6 +6851,7 @@ you forget a command, you can run the command @command{help}
 * lsmem::                       List free and allocated memory blocks
 * lsmemregions::                List memory regions
 * md5sum::                      Compute or check MD5 hash
+* memmove_bench::               Benchmark and test grub_memmove
 * mfa_key_protector_init::      Initialize the MFA key protector
 * mfa_key_protector_clear::     Clear the MFA key protector
 * module::                      Load module for multiboot kernel
@@ -8054,6 +8055,115 @@ blocks, and total free / total allocated memory per region.
 @deffn Command md5sum arg @dots{}
 Alias for @code{hashsum --hash md5 arg @dots{}}. See command @command{hashsum}
 (@pxref{hashsum}) for full description.
+@end deffn
+
+@node memmove_bench
+@subsection memmove_bench
+
+@deffn Command memmove_bench [@var{loops}]
+Benchmark and correctness-test @code{grub_memmove}.  The command must be
+loaded with @command{insmod} before use:
+
+@example
+insmod memmove_bench
+memmove_bench
+@end example
+
+The optional @var{loops} argument (a positive integer, default @samp{1})
+repeats the benchmark the specified number of times.  When @var{loops} is
+greater than one, each loop's results are printed in full, followed by a
+summary of the average throughput across all loops.
+
+Before running the benchmark the command performs a correctness check of
+@code{grub_memmove} across all copy paths.  If any check fails an error is
+reported and the benchmark is skipped.
+
+The benchmark covers ten scenarios:
+
+@table @asis
+@item Non-overlapping copies (four alignment combinations)
+Aligned source / aligned destination, unaligned source / unaligned
+destination, unaligned source / aligned destination, and aligned source /
+unaligned destination.
+
+@item Overlapping byte-offset copies (two directions)
+Forward overlap (@var{dst} = @var{buf}, @var{src} = @var{buf}+1) and
+backward overlap (@var{dst} = @var{buf}+1, @var{src} = @var{buf}), where the
+1-byte offset forces the byte-copy path.
+
+@item Overlapping word-offset copies (two directions)
+Forward and backward overlap with a word-sized offset between the pointers,
+so both pointers share the same alignment modulo the word size and the
+word-copy path is taken.
+
+@item Overlapping unaligned word-offset copies (two directions)
+Same as the word-offset scenarios above but with both pointers starting one
+byte past an aligned boundary, exercising the word-copy path after the
+initial single-byte alignment step.
+@end table
+
+Each scenario is measured across buffer sizes from 8@tie{}B to 1@tie{}MiB
+(8@tie{}B, 16@tie{}B, 24@tie{}B, 32@tie{}B, 64@tie{}B, 128@tie{}B,
+256@tie{}B, 512@tie{}B, 1@tie{}KiB, 2@tie{}KiB, 4@tie{}KiB, 8@tie{}KiB,
+16@tie{}KiB, 32@tie{}KiB, 64@tie{}KiB, 128@tie{}KiB, 256@tie{}KiB,
+512@tie{}KiB, 1@tie{}MiB).  Throughput is reported in MiB/s.  Sizes that
+complete in under 1@tie{}ms are marked as too fast to measure.
+
+Example output for a single loop:
+
+@example
+grub_memmove benchmark
+ [non-overlap: aligned src,   aligned dst]
+      8 B      11 ms     1387 MiB/s
+     16 B       7 ms     4359 MiB/s
+     24 B       9 ms     5086 MiB/s
+     32 B      11 ms     5548 MiB/s
+     64 B       6 ms    10172 MiB/s
+    128 B      11 ms    11097 MiB/s
+    256 B       8 ms    15258 MiB/s
+    512 B      14 ms    17438 MiB/s
+    1 KiB       8 ms    24414 MiB/s
+    2 KiB      15 ms    26041 MiB/s
+    4 KiB      12 ms    32552 MiB/s
+    8 KiB      24 ms    32552 MiB/s
+   16 KiB      25 ms    31250 MiB/s
+   32 KiB      54 ms    28935 MiB/s
+   64 KiB      22 ms    28409 MiB/s
+  128 KiB      40 ms    31250 MiB/s
+  256 KiB      39 ms    32051 MiB/s
+  512 KiB      78 ms    32051 MiB/s
+    1 MiB      39 ms    25641 MiB/s
+ [non-overlap: unaligned src, unaligned dst]
+@dots{}
+@end example
+
+With @var{loops} set to 20 the output ends with:
+
+@example
+--- averages over 20 loops ---
+ [non-overlap: aligned src,   aligned dst]
+      8 B    1654 MiB/s (avg)
+     16 B    4004 MiB/s (avg)
+     24 B    5467 MiB/s (avg)
+     32 B    6494 MiB/s (avg)
+     64 B    9590 MiB/s (avg)
+    128 B   13069 MiB/s (avg)
+    256 B   15032 MiB/s (avg)
+    512 B   18149 MiB/s (avg)
+    1 KiB   24568 MiB/s (avg)
+    2 KiB   26954 MiB/s (avg)
+    4 KiB   30445 MiB/s (avg)
+    8 KiB   31862 MiB/s (avg)
+   16 KiB   32722 MiB/s (avg)
+   32 KiB   30614 MiB/s (avg)
+   64 KiB   30205 MiB/s (avg)
+  128 KiB   32485 MiB/s (avg)
+  256 KiB   32945 MiB/s (avg)
+  512 KiB   32512 MiB/s (avg)
+    1 MiB   26569 MiB/s (avg)
+ [non-overlap: unaligned src, unaligned dst]
+@dots{}
+@end example
 @end deffn
 
 @node mfa_key_protector_init

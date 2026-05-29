@@ -2244,6 +2244,11 @@ module = {
 };
 
 module = {
+  name = memmove_bench;
+  common = commands/memmove_bench.c;
+};
+
+module = {
   name = functional_test;
   common = tests/lib/functional_test.c;
   common = tests/lib/test.c;
