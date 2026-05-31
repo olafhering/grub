@@ -29,107 +29,29 @@
 
 GRUB_MOD_LICENSE ("GPLv3+");
 
-static char *
-get_hi_dsa_sig (grub_size_t *sz)
-{
-  char *ret;
-  *sz = sizeof (hi_dsa_sig);
-  ret = grub_malloc (sizeof (hi_dsa_sig));
-  if (ret)
-    grub_memcpy (ret, hi_dsa_sig, sizeof (hi_dsa_sig));
-  return ret;
-}
+#define CREATE_PROC_SIGFILE(_name, _fname)               \
+  static char *                                          \
+  get_##_name (grub_size_t *sz)                          \
+  {                                                      \
+    char *ret;                                           \
+    *sz = sizeof (_name);                                \
+    ret = grub_malloc (sizeof (_name));                  \
+    if (ret)                                             \
+      grub_memcpy (ret, (_name), sizeof (_name));        \
+    return ret;                                          \
+  }                                                      \
+  static struct grub_procfs_entry _name##_entry =        \
+  {                                                      \
+    .name = _fname,                                      \
+    .get_contents = get_##_name                          \
+  }
 
-static struct grub_procfs_entry hi_dsa_sig_entry =
-{
-  .name = "hi_dsa.sig",
-  .get_contents = get_hi_dsa_sig
-};
-
-static char *
-get_hi_dsa_pub (grub_size_t *sz)
-{
-  char *ret;
-  *sz = sizeof (hi_dsa_pub);
-  ret = grub_malloc (sizeof (hi_dsa_pub));
-  if (ret)
-    grub_memcpy (ret, hi_dsa_pub, sizeof (hi_dsa_pub));
-  return ret;
-}
-
-static struct grub_procfs_entry hi_dsa_pub_entry =
-{
-  .name = "hi_dsa.pub",
-  .get_contents = get_hi_dsa_pub
-};
-
-static char *
-get_hi_rsa_sig (grub_size_t *sz)
-{
-  char *ret;
-  *sz = sizeof (hi_rsa_sig);
-  ret = grub_malloc (sizeof (hi_rsa_sig));
-  if (ret)
-    grub_memcpy (ret, hi_rsa_sig, sizeof (hi_rsa_sig));
-  return ret;
-}
-
-static struct grub_procfs_entry hi_rsa_sig_entry =
-{
-  .name = "hi_rsa.sig",
-  .get_contents = get_hi_rsa_sig
-};
-
-static char *
-get_hi_rsa_pub (grub_size_t *sz)
-{
-  char *ret;
-  *sz = sizeof (hi_rsa_pub);
-  ret = grub_malloc (sizeof (hi_rsa_pub));
-  if (ret)
-    grub_memcpy (ret, hi_rsa_pub, sizeof (hi_rsa_pub));
-  return ret;
-}
-
-static struct grub_procfs_entry hi_rsa_pub_entry =
-{
-  .name = "hi_rsa.pub",
-  .get_contents = get_hi_rsa_pub
-};
-
-static char *
-get_hi_rsa_sequoia_sig (grub_size_t *sz)
-{
-  char *ret;
-  *sz = sizeof (hi_rsa_sequoia_sig);
-  ret = grub_malloc (sizeof (hi_rsa_sequoia_sig));
-  if (ret)
-    grub_memcpy (ret, hi_rsa_sequoia_sig, sizeof (hi_rsa_sequoia_sig));
-  return ret;
-}
-
-static struct grub_procfs_entry hi_rsa_sequoia_sig_entry =
-{
-  .name = "hi_rsa_sequoia.sig",
-  .get_contents = get_hi_rsa_sequoia_sig
-};
-
-static char *
-get_hi_rsa_sequoia_pub (grub_size_t *sz)
-{
-  char *ret;
-  *sz = sizeof (hi_rsa_sequoia_pub);
-  ret = grub_malloc (sizeof (hi_rsa_sequoia_pub));
-  if (ret)
-    grub_memcpy (ret, hi_rsa_sequoia_pub, sizeof (hi_rsa_sequoia_pub));
-  return ret;
-}
-
-static struct grub_procfs_entry hi_rsa_sequoia_pub_entry =
-{
-  .name = "hi_rsa_sequoia.pub",
-  .get_contents = get_hi_rsa_sequoia_pub
-};
+CREATE_PROC_SIGFILE (hi_dsa_sig, "hi_dsa.sig");
+CREATE_PROC_SIGFILE (hi_dsa_pub, "hi_dsa.pub");
+CREATE_PROC_SIGFILE (hi_rsa_sig, "hi_rsa.sig");
+CREATE_PROC_SIGFILE (hi_rsa_pub, "hi_rsa.pub");
+CREATE_PROC_SIGFILE (hi_rsa_sequoia_sig, "hi_rsa_sequoia.sig");
+CREATE_PROC_SIGFILE (hi_rsa_sequoia_pub, "hi_rsa_sequoia.pub");
 
 static char *
 get_hi (grub_size_t *sz)
@@ -158,7 +80,7 @@ struct grub_procfs_entry hj =
 };
 
 static void
-do_verify (const char *f, const char *sig, const char *pub, int is_valid)
+do_verify (const char *f, const char *sig, const char *pub, grub_err_t expect_result)
 {
   grub_command_t cmd;
   char *args[] = { (char *) f, (char *) sig,
@@ -173,7 +95,7 @@ do_verify (const char *f, const char *sig, const char *pub, int is_valid)
     }
   err = (cmd->func) (cmd, 3, args);
 
-  grub_test_assert (err == (is_valid ? 0 : GRUB_ERR_BAD_SIGNATURE),
+  grub_test_assert (err == expect_result,
 		    "verification failed: %d: %s", grub_errno, grub_errmsg);
   grub_errno = GRUB_ERR_NONE;
 
@@ -190,21 +112,27 @@ signature_test (void)
   grub_procfs_register ("hi_rsa_sequoia.pub", &hi_rsa_sequoia_pub_entry);
   grub_procfs_register ("hi_rsa_sequoia.sig", &hi_rsa_sequoia_sig_entry);
 
-  do_verify ("(proc)/hi", "(proc)/hi_dsa.sig", "(proc)/hi_dsa.pub", 1);
-  do_verify ("(proc)/hi", "(proc)/hi_dsa.sig", "(proc)/hi_dsa.pub", 1);
-  do_verify ("(proc)/hj", "(proc)/hi_dsa.sig", "(proc)/hi_dsa.pub", 0);
+  do_verify ("(proc)/hi", "(proc)/hi_dsa.sig", "(proc)/hi_dsa.pub",
+             GRUB_ERR_NONE);
+  do_verify ("(proc)/hi", "(proc)/hi_dsa.sig", "(proc)/hi_dsa.pub",
+             GRUB_ERR_NONE);
+  do_verify ("(proc)/hj", "(proc)/hi_dsa.sig", "(proc)/hi_dsa.pub",
+             GRUB_ERR_BAD_SIGNATURE);
 
-  do_verify ("(proc)/hi", "(proc)/hi_rsa.sig", "(proc)/hi_rsa.pub", 1);
-  do_verify ("(proc)/hj", "(proc)/hi_rsa.sig", "(proc)/hi_rsa.pub", 0);
+  do_verify ("(proc)/hi", "(proc)/hi_rsa.sig", "(proc)/hi_rsa.pub",
+             GRUB_ERR_NONE);
+  do_verify ("(proc)/hj", "(proc)/hi_rsa.sig", "(proc)/hi_rsa.pub",
+             GRUB_ERR_BAD_SIGNATURE);
 
   /*
    * RSA key/signature generated by Sequoia-PGP. These have somewhat different
    * format compared to GnuPG output: packet headers use "new format" encoding
    * and signature packet has the key ID in the hashed data subsection.
    */
-  grub_printf("running seq test\n");
-  do_verify ("(proc)/hi", "(proc)/hi_rsa_sequoia.sig", "(proc)/hi_rsa_sequoia.pub", 1);
-  do_verify ("(proc)/hj", "(proc)/hi_rsa_sequoia.sig", "(proc)/hi_rsa_sequoia.pub", 0);
+  do_verify ("(proc)/hi", "(proc)/hi_rsa_sequoia.sig", "(proc)/hi_rsa_sequoia.pub",
+             GRUB_ERR_NONE);
+  do_verify ("(proc)/hj", "(proc)/hi_rsa_sequoia.sig", "(proc)/hi_rsa_sequoia.pub",
+             GRUB_ERR_BAD_SIGNATURE);
 
   grub_procfs_unregister (&hi);
   grub_procfs_unregister (&hj);
@@ -214,7 +142,6 @@ signature_test (void)
   grub_procfs_unregister (&hi_rsa_pub_entry);
   grub_procfs_unregister (&hi_rsa_sequoia_sig_entry);
   grub_procfs_unregister (&hi_rsa_sequoia_pub_entry);
-
 }
 
 GRUB_FUNCTIONAL_TEST (signature_test, signature_test);
