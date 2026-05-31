@@ -36,11 +36,13 @@ grub_disk_cache_invalidate (unsigned long dev_id, unsigned long disk_id,
 {
   unsigned cache_index;
   struct grub_disk_cache *cache;
+  struct grub_disk_cache *p, *prev;
 
   sector &= ~((grub_disk_addr_t) GRUB_DISK_CACHE_SIZE - 1);
   cache_index = grub_disk_cache_get_index (dev_id, disk_id, sector);
   cache = grub_disk_cache_table + cache_index;
 
+  prev = cache;
   if (cache->dev_id == dev_id && cache->disk_id == disk_id
       && cache->sector == sector && cache->data)
     {
@@ -48,6 +50,19 @@ grub_disk_cache_invalidate (unsigned long dev_id, unsigned long disk_id,
       grub_free (cache->data);
       cache->data = 0;
       cache->lock = 0;
+    }
+
+  while ((p = prev->next) != NULL)
+    {
+      if (p->dev_id == dev_id && p->disk_id == disk_id
+	  && p->sector == sector)
+	{
+	  prev->next = p->next;
+	  grub_free (p->data);
+	  grub_free (p);
+	}
+      else
+	prev = p;
     }
 }
 

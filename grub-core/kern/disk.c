@@ -32,6 +32,9 @@
 #define MAX_READ_RECURSION_DEPTH	16
 static unsigned int read_recursion_depth = 0;
 
+/* Maximum number of recently evicted entries kept per cache entry. */
+#define GRUB_CACHE_EVICTED_MAX	3
+
 /* The last time the disk was used.  */
 static grub_uint64_t grub_last_time = 0;
 
@@ -67,11 +70,25 @@ grub_disk_cache_invalidate_all (void)
   for (i = 0; i < GRUB_DISK_CACHE_NUM; i++)
     {
       struct grub_disk_cache *cache = grub_disk_cache_table + i;
+      struct grub_disk_cache *p, *prev;
 
       if (cache->data && ! cache->lock)
 	{
 	  grub_free (cache->data);
 	  cache->data = 0;
+	}
+
+      prev = cache;
+      while ((p = prev->next) != NULL)
+	{
+	  if (p->lock)
+	    {
+	      prev = p;
+	      continue;
+	    }
+	  prev->next = p->next;
+	  grub_free (p->data);
+	  grub_free (p);
 	}
     }
 }
@@ -86,19 +103,21 @@ grub_disk_cache_fetch (unsigned long dev_id, unsigned long disk_id,
   cache_index = grub_disk_cache_get_index (dev_id, disk_id, sector);
   cache = grub_disk_cache_table + cache_index;
 
-  if (cache->dev_id == dev_id && cache->disk_id == disk_id
-      && cache->sector == sector)
-    {
-      if (cache->data)
-	cache->lock = 1;
+  do {
+    if (cache->dev_id == dev_id && cache->disk_id == disk_id
+	&& cache->sector == sector)
+      {
+	if (cache->data)
+	  cache->lock = 1;
 #if DISK_CACHE_STATS
-      if (cache->data)
-	grub_disk_cache_hits++;
-      else
-	grub_disk_cache_misses++;
+	if (cache->data)
+	  grub_disk_cache_hits++;
+	else
+	  grub_disk_cache_misses++;
 #endif
-      return cache->data;
-    }
+	return cache->data;
+      }
+  } while ((cache = cache->next) != NULL);
 
 #if DISK_CACHE_STATS
   grub_disk_cache_misses++;
@@ -117,9 +136,14 @@ grub_disk_cache_unlock (unsigned long dev_id, unsigned long disk_id,
   cache_index = grub_disk_cache_get_index (dev_id, disk_id, sector);
   cache = grub_disk_cache_table + cache_index;
 
-  if (cache->dev_id == dev_id && cache->disk_id == disk_id
-      && cache->sector == sector)
-    cache->lock = 0;
+  do {
+    if (cache->dev_id == dev_id && cache->disk_id == disk_id
+	&& cache->sector == sector)
+      {
+	cache->lock = 0;
+	break;
+      }
+  } while ((cache = cache->next) != NULL);
 }
 
 static grub_err_t
@@ -127,19 +151,63 @@ grub_disk_cache_store (unsigned long dev_id, unsigned long disk_id,
 		       grub_disk_addr_t sector, const char *data)
 {
   unsigned cache_index;
-  struct grub_disk_cache *cache;
+  struct grub_disk_cache *cache, *cur;
+  struct grub_disk_cache *old = NULL;
 
   cache_index = grub_disk_cache_get_index (dev_id, disk_id, sector);
   cache = grub_disk_cache_table + cache_index;
 
+  cur = cache;
+  while ((cur = cur->next) != NULL)
+    {
+      if (cur->dev_id == dev_id && cur->disk_id == disk_id &&
+	  cur->sector == sector)
+	{
+	  /*
+	   * Likely cache thrashing: this entry survived in the overflow chain,
+	   * meaning it was recently displaced from the primary slot by
+	   * conflicting accesses. Refill it in place so this still-fresh
+	   * block is effectively re-cached and can be hit again soon.
+	   */
+	  cur->lock = 1;
+	  grub_free (cur->data);
+	  cur->data = 0;
+	  cur->data = grub_malloc (GRUB_DISK_SECTOR_SIZE << GRUB_DISK_CACHE_BITS);
+	  if (! cur->data)
+	    {
+	      cur->lock = 0;
+	      return grub_errno;
+	    }
+	  grub_memcpy (cur->data, data,
+		   GRUB_DISK_SECTOR_SIZE << GRUB_DISK_CACHE_BITS);
+	  cur->lock = 0;
+	  return GRUB_ERR_NONE;
+	}
+    }
+
   cache->lock = 1;
+  if (cache->data)
+    {
+      old = grub_calloc (1, sizeof (struct grub_disk_cache));
+      grub_errno = GRUB_ERR_NONE;
+    }
+  if (old)
+    {
+      old->sector = cache->sector;
+      old->disk_id = cache->disk_id;
+      old->dev_id = cache->dev_id;
+    }
+
   grub_free (cache->data);
   cache->data = 0;
   cache->lock = 0;
 
   cache->data = grub_malloc (GRUB_DISK_SECTOR_SIZE << GRUB_DISK_CACHE_BITS);
   if (! cache->data)
-    return grub_errno;
+    {
+      grub_free (old);
+      return grub_errno;
+    }
 
   grub_memcpy (cache->data, data,
 	       GRUB_DISK_SECTOR_SIZE << GRUB_DISK_CACHE_BITS);
@@ -147,6 +215,40 @@ grub_disk_cache_store (unsigned long dev_id, unsigned long disk_id,
   cache->disk_id = disk_id;
   cache->sector = sector;
 
+  if (old)
+    {
+      int i;
+      cur = cache->next;
+      cache->next = old;
+      old->next = cur;
+
+      /*
+       * Keep only a small "recently evicted" tail in this bucket.
+       * These entries are still considered hot enough to track so repeated I/O
+       * to nearby/conflicting sectors can be recognized and re-promoted,
+       * reducing hash-collision cache thrashing. Drop anything older than this
+       * limit.
+       */
+      for (i = 1; i < GRUB_CACHE_EVICTED_MAX && cur; i++, cur = cur->next);
+
+      if (i == GRUB_CACHE_EVICTED_MAX && cur)
+	{
+	  struct grub_disk_cache *end = cur;
+
+	  cur = end->next;
+	  end->next = NULL;
+
+	  if (cur)
+	    {
+	      do {
+		struct grub_disk_cache *p = cur->next;
+		grub_free (cur->data);
+		grub_free (cur);
+		cur = p;
+	      } while (cur);
+	    }
+	}
+    }
   return GRUB_ERR_NONE;
 }
 

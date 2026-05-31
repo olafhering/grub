@@ -297,6 +297,7 @@ struct grub_disk_cache
   grub_disk_addr_t sector;
   char *data;
   int lock;
+  struct grub_disk_cache *next;
 };
 
 extern struct grub_disk_cache EXPORT_VAR(grub_disk_cache_table)[GRUB_DISK_CACHE_NUM];
