@@ -31,6 +31,7 @@ find_pciserial (grub_pci_device_t dev, grub_pci_id_t pciid __attribute__ ((unuse
   grub_uint32_t class, bar;
   grub_uint16_t cmdreg;
   grub_err_t err;
+  int i;
 
   cmd_addr = grub_pci_make_address (dev, GRUB_PCI_REG_COMMAND);
   cmdreg = grub_pci_read (cmd_addr);
@@ -38,16 +39,34 @@ find_pciserial (grub_pci_device_t dev, grub_pci_id_t pciid __attribute__ ((unuse
   class_addr = grub_pci_make_address (dev, GRUB_PCI_REG_REVISION);
   class = grub_pci_read (class_addr);
 
-  bar_addr = grub_pci_make_address (dev, GRUB_PCI_REG_ADDRESS_REG0);
-  bar = grub_pci_read (bar_addr);
-
   /* 16550 compatible MODEM or SERIAL. */
   if (((class >> 16) != GRUB_PCI_CLASS_COMMUNICATION_MODEM &&
        (class >> 16) != GRUB_PCI_CLASS_COMMUNICATION_SERIAL) ||
       ((class >> 8) & 0xff) != GRUB_PCI_SERIAL_16550_COMPATIBLE)
     return 0;
 
-  if ((bar & GRUB_PCI_ADDR_SPACE_MASK) != GRUB_PCI_ADDR_SPACE_IO)
+  /* Scan all 6 BARs to find the first I/O BAR */
+  bar = 0;
+  for (i = 0; i < 6; i++)
+    {
+      grub_uint32_t bar_val;
+
+      bar_addr = grub_pci_make_address (dev, GRUB_PCI_REG_ADDRESS_REG0 + i * 4);
+      bar_val = grub_pci_read (bar_addr);
+
+      if ((bar_val & GRUB_PCI_ADDR_SPACE_MASK) == GRUB_PCI_ADDR_SPACE_IO)
+	{
+	  bar = bar_val;
+	  break;
+	}
+
+      /* Skip the upper 32-bit slot of a 64-bit memory BAR. */
+      if ((bar_val & GRUB_PCI_ADDR_SPACE_MASK) == GRUB_PCI_ADDR_SPACE_MEMORY &&
+	  (bar_val & GRUB_PCI_ADDR_MEM_TYPE_MASK) == GRUB_PCI_ADDR_MEM_TYPE_64)
+	i++;
+    }
+
+  if (bar == 0)
     return 0;
 
   port = grub_zalloc (sizeof (*port));
