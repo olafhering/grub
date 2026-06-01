@@ -136,6 +136,7 @@
           - hddboot_test
           - help_test
           - lzocompress_test
+          - net_http_transfer_test
           - netboot_test
           - ohci_test
           - pata_test
