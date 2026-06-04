@@ -32,6 +32,11 @@ case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
     # FIXME: How do we setup serial ports in QEMU for these platforms?
     *-ieee1275)
 	exit 77;;
+    # FIXME: grub_pciserial_init() is built only for i386/x86_64 (see
+    # grub-core/term/serial.c), so the serial_pci probe below cannot work
+    # on these platforms.
+    arm*-efi | loongarch64-efi)
+	exit 77;;
 esac
 
 # Figure out the PCI device ID that the serial device will be on.
