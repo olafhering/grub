@@ -58,7 +58,7 @@ read_cr4 (void)
 static void
 write_cr0 (grub_uint64_t val)
 {
-  asm volatile ("mov %0,%%cr4": "+r" (val) : : "memory");
+  asm volatile ("mov %0,%%cr0": "+r" (val) : : "memory");
 }
 
 static void
