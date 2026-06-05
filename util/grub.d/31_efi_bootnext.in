@@ -80,6 +80,13 @@ else
     ACTIVE_PAT='\*\{0,1\}'
 fi
 
+# Captured once and embedded in each menuentry just before reboot.
+# save_default_entry emits a literal 'savedefault' line when
+# GRUB_SAVEDEFAULT=true, nothing otherwise; placing the call inside the
+# 'if bootnext' success branch means failed one-shots (e.g. require-entry
+# rejection) do not update grubenv.  Cf. 30_os-prober.in:204.
+SAVEDEFAULT="`save_default_entry`"
+
 printf '%s\n' "${EFI_OUTPUT}" | \
     sed -n "s/^Boot\([0-9A-Fa-f]\{4\}\)${ACTIVE_PAT} *\([^${TAB}]*\)${TAB}\{0,1\}\(.*\)/\1${TAB}\2${TAB}\3/p" | \
 while IFS="${TAB}" read -r bootnum label devpath; do
@@ -140,6 +147,7 @@ while IFS="${TAB}" read -r bootnum label devpath; do
 if [ "\$grub_platform" = "efi" ]; then
   menuentry '$(gettext_printf "%s (EFI BootNext)" "${label}" | grub_quote)' $CLASS --class os \$menuentry_id_option 'efi-bootnext-${bootnum}' {
     if bootnext ${bootnum}; then
+      ${SAVEDEFAULT}
       reboot
     fi
   }
