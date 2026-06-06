@@ -100,9 +100,14 @@ find_max_size (void)
 void
 grub_cpu_relocator_preamble (void *rels)
 {
+  /* PT2(2M) entries needed to cover all RAM */
   grub_uint64_t nentries = (find_max_size () + PS_PAGE_SIZE - 1) >> PAGE_PS_SHIFT;
-  grub_uint64_t npt2pages = (nentries + PAGE_NUM_ENTRIES - 1) >> PAGE_IDX_SIZE;
-  grub_uint64_t npt3pages = (npt2pages + PAGE_NUM_ENTRIES - 1) >> PAGE_IDX_SIZE;
+  /* PT3(1G) entries needed to cover all RAM */
+  grub_uint64_t npt3entries = (nentries + PAGE_NUM_ENTRIES - 1) >> PAGE_IDX_SIZE;
+  /* PT3 pages to hold all 1G entries */
+  grub_uint64_t npt3pages = (npt3entries + PAGE_NUM_ENTRIES - 1) >> PAGE_IDX_SIZE;
+  /* PT2 pages to hold all 2M entries, including tail (max_ram_size to next 512G) */
+  grub_uint64_t npt2pages = npt3pages << PAGE_IDX_SIZE;
   grub_uint8_t *p = rels;
   grub_uint64_t *pt4 = (grub_uint64_t *) (p + GRUB_PAGE_SIZE);
   grub_uint64_t *pt3 = pt4 + PAGE_NUM_ENTRIES;
@@ -147,8 +152,9 @@ static void
 compute_preamble_size (void)
 {
   grub_uint64_t nentries = (find_max_size () + PS_PAGE_SIZE - 1) >> PAGE_PS_SHIFT;
-  grub_uint64_t npt2pages = (nentries + PAGE_NUM_ENTRIES - 1) >> PAGE_IDX_SIZE;
-  grub_uint64_t npt3pages = (npt2pages + PAGE_NUM_ENTRIES - 1) >> PAGE_IDX_SIZE;
+  grub_uint64_t npt3entries = (nentries + PAGE_NUM_ENTRIES - 1) >> PAGE_IDX_SIZE;
+  grub_uint64_t npt3pages = (npt3entries + PAGE_NUM_ENTRIES - 1) >> PAGE_IDX_SIZE;
+  grub_uint64_t npt2pages = npt3pages << PAGE_IDX_SIZE;
   grub_relocator_preamble_size = (npt2pages + npt3pages + 1 + 1) << GRUB_PAGE_SHIFT;
 }
 
