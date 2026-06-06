@@ -645,6 +645,7 @@ grub_cmd_nslookup (struct grub_command *cmd __attribute__ ((unused)),
     return grub_error (GRUB_ERR_BAD_ARGUMENT, N_("two arguments expected"));
   if (argc == 2)
     {
+      cmd_server.option = DNS_OPTION_PREFER_IPV4;
       err = grub_net_resolve_address (args[1], &cmd_server);
       if (err)
 	return err;
