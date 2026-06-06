@@ -96,10 +96,6 @@ struct grub_pks
 };
 typedef struct grub_pks grub_pks_t;
 
-/* Initialization of the Platform Keystore. */
-extern void
-grub_pks_keystore_init (void);
-
 /* Platform KeyStore db and dbx. */
 extern grub_pks_t *
 EXPORT_FUNC (grub_pks_get_keystore) (void);

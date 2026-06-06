@@ -32,13 +32,6 @@ static grub_uint32_t pks_max_object_size = 0;
 static grub_pks_t pks_keystore = { .db = NULL, .dbx = NULL, .db_entries = 0,
                                    .dbx_entries = 0, .db_exists = true};
 /*
- * pks_use_keystore: Key Management Modes
- * False: Static key management (use built-in Keys). This is default.
- * True: Dynamic key management (use Platform KeySotre).
- */
-static bool pks_use_keystore = false;
-
-/*
  * Reads the Globally Unique Identifier (GUID), EFI Signature Database (ESD),
  * and its size from the Platform KeyStore EFI Signature List (ESL), then
  * stores them into the PKS Signature Database (SD) (i.e., pks_sd buffer
@@ -279,22 +272,16 @@ grub_pks_free_data (void)
   grub_memset (&pks_keystore, 0, sizeof (grub_pks_t));
 }
 
+/* Read Platform KeyStore db and dbx. */
 grub_pks_t *
 grub_pks_get_keystore (void)
-{
-  return (pks_use_keystore == true) ? &pks_keystore : NULL;
-}
-
-/* Initialization of the Platform KeyStore. */
-void
-grub_pks_keystore_init (void)
 {
   grub_err_t rc_db, rc_dbx;
 
   grub_dprintf ("ieee1275", "trying to load Platform KeyStore\n");
 
   if (is_pks_present () == false)
-    return;
+    return NULL;
 
   /*
    * When read db from PKS, there are three scenarios
@@ -324,5 +311,5 @@ grub_pks_keystore_init (void)
    * At this point, it's evident that PKS infrastructure exists, so the PKS
    * keystore must be used for validating appended signatures.
    */
-  pks_use_keystore = true;
+  return &pks_keystore;
 }
