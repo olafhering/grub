@@ -1,0 +1,128 @@
+#! @BUILD_SHEBANG@
+# Copyright (C) 2026  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+# Test purpose:
+# Verify that GRUB correctly reads the TFTP server name and boot file from
+# the fixed BOOTP header fields (sname and file) when the corresponding
+# DHCP options 66 and 67 are absent.  This exercises the fallback branches
+# in bootp.c:grub_net_configure_by_dhcp_ack:
+#
+#   Lines 274-279 (server name fallback):
+#     if (option 66 absent) && bp->server_name[0]:
+#         server_name = bp->server_name   (64-byte sname field)
+#     → grub_env_set_net_property(name, "dhcp_server_name", ...)
+#
+#   Lines 287-292 (boot file fallback):
+#     if (option 67 absent) && bp->boot_file[0]:
+#         boot_file = bp->boot_file       (128-byte file field)
+#     → grub_env_set_net_property(name, "boot_file", ...)
+#
+# The server (dhcp_server.py --sname=... --file=...) populates the fixed
+# BOOTP header fields without including options 66 or 67, so the option
+# path is skipped and only the fallback is exercised.
+#
+# After net_bootp, GRUB exposes these values as environment variables:
+#   net_virtionet_dhcp_dhcp_server_name  ← from sname field
+#   net_virtionet_dhcp_boot_file         ← from file field
+# (grub_env_set_net_property replaces ':' with '_' in the interface name
+# "virtionet:dhcp", yielding the "virtionet_dhcp" component.)
+
+set -e
+grubshell=@builddir@/grub-shell
+srcdir="@srcdir@"
+
+. "@builddir@/grub-core/modinfo.sh"
+
+if [ "$EUID" = "" ] ; then EUID=$(id -u); fi
+if [ "$EUID" != 0 ] ; then
+    echo "Skipping, not run as root!"
+    exit 99
+fi
+
+case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
+    i386-pc | x86_64-efi) ;;
+    *) exit 77;;
+esac
+
+TEST_HOST_IP="169.254.67.38"
+TEST_OFFERED_IP="169.254.67.39"
+TEST_SNAME="grub-tftp-server"
+TEST_FILE="grub/test.cfg"
+
+DHCP_SERVER_CMD="python3 ${srcdir}/tests/dhcp_server.py \
+    --sname=${TEST_SNAME} --file=${TEST_FILE} \
+    ${TEST_HOST_IP} ${TEST_OFFERED_IP}"
+
+outfile=""
+SERVER_LOOP_PID=""
+
+cleanup () {
+    kill "${SERVER_LOOP_PID}" 2>/dev/null || true
+    pkill -TERM -f "dhcp_server.py" 2>/dev/null || true
+    wait
+    rm -f "${outfile}"
+}
+trap cleanup EXIT
+
+pkill -TERM -f "dhcp_server.py" 2>/dev/null || true
+
+for n in $(seq 1 20); do
+    sleep 0.5
+    ${DHCP_SERVER_CMD} 2>/dev/null || true
+done &
+SERVER_LOOP_PID=$!
+
+outfile="$(mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX")" || exit 99
+${grubshell} > "${outfile}" <<EOF
+insmod net
+insmod virtionet
+net_bootp virtionet
+echo MARK_VARS
+echo \$net_virtionet_dhcp_dhcp_server_name
+echo \$net_virtionet_dhcp_boot_file
+echo MARK_DONE
+EOF
+
+section () {
+    awk -v s="$1" -v e="$2" '$0==s{p=1;next} $0==e{exit} p' "${outfile}"
+}
+
+fail () {
+    echo "FAIL: $1"
+    echo "--- grub output ---"
+    cat "${outfile}"
+    exit 1
+}
+
+if ! grep -q "^MARK_DONE$" "${outfile}"; then
+    fail "GRUB did not reach MARK_DONE"
+fi
+
+vars=$(section MARK_VARS MARK_DONE)
+
+# Check 1: sname fixed field → net_virtionet_dhcp_dhcp_server_name
+if echo "${vars}" | grep -qF "${TEST_SNAME}"; then
+    echo "PASS: sname fallback: net_virtionet_dhcp_dhcp_server_name = ${TEST_SNAME}"
+else
+    fail "sname fallback: expected '${TEST_SNAME}' in net_virtionet_dhcp_dhcp_server_name (got: ${vars})"
+fi
+
+# Check 2: file fixed field → net_virtionet_dhcp_boot_file
+if echo "${vars}" | grep -qF "${TEST_FILE}"; then
+    echo "PASS: file fallback: net_virtionet_dhcp_boot_file = ${TEST_FILE}"
+else
+    fail "file fallback: expected '${TEST_FILE}' in net_virtionet_dhcp_boot_file (got: ${vars})"
+fi

@@ -172,11 +172,13 @@ http_err (grub_net_tcp_socket_t sock __attribute__ ((unused)),
 }
 
 /* Called when the server closes its send-side (FIN received).  Unlike
-   http_err we do not abort the socket here — the server half-closed
-   cleanly, so we just mark the client side closed and signal EOF.  This
-   allows http_establish's poll loop to exit when a non-200 response is
-   followed by an immediate connection close (e.g. 404, 500) rather than
-   spinning for the full 100 × 300 ms timeout.  */
+   http_err we do not abort (no RST): the server half-closed cleanly, so
+   we send our own FIN via GRUB_NET_TCP_DISCARD for an orderly four-way
+   close.  That also detaches the socket's hooks, so no callback can fire
+   into the file once it is freed.  We then signal EOF, which lets
+   http_establish's poll loop exit immediately on a non-200 response
+   followed by an immediate close (e.g. 404, 500) instead of spinning for
+   the full 100 × 300 ms timeout.  */
 static void
 http_fin (grub_net_tcp_socket_t sock __attribute__ ((unused)),
 	  void *f)
@@ -184,6 +186,8 @@ http_fin (grub_net_tcp_socket_t sock __attribute__ ((unused)),
   grub_file_t file = f;
   http_data_t data = file->data;
 
+  if (data->sock)
+    grub_net_tcp_close (data->sock, GRUB_NET_TCP_DISCARD);
   data->sock = 0;
   if (data->current_line)
     grub_free (data->current_line);

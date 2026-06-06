@@ -1,0 +1,234 @@
+#! @BUILD_SHEBANG@
+# Copyright (C) 2026  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+# Test purpose:
+# Exercise the net module's configuration commands without requiring any real
+# network traffic.  Three round-trips are verified:
+#
+#   A. net_add_addr / net_ls_addr / net_del_addr
+#      net_ls_cards shows the virtionet card.
+#
+#   B. net_add_route / net_ls_routes / net_del_route
+#
+#   C. net_set_vlan / net_ls_addr (VLAN tag appears / disappears)
+#
+#   D. Net env vars: $net_virt0_ip and $net_virt0_mac are set after
+#      net_add_addr.  After net_del_addr only the write hook is removed;
+#      the static env value is preserved (stale value retained).
+#
+# Each section is delimited by a single-word MARK_* echo so the bash
+# post-processor can extract and check sections independently.
+
+set -e
+grubshell=@builddir@/grub-shell
+srcdir="@srcdir@"
+
+. "@builddir@/grub-core/modinfo.sh"
+
+# Root is required to create the tap interface inside QEMU.
+if [ "$EUID" = "" ] ; then EUID=$(id -u); fi
+if [ "$EUID" != 0 ] ; then
+    echo "Skipping, not run as root!"
+    exit 99
+fi
+
+# Only platforms for which grub-shell configures a virtio-net device.
+case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
+    i386-pc | x86_64-efi) ;;
+    *) exit 77;;
+esac
+
+outfile=""
+cleanup () { rm -f "${outfile}"; }
+trap cleanup EXIT
+
+outfile="$(mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX")" || exit 99
+
+# Run the full command sequence in a single GRUB session.
+# MARK_* lines act as section delimiters parsed by the checks below.
+${grubshell} > "${outfile}" <<EOF
+insmod net
+insmod virtionet
+echo MARK_CARDS
+net_ls_cards
+echo MARK_ENVVAR_BEFORE_ADD
+echo \$net_virt0_ip
+echo MARK_ADDR_AFTER_ADD
+net_add_addr virt0 virtionet 169.254.67.39
+net_ls_addr
+echo MARK_ENVVAR_AFTER_ADD
+echo \$net_virt0_ip
+echo \$net_virt0_mac
+echo MARK_ADDR_AFTER_DEL
+net_del_route virt0:local
+net_del_addr virt0
+net_ls_addr
+echo MARK_ENVVAR_AFTER_DEL
+echo \$net_virt0_ip
+echo MARK_ROUTES_AFTER_ADD
+net_add_addr virt0 virtionet 169.254.67.39
+net_add_route testroute 192.168.99.0/24 virt0
+net_ls_routes
+echo MARK_ROUTES_AFTER_DEL
+net_del_route testroute
+net_ls_routes
+echo MARK_VLAN_AFTER_SET
+net_set_vlan virt0 100
+net_ls_addr
+echo MARK_VLAN_AFTER_CLEAR
+net_set_vlan virt0 0
+net_ls_addr
+echo MARK_DONE
+EOF
+
+# Verify that the GRUB session ran to completion.
+if ! grep -q "^MARK_DONE$" "${outfile}"; then
+    echo "FAIL: GRUB script did not reach MARK_DONE"
+    cat "${outfile}"
+    exit 1
+fi
+
+# Helper: print lines between two markers (both exclusive).
+# Usage: section MARK_START MARK_END
+section () {
+    awk -v s="$1" -v e="$2" '$0==s{p=1;next} $0==e{exit} p' "${outfile}"
+}
+
+fail () {
+    echo "FAIL: $1"
+    echo "--- full grub output ---"
+    cat "${outfile}"
+    exit 1
+}
+
+# -------------------------------------------------------------------------
+# A1. net_ls_cards shows the virtionet card.
+# Output format: "<card-name> <MAC>\n"
+# -------------------------------------------------------------------------
+cards_out=$(section MARK_CARDS MARK_ENVVAR_BEFORE_ADD)
+if echo "${cards_out}" | grep -q "^virtionet "; then
+    echo "PASS: net_ls_cards shows virtionet"
+else
+    fail "virtionet not found in net_ls_cards output (got: ${cards_out})"
+fi
+
+# -------------------------------------------------------------------------
+# D1. $net_virt0_ip is not set before net_add_addr.
+# -------------------------------------------------------------------------
+envvar_before=$(section MARK_ENVVAR_BEFORE_ADD MARK_ADDR_AFTER_ADD)
+if echo "${envvar_before}" | grep -q "169\.254\.67\.39"; then
+    fail "net_virt0_ip was already 169.254.67.39 before net_add_addr (got: ${envvar_before})"
+else
+    echo "PASS: net_virt0_ip not set before net_add_addr"
+fi
+
+# -------------------------------------------------------------------------
+# A2. net_ls_addr after net_add_addr shows virt0 with the assigned IP.
+# Output format: "<name> <MAC> <IP> [<vlan>]\n"
+# -------------------------------------------------------------------------
+addr_add=$(section MARK_ADDR_AFTER_ADD MARK_ENVVAR_AFTER_ADD)
+if echo "${addr_add}" | grep -q "^virt0 .*169\.254\.67\.39"; then
+    echo "PASS: net_ls_addr after net_add_addr shows virt0/169.254.67.39"
+else
+    fail "virt0/169.254.67.39 not in net_ls_addr after add (got: ${addr_add})"
+fi
+
+# -------------------------------------------------------------------------
+# D2. $net_virt0_ip equals the assigned IP after net_add_addr.
+# D3. $net_virt0_mac is non-empty and MAC-shaped after net_add_addr.
+# grub_net_network_level_interface_register exports these via grub_env_set.
+# Colons in the interface name are replaced with '_' in the env var name.
+# -------------------------------------------------------------------------
+envvar_after_add=$(section MARK_ENVVAR_AFTER_ADD MARK_ADDR_AFTER_DEL)
+if echo "${envvar_after_add}" | grep -q "^169\.254\.67\.39$"; then
+    echo "PASS: net_virt0_ip = 169.254.67.39 after net_add_addr"
+else
+    fail "net_virt0_ip incorrect after net_add_addr (got: ${envvar_after_add})"
+fi
+if echo "${envvar_after_add}" | grep -qE "^([0-9a-f]{2}:){5}[0-9a-f]{2}$"; then
+    echo "PASS: net_virt0_mac is set after net_add_addr"
+else
+    fail "net_virt0_mac missing or wrong format after net_add_addr (got: ${envvar_after_add})"
+fi
+
+# -------------------------------------------------------------------------
+# A3. net_ls_addr after net_del_addr no longer shows virt0.
+# -------------------------------------------------------------------------
+addr_del=$(section MARK_ADDR_AFTER_DEL MARK_ENVVAR_AFTER_DEL)
+if echo "${addr_del}" | grep -q "^virt0 "; then
+    fail "virt0 still in net_ls_addr after net_del_addr (got: ${addr_del})"
+else
+    echo "PASS: net_ls_addr after net_del_addr does not show virt0"
+fi
+
+# -------------------------------------------------------------------------
+# D4. $net_virt0_ip retains its stale value after net_del_addr.
+# grub_net_network_level_interface_unregister calls
+# grub_register_variable_hook(name, NULL, NULL) which removes the write hook
+# but does not clear the static env value set by grub_env_set at registration.
+# -------------------------------------------------------------------------
+envvar_after_del=$(section MARK_ENVVAR_AFTER_DEL MARK_ROUTES_AFTER_ADD)
+if echo "${envvar_after_del}" | grep -q "^169\.254\.67\.39$"; then
+    echo "PASS: net_virt0_ip retains stale value after net_del_addr"
+else
+    fail "net_virt0_ip unexpected after net_del_addr (got: ${envvar_after_del})"
+fi
+
+# -------------------------------------------------------------------------
+# B1. net_ls_routes after net_add_route shows the named route.
+# Output format: "<name> <CIDR> <interface>\n"
+# -------------------------------------------------------------------------
+routes_add=$(section MARK_ROUTES_AFTER_ADD MARK_ROUTES_AFTER_DEL)
+if echo "${routes_add}" | grep -q "^testroute "; then
+    echo "PASS: net_ls_routes after net_add_route shows testroute"
+else
+    fail "testroute not in net_ls_routes after add (got: ${routes_add})"
+fi
+
+# -------------------------------------------------------------------------
+# B2. net_ls_routes after net_del_route no longer shows the named route.
+# -------------------------------------------------------------------------
+routes_del=$(section MARK_ROUTES_AFTER_DEL MARK_VLAN_AFTER_SET)
+if echo "${routes_del}" | grep -q "^testroute "; then
+    fail "testroute still in net_ls_routes after net_del_route (got: ${routes_del})"
+else
+    echo "PASS: net_ls_routes after net_del_route does not show testroute"
+fi
+
+# -------------------------------------------------------------------------
+# C1. net_ls_addr after net_set_vlan 100 shows vlan100 on virt0.
+# net_ls_addr output: "<name> <MAC> <IP> <vlan>\n"
+# grub_net_vlan_to_str formats non-zero tags as "vlan<N>".
+# -------------------------------------------------------------------------
+vlan_set=$(section MARK_VLAN_AFTER_SET MARK_VLAN_AFTER_CLEAR)
+if echo "${vlan_set}" | grep -q "^virt0 .*vlan100"; then
+    echo "PASS: net_ls_addr after net_set_vlan 100 shows vlan100"
+else
+    fail "vlan100 not in net_ls_addr after net_set_vlan 100 (got: ${vlan_set})"
+fi
+
+# -------------------------------------------------------------------------
+# C2. net_ls_addr after net_set_vlan 0 no longer shows vlan100.
+# VLAN tag 0 is formatted as an empty string by grub_net_vlan_to_str.
+# -------------------------------------------------------------------------
+vlan_clear=$(section MARK_VLAN_AFTER_CLEAR MARK_DONE)
+if echo "${vlan_clear}" | grep -q "vlan100"; then
+    fail "vlan100 still in net_ls_addr after net_set_vlan 0 (got: ${vlan_clear})"
+else
+    echo "PASS: net_ls_addr after net_set_vlan 0 does not show vlan100"
+fi
+
+exit 0

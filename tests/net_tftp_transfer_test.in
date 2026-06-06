@@ -1,0 +1,104 @@
+#! @BUILD_SHEBANG@
+# Copyright (C) 2026  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+# Test purpose:
+# This test will test the ability of GRUB to transfer a file
+# from the host to GRUB memory using TFTP. This will exercise
+# the virtionet driver, network stack (Net layer, ARP, Ethernet, IP,
+# UDP), and TFTP code including blksize/tsize option negotiation.
+
+set -e
+grubshell=@builddir@/grub-shell
+srcdir="@srcdir@"
+
+. "@builddir@/grub-core/modinfo.sh"
+
+# This is required to run as root to support the "tap" interface
+# in Qemu and to bind to the privileged TFTP port (UDP 69).
+if [ "$EUID" = "" ] ; then
+	EUID=$(id -u)
+fi
+
+if [ "$EUID" != 0 ] ; then
+	echo "Skipping, not run as root!"
+	exit 99
+fi
+
+# Only platforms for which grub-shell configures a virtio-net device are
+# supported.  Extend this list as grub-shell gains virtio-net support for
+# additional targets.
+case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
+    i386-pc | x86_64-efi)
+	;;
+    *)
+	exit 77;;
+esac
+
+TEST_HOST_IP="169.254.67.38"
+# Serve files from the source tree so the test works in out-of-tree builds.
+TFTP_SERVER_CMD="python3 ${srcdir}/tests/tftp_server.py ${srcdir} ${TEST_HOST_IP}"
+
+outfile1=""
+outfile2=""
+SERVER_LOOP_PID=""
+
+cleanup ()
+{
+    # Kill the retry-loop shell so it does not restart the server, then
+    # kill any running server instance.  Use SIGTERM for clean shutdown.
+    kill "${SERVER_LOOP_PID}" 2>/dev/null || true
+    pkill -TERM -f "${TFTP_SERVER_CMD}" 2>/dev/null || true
+    wait
+    rm -f "${outfile1}" "${outfile2}"
+}
+trap cleanup EXIT
+
+# Ensure any stale server from a previous run is stopped.
+pkill -TERM -f "${TFTP_SERVER_CMD}" 2>/dev/null || true
+
+# Retry starting the TFTP server in the background.  The tap interface does
+# not exist until QEMU (started below via grub-shell) calls qemu-linkup, so
+# the first few bind attempts will fail; the loop retries every 0.5 s until
+# the interface is up and the server binds successfully.
+for n in $(seq 1 20); do
+    sleep 0.5
+    ${TFTP_SERVER_CMD} 2>/dev/null || true
+done &
+SERVER_LOOP_PID=$!
+
+# Run GRUB in Qemu and direct output to a temp file.
+outfile1="$(mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX")" || exit 99
+${grubshell} > "$outfile1" <<EOF
+insmod hashsum
+insmod tftp
+insmod virtionet
+net_add_addr virt0 virtionet 169.254.67.39
+md5sum (tftp,${TEST_HOST_IP})/unicode/UnicodeData.txt
+EOF
+
+# Capture the expected hash of the same file from the source tree.
+outfile2="$(mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX")" || exit 99
+md5sum "${srcdir}/unicode/UnicodeData.txt" > "${outfile2}"
+
+MD5SUM1=$(tr -d '\n' < "$outfile1" | cut -f1 -d" ")
+MD5SUM2=$(tr -d '\n' < "$outfile2" | cut -f1 -d" ")
+if test "$MD5SUM1" = "$MD5SUM2" ; then
+    exit 0
+else
+    echo "Actual: $MD5SUM1"
+    echo "Expected: $MD5SUM2"
+    exit 1
+fi

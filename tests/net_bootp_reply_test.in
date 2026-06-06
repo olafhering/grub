@@ -1,0 +1,107 @@
+#! @BUILD_SHEBANG@
+# Copyright (C) 2026  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+# Test purpose:
+# Verify that GRUB correctly handles a pure BOOTP reply (RFC 951) — a
+# BOOTREPLY that includes vendor extensions but no option 53 (DHCP message
+# type).  This exercises bootp.c line 647, the branch:
+#
+#   if (!iface->srv_id && type == GRUB_DHCP_MESSAGE_UNKNOWN)
+#
+# which fires when find_dhcp_option returns NULL for option 53.  The server
+# (dhcp_server.py --bootp) responds immediately to every BOOTREQUEST with a
+# single BOOTREPLY; there is no DISCOVER/OFFER/REQUEST/ACK handshake.
+#
+# Checks:
+#   1. net_ls_addr shows the BOOTP-assigned interface (virtionet:dhcp) with
+#      the expected IP, confirming grub_net_configure_by_dhcp_ack ran.
+#   2. net_get_dhcp_option correctly reads back the hostname (option 12) that
+#      the server embedded in the reply, confirming that vendor-extension
+#      parsing inside grub_net_configure_by_dhcp_ack still works on the
+#      BOOTP path.
+
+set -e
+grubshell=@builddir@/grub-shell
+srcdir="@srcdir@"
+
+. "@builddir@/grub-core/modinfo.sh"
+
+# Requires root to create the tap interface and to bind to port 67.
+if [ "$EUID" = "" ] ; then EUID=$(id -u); fi
+if [ "$EUID" != 0 ] ; then
+    echo "Skipping, not run as root!"
+    exit 99
+fi
+
+case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
+    i386-pc | x86_64-efi) ;;
+    *) exit 77;;
+esac
+
+TEST_HOST_IP="169.254.67.38"
+TEST_OFFERED_IP="169.254.67.39"
+TEST_HOSTNAME="grub-test-host"
+BOOTP_SERVER_CMD="python3 ${srcdir}/tests/dhcp_server.py --bootp ${TEST_HOST_IP} ${TEST_OFFERED_IP}"
+
+outfile=""
+SERVER_LOOP_PID=""
+
+cleanup () {
+    kill "${SERVER_LOOP_PID}" 2>/dev/null || true
+    pkill -TERM -f "dhcp_server.py" 2>/dev/null || true
+    wait
+    rm -f "${outfile}"
+}
+trap cleanup EXIT
+
+pkill -TERM -f "dhcp_server.py" 2>/dev/null || true
+
+# Retry loop: dhcp_server.py exits 1 when tap0 does not exist yet.
+for n in $(seq 1 20); do
+    sleep 0.5
+    ${BOOTP_SERVER_CMD} 2>/dev/null || true
+done &
+SERVER_LOOP_PID=$!
+
+outfile="$(mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX")" || exit 99
+${grubshell} > "${outfile}" <<EOF
+insmod net
+insmod virtionet
+net_bootp virtionet
+net_ls_addr
+net_get_dhcp_option - virtionet:dhcp 12 string
+EOF
+
+# Check 1: BOOTP-assigned interface appeared with the expected IP.
+if grep -q "virtionet:dhcp.*${TEST_OFFERED_IP}" "${outfile}"; then
+    echo "PASS: virtionet:dhcp interface assigned IP ${TEST_OFFERED_IP} via BOOTP"
+else
+    echo "FAIL: virtionet:dhcp interface with IP ${TEST_OFFERED_IP} not found in net_ls_addr output"
+    echo "--- grub output ---"
+    cat "${outfile}"
+    exit 1
+fi
+
+# Check 2: Vendor-extension option 12 (hostname) was parsed correctly from
+# the BOOTP reply by grub_net_configure_by_dhcp_ack.
+if grep -q "^${TEST_HOSTNAME}$" "${outfile}"; then
+    echo "PASS: BOOTP hostname option (opt 12) = ${TEST_HOSTNAME}"
+else
+    echo "FAIL: expected BOOTP hostname '${TEST_HOSTNAME}' not found in output"
+    echo "--- grub output ---"
+    cat "${outfile}"
+    exit 1
+fi

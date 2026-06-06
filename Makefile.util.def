@@ -832,6 +832,72 @@ script = {
 };
 
 script = {
+  testcase = nonnative;
+  name = net_tftp_transfer_test;
+  common = tests/net_tftp_transfer_test.in;
+};
+
+script = {
+  testcase = nonnative;
+  name = net_dns_lookup_test;
+  common = tests/net_dns_lookup_test.in;
+};
+
+script = {
+  testcase = nonnative;
+  name = net_http_chunk_test;
+  common = tests/net_http_chunk_test.in;
+};
+
+script = {
+  testcase = nonnative;
+  name = net_http_error_test;
+  common = tests/net_http_error_test.in;
+};
+
+script = {
+  testcase = nonnative;
+  name = net_dhcp_lease_test;
+  common = tests/net_dhcp_lease_test.in;
+};
+
+script = {
+  testcase = nonnative;
+  name = net_bootp_reply_test;
+  common = tests/net_bootp_reply_test.in;
+};
+
+script = {
+  testcase = nonnative;
+  name = net_bootp_fields_test;
+  common = tests/net_bootp_fields_test.in;
+};
+
+script = {
+  testcase = nonnative;
+  name = net_config_roundtrip_test;
+  common = tests/net_config_roundtrip_test.in;
+};
+
+script = {
+  testcase = nonnative;
+  name = net_tftp_error_test;
+  common = tests/net_tftp_error_test.in;
+};
+
+script = {
+  testcase = nonnative;
+  name = net_ip_frag_test;
+  common = tests/net_ip_frag_test.in;
+};
+
+script = {
+  testcase = nonnative;
+  name = net_dhcp_tftp_integration_test;
+  common = tests/net_dhcp_tftp_integration_test.in;
+};
+
+script = {
   testcase = native;
   name = erofs_test;
   common = tests/erofs_test.in;

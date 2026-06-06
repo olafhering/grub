@@ -132,7 +132,18 @@
           - hddboot_test
           - help_test
           - lzocompress_test
+          - net_bootp_fields_test
+          - net_bootp_reply_test
+          - net_config_roundtrip_test
+          - net_dhcp_lease_test
+          - net_dhcp_tftp_integration_test
+          - net_dns_lookup_test
+          - net_http_chunk_test
+          - net_http_error_test
           - net_http_transfer_test
+          - net_ip_frag_test
+          - net_tftp_error_test
+          - net_tftp_transfer_test
           - netboot_test
           - ohci_test
           - partmap_test

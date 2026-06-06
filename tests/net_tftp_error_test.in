@@ -1,0 +1,94 @@
+#! @BUILD_SHEBANG@
+# Copyright (C) 2026  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+# Test purpose:
+# Verify that GRUB correctly handles a TFTP ERROR packet (opcode 5).
+# When a server responds to an RRQ with a TFTP_ERROR packet, GRUB should
+# surface the error message from the packet rather than waiting for a
+# timeout.  This exercises the TFTP_ERROR case in grub-core/net/tftp.c
+# (recv_tftp): grub_error(GRUB_ERR_IO, ...) + grub_error_load().
+
+set -e
+grubshell=@builddir@/grub-shell
+srcdir="@srcdir@"
+
+. "@builddir@/grub-core/modinfo.sh"
+
+if [ "$EUID" = "" ] ; then EUID=$(id -u); fi
+if [ "$EUID" != 0 ] ; then
+    echo "Skipping, not run as root!"
+    exit 99
+fi
+
+case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
+    i386-pc | x86_64-efi) ;;
+    *) exit 77;;
+esac
+
+TEST_HOST_IP="169.254.67.38"
+TFTP_ERROR_CMD="python3 ${srcdir}/tests/tftp_error_server.py ${TEST_HOST_IP}"
+
+outfile=""
+SERVER_LOOP_PID=""
+
+cleanup () {
+    kill "${SERVER_LOOP_PID}" 2>/dev/null || true
+    pkill -TERM -f "${TFTP_ERROR_CMD}" 2>/dev/null || true
+    wait
+    rm -f "${outfile}"
+}
+trap cleanup EXIT
+
+pkill -TERM -f "${TFTP_ERROR_CMD}" 2>/dev/null || true
+
+for n in $(seq 1 20); do
+    sleep 0.5
+    ${TFTP_ERROR_CMD} 2>/dev/null || true
+done &
+SERVER_LOOP_PID=$!
+
+outfile="$(mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX")" || exit 99
+
+${grubshell} > "${outfile}" <<EOF
+insmod hashsum
+insmod tftp
+insmod virtionet
+net_add_addr virt0 virtionet 169.254.67.39
+echo MARK_START
+md5sum (tftp,${TEST_HOST_IP})/nonexistent.txt
+echo MARK_DONE
+EOF
+
+# MARK_DONE must appear: confirms GRUB returned from the failed fetch promptly
+# rather than polling until the grub-shell watchdog timeout fired.
+if ! grep -q "^MARK_DONE$" "${outfile}"; then
+    echo "FAIL: GRUB did not reach MARK_DONE — possible hang on TFTP error"
+    cat "${outfile}"
+    exit 1
+fi
+
+# The error message from the TFTP ERROR packet must appear in GRUB's output.
+# recv_tftp() calls grub_error(GRUB_ERR_IO, errmsg) and grub_error_load()
+# restores it so the calling command surfaces it to the terminal.
+if grep -q "File not found" "${outfile}"; then
+    echo "PASS: GRUB surfaced TFTP error message from ERROR packet"
+else
+    echo "FAIL: TFTP error message not found in GRUB output"
+    cat "${outfile}"
+    exit 1
+fi
+
+exit 0

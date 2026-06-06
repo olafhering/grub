@@ -1,0 +1,120 @@
+#! @BUILD_SHEBANG@
+# Copyright (C) 2026  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+# Test purpose:
+# This test exercises Transfer-Encoding: chunked in GRUB's net/http.c
+# (grub_net_tcp_open → http_receive → parse_line chunk-size/data/CRLF state
+# machine).  That code path is not exercised by the existing
+# net_http_transfer_test, which uses a plain Content-Length response.
+#
+# The custom HTTP server (tests/http_server.py) serves
+# unicode/UnicodeData.txt in 4096-byte chunks on port 8081.  GRUB computes
+# the md5sum of the reassembled file; the test compares that against the
+# md5sum computed directly on the host.  A mismatch indicates a bug in
+# chunk reassembly; a timeout or error indicates the eof signal from the
+# terminal "0\r\n\r\n" chunk was mishandled.
+#
+# A 120-second grub-shell timeout is used because the transfer involves
+# QEMU boot, virtio-net initialisation, and a 1.3 MB file transfer over
+# the emulated tap interface.
+
+set -e
+grubshell=@builddir@/grub-shell
+srcdir="@srcdir@"
+
+. "@builddir@/grub-core/modinfo.sh"
+
+# This is required to run as root to support the "tap" interface
+# in Qemu and to bind to port 8081.
+if [ "$EUID" = "" ] ; then
+	EUID=$(id -u)
+fi
+
+if [ "$EUID" != 0 ] ; then
+	echo "Skipping, not run as root!"
+	exit 99
+fi
+
+# Only platforms for which grub-shell configures a virtio-net device are
+# supported.  Extend this list as grub-shell gains virtio-net support for
+# additional targets.
+case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
+    i386-pc | x86_64-efi)
+	;;
+    *)
+	exit 77;;
+esac
+
+TEST_HOST_IP="169.254.67.38"
+TEST_HOST_PORT="8081"
+
+HTTP_CHUNK_SERVER_CMD="python3 ${srcdir}/tests/http_server.py ${TEST_HOST_IP} ${TEST_HOST_PORT} ${srcdir}"
+
+outfile=""
+SERVER_LOOP_PID=""
+
+cleanup ()
+{
+    # Kill the retry-loop shell so it does not restart the server, then
+    # kill any running server instance.  Use SIGTERM for clean shutdown.
+    kill "${SERVER_LOOP_PID}" 2>/dev/null || true
+    pkill -TERM -f "http_server.py" 2>/dev/null || true
+    wait
+    rm -f "${outfile}"
+}
+trap cleanup EXIT
+
+# Ensure any stale server from a previous run is stopped.
+pkill -TERM -f "http_server.py" 2>/dev/null || true
+
+# Retry starting the HTTP chunk server in the background.  The tap interface
+# does not exist until QEMU (started below via grub-shell) calls qemu-linkup,
+# so the first few bind attempts will fail; the loop retries every 0.5 s
+# until the interface is up and the server binds successfully.
+for n in $(seq 1 20); do
+    sleep 0.5
+    ${HTTP_CHUNK_SERVER_CMD} 2>/dev/null || true
+done &
+SERVER_LOOP_PID=$!
+
+# Run GRUB in Qemu and direct output to a temp file.
+# Use a 120 s timeout: QEMU boot + virtio-net setup + 1.3 MB chunked transfer
+# together exceed the default 60 s budget.
+outfile="$(mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX")" || exit 99
+${grubshell} --timeout=120 > "$outfile" <<EOF
+insmod hashsum
+insmod http
+insmod virtionet
+net_add_addr virt0 virtionet 169.254.67.39
+md5sum (http,${TEST_HOST_IP}:${TEST_HOST_PORT})/chunked/unicode/UnicodeData.txt
+EOF
+
+# Capture the expected hash of the same file from the source tree.
+EXPECTED_HASH=$(md5sum "${srcdir}/unicode/UnicodeData.txt" | cut -d' ' -f1)
+
+# GRUB's md5sum prints "<hash>  <filename>"; extract the first field.
+GRUB_HASH=$(tr -d '\n' < "$outfile" | cut -d' ' -f1)
+
+if [ "${GRUB_HASH}" = "${EXPECTED_HASH}" ]; then
+    echo "PASS: chunked Transfer-Encoding md5sum matches (${EXPECTED_HASH})"
+    exit 0
+else
+    echo "FAIL: chunked Transfer-Encoding md5sum mismatch"
+    echo "  Expected: ${EXPECTED_HASH}"
+    echo "  Actual:   ${GRUB_HASH}"
+    cat "$outfile"
+    exit 1
+fi

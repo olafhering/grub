@@ -1,0 +1,181 @@
+#! @BUILD_SHEBANG@
+# Copyright (C) 2026  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+# Test purpose:
+# Verify that GRUB's IPv4 fragment reassembly (ip.c) correctly
+# reconstructs a UDP datagram that arrives as multiple IP fragments.
+# The host-side server (frag_tftp_server.py) conducts a normal TFTP
+# handshake (RRQ → OACK → ACK 0) using standard UDP sockets, then
+# delivers the DATA block as IP-fragmented packets using a raw socket
+# with IP_HDRINCL so the MF flag and fragment-offset fields are set
+# explicitly by the server rather than by the kernel.
+#
+# Three scenarios are exercised in a single QEMU boot:
+#
+#   1. Two fragments (2frag):
+#        fragment 1 — IP header + UDP header (8 bytes IP payload, MF=1)
+#        fragment 2 — IP header + TFTP DATA  (MF=0, offset=8)
+#      Tests the core reassembly path:
+#        • reassemble struct creation / priority-queue insertion
+#        • asm_netbuff allocation on last-fragment arrival
+#        • assembly loop copying fragments in offset order
+#        • handle_dgram dispatch on completion
+#
+#   2. Three fragments (3frag):
+#        fragment 1 — IP header + UDP header (offset=0,  MF=1)
+#        fragment 2 — IP header + 8 B data  (offset=8,  MF=1)
+#        fragment 3 — IP header + remainder (offset=16, MF=0)
+#      Tests the priority queue with three elements: fragments 1 and 2 are
+#      pushed while asm_netbuff is not yet allocated; fragment 3 triggers
+#      allocation and the loop pops all three in one pass.
+#
+#   3. Missing final fragment (missingfrag):
+#        Only fragment 1 (MF=1, offset=0) is delivered; fragment 2 (MF=0)
+#        is deliberately withheld.  GRUB's reassembly creates the struct and
+#        pushes frag1 to the priority queue but never allocates asm_netbuff
+#        because the MF=0 fragment never arrives.  GRUB's TFTP read times
+#        out and md5sum reports an error.
+#      Tests that:
+#        • incomplete reassembly does not produce silent data corruption
+#          (no hash is output — the file is never delivered to md5sum)
+#        • GRUB recovers cleanly: the echo after the failed md5sum still
+#          executes, proving the error path is non-fatal to the script
+#      This scenario runs last because GRUB's TFTP timeout (~15 s) adds
+#      latency; the 2frag / 3frag success checks complete first.
+#
+# The server serves a known fixed file content for each success scenario:
+#   2frag → 100 × 0x41 ('A'),  md5 computed by the test
+#   3frag → 150 × 0x42 ('B'),  md5 computed by the test
+
+set -e
+grubshell=@builddir@/grub-shell
+srcdir="@srcdir@"
+
+. "@builddir@/grub-core/modinfo.sh"
+
+# Requires root to create the tap interface (QEMU) and to open a raw socket
+# (IPPROTO_RAW) for crafting the fragmented IP packets.
+if [ "$EUID" = "" ] ; then EUID=$(id -u); fi
+if [ "$EUID" != 0 ] ; then
+    echo "Skipping, not run as root!"
+    exit 99
+fi
+
+case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
+    i386-pc | x86_64-efi) ;;
+    *) exit 77;;
+esac
+
+TEST_HOST_IP="169.254.67.38"
+FRAG_SERVER_CMD="python3 ${srcdir}/tests/frag_tftp_server.py ${TEST_HOST_IP}"
+
+outfile=""
+SERVER_LOOP_PID=""
+
+cleanup () {
+    kill "${SERVER_LOOP_PID}" 2>/dev/null || true
+    pkill -TERM -f "frag_tftp_server.py" 2>/dev/null || true
+    wait
+    rm -f "${outfile}"
+}
+trap cleanup EXIT
+
+pkill -TERM -f "frag_tftp_server.py" 2>/dev/null || true
+
+# The server exits 1 when the bind to ${TEST_HOST_IP}:69 fails because tap0
+# does not exist yet.  Retry until QEMU's qemu-linkup brings it up.
+for n in $(seq 1 20); do
+    sleep 0.5
+    ${FRAG_SERVER_CMD} 2>/dev/null || true
+done &
+SERVER_LOOP_PID=$!
+
+outfile="$(mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX")" || exit 99
+# --timeout=90: the missingfrag scenario waits for GRUB's TFTP read timeout
+# (~15 s of retries) before md5sum returns an error and the script continues.
+# The 2frag and 3frag scenarios complete quickly; the extra headroom ensures
+# the missingfrag timeout does not trip the watchdog.
+${grubshell} --timeout=90 > "${outfile}" <<EOF
+insmod hashsum
+insmod tftp
+insmod virtionet
+net_add_addr virt0 virtionet 169.254.67.39
+echo MARK_2FRAG_START
+md5sum (tftp,${TEST_HOST_IP})/2frag
+echo MARK_2FRAG_DONE
+echo MARK_3FRAG_START
+md5sum (tftp,${TEST_HOST_IP})/3frag
+echo MARK_3FRAG_DONE
+echo MARK_MISSING_START
+md5sum (tftp,${TEST_HOST_IP})/missingfrag
+echo MARK_MISSING_DONE
+EOF
+
+fail () {
+    echo "FAIL: $1"
+    echo "--- grub output ---"
+    cat "${outfile}"
+    exit 1
+}
+
+section () {
+    awk -v s="$1" -v e="$2" '$0==s{p=1;next} $0==e{exit} p' "${outfile}"
+}
+
+# All three DONE markers must appear.  A missing marker means GRUB hung
+# inside md5sum and the grub-shell watchdog fired.
+if ! grep -q "^MARK_2FRAG_DONE$" "${outfile}"; then
+    fail "GRUB did not reach MARK_2FRAG_DONE — possible hang in 2-fragment reassembly"
+fi
+if ! grep -q "^MARK_3FRAG_DONE$" "${outfile}"; then
+    fail "GRUB did not reach MARK_3FRAG_DONE — possible hang in 3-fragment reassembly"
+fi
+if ! grep -q "^MARK_MISSING_DONE$" "${outfile}"; then
+    fail "GRUB did not reach MARK_MISSING_DONE — hung waiting for a fragment that never arrived"
+fi
+
+# Scenario 1: 2-fragment reassembly.
+# FILE_2FRAG = b'A' * 100; expected hash computed by Python.
+expected_2=$(python3 -c "import hashlib; print(hashlib.md5(b'A'*100).hexdigest())")
+grub_2=$(section MARK_2FRAG_START MARK_2FRAG_DONE | head -1 | awk '{print $1}')
+if [ -n "${grub_2}" ] && [ "${grub_2}" = "${expected_2}" ]; then
+    echo "PASS: 2-fragment reassembly: hash matches (${grub_2})"
+else
+    fail "2-fragment hash mismatch: GRUB='${grub_2}' expected='${expected_2}'"
+fi
+
+# Scenario 2: 3-fragment reassembly.
+# FILE_3FRAG = b'B' * 150; expected hash computed by Python.
+expected_3=$(python3 -c "import hashlib; print(hashlib.md5(b'B'*150).hexdigest())")
+grub_3=$(section MARK_3FRAG_START MARK_3FRAG_DONE | head -1 | awk '{print $1}')
+if [ -n "${grub_3}" ] && [ "${grub_3}" = "${expected_3}" ]; then
+    echo "PASS: 3-fragment reassembly: hash matches (${grub_3})"
+else
+    fail "3-fragment hash mismatch: GRUB='${grub_3}' expected='${expected_3}'"
+fi
+
+# Scenario 3: missing final fragment.
+# GRUB must report an error and must NOT output a valid md5 hash — the
+# incomplete reassembly must not silently deliver partial or zeroed data.
+# A valid 32-hex-character hash in this section would indicate corruption.
+missing_out=$(section MARK_MISSING_START MARK_MISSING_DONE)
+if echo "${missing_out}" | grep -qE '^[0-9a-f]{32}[[:space:]]'; then
+    fail "missingfrag: GRUB produced a hash from an incomplete reassembly — data corruption"
+else
+    echo "PASS: missing-fragment: no hash produced (incomplete reassembly correctly failed)"
+fi
+
+exit 0

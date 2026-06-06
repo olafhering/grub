@@ -1,0 +1,129 @@
+#! @BUILD_SHEBANG@
+# Copyright (C) 2026  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+# Test purpose:
+# Verify that GRUB correctly handles non-200 HTTP status responses.
+#
+# http.c parse_line() (branches on 200/206 (success) and everything else
+# (data->err set, no headers_recv).  The "everything else"
+# branch covers 404 → GRUB_ERR_FILE_NOT_FOUND and the default branch
+# → GRUB_ERR_NET_UNKNOWN_ERROR (500, 301, 403, etc.).
+#
+# When the server sends only a status line and closes, http_establish exits
+# its poll loop early (data->sock = 0 via http_err) after ~300 ms per
+# request.  Two requests fit well within --timeout=30; if either hangs
+# (e.g. the error is ignored and GRUB waits for data that never comes)
+# the grub-shell watchdog fires and MARK_DONE never appears.
+#
+# The custom HTTP server (tests/http_server.py) handles the /404 and /500
+# routes: it sends only the status line with no trailing blank line and
+# closes the connection, which is the minimal trigger for the error path.
+
+set -e
+grubshell=@builddir@/grub-shell
+srcdir="@srcdir@"
+
+. "@builddir@/grub-core/modinfo.sh"
+
+if [ "$EUID" = "" ] ; then EUID=$(id -u); fi
+if [ "$EUID" != 0 ] ; then
+    echo "Skipping, not run as root!"
+    exit 99
+fi
+
+case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
+    i386-pc | x86_64-efi) ;;
+    *) exit 77;;
+esac
+
+TEST_HOST_IP="169.254.67.38"
+TEST_HOST_PORT="8082"
+HTTP_ERROR_SERVER_CMD="python3 ${srcdir}/tests/http_server.py ${TEST_HOST_IP} ${TEST_HOST_PORT} ${srcdir}"
+
+outfile=""
+SERVER_LOOP_PID=""
+
+cleanup () {
+    kill "${SERVER_LOOP_PID}" 2>/dev/null || true
+    pkill -TERM -f "${HTTP_ERROR_SERVER_CMD}" 2>/dev/null || true
+    wait
+    rm -f "${outfile}"
+}
+trap cleanup EXIT
+
+pkill -TERM -f "${HTTP_ERROR_SERVER_CMD}" 2>/dev/null || true
+
+# Retry until the tap interface exists and the server can bind.
+for n in $(seq 1 20); do
+    sleep 0.5
+    ${HTTP_ERROR_SERVER_CMD} 2>/dev/null || true
+done &
+SERVER_LOOP_PID=$!
+
+outfile="$(mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX")" || exit 99
+
+# --timeout=30: each status-only response takes ~300 ms (one poll cycle in
+# http_establish); two requests + QEMU boot comfortably fit within 30 s.
+${grubshell} --timeout=30 > "${outfile}" <<EOF
+insmod hashsum
+insmod http
+insmod virtionet
+net_add_addr virt0 virtionet 169.254.67.39
+echo MARK_404
+md5sum (http,${TEST_HOST_IP}:${TEST_HOST_PORT})/404
+echo MARK_500
+md5sum (http,${TEST_HOST_IP}:${TEST_HOST_PORT})/500
+echo MARK_DONE
+EOF
+
+# Helper: print lines between two markers (both exclusive).
+section () {
+    awk -v s="$1" -v e="$2" '$0==s{p=1;next} $0==e{exit} p' "${outfile}"
+}
+
+fail () {
+    echo "FAIL: $1"
+    echo "--- full grub output ---"
+    cat "${outfile}"
+    exit 1
+}
+
+# MARK_DONE must appear: confirms both requests returned promptly rather
+# than blocking until the 30 s watchdog fired.
+if ! grep -q "^MARK_DONE$" "${outfile}"; then
+    fail "GRUB did not reach MARK_DONE — possible hang on HTTP error response"
+fi
+
+# 404: parse_line sets data->err = GRUB_ERR_FILE_NOT_FOUND and
+# data->errmsg = "file `/404' not found"; http_establish surfaces it when
+# the connection closes with headers_recv still 0.
+err_404=$(section MARK_404 MARK_500)
+if echo "${err_404}" | grep -qi "not found"; then
+    echo "PASS: GRUB reported file-not-found error for HTTP 404"
+else
+    fail "HTTP 404 error message not found in GRUB output (got: ${err_404})"
+fi
+
+# 500: parse_line default branch sets data->errmsg =
+# "unsupported HTTP error 500: <reason>"; http_establish surfaces it.
+err_500=$(section MARK_500 MARK_DONE)
+if echo "${err_500}" | grep -q "500"; then
+    echo "PASS: GRUB reported error for HTTP 500"
+else
+    fail "HTTP 500 error message not found in GRUB output (got: ${err_500})"
+fi
+
+exit 0

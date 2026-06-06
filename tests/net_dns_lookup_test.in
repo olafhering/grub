@@ -1,0 +1,185 @@
+#! @BUILD_SHEBANG@
+# Copyright (C) 2026  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+# Test purpose:
+# This test exercises GRUB's DNS resolution via net_nslookup against a
+# minimal DNS server running on the host side of the Qemu tap interface.
+# Four scenarios are covered in a single QEMU boot:
+#
+#   1. IPv4 A record: verify that a hostname resolves to the expected address.
+#   2. NXDOMAIN (RCODE=3): verify that an unknown hostname produces an error
+#      and no resolved address appears in the output.  Exercises the
+#      dns.c ERRCODE_MASK branch (head->ra_z_r_code & ERRCODE_MASK → dns_err).
+#   3. IPv6 AAAA record: verify that a hostname resolves to the expected IPv6
+#      address.  GRUB's grub_net_addr_to_str formats IPv6 without '::' run-
+#      length compression, so fd00::1 appears as fd00:0:0:0:0:0:0:1.
+#   4. SERVFAIL (RCODE=2): verify that a server error produces an error and no
+#      resolved address appears.  Exercises the same ERRCODE_MASK branch with
+#      a different non-zero RCODE value.
+#
+# Markers echoed by GRUB delimit each scenario's output so the host-side
+# verification can extract and check each section independently.
+
+set -e
+grubshell=@builddir@/grub-shell
+srcdir="@srcdir@"
+
+. "@builddir@/grub-core/modinfo.sh"
+
+# This is required to run as root to support the "tap" interface
+# in Qemu and to bind to the privileged DNS port (UDP 53).
+if [ "$EUID" = "" ] ; then
+	EUID=$(id -u)
+fi
+
+if [ "$EUID" != 0 ] ; then
+	echo "Skipping, not run as root!"
+	exit 99
+fi
+
+# Only platforms for which grub-shell configures a virtio-net device are
+# supported.  Extend this list as grub-shell gains virtio-net support for
+# additional targets.
+case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
+    i386-pc | x86_64-efi)
+	;;
+    *)
+	exit 77;;
+esac
+
+TEST_HOST_IP="169.254.67.38"
+
+# Scenario 1: IPv4 A record
+TEST_A_HOSTNAME="grub-test.example"
+TEST_A_RESOLVED_IP="169.254.67.100"
+
+# Scenario 2: NXDOMAIN (RCODE=3) — hostname not in server's record table
+TEST_NXDOMAIN_HOSTNAME="nonexistent.example"
+
+# Scenario 3: IPv6 AAAA record
+# GRUB formats IPv6 addresses without '::' compression, so fd00::1 is printed
+# as fd00:0:0:0:0:0:0:1.
+TEST_AAAA_HOSTNAME="grub-ipv6.example"
+TEST_AAAA_RESOLVED_IP="fd00::1"
+TEST_AAAA_GRUB_FORMAT="fd00:0:0:0:0:0:0:1"
+
+# Scenario 4: SERVFAIL (RCODE=2) — server signals an internal error
+TEST_SERVFAIL_HOSTNAME="servfail.example"
+
+DNS_SERVER_CMD="python3 ${srcdir}/tests/dns_server.py ${TEST_HOST_IP} \
+    ${TEST_A_HOSTNAME}=${TEST_A_RESOLVED_IP} \
+    ${TEST_AAAA_HOSTNAME}=${TEST_AAAA_RESOLVED_IP} \
+    ${TEST_SERVFAIL_HOSTNAME}=SERVFAIL"
+
+outfile=""
+SERVER_LOOP_PID=""
+
+cleanup ()
+{
+    # Kill the retry-loop shell so it does not restart the server, then
+    # kill any running server instance.  Use SIGTERM for clean shutdown.
+    kill "${SERVER_LOOP_PID}" 2>/dev/null || true
+    pkill -TERM -f "dns_server.py" 2>/dev/null || true
+    wait
+    rm -f "${outfile}"
+}
+trap cleanup EXIT
+
+# Ensure any stale server from a previous run is stopped.
+pkill -TERM -f "dns_server.py" 2>/dev/null || true
+
+# Retry starting the DNS server in the background.  The tap interface does
+# not exist until QEMU (started below via grub-shell) calls qemu-linkup, so
+# the first few bind attempts will fail; the loop retries every 0.5 s until
+# the interface is up and the server binds successfully.
+for n in $(seq 1 20); do
+    sleep 0.5
+    ${DNS_SERVER_CMD} 2>/dev/null || true
+done &
+SERVER_LOOP_PID=$!
+
+# Run GRUB in Qemu and direct output to a temp file.
+outfile="$(mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX")" || exit 99
+${grubshell} > "$outfile" <<EOF
+insmod net
+insmod virtionet
+net_add_addr virt0 virtionet 169.254.67.39
+echo "MARKER_A_BEGIN"
+net_nslookup ${TEST_A_HOSTNAME} ${TEST_HOST_IP}
+echo "MARKER_A_END"
+echo "MARKER_NXDOMAIN_BEGIN"
+net_nslookup ${TEST_NXDOMAIN_HOSTNAME} ${TEST_HOST_IP}
+echo "MARKER_NXDOMAIN_END"
+echo "MARKER_AAAA_BEGIN"
+net_nslookup ${TEST_AAAA_HOSTNAME} ${TEST_HOST_IP}
+echo "MARKER_AAAA_END"
+echo "MARKER_SERVFAIL_BEGIN"
+net_nslookup ${TEST_SERVFAIL_HOSTNAME} ${TEST_HOST_IP}
+echo "MARKER_SERVFAIL_END"
+EOF
+
+# Extract the output between each pair of markers for independent checking.
+section_a=$(awk '/MARKER_A_BEGIN/{p=1;next} /MARKER_A_END/{p=0} p' "$outfile")
+section_nxdomain=$(awk '/MARKER_NXDOMAIN_BEGIN/{p=1;next} /MARKER_NXDOMAIN_END/{p=0} p' "$outfile")
+section_aaaa=$(awk '/MARKER_AAAA_BEGIN/{p=1;next} /MARKER_AAAA_END/{p=0} p' "$outfile")
+section_servfail=$(awk '/MARKER_SERVFAIL_BEGIN/{p=1;next} /MARKER_SERVFAIL_END/{p=0} p' "$outfile")
+
+fail=0
+
+# Scenario 1: IPv4 A record — resolved address must appear.
+if echo "${section_a}" | grep -qF "${TEST_A_RESOLVED_IP}" ; then
+    echo "PASS: IPv4 A record resolved to ${TEST_A_RESOLVED_IP}"
+else
+    echo "FAIL: IPv4 A record — expected ${TEST_A_RESOLVED_IP} in output"
+    echo "--- section ---"
+    echo "${section_a}"
+    fail=1
+fi
+
+# Scenario 2: NXDOMAIN — an error must be reported and no IP may appear.
+if echo "${section_nxdomain}" | grep -qF "no DNS record found" && \
+   ! echo "${section_nxdomain}" | grep -qE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' ; then
+    echo "PASS: NXDOMAIN reported correctly for ${TEST_NXDOMAIN_HOSTNAME}"
+else
+    echo "FAIL: NXDOMAIN — expected error message and no IP address in output"
+    echo "--- section ---"
+    echo "${section_nxdomain}"
+    fail=1
+fi
+
+# Scenario 3: IPv6 AAAA record — GRUB prints the address without '::'.
+if echo "${section_aaaa}" | grep -qF "${TEST_AAAA_GRUB_FORMAT}" ; then
+    echo "PASS: IPv6 AAAA record resolved to ${TEST_AAAA_GRUB_FORMAT}"
+else
+    echo "FAIL: IPv6 AAAA record — expected ${TEST_AAAA_GRUB_FORMAT} in output"
+    echo "--- section ---"
+    echo "${section_aaaa}"
+    fail=1
+fi
+
+# Scenario 4: SERVFAIL (RCODE=2) — dns.c sets data->dns_err=1 via the
+# ERRCODE_MASK branch; GRUB must report an error and resolve no address.
+if echo "${section_servfail}" | grep -qF "no DNS record found" && \
+   ! echo "${section_servfail}" | grep -qE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' ; then
+    echo "PASS: SERVFAIL (RCODE=2) reported correctly for ${TEST_SERVFAIL_HOSTNAME}"
+else
+    echo "FAIL: SERVFAIL — expected error message and no IP address in output"
+    echo "--- section ---"
+    echo "${section_servfail}"
+    fail=1
+fi
+
+exit ${fail}

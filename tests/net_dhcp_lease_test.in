@@ -1,0 +1,101 @@
+#! @BUILD_SHEBANG@
+# Copyright (C) 2026  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+# Test purpose:
+# Verify that GRUB can acquire an IPv4 address via DHCP using the virtio-net
+# driver.  The test runs a minimal DHCP server on the host tap interface that
+# responds to DISCOVER->OFFER->REQUEST->ACK, then checks that:
+#   1. net_ls_addr shows the DHCP-assigned interface (virtionet:dhcp) with
+#      the expected IP address.
+#   2. net_get_dhcp_option correctly reads back the hostname option (opt 12)
+#      set by the server in the ACK.
+
+set -e
+grubshell=@builddir@/grub-shell
+srcdir="@srcdir@"
+
+. "@builddir@/grub-core/modinfo.sh"
+
+# Requires root to create the tap interface in QEMU and to bind to port 67.
+if [ "$EUID" = "" ] ; then EUID=$(id -u); fi
+if [ "$EUID" != 0 ] ; then
+    echo "Skipping, not run as root!"
+    exit 99
+fi
+
+# Only platforms for which grub-shell configures a virtio-net device.
+case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
+    i386-pc | x86_64-efi) ;;
+    *) exit 77;;
+esac
+
+TEST_HOST_IP="169.254.67.38"
+TEST_OFFERED_IP="169.254.67.39"
+TEST_HOSTNAME="grub-test-host"
+DHCP_SERVER_CMD="python3 ${srcdir}/tests/dhcp_server.py ${TEST_HOST_IP} ${TEST_OFFERED_IP}"
+
+outfile=""
+SERVER_LOOP_PID=""
+
+cleanup () {
+    kill "${SERVER_LOOP_PID}" 2>/dev/null || true
+    pkill -TERM -f "dhcp_server.py" 2>/dev/null || true
+    wait
+    rm -f "${outfile}"
+}
+trap cleanup EXIT
+
+pkill -TERM -f "dhcp_server.py" 2>/dev/null || true
+
+# Retry loop: dhcp_server.py exits 1 when tap0 does not exist yet (it uses
+# SO_BINDTODEVICE so the setsockopt call returns ENODEV).  Once tap0 is up
+# the server binds to 0.0.0.0:67 on that interface and blocks, allowing it
+# to receive the broadcast DISCOVER from the QEMU guest.
+for n in $(seq 1 20); do
+    sleep 0.5
+    ${DHCP_SERVER_CMD} 2>/dev/null || true
+done &
+SERVER_LOOP_PID=$!
+
+outfile="$(mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX")" || exit 99
+${grubshell} > "${outfile}" <<EOF
+insmod net
+insmod virtionet
+net_bootp virtionet
+net_ls_addr
+net_get_dhcp_option - virtionet:dhcp 12 string
+EOF
+
+# net_ls_addr prints: "<name> <mac> <ip> <vlan>"
+# Check that the DHCP interface appeared with the expected IP.
+if grep -q "virtionet:dhcp.*${TEST_OFFERED_IP}" "${outfile}"; then
+    echo "PASS: virtionet:dhcp interface assigned IP ${TEST_OFFERED_IP}"
+else
+    echo "FAIL: virtionet:dhcp interface with IP ${TEST_OFFERED_IP} not found in net_ls_addr output"
+    echo "--- grub output ---"
+    cat "${outfile}"
+    exit 1
+fi
+
+# net_get_dhcp_option prints the option value to stdout when the first arg is "-".
+if grep -q "^${TEST_HOSTNAME}$" "${outfile}"; then
+    echo "PASS: DHCP hostname option (opt 12) = ${TEST_HOSTNAME}"
+else
+    echo "FAIL: expected DHCP hostname '${TEST_HOSTNAME}' not found in output"
+    echo "--- grub output ---"
+    cat "${outfile}"
+    exit 1
+fi

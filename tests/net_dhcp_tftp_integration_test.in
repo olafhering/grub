@@ -1,0 +1,136 @@
+#! @BUILD_SHEBANG@
+# Copyright (C) 2026  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+# Test purpose:
+# Verify the end-to-end path from DHCP address acquisition through data
+# transfer.  The test runs a DHCP server and a TFTP server simultaneously on
+# the host tap interface.  GRUB boots with no static address, acquires
+# 169.254.67.39 via DHCP (net_bootp virtionet → virtionet:dhcp interface),
+# then fetches a file over TFTP using that DHCP-configured interface.
+#
+# This exercises the interaction between bootp.c's
+# grub_net_configure_by_dhcp_ack (which registers the interface, populates
+# the routing table, and sets net_default_server to the DHCP siaddr) and
+# the full network stack (IP routing, ARP, UDP, TFTP) that the independent
+# static-address tests already cover.  The integration point is that GRUB
+# must route TFTP packets through the DHCP-assigned interface without any
+# manual net_add_addr call.
+
+set -e
+grubshell=@builddir@/grub-shell
+srcdir="@srcdir@"
+
+. "@builddir@/grub-core/modinfo.sh"
+
+# Requires root to create the tap interface and to bind to ports 67 (DHCP)
+# and 69 (TFTP).
+if [ "$EUID" = "" ] ; then EUID=$(id -u); fi
+if [ "$EUID" != 0 ] ; then
+    echo "Skipping, not run as root!"
+    exit 99
+fi
+
+case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
+    i386-pc | x86_64-efi) ;;
+    *) exit 77;;
+esac
+
+TEST_HOST_IP="169.254.67.38"
+TEST_OFFERED_IP="169.254.67.39"
+
+DHCP_SERVER_CMD="python3 ${srcdir}/tests/dhcp_server.py ${TEST_HOST_IP} ${TEST_OFFERED_IP}"
+TFTP_SERVER_CMD="python3 ${srcdir}/tests/tftp_server.py ${srcdir} ${TEST_HOST_IP}"
+
+outfile=""
+DHCP_LOOP_PID=""
+TFTP_LOOP_PID=""
+
+cleanup () {
+    kill "${DHCP_LOOP_PID}" 2>/dev/null || true
+    kill "${TFTP_LOOP_PID}" 2>/dev/null || true
+    pkill -TERM -f "dhcp_server.py" 2>/dev/null || true
+    pkill -TERM -f "${TFTP_SERVER_CMD}" 2>/dev/null || true
+    wait
+    rm -f "${outfile}"
+}
+trap cleanup EXIT
+
+pkill -TERM -f "dhcp_server.py" 2>/dev/null || true
+pkill -TERM -f "${TFTP_SERVER_CMD}" 2>/dev/null || true
+
+# Both servers exit 1 when the tap interface does not exist yet.  Run each in
+# its own retry loop so they can bind as soon as qemu-linkup creates tap0.
+for n in $(seq 1 20); do
+    sleep 0.5
+    ${DHCP_SERVER_CMD} 2>/dev/null || true
+done &
+DHCP_LOOP_PID=$!
+
+for n in $(seq 1 20); do
+    sleep 0.5
+    ${TFTP_SERVER_CMD} 2>/dev/null || true
+done &
+TFTP_LOOP_PID=$!
+
+outfile="$(mktemp "${TMPDIR:-/tmp}/tmp.XXXXXXXXXX")" || exit 99
+${grubshell} > "${outfile}" <<EOF
+insmod net
+insmod virtionet
+insmod tftp
+insmod hashsum
+net_bootp virtionet
+echo MARK_BOOTP_DONE
+net_ls_addr
+echo MARK_LS_ADDR
+md5sum (tftp,${TEST_HOST_IP})/unicode/UnicodeData.txt
+echo MARK_TFTP_DONE
+EOF
+
+fail () {
+    echo "FAIL: $1"
+    echo "--- grub output ---"
+    cat "${outfile}"
+    exit 1
+}
+
+# Check 1: DHCP assigned the expected IP to the virtionet:dhcp interface.
+# net_ls_addr output appears between MARK_BOOTP_DONE and MARK_LS_ADDR.
+if grep -q "virtionet:dhcp.*${TEST_OFFERED_IP}" "${outfile}"; then
+    echo "PASS: virtionet:dhcp interface assigned ${TEST_OFFERED_IP} via DHCP"
+else
+    fail "virtionet:dhcp interface with ${TEST_OFFERED_IP} not found in net_ls_addr output"
+fi
+
+# Check 2: TFTP transfer completed — MARK_TFTP_DONE must appear, confirming
+# that GRUB reached the md5sum command and returned rather than hanging.
+if ! grep -q "^MARK_TFTP_DONE$" "${outfile}"; then
+    fail "GRUB did not reach MARK_TFTP_DONE — possible hang during TFTP transfer"
+fi
+
+# Check 3: The MD5 hash computed by GRUB matches the host-side hash.
+# GRUB prints the hash as the first whitespace-delimited field on the md5sum
+# output line, which appears between MARK_LS_ADDR and MARK_TFTP_DONE.
+grub_hash=$(awk '/^MARK_LS_ADDR$/{p=1;next} /^MARK_TFTP_DONE$/{p=0} p' "${outfile}" \
+            | head -1 | awk '{print $1}')
+host_hash=$(md5sum "${srcdir}/unicode/UnicodeData.txt" | awk '{print $1}')
+
+if [ -n "${grub_hash}" ] && [ "${grub_hash}" = "${host_hash}" ]; then
+    echo "PASS: TFTP file hash matches (${grub_hash})"
+else
+    fail "TFTP hash mismatch: GRUB='${grub_hash}' host='${host_hash}'"
+fi
+
+exit 0
