@@ -533,6 +533,7 @@ http_seek (struct grub_file *file, grub_off_t off)
   err = http_establish (file, off, 0);
   if (err)
     {
+      grub_free (data->current_line);
       grub_free (data->errmsg);
       grub_free (data->filename);
       grub_free (data);
@@ -566,6 +567,7 @@ http_open (struct grub_file *file, const char *filename)
   err = http_establish (file, 0, 1);
   if (err)
     {
+      grub_free (data->current_line);
       grub_free (data->errmsg);
       grub_free (data->filename);
       grub_free (data);
