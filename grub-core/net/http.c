@@ -533,6 +533,7 @@ http_seek (struct grub_file *file, grub_off_t off)
   err = http_establish (file, off, 0);
   if (err)
     {
+      grub_free (data->errmsg);
       grub_free (data->filename);
       grub_free (data);
       file->data = 0;
@@ -565,6 +566,7 @@ http_open (struct grub_file *file, const char *filename)
   err = http_establish (file, 0, 1);
   if (err)
     {
+      grub_free (data->errmsg);
       grub_free (data->filename);
       grub_free (data);
       return err;
@@ -585,6 +587,11 @@ http_close (struct grub_file *file)
     grub_net_tcp_close (data->sock, GRUB_NET_TCP_ABORT);
   if (data->current_line)
     grub_free (data->current_line);
+  /*
+   * http_establish() does not consume errmsg when an error response also
+   * completes its headers, so free it here.
+   */
+  grub_free (data->errmsg);
   grub_free (data->filename);
   grub_free (data);
   return GRUB_ERR_NONE;
