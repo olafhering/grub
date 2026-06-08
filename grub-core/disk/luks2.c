@@ -274,6 +274,13 @@ luks2_get_keyslot (grub_luks2_keyslot_t *k, grub_luks2_digest_t *d, grub_luks2_s
   grub_json_t keyslots, keyslot, digests, digest, segments, segment;
   grub_size_t json_idx, size;
 
+  /*
+   * Seed the keyslot index with the array position so it is always defined,
+   * even if parsing fails before the real index is read below.  The caller
+   * prints k->idx in its failure diagnostic.
+   */
+  k->idx = keyslot_json_idx;
+
   /* Get nth keyslot */
   if (grub_json_getvalue (&keyslots, root, "keyslots") ||
       grub_json_getchild (&keyslot, &keyslots, keyslot_json_idx) ||
