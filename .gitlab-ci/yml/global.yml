@@ -1,5 +1,5 @@
 default:
-  image: quay.io/grub/debian-trixie-grub:2026-05-25.1
+  image: quay.io/grub/debian-trixie-grub:2026-06-08.1
 
 variables:
   SCRIPT_DIR: "./.gitlab-ci/script"
