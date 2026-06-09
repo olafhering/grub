@@ -323,10 +323,14 @@ http_receive (grub_net_tcp_socket_t sock __attribute__ ((unused)),
 	  struct grub_net_buff *nb2;
 	  nb2 = grub_netbuff_alloc (data->chunk_rem);
 	  if (!nb2)
-	    return grub_errno;
+	    {
+	      grub_netbuff_free (nb);
+	      return grub_errno;
+	    }
 	  err = grub_netbuff_put (nb2, data->chunk_rem);
 	  if (err)
 	    {
+	      grub_netbuff_free (nb);
 	      grub_netbuff_free (nb2);
 	      return grub_errno;
 	    }
