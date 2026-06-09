@@ -89,9 +89,13 @@ grub_disk_cache_fetch (unsigned long dev_id, unsigned long disk_id,
   if (cache->dev_id == dev_id && cache->disk_id == disk_id
       && cache->sector == sector)
     {
-      cache->lock = 1;
+      if (cache->data)
+	cache->lock = 1;
 #if DISK_CACHE_STATS
-      grub_disk_cache_hits++;
+      if (cache->data)
+	grub_disk_cache_hits++;
+      else
+	grub_disk_cache_misses++;
 #endif
       return cache->data;
     }
