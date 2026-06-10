@@ -35,6 +35,7 @@
 
 static grub_uint32_t hw_features = 0;
 static grub_uint64_t old_cr0, old_cr4, old_xcr0;
+static bool hwf_enabled = false;
 
 static grub_uint64_t
 read_cr0 (void)
@@ -195,6 +196,9 @@ enable_avx (void)
 void
 grub_enable_gcry_hwf_x86_64_efi (void)
 {
+  if (hwf_enabled == true)
+    return;
+
   old_cr0 = read_cr0 ();
   old_cr4 = read_cr4 ();
 
@@ -203,12 +207,17 @@ grub_enable_gcry_hwf_x86_64_efi (void)
 
   if ((hw_features & HW_FEATURE_X86_64_SSE) != 0 && enable_avx () == true)
     hw_features |= HW_FEATURE_X86_64_AVX;
+
+  hwf_enabled = true;
 }
 
 void
 grub_reset_gcry_hwf_x86_64_efi (void)
 {
   grub_uint64_t cr0, cr4, xcr0;
+
+  if (hwf_enabled == false)
+    return;
 
   if ((hw_features & HW_FEATURE_X86_64_AVX) != 0)
     {
@@ -246,4 +255,5 @@ grub_reset_gcry_hwf_x86_64_efi (void)
     }
 
   hw_features = 0;
+  hwf_enabled = false;
 }
