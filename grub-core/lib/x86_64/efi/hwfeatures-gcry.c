@@ -198,7 +198,7 @@ grub_enable_gcry_hwf_x86_64_efi (void)
   if (enable_sse () == true)
     hw_features |= HW_FEATURE_X86_64_SSE;
 
-  if (enable_avx () == true)
+  if ((hw_features & HW_FEATURE_X86_64_SSE) != 0 && enable_avx () == true)
     hw_features |= HW_FEATURE_X86_64_AVX;
 }
 
