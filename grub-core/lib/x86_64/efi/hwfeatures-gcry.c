@@ -87,7 +87,7 @@ get_cpuid_edx (void)
 }
 
 static bool
-enable_sse (void)
+enable_sse (grub_uint64_t orig_cr0, grub_uint64_t orig_cr4)
 {
   grub_uint64_t cr0, cr4;
   grub_uint32_t edx;
@@ -98,8 +98,8 @@ enable_sse (void)
   if ((edx & (3 << 24)) != (3 << 24))
     return false;
 
-  cr0 = old_cr0 = read_cr0 ();
-  cr4 = old_cr4 = read_cr4 ();
+  cr0 = orig_cr0;
+  cr4 = orig_cr4;
 
   /* clear CR0.EM[bit 2] */
   if ((cr0 & (1 << 2)) != 0)
@@ -109,16 +109,16 @@ enable_sse (void)
   if ((cr0 & (1 << 1)) == 0)
     cr0 |= (1 << 1);
 
-  grub_dprintf ("hwfeatures", "CR0: 0x%"PRIxGRUB_UINT64_T" 0x%"PRIxGRUB_UINT64_T"\n", old_cr0, cr0);
-  if (old_cr0 != cr0)
+  grub_dprintf ("hwfeatures", "CR0: 0x%"PRIxGRUB_UINT64_T" 0x%"PRIxGRUB_UINT64_T"\n", orig_cr0, cr0);
+  if (orig_cr0 != cr0)
     write_cr0 (cr0);
 
   /* Set CR4.OSFXSR[bit 9] and CR4.OSXMMEXCPT[bit 10] */
   if ((cr4 & (3 << 9)) != (3 << 9))
     cr4 |= (3 << 9);
 
-  grub_dprintf ("hwfeatures", "CR4: 0x%"PRIxGRUB_UINT64_T" 0x%"PRIxGRUB_UINT64_T"\n", old_cr4, cr4);
-  if (old_cr4 != cr4)
+  grub_dprintf ("hwfeatures", "CR4: 0x%"PRIxGRUB_UINT64_T" 0x%"PRIxGRUB_UINT64_T"\n", orig_cr4, cr4);
+  if (orig_cr4 != cr4)
     write_cr4 (cr4);
 
   return true;
@@ -195,7 +195,10 @@ enable_avx (void)
 void
 grub_enable_gcry_hwf_x86_64_efi (void)
 {
-  if (enable_sse () == true)
+  old_cr0 = read_cr0 ();
+  old_cr4 = read_cr4 ();
+
+  if (enable_sse (old_cr0, old_cr4) == true)
     hw_features |= HW_FEATURE_X86_64_SSE;
 
   if ((hw_features & HW_FEATURE_X86_64_SSE) != 0 && enable_avx () == true)
