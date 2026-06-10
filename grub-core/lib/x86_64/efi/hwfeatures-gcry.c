@@ -159,7 +159,7 @@ enable_avx (void)
    *    general-protection fault (#GP).
    * - CPUID.01H:ECX.AVX[bit 28]
    */
-  grub_dprintf ("hwfeatures", "Check CPUID.01H:ECX 0x%"PRIuGRUB_UINT32_T"\n", ecx);
+  grub_dprintf ("hwfeatures", "Check CPUID.01H:ECX 0x%"PRIxGRUB_UINT32_T"\n", ecx);
   if ((ecx & (5 << 26)) != (5 << 26))
     return false;
 
