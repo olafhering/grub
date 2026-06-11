@@ -50,7 +50,6 @@
           - zfs_zstd_test
       - TYPE: non-native
         TEST:
-          - partmap_test
           - serial_test
 
 .test-matrix:
@@ -139,6 +138,7 @@
           - net_http_transfer_test
           - netboot_test
           - ohci_test
+          - partmap_test
           - pata_test
           - pseries_test
           - test_sha512sum
