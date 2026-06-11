@@ -359,7 +359,13 @@ grub_strtol (const char * restrict str, const char ** const restrict end, int ba
           grub_error (GRUB_ERR_OUT_OF_RANGE, N_("overflow is detected"));
           return GRUB_LONG_MIN;
         }
-      return -((long) magnitude);
+      /*
+       * Negate in the unsigned domain.  For the boundary magnitude
+       * GRUB_LONG_MAX + 1 the result is GRUB_LONG_MIN; computing
+       * -((long) magnitude) would negate GRUB_LONG_MIN, which overflows
+       * a signed long (undefined behavior).
+       */
+      return (long) (-magnitude);
     }
   else
     {
