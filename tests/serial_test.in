@@ -32,27 +32,31 @@ case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
     # FIXME: How do we setup serial ports in QEMU for these platforms?
     *-ieee1275)
 	exit 77;;
-    # FIXME: grub_pciserial_init() is built only for i386/x86_64 (see
-    # grub-core/term/serial.c), so the serial_pci probe below cannot work
-    # on these platforms.
-    arm*-efi | loongarch64-efi)
-	exit 77;;
 esac
 
-# Figure out the PCI device ID that the serial device will be on.
-output=$(echo terminal_output | "${grubshell}" --qemu-opts="-device pci-serial")
-PCIID=$(echo "$output" | grep -o "serial_pci,..:..\.." | cut -d, -f2)
+case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
+    arm*-efi | loongarch64-efi)
+	SERIAL_PORT="efi0"
+	set --
+	;;
+    *)
+	# Figure out the PCI device ID that the serial device will be on.
+	output=$(echo terminal_output | "${grubshell}" --qemu-opts="-device pci-serial")
+	PCIID=$(echo "$output" | grep -o "serial_pci,..:..\.." | cut -d, -f2)
 
-if [ -z "$PCIID" ]; then
-  echo "Failed to find QEMU serial device." >&2
-  echo "${output}" >&2
-  exit 99
-fi
+	if [ -z "$PCIID" ]; then
+	  echo "Failed to find QEMU serial device." >&2
+	  echo "${output}" >&2
+	  exit 99
+	fi
+	SERIAL_PORT="pci,${PCIID}"
+        # Set positional parameter $1 to the safely encapsulated string
+        set -- --qemu-opts="-chardev file,path=/dev/stdout,id=ser1 -device pci-serial,chardev=ser1"
+	;;
+esac
 
 # Test serial output via an emulated PCI serial card.
-output=$(echo "terminal_output; hello" | \
-  "${grubshell}" --serial="pci,${PCIID}" \
-    --qemu-opts="-chardev file,path=/dev/stdout,id=ser1 -device pci-serial,chardev=ser1")
+output=$(echo "terminal_output; hello" | "${grubshell}" --serial="${SERIAL_PORT}" "$@")
 
 v=$(echo -e "$output" | tail -n1)
 if [ "$v" != "Hello World" ]; then

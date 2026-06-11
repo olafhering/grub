@@ -48,9 +48,6 @@
           - hfs_test
           - zfs_test
           - zfs_zstd_test
-      - TYPE: non-native
-        TEST:
-          - serial_test
 
 .test-matrix:
   parallel:
@@ -141,6 +138,7 @@
           - partmap_test
           - pata_test
           - pseries_test
+          - serial_test
           - test_sha512sum
           - test_unset
           - tpm2_key_protector_test
