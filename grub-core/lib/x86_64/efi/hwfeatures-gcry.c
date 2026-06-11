@@ -103,20 +103,17 @@ enable_sse (grub_uint64_t orig_cr0, grub_uint64_t orig_cr4)
   cr4 = orig_cr4;
 
   /* clear CR0.EM[bit 2] */
-  if ((cr0 & (1 << 2)) != 0)
-    cr0 &= ~(1 << 2);
+  cr0 &= ~(1 << 2);
 
   /* Set CR0.MP[bit 1] */
-  if ((cr0 & (1 << 1)) == 0)
-    cr0 |= (1 << 1);
+  cr0 |= (1 << 1);
 
   grub_dprintf ("hwfeatures", "CR0: 0x%"PRIxGRUB_UINT64_T" 0x%"PRIxGRUB_UINT64_T"\n", orig_cr0, cr0);
   if (orig_cr0 != cr0)
     write_cr0 (cr0);
 
   /* Set CR4.OSFXSR[bit 9] and CR4.OSXMMEXCPT[bit 10] */
-  if ((cr4 & (3 << 9)) != (3 << 9))
-    cr4 |= (3 << 9);
+  cr4 |= (3 << 9);
 
   grub_dprintf ("hwfeatures", "CR4: 0x%"PRIxGRUB_UINT64_T" 0x%"PRIxGRUB_UINT64_T"\n", orig_cr4, cr4);
   if (orig_cr4 != cr4)
