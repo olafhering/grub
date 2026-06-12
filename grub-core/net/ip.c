@@ -239,9 +239,19 @@ handle_dgram (struct grub_net_buff *nb,
   /* DHCP needs special treatment since we don't know IP yet.  */
   {
     struct udphdr *udph;
+    int have_udp;
+
     udph = (struct udphdr *) nb->data;
 
-    if (proto == GRUB_NET_IP_UDP && udph->dst == grub_cpu_to_be16_compile_time (DHCP6_CLIENT_PORT))
+    /*
+     * The DHCP fast paths below read the UDP header directly, so only use it
+     * once the datagram is known to be long enough to hold one.
+     */
+    have_udp = (proto == GRUB_NET_IP_UDP
+		&& (grub_ssize_t) (nb->tail - nb->data)
+		   >= (grub_ssize_t) sizeof (*udph));
+
+    if (have_udp && udph->dst == grub_cpu_to_be16_compile_time (DHCP6_CLIENT_PORT))
       {
 	if (udph->chksum)
 	  {
@@ -279,7 +289,7 @@ handle_dgram (struct grub_net_buff *nb,
 	return GRUB_ERR_NONE;
       }
 
-    if (proto == GRUB_NET_IP_UDP && grub_be_to_cpu16 (udph->dst) == 68)
+    if (have_udp && grub_be_to_cpu16 (udph->dst) == 68)
       {
 	const struct grub_net_bootp_packet *bootp;
 	if (udph->chksum)
@@ -308,6 +318,14 @@ handle_dgram (struct grub_net_buff *nb,
 	  {
 	    grub_netbuff_free (nb);
 	    return err;
+	  }
+
+	/* Make sure the fixed BOOTP header is all here before reading it.  */
+	if ((grub_ssize_t) (nb->tail - nb->data)
+	    < (grub_ssize_t) sizeof (struct grub_net_bootp_packet))
+	  {
+	    grub_netbuff_free (nb);
+	    return GRUB_ERR_NONE;
 	  }
 
 	bootp = (const struct grub_net_bootp_packet *) nb->data;
