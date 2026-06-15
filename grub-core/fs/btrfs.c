@@ -2067,7 +2067,7 @@ find_path (struct grub_btrfs_data *data,
       for (cdirel = direl;
 	   (grub_uint8_t *) cdirel - (grub_uint8_t *) direl
 	   < (grub_ssize_t) elemsize;
-	   cdirel = (void *) ((grub_uint8_t *) (direl + 1)
+	   cdirel = (void *) ((grub_uint8_t *) (cdirel + 1)
 			      + grub_le_to_cpu16 (cdirel->n)
 			      + grub_le_to_cpu16 (cdirel->m)))
 	{
@@ -2320,7 +2320,7 @@ grub_btrfs_dir (grub_device_t device, const char *path,
       for (cdirel = direl;
 	   (grub_uint8_t *) cdirel - (grub_uint8_t *) direl
 	   < (grub_ssize_t) elemsize;
-	   cdirel = (void *) ((grub_uint8_t *) (direl + 1)
+	   cdirel = (void *) ((grub_uint8_t *) (cdirel + 1)
 			      + grub_le_to_cpu16 (cdirel->n)
 			      + grub_le_to_cpu16 (cdirel->m)))
 	{
