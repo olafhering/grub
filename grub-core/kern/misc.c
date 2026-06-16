@@ -79,55 +79,114 @@ grub_gettext_dummy (const char *s)
 
 const char* (*grub_gettext) (const char *s) = grub_gettext_dummy;
 
-void *
-grub_memmove (void *dest, const void *src, grub_size_t n)
-{
-  char *d = (char *) dest;
-  const char *s = (const char *) src;
-
-  if (d < s)
-    while (n--)
-      *d++ = *s++;
-  else
-    {
-      d += n;
-      s += n;
-
-      while (n--)
-	*--d = *--s;
-    }
-
-  return dest;
-}
+#define ALIGN_MASK (sizeof (grub_addr_t) - 1)
+/* Set the threshold to (2 * sizeof(grub_addr_t)) to guarantee at least one word copy. */
+#define WORD_COPY_THRES (sizeof (grub_addr_t) * 2)
 
 static void *
-__memcpy_aligned (void *dest, const void *src, grub_size_t n)
+memmove_fwd (void *dest, const void *src, grub_size_t n)
 {
-  grub_addr_t *dw = (grub_addr_t *) dest;
-  const grub_addr_t *sw = (const grub_addr_t *) src;
-  grub_uint8_t *d;
-  const grub_uint8_t *s;
+  grub_uint8_t *d = (grub_uint8_t *) dest;
+  const grub_uint8_t *s = (const grub_uint8_t *) src;
+  grub_size_t offset = 0;
+  grub_addr_t *dw;
+  const grub_addr_t *sw;
+
+  /*
+   * Fallback to byte-by-byte copy if the buffers are too small or do not share the same
+   * alignment offset.
+   */
+  if (n < WORD_COPY_THRES || (((grub_addr_t) d ^ (grub_addr_t) s) & ALIGN_MASK) != 0)
+    goto byte_copy;
+
+  /* Consume the first few bytes to make 'd' and 's' aligned */
+  offset = (-((grub_addr_t) d)) & ALIGN_MASK;
+  n -= offset;
+  while (offset--)
+    *d++ = *s++;
+
+  /*
+   * Copy data in chunks
+   * Although 'd' and 's' are already aligned, casting to "grub_addr_t *" still
+   * triggers "cast-align" errors. Cast them to "void *" to silence the error.
+   */
+  dw = (grub_addr_t *)(void *) d;
+  sw = (const grub_addr_t *)(const void *) s;
 
   for (; n >= sizeof (grub_addr_t); n -= sizeof (grub_addr_t))
     *dw++ = *sw++;
 
   d = (grub_uint8_t *) dw;
   s = (const grub_uint8_t *) sw;
-  for (; n > 0; n--)
+
+byte_copy:
+  /* Finish the remaining bytes */
+  while (n--)
     *d++ = *s++;
 
   return dest;
 }
 
+static void *
+memmove_bwd (void *dest, const void *src, grub_size_t n)
+{
+  grub_uint8_t *d = (grub_uint8_t *) dest + n;
+  const grub_uint8_t *s = (const grub_uint8_t *) src + n;
+  grub_size_t offset = 0;
+  grub_addr_t *dw;
+  const grub_addr_t *sw;
+
+  /*
+   * Fallback to byte-by-byte copy if the buffers are too small or do not share the same
+   * alignment offset.
+   */
+  if (n < WORD_COPY_THRES || (((grub_addr_t) d ^ (grub_addr_t) s) & ALIGN_MASK) != 0)
+    goto byte_copy;
+
+  /* Consume the last few bytes to make 'd' and 's' aligned */
+  offset = (grub_addr_t) d & ALIGN_MASK;
+  n -= offset;
+  while (offset--)
+    *--d = *--s;
+
+  /*
+   * Copy data in chunks
+   * Although 'd' and 's' are already aligned, casting to "grub_addr_t *" still
+   * triggers "cast-align" errors. Cast them to "void *" to silence the error.
+   */
+  dw = (grub_addr_t *)(void *) d;
+  sw = (const grub_addr_t *)(const void *) s;
+
+  for (; n >= sizeof (grub_addr_t); n -= sizeof (grub_addr_t))
+    *--dw = *--sw;
+
+  d = (grub_uint8_t *) dw;
+  s = (const grub_uint8_t *) sw;
+
+byte_copy:
+  /* Finish the remaining bytes */
+  while (n--)
+    *--d = *--s;
+
+  return dest;
+}
+
+void *
+grub_memmove (void *dest, const void *src, grub_size_t n)
+{
+  char *d = (char *) dest;
+  const char *s = (const char *) src;
+
+  if (d < s || s + n <= d)
+    return memmove_fwd (dest, src, n);
+
+  /* Perform backward copy if dest >= src and buffers overlap to ensure memory safety. */
+  return memmove_bwd (dest, src, n);
+}
+
 void *
 grub_memcpy (void *dest, const void *src, grub_size_t n)
 {
-  /* Check if dest and src are aligned and n >= sizeof(grub_addr_t). */
-  if (((grub_addr_t) dest & (sizeof (grub_addr_t) - 1)) == 0 &&
-      ((grub_addr_t) src & (sizeof (grub_addr_t) - 1)) == 0 &&
-      n >= sizeof (grub_addr_t))
-    return __memcpy_aligned (dest, src, n);
-
   return grub_memmove (dest, src, n);
 }
 
