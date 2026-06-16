@@ -26,4 +26,21 @@ grub_util_devname_to_ofpath (const char *sys_devname __attribute__ ((unused)))
   return NULL;
 }
 
+char*
+nvme_get_syspath (const char *nvmedev)
+{
+  return NULL;
+}
+
+unsigned int
+of_path_get_nvme_nsid (const char* devname)
+{
+  return 0;
+}
+
+char*
+xrealpath (const char *in)
+{
+  return NULL;
+}
 
