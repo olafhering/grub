@@ -1223,6 +1223,7 @@ for LOGSECSIZE in $(range "$MINLOGSECSIZE" "$MAXLOGSECSIZE" 1); do
 			    MOUNTS="$(echo ${MOUNTS} | sed "s|$MNTPOINTRW||g;")"
 			    break;
 			fi
+			sync "${FSIMAGEP}0.img" 2>/dev/null || true;
 			sleep 1;
 		    done
 		    ;;
@@ -1703,6 +1704,8 @@ for LOGSECSIZE in $(range "$MINLOGSECSIZE" "$MAXLOGSECSIZE" 1); do
 		    umount "$MNTPOINTRW" || true
 		    MOUNTS="$(echo ${MOUNTS} | sed "s|$MNTPOINTRO||g;")"
 		    MOUNTS="$(echo ${MOUNTS} | sed "s|$MNTPOINTRW||g;")"
+		    sync "${FSIMAGEP}0.img" 2>/dev/null || true;
+		    sleep 1
 	    esac
 	    sleep 1
 	    case x"$fs" in
