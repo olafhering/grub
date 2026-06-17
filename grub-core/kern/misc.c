@@ -184,12 +184,6 @@ grub_memmove (void *dest, const void *src, grub_size_t n)
   return memmove_bwd (dest, src, n);
 }
 
-void *
-grub_memcpy (void *dest, const void *src, grub_size_t n)
-{
-  return grub_memmove (dest, src, n);
-}
-
 char *
 grub_strcpy (char *dest, const char *src)
 {

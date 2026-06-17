@@ -38,7 +38,6 @@
 #define grub_dprintf(condition, ...) grub_real_dprintf(GRUB_FILE, __FUNCTION__, __LINE__, condition, __VA_ARGS__)
 
 void *EXPORT_FUNC(grub_memmove) (void *dest, const void *src, grub_size_t n);
-void *EXPORT_FUNC(grub_memcpy) (void *dest, const void *src, grub_size_t n);
 char *EXPORT_FUNC(grub_strcpy) (char *dest, const char *src);
 
 static inline char *
@@ -102,6 +101,12 @@ grub_strlcpy (char *dest, const char *src, grub_size_t size)
    ;
 
   return res;
+}
+
+static inline void *
+grub_memcpy (void *dest, const void *src, grub_size_t n)
+{
+  return grub_memmove (dest, src, n);
 }
 
 #if defined(__x86_64__) && !defined (GRUB_UTIL)
