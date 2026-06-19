@@ -281,7 +281,10 @@ grub_util_find_root_devices_from_poolname (char *poolname)
       line = NULL;
       ret = getline (&line, &len, fp);
       if (ret == -1)
-	break;
+        {
+          free (line);
+          break;
+        }
 
       if (sscanf (line, " %s %256s %256s %256s %256s %256s",
 		  name, state, readlen, writelen, cksum, notes) >= 5)
