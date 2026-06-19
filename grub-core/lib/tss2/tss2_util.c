@@ -36,7 +36,7 @@ static const tpm2_hash_info_t hash_alg_table[] = {
   { "sha256", TPM_ALG_SHA256, TPM_SHA256_DIGEST_SIZE },
   { "sha384", TPM_ALG_SHA384, TPM_SHA384_DIGEST_SIZE },
   { "sha512", TPM_ALG_SHA512, TPM_SHA512_DIGEST_SIZE },
-  { NULL }
+  { NULL, 0, 0 }
 };
 
 grub_err_t
