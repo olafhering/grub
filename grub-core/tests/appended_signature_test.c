@@ -263,7 +263,7 @@ appended_signature_test (void)
 
   cmd_trust = grub_command_find ("append_add_db_cert");
   err = (cmd_trust->func) (cmd_trust, 1, trust_args);
-  grub_test_assert ((err == GRUB_ERR_NONE || err == GRUB_ERR_EXISTS || GRUB_ERR_ACCESS_DENIED),
+  grub_test_assert ((err == GRUB_ERR_NONE || err == GRUB_ERR_EXISTS || err == GRUB_ERR_ACCESS_DENIED),
                     "loading certificate 1 failed: %d: %s",
                     grub_errno, grub_errmsg);
   if (err != GRUB_ERR_NONE)
@@ -274,7 +274,7 @@ appended_signature_test (void)
   DO_TEST (hi_double_extended, 1);
 
   err = (cmd_trust->func) (cmd_trust, 1, trust_args2);
-  grub_test_assert ((err == GRUB_ERR_NONE || err == GRUB_ERR_EXISTS || GRUB_ERR_ACCESS_DENIED),
+  grub_test_assert ((err == GRUB_ERR_NONE || err == GRUB_ERR_EXISTS || err == GRUB_ERR_ACCESS_DENIED),
                     "loading certificate 2 failed: %d: %s",
                     grub_errno, grub_errmsg);
   if (err != GRUB_ERR_NONE)
