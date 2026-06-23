@@ -1435,7 +1435,14 @@ __grub_cmd_cryptomount (grub_extcmd_context_t ctxt, int argc, char **args)
   struct grub_arg_list *state = ctxt->state;
   struct grub_cryptomount_args cargs = {0};
 
-  if (argc < 1 && !state[OPTION_ALL].set && !state[OPTION_BOOT].set)
+  /*
+   * A UUID lookup needs the UUID in args[0], so -u always requires a
+   * positional argument -- even when -a/-b (which otherwise permit argc < 1)
+   * is also given.  Checking here, before any options are parsed/allocated,
+   * avoids both a NULL args[0] dereference and leaking those allocations.
+   */
+  if (argc < 1 && (state[OPTION_UUID].set
+		   || (!state[OPTION_ALL].set && !state[OPTION_BOOT].set)))
     return grub_error (GRUB_ERR_BAD_ARGUMENT, "device name required");
 
   if (grub_cryptodisk_list == NULL)
