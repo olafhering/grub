@@ -61,6 +61,7 @@ grub_script_function_create (struct grub_script_arg *functionname_arg,
       grub_script_function_t q;
 
       q = *p;
+      grub_free (func->name);
       grub_free (func);
       if (q->executing > 0)
         {
