@@ -115,8 +115,17 @@ replace_scope (struct grub_script_scope *new_scope)
 {
   if (scope)
     {
-      scope->argv.argc += scope->shifts;
-      scope->argv.args -= scope->shifts;
+      /*
+       * Undo any "shift" applied to this scope.  Guard on shifts != 0: when
+       * the function was called with no arguments scope->argv.args is NULL,
+       * and "NULL -= 0" is undefined behaviour (a shift can only have happened
+       * when there were arguments, so args is non-NULL whenever shifts != 0).
+       */
+      if (scope->shifts)
+	{
+	  scope->argv.argc += scope->shifts;
+	  scope->argv.args -= scope->shifts;
+	}
 
       if (scope->flags & GRUB_SCRIPT_SCOPE_ARGS_MALLOCED)
 	grub_script_argv_free (&scope->argv);
@@ -183,6 +192,14 @@ grub_script_shift (grub_command_t cmd __attribute__((unused)),
 
   if (n > scope->argv.argc)
     return GRUB_ERR_BAD_ARGUMENT;
+
+  /*
+   * Nothing to do for "shift 0".  Returning early also avoids "NULL += 0"
+   * when the scope has no arguments (scope->argv.args is NULL), which is
+   * undefined behaviour.
+   */
+  if (n == 0)
+    return GRUB_ERR_NONE;
 
   scope->shifts += n;
   scope->argv.argc -= n;
