@@ -474,6 +474,107 @@ grub_cmd_initrd (grub_command_t cmd __attribute__ ((unused)),
 }
 
 static grub_err_t
+grub_build_default_cmdline (int argc, char *argv[])
+{
+  cmdline_size = grub_loader_cmdline_size (argc, argv) + sizeof (LINUX_IMAGE);
+  linux_args = grub_malloc (cmdline_size);
+  if (linux_args == NULL)
+      return grub_error (GRUB_ERR_OUT_OF_MEMORY, N_("out of memory"));
+
+  grub_memcpy (linux_args, LINUX_IMAGE, sizeof (LINUX_IMAGE));
+
+  return grub_create_loader_cmdline (argc, argv, linux_args + sizeof (LINUX_IMAGE) - 1,
+                                     cmdline_size, GRUB_VERIFY_KERNEL_CMDLINE);
+}
+
+#if !defined(__i386__) && !defined(__x86_64__)
+static grub_err_t
+grub_get_fdt_bootargs (char **bootargs)
+{
+  grub_uint32_t len;
+  const char *prop;
+  void *fdt;
+  int node;
+
+  *bootargs = NULL;
+
+  fdt = grub_efi_get_firmware_fdt ();
+  if (fdt == NULL)
+    return GRUB_ERR_NONE;
+
+  node = grub_fdt_find_subnode (fdt, 0, "chosen");
+  if (node < 0)
+    return GRUB_ERR_NONE;
+
+  prop = grub_fdt_get_prop (fdt, node, "bootargs", &len);
+  if (prop == NULL || len == 0)
+    return GRUB_ERR_NONE;
+
+  *bootargs = grub_malloc (len + 1);
+  if (*bootargs == NULL)
+    return grub_error (GRUB_ERR_OUT_OF_MEMORY, N_("out of memory"));
+
+  grub_memcpy (*bootargs, prop, len);
+  (*bootargs)[len] = '\0';
+
+  grub_dprintf ("linux", "firmware DT bootargs: '%s'\n", *bootargs);
+
+  return GRUB_ERR_NONE;
+}
+
+static grub_err_t
+grub_build_linux_cmdline (int argc, char *argv[])
+{
+  grub_size_t dt_len, img_len;
+  char *dt_bootargs;
+  grub_err_t err;
+
+  /*
+   * If no kernel command line arguments are supplied, try to use the
+   * bootargs property from the /chosen node of the firmware device tree.
+   * Explicit arguments provided to GRUB always prevail.
+   */
+  if (argc != 1)
+    return grub_build_default_cmdline (argc, argv);
+
+  err = grub_get_fdt_bootargs (&dt_bootargs);
+  if (err != GRUB_ERR_NONE)
+    return err;
+  if (dt_bootargs == NULL)
+    return grub_build_default_cmdline (argc, argv);
+
+  dt_len = grub_strlen (dt_bootargs);
+  img_len = grub_strlen (argv[0]);
+
+  cmdline_size = sizeof (LINUX_IMAGE) + dt_len + 1 + img_len;
+
+  linux_args = grub_malloc (cmdline_size);
+  if (linux_args == NULL)
+    {
+      grub_free (dt_bootargs);
+      return grub_error (GRUB_ERR_OUT_OF_MEMORY, N_("out of memory"));
+    }
+
+  grub_memcpy (linux_args, LINUX_IMAGE, sizeof (LINUX_IMAGE));
+  grub_memcpy (linux_args + sizeof (LINUX_IMAGE) - 1, argv[0], img_len);
+  linux_args[sizeof (LINUX_IMAGE) - 1 + img_len] = ' ';
+  grub_memcpy (linux_args + sizeof (LINUX_IMAGE) + img_len, dt_bootargs, dt_len + 1);
+
+  grub_dprintf ("linux", "using firmware DT bootargs '%s'\n", dt_bootargs);
+  err = grub_verify_string(linux_args + sizeof (LINUX_IMAGE) - 1, GRUB_VERIFY_KERNEL_CMDLINE);
+  grub_free (dt_bootargs);
+
+  return err;
+}
+#else /* !defined(__i386__) && !defined(__x86_64__) */
+static grub_err_t
+grub_build_linux_cmdline (int argc, char *argv[])
+{
+  return grub_build_default_cmdline (argc, argv);
+}
+#endif
+
+static grub_err_t
 grub_cmd_linux (grub_command_t cmd __attribute__ ((unused)),
 		int argc, char *argv[])
 {
@@ -554,18 +655,7 @@ fallback:
 
   grub_dprintf ("linux", "kernel @ %p\n", kernel_addr);
 
-  cmdline_size = grub_loader_cmdline_size (argc, argv) + sizeof (LINUX_IMAGE);
-  linux_args = grub_malloc (cmdline_size);
-  if (!linux_args)
-    {
-      grub_error (GRUB_ERR_OUT_OF_MEMORY, N_("out of memory"));
-      goto fail;
-    }
-  grub_memcpy (linux_args, LINUX_IMAGE, sizeof (LINUX_IMAGE));
-  err = grub_create_loader_cmdline (argc, argv,
-				    linux_args + sizeof (LINUX_IMAGE) - 1,
-				    cmdline_size,
-				    GRUB_VERIFY_KERNEL_CMDLINE);
+  err = grub_build_linux_cmdline (argc, argv);
   if (err)
     goto fail;
 
