@@ -1,0 +1,155 @@
+#!@BUILD_SHEBANG@
+set -u
+
+# 31_efi_bootnext must skip the firmware entry that boots *this* grub
+# (so it is never offered as a circular BootNext target) while keeping
+# every other OS.  "Self" is the pair (ESP PARTUUID, vendor directory):
+# an entry is dropped only when its ESP is one we manage AND its
+# \EFI\<vendor>\ directory is one of ours.
+# Copyright (C) 2026  Thomas Grainger <tagrain@gmail.com>
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Strategy: run the unmodified 31_efi_bootnext helper directly with a
+# stubbed efibootmgr, findmnt and grub-probe plus a fake ESP tree, then
+# assert on the menu entries it emits.  We are "ubuntu" (GRUB_DISTRIBUTOR);
+# the firmware list contains three entries:
+#
+#   Boot0000 Ubuntu     on our ESP   (\EFI\ubuntu)    -> self, dropped
+#   Boot0001 Other OS   on our ESP   (\EFI\otheros)   -> kept (other vendor)
+#   Boot0009 Ubuntu USB on a 2nd ESP (\EFI\ubuntu)    -> kept (other PARTUUID)
+#
+# This exercises both halves of the match: the vendor name keeps the other
+# OS on the shared ESP, and the PARTUUID keeps the same-named install on a
+# different disk.  BootCurrent deliberately points at the kept entry to
+# prove it is no longer consulted (the old code would have dropped it).
+#
+# The "other" vendor is a synthetic name ("otheros"), not a real distro:
+# 31_efi_bootnext also folds the build host's os-release ID into the set
+# of self vendor names, so a real id here (e.g. "fedora" on a Fedora build
+# host) could collide and make the test host-dependent.
+
+# 31_efi_bootnext bails out early on hosts without /sys/firmware/efi, so
+# the self-identification code is only reachable where that is present.
+if [ ! -d /sys/firmware/efi ]; then
+    echo "SKIP: /sys/firmware/efi not present on host" >&2
+    exit 77
+fi
+
+builddir="@builddir@"
+[ -d "$builddir" ] || builddir="$PWD"
+
+src_lib="$builddir/grub-mkconfig_lib"
+src_helper="$builddir/31_efi_bootnext"
+
+if [ ! -f "$src_lib" ] || [ ! -f "$src_helper" ]; then
+    echo "SKIP: grub-mkconfig artifacts not built" >&2
+    exit 77
+fi
+
+tmp=$(mktemp -d "${TMPDIR:-/tmp}/grub-mkconfig-bootnext-self.XXXXXXXX") || exit 99
+trap 'rm -rf "$tmp"' EXIT INT TERM
+
+mkdir -p "$tmp/bin" "$tmp/share/grub" "$tmp/esp/EFI/ubuntu" "$tmp/esp/EFI/otheros"
+cp "$src_lib" "$tmp/share/grub/grub-mkconfig_lib"
+
+ESP="$tmp/esp"
+PUUID="11111111-2222-3333-4444-555555555555"   # our (shared) ESP
+OTHER="99999999-8888-7777-6666-555555555555"   # an unrelated disk's ESP
+
+# Stub efibootmgr: emit a fixed, controlled -v listing.
+TAB=$(printf '\t')
+{
+    printf 'BootCurrent: 0001\n'
+    printf 'BootOrder: 0000,0001,0009\n'
+    printf 'Boot0000* Ubuntu%sHD(1,GPT,%s,0x800,0x100000)/File(%s)\n' \
+        "$TAB" "$PUUID" '\EFI\ubuntu\shimx64.efi'
+    printf 'Boot0001* Other OS%sHD(1,GPT,%s,0x800,0x100000)/File(%s)\n' \
+        "$TAB" "$PUUID" '\EFI\otheros\shimx64.efi'
+    printf 'Boot0009* Ubuntu USB%sHD(1,GPT,%s,0x800,0x100000)/File(%s)\n' \
+        "$TAB" "$OTHER" '\EFI\ubuntu\shimx64.efi'
+} > "$tmp/efiout.txt"
+
+cat > "$tmp/bin/efibootmgr" <<EOF
+#!/bin/sh
+cat "$tmp/efiout.txt"
+EOF
+
+# Stub findmnt: report our fake ESP as the one mounted vfat filesystem.
+cat > "$tmp/bin/findmnt" <<EOF
+#!/bin/sh
+printf '%s\n' "$ESP"
+EOF
+
+# Stub grub-probe: our fake ESP path resolves to PUUID; anything else
+# (e.g. a real /boot/efi on the test host) to a harmless constant that
+# matches none of the firmware entries.
+cat > "$tmp/bin/grub-probe" <<EOF
+#!/bin/sh
+for a in "\$@"; do p="\$a"; done
+case "\$p" in
+  "$ESP") printf '%s\n' "$PUUID" ;;
+  *)      printf '%s\n' "00000000-0000-0000-0000-000000000000" ;;
+esac
+EOF
+
+# Stub os-prober: present but silent, so the os-prober menu filter is a
+# no-op and does not interfere with the self-identification assertions.
+cat > "$tmp/bin/os-prober" <<'EOF'
+#!/bin/sh
+exit 0
+EOF
+
+chmod +x "$tmp/bin"/*
+
+# GRUB_DISABLE_BOOTNEXT is cleared so an inherited value cannot make the
+# helper bail out before emitting anything.
+out=$(PATH="$tmp/bin:$PATH" \
+      pkgdatadir="$tmp/share/grub" \
+      grub_probe="$tmp/bin/grub-probe" \
+      GRUB_DISTRIBUTOR="Ubuntu" \
+      GRUB_DISABLE_BOOTNEXT="" \
+      sh "$src_helper" 2>/dev/null) || {
+    echo "FAIL: 31_efi_bootnext exited non-zero" >&2
+    exit 1
+}
+
+fail() {
+    echo "FAIL: $1" >&2
+    printf -- '--- 31_efi_bootnext stdout ---\n%s\n------------------------------\n' \
+        "$out" >&2
+    exit 1
+}
+
+# Self (Boot0000: our ESP + our vendor dir) must be dropped.
+case "$out" in
+    *efi-bootnext-0000*)
+        fail "self entry Boot0000 (own ESP, \\EFI\\ubuntu) was not skipped" ;;
+esac
+
+# Other OS (Boot0001: our ESP, different vendor) must be kept -- this also
+# proves BootCurrent (=0001) is no longer used to pick the self entry.
+case "$out" in
+    *efi-bootnext-0001*) : ;;
+    *) fail "Boot0001 missing; a different vendor on the shared ESP was dropped" ;;
+esac
+
+# Ubuntu on another disk (Boot0009: our vendor, different ESP PARTUUID)
+# must be kept -- the PARTUUID half of the match protects it.
+case "$out" in
+    *efi-bootnext-0009*) : ;;
+    *) fail "Ubuntu Boot0009 missing; a same-vendor install on another ESP was dropped" ;;
+esac
+
+exit 0

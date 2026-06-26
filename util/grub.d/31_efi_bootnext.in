@@ -51,8 +51,77 @@ EFI_OUTPUT="`efibootmgr -v 2>/dev/null`" || exit 0
 
 TAB="`printf '\t'`"
 
-BOOT_CURRENT="`printf '%s\n' "${EFI_OUTPUT}" | \
-    sed -n 's/^BootCurrent: *\([0-9A-Fa-f]\{4\}\)/\1/p'`"
+# Identify the firmware entries that boot *this* grub so we never offer one
+# as a circular BootNext target.  BootCurrent cannot be used: it records the
+# firmware's first-stage boot and is blind to chainloading, so when e.g.
+# Fedora's grub chainloads this grub and we then run grub-mkconfig,
+# BootCurrent still names Fedora -- we would drop Fedora (which belongs in
+# the menu) and keep ourselves (the genuinely circular entry).  Chainloading
+# is invisible to NVRAM, so BootCurrent cannot name the running grub.
+#
+# Derive "self" from the local install instead, as the set of (ESP PARTUUID,
+# vendor directory) pairs grub-install wrote: an entry is ours when its ESP
+# is one we manage *and* its \EFI\<vendor>\ directory is one of ours.  Both
+# halves are required: on a single-disk dual boot two distros share one ESP
+# (PARTUUID alone would drop the other), while two independent installs of
+# the same distro use identically named directories on different ESPs (vendor
+# alone would drop the other).
+
+# --- our vendor directory names ---
+# grub-install names \EFI\<vendor>\ after its --bootloader-id, which defaults
+# to GRUB_DISTRIBUTOR verbatim but which distros routinely override with an
+# explicit lowercase id -- commonly the distributor's first word ("CentOS
+# Linux" -> centos) or the os-release ID (fedora, debian).  We cannot read
+# the id grub-install actually used, so match against all of these forms.
+# Lowercased for the case-insensitive FAT comparison, de-duplicated, and
+# newline-separated since a verbatim distributor may contain spaces.
+osr_id=""
+for osr in /etc/os-release /usr/lib/os-release; do
+    [ -r "${osr}" ] || continue
+    osr_id="`. "${osr}" >/dev/null 2>&1; printf '%s' "${ID}"`"
+    break
+done
+SELF_VENDORS="`printf '%s\n' \
+    "${GRUB_DISTRIBUTOR}" \
+    "${GRUB_DISTRIBUTOR%% *}" \
+    "${osr_id}" \
+    grub | tr 'A-Z' 'a-z' | grep -v '^$' | awk '!seen[$0]++'`"
+
+# --- PARTUUIDs of the ESPs this install manages ---
+# Any directory carrying one of our \EFI\<vendor>\ subdirectories, drawn from
+# two path sources: the conventional ESP mountpoints, plus every mounted vfat
+# filesystem findmnt reports.  The conventional paths keep working inside the
+# install-time chroot (where update-grub runs) and as a findmnt-less fallback;
+# the findmnt enumeration additionally catches an install mirrored across
+# several disks' ESPs -- each mirror shares our vendor directory but sits on
+# its own PARTUUID.  The PARTUUID itself comes from grub-probe, which resolves
+# the device from the path and so still works inside the chroot, where the
+# kernel mount table may report host-namespace mountpoints; findmnt only
+# widens the set of paths to inspect.  Vendor directories are matched by
+# globbing and comparing lowercased, so the match does not rely on the kernel
+# mounting vfat case-insensitively.  An *independent* same-distro install on
+# another disk is intentionally not caught: this system mounts the ESPs it
+# maintains but not that disk's, so we never claim its PARTUUID (and only
+# currently mounted ESPs can be inspected at all).
+SELF_PARTUUIDS="$(
+    {
+        printf '%s\n' /boot/efi /efi /boot
+        if command -v findmnt >/dev/null 2>&1; then
+            findmnt -rno TARGET -t vfat 2>/dev/null || true
+        fi
+    } | while IFS= read -r mp; do
+        [ -n "${mp}" ] || continue
+        for d in "${mp}"/[Ee][Ff][Ii]/*/; do
+            [ -d "${d}" ] || continue
+            v="${d%/}"; v="${v##*/}"
+            v="$(printf '%s' "${v}" | tr 'A-Z' 'a-z')"
+            if printf '%s\n' "${SELF_VENDORS}" | grep -Fxq -- "${v}"; then
+                "${grub_probe}" --target=partuuid "${mp}" 2>/dev/null || true
+                break
+            fi
+        done
+    done | tr 'A-Z' 'a-z' | grep -v '^$' | awk '!seen[$0]++'
+)"
 
 # Optionally collect EFI paths from os-prober to filter out non-OS entries
 # (e.g. fwupd firmware updater).  This is intentionally independent of
@@ -93,11 +162,6 @@ while IFS="${TAB}" read -r bootnum label devpath; do
 
     [ -z "${label}" ] && continue
 
-    # skip our own entry by boot number
-    if [ -n "${BOOT_CURRENT}" ] && [ "${bootnum}" = "${BOOT_CURRENT}" ]; then
-        continue
-    fi
-
     # Extract the EFI File() path from the device path, normalised to
     # lowercase forward-slash form for comparison with os-prober output.
     # The greedy leading .* selects the *last* File() component, which is
@@ -105,9 +169,32 @@ while IFS="${TAB}" read -r bootnum label devpath; do
     # firmware updater (shim + fwupdx64.efi), this is the chainload target
     # rather than the shim, so it will not match any os-prober OS path.
     # Entries without a File() path (PXE, HTTP boot) have efi_file="".
+    # The backslash is written as its octal escape \134: inside backticks a
+    # literal '\\' is collapsed to a single '\' before tr runs, leaving an
+    # ambiguous '\A' escape that mangles the path.
     efi_file="`printf '%s' "${devpath}" | \
         sed -n 's|.*File(\([^)]*\)).*|\1|p' | \
-        tr '\\A-Z' '/a-z'`"
+        tr '\134A-Z' '/a-z'`"
+
+    # Skip a firmware entry that boots this grub (see SELF_* above): its ESP
+    # must be one we manage (HD() GPT PARTUUID is one of SELF_PARTUUIDS) and
+    # its \EFI\<vendor>\ directory one of ours (File() segment is one of
+    # SELF_VENDORS).  Both are required so a shared ESP does not also drop the
+    # other distro.  MBR/PXE entries carry no GPT PARTUUID, so entry_partuuid
+    # stays empty; entries with no /efi/<vendor>/ File() path (e.g. /EFI/BOOT
+    # removable fallback) yield an empty entry_vendor.  The emptiness guards
+    # below keep either from matching an (impossible) empty list line.
+    entry_partuuid="`printf '%s' "${devpath}" | \
+        sed -n 's|.*HD([0-9]*,GPT,\([0-9A-Fa-f-]\{36\}\),.*|\1|p' | \
+        tr 'A-Z' 'a-z'`"
+    entry_vendor="`printf '%s' "${efi_file}" | \
+        sed -n 's,^/efi/\([^/]*\)/.*,\1,p'`"
+    if [ -n "${entry_partuuid}" ] && \
+       printf '%s\n' "${SELF_PARTUUIDS}" | grep -Fxq -- "${entry_partuuid}" && \
+       [ -n "${entry_vendor}" ] && \
+       printf '%s\n' "${SELF_VENDORS}" | grep -Fxq -- "${entry_vendor}"; then
+        continue
+    fi
 
     # If this entry boots an EFI file and os-prober results are available,
     # only include it when os-prober recognises the path as an OS entry.

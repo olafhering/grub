@@ -1391,6 +1391,12 @@ script = {
 };
 
 script = {
+  testcase = native;
+  name = grub_mkconfig_bootnext_self_test;
+  common = tests/grub_mkconfig_bootnext_self_test.in;
+};
+
+script = {
   testcase = nonnative;
   name = file_filter_test;
   common = tests/file_filter_test.in;
