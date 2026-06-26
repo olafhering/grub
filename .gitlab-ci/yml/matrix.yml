@@ -67,6 +67,7 @@
           - fat_test
           - fdt_unit_test
           - gettext_strings_test
+          - grub_mkconfig_bootnext_self_test
           - grub_mkconfig_bootnext_test
           - grub_script_blanklines
           - grub_script_dollar
