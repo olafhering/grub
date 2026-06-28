@@ -65,12 +65,14 @@
           - ext234_test
           - f2fs_test
           - fat_test
+          - fdt_unit_test
           - gettext_strings_test
           - grub_script_blanklines
           - grub_script_dollar
           - grub_script_final_semicolon
           - grub_script_no_commands
           - hfsplus_test
+          - image_unit_test
           - iso9660_test
           - jfs_test
           - luks1_test

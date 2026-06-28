@@ -113,6 +113,7 @@ widthspec.bin
 /f2fs_test
 /fat_test
 /fddboot_test
+/fdt_unit_test
 /file_filter_test
 /garbage-gen
 /garbage-gen.exe
@@ -226,6 +227,7 @@ widthspec.bin
 /help_test
 /hfs_test
 /hfsplus_test
+/image_unit_test
 /include/grub/cpu
 /include/grub/gcrypt/g10lib.h
 /include/grub/gcrypt/gcrypt.h

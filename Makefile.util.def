@@ -1478,6 +1478,41 @@ program = {
 
 program = {
   testcase = native;
+  name = fdt_unit_test;
+  common = tests/fdt_unit_test.c;
+  common = tests/lib/unit_test.c;
+  common = grub-core/kern/list.c;
+  common = grub-core/kern/misc.c;
+  common = grub-core/tests/lib/test.c;
+  common = grub-core/lib/fdt.c;
+  ldadd = libgrubmods.a;
+  ldadd = libgrubkern.a;
+  ldadd = libgrubgcry.a;
+  ldadd = grub-core/lib/gnulib/libgnu.a;
+  ldadd = '$(LIBDEVMAPPER) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
+};
+
+program = {
+  testcase = native;
+  name = image_unit_test;
+  common = tests/image_unit_test.c;
+  common = tests/lib/unit_test.c;
+  common = grub-core/kern/list.c;
+  common = grub-core/kern/misc.c;
+  common = grub-core/tests/lib/test.c;
+  common = grub-core/video/bitmap.c;
+  common = grub-core/video/readers/png.c;
+  common = grub-core/video/readers/jpeg.c;
+  common = grub-core/video/readers/tga.c;
+  ldadd = libgrubmods.a;
+  ldadd = libgrubkern.a;
+  ldadd = libgrubgcry.a;
+  ldadd = grub-core/lib/gnulib/libgnu.a;
+  ldadd = '$(LIBDEVMAPPER) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
+};
+
+program = {
+  testcase = native;
   name = cmp_test;
   common = tests/cmp_unit_test.c;
   common = tests/lib/unit_test.c;
