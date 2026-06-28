@@ -1,0 +1,151 @@
+#! @BUILD_SHEBANG@
+# Copyright (C) 2026  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+# Test purpose:
+# End-to-end test of the loadenv module commands (load_env, list_env, save_env)
+# running inside GRUB under QEMU.  A grubenv file with known values is placed on
+# a small ext2 image, which is attached as a writable disk.  GRUB then:
+#   - load_env  : applies the stored values to the environment;
+#   - list_env  : reports the stored variables;
+#   - save_env  : rewrites a variable in place (via block lists) on the disk.
+# The saved value is verified two ways: by unsetting it and reloading from the
+# file inside GRUB, and -- the strongest check -- by reading the modified
+# grubenv back off the disk image on the host afterwards.
+
+set -e
+
+grubshell=@builddir@/grub-shell
+grubeditenv=@builddir@/grub-editenv
+grubfstest=@builddir@/grub-fstest
+srcdir="@srcdir@"
+
+. "@builddir@/grub-core/modinfo.sh"
+
+# save_env writes through block lists to a real disk; run on the x86 targets
+# where grub-shell attaches a writable disk image.
+case "${grub_modinfo_target_cpu}-${grub_modinfo_platform}" in
+    i386-pc | x86_64-efi ) ;;
+    *) exit 77;;
+esac
+
+# Host tools used to stage the grubenv on an ext2 image (no root required:
+# debugfs writes the file straight into the image).
+for t in mke2fs debugfs; do
+    if ! command -v "$t" >/dev/null 2>&1; then
+        echo "Skipping, $t not available"
+        exit 77
+    fi
+done
+
+tmpdir="$(mktemp -d "${TMPDIR:-/tmp}/loadenv.XXXXXXXXXX")" || exit 99
+img="${tmpdir}/env.img"
+outfile="${tmpdir}/out"
+cleanup () {
+    rm -rf "${tmpdir}"
+}
+trap cleanup EXIT
+
+# A grubenv with known initial values.
+"${grubeditenv}" "${tmpdir}/grubenv" create
+"${grubeditenv}" "${tmpdir}/grubenv" set greeting=hello persisted=initial
+
+# Stage it on a small ext2 image (1 KiB blocks; the 1 KiB grubenv is one block).
+dd if=/dev/zero of="${img}" bs=1024 count=256 2>/dev/null
+mke2fs -q -F -b 1024 -t ext2 "${img}" >/dev/null 2>&1
+printf 'cd /\nwrite %s grubenv\n' "${tmpdir}/grubenv" | debugfs -w "${img}" >/dev/null 2>&1
+
+# '\$' keeps a variable for GRUB to expand; '$?' captures command status.  A
+# QEMU failure leaves the marker checks below to report diagnostics.
+${grubshell} --disk="${img}" --timeout=90 > "${outfile}" <<EOF || true
+insmod ext2
+insmod loadenv
+insmod search
+search --no-floppy --file --set=envroot /grubenv
+echo ENVROOT=\$envroot
+load_env -f (\$envroot)/grubenv
+echo GREETING=\$greeting
+echo PERSISTED=\$persisted
+echo MARK_LIST
+list_env -f (\$envroot)/grubenv
+echo MARK_LIST_END
+set persisted=updated
+save_env -f (\$envroot)/grubenv persisted
+echo SAVE_STATUS=\$?
+unset persisted
+load_env -f (\$envroot)/grubenv
+echo RELOADED=\$persisted
+echo MARK_DONE
+EOF
+
+fail () {
+    echo "FAIL: $1"
+    echo "--- grub output ---"
+    cat "${outfile}"
+    exit 1
+}
+
+field () {
+    sed -n "s/^$1=//p" "${outfile}" | head -1
+}
+
+if ! grep -q "^MARK_DONE$" "${outfile}"; then
+    fail "GRUB did not reach MARK_DONE"
+fi
+
+# load_env applied the stored values to the environment.
+if [ "$(field GREETING)" = hello ]; then
+    echo "PASS: load_env set greeting=hello"
+else
+    fail "load_env did not set greeting (got '$(field GREETING)')"
+fi
+if [ "$(field PERSISTED)" = initial ]; then
+    echo "PASS: load_env set persisted=initial"
+else
+    fail "load_env did not set persisted (got '$(field PERSISTED)')"
+fi
+
+# list_env reported the stored variables.
+list="$(awk '/^MARK_LIST$/{p=1;next} /^MARK_LIST_END$/{p=0} p' "${outfile}")"
+if echo "${list}" | grep -q "greeting=hello" \
+   && echo "${list}" | grep -q "persisted=initial"; then
+    echo "PASS: list_env reported the stored variables"
+else
+    fail "list_env output missing variables (got: ${list})"
+fi
+
+# save_env succeeded, and the new value survives an unset + reload from file.
+if [ "$(field SAVE_STATUS)" = 0 ]; then
+    echo "PASS: save_env returned success"
+else
+    fail "save_env returned non-zero ($(field SAVE_STATUS))"
+fi
+if [ "$(field RELOADED)" = updated ]; then
+    echo "PASS: saved value reloaded from file inside GRUB"
+else
+    fail "reloaded value wrong (got '$(field RELOADED)')"
+fi
+
+# Strongest check: the on-disk grubenv really changed (read back on the host).
+hostval="$("${grubfstest}" "${img}" cat /grubenv 2>/dev/null \
+           | sed -n 's/^persisted=//p' | head -1)"
+if [ "${hostval}" = updated ]; then
+    echo "PASS: on-disk grubenv updated by save_env (host readback)"
+else
+    fail "on-disk grubenv not updated by save_env (host sees '${hostval}')"
+fi
+
+echo "grub_cmd_save_env: all checks passed"
+exit 0

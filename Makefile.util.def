@@ -1218,6 +1218,12 @@ script = {
 
 script = {
   testcase = nonnative;
+  name = grub_cmd_save_env;
+  common = tests/grub_cmd_save_env.in;
+};
+
+script = {
+  testcase = nonnative;
   name = grub_cmd_set_date;
   common = tests/grub_cmd_set_date.in;
 };
@@ -1485,6 +1491,22 @@ program = {
   common = grub-core/kern/misc.c;
   common = grub-core/tests/lib/test.c;
   common = grub-core/lib/fdt.c;
+  ldadd = libgrubmods.a;
+  ldadd = libgrubkern.a;
+  ldadd = libgrubgcry.a;
+  ldadd = grub-core/lib/gnulib/libgnu.a;
+  ldadd = '$(LIBDEVMAPPER) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
+};
+
+program = {
+  testcase = native;
+  name = loadenv_unit_test;
+  common = tests/loadenv_unit_test.c;
+  common = tests/lib/unit_test.c;
+  common = grub-core/kern/list.c;
+  common = grub-core/kern/misc.c;
+  common = grub-core/tests/lib/test.c;
+  common = grub-core/lib/envblk.c;
   ldadd = libgrubmods.a;
   ldadd = libgrubkern.a;
   ldadd = libgrubgcry.a;

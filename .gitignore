@@ -189,6 +189,7 @@ widthspec.bin
 /grub_cmd_date
 /grub_cmd_echo
 /grub_cmd_regexp
+/grub_cmd_save_env
 /grub_cmd_set_date
 /grub_cmd_sleep
 /grub_cmd_test
@@ -237,6 +238,7 @@ widthspec.bin
 /jfs_test
 /lib/libgcrypt-grub
 /libgrub_a_init.c
+/loadenv_unit_test
 /lzocompress_test
 /luks1_test
 /luks2_test

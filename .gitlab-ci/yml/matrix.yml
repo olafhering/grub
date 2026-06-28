@@ -75,6 +75,7 @@
           - image_unit_test
           - iso9660_test
           - jfs_test
+          - loadenv_unit_test
           - luks1_test
           - luks2_test
           - minixfs_test
@@ -103,6 +104,7 @@
           - grub_cmd_date
           - grub_cmd_echo
           - grub_cmd_regexp
+          - grub_cmd_save_env
           - grub_cmd_set_date
           - grub_cmd_sleep
           - grub_cmd_test
