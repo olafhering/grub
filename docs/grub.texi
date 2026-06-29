@@ -6599,6 +6599,14 @@ same mode as used in GRUB) instead.  GRUB can automatically detect some uses
 of @samp{vga=} and translate them to appropriate settings of
 @samp{gfxpayload}.  The @command{linux16} command (@pxref{linux16}) avoids
 this restriction.
+
+For non-x86 platforms, when using a firmware-provided device tree, if this
+command is invoked without kernel command-line arguments after @var{file}, then
+GRUB will attempt to load arguments from the ``bootargs`` property of the
+``/chosen`` node of the provided device tree. Arguments provided to GRUB will
+always prevail on the one present in the device tree for legacy purposes. If
+no arguments are found at this path, then no arguments will be provided in the
+boot command.
 @end deffn
 
 
