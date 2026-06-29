@@ -31,21 +31,47 @@ GRUB_MOD_LICENSE ("GPLv3+");
 
 static grub_err_t
 grub_tpm_verify_init (grub_file_t io,
-		      enum grub_file_type type __attribute__ ((unused)),
+		      enum grub_file_type type,
 		      void **context, enum grub_verify_flags *flags)
 {
   *context = io->name;
   *flags |= GRUB_VERIFY_FLAGS_SINGLE_CHUNK;
 
-  /*
-   * The loopback image is mapped as a disk allowing it to function like
-   * a block device. However, we measure files read from the block device
-   * not the device itself. For example, we don't measure block devices like
-   * hd0 disk directly. This process is crucial to prevent out-of-memory
-   * errors as loopback images are inherently large.
-   */
-  if ((type & GRUB_FILE_TYPE_MASK) == GRUB_FILE_TYPE_LOOPBACK)
-    *flags = GRUB_VERIFY_FLAGS_SKIP_VERIFICATION;
+  switch (type & GRUB_FILE_TYPE_MASK)
+    {
+      /*
+       * The loopback image is mapped as a disk allowing it to function like
+       * a block device. However, we measure files read from the block device
+       * not the device itself. For example, we don't measure block devices like
+       * hd0 disk directly. This process is crucial to prevent out-of-memory
+       * errors as loopback images are inherently large.
+       */
+    case GRUB_FILE_TYPE_LOOPBACK:
+      /*
+       * These file types are only opened to inspect the file (e.g. test for
+       * existence, size or contents, print its block list, or measure read
+       * speed) and are never loaded or executed. They can be arbitrarily
+       * large, and because measurement reads the whole file into a single
+       * heap buffer (GRUB_VERIFY_FLAGS_SINGLE_CHUNK), measuring them can
+       * exhaust memory. The most painful case is `search --file` over a
+       * multi-gigabyte disk image, which fails with an out-of-memory error and
+       * thus reports the file as not found. The secure boot verifier
+       * (grub-core/kern/efi/sb.c) already skips these for the same reason.
+       */
+    case GRUB_FILE_TYPE_FS_SEARCH:
+    case GRUB_FILE_TYPE_GET_SIZE:
+    case GRUB_FILE_TYPE_CAT:
+    case GRUB_FILE_TYPE_HEXCAT:
+    case GRUB_FILE_TYPE_CMP:
+    case GRUB_FILE_TYPE_PRINT_BLOCKLIST:
+    case GRUB_FILE_TYPE_TESTLOAD:
+      *flags = GRUB_VERIFY_FLAGS_SKIP_VERIFICATION;
+      break;
+
+    default:
+      break;
+    }
+
   return GRUB_ERR_NONE;
 }
 
