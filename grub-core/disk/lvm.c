@@ -71,32 +71,35 @@ grub_lvm_checkvalue (char **p, char *str, char *tmpl)
 #endif
 
 static int
-grub_lvm_check_flag (const char *p, const char *str, const char *flag)
+grub_lvm_check_flag (const char *p, const char *end, const char *str,
+		     const char *flag)
 {
   grub_size_t len_str = grub_strlen (str), len_flag = grub_strlen (flag);
   while (1)
     {
       const char *q;
       p = grub_strstr (p, str);
-      if (! p)
+      if (! p || p >= end)
 	return 0;
       p += len_str;
-      if (grub_memcmp (p, " = [", sizeof (" = [") - 1) != 0)
+      if (end - p < (grub_ssize_t) (sizeof (" = [") - 1)
+	  || grub_memcmp (p, " = [", sizeof (" = [") - 1) != 0)
 	continue;
       q = p + sizeof (" = [") - 1;
       while (1)
 	{
-	  while (grub_isspace (*q))
+	  while (q < end && grub_isspace (*q))
 	    q++;
-	  if (*q != '"')
+	  if (q >= end || *q != '"')
 	    return 0;
 	  q++;
-	  if (grub_memcmp (q, flag, len_flag) == 0 && q[len_flag] == '"')
+	  if (end - q > (grub_ssize_t) len_flag
+	      && grub_memcmp (q, flag, len_flag) == 0 && q[len_flag] == '"')
 	    return 1;
-	  while (*q != '"')
+	  while (q < end && *q != '"')
 	    q++;
 	  q++;
-	  if (*q == ']')
+	  if (q >= end || *q == ']')
 	    return 0;
 	  q++;
 	}
@@ -342,6 +345,8 @@ grub_lvm_detect (grub_disk_t disk,
       goto fail3;
     }
   p += sizeof ("id = \"") - 1;
+  if (mda_end - p < (grub_ssize_t) GRUB_LVM_ID_STRLEN)
+    goto fail3;
   grub_memcpy (vg_id, p, GRUB_LVM_ID_STRLEN);
   vg_id[GRUB_LVM_ID_STRLEN] = '\0';
 
@@ -384,10 +389,10 @@ grub_lvm_detect (grub_disk_t disk,
 	  while (1)
 	    {
 	      grub_ssize_t s;
-	      while (grub_isspace (*p) && p < mda_end)
+	      while (p < mda_end && grub_isspace (*p))
 		p++;
 
-	      if (p == mda_end)
+	      if (p >= mda_end)
 		goto fail4;
 
 	      if (*p == '}')
@@ -414,6 +419,8 @@ grub_lvm_detect (grub_disk_t disk,
 	      if (p == NULL)
 		goto pvs_fail;
 	      p += sizeof("id = \"") - 1;
+	      if (mda_end - p < (grub_ssize_t) GRUB_LVM_ID_STRLEN)
+		goto pvs_fail;
 
 	      pv->id.uuid = grub_malloc (GRUB_LVM_ID_STRLEN);
 	      if (!pv->id.uuid)
@@ -469,10 +476,10 @@ grub_lvm_detect (grub_disk_t disk,
 	      struct grub_diskfilter_segment *seg;
 	      int is_pvmove;
 
-	      while (grub_isspace (*p) && p < mda_end)
+	      while (p < mda_end && grub_isspace (*p))
 		p++;
 
-	      if (p == mda_end)
+	      if (p >= mda_end)
 		goto fail4;
 
 	      if (*p == '}')
@@ -555,6 +562,8 @@ grub_lvm_detect (grub_disk_t disk,
 		    goto lvs_fail;
 		  }
 		p += sizeof ("id = \"") - 1;
+		if (mda_end - p < (grub_ssize_t) GRUB_LVM_ID_STRLEN)
+		  goto lvs_fail;
 		grub_memcpy (lv->idname + sizeof ("lvmid/") - 1
 			     + GRUB_LVM_ID_STRLEN + 1,
 			     p, GRUB_LVM_ID_STRLEN);
@@ -563,8 +572,8 @@ grub_lvm_detect (grub_disk_t disk,
 
 	      lv->size = 0;
 
-	      lv->visible = grub_lvm_check_flag (p, "status", "VISIBLE");
-	      is_pvmove = grub_lvm_check_flag (p, "status", "PVMOVE");
+	      lv->visible = grub_lvm_check_flag (p, mda_end, "status", "VISIBLE");
+	      is_pvmove = grub_lvm_check_flag (p, mda_end, "status", "PVMOVE");
 
 	      lv->segment_count = grub_lvm_getvalue (&p, "segment_count = ");
 	      if (p == NULL)
@@ -819,8 +828,11 @@ grub_lvm_detect (grub_disk_t disk,
 			  if (p == NULL)
 			    goto lvs_segment_fail2;
 			  q = ++p;
-			  while (*q != '"')
+			  while (q < mda_end && *q != '"')
 			    q++;
+
+			  if (q == mda_end)
+			    goto lvs_segment_fail2;
 
 			  s = q - p;
 
