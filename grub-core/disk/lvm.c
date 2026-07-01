@@ -121,7 +121,13 @@ grub_lvm_free_ignored_feature_lvs (struct ignored_feature_lv *ignored_feature_lv
 
 	  for (i = 0; i < ignored_feature->lv->segment_count; ++i)
 	    if (ignored_feature->lv->segments)
-	      grub_free (ignored_feature->lv->segments[i].nodes);
+	      {
+		unsigned int j;
+		if (ignored_feature->lv->segments[i].nodes)
+		  for (j = 0; j < ignored_feature->lv->segments[i].node_count; ++j)
+		    grub_free (ignored_feature->lv->segments[i].nodes[j].name);
+		grub_free (ignored_feature->lv->segments[i].nodes);
+	      }
 	  grub_free (ignored_feature->lv->segments);
 	  grub_free (ignored_feature->lv->fullname);
 	  grub_free (ignored_feature->lv->idname);
@@ -131,6 +137,66 @@ grub_lvm_free_ignored_feature_lvs (struct ignored_feature_lv *ignored_feature_lv
       grub_free (ignored_feature->origin);
       grub_free (ignored_feature);
     }
+}
+
+/* Free a logical volume that is not (yet) linked into a volume group. */
+static void
+grub_lvm_free_lv (struct grub_diskfilter_lv *lv)
+{
+  unsigned i;
+
+  if (!lv)
+    return;
+
+  grub_free (lv->fullname);
+  grub_free (lv->name);
+  grub_free (lv->idname);
+  if (lv->segments)
+    for (i = 0; i < lv->segment_count; i++)
+      {
+	unsigned j;
+	if (lv->segments[i].nodes)
+	  for (j = 0; j < lv->segments[i].node_count; j++)
+	    grub_free (lv->segments[i].nodes[j].name);
+	grub_free (lv->segments[i].nodes);
+      }
+  grub_free (lv->segments);
+  grub_free (lv->internal_id);
+  grub_free (lv);
+}
+
+/*
+ * Free a volume group that has not been registered with the diskfilter
+ * framework, including any physical and logical volumes already attached to it.
+ * vg->name is left alone: in grub_lvm_detect() it aliases the separately-tracked
+ * "vgname" allocation that the error path frees on its own.
+ */
+static void
+grub_lvm_free_vg (struct grub_diskfilter_vg *vg)
+{
+  struct grub_diskfilter_pv *pv;
+  struct grub_diskfilter_lv *lv;
+
+  if (!vg)
+    return;
+
+  while ((pv = vg->pvs))
+    {
+      vg->pvs = pv->next;
+      grub_free (pv->name);
+      grub_free (pv->id.uuid);
+      grub_free (pv->internal_id);
+      grub_free (pv);
+    }
+
+  while ((lv = vg->lvs))
+    {
+      vg->lvs = lv->next;
+      grub_lvm_free_lv (lv);
+    }
+
+  grub_free (vg->uuid);
+  grub_free (vg);
 }
 
 static struct grub_diskfilter_vg *
@@ -358,13 +424,18 @@ grub_lvm_detect (grub_disk_t disk,
 
       /* First time we see this volume group. We've to create the
 	 whole volume group structure. */
-      vg = grub_malloc (sizeof (*vg));
+      /*
+       * Zero-initialise so the pvs/lvs/uuid pointers are NULL on every error
+       * path: grub_lvm_free_vg() (reached via fail4) walks them, and some
+       * "goto fail4" sites are before the explicit pvs/lvs = NULL below.
+       */
+      vg = grub_zalloc (sizeof (*vg));
       if (! vg)
 	goto fail3;
       vg->name = vgname;
       vg->uuid = grub_malloc (GRUB_LVM_ID_STRLEN);
       if (! vg->uuid)
-	goto fail3;
+	goto fail4;
       grub_memcpy (vg->uuid, vg_id, GRUB_LVM_ID_STRLEN);
       vg->uuid_len = GRUB_LVM_ID_STRLEN;
 
@@ -454,6 +525,7 @@ grub_lvm_detect (grub_disk_t disk,
 	      continue;
 	    pvs_fail:
 	      grub_free (pv->name);
+	      grub_free (pv->id.uuid);
 	    pvs_fail_noname:
 	      grub_free (pv);
 	      goto fail4;
@@ -693,10 +765,7 @@ grub_lvm_detect (grub_disk_t disk,
 			  stripe->start = grub_lvm_getvalue (&p, ",")
 			    * vg->extent_size;
 			  if (p == NULL)
-			    {
-			      grub_free (stripe->name);
-			      goto lvs_segment_fail2;
-			    }
+			    goto lvs_segment_fail2;
 
 			  stripe++;
 			}
@@ -884,6 +953,17 @@ grub_lvm_detect (grub_disk_t disk,
 			goto ignored_feature_lv_fail;
 		      grub_memcpy (ignored_feature->lv, lv, sizeof (*ignored_feature->lv));
 
+		      /*
+		       * The shallow copy above aliases lv's heap pointers.  name,
+		       * fullname and idname are replaced with private copies just
+		       * below; drop the aliased segments so the ignored feature
+		       * neither shares nor double-frees the skipped LV's segment
+		       * array (it builds its own later).  This lets the skipped LV
+		       * be freed in full.
+		       */
+		      ignored_feature->lv->segments = NULL;
+		      ignored_feature->lv->segment_count = 0;
+
 		      if (lv->fullname)
 			{
 			  ignored_feature->lv->fullname = grub_strdup (lv->fullname);
@@ -947,6 +1027,7 @@ grub_lvm_detect (grub_disk_t disk,
 			  grub_free (ignored_feature);
 			}
 		      grub_lvm_free_ignored_feature_lvs (ignored_feature_lvs);
+		      grub_lvm_free_lv (lv);
 		      goto fail4;
 		    }
 		  else
@@ -969,8 +1050,8 @@ grub_lvm_detect (grub_disk_t disk,
 
 		  continue;
 		lvs_segment_fail2:
-		  grub_free (seg->nodes);
 		lvs_segment_fail:
+		  grub_lvm_free_lv (lv);
 		  goto fail4;
 		}
 
@@ -982,8 +1063,7 @@ grub_lvm_detect (grub_disk_t disk,
 
 	      if (skip_lv)
 		{
-		  grub_free (lv->name);
-		  grub_free (lv);
+		  grub_lvm_free_lv (lv);
 		  continue;
 		}
 
@@ -993,8 +1073,7 @@ grub_lvm_detect (grub_disk_t disk,
 
 	      continue;
 	    lvs_fail:
-	      grub_free (lv->name);
-	      grub_free (lv);
+	      grub_lvm_free_lv (lv);
 	      goto fail4;
 	    }
 	}
@@ -1020,6 +1099,17 @@ grub_lvm_detect (grub_disk_t disk,
 		  }
 		grub_memcpy (ignored_feature->lv->segments, lv->segments, lv->segment_count * sizeof (*lv->segments));
 
+		/*
+		 * The memcpy() above shallow-copied each segment's node pointer.  NULL
+		 * them and publish segment_count up front so that, as fresh node arrays
+		 * and node-name copies are filled in below, a failure can be cleaned up by
+		 * grub_lvm_free_ignored_feature_lvs() without touching (or double-freeing)
+		 * the origin LV's memory.
+		 */
+		for (i = 0; i < lv->segment_count; ++i)
+		  ignored_feature->lv->segments[i].nodes = NULL;
+		ignored_feature->lv->segment_count = lv->segment_count;
+
 		for (i = 0; i < lv->segment_count; ++i)
 		  {
 		    struct grub_diskfilter_node *nodes = lv->segments[i].nodes;
@@ -1028,14 +1118,29 @@ grub_lvm_detect (grub_disk_t disk,
 		    ignored_feature->lv->segments[i].nodes = grub_calloc (node_count, sizeof (*nodes));
 		    if (!ignored_feature->lv->segments[i].nodes)
 		      {
-			for (j = 0; j < i; ++j)
-			  grub_free (ignored_feature->lv->segments[j].nodes);
-			grub_free (ignored_feature->lv->segments);
-			ignored_feature->lv->segments = NULL;
-			grub_lvm_free_ignored_feature_lvs (ignored_feature_lvs);
-			goto fail4;
+		        grub_lvm_free_ignored_feature_lvs (ignored_feature_lvs);
+		        goto fail4;
 		      }
 		    grub_memcpy (ignored_feature->lv->segments[i].nodes, nodes, node_count * sizeof (*nodes));
+
+		    /*
+		     * Give the copy its own node names; the memcpy above only duplicated
+		     * the pointers, which the origin LV still owns.
+		     */
+		    for (j = 0; j < node_count; ++j)
+		      {
+		        ignored_feature->lv->segments[i].nodes[j].name = NULL;
+		        if (nodes[j].name)
+		          {
+		            ignored_feature->lv->segments[i].nodes[j].name =
+		              grub_strdup (nodes[j].name);
+		            if (!ignored_feature->lv->segments[i].nodes[j].name)
+		              {
+		                grub_lvm_free_ignored_feature_lvs (ignored_feature_lvs);
+		                goto fail4;
+		              }
+		          }
+		      }
 		  }
 
 		if (ignored_feature->lv->segments)
@@ -1098,7 +1203,15 @@ grub_lvm_detect (grub_disk_t disk,
 
   id->uuid = grub_malloc (GRUB_LVM_ID_STRLEN);
   if (!id->uuid)
-    goto fail4;
+    {
+      /*
+       * vg is already registered with the diskfilter framework (or was found
+       * there for an existing VG), so it must not be freed here; it is owned by
+       * the framework and released by its teardown.
+       */
+      grub_free (metadatabuf);
+      return NULL;
+    }
   grub_memcpy (id->uuid, pv_id, GRUB_LVM_ID_STRLEN);
   id->uuidlen = GRUB_LVM_ID_STRLEN;
   grub_free (metadatabuf);
@@ -1107,7 +1220,7 @@ grub_lvm_detect (grub_disk_t disk,
 
   /* Failure path.  */
  fail4:
-  grub_free (vg);
+  grub_lvm_free_vg (vg);
  fail3:
   grub_free (vgname);
 
