@@ -1,0 +1,26 @@
+diff --git a/grub-core/lib/libgcrypt-grub/mpi/mpi-internal.h b/grub-core/lib/libgcrypt-grub/mpi/mpi-internal.h
+index f18170fe6..6cb381e7e 100644
+--- a/grub-core/lib/libgcrypt-grub/mpi/mpi-internal.h
++++ b/grub-core/lib/libgcrypt-grub/mpi/mpi-internal.h
+@@ -306,6 +306,7 @@ void _gcry_mpih_lookup_lli (mpi_ptr_t rp, const mpi_limb_t *table,
+                             mpi_size_t n, mpi_size_t nents, mpi_size_t idx);
+ mpi_ptr_t _gcry_mpih_mod_lli (mpi_ptr_t vp, mpi_size_t vsize,
+                               mpi_ptr_t up, mpi_size_t usize);
++mpi_limb_t _gcry_mpih_add_1_lli (mpi_ptr_t s1_ptr, mpi_size_t s1_size, mpi_limb_t s2_limb);
+
+
+ /* Define stuff for longlong.h.  */
+diff --git a/grub-core/lib/libgcrypt-grub/mpi/mpiutil.c b/grub-core/lib/libgcrypt-grub/mpi/mpiutil.c
+index 1421177ca..b1f4ba548 100644
+--- a/grub-core/lib/libgcrypt-grub/mpi/mpiutil.c
++++ b/grub-core/lib/libgcrypt-grub/mpi/mpiutil.c
+@@ -230,7 +230,9 @@ _gcry_mpi_free( gcry_mpi_t a )
+     return;
+   if ((a->flags & 32))
+   {
++#if 0
+     gpgrt_annotate_leaked_object(a);
++#endif
+     return; /* Never release a constant. */
+   }
+   if ((a->flags & 4))

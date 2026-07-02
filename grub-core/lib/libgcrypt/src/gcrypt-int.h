@@ -299,12 +299,20 @@ void _gcry_set_gettext_handler (const char *(*f)(const char*));
 void _gcry_set_progress_handler (gcry_handler_progress_t cb, void *cb_data);
 
 void _gcry_thread_context_set_reject (unsigned int flags);
-int _gcry_thread_context_check_rejection (unsigned int flag);
+inline int _gcry_thread_context_check_rejection (unsigned int flag)
+{
+  (void) flag;
+  return 0;
+}
 
 #define fips_check_rejection(flag) \
   _gcry_thread_context_check_rejection (flag)
 
-void _gcry_thread_context_set_fsi (unsigned long fsi);
+inline void _gcry_thread_context_set_fsi (unsigned long fsi)
+{
+  (void) fsi;
+}
+
 unsigned long _gcry_thread_context_get_fsi (void);
 #define fips_service_indicator_init() do \
   {                                      \

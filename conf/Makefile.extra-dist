@@ -51,6 +51,10 @@ EXTRA_DIST += grub-core/lib/libgcrypt-patches/13_add_hwfeatures.patch
 EXTRA_DIST += grub-core/lib/libgcrypt-patches/14_fix_build_shaext.patch
 EXTRA_DIST += grub-core/lib/libgcrypt-patches/15_build_sha256_x86_64_efi_opt_code.patch
 EXTRA_DIST += grub-core/lib/libgcrypt-patches/16_build_sha512_x86_64_efi_opt_code.patch
+EXTRA_DIST += grub-core/lib/libgcrypt-patches/17_md.patch
+EXTRA_DIST += grub-core/lib/libgcrypt-patches/18_dilithium.patch
+EXTRA_DIST += grub-core/lib/libgcrypt-patches/19_mpi.patch
+EXTRA_DIST += grub-core/lib/libgcrypt-patches/20_sex.patch
 
 EXTRA_DIST += grub-core/lib/libtasn1-patches/0001-libtasn1-disable-code-not-needed-in-grub.patch
 EXTRA_DIST += grub-core/lib/libtasn1-patches/0002-libtasn1-replace-strcat-with-strcpy-in-_asn1_str_cat.patch

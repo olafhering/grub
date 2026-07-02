@@ -1,0 +1,34 @@
+--- ../grub-core/lib/libgcrypt-grub/cipher/dilithium.c	2026-04-15 14:40:56.000000000 +0530
++++ grub-core/lib/libgcrypt-grub/cipher/dilithium.c	2026-07-03 02:33:06.301668161 +0530
+@@ -228,7 +228,12 @@ dilithium_verify (int algo, const uint8_t *sig, size_t siglen,
+   if (ctx == NULL)
+     {
+       if (ctxlen == -1)
+-        prelen = 0;
++       {
++          /* Prepare pre = (0, ctxlen, ctx) */
++          pre[0] = 0;
++          pre[1] = 0;
++          prelen = 2;
++        }
+       else
+         return GPG_ERR_INV_DATA;
+     }
+@@ -278,7 +278,7 @@
+
+   ec = _gcry_md_open (&state->h, GCRY_MD_SHAKE128, 0);
+   if (ec)
+-    log_fatal ("internal md_open failed: %d\n", ec);
++    _gcry_fatal_error (ec, "internal md_open failed");
+ }
+
+ static void
+@@ -312,7 +312,7 @@
+
+   ec = _gcry_md_open (&state->h, GCRY_MD_SHAKE256, 0);
+   if (ec)
+-    log_fatal ("internal md_open failed: %d\n", ec);
++    _gcry_fatal_error (ec, "internal md_open failed");
+ }
+
+ static void

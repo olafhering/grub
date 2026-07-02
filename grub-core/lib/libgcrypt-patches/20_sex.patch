@@ -1,0 +1,14 @@
+diff --git a/grub-core/lib/libgcrypt-grub/src/sexp.c b/grub-core/lib/libgcrypt-grub/src/sexp.c
+index c77d0212f..cf41191e6 100644
+--- a/grub-core/lib/libgcrypt-grub/src/sexp.c
++++ b/grub-core/lib/libgcrypt-grub/src/sexp.c
+@@ -2719,7 +2719,9 @@ _gcry_hex2buffer (const char *string, size_t *r_length)
+       if (!hexdigitp (s) || !hexdigitp (s+1))
+         {
+           xfree(buffer);
++#if 0
+           gpg_err_set_errno (EINVAL);
++#endif
+           return NULL;           /* Invalid hex digits. */
+         }
+       ((unsigned char*)buffer)[length++] = xtoi_2 (s);

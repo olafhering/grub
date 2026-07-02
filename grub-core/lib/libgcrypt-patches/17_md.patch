@@ -1,0 +1,32 @@
+diff --git a/grub-core/lib/libgcrypt-grub/cipher/md.c b/grub-core/lib/libgcrypt-grub/cipher/md.c
+index 820afee46..eb0c429b3 100644
+--- a/grub-core/lib/libgcrypt-grub/cipher/md.c
++++ b/grub-core/lib/libgcrypt-grub/cipher/md.c
+@@ -664,6 +664,11 @@ md_setkey (gcry_md_hd_t h, const unsigned char *key, size_t keylen)
+   if (h->ctx->flags.hmac)
+     return GPG_ERR_DIGEST_ALGO; /* Tried md_setkey for HMAC md. */
+
++#if !USE_BLAKE2
++  (void)key;
++  (void)keylen;
++#endif
++
+   for (r = h->ctx->list; r; r = r->next)
+     {
+       switch (r->spec->algo)
+@@ -1131,6 +1136,7 @@ _gcry_md_hash_buffers_extract (int algo, unsigned int flags, void *digest,
+   if (digestlen == -1)
+     digestlen = spec->mdlen;
+
++#if 0
+   if (!hmac && spec->hash_buffers)
+     {
+       if (spec->flags.disabled)
+@@ -1139,6 +1145,7 @@ _gcry_md_hash_buffers_extract (int algo, unsigned int flags, void *digest,
+       spec->hash_buffers (digest, digestlen, iov, iovcnt);
+     }
+   else
++#endif
+     {
+       /* For the others we do not have a fast function, so we use the
+          normal functions.  */
