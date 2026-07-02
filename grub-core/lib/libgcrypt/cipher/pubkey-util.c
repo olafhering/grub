@@ -162,6 +162,8 @@ _gcry_pk_util_parse_flaglist (gcry_sexp_t list,
               encoding = PUBKEY_ENC_RAW;
               flags |= PUBKEY_FLAG_DJB_TWEAK;
             }
+          else if (!memcmp (s, "no-prefix", 9))
+            flags |= PUBKEY_FLAG_NO_PREFIX;
           else if (!igninvflag)
             rc = GPG_ERR_INV_FLAG;
           break;
@@ -198,6 +200,14 @@ _gcry_pk_util_parse_flaglist (gcry_sexp_t list,
             rc = GPG_ERR_INV_FLAG;
           break;
         }
+    }
+
+  if (fips_mode () && igninvflag)
+    {
+      if (fips_check_rejection (GCRY_FIPS_FLAG_REJECT_PK_FLAGS))
+        rc = GPG_ERR_INV_FLAG;
+      else
+        fips_service_indicator_mark_non_compliant ();
     }
 
   if (r_flags)
@@ -251,7 +261,7 @@ get_hash_algo (const char *s, size_t n)
     {
       /* In case of not listed or dynamically allocated hash
 	 algorithm we fall back to this somewhat slower
-	 method.  Further, it also allows to use OIDs as
+	 method.  Further, it also allows using OIDs as
 	 algorithm names. */
       char *tmpname;
 
@@ -642,6 +652,8 @@ _gcry_pk_util_init_encoding_ctx (struct pk_encoding_ctx *ctx,
     }
   ctx->label = NULL;
   ctx->labellen = 0;
+  ctx->rnd = NULL;
+  ctx->rndlen = 0;
   ctx->saltlen = 20;
   ctx->verify_cmp = NULL;
   ctx->verify_arg = NULL;
@@ -652,13 +664,14 @@ void
 _gcry_pk_util_free_encoding_ctx (struct pk_encoding_ctx *ctx)
 {
   xfree (ctx->label);
+  xfree (ctx->rnd);
 }
 
 
 /* Take the hash value and convert into an MPI, suitable for
    passing to the low level functions.  We currently support the
    old style way of passing just a MPI and the modern interface which
-   allows to pass flags so that we can choose between raw and pkcs1
+   allows passing flags so that we can choose between raw and pkcs1
    padding - may be more padding options later.
 
    (<mpi>)
@@ -679,7 +692,7 @@ _gcry_pk_util_free_encoding_ctx (struct pk_encoding_ctx *ctx)
 
    HASH-ALGO is specific to OAEP, PSS and EDDSA.
 
-   LABEL is specific to OAEP.
+   LABEL is used for OAEP, RAW or RFC6979.
 
    SALT-LENGTH is for PSS, it is limited to 16384 bytes.
 
@@ -730,6 +743,46 @@ _gcry_pk_util_data_to_mpi (gcry_sexp_t input, gcry_mpi_t *ret_mpi,
     rc = GPG_ERR_INV_OBJ; /* none or both given */
   else if (unknown_flag)
     rc = GPG_ERR_INV_FLAG;
+  else if (ctx->encoding == PUBKEY_ENC_RAW
+           && (ctx->flags & PUBKEY_FLAG_BYTE_STRING))
+    {
+      gcry_sexp_t list;
+      void *value;
+      size_t valuelen;
+
+      if (!lvalue)
+        {
+          rc = GPG_ERR_INV_OBJ;
+          goto leave;
+        }
+
+      /* Get optional LABEL. */
+      list = sexp_find_token (ldata, "label", 0);
+      if (list)
+        {
+          ctx->label = sexp_nth_buffer (list, 1, &ctx->labellen);
+          sexp_release (list);
+        }
+
+      /* Get optional RANDOM-OVERRIDE. */
+      list = sexp_find_token (ldata, "random-override", 0);
+      if (list)
+        {
+          ctx->rnd = sexp_nth_buffer (list, 1, &ctx->rndlen);
+          sexp_release (list);
+        }
+
+      /* Get VALUE.  */
+      value = sexp_nth_buffer (lvalue, 1, &valuelen);
+      if (!value)
+        {
+          rc = GPG_ERR_INV_OBJ;
+          goto leave;
+        }
+
+      /* Note that mpi_set_opaque takes ownership of VALUE.  */
+      *ret_mpi = mpi_set_opaque (NULL, value, valuelen*8);
+    }
   else if (ctx->encoding == PUBKEY_ENC_RAW
            && ((parsed_flags & PUBKEY_FLAG_EDDSA)
                || (ctx->flags & PUBKEY_FLAG_EDDSA)))
@@ -965,6 +1018,17 @@ _gcry_pk_util_data_to_mpi (gcry_sexp_t input, gcry_mpi_t *ret_mpi,
           list = sexp_find_token (ldata, "random-override", 0);
           if (list)
             {
+              if (fips_mode ())
+                {
+                  if (fips_check_rejection (GCRY_FIPS_FLAG_REJECT_PK_FLAGS))
+                    {
+                      sexp_release (list);
+                      rc = GPG_ERR_INV_FLAG;
+                      goto leave;
+                    }
+                  else
+                    fips_service_indicator_mark_non_compliant ();
+                }
               s = sexp_nth_data (list, 1, &n);
               if (!s)
                 rc = GPG_ERR_NO_OBJ;
@@ -1141,6 +1205,17 @@ _gcry_pk_util_data_to_mpi (gcry_sexp_t input, gcry_mpi_t *ret_mpi,
           list = sexp_find_token (ldata, "random-override", 0);
           if (list)
             {
+              if (fips_mode ())
+                {
+                  if (fips_check_rejection (GCRY_FIPS_FLAG_REJECT_PK_FLAGS))
+                    {
+                      sexp_release (list);
+                      rc = GPG_ERR_INV_FLAG;
+                      goto leave;
+                    }
+                  else
+                    fips_service_indicator_mark_non_compliant ();
+                }
               s = sexp_nth_data (list, 1, &n);
               if (!s)
                 rc = GPG_ERR_NO_OBJ;
@@ -1240,6 +1315,17 @@ _gcry_pk_util_data_to_mpi (gcry_sexp_t input, gcry_mpi_t *ret_mpi,
       list = sexp_find_token (ldata, "random-override", 0);
       if (list)
         {
+          if (fips_mode ())
+            {
+              if (fips_check_rejection (GCRY_FIPS_FLAG_REJECT_PK_FLAGS))
+                {
+                  sexp_release (list);
+                  rc = GPG_ERR_INV_FLAG;
+                  goto leave;
+                }
+              else
+                fips_service_indicator_mark_non_compliant ();
+            }
           s = sexp_nth_data (list, 1, &n);
           if (!s)
             rc = GPG_ERR_NO_OBJ;
@@ -1357,6 +1443,8 @@ _gcry_pk_util_data_to_mpi (gcry_sexp_t input, gcry_mpi_t *ret_mpi,
     {
       xfree (ctx->label);
       ctx->label = NULL;
+      xfree (ctx->rnd);
+      ctx->rnd = NULL;
     }
 
   return rc;

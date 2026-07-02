@@ -645,7 +645,12 @@ _gcry_ecc_fill_in_curve (unsigned int nbits, const char *name,
      possible to bypass this check by specifying the curve parameters
      directly.  */
   if (fips_mode () && !domain_parms[idx].fips )
-    return GPG_ERR_NOT_SUPPORTED;
+    {
+      if (fips_check_rejection (GCRY_FIPS_FLAG_REJECT_PK))
+        return GPG_ERR_NOT_SUPPORTED;
+      else
+        fips_service_indicator_mark_non_compliant ();
+    }
 
   switch (domain_parms[idx].model)
     {
@@ -839,6 +844,15 @@ _gcry_ecc_get_curve (gcry_sexp_t keyparms, int iterator, unsigned int *r_nbits)
           if (r_nbits)
             *r_nbits = domain_parms[idx].nbits;
         }
+
+      if (fips_mode () && !domain_parms[idx].fips)
+        {
+          if (fips_check_rejection (GCRY_FIPS_FLAG_REJECT_PK))
+            return NULL;
+          else
+            fips_service_indicator_mark_non_compliant ();
+        }
+
       return result;
     }
 
@@ -849,7 +863,7 @@ _gcry_ecc_get_curve (gcry_sexp_t keyparms, int iterator, unsigned int *r_nbits)
   if (rc)
     goto leave;
 
-  _gcry_mpi_point_init (&E.G);
+  _gcry_mpi_point_init (&E.G, 0);
   _gcry_mpi_point_set (&E.G, G->x, G->y, G->z);
 
   for (idx = 0; domain_parms[idx].desc; idx++)
@@ -977,7 +991,11 @@ point_from_keyparam (gcry_mpi_point_t *r_a,
       if (!a)
         return GPG_ERR_INV_OBJ;
 
-      point = mpi_point_new (0);
+      /* NOTE: EC may be NULL, when it's for Weierstrass curve for
+       * parameter "g".  And it's OK for _gcry_mpi_ec_decode_point
+       * (and _gcry_ecc_sec_decodepoint) to be called with EC=NULL.
+       */
+      point = mpi_point_new (ec? ec->nbits: 0);
       rc = _gcry_mpi_ec_decode_point (point, a, ec);
       mpi_free (a);
       if (rc)
@@ -1106,7 +1124,7 @@ mpi_ec_get_elliptic_curve (elliptic_curve_t *E, int *r_flags,
             goto leave;
           if (G)
             {
-              _gcry_mpi_point_init (&E->G);
+              _gcry_mpi_point_init (&E->G, 0);
               mpi_point_set (&E->G, G->x, G->y, G->z);
               mpi_point_set (G, NULL, NULL, NULL);
               mpi_point_release (G);
@@ -1537,7 +1555,7 @@ _gcry_ecc_set_mpi (const char *name, gcry_mpi_t newvalue, mpi_ec_t ec)
       if (newvalue)
         {
           if (!ec->Q)
-            ec->Q = mpi_point_new (0);
+            ec->Q = mpi_point_new (ec->nbits);
           rc = _gcry_mpi_ec_decode_point (ec->Q, newvalue, ec);
         }
       if (rc || !newvalue)

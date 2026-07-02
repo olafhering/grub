@@ -121,7 +121,7 @@ gpg_err_code_t _gcry_ecc_curve_keypair (const char *curve,
                                         size_t pubkey_len,
                                         unsigned char *seckey,
                                         size_t seckey_len);
-gpg_err_code_t _gcry_ecc_curve_mul_point (const char *curve,
+gpg_err_code_t _gcry_ecc_curve_mul_point (const char *curve, int enable_check,
                                           unsigned char *result,
                                           size_t result_len,
                                           const unsigned char *scalar,
@@ -238,9 +238,10 @@ gpg_err_code_t _gcry_kdf_final (gcry_kdf_hd_t h, size_t resultlen, void *result)
 void _gcry_kdf_close (gcry_kdf_hd_t h);
 
 
-gcry_err_code_t _gcry_kem_keypair (int algo,
-                                   void *pubkey, size_t pubkey_len,
-                                   void *seckey, size_t seckey_len);
+gcry_err_code_t _gcry_kem_genkey (int algo,
+                                  void *pubkey, size_t pubkey_len,
+                                  void *seckey, size_t seckey_len,
+                                  const void *optional, size_t optional_len);
 gcry_err_code_t _gcry_kem_encap (int algo,
                                  const void *pubkey, size_t pubkey_len,
                                  void *ciphertext, size_t ciphertext_len,
@@ -297,6 +298,23 @@ void _gcry_set_log_handler (gcry_handler_log_t f, void *opaque);
 void _gcry_set_gettext_handler (const char *(*f)(const char*));
 void _gcry_set_progress_handler (gcry_handler_progress_t cb, void *cb_data);
 
+void _gcry_thread_context_set_reject (unsigned int flags);
+int _gcry_thread_context_check_rejection (unsigned int flag);
+
+#define fips_check_rejection(flag) \
+  _gcry_thread_context_check_rejection (flag)
+
+void _gcry_thread_context_set_fsi (unsigned long fsi);
+unsigned long _gcry_thread_context_get_fsi (void);
+#define fips_service_indicator_init() do \
+  {                                      \
+    if (fips_mode ())                    \
+      _gcry_thread_context_set_fsi (0);  \
+  } while (0)
+/* Should be used only when fips_mode()==TRUE.  */
+#define fips_service_indicator_mark_non_compliant() \
+  _gcry_thread_context_set_fsi (1)
+
 
 gpg_err_code_t _gcry_sexp_new (gcry_sexp_t *retsexp,
                                const void *buffer, size_t length,
@@ -406,6 +424,7 @@ void _gcry_mpi_mul_2exp (gcry_mpi_t w, gcry_mpi_t u, unsigned long cnt);
 void _gcry_mpi_div (gcry_mpi_t q, gcry_mpi_t r,
                    gcry_mpi_t dividend, gcry_mpi_t divisor, int round);
 void _gcry_mpi_mod (gcry_mpi_t r, gcry_mpi_t dividend, gcry_mpi_t divisor);
+const char *_gcry_mpi_get_powm_config (void);
 void _gcry_mpi_powm (gcry_mpi_t w,
                     const gcry_mpi_t b, const gcry_mpi_t e,
                     const gcry_mpi_t m);
@@ -540,5 +559,12 @@ int _gcry_mpi_get_flag (gcry_mpi_t a, enum gcry_mpi_flag flag);
 #define mpi_clear_flag(a,f)    _gcry_mpi_clear_flag ((a), (f))
 #define mpi_get_flag(a,f)      _gcry_mpi_get_flag ((a), (f))
 
+
+enum gcry_mldsa_algos
+  {                             /* See FIPS 204, Table 1 */
+    GCRY_MLDSA44,               /* Category 2 */
+    GCRY_MLDSA65,               /* Category 3 */
+    GCRY_MLDSA87                /* Category 5 */
+  };
 
 #endif /*GCRY_GCRYPT_INT_H*/

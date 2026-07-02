@@ -89,7 +89,7 @@
 # endif
 #endif /* ENABLE_AESNI_SUPPORT */
 
-/* USE_VAES inidicates whether to compile with AMD64 VAES code.  */
+/* USE_VAES inidicates whether to compile with AMD64 VAES/AVX2 code.  */
 #undef USE_VAES
 #if (defined(HAVE_COMPATIBLE_GCC_AMD64_PLATFORM_AS) || \
      defined(HAVE_COMPATIBLE_GCC_WIN64_PLATFORM_AS)) && \
@@ -97,6 +97,12 @@
      defined(HAVE_GCC_INLINE_ASM_VAES_VPCLMUL) && \
      defined(USE_AESNI)
 # define USE_VAES 1
+#endif
+
+/* USE_VAES inidicates whether to compile with AMD64 VAES/AVX512 code.  */
+#undef USE_VAES_AVX512
+#if defined(USE_VAES) && defined(ENABLE_AVX512_SUPPORT)
+# define USE_VAES_AVX512 1
 #endif
 
 /* USE_VAES_I386 inidicates whether to compile with i386 VAES code.  */
@@ -123,6 +129,27 @@
 #  define USE_ARM_CE 1
 # endif
 #endif /* ENABLE_ARM_CRYPTO_SUPPORT */
+
+/* USE_RISCV_V_CRYPTO indicates whether to enable RISC-V vector cryptography
+ * extension code. */
+#undef USE_RISCV_V_CRYPTO
+#if defined (__riscv) && \
+    defined(HAVE_COMPATIBLE_CC_RISCV_VECTOR_INTRINSICS) && \
+    defined(HAVE_COMPATIBLE_CC_RISCV_VECTOR_CRYPTO_INTRINSICS)
+# define USE_RISCV_V_CRYPTO 1
+#endif
+
+/* USE_VP_AARCH64 indicates whether to enable vector permute AArch64 SIMD code. */
+#undef USE_VP_AARCH64
+#if defined(__AARCH64EL__) && defined(HAVE_COMPATIBLE_GCC_AARCH64_PLATFORM_AS)
+# define USE_VP_AARCH64 1
+#endif
+
+/* USE_VP_RISCV indicates whether to enable vector permute RISC-V code. */
+#undef USE_VP_RISCV
+#if defined (__riscv) && defined(HAVE_COMPATIBLE_CC_RISCV_VECTOR_INTRINSICS)
+# define USE_VP_RISCV 1
+#endif
 
 /* USE_PPC_CRYPTO indicates whether to enable PowerPC vector crypto
  * accelerated code.  USE_PPC_CRYPTO_WITH_PPC9LE indicates whether to
@@ -189,6 +216,9 @@ typedef struct RIJNDAEL_context_s
   unsigned int use_avx:1;             /* AVX shall be used by AES-NI implementation. */
   unsigned int use_avx2:1;            /* AVX2 shall be used by AES-NI implementation. */
 #endif /*USE_AESNI*/
+#ifdef USE_VAES_AVX512
+  unsigned int use_vaes_avx512:1;     /* AVX512 shall be used by VAES implementation. */
+#endif /*USE_VAES_AVX512*/
 #ifdef USE_S390X_CRYPTO
   byte km_func;
   byte km_func_xts;

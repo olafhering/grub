@@ -198,7 +198,6 @@ int _gcry_log_verbosity( int level );
          : _gcry_assert_failed (STR(expr), __FILE__, __LINE__))
 #endif
 
-
 #define log_bug     _gcry_log_bug
 #define log_fatal   _gcry_log_fatal
 #define log_error   _gcry_log_error
@@ -234,12 +233,11 @@ char **_gcry_strtokenize (const char *string, const char *delim);
 #define HWF_INTEL_RDRAND        (1 << 11)
 #define HWF_INTEL_AVX           (1 << 12)
 #define HWF_INTEL_AVX2          (1 << 13)
-#define HWF_INTEL_FAST_VPGATHER (1 << 14)
-#define HWF_INTEL_RDTSC         (1 << 15)
-#define HWF_INTEL_SHAEXT        (1 << 16)
-#define HWF_INTEL_VAES_VPCLMUL  (1 << 17)
-#define HWF_INTEL_AVX512        (1 << 18)
-#define HWF_INTEL_GFNI          (1 << 19)
+#define HWF_INTEL_RDTSC         (1 << 14)
+#define HWF_INTEL_SHAEXT        (1 << 15)
+#define HWF_INTEL_VAES_VPCLMUL  (1 << 16)
+#define HWF_INTEL_AVX512        (1 << 17)
+#define HWF_INTEL_GFNI          (1 << 18)
 
 #elif defined(HAVE_CPU_ARCH_ARM)
 
@@ -274,12 +272,27 @@ char **_gcry_strtokenize (const char *string, const char *delim);
 #define HWF_S390X_MSA_9         (1 << 3)
 #define HWF_S390X_VX            (1 << 4)
 
+#elif defined(HAVE_CPU_ARCH_RISCV)
+
+#define HWF_RISCV_IMAFDC        (1 << 0)
+#define HWF_RISCV_B             (1 << 1)
+#define HWF_RISCV_V             (1 << 2)
+#define HWF_RISCV_ZBB           (1 << 3)
+#define HWF_RISCV_ZBC           (1 << 4)
+#define HWF_RISCV_ZVKB          (1 << 5)
+#define HWF_RISCV_ZVKG          (1 << 6)
+#define HWF_RISCV_ZVKNED        (1 << 7)
+#define HWF_RISCV_ZVKNHA        (1 << 8)
+#define HWF_RISCV_ZVKNHB        (1 << 9)
+
 #endif
 
 gpg_err_code_t _gcry_disable_hw_feature (const char *name);
 void _gcry_detect_hw_features (void);
 unsigned int _gcry_get_hw_features (void);
 const char *_gcry_enum_hw_features (int idx, unsigned int *r_feature);
+
+const char *_gcry_get_sysconfdir (void);
 
 
 /*-- mpi/mpiutil.c --*/
@@ -467,6 +480,8 @@ void _gcry_fips_signal_error (const char *srcfile,
 # define fips_signal_fatal_error(a) \
            _gcry_fips_signal_error (__FILE__, __LINE__, NULL, 1, (a))
 #endif
+
+gpg_err_code_t _gcry_fips_indicator (void);
 
 int _gcry_fips_indicator_cipher (va_list arg_ptr);
 int _gcry_fips_indicator_mac (va_list arg_ptr);

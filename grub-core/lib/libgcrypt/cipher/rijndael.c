@@ -46,6 +46,7 @@
 #include "g10lib.h"
 #include "cipher.h"
 #include "bufhelp.h"
+#include "hwf-common.h"
 #include "rijndael-internal.h"
 #include "./cipher-internal.h"
 
@@ -168,6 +169,173 @@ extern size_t _gcry_aes_ssse3_ocb_crypt (gcry_cipher_hd_t c, void *outbuf_arg,
                                          int encrypt);
 extern size_t _gcry_aes_ssse3_ocb_auth (gcry_cipher_hd_t c, const void *abuf_arg,
                                         size_t nblocks);
+#endif
+
+#ifdef USE_VP_AARCH64
+/* AArch64 vector permutation implementation of AES */
+extern void _gcry_aes_vp_aarch64_do_setkey(RIJNDAEL_context *ctx,
+					   const byte *key);
+extern void _gcry_aes_vp_aarch64_prepare_decryption(RIJNDAEL_context *ctx);
+
+extern unsigned int _gcry_aes_vp_aarch64_encrypt (const RIJNDAEL_context *ctx,
+						  unsigned char *dst,
+						  const unsigned char *src);
+extern unsigned int _gcry_aes_vp_aarch64_decrypt (const RIJNDAEL_context *ctx,
+						  unsigned char *dst,
+						  const unsigned char *src);
+extern void _gcry_aes_vp_aarch64_cfb_enc (void *context, unsigned char *iv,
+					  void *outbuf_arg,
+					  const void *inbuf_arg,
+					  size_t nblocks);
+extern void _gcry_aes_vp_aarch64_cbc_enc (void *context, unsigned char *iv,
+					  void *outbuf_arg,
+					  const void *inbuf_arg,
+					  size_t nblocks,
+					  int cbc_mac);
+extern void _gcry_aes_vp_aarch64_ctr_enc (void *context, unsigned char *ctr,
+					  void *outbuf_arg,
+					  const void *inbuf_arg,
+					  size_t nblocks);
+extern void _gcry_aes_vp_aarch64_ctr32le_enc (void *context, unsigned char *ctr,
+					      void *outbuf_arg,
+					      const void *inbuf_arg,
+					      size_t nblocks);
+extern void _gcry_aes_vp_aarch64_cfb_dec (void *context, unsigned char *iv,
+					  void *outbuf_arg,
+					  const void *inbuf_arg,
+					  size_t nblocks);
+extern void _gcry_aes_vp_aarch64_cbc_dec (void *context, unsigned char *iv,
+					  void *outbuf_arg,
+					  const void *inbuf_arg,
+					  size_t nblocks);
+extern size_t _gcry_aes_vp_aarch64_ocb_crypt (gcry_cipher_hd_t c,
+					      void *outbuf_arg,
+					      const void *inbuf_arg,
+					      size_t nblocks,
+					      int encrypt);
+extern size_t _gcry_aes_vp_aarch64_ocb_auth (gcry_cipher_hd_t c,
+					     const void *abuf_arg,
+					     size_t nblocks);
+extern void _gcry_aes_vp_aarch64_ecb_crypt (void *context, void *outbuf_arg,
+					    const void *inbuf_arg,
+					    size_t nblocks, int encrypt);
+extern void _gcry_aes_vp_aarch64_xts_crypt (void *context, unsigned char *tweak,
+					    void *outbuf_arg,
+					    const void *inbuf_arg,
+					    size_t nblocks, int encrypt);
+#endif
+
+#ifdef USE_VP_RISCV
+/* RISC-V vector permutation implementation of AES */
+extern int _gcry_aes_vp_riscv_setup_acceleration(RIJNDAEL_context *ctx);
+
+extern void _gcry_aes_vp_riscv_do_setkey(RIJNDAEL_context *ctx,
+					 const byte *key);
+extern void _gcry_aes_vp_riscv_prepare_decryption(RIJNDAEL_context *ctx);
+
+extern unsigned int _gcry_aes_vp_riscv_encrypt (const RIJNDAEL_context *ctx,
+						unsigned char *dst,
+						const unsigned char *src);
+extern unsigned int _gcry_aes_vp_riscv_decrypt (const RIJNDAEL_context *ctx,
+						unsigned char *dst,
+						const unsigned char *src);
+extern void _gcry_aes_vp_riscv_cfb_enc (void *context, unsigned char *iv,
+					void *outbuf_arg,
+					const void *inbuf_arg,
+					size_t nblocks);
+extern void _gcry_aes_vp_riscv_cbc_enc (void *context, unsigned char *iv,
+					void *outbuf_arg,
+					const void *inbuf_arg,
+					size_t nblocks,
+					int cbc_mac);
+extern void _gcry_aes_vp_riscv_ctr_enc (void *context, unsigned char *ctr,
+					void *outbuf_arg,
+					const void *inbuf_arg,
+					size_t nblocks);
+extern void _gcry_aes_vp_riscv_ctr32le_enc (void *context, unsigned char *ctr,
+					    void *outbuf_arg,
+					    const void *inbuf_arg,
+					    size_t nblocks);
+extern void _gcry_aes_vp_riscv_cfb_dec (void *context, unsigned char *iv,
+					void *outbuf_arg,
+					const void *inbuf_arg,
+					size_t nblocks);
+extern void _gcry_aes_vp_riscv_cbc_dec (void *context, unsigned char *iv,
+					void *outbuf_arg,
+					const void *inbuf_arg,
+					size_t nblocks);
+extern size_t _gcry_aes_vp_riscv_ocb_crypt (gcry_cipher_hd_t c,
+					    void *outbuf_arg,
+					    const void *inbuf_arg,
+					    size_t nblocks,
+					    int encrypt);
+extern size_t _gcry_aes_vp_riscv_ocb_auth (gcry_cipher_hd_t c,
+					   const void *abuf_arg,
+					   size_t nblocks);
+extern void _gcry_aes_vp_riscv_ecb_crypt (void *context, void *outbuf_arg,
+					  const void *inbuf_arg,
+					  size_t nblocks, int encrypt);
+extern void _gcry_aes_vp_riscv_xts_crypt (void *context, unsigned char *tweak,
+					  void *outbuf_arg,
+					  const void *inbuf_arg,
+					  size_t nblocks, int encrypt);
+#endif
+
+#ifdef USE_RISCV_V_CRYPTO
+/* RISC-V vector cryptography extension implementation of AES */
+extern int
+_gcry_aes_riscv_zvkned_setup_acceleration (RIJNDAEL_context *ctx);
+
+extern void
+_gcry_aes_riscv_zvkned_setkey (RIJNDAEL_context *ctx, const byte *key);
+extern void
+_gcry_aes_riscv_zvkned_prepare_decryption (RIJNDAEL_context *ctx);
+
+extern unsigned int
+_gcry_aes_riscv_zvkned_encrypt (const RIJNDAEL_context *ctx, unsigned char *dst,
+				const unsigned char *src);
+extern unsigned int
+_gcry_aes_riscv_zvkned_decrypt (const RIJNDAEL_context *ctx, unsigned char *dst,
+				const unsigned char *src);
+extern void
+_gcry_aes_riscv_zvkned_cfb_enc (void *context, unsigned char *iv,
+				void *outbuf_arg, const void *inbuf_arg,
+				size_t nblocks);
+extern void
+_gcry_aes_riscv_zvkned_cbc_enc (void *context, unsigned char *iv,
+				void *outbuf_arg, const void *inbuf_arg,
+				size_t nblocks, int cbc_mac);
+extern void
+_gcry_aes_riscv_zvkned_ctr_enc (void *context, unsigned char *ctr,
+				void *outbuf_arg, const void *inbuf_arg,
+				size_t nblocks);
+extern void
+_gcry_aes_riscv_zvkned_ctr32le_enc (void *context, unsigned char *ctr,
+				    void *outbuf_arg, const void *inbuf_arg,
+				    size_t nblocks);
+extern void
+_gcry_aes_riscv_zvkned_cfb_dec (void *context, unsigned char *iv,
+				void *outbuf_arg, const void *inbuf_arg,
+				size_t nblocks);
+extern void
+_gcry_aes_riscv_zvkned_cbc_dec (void *context, unsigned char *iv,
+				void *outbuf_arg, const void *inbuf_arg,
+				size_t nblocks);
+extern size_t
+_gcry_aes_riscv_zvkned_ocb_crypt (gcry_cipher_hd_t c, void *outbuf_arg,
+				  const void *inbuf_arg, size_t nblocks,
+				  int encrypt);
+extern size_t
+_gcry_aes_riscv_zvkned_ocb_auth (gcry_cipher_hd_t c, const void *abuf_arg,
+				 size_t nblocks);
+extern void
+_gcry_aes_riscv_zvkned_ecb_crypt (void *context, void *outbuf_arg,
+				  const void *inbuf_arg, size_t nblocks,
+				  int encrypt);
+extern void
+_gcry_aes_riscv_zvkned_xts_crypt (void *context, unsigned char *tweak,
+				  void *outbuf_arg, const void *inbuf_arg,
+				  size_t nblocks, int encrypt);
 #endif
 
 #ifdef USE_PADLOCK
@@ -559,6 +727,10 @@ do_setkey (RIJNDAEL_context *ctx, const byte *key, const unsigned keylen,
       if ((hwfeatures & HWF_INTEL_VAES_VPCLMUL) &&
 	  (hwfeatures & HWF_INTEL_AVX2))
 	{
+#ifdef USE_VAES_AVX512
+	  ctx->use_vaes_avx512 = !!(hwfeatures & HWF_INTEL_AVX512);
+#endif
+
 	  /* Setup VAES bulk encryption routines.  */
 	  bulk_ops->cfb_dec = _gcry_aes_vaes_cfb_dec;
 	  bulk_ops->cbc_dec = _gcry_aes_vaes_cbc_dec;
@@ -639,6 +811,82 @@ do_setkey (RIJNDAEL_context *ctx, const byte *key, const unsigned keylen,
       bulk_ops->ocb_auth = _gcry_aes_armv8_ce_ocb_auth;
       bulk_ops->xts_crypt = _gcry_aes_armv8_ce_xts_crypt;
       bulk_ops->ecb_crypt = _gcry_aes_armv8_ce_ecb_crypt;
+    }
+#endif
+#ifdef USE_VP_AARCH64
+  else if (hwfeatures & HWF_ARM_NEON)
+    {
+      hw_setkey = _gcry_aes_vp_aarch64_do_setkey;
+      ctx->encrypt_fn = _gcry_aes_vp_aarch64_encrypt;
+      ctx->decrypt_fn = _gcry_aes_vp_aarch64_decrypt;
+      ctx->prefetch_enc_fn = NULL;
+      ctx->prefetch_dec_fn = NULL;
+      ctx->prepare_decryption = _gcry_aes_vp_aarch64_prepare_decryption;
+
+      /* Setup vector permute AArch64 bulk encryption routines.  */
+      bulk_ops->cfb_enc = _gcry_aes_vp_aarch64_cfb_enc;
+      bulk_ops->cfb_dec = _gcry_aes_vp_aarch64_cfb_dec;
+      bulk_ops->cbc_enc = _gcry_aes_vp_aarch64_cbc_enc;
+      bulk_ops->cbc_dec = _gcry_aes_vp_aarch64_cbc_dec;
+      bulk_ops->ctr_enc = _gcry_aes_vp_aarch64_ctr_enc;
+      bulk_ops->ctr32le_enc = _gcry_aes_vp_aarch64_ctr32le_enc;
+      bulk_ops->ocb_crypt = _gcry_aes_vp_aarch64_ocb_crypt;
+      bulk_ops->ocb_auth = _gcry_aes_vp_aarch64_ocb_auth;
+      bulk_ops->ecb_crypt = _gcry_aes_vp_aarch64_ecb_crypt;
+      bulk_ops->xts_crypt = _gcry_aes_vp_aarch64_xts_crypt;
+    }
+#endif
+#ifdef USE_RISCV_V_CRYPTO
+    else if ((hwfeatures & HWF_RISCV_IMAFDC)
+	     && (hwfeatures & HWF_RISCV_B)      /* Mandatory in RVA23U64 */
+	     && (hwfeatures & HWF_RISCV_V)      /* Mandatory in RVA23U64 */
+	     && (hwfeatures & HWF_RISCV_ZVKNED) /* Optional in RVA23U64 */
+	     && _gcry_aes_riscv_zvkned_setup_acceleration(ctx))
+    {
+      hw_setkey = _gcry_aes_riscv_zvkned_setkey;
+      ctx->encrypt_fn = _gcry_aes_riscv_zvkned_encrypt;
+      ctx->decrypt_fn = _gcry_aes_riscv_zvkned_decrypt;
+      ctx->prefetch_enc_fn = NULL;
+      ctx->prefetch_dec_fn = NULL;
+      ctx->prepare_decryption = _gcry_aes_riscv_zvkned_prepare_decryption;
+
+      /* Setup RISC-V vector cryptography bulk encryption routines.  */
+      bulk_ops->cfb_enc = _gcry_aes_riscv_zvkned_cfb_enc;
+      bulk_ops->cfb_dec = _gcry_aes_riscv_zvkned_cfb_dec;
+      bulk_ops->cbc_enc = _gcry_aes_riscv_zvkned_cbc_enc;
+      bulk_ops->cbc_dec = _gcry_aes_riscv_zvkned_cbc_dec;
+      bulk_ops->ctr_enc = _gcry_aes_riscv_zvkned_ctr_enc;
+      bulk_ops->ctr32le_enc = _gcry_aes_riscv_zvkned_ctr32le_enc;
+      bulk_ops->ocb_crypt = _gcry_aes_riscv_zvkned_ocb_crypt;
+      bulk_ops->ocb_auth = _gcry_aes_riscv_zvkned_ocb_auth;
+      bulk_ops->ecb_crypt = _gcry_aes_riscv_zvkned_ecb_crypt;
+      bulk_ops->xts_crypt = _gcry_aes_riscv_zvkned_xts_crypt;
+    }
+#endif
+#ifdef USE_VP_RISCV
+  else if ((hwfeatures & HWF_RISCV_IMAFDC)
+	   && (hwfeatures & HWF_RISCV_B) /* Mandatory in RVA22U64 */
+	   && (hwfeatures & HWF_RISCV_V) /* Optional in RVA22U64 */
+	   && _gcry_aes_vp_riscv_setup_acceleration(ctx))
+    {
+      hw_setkey = _gcry_aes_vp_riscv_do_setkey;
+      ctx->encrypt_fn = _gcry_aes_vp_riscv_encrypt;
+      ctx->decrypt_fn = _gcry_aes_vp_riscv_decrypt;
+      ctx->prefetch_enc_fn = NULL;
+      ctx->prefetch_dec_fn = NULL;
+      ctx->prepare_decryption = _gcry_aes_vp_riscv_prepare_decryption;
+
+      /* Setup vector permute RISC-V bulk encryption routines.  */
+      bulk_ops->cfb_enc = _gcry_aes_vp_riscv_cfb_enc;
+      bulk_ops->cfb_dec = _gcry_aes_vp_riscv_cfb_dec;
+      bulk_ops->cbc_enc = _gcry_aes_vp_riscv_cbc_enc;
+      bulk_ops->cbc_dec = _gcry_aes_vp_riscv_cbc_dec;
+      bulk_ops->ctr_enc = _gcry_aes_vp_riscv_ctr_enc;
+      bulk_ops->ctr32le_enc = _gcry_aes_vp_riscv_ctr32le_enc;
+      bulk_ops->ocb_crypt = _gcry_aes_vp_riscv_ocb_crypt;
+      bulk_ops->ocb_auth = _gcry_aes_vp_riscv_ocb_auth;
+      bulk_ops->ecb_crypt = _gcry_aes_vp_riscv_ecb_crypt;
+      bulk_ops->xts_crypt = _gcry_aes_vp_riscv_xts_crypt;
     }
 #endif
 #ifdef USE_PPC_CRYPTO_WITH_PPC9LE
@@ -748,7 +996,7 @@ do_setkey (RIJNDAEL_context *ctx, const byte *key, const unsigned keylen,
             {
               j = 0;
               temp0 = sbox4(rol(temp0, 24)) ^ rcon;
-              rcon = ((rcon << 1) ^ (-(rcon >> 7) & 0x1b)) & 0xff;
+              rcon = ((rcon << 1) ^ (ct_ulong_gen_mask(rcon >> 7) & 0x1b)) & 0xff;
             }
           else if (KC == 8 && j == 4)
             {
@@ -1517,7 +1765,7 @@ _gcry_aes_xts_crypt (void *context, unsigned char *tweak,
       buf_put_le64 (outbuf + 8, tmp_hi);
 
       /* Generate next tweak. */
-      carry = -(tweak_next_hi >> 63) & 0x87;
+      carry = ct_ulong_gen_mask(tweak_next_hi >> 63) & 0x87;
       tweak_next_hi = (tweak_next_hi << 1) + (tweak_next_lo >> 63);
       tweak_next_lo = (tweak_next_lo << 1) ^ carry;
 

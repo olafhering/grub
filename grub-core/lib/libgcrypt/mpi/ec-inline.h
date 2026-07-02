@@ -836,18 +836,18 @@ LIMB64_HILO(mpi_limb_t hi, mpi_limb_t lo)
 #ifdef HAVE_COMPATIBLE_GCC_ARM_PLATFORM_AS
 
 #define ADD4_LIMB32(A3, A2, A1, A0, B3, B2, B1, B0, C3, C2, C1, C0) \
-  __asm__ ("adds %3, %7, %11\n" \
-	   "adcs %2, %6, %10\n" \
-	   "adcs %1, %5, %9\n" \
-	   "adc  %0, %4, %8\n" \
+  __asm__ ("adds %3, %3, %11\n" \
+	   "adcs %2, %2, %10\n" \
+	   "adcs %1, %1, %9\n" \
+	   "adc  %0, %0, %8\n" \
 	   : "=r" (A3), \
 	     "=&r" (A2), \
 	     "=&r" (A1), \
 	     "=&r" (A0) \
-	   : "r" ((mpi_limb_t)(B3)), \
-	     "r" ((mpi_limb_t)(B2)), \
-	     "r" ((mpi_limb_t)(B1)), \
-	     "r" ((mpi_limb_t)(B0)), \
+	   : "0" ((mpi_limb_t)(B3)), \
+	     "1" ((mpi_limb_t)(B2)), \
+	     "2" ((mpi_limb_t)(B1)), \
+	     "3" ((mpi_limb_t)(B0)), \
 	     "Ir" ((mpi_limb_t)(C3)), \
 	     "Ir" ((mpi_limb_t)(C2)), \
 	     "Ir" ((mpi_limb_t)(C1)), \
@@ -857,18 +857,18 @@ LIMB64_HILO(mpi_limb_t hi, mpi_limb_t lo)
 #define ADD6_LIMB32(A5, A4, A3, A2, A1, A0, B5, B4, B3, B2, B1, B0, \
 		    C5, C4, C3, C2, C1, C0) do { \
     mpi_limb_t __carry6_32; \
-    __asm__ ("adds %3, %7, %10\n" \
-	     "adcs %2, %6, %9\n" \
-	     "adcs %1, %5, %8\n" \
-	     "adc  %0, %4, %4\n" \
+    __asm__ ("adds %3, %3, %10\n" \
+	     "adcs %2, %2, %9\n" \
+	     "adcs %1, %1, %8\n" \
+	     "adc  %0, %0, %0\n" \
 	     : "=r" (__carry6_32), \
 	       "=&r" (A2), \
 	       "=&r" (A1), \
 	       "=&r" (A0) \
-	     : "r" ((mpi_limb_t)(0)), \
-	       "r" ((mpi_limb_t)(B2)), \
-	       "r" ((mpi_limb_t)(B1)), \
-	       "r" ((mpi_limb_t)(B0)), \
+	     : "0" ((mpi_limb_t)(0)), \
+	       "1" ((mpi_limb_t)(B2)), \
+	       "2" ((mpi_limb_t)(B1)), \
+	       "3" ((mpi_limb_t)(B0)), \
 	       "Ir" ((mpi_limb_t)(C2)), \
 	       "Ir" ((mpi_limb_t)(C1)), \
 	       "Ir" ((mpi_limb_t)(C0)) \
@@ -878,18 +878,18 @@ LIMB64_HILO(mpi_limb_t hi, mpi_limb_t lo)
   } while (0)
 
 #define SUB4_LIMB32(A3, A2, A1, A0, B3, B2, B1, B0, C3, C2, C1, C0) \
-  __asm__ ("subs %3, %7, %11\n" \
-	   "sbcs %2, %6, %10\n" \
-	   "sbcs %1, %5, %9\n" \
-	   "sbc  %0, %4, %8\n" \
+  __asm__ ("subs %3, %3, %11\n" \
+	   "sbcs %2, %2, %10\n" \
+	   "sbcs %1, %1, %9\n" \
+	   "sbc  %0, %0, %8\n" \
 	   : "=r" (A3), \
 	     "=&r" (A2), \
 	     "=&r" (A1), \
 	     "=&r" (A0) \
-	   : "r" ((mpi_limb_t)(B3)), \
-	     "r" ((mpi_limb_t)(B2)), \
-	     "r" ((mpi_limb_t)(B1)), \
-	     "r" ((mpi_limb_t)(B0)), \
+	   : "0" ((mpi_limb_t)(B3)), \
+	     "1" ((mpi_limb_t)(B2)), \
+	     "2" ((mpi_limb_t)(B1)), \
+	     "3" ((mpi_limb_t)(B0)), \
 	     "Ir" ((mpi_limb_t)(C3)), \
 	     "Ir" ((mpi_limb_t)(C2)), \
 	     "Ir" ((mpi_limb_t)(C1)), \
@@ -899,18 +899,17 @@ LIMB64_HILO(mpi_limb_t hi, mpi_limb_t lo)
 #define SUB6_LIMB32(A5, A4, A3, A2, A1, A0, B5, B4, B3, B2, B1, B0, \
 		    C5, C4, C3, C2, C1, C0) do { \
     mpi_limb_t __borrow6_32; \
-    __asm__ ("subs %3, %7, %10\n" \
-	     "sbcs %2, %6, %9\n" \
-	     "sbcs %1, %5, %8\n" \
-	     "sbc  %0, %4, %4\n" \
+    __asm__ ("subs %3, %3, %9\n" \
+	     "sbcs %2, %2, %8\n" \
+	     "sbcs %1, %1, %7\n" \
+	     "sbc  %0, %0, %0\n" \
 	     : "=r" (__borrow6_32), \
 	       "=&r" (A2), \
 	       "=&r" (A1), \
 	       "=&r" (A0) \
-	     : "r" ((mpi_limb_t)(0)), \
-	       "r" ((mpi_limb_t)(B2)), \
-	       "r" ((mpi_limb_t)(B1)), \
-	       "r" ((mpi_limb_t)(B0)), \
+	     : "1" ((mpi_limb_t)(B2)), \
+	       "2" ((mpi_limb_t)(B1)), \
+	       "3" ((mpi_limb_t)(B0)), \
 	       "Ir" ((mpi_limb_t)(C2)), \
 	       "Ir" ((mpi_limb_t)(C1)), \
 	       "Ir" ((mpi_limb_t)(C0)) \
@@ -1203,34 +1202,5 @@ LIMB64_HILO(mpi_limb_t hi, mpi_limb_t lo)
   buf_get_le64((const byte *)(&(x)[pos]) + 4)
 #endif
 
-
-/* Helper functions.  */
-
-static inline int
-mpi_nbits_more_than (gcry_mpi_t w, unsigned int nbits)
-{
-  unsigned int nbits_nlimbs;
-  mpi_limb_t wlimb;
-  unsigned int n;
-
-  nbits_nlimbs = (nbits + BITS_PER_MPI_LIMB - 1) / BITS_PER_MPI_LIMB;
-
-  /* Note: Assumes that 'w' is normalized. */
-
-  if (w->nlimbs > nbits_nlimbs)
-    return 1;
-  if (w->nlimbs < nbits_nlimbs)
-    return 0;
-  if ((nbits % BITS_PER_MPI_LIMB) == 0)
-    return 0;
-
-  wlimb = w->d[nbits_nlimbs - 1];
-  if (wlimb == 0)
-    log_bug ("mpi_nbits_more_than: input mpi not normalized\n");
-
-  count_leading_zeros (n, wlimb);
-
-  return (BITS_PER_MPI_LIMB - n) > (nbits % BITS_PER_MPI_LIMB);
-}
 
 #endif /* GCRY_EC_INLINE_H */

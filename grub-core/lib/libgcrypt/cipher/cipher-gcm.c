@@ -102,6 +102,34 @@ ghash_armv7_neon (gcry_cipher_hd_t c, byte *result, const byte *buf,
 }
 #endif /* GCM_USE_ARM_NEON */
 
+#ifdef GCM_USE_RISCV_ZBB_ZBC
+extern void _gcry_ghash_setup_riscv_zbb_zbc(gcry_cipher_hd_t c);
+
+extern unsigned int _gcry_ghash_riscv_zbb_zbc(gcry_cipher_hd_t c, byte *result,
+					      const byte *buf, size_t nblocks);
+
+extern unsigned int _gcry_polyval_riscv_zbb_zbc(gcry_cipher_hd_t c,
+						byte *result, const byte *buf,
+						size_t nblocks);
+#endif /* GCM_USE_RISCV_ZBB_ZBC */
+
+#ifdef GCM_USE_RISCV_ZVKG
+extern int _gcry_ghash_setup_riscv_zvkg(gcry_cipher_hd_t c);
+
+extern unsigned int _gcry_ghash_riscv_zvkg(gcry_cipher_hd_t c, byte *result,
+					   const byte *buf, size_t nblocks);
+
+extern unsigned int _gcry_polyval_riscv_zvkg(gcry_cipher_hd_t c, byte *result,
+					     const byte *buf, size_t nblocks);
+#endif /* GCM_USE_RISCV_ZVKG */
+
+#ifdef GCM_USE_AARCH64
+extern void _gcry_ghash_setup_aarch64_simd(gcry_cipher_hd_t c);
+
+extern unsigned int _gcry_ghash_aarch64_simd(gcry_cipher_hd_t c, byte *result,
+					     const byte *buf, size_t nblocks);
+#endif /* GCM_USE_AARCH64 */
+
 #ifdef GCM_USE_S390X_CRYPTO
 #include "asm-inline-s390x.h"
 
@@ -605,6 +633,34 @@ setupM (gcry_cipher_hd_t c)
     {
       c->u_mode.gcm.ghash_fn = ghash_armv7_neon;
       ghash_setup_armv7_neon (c);
+    }
+#endif
+#ifdef GCM_USE_AARCH64
+  else if (features & HWF_ARM_NEON)
+    {
+      c->u_mode.gcm.ghash_fn = _gcry_ghash_aarch64_simd;
+      _gcry_ghash_setup_aarch64_simd (c);
+    }
+#endif
+#ifdef GCM_USE_RISCV_ZVKG
+  else if ((features & HWF_RISCV_IMAFDC)
+	   && (features & HWF_RISCV_B)      /* Mandatory in RVA23U64 */
+	   && (features & HWF_RISCV_V)      /* Mandatory in RVA23U64 */
+	   && (features & HWF_RISCV_ZVKG)   /* Optional in RVA23U64 */
+	   && _gcry_ghash_setup_riscv_zvkg (c))
+    {
+      c->u_mode.gcm.ghash_fn = _gcry_ghash_riscv_zvkg;
+      c->u_mode.gcm.polyval_fn = _gcry_polyval_riscv_zvkg;
+    }
+#endif
+#ifdef GCM_USE_RISCV_ZBB_ZBC
+  else if ((features & HWF_RISCV_IMAFDC)
+	   && (features & HWF_RISCV_ZBB)
+	   && (features & HWF_RISCV_ZBC))
+    {
+      c->u_mode.gcm.ghash_fn = _gcry_ghash_riscv_zbb_zbc;
+      c->u_mode.gcm.polyval_fn = _gcry_polyval_riscv_zbb_zbc;
+      _gcry_ghash_setup_riscv_zbb_zbc (c);
     }
 #endif
 #ifdef GCM_USE_PPC_VPMSUM

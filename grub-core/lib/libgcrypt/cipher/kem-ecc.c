@@ -64,6 +64,9 @@ algo_to_curve (int algo)
     case GCRY_KEM_RAW_P521R1:
       return "NIST P-521";
 
+    case GCRY_KEM_RAW_P256K1:
+      return "secp256k1";
+
     default:
       return 0;
     }
@@ -101,6 +104,9 @@ algo_to_seckey_len (int algo)
     case GCRY_KEM_RAW_P521R1:
       return 66;
 
+    case GCRY_KEM_RAW_P256K1:
+      return 32;
+
     default:
       return 0;
     }
@@ -114,7 +120,7 @@ ecc_mul_point (int algo, unsigned char *result, size_t result_len,
 {
   const char *curve = algo_to_curve (algo);
 
-  return _gcry_ecc_curve_mul_point (curve, result, result_len,
+  return _gcry_ecc_curve_mul_point (curve, 1, result, result_len,
                                     scalar, scalar_len, point, point_len);
 }
 

@@ -93,15 +93,40 @@ static const char ecdsa_sample_secret_key_secp256[] =
   /**/  "7903FE1008B8BC99A41AE9E95628BC64F2F1B20C2D7E9F5177A3C294D4462299#)))";
 
 /* Sample data from RFC 6979 section A.2.5, hash is of message "sample" */
-static const char ecdsa_sample_data[] =
+static const char rfc6979_ecdsa_sample_data[] =
   "(data (flags rfc6979 prehash)"
   " (hash-algo sha256)"
   " (value 6:sample))";
 
-static const char ecdsa_sample_data_bad[] =
+static const char rfc6979_ecdsa_sample_data_bad[] =
   "(data (flags rfc6979)"
   " (hash sha256 #bf2bdbe1aa9b6ec1e2ade1d694f41fc71a831d0268e98915"
   /**/           "62113d8a62add1bf#))";
+
+static const char *rfc6979_ecdsa_data_tmpl =
+  "(data (flags rfc6979)"
+  " (hash %s %b))";
+
+/*
+ * Sample data from RFC 6979 section A.2.5, with fixed k,
+ * hash is of message "sample".
+ */
+static const char ecdsa_sample_data[] =
+  "(data (flags raw prehash)"
+  " (label #A6E3C57DD01ABE90086538398355DD4C3B17AA873382B0F24D6129493D8AAD60#)"
+  " (hash-algo sha256)"
+  " (value 6:sample))";
+
+static const char ecdsa_sample_data_bad[] =
+  "(data (flags raw)"
+  " (label #A6E3C57DD01ABE90086538398355DD4C3B17AA873382B0F24D6129493D8AAD60#)"
+  " (hash sha256 #bf2bdbe1aa9b6ec1e2ade1d694f41fc71a831d0268e98915"
+  /**/           "62113d8a62add1bf#))";
+
+static const char *ecdsa_data_tmpl =
+  "(data (flags raw)"
+  " (label #A6E3C57DD01ABE90086538398355DD4C3B17AA873382B0F24D6129493D8AAD60#)"
+  " (hash %s %b))";
 
 static const char ecdsa_signature_r[] =
   "efd48b2aacb6a8fd1140dd9cd45e81d69d2c877b56aaf991c34d0ea84eaf3716";
@@ -109,7 +134,6 @@ static const char ecdsa_signature_r[] =
 static const char ecdsa_signature_s[] =
   "f7cb1c942d657c41d436c7a1b6e29f65f3e900dbb9aff4064dc4ab2f843acda8";
 
-static const char *ecdsa_data_tmpl = "(data (flags rfc6979) (hash %s %b))";
 /* Sample data from RFC 6979 section A.2.5, hash is of message "sample" */
 static const char ecdsa_sample_data_string[] = "sample";
 static const char ecdsa_sample_data_bad_string[] = "sbmple";
@@ -232,7 +256,7 @@ nist_generate_key (mpi_ec_t ec, int flags,
   gcry_mpi_t x, y;
   const unsigned int pbits = ec->nbits;
 
-  point_init (&Q);
+  point_init (&Q, ec->nbits);
 
   if ((flags & PUBKEY_FLAG_TRANSIENT_KEY))
     random_level = GCRY_STRONG_RANDOM;
@@ -363,7 +387,7 @@ test_keys (mpi_ec_t ec, unsigned int nbits)
   if (DBG_CIPHER)
     log_debug ("Testing key.\n");
 
-  point_init (&R_);
+  point_init (&R_, ec->nbits);
 
   _gcry_mpi_randomize (test, nbits, GCRY_WEAK_RANDOM);
 
@@ -520,7 +544,7 @@ test_ecdh_only_keys (mpi_ec_t ec, unsigned int nbits, int flags)
   if (DBG_CIPHER)
     log_debug ("Testing ECDH only key.\n");
 
-  point_init (&R_);
+  point_init (&R_, ec->nbits);
 
   if (ec->dialect == ECC_DIALECT_SAFECURVE || (flags & PUBKEY_FLAG_DJB_TWEAK))
     {
@@ -548,8 +572,8 @@ test_ecdh_only_keys (mpi_ec_t ec, unsigned int nbits, int flags)
       _gcry_mpi_randomize (test, nbits, GCRY_WEAK_RANDOM);
     }
 
-  x0 = mpi_new (0);
-  x1 = mpi_new (0);
+  x0 = mpi_new (ec->nbits);
+  x1 = mpi_new (ec->nbits);
 
   /* R_ = hkQ  <=>  R_ = hkdG  */
   _gcry_mpi_ec_mul_point (&R_, test, ec->Q, ec);
@@ -593,12 +617,12 @@ check_secret_key (mpi_ec_t ec, int flags)
   gcry_mpi_t x2 = NULL;
   gcry_mpi_t y2 = NULL;
 
-  point_init (&Q);
-  x1 = mpi_new (0);
+  point_init (&Q, ec->nbits);
+  x1 = mpi_new (ec->nbits);
   if (ec->model == MPI_EC_MONTGOMERY)
     y1 = NULL;
   else
-    y1 = mpi_new (0);
+    y1 = mpi_new (ec->nbits);
 
   /* G in E(F_p) */
   if (!_gcry_mpi_ec_curve_point (ec->G, ec))
@@ -663,8 +687,8 @@ check_secret_key (mpi_ec_t ec, int flags)
     }
   else
     {
-      x2 = mpi_new (0);
-      y2 = mpi_new (0);
+      x2 = mpi_new (ec->nbits);
+      y2 = mpi_new (ec->nbits);
       if (_gcry_mpi_ec_get_affine (x2, y2, ec->Q, ec))
         {
           if (DBG_CIPHER)
@@ -710,7 +734,7 @@ ecc_generate (const gcry_sexp_t genparms, gcry_sexp_t *r_skey)
   gcry_sexp_t curve_flags = NULL;
   gcry_mpi_t base = NULL;
   gcry_mpi_t public = NULL;
-  int flags = 0;
+  int flags = GCRYECC_FLAG_LEAST_LEAK;
 
   rc = _gcry_mpi_ec_internal_new (&ec, &flags, "ecgen curve", genparms, NULL);
   if (rc)
@@ -727,8 +751,8 @@ ecc_generate (const gcry_sexp_t genparms, gcry_sexp_t *r_skey)
     goto leave;
 
   /* Copy data to the result.  */
-  Gx = mpi_new (0);
-  Gy = mpi_new (0);
+  Gx = mpi_new (ec->nbits);
+  Gy = mpi_new (ec->nbits);
   if (ec->model != MPI_EC_MONTGOMERY)
     {
       if (_gcry_mpi_ec_get_affine (Gx, Gy, ec->G, ec))
@@ -763,8 +787,8 @@ ecc_generate (const gcry_sexp_t genparms, gcry_sexp_t *r_skey)
         {
           /* This is the case for a key from _gcry_ecc_eddsa_generate
              with no compression.  */
-          Qx = mpi_new (0);
-          Qy = mpi_new (0);
+          Qx = mpi_new (ec->nbits);
+          Qy = mpi_new (ec->nbits);
           if (_gcry_mpi_ec_get_affine (Qx, Qy, ec->Q, ec))
             log_fatal ("ecgen: Failed to get affine coordinates for %s\n", "Q");
         }
@@ -870,7 +894,7 @@ static gcry_err_code_t
 ecc_check_secret_key (gcry_sexp_t keyparms)
 {
   gcry_err_code_t rc;
-  int flags = 0;
+  int flags = GCRYECC_FLAG_LEAST_LEAK;
   mpi_ec_t ec = NULL;
 
   /*
@@ -906,7 +930,7 @@ ecc_sign (gcry_sexp_t *r_sig, gcry_sexp_t s_data, gcry_sexp_t keyparms)
   gcry_mpi_t sig_r = NULL;
   gcry_mpi_t sig_s = NULL;
   mpi_ec_t ec = NULL;
-  int flags = 0;
+  int flags = GCRYECC_FLAG_LEAST_LEAK;
 
   _gcry_pk_util_init_encoding_ctx (&ctx, PUBKEY_OP_SIGN, 0);
 
@@ -937,9 +961,34 @@ ecc_sign (gcry_sexp_t *r_sig, gcry_sexp_t s_data, gcry_sexp_t keyparms)
     log_mpidump ("ecc_sign   data", data);
 
   if (ctx.label)
-    rc = _gcry_mpi_scan (&k, GCRYMPI_FMT_USG, ctx.label, ctx.labellen, NULL);
-  if (rc)
-    goto leave;
+    {
+      /* ECDSA signing can have supplied K (for testing, deterministic).  */
+      if (fips_mode ())
+        {
+          if (fips_check_rejection (GCRY_FIPS_FLAG_REJECT_PK_ECC_K))
+            {
+              rc = GPG_ERR_INV_DATA;
+              goto leave;
+            }
+          else
+            fips_service_indicator_mark_non_compliant ();
+        }
+      rc = _gcry_mpi_scan (&k, GCRYMPI_FMT_USG, ctx.label, ctx.labellen, NULL);
+      if (rc)
+        goto leave;
+    }
+
+  if (fips_mode ()
+      && ((ctx.flags & PUBKEY_FLAG_GOST) || (ctx.flags & PUBKEY_FLAG_SM2)))
+    {
+      if (fips_check_rejection (GCRY_FIPS_FLAG_REJECT_PK_GOST_SM2))
+        {
+          rc = GPG_ERR_INV_DATA;
+          goto leave;
+        }
+      else
+        fips_service_indicator_mark_non_compliant ();
+    }
 
   /* Hash algo is determined by curve in EdDSA.  */
   if ((ctx.flags & PUBKEY_FLAG_EDDSA))
@@ -952,8 +1001,13 @@ ecc_sign (gcry_sexp_t *r_sig, gcry_sexp_t s_data, gcry_sexp_t keyparms)
                   || (ec->dialect == ECC_DIALECT_SAFECURVE
                       && ctx.hash_algo != GCRY_MD_SHAKE256)))
             {
-              rc = GPG_ERR_DIGEST_ALGO;
-              goto leave;
+              if (fips_check_rejection (GCRY_FIPS_FLAG_REJECT_PK))
+                {
+                  rc = GPG_ERR_DIGEST_ALGO;
+                  goto leave;
+                }
+              else
+                fips_service_indicator_mark_non_compliant ();
             }
         }
       else
@@ -962,6 +1016,23 @@ ecc_sign (gcry_sexp_t *r_sig, gcry_sexp_t s_data, gcry_sexp_t keyparms)
             ctx.hash_algo = GCRY_MD_SHA512;
           else if (ec->dialect == ECC_DIALECT_SAFECURVE)
             ctx.hash_algo = GCRY_MD_SHAKE256;
+        }
+    }
+  else
+    {
+      if (fips_mode ())
+        {
+          if (_gcry_md_algo_info (ctx.hash_algo, GCRYCTL_TEST_ALGO, NULL, NULL)
+              || ctx.hash_algo == GCRY_MD_SHA1)
+            {
+              if (fips_check_rejection (GCRY_FIPS_FLAG_REJECT_PK_MD))
+                {
+                  rc = GPG_ERR_DIGEST_ALGO;
+                  goto leave;
+                }
+              else
+                fips_service_indicator_mark_non_compliant ();
+            }
         }
     }
 
@@ -1060,8 +1131,38 @@ ecc_verify (gcry_sexp_t s_sig, gcry_sexp_t s_data, gcry_sexp_t s_keyparms)
   rc = _gcry_pk_util_data_to_mpi (s_data, &data, &ctx);
   if (rc)
     goto leave;
+
+  /*
+   * ECDSA signing can have supplied K (for testing, deterministic),
+   * but it's non-compliant.  For ECDSA signature verification, having
+   * K is irrelevant, but an application may use same flags as the one
+   * for signing.
+   */
+  if (ctx.label && fips_mode ())
+    {
+      if (fips_check_rejection (GCRY_FIPS_FLAG_REJECT_PK_ECC_K))
+        {
+          rc = GPG_ERR_INV_DATA;
+          goto leave;
+        }
+      else
+        fips_service_indicator_mark_non_compliant ();
+    }
+
   if (DBG_CIPHER)
     log_mpidump ("ecc_verify data", data);
+
+  if (fips_mode ()
+      && ((ctx.flags & PUBKEY_FLAG_GOST) || (ctx.flags & PUBKEY_FLAG_SM2)))
+    {
+      if (fips_check_rejection (GCRY_FIPS_FLAG_REJECT_PK_GOST_SM2))
+        {
+          rc = GPG_ERR_INV_DATA;
+          goto leave;
+        }
+      else
+        fips_service_indicator_mark_non_compliant ();
+    }
 
   /* Hash algo is determined by curve in EdDSA.  */
   if ((ctx.flags & PUBKEY_FLAG_EDDSA))
@@ -1074,8 +1175,13 @@ ecc_verify (gcry_sexp_t s_sig, gcry_sexp_t s_data, gcry_sexp_t s_keyparms)
                   || (ec->dialect == ECC_DIALECT_SAFECURVE
                       && ctx.hash_algo != GCRY_MD_SHAKE256)))
             {
-              rc = GPG_ERR_DIGEST_ALGO;
-              goto leave;
+              if (fips_check_rejection (GCRY_FIPS_FLAG_REJECT_PK))
+                {
+                  rc = GPG_ERR_DIGEST_ALGO;
+                  goto leave;
+                }
+              else
+                fips_service_indicator_mark_non_compliant ();
             }
         }
       else
@@ -1084,6 +1190,23 @@ ecc_verify (gcry_sexp_t s_sig, gcry_sexp_t s_data, gcry_sexp_t s_keyparms)
             ctx.hash_algo = GCRY_MD_SHA512;
           else if (ec->dialect == ECC_DIALECT_SAFECURVE)
             ctx.hash_algo = GCRY_MD_SHAKE256;
+        }
+    }
+  else
+    {
+      if (fips_mode ())
+        {
+          if (_gcry_md_algo_info (ctx.hash_algo, GCRYCTL_TEST_ALGO, NULL, NULL)
+              || ctx.hash_algo == GCRY_MD_SHA1)
+            {
+              if (fips_check_rejection (GCRY_FIPS_FLAG_REJECT_PK_MD))
+                {
+                  rc = GPG_ERR_DIGEST_ALGO;
+                  goto leave;
+                }
+              else
+                fips_service_indicator_mark_non_compliant ();
+            }
         }
     }
 
@@ -1246,13 +1369,13 @@ ecc_encrypt_raw (gcry_sexp_t *r_ciph, gcry_sexp_t s_data, gcry_sexp_t keyparms)
     unsigned int rawmpilen;
 
     rc = 0;
-    x = mpi_new (0);
+    x = mpi_new (ec->nbits);
     if (ec->model == MPI_EC_MONTGOMERY)
       y = NULL;
     else
-      y = mpi_new (0);
+      y = mpi_new (ec->nbits);
 
-    point_init (&R);
+    point_init (&R, ec->nbits);
 
     /* R = kQ  <=>  R = kdG  */
     _gcry_mpi_ec_mul_point (&R, data, ec->Q, ec);
@@ -1352,14 +1475,15 @@ ecc_decrypt_raw (gcry_sexp_t *r_plain, gcry_sexp_t s_data, gcry_sexp_t keyparms)
   mpi_point_struct kG;
   mpi_point_struct R;
   gcry_mpi_t r = NULL;
-  int flags = 0;
+  int flags = GCRYECC_FLAG_LEAST_LEAK;
   int enable_specific_point_validation;
 
-  point_init (&kG);
-  point_init (&R);
+  nbits = ecc_get_nbits (keyparms);
 
-  _gcry_pk_util_init_encoding_ctx (&ctx, PUBKEY_OP_DECRYPT,
-                                   (nbits = ecc_get_nbits (keyparms)));
+  point_init (&kG, nbits);
+  point_init (&R, nbits);
+
+  _gcry_pk_util_init_encoding_ctx (&ctx, PUBKEY_OP_DECRYPT, nbits);
 
   /*
    * Extract the key.
@@ -1441,11 +1565,11 @@ ecc_decrypt_raw (gcry_sexp_t *r_plain, gcry_sexp_t s_data, gcry_sexp_t keyparms)
   {
     gcry_mpi_t x, y;
 
-    x = mpi_new (0);
+    x = mpi_new (ec->nbits);
     if (ec->model == MPI_EC_MONTGOMERY)
       y = NULL;
     else
-      y = mpi_new (0);
+      y = mpi_new (ec->nbits);
 
     if (_gcry_mpi_ec_get_affine (x, y, &R, ec))
       {
@@ -1576,7 +1700,7 @@ static gpg_err_code_t
 compute_keygrip (gcry_md_hd_t md, gcry_sexp_t keyparms)
 {
 #define N_COMPONENTS 6
-  static const char names[N_COMPONENTS] = "pabgnq";
+  static const char names[N_COMPONENTS] _GCRY_GCC_ATTR_NONSTRING = "pabgnq";
   gpg_err_code_t rc;
   gcry_sexp_t l1;
   gcry_mpi_t values[N_COMPONENTS];
@@ -1764,10 +1888,10 @@ compute_keygrip (gcry_md_hd_t md, gcry_sexp_t keyparms)
            * Recover Y.  The Weierstrass curve: y^2 = x^3 + a*x + b
            */
 
-          x3 = mpi_new (0);
-          t = mpi_new (0);
-          p1_4 = mpi_new (0);
-          y = mpi_new (0);
+          x3 = mpi_new (ec->nbits);
+          t = mpi_new (ec->nbits);
+          p1_4 = mpi_new (ec->nbits);
+          y = mpi_new (ec->nbits);
 
           /* Compute right hand side.  */
           mpi_powm (x3, x, mpi_const (MPI_C_THREE), ec->p);
@@ -2336,6 +2460,16 @@ run_selftests (int algo, int extended, selftest_report_func_t report)
                      ecdsa_sample_public_key_secp256,
                      ecdsa_sample_data, ecdsa_sample_data_bad,
                      ecdsa_data_tmpl,
+                     ecdsa_sample_data_string, ecdsa_sample_data_bad_string,
+                     ecdsa_signature_r, ecdsa_signature_s);
+  if (r)
+    return r;
+
+  r = selftests_ecc (report, extended, 0,
+                     ecdsa_sample_secret_key_secp256,
+                     ecdsa_sample_public_key_secp256,
+                     rfc6979_ecdsa_sample_data, rfc6979_ecdsa_sample_data_bad,
+                     rfc6979_ecdsa_data_tmpl,
                      ecdsa_sample_data_string, ecdsa_sample_data_bad_string,
                      ecdsa_signature_r, ecdsa_signature_s);
   if (r)

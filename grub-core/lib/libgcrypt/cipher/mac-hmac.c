@@ -1166,7 +1166,7 @@ selftests_sha3 (int hashalgo, int extended, selftest_report_func_t report)
           0xd5, 0xf3, 0x29, 0x8a, 0x41, 0xd0, 0x2c, 0x66  }
       }/*,*/
 
-      /* Our API does not allow to specify a bit count and thus we
+      /* Our API does not allow specifying a bit count and thus we
        * can't use the following test.  */
       /* { "data-5bit key-4",  /\* Test 8  *\/ */
       /*   /\* Test with data bit size no multiple of 8, the data bits are */
@@ -1413,7 +1413,7 @@ const gcry_mac_spec_t _gcry_mac_type_spec_hmac_tiger1 = {
 #endif
 #if USE_MD5
 const gcry_mac_spec_t _gcry_mac_type_spec_hmac_md5 = {
-  GCRY_MAC_HMAC_MD5, {0, 1}, "HMAC_MD5",
+  GCRY_MAC_HMAC_MD5, {0, 0}, "HMAC_MD5",
   &hmac_ops
 };
 #endif

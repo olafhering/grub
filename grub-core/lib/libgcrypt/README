@@ -1,10 +1,10 @@
 		    Libgcrypt - The GNU Crypto Library
 		   ------------------------------------
-                             Version 1.11
+                             Version 1.12
 
        Copyright (C) 1989,1991-2018 Free Software Foundation, Inc.
-       Copyright (C) 2012-2024 g10 Code GmbH
-       Copyright (C) 2013-2024 Jussi Kivilinna
+       Copyright (C) 2012-2025 g10 Code GmbH
+       Copyright (C) 2013-2025 Jussi Kivilinna
 
     Libgcrypt is free software.  See the file AUTHORS for full copying
     notices, and LICENSES for notices about contributions that require
@@ -52,13 +52,18 @@
     mingw32 cross-building toolchain installed.  Instead of running a
     plain configure you use
 
-      ./autogen.sh --build-w32
+      ./autogen.sh --build-w64
       make
       make install
 
-    By default this command sequences expectsd a libgpg-error
-    installed below $HOME/w32root and installs libgcrypt to that
+    By default this command sequences expects a libgpg-error
+    installed below $HOME/w64root and installs libgcrypt to that
     directory too.  See the autogen.sh code for details.
+
+    To run the test suite on Windows, go to the tests directory of the
+    build directory and run "make xtestsuite".  This generates a
+    tarball which can be unpacked on Windows.  Over there cd to the
+    respective subdir and run "testdrv --verbose".
 
     The documentation is available as an Info file (gcrypt.info).  To
     build documentation in PDF, run this:
@@ -66,6 +71,18 @@
       cd doc
       make pdf
 
+
+    Installation under Windows
+    --------------------------
+
+    Due to the way file system permissions are implemented under
+    Windows it is important to make sure that the directory
+    %ALLUSERSPROFILE%\GNU\etc\gcrypt is only writable by
+    administrators, so that users can't add a configuration file.
+    that.  (%ALLUSERSPROFILE% is commonly c:\ProgramData).  A Windows
+    installer script should take care of this.  It is also possible
+    and suggested to set these restricted permissions direct for the
+    parent directory %ALLUSERSPROFILE%\GNU\etc.
 
 
     Mailing List
@@ -238,6 +255,15 @@
         compiling using gcc (e.g. version 4.1.2) and the option -O3;
         using -O2 solves the problem.
 
+      * i686-pc-linux-gnu with gcc 4.1
+
+        There are reports on linking problems with CFI instructions.
+        Disable the use of CFI with
+
+         ./configure gcry_cv_gcc_asm_cfi_directives=no
+
+
+
 
     License
     -------
@@ -264,7 +290,7 @@
 
     Since 2001 maintenance and development of Libgcrypt is done by g10
     Code GmbH and was mostly financed by donations; since 2022 a raise
-    in revenues from support contracts allows to fully finance the
+    in revenues from support contracts allows fully financing the
     development without resorting to donations.  Many thanks to our
     paid developers for their work and also a big thank you to Jussi
     Kivilinna for all of his performance work.

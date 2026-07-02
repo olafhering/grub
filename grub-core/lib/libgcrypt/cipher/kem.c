@@ -29,11 +29,13 @@
 #include "cipher.h"
 #include "sntrup761.h"
 #include "mceliece6688128f.h"
+#if USE_KYBER
 #include "kyber.h"
+#endif
 #include "kem-ecc.h"
 
 
-/* Information about the KEM algorithms for use by the s-expression
+/* Information about the the KEM algoithms for use by the s-expression
  * interface.  */
 static const struct
 {
@@ -82,9 +84,10 @@ sntrup761_random (void *ctx, size_t length, uint8_t *dst)
 
 
 gcry_err_code_t
-_gcry_kem_keypair (int algo,
+_gcry_kem_genkey (int algo,
                    void *pubkey, size_t pubkey_len,
-                   void *seckey, size_t seckey_len)
+                   void *seckey, size_t seckey_len,
+                   const void *optional, size_t optional_len)
 {
   switch (algo)
     {
@@ -93,32 +96,42 @@ _gcry_kem_keypair (int algo,
           || pubkey_len != GCRY_KEM_SNTRUP761_PUBKEY_LEN)
         return GPG_ERR_INV_ARG;
       sntrup761_keypair (pubkey, seckey, NULL, sntrup761_random);
+      _gcry_burn_stack (SNTRUP761_KEYPAIR_STACK_BURN);
       return 0;
 
     case GCRY_KEM_CM6688128F:
       mceliece6688128f_keypair (pubkey, seckey);
+      _gcry_burn_stack (MCELIECE6688128F_KEYPAIR_STACK_BURN);
       return 0;
 
+#if USE_KYBER
     case GCRY_KEM_MLKEM512:
       if (seckey_len != GCRY_KEM_MLKEM512_SECKEY_LEN
-          || pubkey_len != GCRY_KEM_MLKEM512_PUBKEY_LEN)
+          || pubkey_len != GCRY_KEM_MLKEM512_PUBKEY_LEN
+          || (optional && optional_len != GCRY_KEM_MLKEM_RANDOM_LEN*2))
         return GPG_ERR_INV_ARG;
-      kyber_keypair (algo, pubkey, seckey);
+      kyber_keypair (algo, pubkey, seckey, optional);
+      _gcry_burn_stack (KYBER_KEYPAIR_STACK_BURN (algo));
       return 0;
 
     case GCRY_KEM_MLKEM768:
       if (seckey_len != GCRY_KEM_MLKEM768_SECKEY_LEN
-          || pubkey_len != GCRY_KEM_MLKEM768_PUBKEY_LEN)
+          || pubkey_len != GCRY_KEM_MLKEM768_PUBKEY_LEN
+          || (optional && optional_len != GCRY_KEM_MLKEM_RANDOM_LEN*2))
         return GPG_ERR_INV_ARG;
-      kyber_keypair (algo, pubkey, seckey);
+      kyber_keypair (algo, pubkey, seckey, optional);
+      _gcry_burn_stack (KYBER_KEYPAIR_STACK_BURN (algo));
       return 0;
 
     case GCRY_KEM_MLKEM1024:
       if (seckey_len != GCRY_KEM_MLKEM1024_SECKEY_LEN
-          || pubkey_len != GCRY_KEM_MLKEM1024_PUBKEY_LEN)
+          || pubkey_len != GCRY_KEM_MLKEM1024_PUBKEY_LEN
+          || (optional && optional_len != GCRY_KEM_MLKEM_RANDOM_LEN*2))
         return GPG_ERR_INV_ARG;
-      kyber_keypair (algo, pubkey, seckey);
+      kyber_keypair (algo, pubkey, seckey, optional);
+      _gcry_burn_stack (KYBER_KEYPAIR_STACK_BURN (algo));
       return 0;
+#endif
 
     case GCRY_KEM_RAW_X25519:
     case GCRY_KEM_RAW_X448:
@@ -158,21 +171,26 @@ _gcry_kem_encap (int algo,
           || shared_len != GCRY_KEM_SNTRUP761_SHARED_LEN)
         return GPG_ERR_INV_VALUE;
       sntrup761_enc (ciphertext, shared, pubkey, NULL, sntrup761_random);
+      _gcry_burn_stack (SNTRUP761_ENC_STACK_BURN);
       return 0;
 
     case GCRY_KEM_CM6688128F:
       if (optional != NULL)
 	return GPG_ERR_INV_VALUE;
       mceliece6688128f_enc (ciphertext, shared, pubkey);
+      _gcry_burn_stack (MCELIECE6688128F_ENC_STACK_BURN);
       return 0;
 
+#if USE_KYBER
     case GCRY_KEM_MLKEM512:
     case GCRY_KEM_MLKEM768:
     case GCRY_KEM_MLKEM1024:
-      if (optional != NULL)
-        return GPG_ERR_INV_VALUE;
-      kyber_encap (algo, ciphertext, shared, pubkey);
+      if (optional && optional_len != GCRY_KEM_MLKEM_RANDOM_LEN)
+	return GPG_ERR_INV_VALUE;
+      kyber_encap (algo, ciphertext, shared, pubkey, optional);
+      _gcry_burn_stack (KYBER_ENCAP_STACK_BURN (algo));
       return 0;
+#endif
 
     case GCRY_KEM_RAW_X25519:
     case GCRY_KEM_RAW_X448:
@@ -218,21 +236,26 @@ _gcry_kem_decap (int algo,
           || shared_len != GCRY_KEM_SNTRUP761_SHARED_LEN)
         return GPG_ERR_INV_VALUE;
       sntrup761_dec (shared, ciphertext, seckey);
+      _gcry_burn_stack (SNTRUP761_DEC_STACK_BURN);
       return 0;
 
     case GCRY_KEM_CM6688128F:
       if (optional != NULL)
 	return GPG_ERR_INV_VALUE;
       mceliece6688128f_dec (shared, ciphertext, seckey);
+      _gcry_burn_stack (MCELIECE6688128F_DEC_STACK_BURN);
       return 0;
 
+#if USE_KYBER
     case GCRY_KEM_MLKEM512:
     case GCRY_KEM_MLKEM768:
     case GCRY_KEM_MLKEM1024:
       if (optional != NULL)
         return GPG_ERR_INV_VALUE;
       kyber_decap (algo, shared, ciphertext, seckey);
+      _gcry_burn_stack (KYBER_DECAP_STACK_BURN (algo));
       return 0;
+#endif
 
     case GCRY_KEM_RAW_X25519:
     case GCRY_KEM_RAW_X448:
@@ -307,7 +330,8 @@ kem_generate (const gcry_sexp_t genparms, gcry_sexp_t *r_skey)
     }
 
   /* Generate key.  */
-  ec = _gcry_kem_keypair (algoid, pubkey, pubkey_len, seckey, seckey_len);
+  ec = _gcry_kem_genkey (algoid, pubkey, pubkey_len, seckey, seckey_len,
+                         NULL, 0);
   if (ec)
     goto leave;
 

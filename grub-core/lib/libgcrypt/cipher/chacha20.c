@@ -36,6 +36,7 @@
 #include "types.h"
 #include "g10lib.h"
 #include "cipher.h"
+#include "hwf-common.h"
 #include "cipher-internal.h"
 #include "bufhelp.h"
 
@@ -113,6 +114,12 @@
 # endif /* USE_S390X_VX */
 #endif
 
+/* USE_RISCV_V indicates whether to enable RISC-V vector extension code. */
+#undef USE_RISCV_V
+#if defined (__riscv) && defined(HAVE_COMPATIBLE_CC_RISCV_VECTOR_INTRINSICS)
+# define USE_RISCV_V 1
+#endif
+
 /* Assembly implementations use SystemV ABI, ABI conversion and additional
  * stack to store XMM6-XMM15 needed on Win64. */
 #undef ASM_FUNC_ABI
@@ -129,6 +136,9 @@ typedef struct CHACHA20_context_s
   u32 input[16];
   unsigned char pad[CHACHA20_BLOCK_SIZE];
   unsigned int unused; /* bytes in the pad.  */
+#if defined(USE_SSSE3) || defined(USE_AVX512) || defined(USE_AVX2)
+  unsigned int skip_one_block_hw_impl:1;
+#endif
   unsigned int use_ssse3:1;
   unsigned int use_avx2:1;
   unsigned int use_avx512:1;
@@ -137,6 +147,7 @@ typedef struct CHACHA20_context_s
   unsigned int use_p9:1;
   unsigned int use_p10:1;
   unsigned int use_s390x:1;
+  unsigned int use_riscv_v:1;
 } CHACHA20_context_t;
 
 
@@ -259,6 +270,16 @@ unsigned int _gcry_chacha20_poly1305_aarch64_blocks4(
 
 #endif /* USE_AARCH64_SIMD */
 
+#ifdef USE_RISCV_V
+
+unsigned int _gcry_chacha20_riscv_v_blocks(u32 *state, byte *dst,
+					   const byte *src,
+					   size_t nblks);
+
+unsigned int _gcry_chacha20_riscv_v_check_hw(void);
+
+#endif /* USE_RISCV_V */
+
 
 static const char *selftest (void);
 
@@ -365,18 +386,47 @@ static unsigned int
 chacha20_blocks (CHACHA20_context_t *ctx, byte *dst, const byte *src,
 		 size_t nblks)
 {
-#ifdef USE_AVX512
-  if (ctx->use_avx512)
+  unsigned int nburn, burn = 0;
+#if defined(USE_SSSE3) || defined(USE_AVX512)
+  size_t gen_nblks = 0;
+
+  if (ctx->skip_one_block_hw_impl)
     {
-      return _gcry_chacha20_amd64_avx512_blocks(ctx->input, dst, src, nblks);
+      gen_nblks = nblks % 2;
+      nblks = nblks - gen_nblks;
+    }
+#endif
+
+#ifdef USE_AVX512
+  if (nblks && ctx->use_avx512)
+    {
+      if (gen_nblks == 0)
+	return _gcry_chacha20_amd64_avx512_blocks(ctx->input, dst, src, nblks);
+
+      burn = _gcry_chacha20_amd64_avx512_blocks(ctx->input, dst, src, nblks);
+      dst += CHACHA20_BLOCK_SIZE * nblks;
+      src += CHACHA20_BLOCK_SIZE * nblks;
+      nblks = 0;
     }
 #endif
 
 #ifdef USE_SSSE3
-  if (ctx->use_ssse3)
+  if (nblks && ctx->use_ssse3)
     {
-      return _gcry_chacha20_amd64_ssse3_blocks1(ctx->input, dst, src, nblks);
+      if (gen_nblks == 0)
+	return _gcry_chacha20_amd64_ssse3_blocks1(ctx->input, dst, src, nblks);
+
+      burn = _gcry_chacha20_amd64_ssse3_blocks1(ctx->input, dst, src, nblks);
+      dst += CHACHA20_BLOCK_SIZE * nblks;
+      src += CHACHA20_BLOCK_SIZE * nblks;
+      nblks = 0;
     }
+#endif
+
+#if defined(USE_SSSE3) || defined(USE_AVX512)
+  nblks += gen_nblks;
+  if (nblks == 0)
+    return burn;
 #endif
 
 #ifdef USE_PPC_VEC
@@ -396,7 +446,15 @@ chacha20_blocks (CHACHA20_context_t *ctx, byte *dst, const byte *src,
     }
 #endif
 
-  return do_chacha20_blocks (ctx->input, dst, src, nblks);
+#ifdef USE_RISCV_V
+  if (ctx->use_riscv_v)
+    {
+      return _gcry_chacha20_riscv_v_blocks(ctx->input, dst, src, nblks);
+    }
+#endif
+
+  nburn = do_chacha20_blocks (ctx->input, dst, src, nblks);
+  return nburn > burn ? nburn : burn;
 }
 
 
@@ -404,8 +462,8 @@ static void
 chacha20_keysetup (CHACHA20_context_t *ctx, const byte *key,
                    unsigned int keylen)
 {
-  static const char sigma[16] = "expand 32-byte k";
-  static const char tau[16] = "expand 16-byte k";
+  static const char sigma[16] _GCRY_GCC_ATTR_NONSTRING = "expand 32-byte k";
+  static const char tau[16] _GCRY_GCC_ATTR_NONSTRING = "expand 16-byte k";
   const char *constants;
 
   ctx->input[4] = buf_get_le32(key + 0);
@@ -517,6 +575,12 @@ chacha20_do_setkey (CHACHA20_context_t *ctx,
 #ifdef USE_AVX2
   ctx->use_avx2 = (features & HWF_INTEL_AVX2) != 0;
 #endif
+#if defined(USE_SSSE3) || defined(USE_AVX512) || defined(USE_AVX2)
+  /* If CPU prefers GPR over scalar integer vector implementation, use
+   * generic C chacha20 for single block non-parallel operations. */
+  ctx->skip_one_block_hw_impl =
+    !!_gcry_hwf_x86_cpu_details()->prefer_gpr_over_scalar_int_vector;
+#endif
 #ifdef USE_ARMV7_NEON
   ctx->use_neon = (features & HWF_ARM_NEON) != 0;
 #endif
@@ -537,6 +601,12 @@ chacha20_do_setkey (CHACHA20_context_t *ctx,
 #endif
 #ifdef USE_S390X_VX
   ctx->use_s390x = (features & HWF_S390X_VX) != 0;
+#endif
+#ifdef USE_RISCV_V
+  ctx->use_riscv_v = (features & HWF_RISCV_IMAFDC)
+		     && (features & HWF_RISCV_B) /* Mandatory in RVA22U64 */
+		     && (features & HWF_RISCV_V) /* Optional in RVA22U64 */
+		     && _gcry_chacha20_riscv_v_check_hw();
 #endif
 
   (void)features;
@@ -573,12 +643,19 @@ do_chacha20_encrypt_stream_tail (CHACHA20_context_t *ctx, byte *outbuf,
   if (ctx->use_avx512 && length >= CHACHA20_BLOCK_SIZE)
     {
       size_t nblocks = length / CHACHA20_BLOCK_SIZE;
-      nburn = _gcry_chacha20_amd64_avx512_blocks(ctx->input, outbuf, inbuf,
-                                                 nblocks);
-      burn = nburn > burn ? nburn : burn;
-      length %= CHACHA20_BLOCK_SIZE;
-      outbuf += nblocks * CHACHA20_BLOCK_SIZE;
-      inbuf  += nblocks * CHACHA20_BLOCK_SIZE;
+
+      if (ctx->skip_one_block_hw_impl)
+	nblocks -= nblocks % 2;
+
+      if (nblocks)
+	{
+	  nburn = _gcry_chacha20_amd64_avx512_blocks(ctx->input, outbuf, inbuf,
+						     nblocks);
+	  burn = nburn > burn ? nburn : burn;
+	  length -= nblocks * CHACHA20_BLOCK_SIZE;
+	  outbuf += nblocks * CHACHA20_BLOCK_SIZE;
+	  inbuf  += nblocks * CHACHA20_BLOCK_SIZE;
+	}
     }
 #endif
 

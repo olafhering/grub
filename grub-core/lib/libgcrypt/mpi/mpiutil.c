@@ -55,8 +55,8 @@ _gcry_mpi_get_hw_config (void)
 }
 
 
-/* Initialize the MPI subsystem.  This is called early and allows to
-   do some initialization without taking care of threading issues.  */
+/* Initialize the MPI subsystem.  This is called early and allows
+   doing some initialization without taking care of threading issues.  */
 gcry_err_code_t
 _gcry_mpi_init (void)
 {
@@ -156,6 +156,16 @@ _gcry_mpi_free_limb_space( mpi_ptr_t a, unsigned int nlimbs)
 void
 _gcry_mpi_assign_limb_space( gcry_mpi_t a, mpi_ptr_t ap, unsigned int nlimbs )
 {
+  int secure = _gcry_is_secure (a->d);
+
+  if (secure && !_gcry_is_secure (ap))
+    {
+      mpi_ptr_t sp = mpi_alloc_limb_space (nlimbs, 1);
+      MPN_COPY (sp, ap, nlimbs);
+      _gcry_mpi_free_limb_space (ap, nlimbs);
+      ap = sp;
+    }
+
   _gcry_mpi_free_limb_space (a->d, a->alloced);
   a->d = ap;
   a->alloced = nlimbs;
@@ -220,9 +230,7 @@ _gcry_mpi_free( gcry_mpi_t a )
     return;
   if ((a->flags & 32))
   {
-#if GPGRT_VERSION_NUMBER >= 0x011600  /* 1.22 */
     gpgrt_annotate_leaked_object(a);
-#endif
     return; /* Never release a constant. */
   }
   if ((a->flags & 4))
@@ -644,6 +652,59 @@ _gcry_mpi_swap_cond (gcry_mpi_t a, gcry_mpi_t b, unsigned long swap)
   xb = b->sign;
   a->sign = (xa & mask2) | (xb & mask1);
   b->sign = (xa & mask1) | (xb & mask2);
+}
+
+
+/****************
+ * Move the MPI value of A from B, when DIR is 1.
+ * Move the MPI value of A to B, when DIR is 0.
+ * This implementation should be constant-time regardless of DIR.
+ *
+ * The word "tfr" comes from the mnemonic of Motorola 6809
+ * instruction, which does "transfer" a register value to another
+ * register.  "TFR A,B" means "Transfer A to B".
+ */
+void
+_gcry_mpi_tfr (gcry_mpi_t a, gcry_mpi_t b, unsigned long dir)
+{
+  /* Note: dual mask with AND/OR used for EM leakage mitigation */
+  mpi_limb_t mask1 = ct_limb_gen_mask(dir);
+  mpi_limb_t mask2 = ct_limb_gen_inv_mask(dir);
+  mpi_size_t i;
+  mpi_size_t nlimbs;
+  mpi_limb_t *ua = a->d;
+  mpi_limb_t *ub = b->d;
+  mpi_limb_t xa;
+  mpi_limb_t xb;
+  mpi_limb_t v;
+
+  if (a->alloced > b->alloced)
+    nlimbs = b->alloced;
+  else
+    nlimbs = a->alloced;
+  if (a->nlimbs > nlimbs || b->nlimbs > nlimbs)
+    log_bug ("mpi_c0py: different sizes\n");
+
+  for (i = 0; i < nlimbs; i++)
+    {
+      xa = ua[i];
+      xb = ub[i];
+      v = (xa & mask2) | (xb & mask1);
+      ua[i] = v;
+      ub[i] = v;
+    }
+
+  xa = a->nlimbs;
+  xb = b->nlimbs;
+  v = (xa & mask2) | (xb & mask1);
+  a->nlimbs = v;
+  b->nlimbs = v;
+
+  xa = a->sign;
+  xb = b->sign;
+  v = (xa & mask2) | (xb & mask1);
+  a->sign = v;
+  b->sign = v;
 }
 
 

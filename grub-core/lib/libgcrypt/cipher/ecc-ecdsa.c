@@ -85,11 +85,11 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, gcry_mpi_t k_supplied, mpi_ec_t ec,
   while (!mpi_invm (bi, b, ec->n));
 
   k = NULL;
-  dr = mpi_alloc (0);
-  sum = mpi_alloc (0);
-  k_1 = mpi_alloc (0);
-  x = mpi_alloc (0);
-  point_init (&I);
+  dr = mpi_new (ec->nbits);
+  sum = mpi_new (ec->nbits);
+  k_1 = mpi_new (ec->nbits);
+  x = mpi_new (ec->nbits);
+  point_init (&I, ec->nbits);
 
   /* Two loops to avoid R or S are zero.  This is more of a joke than
      a real demand because the probability of them being zero is less
@@ -110,8 +110,13 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, gcry_mpi_t k_supplied, mpi_ec_t ec,
                       (hashalgo == GCRY_MD_SHAKE128
                        || hashalgo == GCRY_MD_SHAKE256))
                     {
-                      rc = GPG_ERR_DIGEST_ALGO;
-                      goto leave;
+                      if (fips_check_rejection (GCRY_FIPS_FLAG_REJECT_PK))
+                        {
+                          rc = GPG_ERR_DIGEST_ALGO;
+                          goto leave;
+                        }
+                      else
+                        fips_service_indicator_mark_non_compliant ();
                     }
 
                   /* Use Pornin's method for deterministic DSA.  If this
@@ -165,7 +170,25 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, gcry_mpi_t k_supplied, mpi_ec_t ec,
       mpi_mulm (dr, dr, r, ec->n);      /* dr = d*r mod n */
       mpi_mulm (sum, b, hash, ec->n);
       mpi_addm (sum, sum, dr, ec->n);   /* sum = hash + (d*r) mod n */
-      mpi_mulm (s, k_1, sum, ec->n);    /* s = k^(-1)*(hash+(d*r)) mod n */
+      /* Then, s = k^(-1)*(hash+(d*r)) mod n */
+      { /* s = k_1 * sum */
+        mpi_ptr_t sp;
+        mpi_limb_t cy;
+
+        mpi_resize (sum, ec->n->nlimbs);
+        mpi_resize (s, ec->n->nlimbs * 2);
+        sp = s->d;
+        s->nlimbs = ec->n->nlimbs * 2;
+        cy = _gcry_mpih_mul_lli (sp, k_1->d, ec->n->nlimbs, sum->d,
+                                 ec->n->nlimbs);
+        sp[s->nlimbs - 1] = cy;
+      }
+      { /* s = s mod n */
+        mpi_ptr_t sp = _gcry_mpih_mod_lli (s->d, s->nlimbs, ec->n->d,
+                                           ec->n->nlimbs);
+        _gcry_mpi_assign_limb_space (s, sp, ec->n->nlimbs);
+        s->nlimbs = ec->n->nlimbs;
+      }
       /* Undo blinding by b^-1 */
       mpi_mulm (s, bi, s, ec->n);
       if (mpi_cmp_ui (s, 0))
@@ -241,13 +264,13 @@ _gcry_ecc_ecdsa_verify (gcry_mpi_t input, mpi_ec_t ec,
       return err;
     }
 
-  h  = mpi_alloc (0);
-  h1 = mpi_alloc (0);
-  h2 = mpi_alloc (0);
-  x = mpi_alloc (0);
-  point_init (&Q);
-  point_init (&Q1);
-  point_init (&Q2);
+  h  = mpi_new (ec->nbits);
+  h1 = mpi_new (ec->nbits);
+  h2 = mpi_new (ec->nbits);
+  x = mpi_new (ec->nbits);
+  point_init (&Q, ec->nbits);
+  point_init (&Q1, ec->nbits);
+  point_init (&Q2, ec->nbits);
 
   /* h  = s^(-1) (mod n) */
   mpi_invm (h, s, ec->n);

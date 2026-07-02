@@ -33,6 +33,7 @@
 #include "ec-context.h"
 #include "ec-inline.h"
 #include "const-time.h"
+#include "cipher.h" /* for GCRYECC_FLAG_LEAST_LEAK */
 
 
 static inline
@@ -96,10 +97,6 @@ _gcry_mpi_ec_nist192_mod (gcry_mpi_t w, mpi_ec_t ctx)
   mpi_limb_t s_is_negative;
   int carry;
 
-  MPN_NORMALIZE (w->d, w->nlimbs);
-  if (mpi_nbits_more_than (w, 2 * 192))
-    log_bug ("W must be less than m^2\n");
-
   RESIZE_AND_CLEAR_IF_NEEDED (w, wsize * 2 * LIMBS_PER_LIMB64);
   RESIZE_AND_CLEAR_IF_NEEDED (ctx->p, wsize * LIMBS_PER_LIMB64);
 
@@ -149,7 +146,8 @@ _gcry_mpi_ec_nist192_mod (gcry_mpi_t w, mpi_ec_t ctx)
   STORE64_COND(wp, 2, mask2, o[2], mask1, s[2]);
 
   w->nlimbs = 192 / BITS_PER_MPI_LIMB;
-  MPN_NORMALIZE (wp, w->nlimbs);
+  if (!(ctx->flags & GCRYECC_FLAG_LEAST_LEAK))
+    MPN_NORMALIZE (wp, w->nlimbs);
 }
 
 void
@@ -188,10 +186,6 @@ _gcry_mpi_ec_nist224_mod (gcry_mpi_t w, mpi_ec_t ctx)
   mpi_limb_t mask2;
   mpi_limb_t s_is_negative;
   int carry;
-
-  MPN_NORMALIZE (w->d, w->nlimbs);
-  if (mpi_nbits_more_than (w, 2 * 224))
-    log_bug ("W must be less than m^2\n");
 
   RESIZE_AND_CLEAR_IF_NEEDED (w, wsize * 2 * LIMBS_PER_LIMB64);
   RESIZE_AND_CLEAR_IF_NEEDED (ctx->p, wsize * LIMBS_PER_LIMB64);
@@ -272,8 +266,9 @@ _gcry_mpi_ec_nist224_mod (gcry_mpi_t w, mpi_ec_t ctx)
   STORE64_COND(wp, 2, mask2, d[2], mask1, s[2]);
   STORE64_COND(wp, 3, mask2, d[3], mask1, s[3]);
 
-  w->nlimbs = wsize * LIMBS_PER_LIMB64;
-  MPN_NORMALIZE (wp, w->nlimbs);
+  w->nlimbs = (224 + BITS_PER_MPI_LIMB- 1) / BITS_PER_MPI_LIMB;
+  if (!(ctx->flags & GCRYECC_FLAG_LEAST_LEAK))
+    MPN_NORMALIZE (wp, w->nlimbs);
 }
 
 void
@@ -351,10 +346,6 @@ _gcry_mpi_ec_nist256_mod (gcry_mpi_t w, mpi_ec_t ctx)
   mpi_limb_t s_is_negative;
   mpi_limb_t d_is_negative;
   int carry;
-
-  MPN_NORMALIZE (w->d, w->nlimbs);
-  if (mpi_nbits_more_than (w, 2 * 256))
-    log_bug ("W must be less than m^2\n");
 
   RESIZE_AND_CLEAR_IF_NEEDED (w, wsize * 2 * LIMBS_PER_LIMB64);
   RESIZE_AND_CLEAR_IF_NEEDED (ctx->p, wsize * LIMBS_PER_LIMB64);
@@ -516,7 +507,8 @@ _gcry_mpi_ec_nist256_mod (gcry_mpi_t w, mpi_ec_t ctx)
   STORE64(wp, 3, s[3]);
 
   w->nlimbs = wsize * LIMBS_PER_LIMB64;
-  MPN_NORMALIZE (wp, w->nlimbs);
+  if (!(ctx->flags & GCRYECC_FLAG_LEAST_LEAK))
+    MPN_NORMALIZE (wp, w->nlimbs);
 }
 
 void
@@ -606,10 +598,6 @@ _gcry_mpi_ec_nist384_mod (gcry_mpi_t w, mpi_ec_t ctx)
   mpi_limb_t mask2;
   mpi_limb_t s_is_negative;
   int carry;
-
-  MPN_NORMALIZE (w->d, w->nlimbs);
-  if (mpi_nbits_more_than (w, 2 * 384))
-    log_bug ("W must be less than m^2\n");
 
   RESIZE_AND_CLEAR_IF_NEEDED (w, wsize * 2 * LIMBS_PER_LIMB64);
   RESIZE_AND_CLEAR_IF_NEEDED (ctx->p, wsize * LIMBS_PER_LIMB64);
@@ -784,7 +772,8 @@ _gcry_mpi_ec_nist384_mod (gcry_mpi_t w, mpi_ec_t ctx)
   STORE64_COND(wp, 5, mask2, d[5], mask1, s[5]);
 
   w->nlimbs = wsize * LIMBS_PER_LIMB64;
-  MPN_NORMALIZE (wp, w->nlimbs);
+  if (!(ctx->flags & GCRYECC_FLAG_LEAST_LEAK))
+    MPN_NORMALIZE (wp, w->nlimbs);
 
 #if (BITS_PER_MPI_LIMB64 == BITS_PER_MPI_LIMB) && defined(WORDS_BIGENDIAN)
   wipememory(wp_shr32, sizeof(wp_shr32));
@@ -798,10 +787,6 @@ _gcry_mpi_ec_nist521_mod (gcry_mpi_t w, mpi_ec_t ctx)
   const mpi_size_t wsize = DIM(s);
   mpi_limb_t cy;
   mpi_ptr_t wp;
-
-  MPN_NORMALIZE (w->d, w->nlimbs);
-  if (mpi_nbits_more_than (w, 2 * 521))
-    log_bug ("W must be less than m^2\n");
 
   RESIZE_AND_CLEAR_IF_NEEDED (w, wsize * 2);
 
@@ -820,7 +805,8 @@ _gcry_mpi_ec_nist521_mod (gcry_mpi_t w, mpi_ec_t ctx)
   mpih_set_cond (wp, s, wsize, mpih_limb_is_not_zero (cy));
 
   w->nlimbs = wsize;
-  MPN_NORMALIZE (wp, w->nlimbs);
+  if (!(ctx->flags & GCRYECC_FLAG_LEAST_LEAK))
+    MPN_NORMALIZE (wp, w->nlimbs);
 }
 
 #endif /* !ASM_DISABLED */

@@ -26,7 +26,8 @@ AM_CFLAGS = $(GPG_ERROR_CFLAGS)
 
 AM_CCASFLAGS = $(NOEXECSTACK_FLAGS)
 
-EXTRA_DIST = gost-s-box.c kyber-common.c kyber-kdep.c
+EXTRA_DIST = gost-s-box.c kyber-common.c kyber-kdep.c \
+             dilithium-common.c dilithium-dep.c
 
 CLEANFILES = gost-s-box$(EXEEXT_FOR_BUILD)
 DISTCLEANFILES = gost-sb.h
@@ -60,7 +61,7 @@ libcipher_la_SOURCES = \
 	mac.c mac-internal.h \
 	mac-hmac.c mac-cmac.c mac-gmac.c mac-poly1305.c \
 	poly1305.c poly1305-internal.h \
-	kem.c sntrup761.c sntrup761.h kyber.c kyber.h kem-ecc.c kem-ecc.h \
+	kem.c sntrup761.c sntrup761.h kem-ecc.c kem-ecc.h \
 	mceliece6688128f.c mceliece6688128f.h \
 	kdf.c kdf-internal.h \
 	bithelp.h  \
@@ -87,18 +88,23 @@ EXTRA_libcipher_la_SOURCES = \
 	cast5.c cast5-amd64.S cast5-arm.S \
 	chacha20.c chacha20-amd64-ssse3.S chacha20-amd64-avx2.S \
 	chacha20-amd64-avx512.S chacha20-armv7-neon.S chacha20-aarch64.S \
-	chacha20-ppc.c chacha20-s390x.S \
-	chacha20-p10le-8x.s \
-	cipher-gcm-ppc.c cipher-gcm-intel-pclmul.c cipher-gcm-armv7-neon.S \
+	chacha20-ppc.c chacha20-s390x.S chacha20-p10le-8x.s \
+	chacha20-riscv-v.c \
+	cipher-gcm-ppc.c cipher-gcm-intel-pclmul.c \
+	cipher-gcm-aarch64-simd.c cipher-gcm-armv7-neon.S \
 	cipher-gcm-armv8-aarch32-ce.S cipher-gcm-armv8-aarch64-ce.S \
+	cipher-gcm-riscv-zbb-zbc.c cipher-gcm-riscv-zvkg.c \
 	crc.c crc-intel-pclmul.c crc-armv8-ce.c \
 	crc-armv8-aarch64-ce.S \
 	crc-ppc.c \
+	crc-riscv-zbb-zbc.c \
 	des.c des-amd64.S \
+	dilithium.c dilithium.h pubkey-dilithium.c \
 	dsa.c \
 	elgamal.c \
 	ecc.c ecc-curves.c ecc-misc.c ecc-common.h \
 	ecc-ecdh.c ecc-ecdsa.c ecc-eddsa.c ecc-gost.c ecc-sm2.c \
+	kyber.c kyber.h \
 	idea.c \
 	gost28147.c gost.h \
 	gostr3411-94.c \
@@ -111,13 +117,17 @@ EXTRA_libcipher_la_SOURCES = \
 	rijndael-amd64.S rijndael-arm.S                    \
 	rijndael-ssse3-amd64.c rijndael-ssse3-amd64-asm.S  \
 	rijndael-vaes.c rijndael-vaes-avx2-amd64.S         \
+	rijndael-vaes-avx512-amd64.S                       \
 	rijndael-vaes-i386.c rijndael-vaes-avx2-i386.S     \
 	rijndael-armv8-ce.c rijndael-armv8-aarch32-ce.S    \
 	rijndael-armv8-aarch64-ce.S rijndael-aarch64.S     \
 	rijndael-ppc.c rijndael-ppc9le.c                   \
 	rijndael-p10le.c rijndael-gcm-p10le.s              \
 	rijndael-ppc-common.h rijndael-ppc-functions.h     \
+	rijndael-riscv-zvkned.c                            \
 	rijndael-s390x.c                                   \
+	rijndael-vp-aarch64.c rijndael-vp-riscv.c          \
+	rijndael-vp-simd128.h                              \
 	rmd160.c \
 	rsa.c \
 	salsa20.c salsa20-amd64.S salsa20-armv7-neon.S \
@@ -125,6 +135,7 @@ EXTRA_libcipher_la_SOURCES = \
 	seed.c \
 	serpent.c serpent-sse2-amd64.S serpent-avx2-amd64.S \
 	serpent-avx512-x86.c serpent-armv7-neon.S \
+	simd-common-aarch64.h simd-common-ppc.h simd-common-riscv.h \
 	sm4.c sm4-aesni-avx-amd64.S sm4-aesni-avx2-amd64.S \
 	sm4-gfni-avx2-amd64.S sm4-gfni-avx512-amd64.S \
 	sm4-aarch64.S sm4-armv8-aarch64-ce.S sm4-armv9-aarch64-sve-ce.S \
@@ -135,11 +146,11 @@ EXTRA_libcipher_la_SOURCES = \
 	sha256.c sha256-ssse3-amd64.S sha256-avx-amd64.S \
 	sha256-avx2-bmi2-amd64.S \
 	sha256-armv8-aarch32-ce.S sha256-armv8-aarch64-ce.S \
-	sha256-intel-shaext.c sha256-ppc.c \
+	sha256-intel-shaext.c sha256-ppc.c sha256-riscv-zvknha-zvkb.c \
 	sha512.c sha512-ssse3-amd64.S sha512-avx-amd64.S \
 	sha512-avx2-bmi2-amd64.S sha512-avx512-amd64.S \
 	sha512-armv7-neon.S sha512-armv8-aarch64-ce.S sha512-arm.S \
-	sha512-ppc.c sha512-ssse3-i386.c \
+	sha512-ppc.c sha512-riscv-zvknhb-zvkb.c sha512-ssse3-i386.c \
 	sm3.c sm3-avx-bmi2-amd64.S sm3-aarch64.S sm3-armv8-aarch64-ce.S \
 	keccak.c keccak_permute_32.h keccak_permute_64.h \
 	keccak-armv7-neon.S keccak-amd64-avx512.S \
@@ -169,7 +180,7 @@ gost-s-box$(EXEEXT_FOR_BUILD): gost-s-box.c
 
 
 if ENABLE_O_FLAG_MUNGING
-o_flag_munging = sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O1 /' -e 's/[[:blank:]]-Ofast/ -O1 /g'
+o_flag_munging = sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O1 /g' -e 's/[[:blank:]]-Ofast/ -O1 /g'
 else
 o_flag_munging = cat
 endif
@@ -243,12 +254,6 @@ else
 ppc_vcrypto_cflags =
 endif
 
-if ENABLE_AARCH64_NEON_INTRINSICS_EXTRA_CFLAGS
-aarch64_neon_cflags = -O2 -march=armv8-a+crypto
-else
-aarch64_neon_cflags =
-endif
-
 rijndael-ppc.o: $(srcdir)/rijndael-ppc.c Makefile
 	`echo $(COMPILE) $(ppc_vcrypto_cflags) -c $< | $(instrumentation_munging) `
 
@@ -309,18 +314,37 @@ camellia-ppc9le.o: $(srcdir)/camellia-ppc9le.c Makefile
 camellia-ppc9le.lo: $(srcdir)/camellia-ppc9le.c Makefile
 	`echo $(LTCOMPILE) $(ppc_vcrypto_cflags) -c $< | $(instrumentation_munging) `
 
-camellia-aarch64-ce.o: $(srcdir)/camellia-aarch64-ce.c Makefile
-	`echo $(COMPILE) $(aarch64_neon_cflags) -c $< | $(instrumentation_munging) `
-
-camellia-aarch64-ce.lo: $(srcdir)/camellia-aarch64-ce.c Makefile
-	`echo $(LTCOMPILE) $(aarch64_neon_cflags) -c $< | $(instrumentation_munging) `
-
 sm4-ppc.o: $(srcdir)/sm4-ppc.c Makefile
 	`echo $(COMPILE) $(ppc_vcrypto_cflags) -c $< | $(instrumentation_munging) `
 
 sm4-ppc.lo: $(srcdir)/sm4-ppc.c Makefile
 	`echo $(LTCOMPILE) $(ppc_vcrypto_cflags) -c $< | $(instrumentation_munging) `
 
+if ENABLE_AARCH64_NEON_INTRINSICS_EXTRA_CFLAGS
+aarch64_crypto_cflags = -O2 -march=armv8-a+simd+crypto
+aarch64_simd_cflags = -O2 -march=armv8-a+simd
+else
+aarch64_crypto_cflags =
+aarch64_simd_cflags =
+endif
+
+camellia-aarch64-ce.o: $(srcdir)/camellia-aarch64-ce.c Makefile
+	`echo $(COMPILE) $(aarch64_crypto_cflags) -c $< | $(instrumentation_munging) `
+
+camellia-aarch64-ce.lo: $(srcdir)/camellia-aarch64-ce.c Makefile
+	`echo $(LTCOMPILE) $(aarch64_crypto_cflags) -c $< | $(instrumentation_munging) `
+
+cipher-gcm-aarch64-simd.o: $(srcdir)/cipher-gcm-aarch64-simd.c Makefile
+	`echo $(COMPILE) $(aarch64_simd_cflags) -c $< | $(instrumentation_munging) `
+
+cipher-gcm-aarch64-simd.lo: $(srcdir)/cipher-gcm-aarch64-simd.c Makefile
+	`echo $(LTCOMPILE) $(aarch64_simd_cflags) -c $< | $(instrumentation_munging) `
+
+rijndael-vp-aarch64.o: $(srcdir)/rijndael-vp-aarch64.c Makefile
+	`echo $(COMPILE) $(aarch64_simd_cflags) -c $< | $(instrumentation_munging) `
+
+rijndael-vp-aarch64.lo: $(srcdir)/rijndael-vp-aarch64.c Makefile
+	`echo $(LTCOMPILE) $(aarch64_simd_cflags) -c $< | $(instrumentation_munging) `
 
 if ENABLE_X86_AVX512_INTRINSICS_EXTRA_CFLAGS
 avx512f_cflags = -mavx512f
@@ -333,3 +357,67 @@ serpent-avx512-x86.o: $(srcdir)/serpent-avx512-x86.c Makefile
 
 serpent-avx512-x86.lo: $(srcdir)/serpent-avx512-x86.c Makefile
 	`echo $(LTCOMPILE) $(avx512f_cflags) -c $< | $(instrumentation_munging) `
+
+# Note: -mstrict-align needed for GCC-14 bug (disable unaligned vector loads)
+if ENABLE_RISCV_VECTOR_INTRINSICS_EXTRA_CFLAGS
+riscv_vector_cflags = -O2 -march=@MARCH_RVA22U64_WITH_VEC@ -mstrict-align
+else
+if SUPPORT_CC_RISCV_MSTRICT_ALIGN
+riscv_vector_cflags = -O2 -mstrict-align
+else
+riscv_vector_cflags =
+endif
+endif
+
+chacha20-riscv-v.o: $(srcdir)/chacha20-riscv-v.c Makefile
+	`echo $(COMPILE) $(riscv_vector_cflags) -c $< | $(instrumentation_munging) `
+
+chacha20-riscv-v.lo: $(srcdir)/chacha20-riscv-v.c Makefile
+	`echo $(LTCOMPILE) $(riscv_vector_cflags) -c $< | $(instrumentation_munging) `
+
+rijndael-vp-riscv.o: $(srcdir)/rijndael-vp-riscv.c Makefile
+	`echo $(COMPILE) $(riscv_vector_cflags) -c $< | $(instrumentation_munging) `
+
+rijndael-vp-riscv.lo: $(srcdir)/rijndael-vp-riscv.c Makefile
+	`echo $(LTCOMPILE) $(riscv_vector_cflags) -c $< | $(instrumentation_munging) `
+
+# Note: -mstrict-align needed for GCC-14 bug (disable unaligned vector loads)
+if ENABLE_RISCV_VECTOR_CRYPTO_INTRINSICS_EXTRA_CFLAGS
+riscv_vector_crypto_aes_cflags = -O2 -march=@MARCH_RVA23U64_BASE@_zvkned -mstrict-align
+riscv_vector_crypto_sha_cflags = -O2 -march=@MARCH_RVA23U64_BASE@_zvknha_zvknhb_zvkb -mstrict-align
+riscv_vector_crypto_gcm_cflags = -O2 -march=@MARCH_RVA23U64_BASE@_zvkg -mstrict-align
+else
+if SUPPORT_CC_RISCV_MSTRICT_ALIGN
+riscv_vector_crypto_aes_cflags = -O2 -mstrict-align
+riscv_vector_crypto_sha_cflags = -O2 -mstrict-align
+riscv_vector_crypto_gcm_cflags = -O2 -mstrict-align
+else
+riscv_vector_crypto_aes_cflags =
+riscv_vector_crypto_sha_cflags =
+riscv_vector_crypto_gcm_cflags =
+endif
+endif
+
+cipher-gcm-riscv-zvkg.o: $(srcdir)/cipher-gcm-riscv-zvkg.c Makefile
+	`echo $(COMPILE) $(riscv_vector_crypto_gcm_cflags) -c $< | $(instrumentation_munging) `
+
+cipher-gcm-riscv-zvkg.lo: $(srcdir)/cipher-gcm-riscv-zvkg.c Makefile
+	`echo $(LTCOMPILE) $(riscv_vector_crypto_gcm_cflags) -c $< | $(instrumentation_munging) `
+
+rijndael-riscv-zvkned.o: $(srcdir)/rijndael-riscv-zvkned.c Makefile
+	`echo $(COMPILE) $(riscv_vector_crypto_aes_cflags) -c $< | $(instrumentation_munging) `
+
+rijndael-riscv-zvkned.lo: $(srcdir)/rijndael-riscv-zvkned.c Makefile
+	`echo $(LTCOMPILE) $(riscv_vector_crypto_aes_cflags) -c $< | $(instrumentation_munging) `
+
+sha256-riscv-zvknha-zvkb.o: $(srcdir)/sha256-riscv-zvknha-zvkb.c Makefile
+	`echo $(COMPILE) $(riscv_vector_crypto_sha_cflags) -c $< | $(instrumentation_munging) `
+
+sha256-riscv-zvknha-zvkb.lo: $(srcdir)/sha256-riscv-zvknha-zvkb.c Makefile
+	`echo $(LTCOMPILE) $(riscv_vector_crypto_sha_cflags) -c $< | $(instrumentation_munging) `
+
+sha512-riscv-zvknhb-zvkb.o: $(srcdir)/sha512-riscv-zvknhb-zvkb.c Makefile
+	`echo $(COMPILE) $(riscv_vector_crypto_sha_cflags) -c $< | $(instrumentation_munging) `
+
+sha512-riscv-zvknhb-zvkb.lo: $(srcdir)/sha512-riscv-zvknhb-zvkb.c Makefile
+	`echo $(LTCOMPILE) $(riscv_vector_crypto_sha_cflags) -c $< | $(instrumentation_munging) `

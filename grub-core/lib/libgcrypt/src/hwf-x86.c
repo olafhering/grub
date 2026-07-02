@@ -36,10 +36,16 @@
    features.  */
 #undef HAS_X86_CPUID
 
+
+static struct hwf_x86_cpu_details x86_cpu_details;
+static unsigned int x86_hw_features;
+static int x86_detect_done;
+
+
 #if defined (__i386__) && SIZEOF_UNSIGNED_LONG == 4 && defined (__GNUC__)
 # define HAS_X86_CPUID 1
 
-#ifdef HAVE_GCC_ASM_CFI_DIRECTIVES
+#if defined(HAVE_GCC_ASM_CFI_DIRECTIVES) && !defined(_WIN32)
 # define CFI_ADJUST_CFA_OFFSET(off) ".cfi_adjust_cfa_offset " #off "\n\t"
 # define CFI_PUSH4 CFI_ADJUST_CFA_OFFSET(4)
 # define CFI_POP4 CFI_ADJUST_CFA_OFFSET(-4)
@@ -48,6 +54,7 @@
 # define CFI_PUSH4
 # define CFI_POP4
 #endif
+
 
 static int
 is_cpuid_available(void)
@@ -184,7 +191,9 @@ get_xgetbv(void)
 
 #ifdef HAS_X86_CPUID
 static unsigned int
-detect_x86_gnuc (void)
+detect_x86_gnuc (
+  struct hwf_x86_cpu_details *cpu_details
+)
 {
   union
   {
@@ -197,11 +206,15 @@ detect_x86_gnuc (void)
   unsigned int max_cpuid_level;
   unsigned int fms, family, model;
   unsigned int result = 0;
-  unsigned int avoid_vpgather = 0;
   unsigned int is_amd_cpu = 0;
+  unsigned int has_avx512bmm = 0;
+  unsigned int has_sse3 = 0;
 
   (void)os_supports_avx_avx2_registers;
   (void)os_supports_avx512_registers;
+
+  /* Assume integer vector latency of 1 by default. */
+  cpu_details->int_vector_latency = 1;
 
   if (!is_cpuid_available())
     return 0;
@@ -255,6 +268,7 @@ detect_x86_gnuc (void)
     {
       /* This is an AMD CPU.  */
       is_amd_cpu = 1;
+      (void)is_amd_cpu;
     }
 
   /* Detect Intel features, that might also be supported by other
@@ -320,7 +334,8 @@ detect_x86_gnuc (void)
    * too high max_cpuid_level, so don't check level 7 if processor does not
    * support SSE3 (as cpuid:7 contains only features for newer processors).
    * Source: http://www.sandpile.org/x86/cpuid.htm  */
-  if (max_cpuid_level >= 7 && (features & 0x00000001))
+  has_sse3 = !!(features & 0x00000001);
+  if (max_cpuid_level >= 7 && has_sse3)
     {
       /* Get CPUID:7 contains further Intel feature flags. */
       get_cpuid(7, NULL, &features, &features2, NULL);
@@ -385,6 +400,16 @@ detect_x86_gnuc (void)
         result |= HWF_INTEL_GFNI;
     }
 
+  /* Check additional feature flags. */
+  if (max_cpuid_level >= 0x21 && has_sse3)
+    {
+      get_cpuid(0x21, &features, NULL, NULL, NULL);
+      if (features & (1 << 23))
+	{
+	  has_avx512bmm = 1;
+	}
+    }
+
   if ((result & HWF_INTEL_CPU) && family == 6)
     {
       /* These Intel Core processor models have SHLD/SHRD instruction that
@@ -411,61 +436,14 @@ detect_x86_gnuc (void)
 	  result |= HWF_INTEL_FAST_SHLD;
 	  break;
 	}
-
-      /* These Intel Core processors that have AVX2 have slow VPGATHER and
-       * should be avoided for table-lookup use. */
-      switch (model)
-	{
-	case 0x3C:
-	case 0x3F:
-	case 0x45:
-	case 0x46:
-	  /* Haswell */
-	  avoid_vpgather |= 1;
-	  break;
-	}
-
-      /* These Intel Core processors (skylake to tigerlake) have slow VPGATHER
-       * because of mitigation introduced by new microcode (2023-08-08) for
-       * "Downfall" speculative execution vulnerability. */
-      switch (model)
-	{
-	/* Skylake, Cascade Lake, Cooper Lake */
-	case 0x4E:
-	case 0x5E:
-	case 0x55:
-	/* Kaby Lake, Coffee Lake, Whiskey Lake, Amber Lake */
-	case 0x8E:
-	case 0x9E:
-	/* Cannon Lake */
-	case 0x66:
-	/* Comet Lake */
-	case 0xA5:
-	case 0xA6:
-	/* Ice Lake */
-	case 0x7E:
-	case 0x6A:
-	case 0x6C:
-	/* Tiger Lake */
-	case 0x8C:
-	case 0x8D:
-	/* Rocket Lake */
-	case 0xA7:
-	  avoid_vpgather |= 1;
-	  break;
-	}
     }
-  else if (is_amd_cpu)
+
+  if (is_amd_cpu && (family == 0x1a) && !has_avx512bmm)
     {
-      /* Non-AVX512 AMD CPUs (pre-Zen4) have slow VPGATHER and should be
-       * avoided for table-lookup use. */
-      avoid_vpgather |= !(result & HWF_INTEL_AVX512);
-    }
-  else
-    {
-      /* Avoid VPGATHER for non-Intel/non-AMD CPUs as testing is needed to
-       * make sure it is fast enough. */
-      avoid_vpgather |= 1;
+      /* Zen5 has integer vector instruction latency of 2 and powerful
+       * GPR integer performance. */
+      cpu_details->int_vector_latency = 2;
+      cpu_details->prefer_gpr_over_scalar_int_vector = 1;
     }
 
 #ifdef ENABLE_FORCE_SOFT_HWFEATURES
@@ -484,17 +462,11 @@ detect_x86_gnuc (void)
    * instruction. Enabled here unconditionally as requested. */
   result |= HWF_INTEL_FAST_SHLD;
 
-  /* VPGATHER instructions are used for look-up table based
-   * implementations which require VPGATHER to be fast enough to beat
-   * regular parallelized look-up table implementations (see Twofish).
-   * So far, only Intel processors beginning with Skylake and AMD
-   * processors starting with Zen4 have had VPGATHER fast enough to be
-   * enabled. Enable VPGATHER here unconditionally as requested. */
-  avoid_vpgather = 0;
+  /* Assume that integer vector instructions have minimum latency and
+   * higher scalar performance than GPR. */
+  cpu_details->int_vector_latency = 0;
+  cpu_details->prefer_gpr_over_scalar_int_vector = 0;
 #endif
-
-  if ((result & HWF_INTEL_AVX2) && !avoid_vpgather)
-    result |= HWF_INTEL_FAST_VPGATHER;
 
   return result;
 }
@@ -504,9 +476,23 @@ detect_x86_gnuc (void)
 unsigned int
 _gcry_hwf_detect_x86 (void)
 {
+  if (x86_detect_done)
+    return x86_hw_features;
+
+  memset(&x86_cpu_details, 0, sizeof(x86_cpu_details));
+  x86_hw_features = 0;
+
 #if defined (HAS_X86_CPUID)
-  return detect_x86_gnuc ();
-#else
-  return 0;
+  x86_hw_features = detect_x86_gnuc (&x86_cpu_details);
 #endif
+
+  x86_detect_done = 1;
+  return x86_hw_features;
+}
+
+
+const struct hwf_x86_cpu_details *
+_gcry_hwf_x86_cpu_details (void)
+{
+  return &x86_cpu_details;
 }

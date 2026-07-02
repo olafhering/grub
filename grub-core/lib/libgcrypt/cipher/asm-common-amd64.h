@@ -53,28 +53,44 @@
 #  define ADD_RIP
 #endif
 
+#ifdef __PIC__
+#  define AT_PLT ELF(@PLT)
+#else
+#  define AT_PLT
+#endif
+
 #if defined(HAVE_COMPATIBLE_GCC_WIN64_PLATFORM_AS) || !defined(__PIC__)
 #  define GET_EXTERN_POINTER(name, reg) movabsq $name, reg
 #else
 #  ifdef __code_model_large__
 #    define GET_EXTERN_POINTER(name, reg) \
 	       pushq %r15; \
+	       CFI_PUSH(%r15); \
 	       pushq %r14; \
+	       CFI_PUSH(%r14); \
 	    1: leaq 1b(%rip), reg; \
 	       movabsq $_GLOBAL_OFFSET_TABLE_-1b, %r14; \
 	       movabsq $name@GOT, %r15; \
 	       addq %r14, reg; \
 	       popq %r14; \
+	       CFI_POP(%r14); \
 	       movq (reg, %r15), reg; \
-	       popq %r15;
+	       popq %r15; \
+	       CFI_POP(%r15);
 #  else
 #    define GET_EXTERN_POINTER(name, reg) movq name@GOTPCREL(%rip), reg
 #  endif
 #endif
 
+#ifdef __CET__
+#define ENDBRANCH endbr64
+#else
+#define ENDBRANCH /*_*/
+#endif
+
 #ifdef HAVE_GCC_ASM_CFI_DIRECTIVES
 /* CFI directives to emit DWARF stack unwinding information. */
-# define CFI_STARTPROC()            .cfi_startproc
+# define CFI_STARTPROC()            .cfi_startproc; ENDBRANCH
 # define CFI_ENDPROC()              .cfi_endproc
 # define CFI_REMEMBER_STATE()       .cfi_remember_state
 # define CFI_RESTORE_STATE()        .cfi_restore_state
@@ -142,7 +158,7 @@
 	    DW_SLEB128_28BIT(rsp_offs)
 
 #else
-# define CFI_STARTPROC()
+# define CFI_STARTPROC() ENDBRANCH
 # define CFI_ENDPROC()
 # define CFI_REMEMBER_STATE()
 # define CFI_RESTORE_STATE()
@@ -209,5 +225,25 @@
 	vpxord ymm16, ymm16, ymm16; \
 	vpopcntb xmm16, xmm16; /* Supported only by newer AVX512 CPUs. */ \
 	vpxord ymm16, ymm16, ymm16;
+
+#ifdef __CET__
+/* Generate CET property for all assembly files including this header. */
+ELF(.section .note.gnu.property,"a")
+ELF(.align 8)
+ELF(.long 1f - 0f)
+ELF(.long 4f - 1f)
+ELF(.long 5)
+ELF(0:)
+ELF(.byte 0x47, 0x4e, 0x55, 0) /* string "GNU" */
+ELF(1:)
+ELF(.align 8)
+ELF(.long 0xc0000002)
+ELF(.long 3f - 2f)
+ELF(2:)
+ELF(.long 0x3)
+ELF(3:)
+ELF(.align 8)
+ELF(4:)
+#endif
 
 #endif /* GCRY_ASM_COMMON_AMD64_H */
