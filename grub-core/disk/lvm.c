@@ -223,6 +223,12 @@ grub_lvm_detect (grub_disk_t disk,
   grub_size_t vgname_len;
   struct grub_diskfilter_vg *vg;
   struct grub_diskfilter_pv *pv;
+  /*
+   * Tracked at function scope so every error path (fail4) can release it: the
+   * cache/integrity "ignored feature" entries are built while parsing LVs, and
+   * a later LV can fail after some entries are already on the list.
+   */
+  struct ignored_feature_lv *ignored_feature_lvs = NULL;
 
   /* Search for label. */
   for (i = 0; i < GRUB_LVM_LABEL_SCAN_SECTORS; i++)
@@ -420,8 +426,6 @@ grub_lvm_detect (grub_disk_t disk,
 
   if (! vg)
     {
-      struct ignored_feature_lv *ignored_feature_lvs = NULL;
-
       /* First time we see this volume group. We've to create the
 	 whole volume group structure. */
       /*
@@ -1026,7 +1030,6 @@ grub_lvm_detect (grub_disk_t disk,
 			  grub_free (ignored_feature->lv);
 			  grub_free (ignored_feature);
 			}
-		      grub_lvm_free_ignored_feature_lvs (ignored_feature_lvs);
 		      grub_lvm_free_lv (lv);
 		      goto fail4;
 		    }
@@ -1094,7 +1097,6 @@ grub_lvm_detect (grub_disk_t disk,
 		ignored_feature->lv->segments = grub_calloc (lv->segment_count, sizeof (*lv->segments));
 		if (!ignored_feature->lv->segments)
 		  {
-		    grub_lvm_free_ignored_feature_lvs (ignored_feature_lvs);
 		    goto fail4;
 		  }
 		grub_memcpy (ignored_feature->lv->segments, lv->segments, lv->segment_count * sizeof (*lv->segments));
@@ -1118,7 +1120,6 @@ grub_lvm_detect (grub_disk_t disk,
 		    ignored_feature->lv->segments[i].nodes = grub_calloc (node_count, sizeof (*nodes));
 		    if (!ignored_feature->lv->segments[i].nodes)
 		      {
-		        grub_lvm_free_ignored_feature_lvs (ignored_feature_lvs);
 		        goto fail4;
 		      }
 		    grub_memcpy (ignored_feature->lv->segments[i].nodes, nodes, node_count * sizeof (*nodes));
@@ -1136,7 +1137,6 @@ grub_lvm_detect (grub_disk_t disk,
 		              grub_strdup (nodes[j].name);
 		            if (!ignored_feature->lv->segments[i].nodes[j].name)
 		              {
-		                grub_lvm_free_ignored_feature_lvs (ignored_feature_lvs);
 		                goto fail4;
 		              }
 		          }
@@ -1193,6 +1193,7 @@ grub_lvm_detect (grub_disk_t disk,
       }
 
 	  grub_lvm_free_ignored_feature_lvs (ignored_feature_lvs);
+	  ignored_feature_lvs = NULL;
       if (grub_diskfilter_vg_register (vg))
 	goto fail4;
     }
@@ -1220,6 +1221,7 @@ grub_lvm_detect (grub_disk_t disk,
 
   /* Failure path.  */
  fail4:
+  grub_lvm_free_ignored_feature_lvs (ignored_feature_lvs);
   grub_lvm_free_vg (vg);
  fail3:
   grub_free (vgname);
