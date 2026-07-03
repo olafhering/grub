@@ -526,7 +526,13 @@ grub_squash_iterate_dir (grub_fshelp_node_t dir,
     node = grub_malloc (sz);
     if (!node)
       return 0;
-    grub_memcpy (node, dir, sz);
+    /*
+     * dir occupies sizeof (*dir) + (dir->stsize - 1) stack entries: the struct
+     * already contains one stack[] slot, so copying sz here would read one slot
+     * past the end of dir.
+     */
+    grub_memcpy (node, dir,
+		 sizeof (*dir) + (dir->stsize - 1) * sizeof (dir->stack[0]));
     if (hook (".", GRUB_FSHELP_DIR, node, hook_data))
       return 1;
 
@@ -542,7 +548,8 @@ grub_squash_iterate_dir (grub_fshelp_node_t dir,
 	if (!node)
 	  return 0;
 
-	grub_memcpy (node, dir, sz);
+	grub_memcpy (node, dir,
+		     sizeof (*dir) + (dir->stsize - 1) * sizeof (dir->stack[0]));
 
 	node->stsize--;
 	err = read_chunk (dir->data, &node->ino, sizeof (node->ino),
@@ -636,7 +643,8 @@ grub_squash_iterate_dir (grub_fshelp_node_t dir,
 	      return 0;
 	    }
 
-	  grub_memcpy (node, dir, sz - sizeof(dir->stack[0]));
+	  grub_memcpy (node, dir,
+		       sizeof (*dir) + (dir->stsize - 1) * sizeof (dir->stack[0]));
 
 	  node->ino = ino;
 	  node->stack[node->stsize].ino_chunk = grub_le_to_cpu32 (dh.ino_chunk);
