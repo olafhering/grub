@@ -271,6 +271,14 @@ read_chunk (struct grub_squash_data *data, void *buf, grub_size_t len,
 	      return err;
 	    }
 
+	  /*
+	   * A decompressor may legitimately produce fewer than csize bytes: GRUB
+	   * over-reads fixed-size on-disk structs, so a struct at the end of a
+	   * metadata block yields a short read.  Zero the target first so the
+	   * untouched tail is defined rather than leaking uninitialised memory
+	   * into the parser.
+	   */
+	  grub_memset (buf, 0, csize);
 	  if (data->decompress (tmp, bsize, offset,
 				buf, csize, data) < 0)
 	    {
@@ -315,7 +323,20 @@ lzo_decompress (char *inbuf, grub_size_t insize, grub_off_t off,
       grub_free (udata);
       return -1;
     }
-  grub_memcpy (outbuf, udata + off, len);
+  /*
+   * The block may hold fewer than off + len bytes when the caller over-reads a
+   * fixed-size struct at its end.  Copy only what was decompressed and zero the
+   * rest, instead of reading past the decompressed data in udata.
+   */
+  {
+    grub_size_t avail = (off < usize) ? (grub_size_t) (usize - off) : 0;
+
+    if (avail > len)
+      avail = len;
+    grub_memcpy (outbuf, udata + off, avail);
+    if (avail < len)
+      grub_memset (outbuf + avail, 0, len - avail);
+  }
   grub_free (udata);
   return len;
 }
