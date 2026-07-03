@@ -476,12 +476,25 @@ squash_mount (grub_disk_t disk)
   return data;
 }
 
+/*
+ * A symlink target is a path; reject absurd lengths coming from a crafted inode
+ * instead of trying to allocate a buffer for them.  4096 is Linux PATH_MAX,
+ * above any target a real SquashFS image stores.
+ */
+#define GRUB_SQUASH_SYMLINK_MAX	4096
+
 static char *
 grub_squash_read_symlink (grub_fshelp_node_t node)
 {
   char *ret;
   grub_err_t err;
   grub_uint32_t sz;
+
+  if (grub_le_to_cpu32 (node->ino.symlink.namelen) > GRUB_SQUASH_SYMLINK_MAX)
+    {
+      grub_error (GRUB_ERR_BAD_FS, "symlink is too long");
+      return NULL;
+    }
 
   if (grub_add (grub_le_to_cpu32 (node->ino.symlink.namelen), 1, &sz))
     {
