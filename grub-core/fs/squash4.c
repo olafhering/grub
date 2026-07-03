@@ -725,13 +725,18 @@ grub_squash_dir (grub_device_t device, const char *path,
 
   err = make_root_node (data, &root);
   if (err)
-    return err;
+    {
+      squash_unmount (data);
+      return err;
+    }
 
   grub_fshelp_find_file (path, &root, &fdiro, grub_squash_iterate_dir,
 			 grub_squash_read_symlink, GRUB_FSHELP_DIR);
   if (!grub_errno)
     grub_squash_iterate_dir (fdiro, grub_squash_dir_iter, &ctx);
 
+  if (fdiro != &root)
+    grub_free (fdiro);
   squash_unmount (data);
 
   return grub_errno;
@@ -751,7 +756,10 @@ grub_squash_open (struct grub_file *file, const char *name)
 
   err = make_root_node (data, &root);
   if (err)
-    return err;
+    {
+      squash_unmount (data);
+      return err;
+    }
 
   grub_fshelp_find_file (name, &root, &fdiro, grub_squash_iterate_dir,
 			 grub_squash_read_symlink, GRUB_FSHELP_REG);
