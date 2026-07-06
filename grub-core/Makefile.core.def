@@ -2290,6 +2290,17 @@ module = {
 };
 
 module = {
+  name = mldsa_test;
+  common = tests/mldsa/mldsa_test.c;
+  common = tests/mldsa/testdata/messages.h;
+  common = tests/mldsa/testdata/contexts.h;
+  common = tests/mldsa/testdata/pubkeys.h;
+  common = tests/mldsa/testdata/signatures.h;
+  cflags = '$(CFLAGS_GCRY) -Wno-redundant-decls';
+  cppflags = '$(CPPFLAGS_GCRY)';
+};
+
+module = {
   name = appended_signature_test;
   common = tests/appended_signature_test.c;
   common = tests/appended_signatures.h;
