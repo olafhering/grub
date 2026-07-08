@@ -510,7 +510,7 @@ parse_signature_keyid (grub_uint64_t *keyid,
       if (l > ((readbuf + len) - ptr))
         return GRUB_ERR_EOF;
 
-      if (*ptr == 0x10 && l >= 8) /* subpkt 16: issuer key ID */
+      if (*ptr == 0x10 && l >= 9) /* subpkt 16: issuer key ID */
         {
           *keyid = grub_get_unaligned64 (ptr + 1);
           return GRUB_ERR_NONE;
