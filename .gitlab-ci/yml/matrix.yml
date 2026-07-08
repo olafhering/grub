@@ -27,8 +27,6 @@
         PLATFORM: [ieee1275]
       - TARGET: x86_64
         PLATFORM: [efi, emu, xen]
-      - TARGET: x86_64
-        PLATFORM: [efi]
 
 .target-platform-clang-matrix:
   parallel:
