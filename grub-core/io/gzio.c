@@ -1412,6 +1412,10 @@ grub_zlib_decompress (char *inbuf, grub_size_t insize, grub_off_t off,
     }
 
   ret = grub_gzio_read_real (gzio, off, outbuf, outsize);
+  /* Free the Huffman tables of the last block, as grub_gzio_close() does. */
+  huft_free (gzio->tl);
+  huft_free (gzio->td);
+  grub_free (gzio->hcontext);
   grub_free (gzio);
 
   /* FIXME: Check Adler.  */
@@ -1435,6 +1439,10 @@ grub_deflate_decompress (char *inbuf, grub_size_t insize, grub_off_t off,
   initialize_tables (gzio);
 
   ret = grub_gzio_read_real (gzio, off, outbuf, outsize);
+  /* Free the Huffman tables of the last block, as grub_gzio_close() does. */
+  huft_free (gzio->tl);
+  huft_free (gzio->td);
+  grub_free (gzio->hcontext);
   grub_free (gzio);
 
   return ret;
