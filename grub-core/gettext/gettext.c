@@ -72,6 +72,19 @@ static struct grub_gettext_context main_context, secondary_context;
 
 #define MO_MAGIC_NUMBER 		0x950412de
 
+/*
+ * number_of_strings comes straight from the (untrusted) .mo header and is
+ * used both as a grub_calloc() element count and, later, as a loop bound
+ * in grub_gettext_delete_list().  A crafted header claiming a huge count
+ * (tens/hundreds of millions) makes the calloc succeed via lazily-zeroed
+ * pages, then costs multiple seconds of page-fault-driven work the next
+ * time the context is torn down -- a memory/CPU amplification DoS from a
+ * file as small as the 20-byte header alone.  Real catalogs are nowhere
+ * near this large (GRUB's own grub.pot has under 2000 entries); this cap
+ * is generous headroom above any legitimate catalog.
+ */
+#define GRUB_GETTEXT_MAX_STRINGS	65536
+
 static grub_err_t
 grub_gettext_pread (grub_file_t file, void *buf, grub_size_t len,
 		    grub_off_t offset)
@@ -325,6 +338,15 @@ grub_mofile_open (struct grub_gettext_context *ctx,
   ctx->grub_gettext_offset_original = grub_le_to_cpu32 (head.offset_original);
   ctx->grub_gettext_offset_translation = grub_le_to_cpu32 (head.offset_translation);
   ctx->grub_gettext_max = grub_le_to_cpu32 (head.number_of_strings);
+
+  if (ctx->grub_gettext_max > GRUB_GETTEXT_MAX_STRINGS)
+    {
+      grub_file_close (fd);
+      return grub_error (GRUB_ERR_OUT_OF_RANGE,
+			 "mo: too many strings (%" PRIuGRUB_SIZE ") in file: %s",
+			 ctx->grub_gettext_max, filename);
+    }
+
   for (ctx->grub_gettext_max_log = 0; ctx->grub_gettext_max >> ctx->grub_gettext_max_log;
        ctx->grub_gettext_max_log++);
 
