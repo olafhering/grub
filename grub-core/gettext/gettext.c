@@ -85,6 +85,19 @@ static struct grub_gettext_context main_context, secondary_context;
  */
 #define GRUB_GETTEXT_MAX_STRINGS	65536
 
+/*
+ * Each string_descriptor's length is likewise an untrusted 32-bit value
+ * from the .mo file, used directly as a grub_malloc() size in
+ * grub_gettext_getstr_from_position() -- independent of, and not bounded
+ * by, GRUB_GETTEXT_MAX_STRINGS above. A single crafted descriptor claiming
+ * a multi-gigabyte length triggers a huge allocation attempt from a file
+ * only a few dozen bytes long (the actual read is naturally capped to the
+ * real file size by grub_file_read(), so this is an allocation-size/OOM
+ * issue, not an overflow one). Real translated strings -- even long
+ * multi-paragraph help text -- are nowhere near this size; generous cap.
+ */
+#define GRUB_GETTEXT_MAX_STRING_LEN	65536
+
 static grub_err_t
 grub_gettext_pread (grub_file_t file, void *buf, grub_size_t len,
 		    grub_off_t offset)
@@ -123,6 +136,9 @@ grub_gettext_getstr_from_position (struct grub_gettext_context *ctx,
     return NULL;
   length = grub_cpu_to_le32 (desc.length);
   offset = grub_cpu_to_le32 (desc.offset);
+
+  if (length > GRUB_GETTEXT_MAX_STRING_LEN)
+    return NULL;
 
   if (grub_add (length, 1, &alloc_sz))
     return NULL;
