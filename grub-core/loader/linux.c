@@ -202,6 +202,20 @@ grub_initrd_init (int argc, char *argv[],
 		  insert_dir (initrd_ctx->components[i].newc_name, &root, 0,
 			      &dir_size))
 		{
+		  /*
+		   * newc_name is freed explicitly here because it was just
+		   * allocated for this iteration's component, but nfiles
+		   * (the bound grub_initrd_close() uses to free
+		   * components[]. newc_name) is only incremented once the
+		   * component's file is successfully opened below -- so
+		   * without this, a failing insert_dir() here would leak it.
+		   * root is freed here for the same reason the overflow:
+		   * path below frees it: insert_dir() may have already
+		   * linked directory nodes (from this or earlier newc:
+		   * components) into it before failing/returning.
+		   */
+		  grub_free (initrd_ctx->components[i].newc_name);
+		  free_dir (root);
 		  grub_initrd_close (initrd_ctx);
 		  return grub_errno;
 		}
@@ -210,7 +224,14 @@ grub_initrd_init (int argc, char *argv[],
 			    ALIGN_UP (sizeof (struct newc_head) + name_len, 4),
 			    &initrd_ctx->size) ||
 		  grub_add (initrd_ctx->size, dir_size, &initrd_ctx->size))
-		goto overflow;
+		{
+		  /*
+		   * Same leak as above: nfiles does not cover this
+		   * iteration's newc_name yet.
+		   */
+		  grub_free (initrd_ctx->components[i].newc_name);
+		  goto overflow;
+		}
 	      newc = 1;
 	      fname = eptr + 1;
 	    }
@@ -232,6 +253,15 @@ grub_initrd_init (int argc, char *argv[],
 						       | GRUB_FILE_TYPE_VERIFY_IN_PLACE);
       if (!initrd_ctx->components[i].file)
 	{
+	  /*
+	   * Same leaks as the insert_dir() failure path above: nfiles is
+	   * only incremented once file-open succeeds, so this iteration's
+	   * newc_name (if any) is not yet covered by grub_initrd_close()'s
+	   * cleanup loop; and root may hold directory nodes accumulated
+	   * across this or earlier newc: components.
+	   */
+	  grub_free (initrd_ctx->components[i].newc_name);
+	  free_dir (root);
 	  grub_initrd_close (initrd_ctx);
 	  return grub_errno;
 	}
