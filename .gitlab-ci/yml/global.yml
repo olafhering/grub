@@ -37,7 +37,7 @@ variables:
     expire_in: 1 week
     when: always
 
-.check:
+.check-before-script:
   before_script:
     - |
       if [ ! -e /dev/loop-control ]; then
@@ -49,11 +49,24 @@ variables:
       if [ -e /etc/init.d/zfs-fuse ]; then
         /etc/init.d/zfs-fuse start || :
       fi
-  script:
-    - make --quiet TESTS=$TEST check
-  dependencies:
-    - build
+
+.check-artifacts:
   artifacts:
     untracked: true
     expire_in: 30 days
     when: always
+
+.check:
+  script:
+    - make --quiet TESTS=$TEST check
+  dependencies:
+    - build
+
+.check-rerun-on-failure:
+  script:
+    - |
+      if ! make --quiet TESTS=$TEST check; then
+        strace -vf -tt -o $TEST.strace.log make --quiet TESTS=$TEST check;
+      fi
+  dependencies:
+    - build

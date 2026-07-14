@@ -47,20 +47,27 @@
           - zfs_test
           - zfs_zstd_test
 
-.test-matrix:
+.test-matrix-rerun-on-failure:
   parallel:
     matrix:
       - TYPE: native
         TEST:
           - btrfs_test
+          - exfat_test
+          - ext234_test
+          - hfsplus_test
+
+.test-matrix:
+  parallel:
+    matrix:
+      - TYPE: native
+        TEST:
           - cmp_test
           - cpio_test
           - date_test
           - erofs_test
           - example_scripted_test
           - example_unit_test
-          - exfat_test
-          - ext234_test
           - f2fs_test
           - fat_test
           - fdt_unit_test
@@ -71,7 +78,6 @@
           - grub_script_dollar
           - grub_script_final_semicolon
           - grub_script_no_commands
-          - hfsplus_test
           - image_unit_test
           - iso9660_test
           - jfs_test

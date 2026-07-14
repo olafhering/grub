@@ -18,15 +18,26 @@ build:
 check:
   stage: check
   extends:
+    - .check-before-script
     - .check
     - .test-matrix
+    - .check-artifacts
 
 # We know these checks will fail which are either false positives or
 # real issues, in both cases it requires further debugging and fixes
 check-allow-failure:
   stage: check
   extends:
+    - .check-before-script
     - .check
     - .test-matrix-allow-failure
+    - .check-artifacts
   allow_failure: true
 
+check-rerun-on-failure:
+  stage: check
+  extends:
+    - .check-before-script
+    - .check-rerun-on-failure
+    - .test-matrix-rerun-on-failure
+    - .check-artifacts
