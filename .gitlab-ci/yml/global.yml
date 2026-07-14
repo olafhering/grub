@@ -55,5 +55,5 @@ variables:
     - build
   artifacts:
     untracked: true
-    expire_in: 1 week
+    expire_in: 30 days
     when: always
