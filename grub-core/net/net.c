@@ -580,8 +580,8 @@ grub_net_resolve_address (const char *name,
   if (err)
     return err;
   if (!naddresses)
-    grub_error (GRUB_ERR_NET_BAD_ADDRESS, N_("unresolvable address %s"),
-		name);
+    return grub_error (GRUB_ERR_NET_BAD_ADDRESS, N_("unresolvable address %s"),
+                       name);
   /* FIXME: use other results as well.  */
   *addr = addresses[0];
   grub_free (addresses);
