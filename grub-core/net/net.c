@@ -1275,15 +1275,17 @@ grub_cmd_addroute (struct grub_command *cmd __attribute__ ((unused)),
 		  int argc, char **args)
 {
   grub_net_network_level_netaddress_t target;
+  grub_err_t err;
   if (argc < 3)
     return grub_error (GRUB_ERR_BAD_ARGUMENT,
 		       N_("three arguments expected"));
 
-  grub_net_resolve_net_address  (args[1], &target);
+  err = grub_net_resolve_net_address (args[1], &target);
+  if (err)
+    return err;
 
   if (grub_strcmp (args[2], "gw") == 0 && argc >= 4)
     {
-      grub_err_t err;
       grub_net_network_level_address_t gw;
 
       err = grub_net_resolve_address (args[3], &gw);
