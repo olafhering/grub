@@ -280,7 +280,13 @@ grub_cmd_keymap (struct grub_command *cmd __attribute__ ((unused)),
     newmap->keyboard_map_shift_l3[i]
       = grub_le_to_cpu32(newmap->keyboard_map_shift_l3[i]);
 
+  if (grub_current_layout != &layout_us)
+    grub_free (grub_current_layout);
   grub_current_layout = newmap;
+
+  if (filename != argv[0])
+    grub_free (filename);
+  grub_file_close (file);
 
   return GRUB_ERR_NONE;
 
