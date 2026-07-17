@@ -45,6 +45,12 @@ transform_data = {
   enable = powerpc_ieee1275;
 };
 
+transform_data = {
+  installdir = noinst;
+  name = tests/mldsa/generate_testdata.sh;
+  common = tests/mldsa/generate_testdata.sh.in;
+};
+
 data = {
   common = sbat.csv;
   installdir = platform;
