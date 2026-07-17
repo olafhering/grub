@@ -367,6 +367,14 @@ typedef gcry_err_code_t (*gcry_pk_verify_t) (gcry_sexp_t s_sig,
                                              gcry_sexp_t s_data,
                                              gcry_sexp_t keyparms);
 
+/* Type for the pk_raw_verify function.  */
+typedef gcry_err_code_t (*gcry_pk_raw_verify_t) (gcry_sexp_t s_sig,
+                                                 gcry_sexp_t keyparms,
+                                                 const grub_uint8_t *data,
+                                                 const grub_size_t data_len,
+                                                 const grub_uint8_t *ctx,
+                                                 const grub_size_t ctx_len);
+
 /* Type for the pk_get_nbits function.  */
 typedef unsigned (*gcry_pk_get_nbits_t) (gcry_sexp_t keyparms);
 
@@ -408,6 +416,7 @@ typedef struct gcry_pk_spec
   pk_comp_keygrip_t comp_keygrip;
   pk_get_curve_t get_curve;
   pk_get_curve_param_t get_curve_param;
+  gcry_pk_raw_verify_t raw_verify;
 
 #ifdef GRUB_UTIL
   const char *modname;

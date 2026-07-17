@@ -1,0 +1,78 @@
+diff --git a/grub-core/lib/libgcrypt-grub/cipher/pubkey-dilithium.c b/grub-core/lib/libgcrypt-grub/cipher/pubkey-dilithium.c
+index f46b8ac2f..558fc7010 100644
+--- a/grub-core/lib/libgcrypt-grub/cipher/pubkey-dilithium.c
++++ b/grub-core/lib/libgcrypt-grub/cipher/pubkey-dilithium.c
+@@ -210,6 +210,65 @@ leave:
+   return rc;
+ }
+
++static gcry_err_code_t
++mldsa_raw_verify (gcry_sexp_t s_sig, gcry_sexp_t keyparms, const unsigned char *data,
++                  const size_t data_len, const unsigned char *ctx, const size_t ctx_len)
++{
++  gpg_err_code_t rc = 0;
++  unsigned int n;
++  gcry_mpi_t sig_mpi = NULL;
++  gcry_mpi_t pk_mpi = NULL;
++  const unsigned char *sig;
++  const unsigned char *pk;
++  const struct mldsa_info *info = mldsa_get_info (keyparms);
++
++  if (!info)
++    return GPG_ERR_PUBKEY_ALGO;
++
++  /*
++   * Extract the public key.
++   */
++  rc = sexp_extract_param (keyparms, NULL, "/p", &pk_mpi, NULL);
++  if (rc)
++    goto leave;
++  pk = mpi_get_opaque (pk_mpi, &n);
++  if (!pk || info->pubkey_len != (n + 7) / 8)
++    {
++      rc = GPG_ERR_BAD_PUBKEY;
++      goto leave;
++    }
++
++  /* Extract the signature.  */
++  rc = sexp_extract_param (s_sig, NULL, "/s", &sig_mpi, NULL);
++  if (rc)
++    goto leave;
++  if (DBG_CIPHER)
++    log_printmpi ("mldsa_verify  sig", sig_mpi);
++  sig = mpi_get_opaque (sig_mpi, &n);
++  if (!sig || info->sig_len != (n + 7) / 8)
++    {
++      rc = GPG_ERR_BAD_SIGNATURE;
++      goto leave;
++    }
++
++  if (ctx == NULL)
++    rc = dilithium_verify (info->algo, sig, info->sig_len, data, data_len,
++                           NULL, -1, pk);
++  else
++    rc = dilithium_verify (info->algo, sig, info->sig_len, data, data_len,
++                           ctx, ctx_len, pk);
++  _gcry_burn_stack (DILITHIUM_VERIFY_STACK_BURN);
++  if (rc)
++    goto leave;
++
++leave:
++  _gcry_mpi_release (pk_mpi);
++  _gcry_mpi_release (sig_mpi);
++  if (DBG_CIPHER)
++    log_debug ("mldsa_verify  => %s\n", gpg_strerror (rc));
++  return rc;
++}
++
+ gcry_pk_spec_t _gcry_pubkey_spec_mldsa =
+   {
+     GCRY_PK_MLDSA, {0, 1},
+@@ -230,6 +289,8 @@ gcry_pk_spec_t _gcry_pubkey_spec_mldsa =
+     NULL, /*run_selftests*/
+     mldsa_compute_keygrip
+     ,
++    .raw_verify = mldsa_raw_verify
++
+     GRUB_UTIL_MODNAME("gcry_pubkey_dilithium")
+   };

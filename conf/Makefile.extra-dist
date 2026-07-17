@@ -55,6 +55,7 @@ EXTRA_DIST += grub-core/lib/libgcrypt-patches/17_md.patch
 EXTRA_DIST += grub-core/lib/libgcrypt-patches/18_dilithium.patch
 EXTRA_DIST += grub-core/lib/libgcrypt-patches/19_mpi.patch
 EXTRA_DIST += grub-core/lib/libgcrypt-patches/20_sex.patch
+EXTRA_DIST += grub-core/lib/libgcrypt-patches/21_add_mldsa_raw_verify.patch
 
 EXTRA_DIST += grub-core/lib/libtasn1-patches/0001-libtasn1-disable-code-not-needed-in-grub.patch
 EXTRA_DIST += grub-core/lib/libtasn1-patches/0002-libtasn1-replace-strcat-with-strcpy-in-_asn1_str_cat.patch
