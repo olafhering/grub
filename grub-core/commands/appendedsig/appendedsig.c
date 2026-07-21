@@ -802,28 +802,30 @@ static grub_err_t
 verify_signature (const gcry_mpi_t *pkmpi, const gcry_mpi_t hmpi,
                   const gcry_md_spec_t *hash, const grub_uint8_t *hval)
 {
-  gcry_sexp_t hsexp, pubkey, sig;
+  grub_err_t ret = GRUB_ERR_BAD_SIGNATURE;
+  gcry_sexp_t hsexp = NULL, pubkey = NULL, sig = NULL;
   grub_size_t errof;
 
   if (_gcry_sexp_build (&hsexp, &errof, "(data (flags %s) (hash %s %b))", "pkcs1",
                         hash->name, hash->mdlen, hval) != GPG_ERR_NO_ERROR)
-    return GRUB_ERR_BAD_SIGNATURE;
+    goto exit;
 
   if (_gcry_sexp_build (&pubkey, &errof, "(public-key (dsa (n %M) (e %M)))",
                         pkmpi[0], pkmpi[1]) != GPG_ERR_NO_ERROR)
-    return GRUB_ERR_BAD_SIGNATURE;
+    goto exit;
 
   if (_gcry_sexp_build (&sig, &errof, "(sig-val (rsa (s %M)))", hmpi) != GPG_ERR_NO_ERROR)
-    return GRUB_ERR_BAD_SIGNATURE;
+    goto exit;
 
-  _gcry_sexp_dump (sig);
-  _gcry_sexp_dump (hsexp);
-  _gcry_sexp_dump (pubkey);
+  if (grub_crypto_pk_rsa->verify (sig, hsexp, pubkey) == GPG_ERR_NO_ERROR)
+    ret = GRUB_ERR_NONE;
 
-  if (grub_crypto_pk_rsa->verify (sig, hsexp, pubkey) != GPG_ERR_NO_ERROR)
-    return GRUB_ERR_BAD_SIGNATURE;
+ exit:
+  _gcry_sexp_release (sig);
+  _gcry_sexp_release (hsexp);
+  _gcry_sexp_release (pubkey);
 
-  return GRUB_ERR_NONE;
+  return ret;
 }
 
 static grub_err_t
