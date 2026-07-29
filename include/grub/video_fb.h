@@ -144,6 +144,11 @@ EXPORT_FUNC (grub_video_fb_setup) (unsigned int mode_type, unsigned int mode_mas
 		     volatile void *page1_ptr);
 grub_err_t
 EXPORT_FUNC (grub_video_fb_swap_buffers) (void);
+
+void
+EXPORT_FUNC (grub_video_fb_set_dirty_tracking) (struct grub_video_fbrender_target *target);
+void
+EXPORT_FUNC (grub_video_fb_take_dirty) (int *first_line, int *last_line);
 grub_err_t
 EXPORT_FUNC (grub_video_fb_get_info_and_fini) (struct grub_video_mode_info *mode_info,
 					       void **framebuf);

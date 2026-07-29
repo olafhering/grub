@@ -511,6 +511,16 @@ grub_video_gop_setup (unsigned int width, unsigned int height,
       return err;
     }
 
+  /*
+   * When rendering into a shadow buffer, ask the framebuffer layer to
+   * track which scanlines were touched so that swapping only has to
+   * push those.
+   */
+  if (framebuffer.offscreen)
+    grub_video_fb_set_dirty_tracking (framebuffer.render_target);
+  else
+    grub_video_fb_set_dirty_tracking (NULL);
+
   err = grub_video_fb_set_palette (0, GRUB_VIDEO_FBSTD_NUMCOLORS,
 				   grub_video_fbstd_colors);
 
@@ -527,9 +537,16 @@ grub_video_gop_swap_buffers (void)
 {
   if (framebuffer.offscreen)
     {
+      int first_line, last_line;
+
+      grub_video_fb_take_dirty (&first_line, &last_line);
+
+      if (first_line >= last_line)
+	return GRUB_ERR_NONE;
+
       gop->blt (gop, framebuffer.offscreen,
-		GRUB_EFI_BLT_BUFFER_TO_VIDEO, 0, 0, 0, 0,
-		framebuffer.mode_info.width, framebuffer.mode_info.height,
+		GRUB_EFI_BLT_BUFFER_TO_VIDEO, 0, first_line, 0, first_line,
+		framebuffer.mode_info.width, last_line - first_line,
 		framebuffer.mode_info.width * 4);
     }
   return GRUB_ERR_NONE;

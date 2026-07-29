@@ -50,6 +50,13 @@ static struct
   struct dirty current_dirty;
   struct dirty previous_dirty;
 
+  /*
+   * Render target for which dirty lines are tracked, if it isn't
+   * back_target. Drivers which manage their own shadow buffer set
+   * this via grub_video_fb_set_dirty_tracking().
+   */
+  struct grub_video_fbrender_target *dirty_target;
+
   /* For page flipping strategy.  */
   int displayed_page;           /* The page # that is the front buffer.  */
   int render_page;              /* The page # that is the back buffer.  */
@@ -333,6 +340,7 @@ grub_video_fb_init (void)
   grub_free (framebuffer.palette);
   framebuffer.render_target = 0;
   framebuffer.back_target = 0;
+  framebuffer.dirty_target = 0;
   framebuffer.palette = 0;
   framebuffer.palette_size = 0;
   framebuffer.set_page = 0;
@@ -348,6 +356,7 @@ grub_video_fb_fini (void)
   grub_free (framebuffer.palette);
   framebuffer.render_target = 0;
   framebuffer.back_target = 0;
+  framebuffer.dirty_target = 0;
   framebuffer.palette = 0;
   framebuffer.palette_size = 0;
   framebuffer.set_page = 0;
@@ -833,12 +842,47 @@ grub_video_fb_unmap_color_int (struct grub_video_fbblit_info * source,
 static void
 dirty (int y, int height)
 {
-  if (framebuffer.render_target != framebuffer.back_target)
+  if (framebuffer.render_target != framebuffer.back_target
+      && framebuffer.render_target != framebuffer.dirty_target)
     return;
   if (framebuffer.current_dirty.first_line > y)
     framebuffer.current_dirty.first_line = y;
   if (framebuffer.current_dirty.last_line < y + height)
     framebuffer.current_dirty.last_line = y + height;
+}
+
+void
+grub_video_fb_set_dirty_tracking (struct grub_video_fbrender_target *target)
+{
+  framebuffer.dirty_target = target;
+
+  /*
+   * The contents of the display are unknown at this point, so treat
+   * the whole target as dirty to force a full update on the first swap.
+   */
+  framebuffer.current_dirty.first_line = 0;
+  framebuffer.current_dirty.last_line =
+    target ? (int) target->mode_info.height : 0;
+}
+
+void
+grub_video_fb_take_dirty (int *first_line, int *last_line)
+{
+  int height;
+
+  height = framebuffer.dirty_target
+    ? (int) framebuffer.dirty_target->mode_info.height : 0;
+
+  *first_line = framebuffer.current_dirty.first_line;
+  *last_line = framebuffer.current_dirty.last_line;
+
+  if (*first_line < 0)
+    *first_line = 0;
+  if (*last_line > height)
+    *last_line = height;
+
+  framebuffer.current_dirty.first_line = height;
+  framebuffer.current_dirty.last_line = 0;
 }
 
 grub_err_t
