@@ -489,7 +489,12 @@ parse_ip6 (const char *val, grub_uint64_t *ip, const char **rest)
       t = grub_strtoul (ptr, &ptr, 16);
       if (grub_errno)
 	{
+	  /*
+	   * No group here, so newip[word] was not written.  Undo the loop's
+	   * increment so the code after the loop does not read it.
+	   */
 	  grub_errno = GRUB_ERR_NONE;
+	  word--;
 	  break;
 	}
       if (t & ~0xffff)
@@ -499,6 +504,12 @@ parse_ip6 (const char *val, grub_uint64_t *ip, const char **rest)
 	break;
       ptr++;
     }
+  /*
+   * A ':' after the 8th group ends the loop with word == 8, which would make
+   * "7 - word" negative in the grub_memset() below; reject it.
+   */
+  if (word > 7)
+    return 0;
   if (quaddot == -1 && word < 7)
     return 0;
   if (quaddot != -1)
