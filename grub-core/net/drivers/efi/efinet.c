@@ -479,7 +479,12 @@ grub_efinet_create_dhcp_ack_from_device_path (grub_efi_device_path_t *dp, int *u
 
   ldp = grub_efi_find_last_device_path (ddp);
 
-  if (GRUB_EFI_DEVICE_PATH_TYPE (ldp) != GRUB_EFI_MESSAGING_DEVICE_PATH_TYPE
+  /*
+   * grub_efi_find_last_device_path() returns NULL for an empty but valid
+   * device path, so every dereference of ldp below must check for NULL.
+   */
+  if (!ldp
+      || GRUB_EFI_DEVICE_PATH_TYPE (ldp) != GRUB_EFI_MESSAGING_DEVICE_PATH_TYPE
       || GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) != GRUB_EFI_URI_DEVICE_PATH_SUBTYPE)
     {
       grub_free (ddp);
@@ -503,7 +508,8 @@ grub_efinet_create_dhcp_ack_from_device_path (grub_efi_device_path_t *dp, int *u
   ldp = grub_efi_find_last_device_path (ddp);
 
   /* Skip the DNS Device */
-  if (GRUB_EFI_DEVICE_PATH_TYPE (ldp) == GRUB_EFI_MESSAGING_DEVICE_PATH_TYPE
+  if (ldp
+      && GRUB_EFI_DEVICE_PATH_TYPE (ldp) == GRUB_EFI_MESSAGING_DEVICE_PATH_TYPE
       && GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) == GRUB_EFI_DNS_DEVICE_PATH_SUBTYPE)
     {
       ldp->type = GRUB_EFI_END_DEVICE_PATH_TYPE;
@@ -513,7 +519,8 @@ grub_efinet_create_dhcp_ack_from_device_path (grub_efi_device_path_t *dp, int *u
       ldp = grub_efi_find_last_device_path (ddp);
     }
 
-  if (GRUB_EFI_DEVICE_PATH_TYPE (ldp) != GRUB_EFI_MESSAGING_DEVICE_PATH_TYPE
+  if (!ldp
+      || GRUB_EFI_DEVICE_PATH_TYPE (ldp) != GRUB_EFI_MESSAGING_DEVICE_PATH_TYPE
       || (GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) != GRUB_EFI_IPV4_DEVICE_PATH_SUBTYPE
           && GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) != GRUB_EFI_IPV6_DEVICE_PATH_SUBTYPE))
     {
@@ -641,7 +648,8 @@ grub_efinet_create_dhcp_ack_from_device_path (grub_efi_device_path_t *dp, int *u
       ldp->length = sizeof (*ldp);
       ldp = grub_efi_find_last_device_path (ddp);
 
-      while (GRUB_EFI_DEVICE_PATH_TYPE (ldp) == GRUB_EFI_MESSAGING_DEVICE_PATH_TYPE
+      while (ldp
+	     && GRUB_EFI_DEVICE_PATH_TYPE (ldp) == GRUB_EFI_MESSAGING_DEVICE_PATH_TYPE
 	     && GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) == GRUB_EFI_VLAN_DEVICE_PATH_SUBTYPE)
 	{
 	  ldp->type = GRUB_EFI_END_DEVICE_PATH_TYPE;
@@ -650,7 +658,8 @@ grub_efinet_create_dhcp_ack_from_device_path (grub_efi_device_path_t *dp, int *u
 	  ldp = grub_efi_find_last_device_path (ddp);
 	}
 
-      if (GRUB_EFI_DEVICE_PATH_TYPE (ldp) == GRUB_EFI_MESSAGING_DEVICE_PATH_TYPE
+      if (ldp
+	  && GRUB_EFI_DEVICE_PATH_TYPE (ldp) == GRUB_EFI_MESSAGING_DEVICE_PATH_TYPE
 	  && GRUB_EFI_DEVICE_PATH_SUBTYPE (ldp) == GRUB_EFI_MAC_ADDRESS_DEVICE_PATH_SUBTYPE)
 	{
 	  grub_efi_mac_address_device_path_t *mac = (grub_efi_mac_address_device_path_t *) ldp;
