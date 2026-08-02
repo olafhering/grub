@@ -2982,7 +2982,7 @@ grub_btrfs_get_default_subvolume_id (struct grub_btrfs_data *data, grub_uint64_t
   for (cdirel = direl;
        (grub_uint8_t *) cdirel - (grub_uint8_t *) direl
        < (grub_ssize_t) elemsize;
-       cdirel = (void *) ((grub_uint8_t *) (direl + 1)
+       cdirel = (void *) ((grub_uint8_t *) (cdirel + 1)
        + grub_le_to_cpu16 (cdirel->n)
        + grub_le_to_cpu16 (cdirel->m)))
     {
