@@ -987,6 +987,70 @@ grub_tpm2_verifysignature (const TPMI_DH_OBJECT_t keyHandle,
 }
 
 TPM_RC_t
+grub_tpm2_sign (const TPMI_DH_OBJECT_t keyHandle,
+		const TPMS_AUTH_COMMAND_t *authCommand,
+		const TPM2B_DIGEST_t *digest,
+		const TPMT_SIG_SCHEME_t *inScheme,
+		const TPMT_TK_HASHCHECK_t *validation,
+		TPMT_SIGNATURE_t *signature,
+		TPMS_AUTH_RESPONSE_t *authResponse)
+{
+  TPM_RC_t rc;
+  struct grub_tpm2_buffer in;
+  struct grub_tpm2_buffer out;
+  TPMS_AUTH_RESPONSE_t authResponseTmp;
+  TPMI_ST_COMMAND_TAG_t tag = authCommand ? TPM_ST_SESSIONS : TPM_ST_NO_SESSIONS;
+  TPMT_TK_HASHCHECK_t validationTmp;
+  TPM_RC_t responseCode;
+  grub_uint32_t param_size;
+
+  if (digest == NULL || inScheme == NULL || signature == NULL)
+    return TPM_RC_VALUE;
+
+  if (validation == NULL)
+    {
+      grub_memset (&validationTmp, 0, sizeof (validationTmp));
+      validationTmp.tag = TPM_ST_HASHCHECK;
+      validationTmp.hierarchy = TPM_RH_NULL;
+      validation = &validationTmp;
+    }
+  if (authResponse == NULL)
+    authResponse = &authResponseTmp;
+
+  grub_memset (signature, 0, sizeof (*signature));
+  grub_memset (authResponse, 0, sizeof (*authResponse));
+
+  /* Marshal */
+  grub_tpm2_buffer_init (&in);
+  grub_tpm2_buffer_pack_u32 (&in, keyHandle);
+  if (authCommand != NULL)
+    grub_Tss2_MU_TPMS_AUTH_COMMAND_Marshal (&in, authCommand);
+  grub_Tss2_MU_TPM2B_Marshal (&in, digest->size, digest->buffer);
+  grub_Tss2_MU_TPMT_SIG_SCHEME_Marshal (&in, inScheme);
+  grub_Tss2_MU_TPMT_TK_HASHCHECK_Marshal (&in, validation);
+  if (in.error != 0)
+    return TPM_RC_FAILURE;
+
+  /* Submit */
+  rc = tpm2_submit_command (tag, TPM_CC_Sign, &responseCode, &in, &out);
+  if (rc != TPM_RC_SUCCESS)
+    return rc;
+  if (responseCode != TPM_RC_SUCCESS)
+    return responseCode;
+
+  /* Unmarshal */
+  if (tag == TPM_ST_SESSIONS)
+    grub_tpm2_buffer_unpack_u32 (&out, &param_size);
+  grub_Tss2_MU_TPMT_SIGNATURE_Unmarshal (&out, signature);
+  if (tag == TPM_ST_SESSIONS)
+    grub_Tss2_MU_TPMS_AUTH_RESPONSE_Unmarshal (&out, authResponse);
+  if (out.error != 0)
+    return TPM_RC_FAILURE;
+
+  return TPM_RC_SUCCESS;
+}
+
+TPM_RC_t
 grub_tpm2_policyauthorize (const TPMI_SH_POLICY_t policySession,
 			   const TPMS_AUTH_COMMAND_t *authCommand,
 			   const TPM2B_DIGEST_t *approvedPolicy,

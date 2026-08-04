@@ -93,6 +93,10 @@ grub_Tss2_MU_TPMT_RSA_SCHEME_Marshal (grub_tpm2_buffer_t buffer,
 				      const TPMT_RSA_SCHEME_t *p);
 
 extern void
+grub_Tss2_MU_TPMT_SIG_SCHEME_Marshal (grub_tpm2_buffer_t buffer,
+				      const TPMT_SIG_SCHEME_t *p);
+
+extern void
 grub_Tss2_MU_TPMS_RSA_PARMS_Marshal (grub_tpm2_buffer_t buffer,
 				     const TPMS_RSA_PARMS_t *p);
 
@@ -192,6 +196,10 @@ grub_Tss2_MU_TPMT_SIGNATURE_Marshal (grub_tpm2_buffer_t buffer,
 extern void
 grub_Tss2_MU_TPMT_TK_VERIFIED_Marshal (grub_tpm2_buffer_t buffer,
                                        const TPMT_TK_VERIFIED_t *p);
+
+extern void
+grub_Tss2_MU_TPMT_TK_HASHCHECK_Marshal (grub_tpm2_buffer_t buffer,
+                                        const TPMT_TK_HASHCHECK_t *p);
 
 extern void
 grub_Tss2_MU_TPMS_NV_PUBLIC_Marshal (grub_tpm2_buffer_t buffer,

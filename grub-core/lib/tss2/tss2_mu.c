@@ -205,11 +205,22 @@ grub_Tss2_MU_TPMT_SYM_DEF_OBJECT_Marshal (grub_tpm2_buffer_t buffer,
 void
 grub_Tss2_MU_TPMU_ASYM_SCHEME_Marshal (grub_tpm2_buffer_t buffer,
 				       const TPMI_ALG_RSA_DECRYPT_t scheme,
-				       const TPMU_ASYM_SCHEME_t *p __attribute__ ((unused)))
+				       const TPMU_ASYM_SCHEME_t *p)
 {
   switch (scheme)
     {
     case TPM_ALG_NULL:
+      break;
+    case TPM_ALG_RSASSA:
+    case TPM_ALG_RSAPSS:
+    case TPM_ALG_RSAES:
+    case TPM_ALG_OAEP:
+    case TPM_ALG_ECDSA:
+    case TPM_ALG_SM2:
+    case TPM_ALG_ECSCHNORR:
+    case TPM_ALG_ECMQV:
+    case TPM_ALG_ECDH:
+      grub_tpm2_buffer_pack_u16 (buffer, p->anySig.hashAlg);
       break;
     default:
       /* Unsupported */
@@ -224,6 +235,15 @@ grub_Tss2_MU_TPMT_RSA_SCHEME_Marshal (grub_tpm2_buffer_t buffer,
 {
   grub_tpm2_buffer_pack_u16 (buffer, p->scheme);
   grub_Tss2_MU_TPMU_ASYM_SCHEME_Marshal (buffer, p->scheme, &p->details);
+}
+
+void
+grub_Tss2_MU_TPMT_SIG_SCHEME_Marshal (grub_tpm2_buffer_t buffer,
+				      const TPMT_SIG_SCHEME_t *p)
+{
+  grub_tpm2_buffer_pack_u16 (buffer, p->scheme);
+  if (p->scheme != TPM_ALG_NULL)
+    grub_tpm2_buffer_pack_u16 (buffer, p->details.anySig.hashAlg);
 }
 
 void
@@ -574,6 +594,15 @@ grub_Tss2_MU_TPMT_TK_VERIFIED_Marshal (grub_tpm2_buffer_t buffer,
 }
 
 void
+grub_Tss2_MU_TPMT_TK_HASHCHECK_Marshal (grub_tpm2_buffer_t buffer,
+                                        const TPMT_TK_HASHCHECK_t *p)
+{
+  grub_tpm2_buffer_pack_u16 (buffer, p->tag);
+  grub_tpm2_buffer_pack_u32 (buffer, p->hierarchy);
+  grub_Tss2_MU_TPM2B_Marshal (buffer, p->digest.size, p->digest.buffer);
+}
+
+void
 grub_Tss2_MU_TPMS_NV_PUBLIC_Marshal (grub_tpm2_buffer_t buffer,
 				     const TPMS_NV_PUBLIC_t *p)
 {
@@ -833,11 +862,22 @@ grub_Tss2_MU_TPMS_SYMCIPHER_PARMS_Unmarshal (grub_tpm2_buffer_t buffer,
 void
 grub_Tss2_MU_TPMU_ASYM_SCHEME_Unmarshal (grub_tpm2_buffer_t buffer,
 					 TPMI_ALG_RSA_DECRYPT_t scheme,
-					 TPMU_ASYM_SCHEME_t *p __attribute__((unused)))
+					 TPMU_ASYM_SCHEME_t *p)
 {
   switch (scheme)
     {
     case TPM_ALG_NULL:
+      break;
+    case TPM_ALG_RSASSA:
+    case TPM_ALG_RSAPSS:
+    case TPM_ALG_RSAES:
+    case TPM_ALG_OAEP:
+    case TPM_ALG_ECDSA:
+    case TPM_ALG_SM2:
+    case TPM_ALG_ECSCHNORR:
+    case TPM_ALG_ECMQV:
+    case TPM_ALG_ECDH:
+      grub_tpm2_buffer_unpack_u16 (buffer, &p->anySig.hashAlg);
       break;
     default:
       /* Unsupported */

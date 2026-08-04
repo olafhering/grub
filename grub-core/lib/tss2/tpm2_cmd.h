@@ -149,6 +149,15 @@ grub_tpm2_verifysignature (const TPMI_DH_OBJECT_t keyHandle,
 			   TPMS_AUTH_RESPONSE_t *authResponse);
 
 extern TPM_RC_t
+grub_tpm2_sign (const TPMI_DH_OBJECT_t keyHandle,
+		const TPMS_AUTH_COMMAND_t *authCommand,
+		const TPM2B_DIGEST_t *digest,
+		const TPMT_SIG_SCHEME_t *inScheme,
+		const TPMT_TK_HASHCHECK_t *validation,
+		TPMT_SIGNATURE_t *signature,
+		TPMS_AUTH_RESPONSE_t *authResponse);
+
+extern TPM_RC_t
 grub_tpm2_policyauthorize (const TPMI_SH_POLICY_t policySession,
 			   const TPMS_AUTH_COMMAND_t *authCommand,
 			   const TPM2B_DIGEST_t *approvedPolicy,

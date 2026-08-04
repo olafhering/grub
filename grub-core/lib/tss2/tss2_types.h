@@ -183,7 +183,9 @@ typedef grub_uint16_t TPM_ALG_ID_t;
 #define TPM_ALG_ECB            ((TPM_ALG_ID_t) 0x0044)
 #define TPM_ALG_ECC            ((TPM_ALG_ID_t) 0x0023)
 #define TPM_ALG_ECDAA          ((TPM_ALG_ID_t) 0x001A)
+#define TPM_ALG_ECDH           ((TPM_ALG_ID_t) 0x0019)
 #define TPM_ALG_ECDSA          ((TPM_ALG_ID_t) 0x0018)
+#define TPM_ALG_ECMQV          ((TPM_ALG_ID_t) 0x001D)
 #define TPM_ALG_ECSCHNORR      ((TPM_ALG_ID_t) 0x001C)
 #define TPM_ALG_HMAC           ((TPM_ALG_ID_t) 0x0005)
 #define TPM_ALG_KDF1_SP800_108 ((TPM_ALG_ID_t) 0x0022)
@@ -192,7 +194,9 @@ typedef grub_uint16_t TPM_ALG_ID_t;
 #define TPM_ALG_KEYEDHASH      ((TPM_ALG_ID_t) 0x0008)
 #define TPM_ALG_MGF1           ((TPM_ALG_ID_t) 0x0007)
 #define TPM_ALG_NULL           ((TPM_ALG_ID_t) 0x0010)
+#define TPM_ALG_OAEP           ((TPM_ALG_ID_t) 0x0017)
 #define TPM_ALG_RSA            ((TPM_ALG_ID_t) 0x0001)
+#define TPM_ALG_RSAES          ((TPM_ALG_ID_t) 0x0015)
 #define TPM_ALG_RSASSA         ((TPM_ALG_ID_t) 0x0014)
 #define TPM_ALG_RSAPSS         ((TPM_ALG_ID_t) 0x0016)
 #define TPM_ALG_SHA1           ((TPM_ALG_ID_t) 0x0004)
@@ -253,6 +257,8 @@ typedef TPM_ST_t TPMI_ST_COMMAND_TAG_t;
 
 #define TPM_ST_NO_SESSIONS ((TPMI_ST_COMMAND_TAG_t) 0x8001)
 #define TPM_ST_SESSIONS    ((TPMI_ST_COMMAND_TAG_t) 0x8002)
+#define TPM_ST_VERIFIED    ((TPMI_ST_COMMAND_TAG_t) 0x8022)
+#define TPM_ST_HASHCHECK   ((TPMI_ST_COMMAND_TAG_t) 0x8024)
 
 /* TPM_HANDLE_t Types */
 typedef grub_uint32_t TPM_HANDLE_t;
@@ -351,6 +357,7 @@ typedef grub_uint32_t TPM_CC_t;
 #define TPM_CC_PolicyGetDigest  ((TPM_CC_t) 0x00000189)
 #define TPM_CC_Hash             ((TPM_CC_t) 0x0000017d)
 #define TPM_CC_VerifySignature  ((TPM_CC_t) 0x00000177)
+#define TPM_CC_Sign             ((TPM_CC_t) 0x0000015d)
 #define TPM_CC_PolicyAuthorize  ((TPM_CC_t) 0x0000016a)
 #define TPM_CC_TestParms        ((TPM_CC_t) 0x0000018a)
 

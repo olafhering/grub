@@ -434,6 +434,17 @@ struct TPMT_ASYM_SCHEME
 };
 typedef struct TPMT_ASYM_SCHEME TPMT_ASYM_SCHEME_t;
 
+/* TPMU_SIG_SCHEME Union */
+typedef union TPMU_ASYM_SCHEME TPMU_SIG_SCHEME_t;
+
+/* TPMT_SIG_SCHEME Structure */
+struct TPMT_SIG_SCHEME
+{
+  TPMI_ALG_SIG_SCHEME_t scheme;
+  TPMU_SIG_SCHEME_t details;
+};
+typedef struct TPMT_SIG_SCHEME TPMT_SIG_SCHEME_t;
+
 /* TPMS_ASYM_PARMS Structure */
 struct TPMS_ASYM_PARMS
 {
