@@ -959,9 +959,9 @@ grub_tpm2_verifysignature (const TPMI_DH_OBJECT_t keyHandle,
 
   /* Marshal */
   grub_tpm2_buffer_init (&in);
+  grub_tpm2_buffer_pack_u32 (&in, keyHandle);
   if (authCommand != NULL)
     grub_Tss2_MU_TPMS_AUTH_COMMAND_Marshal (&in, authCommand);
-  grub_tpm2_buffer_pack_u32 (&in, keyHandle);
   grub_Tss2_MU_TPM2B_Marshal (&in, digest->size, digest->buffer);
   grub_Tss2_MU_TPMT_SIGNATURE_Marshal (&in, signature);
   if (in.error != 0)
