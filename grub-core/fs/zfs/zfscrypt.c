@@ -107,7 +107,16 @@ grub_ccm_decrypt (grub_crypto_cipher_handle_t cipher,
 		  void *mac_out, const void *nonce,
 		  unsigned l, unsigned m)
 {
-  grub_uint8_t iv[16];
+  /*
+   * The three stores below already cover all 16 bytes with no gap, so the
+   * initialiser is redundant for correctness. It is here because the
+   * fortified grub_memcpy() expands to __builtin_dynamic_object_size (iv +
+   * 1, 1) at the first of them (see misc.h), and GCC models that builtin's
+   * pointer argument as a read of the pointed-to storage, which at that
+   * point is still uninitialised -- giving a -Wuninitialized on an address
+   * computation that never actually reads iv.
+   */
+  grub_uint8_t iv[16] = {0};
   grub_uint8_t mul[16];
   grub_uint32_t mac[4];
   unsigned i, j;
