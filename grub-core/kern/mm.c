@@ -716,8 +716,19 @@ grub_realloc (void *ptr, grub_size_t size)
   if (! q)
     return q;
 
-  /* We've already checked that p->size < n.  */
-  grub_memcpy (q, ptr, p->size << GRUB_MM_ALIGN_LOG2);
+  /*
+   * We've already checked that p->size < n. p->size counts the header
+   * cell as well (see mm_private.h), so the old block's usable payload
+   * is one cell shorter than that: copying p->size cells reads a cell
+   * past the end of it, and writes that much into q, which was only
+   * allocated for the `size' bytes the caller asked for.
+   *
+   * get_header_from_pointer() has already rejected a zero size, so the
+   * subtraction cannot underflow. A block of exactly one cell carries no
+   * payload at all -- grub_malloc(0) makes those -- and copies nothing,
+   * which is correct: there is nothing in it to keep.
+   */
+  grub_memcpy (q, ptr, (p->size - 1) << GRUB_MM_ALIGN_LOG2);
   grub_free (ptr);
   return q;
 }
