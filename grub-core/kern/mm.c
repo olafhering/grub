@@ -152,6 +152,14 @@ get_header_from_pointer (void *ptr, grub_mm_header_t *p, grub_mm_region_t *r)
   if ((*p)->magic != GRUB_MM_ALLOC_MAGIC)
     grub_fatal ("alloc magic is broken at %p: %lx", *p,
 		(unsigned long) (*p)->magic);
+  /*
+   * Every block owns at least its header cell, so a zero size means the
+   * header is corrupt. Callers below subtract from and add to this, so
+   * catch it here rather than let it underflow or make a block overlap
+   * its neighbour.
+   */
+  if ((*p)->size == 0)
+    grub_fatal ("zero-sized block at %p", *p);
 }
 
 /* Initialize a region starting from ADDR and whose size is SIZE,
