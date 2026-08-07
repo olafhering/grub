@@ -20,6 +20,16 @@
 #include <grub/misc.h>
 #include <grub/decompressor.h>
 
+/*
+ * This file defines the real grub_memset/grub_memmove/grub_memcpy for the
+ * decompressor stub; it must not see misc.h's fortified macros of the
+ * same names (see the comment there), or these definitions below would
+ * be mangled by their own fortify wrapper.
+ */
+#undef grub_memset
+#undef grub_memmove
+#undef grub_memcpy
+
 void *
 grub_memset (void *s, int c, grub_size_t len)
 {

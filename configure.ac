@@ -677,6 +677,134 @@ AC_COMPILE_IFELSE(
 ]])],
 [grub_cv_cc_target_clang=no], [grub_cv_cc_target_clang=yes])])
 
+# _FORTIFY_SOURCE-style bounds checking of the GRUB memory and string
+# functions (see include/grub/misc.h).
+#
+# Off by default, deliberately. It changes what an overflowing copy does
+# from silently corrupting adjacent memory to calling grub_fatal(), and
+# on a bootloader that means an unbootable machine. Trading a
+# possibly-survivable corruption for a guaranteed failure to boot is the
+# right trade for many people but it is not one a distribution should
+# inherit merely by upgrading, so it has to be asked for.
+#
+# Everything the feature needs is scoped to this option: with it off, the
+# object-size builtins are not probed, the alloc_size annotations in
+# mm.h expand to nothing, and -Warray-bounds is left enabled, so the
+# build is exactly what it was before any of this existed.
+AC_ARG_ENABLE([fortify-source],
+	      AS_HELP_STRING([--enable-fortify-source],
+			     [enable _FORTIFY_SOURCE-style bounds checking of the GRUB memory and string functions (default=no)]),
+	      [],
+	      [enable_fortify_source=no])
+
+HAVE_FORTIFY_SOURCE=0
+HAVE_BUILTIN_OBJECT_SIZE=0
+HAVE_BUILTIN_DYNAMIC_OBJECT_SIZE=0
+HAVE_ATTRIBUTE_ERROR=0
+
+if test "x$enable_fortify_source" != xno; then
+  if test "x$enable_fortify_source" != xyes; then
+    AC_MSG_ERROR([invalid value $enable_fortify_source for --enable-fortify-source])
+  fi
+
+  # __builtin_object_size() is what backs the checks. It's been in GCC and
+  # clang for a very long time (GCC 4.1 / clang's earliest releases), but
+  # probe rather than assume, consistent with the rest of this file.
+  AC_CACHE_CHECK([whether the target compiler supports __builtin_object_size], [grub_cv_target_cc_builtin_object_size], [
+    CFLAGS="$TARGET_CFLAGS -Werror"
+    AC_COMPILE_IFELSE(
+    [AC_LANG_PROGRAM([], [[
+      char buf[8];
+      return __builtin_object_size (buf, 1) == 8 ? 0 : 1;
+    ]])],
+    [grub_cv_target_cc_builtin_object_size=yes],
+    [grub_cv_target_cc_builtin_object_size=no])])
+
+  if test "x$grub_cv_target_cc_builtin_object_size" != xyes; then
+    AC_MSG_ERROR([--enable-fortify-source is not supported (compiler doesn't support __builtin_object_size)])
+  fi
+  HAVE_BUILTIN_OBJECT_SIZE=1
+  HAVE_FORTIFY_SOURCE=1
+
+  # __builtin_dynamic_object_size() (GCC 12+, clang 9+) is preferred where
+  # available -- this is exactly what separates _FORTIFY_SOURCE=3 from =2.
+  # Both builtins see through the same declarations, but plain
+  # __builtin_object_size() can only ever fold to a compile-time constant,
+  # so a heap allocation whose size is a runtime value is simply invisible
+  # to it -- it yields (size_t) -1 and the check disappears. The dynamic
+  # variant returns a runtime expression instead, which means an
+  # alloc_size()-annotated grub_malloc (see mm.h) called with a length
+  # parsed out of on-disk or on-wire data still bounds the copies that
+  # follow it in the same function. That is the shape of GRUB's filesystem
+  # and network parsers, so it is where the extra coverage lands. Not
+  # having it is a supported configuration, just a weaker one.
+  #
+  # Both variants are subject to the same hard limit: once a pointer
+  # crosses a real (non-inlined) call boundary as a plain argument, the
+  # size is unknowable and the check compiles away to nothing.
+  AC_CACHE_CHECK([whether the target compiler supports __builtin_dynamic_object_size], [grub_cv_target_cc_builtin_dynamic_object_size], [
+    CFLAGS="$TARGET_CFLAGS -Werror"
+    AC_COMPILE_IFELSE(
+    [AC_LANG_PROGRAM([], [[
+      char buf[8];
+      return __builtin_dynamic_object_size (buf, 1) == 8 ? 0 : 1;
+    ]])],
+    [grub_cv_target_cc_builtin_dynamic_object_size=yes],
+    [grub_cv_target_cc_builtin_dynamic_object_size=no])])
+
+  if test "x$grub_cv_target_cc_builtin_dynamic_object_size" = xyes; then
+    HAVE_BUILTIN_DYNAMIC_OBJECT_SIZE=1
+  fi
+
+  # __attribute__((error)) lets the checks escalate a *provable* overflow
+  # -- one where both the length and the destination size fold to
+  # compile-time constants -- from a boot-time grub_fatal() into a build
+  # failure, the way glibc's __warndecl() does. GCC has had it since 4.3,
+  # clang since 14; probe because the fallback (runtime check only) is
+  # perfectly serviceable without it.
+  AC_CACHE_CHECK([whether the target compiler supports __attribute__((error))], [grub_cv_target_cc_attribute_error], [
+    CFLAGS="$TARGET_CFLAGS -Werror"
+    AC_COMPILE_IFELSE(
+    [AC_LANG_PROGRAM([[
+      extern void bad (void) __attribute__ ((__error__ ("bad")));
+    ]], [[
+      if (0)
+	bad ();
+    ]])],
+    [grub_cv_target_cc_attribute_error=yes],
+    [grub_cv_target_cc_attribute_error=no])])
+
+  if test "x$grub_cv_target_cc_attribute_error" = xyes; then
+    HAVE_ATTRIBUTE_ERROR=1
+  fi
+
+  # grub_malloc/grub_calloc/grub_zalloc/grub_memalign's alloc_size
+  # annotation (see mm.h) is what lets the builtins track a same-function
+  # heap allocation forward, but it has a broader side effect: it also
+  # feeds -Warray-bounds, which throughout this codebase's many on-disk-
+  # format parsers routinely reinterprets a raw allocated block as a
+  # struct whose trailing array member has a narrower compile-time-nominal
+  # size than the buffer's actual usable extent (e.g. fs/f2fs.c's
+  # grub_f2fs_node, where node_block is grub_malloc()'d to the full block
+  # size but rn->in.nid[] is declared shorter). GCC flags the resulting
+  # subscript as out of bounds even though the real, runtime buffer is
+  # large enough. This is a known false-positive class for -Warray-bounds
+  # independent of alloc_size, not something alloc_size newly breaks;
+  # verified by disabling only this warning and confirming the flagged
+  # access is genuinely in-bounds at runtime.
+  #
+  # Scoped to the enabled case: with the feature off there are no
+  # alloc_size annotations, so -Warray-bounds keeps working as usual.
+  TARGET_CFLAGS="$TARGET_CFLAGS -Wno-array-bounds"
+fi
+
+AC_SUBST([HAVE_FORTIFY_SOURCE])
+AC_SUBST([HAVE_BUILTIN_OBJECT_SIZE])
+AC_SUBST([HAVE_BUILTIN_DYNAMIC_OBJECT_SIZE])
+AC_SUBST([HAVE_ATTRIBUTE_ERROR])
+
+CFLAGS="$TARGET_CFLAGS"
+
 if test x$target_cpu = xpowerpc -o x$target_cpu = xmips; then
   AC_CACHE_CHECK([for options to get big-endian compilation], grub_cv_target_cc_big_endian, [
     grub_cv_target_cc_big_endian=no
@@ -2728,6 +2856,15 @@ if test "x$enable_stack_protector" != xno; then
 echo "With stack smashing protector: Yes"
 else
 echo "With stack smashing protector: No"
+fi
+if test "x$enable_fortify_source" != xno; then
+  if test "x$HAVE_BUILTIN_DYNAMIC_OBJECT_SIZE" = x1; then
+    echo "With fortify source: Yes, level 3"
+  else
+    echo "With fortify source: Yes, level 2"
+  fi
+else
+echo "With fortify source: No"
 fi
 echo "*******************************************************"
 ]

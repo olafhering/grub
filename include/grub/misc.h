@@ -377,6 +377,206 @@ char *EXPORT_FUNC(grub_strndup) (const char *s, grub_size_t n) WARN_UNUSED_RESUL
 void *EXPORT_FUNC(grub_memset) (void *s, int c, grub_size_t n);
 grub_size_t EXPORT_FUNC(grub_strlen) (const char *s) WARN_UNUSED_RESULT;
 
+/*
+ * Fortified grub_memcpy/grub_memmove/grub_memset and the string copy
+ * helpers: when the destination's size is knowable at the call site -- a
+ * local array or a fixed-size struct field, anything whose declaration
+ * the compiler can still see, which rules out a pointer received as a
+ * plain argument from another function -- catch a would-be overflow
+ * instead of silently corrupting adjacent memory. This is GRUB's
+ * equivalent of glibc's _FORTIFY_SOURCE.
+ *
+ * The size also tracks forward from an alloc_size()-annotated allocator
+ * (see mm.h), so a grub_malloc()-then-memcpy() in one function is
+ * covered too. With __builtin_dynamic_object_size() -- preferred, and
+ * used whenever the compiler has it, which is exactly what distinguishes
+ * _FORTIFY_SOURCE=3 from =2 -- that holds even when the allocation
+ * length is a runtime value rather than a constant, which is the case
+ * that matters here: an on-disk or on-wire length field feeding
+ * grub_malloc() and then bounding the copies that follow. Plain
+ * __builtin_object_size() can only fold to a compile-time constant, so
+ * it silently yields "unknown" for those and the check disappears.
+ *
+ * Either builtin stops at the same boundary: once a pointer crosses a
+ * real (non-inlined) function call as a plain pointer argument, the size
+ * becomes unknowable and these macros are a no-op -- they expand to the
+ * plain, unchecked call, exactly as if fortification were unavailable.
+ *
+ * Two object-size flavours, following glibc's split exactly.
+ * GRUB_OBJECT_SIZE0() is the whole enclosing object and is what the mem*
+ * functions use: writing into a struct member and deliberately running
+ * on into the rest of the object is a legitimate and common idiom in
+ * this codebase's on-disk-format parsers, and the stricter flavour would
+ * abort on it. GRUB_OBJECT_SIZE() is the closest surrounding subobject,
+ * and is what the string functions use, matching glibc again.
+ */
+#if defined (GRUB_BUILD)
+/*
+ * Deliberately left unfortified. The host-side tools built with
+ * GRUB_BUILD (build-grub-mkfont and friends) run on the build machine to
+ * generate data files, never on the boot path, and they don't link
+ * kern/misc.c, so grub_fatal() isn't even available to them.
+ */
+#elif defined (HAVE_BUILTIN_DYNAMIC_OBJECT_SIZE)
+#define GRUB_OBJECT_SIZE(ptr)  __builtin_dynamic_object_size ((ptr), 1)
+#define GRUB_OBJECT_SIZE0(ptr) __builtin_dynamic_object_size ((ptr), 0)
+#elif defined (HAVE_BUILTIN_OBJECT_SIZE)
+#define GRUB_OBJECT_SIZE(ptr)  __builtin_object_size ((ptr), 1)
+#define GRUB_OBJECT_SIZE0(ptr) __builtin_object_size ((ptr), 0)
+#endif
+
+#ifdef GRUB_OBJECT_SIZE
+
+/*
+ * When the length and the destination size both fold to constants the
+ * overflow is provable without running anything, so fail the build
+ * rather than wait for a boot to hit it -- the same escalation glibc
+ * makes with __warndecl(). The mechanism is that a call to an
+ * error-attributed function is only diagnosed if it survives to the end
+ * of optimisation, so the dead branch has to be foldable; with the
+ * optimiser off nothing folds and every call site would trip it, hence
+ * the __OPTIMIZE__ guard.
+ *
+ * This has to be evaluated in the macro, at the call site.
+ * __builtin_constant_p() cannot see a value that has already been passed
+ * into a function as a parameter, not even an always_inline one.
+ */
+#if defined (__OPTIMIZE__) && defined (HAVE_ATTRIBUTE_ERROR)
+extern void grub_fortify_overflow (void)
+  __attribute__ ((__error__ ("buffer overflow detected: length exceeds the size of the destination")));
+#define GRUB_FORTIFY_STATIC_CHECK(n, size)				\
+  ((__builtin_constant_p (n) && __builtin_constant_p (size)		\
+    && (grub_size_t) (size) != (grub_size_t) -1				\
+    && (grub_size_t) (n) > (grub_size_t) (size))			\
+   ? grub_fortify_overflow () : (void) 0)
+#else
+#define GRUB_FORTIFY_STATIC_CHECK(n, size) ((void) 0)
+#endif
+
+/*
+ * A destination size of (grub_size_t) -1 is the builtins' "unknowable"
+ * answer, not a 16-exabyte buffer, so it always passes.
+ */
+static inline void
+grub_fortify_check (const char *func, grub_size_t n, grub_size_t size)
+{
+  if (size != (grub_size_t) -1 && n > size)
+    grub_fatal ("buffer overflow detected in %s (%" PRIuGRUB_SIZE " > %"
+		PRIuGRUB_SIZE ")", func, n, size);
+}
+
+static inline void *
+grub_fortify_memcpy (void *dest, const void *src, grub_size_t n,
+		      grub_size_t dest_size)
+{
+  grub_fortify_check ("grub_memcpy", n, dest_size);
+  return (grub_memcpy) (dest, src, n);
+}
+#define grub_memcpy(dest, src, n)					\
+  (GRUB_FORTIFY_STATIC_CHECK ((n), GRUB_OBJECT_SIZE0 ((dest))),		\
+   grub_fortify_memcpy ((dest), (src), (n), GRUB_OBJECT_SIZE0 ((dest))))
+
+static inline void *
+grub_fortify_memmove (void *dest, const void *src, grub_size_t n,
+		       grub_size_t dest_size)
+{
+  grub_fortify_check ("grub_memmove", n, dest_size);
+  return (grub_memmove) (dest, src, n);
+}
+#define grub_memmove(dest, src, n)					\
+  (GRUB_FORTIFY_STATIC_CHECK ((n), GRUB_OBJECT_SIZE0 ((dest))),		\
+   grub_fortify_memmove ((dest), (src), (n), GRUB_OBJECT_SIZE0 ((dest))))
+
+static inline void *
+grub_fortify_memset (void *s, int c, grub_size_t n, grub_size_t s_size)
+{
+  grub_fortify_check ("grub_memset", n, s_size);
+  return (grub_memset) (s, c, n);
+}
+#define grub_memset(s, c, n)						\
+  (GRUB_FORTIFY_STATIC_CHECK ((n), GRUB_OBJECT_SIZE0 ((s))),		\
+   grub_fortify_memset ((s), (c), (n), GRUB_OBJECT_SIZE0 ((s))))
+
+/*
+ * grub_strcpy and grub_stpcpy have no length argument, so unlike the
+ * three above these can't just be a pre-call bounds check: they have to
+ * do the bounded copy themselves once dest_size is known, the same way
+ * glibc's __strcpy_chk()/__stpcpy_chk() do. No static check either, for
+ * the same reason -- there is no length to fold.
+ */
+static inline char *
+grub_fortify_strcpy (char *dest, const char *src, grub_size_t dest_size)
+{
+  grub_size_t i;
+
+  if (dest_size == (grub_size_t) -1)
+    return (grub_strcpy) (dest, src);
+
+  for (i = 0; i < dest_size; i++)
+    {
+      dest[i] = src[i];
+      if (src[i] == '\0')
+	return dest;
+    }
+
+  grub_fatal ("buffer overflow detected in grub_strcpy (dest size %"
+	      PRIuGRUB_SIZE ")", dest_size);
+}
+#define grub_strcpy(dest, src) \
+  grub_fortify_strcpy ((dest), (src), GRUB_OBJECT_SIZE ((dest)))
+
+/* Returns a pointer to the terminating NUL, as grub_stpcpy does. */
+static inline char *
+grub_fortify_stpcpy (char *dest, const char *src, grub_size_t dest_size)
+{
+  grub_size_t i;
+
+  if (dest_size == (grub_size_t) -1)
+    return (grub_stpcpy) (dest, src);
+
+  for (i = 0; i < dest_size; i++)
+    {
+      dest[i] = src[i];
+      if (src[i] == '\0')
+	return dest + i;
+    }
+
+  grub_fatal ("buffer overflow detected in grub_stpcpy (dest size %"
+	      PRIuGRUB_SIZE ")", dest_size);
+}
+#define grub_stpcpy(dest, src) \
+  grub_fortify_stpcpy ((dest), (src), GRUB_OBJECT_SIZE ((dest)))
+
+/*
+ * grub_strncpy writes at most c bytes, so c is the length to check. It
+ * is an int rather than a grub_size_t: a negative count makes the copy
+ * run unbounded, so the cast deliberately turns that into a very large
+ * length and trips the check.
+ */
+static inline char *
+grub_fortify_strncpy (char *dest, const char *src, int c,
+		      grub_size_t dest_size)
+{
+  grub_fortify_check ("grub_strncpy", (grub_size_t) c, dest_size);
+  return (grub_strncpy) (dest, src, c);
+}
+#define grub_strncpy(dest, src, c)					\
+  (GRUB_FORTIFY_STATIC_CHECK ((c), GRUB_OBJECT_SIZE ((dest))),		\
+   grub_fortify_strncpy ((dest), (src), (c), GRUB_OBJECT_SIZE ((dest))))
+
+static inline grub_size_t
+grub_fortify_strlcpy (char *dest, const char *src, grub_size_t size,
+		      grub_size_t dest_size)
+{
+  grub_fortify_check ("grub_strlcpy", size, dest_size);
+  return (grub_strlcpy) (dest, src, size);
+}
+#define grub_strlcpy(dest, src, size)					\
+  (GRUB_FORTIFY_STATIC_CHECK ((size), GRUB_OBJECT_SIZE ((dest))),	\
+   grub_fortify_strlcpy ((dest), (src), (size), GRUB_OBJECT_SIZE ((dest))))
+
+#endif /* GRUB_OBJECT_SIZE */
+
 /* Replace all `ch' characters of `input' with `with' and copy the
    result into `output'; return EOS address of `output'. */
 static inline char *
@@ -423,6 +623,26 @@ int EXPORT_FUNC(grub_snprintf) (char *str, grub_size_t n, const char *fmt, ...)
      __attribute__ ((format (GNU_PRINTF, 3, 4)));
 int EXPORT_FUNC(grub_vsnprintf) (char *str, grub_size_t n, const char *fmt,
 				 va_list args);
+
+#ifdef GRUB_OBJECT_SIZE
+/*
+ * Fortified grub_snprintf/grub_vsnprintf: these already bound their own
+ * writes to n, so what is checked is that the caller's idea of the
+ * destination's size agrees with the compiler's -- catching the classic
+ * sizeof() applied to the wrong buffer, or to a pointer. Same check as
+ * glibc's __snprintf_chk(). These have to come after the declarations
+ * above, hence the separate block.
+ */
+#define grub_snprintf(str, n, ...)					\
+  (GRUB_FORTIFY_STATIC_CHECK ((n), GRUB_OBJECT_SIZE ((str))),		\
+   grub_fortify_check ("grub_snprintf", (n), GRUB_OBJECT_SIZE ((str))),	\
+   (grub_snprintf) ((str), (n), __VA_ARGS__))
+
+#define grub_vsnprintf(str, n, fmt, args)				\
+  (GRUB_FORTIFY_STATIC_CHECK ((n), GRUB_OBJECT_SIZE ((str))),		\
+   grub_fortify_check ("grub_vsnprintf", (n), GRUB_OBJECT_SIZE ((str))), \
+   (grub_vsnprintf) ((str), (n), (fmt), (args)))
+#endif /* GRUB_OBJECT_SIZE */
 char *EXPORT_FUNC(grub_xasprintf) (const char *fmt, ...)
      __attribute__ ((format (GNU_PRINTF, 1, 2))) WARN_UNUSED_RESULT;
 char *EXPORT_FUNC(grub_xvasprintf) (const char *fmt, va_list args) WARN_UNUSED_RESULT;

@@ -56,4 +56,19 @@
 #  define CLANG_PREREQ(maj,min) 0
 #endif
 
+/*
+ * alloc_size lets the compiler know which parameter(s) of an allocator
+ * function give the size of the returned object, which is what makes
+ * __builtin_object_size()/__builtin_dynamic_object_size() able to see
+ * through a same-function malloc()-then-memcpy() pattern (see misc.h's
+ * fortified string/mem functions). Clang has supported this attribute
+ * since its earliest releases; GCC added it in 4.3.
+ */
+#if GNUC_PREREQ(4,3) || CLANG_PREREQ(1,0)
+#  define GRUB_ATTRIBUTE_ALLOC_SIZE(...) \
+	__attribute__ ((alloc_size (__VA_ARGS__)))
+#else
+#  define GRUB_ATTRIBUTE_ALLOC_SIZE(...)
+#endif
+
 #endif /* ! GRUB_COMPILER_HEADER */

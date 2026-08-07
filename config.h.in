@@ -20,6 +20,33 @@
 /* Define to 0 to keep the normal module from referencing the net module.  */
 #define NORMAL_NET_SEARCH @NORMAL_NET_SEARCH@
 
+/* Defined (to 1) only if the target compiler supports
+   __builtin_object_size / __builtin_dynamic_object_size (see misc.h's
+   fortified grub_memcpy/grub_memmove/grub_memset/grub_strcpy; the
+   dynamic variant is preferred when present).  Left undefined rather
+   than defined-to-0 so plain #ifdef checks work. */
+#if @HAVE_BUILTIN_OBJECT_SIZE@
+#define HAVE_BUILTIN_OBJECT_SIZE 1
+#endif
+
+#if @HAVE_BUILTIN_DYNAMIC_OBJECT_SIZE@
+#define HAVE_BUILTIN_DYNAMIC_OBJECT_SIZE 1
+#endif
+
+/* Defined (to 1) only if the target compiler supports
+   __attribute__((error)), which misc.h uses to turn a provable buffer
+   overflow into a build failure instead of a boot-time grub_fatal(). */
+#if @HAVE_ATTRIBUTE_ERROR@
+#define HAVE_ATTRIBUTE_ERROR 1
+#endif
+
+/* Defined (to 1) only if --enable-fortify-source was given.  Gates both
+   misc.h's fortified copy functions and the alloc_size annotations in
+   mm.h that feed them; see configure.ac for why it is off by default. */
+#if @HAVE_FORTIFY_SOURCE@
+#define HAVE_FORTIFY_SOURCE 1
+#endif
+
 /* We don't need those.  */
 #define MINILZO_CFG_SKIP_LZO_PTR 1
 #define MINILZO_CFG_SKIP_LZO_UTIL 1

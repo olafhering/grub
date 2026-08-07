@@ -23,10 +23,27 @@
 #include <grub/err.h>
 #include <grub/types.h>
 #include <grub/symbol.h>
+#include <grub/compiler.h>
 #include <config.h>
 
 #ifndef NULL
 # define NULL	((void *) 0)
+#endif
+
+/*
+ * The allocators below carry an alloc_size annotation only to let the
+ * object-size builtins track an allocation forward into the fortified
+ * copy functions in misc.h, so it follows the same build option they do.
+ * With --enable-fortify-source off this expands to nothing and the
+ * declarations are what they were before the feature existed -- which is
+ * also what lets -Warray-bounds stay enabled by default, since the
+ * annotation is what provokes its false positives in the on-disk-format
+ * parsers. See configure.ac.
+ */
+#ifdef HAVE_FORTIFY_SOURCE
+# define GRUB_MM_ALLOC_SIZE(...) GRUB_ATTRIBUTE_ALLOC_SIZE (__VA_ARGS__)
+#else
+# define GRUB_MM_ALLOC_SIZE(...)
 #endif
 
 #define GRUB_MM_ADD_REGION_NONE        0
@@ -47,13 +64,18 @@ extern grub_mm_add_region_func_t EXPORT_VAR(grub_mm_add_region_fn);
 #endif
 
 void grub_mm_init_region (void *addr, grub_size_t size);
-void *EXPORT_FUNC(grub_calloc) (grub_size_t nmemb, grub_size_t size);
-void *EXPORT_FUNC(grub_malloc) (grub_size_t size);
-void *EXPORT_FUNC(grub_zalloc) (grub_size_t size);
+void *EXPORT_FUNC(grub_calloc) (grub_size_t nmemb, grub_size_t size)
+  GRUB_MM_ALLOC_SIZE (1, 2);
+void *EXPORT_FUNC(grub_malloc) (grub_size_t size)
+  GRUB_MM_ALLOC_SIZE (1);
+void *EXPORT_FUNC(grub_zalloc) (grub_size_t size)
+  GRUB_MM_ALLOC_SIZE (1);
 void EXPORT_FUNC(grub_free) (void *ptr);
-void *EXPORT_FUNC(grub_realloc) (void *ptr, grub_size_t size);
+void *EXPORT_FUNC(grub_realloc) (void *ptr, grub_size_t size)
+  GRUB_MM_ALLOC_SIZE (2);
 #ifndef GRUB_MACHINE_EMU
-void *EXPORT_FUNC(grub_memalign) (grub_size_t align, grub_size_t size);
+void *EXPORT_FUNC(grub_memalign) (grub_size_t align, grub_size_t size)
+  GRUB_MM_ALLOC_SIZE (2);
 #endif
 
 typedef grub_uint64_t grub_mem_attr_t;
@@ -121,16 +143,21 @@ void EXPORT_FUNC(grub_mm_dump_regions) (void);
   grub_debug_free (GRUB_FILE, __LINE__, ptr)
 
 void *EXPORT_FUNC(grub_debug_calloc) (const char *file, int line,
-				      grub_size_t nmemb, grub_size_t size);
+				      grub_size_t nmemb, grub_size_t size)
+  GRUB_MM_ALLOC_SIZE (3, 4);
 void *EXPORT_FUNC(grub_debug_malloc) (const char *file, int line,
-				      grub_size_t size);
+				      grub_size_t size)
+  GRUB_MM_ALLOC_SIZE (3);
 void *EXPORT_FUNC(grub_debug_zalloc) (const char *file, int line,
-				       grub_size_t size);
+				       grub_size_t size)
+  GRUB_MM_ALLOC_SIZE (3);
 void EXPORT_FUNC(grub_debug_free) (const char *file, int line, void *ptr);
 void *EXPORT_FUNC(grub_debug_realloc) (const char *file, int line, void *ptr,
-				       grub_size_t size);
+				       grub_size_t size)
+  GRUB_MM_ALLOC_SIZE (4);
 void *EXPORT_FUNC(grub_debug_memalign) (const char *file, int line,
-					grub_size_t align, grub_size_t size);
+					grub_size_t align, grub_size_t size)
+  GRUB_MM_ALLOC_SIZE (4);
 #endif /* MM_DEBUG && ! GRUB_UTIL */
 
 #endif /* ! GRUB_MM_H */
