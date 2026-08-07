@@ -2407,6 +2407,12 @@ module = {
 };
 
 module = {
+  name = fortify_test;
+  common = tests/fortify_test.c;
+  common = tests/fortify_test.h;
+};
+
+module = {
   name = videotest_checksum;
   common = tests/videotest_checksum.c;
 };

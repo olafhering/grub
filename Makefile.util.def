@@ -1212,6 +1212,12 @@ script = {
 
 script = {
   testcase = nonnative;
+  name = fortify_abort_test;
+  common = tests/fortify_abort_test.in;
+};
+
+script = {
+  testcase = nonnative;
   name = grub_cmd_date;
   common = tests/grub_cmd_date.in;
 };
@@ -1594,6 +1600,21 @@ program = {
   ldadd = grub-core/lib/gnulib/libgnu.a;
   ldadd = '$(LIBDEVMAPPER) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
   ldflags = '-Wl,--wrap=grub_fatal';
+};
+
+program = {
+  testcase = native;
+  name = fortify_test;
+  common = tests/fortify_unit_test.c;
+  common = tests/lib/unit_test.c;
+  common = grub-core/kern/list.c;
+  common = grub-core/kern/misc.c;
+  common = grub-core/tests/lib/test.c;
+  ldadd = libgrubmods.a;
+  ldadd = libgrubkern.a;
+  ldadd = libgrubgcry.a;
+  ldadd = grub-core/lib/gnulib/libgnu.a;
+  ldadd = '$(LIBDEVMAPPER) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
 };
 
 program = {

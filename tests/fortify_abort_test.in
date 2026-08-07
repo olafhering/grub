@@ -1,0 +1,70 @@
+#! @BUILD_SHEBANG@
+#
+# Copyright (C) 2026  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+# What a tripped fortify check does -- stop the boot rather than let the
+# copy happen -- is the one thing the fortify_test unit and functional
+# tests cannot check, because grub_fatal() would take the rest of the
+# test run with it. So drive it in a GRUB of its own and read the
+# console.
+
+set -e
+
+if [ "@HAVE_FORTIFY_SOURCE@" != 1 ]; then
+    echo "Fortify abort test requires --enable-fortify-source"
+    exit 77
+fi
+
+# grub-shell is expected to fail here. After grub_fatal() prints,
+# grub_abort() waits on grub_getkey(), and the serial console qemu is
+# given is output-only (-serial file:/dev/stdout), so nothing can ever
+# satisfy it: GRUB sits there until the timeout kills qemu and grub-shell
+# exits non-zero. Everything printed before that has already been flushed
+# to our stdout, which is what is checked below.
+#
+# Two consequences for the timeout. It is spent in full on every run,
+# since GRUB never exits on its own, so raising it costs test time one
+# for one. And it has to stay well above the time GRUB needs to reach
+# the overflow, or the run is killed before the message appears and the
+# failure looks like the check not firing rather than a timeout.
+#
+# Measured at just under 5 seconds on a mid-range x86-64 (Ryzen 5 5650U,
+# x86_64-efi): 5 works, 4 does not. Note grub-shell asks qemu for no
+# acceleration at all, so that figure is already the software-emulated
+# one and does not improve on a machine with KVM -- only CPU speed moves
+# it. 30 leaves room for a CI runner several times slower than that.
+out=`printf 'insmod fortify_test\nfortify_overflow\necho reached-after-overflow\n' \
+     | @builddir@/grub-shell --timeout=30 2>&1` || true
+
+case "$out" in
+    *"buffer overflow detected in grub_memcpy"*)
+	;;
+    *)
+	echo "error: the fortify check did not fire. GRUB output was:" >&2
+	echo "$out" >&2
+	exit 1
+	;;
+esac
+
+case "$out" in
+    *reached-after-overflow* | *"check did not fire"*)
+	echo "error: execution continued past the overflow. GRUB output was:" >&2
+	echo "$out" >&2
+	exit 1
+	;;
+esac
+
+exit 0

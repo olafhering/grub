@@ -115,6 +115,8 @@ widthspec.bin
 /fddboot_test
 /fdt_unit_test
 /file_filter_test
+/fortify_abort_test
+/fortify_test
 /garbage-gen
 /garbage-gen.exe
 /gettext_strings_test
