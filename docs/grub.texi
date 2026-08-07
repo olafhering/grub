@@ -10957,13 +10957,76 @@ writable or executable.
 @item (EFI Only) While building GRUB, the stack protector feature may be
 enabled during the configuration step. This feature can make certain
 vulnerabilities caused by stack buffer overflows more difficult to exploit.
-This can be enabled by including the "--enable-stack-protector" flag to the
+This can be enabled by including the @samp{--enable-stack-protector} flag to the
 configure script:
 @example
 # @kbd{./configure --enable-stack-protector}
 @end example
 Please reference the file @file{INSTALL} for detailed instructions on how to
 build GRUB.
+@item While building GRUB, fortify source may be enabled during the
+configuration step. This adds bounds checks to GRUB's memory and string
+functions, in the same spirit as glibc's @code{_FORTIFY_SOURCE}. It is
+disabled by default and can be enabled by including the
+@samp{--enable-fortify-source} flag to the configure script:
+@example
+# @kbd{./configure --enable-fortify-source}
+@end example
+
+Warning: At this time this feature may be considered EXPERIMENTAL - there is
+a risk if enabled that this may trigger on some existing GRUB features in
+some situations. Once additional time / exposure is gained on this feature
+it may then become more suitable for widespread use.
+
+The checked functions are @code{grub_memcpy}, @code{grub_memmove},
+@code{grub_memset}, @code{grub_strcpy}, @code{grub_stpcpy},
+@code{grub_strncpy}, @code{grub_strlcpy}, @code{grub_snprintf} and
+@code{grub_vsnprintf}. A copy that would run past the end of its
+destination calls @code{grub_fatal} rather than overwriting whatever
+follows it in memory. Note what that means for a bootloader: an overflow
+that might previously have gone unnoticed will now stop the boot. This is
+the intended trade, but it is a real one. Where the overflow can be proven
+while compiling, the build fails instead, so it never reaches a running
+system.
+
+A check is only possible where the compiler can see how large the
+destination is. That covers local arrays, fixed-size structure members,
+and memory allocated in the same function. It does not cover a
+destination that arrives as a plain pointer from another function, since
+its size is then unknown. About half of the relevant call sites in GRUB
+are of that kind and stay unchecked. Only writes are checked, not reads,
+and code which copies without using the functions above is unaffected.
+Fortify source reduces the impact of some buffer overflows. It does not
+remove the need to write correct code.
+
+There are two levels (named to map roughly to the more widely known
+@code{_FORTIFY_SOURCE} used by glibc), chosen automatically from what the
+compiler supports:
+
+@table @asis
+@item Level 2
+Sizes known at compile time, such as local arrays and structure members.
+Needs @code{__builtin_object_size} (GCC 4.1 or later, clang).
+@item Level 3
+Also sizes of memory allocated in the same function, including when the
+length is only known while running. This is the case that matters most in
+GRUB, where a length read from a disk or from the network is often used
+for an allocation and then for a copy. Needs
+@code{__builtin_dynamic_object_size} (GCC 12 or later, clang 9 or later).
+@end table
+
+Level 0 (no fortify enabled) is reported as: @code{With fortify source: No}.
+
+Level 1 has no direct equivalent in GRUB - in glibc this enables checks
+that should not affect the behavior of a conforming program. For glibc this
+is a trade-off since this feature has to support a large variety of user-space
+software, whereas in GRUB since the code base is self-contained and in our
+control, the decision was to target level 2 and above which provides more
+robustness.
+
+The configure summary reports the level in use. At the time of writing,
+level 3 on x86_64-efi adds roughly 170 runtime checks and increases the
+combined size of the kernel and the modules by a little over 1%.
 @item Minimize the installed modules included with the GRUB installation.
 For instance, if a specific file system is used for a given system, modules
 for other file systems may be excluded. @pxref{Modules} for a list of
