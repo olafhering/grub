@@ -86,7 +86,9 @@ struct grub_btrfs_superblock
   grub_uint64_t bytes_used;
   grub_uint64_t root_dir_objectid;
   grub_uint64_t num_devices;
-  grub_uint8_t dummy3[0x39];
+  grub_uint8_t dummy3a[0x10];
+  grub_uint32_t sys_chunk_array_size;
+  grub_uint8_t dummy3b[0x25];
   struct grub_btrfs_device this_device;
   char label[0x100];
   grub_uint8_t dummy4[0x100];
@@ -885,6 +887,22 @@ static grub_err_t
 grub_btrfs_read_logical (struct grub_btrfs_data *data, grub_disk_addr_t addr,
 			 void *buf, grub_size_t size, int recursion_depth)
 {
+
+  /* bootstrap_mapping has only 'n' valid bytes based on sys_chunk_array_size */
+  grub_uint32_t sys_chunk_array_size
+      = grub_le_to_cpu32 (data->sblock.sys_chunk_array_size);
+
+  /* At least one entry should be in the bootstrap_mapping */
+  if (sys_chunk_array_size
+      < sizeof (struct grub_btrfs_key) + sizeof (struct grub_btrfs_chunk_item))
+    {
+      grub_dprintf ("btrfs", "invalid sys_chunk_array_size %u\n", sys_chunk_array_size);
+      return grub_error (GRUB_ERR_BAD_FS, "invalid sys_chunk_array_size");
+    }
+
+  /* Prevent out of range values */
+  sys_chunk_array_size = grub_min (sys_chunk_array_size,
+                                   sizeof (data->sblock.bootstrap_mapping));
   while (size > 0)
     {
       grub_uint8_t *ptr;
@@ -900,14 +918,18 @@ grub_btrfs_read_logical (struct grub_btrfs_data *data, grub_disk_addr_t addr,
 
       grub_dprintf ("btrfs", "searching for laddr %" PRIxGRUB_UINT64_T "\n",
 		    addr);
+
       for (ptr = data->sblock.bootstrap_mapping;
 	   ptr < data->sblock.bootstrap_mapping
-	   + sizeof (data->sblock.bootstrap_mapping)
+	   + sys_chunk_array_size
 	   - sizeof (struct grub_btrfs_key);)
 	{
 	  key = (struct grub_btrfs_key *) ptr;
 	  if (key->type != GRUB_BTRFS_ITEM_TYPE_CHUNK)
-	    break;
+	    {
+	      grub_dprintf ("btrfs", "invalid chunk type %x\n", key->type);
+	      return grub_error (GRUB_ERR_BAD_FS, "invalid chunk type");
+	    }
 	  chunk = (struct grub_btrfs_chunk_item *) (key + 1);
 	  grub_dprintf ("btrfs",
 			"%" PRIxGRUB_UINT64_T " %" PRIxGRUB_UINT64_T " \n",
