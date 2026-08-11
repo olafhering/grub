@@ -95,7 +95,8 @@ typedef enum protect_action
 {
   PROTECT_ACTION_ERROR,
   PROTECT_ACTION_ADD,
-  PROTECT_ACTION_REMOVE
+  PROTECT_ACTION_REMOVE,
+  PROTECT_ACTION_GENERATE_AUTHKEY
 } protect_action_t;
 
 typedef struct protect_args
@@ -123,10 +124,10 @@ static struct argp_option protect_options[] =
    {
       .name  = "action",
       .key   = 'a',
-      .arg   = "add|remove",
+      .arg   = "add|remove|generate-authkey",
       .flags = 0,
       .doc   =
-	N_("Add or remove a key protector to or from a key."),
+	N_("Add or remove a key protector to or from a key, or generate an authority key."),
       .group = 0
     },
     {
@@ -1189,6 +1190,74 @@ protect_tpm2_remove (protect_args_t *args)
 }
 
 static grub_err_t
+protect_tpm2_generate_authkey (protect_args_t *args)
+{
+  grub_err_t err;
+  TPM_HANDLE_t srk = 0;
+  TPM_RC_t rc;
+  TPMS_AUTH_COMMAND_t authCommand = {0};
+  TPM2B_SENSITIVE_CREATE_t inSensitive = {0};
+  TPM2B_PUBLIC_t inPublic = {0};
+  TPM2B_DATA_t outsideInfo = {0};
+  TPML_PCR_SELECTION_t pcr_sel = {0};
+  TPM2B_PRIVATE_t outPrivate = {0};
+  TPM2B_PUBLIC_t outPublic = {0};
+  tpm2_sealed_key_t key_blob = {0};
+
+  err = protect_tpm2_open_device (args->tpm2_device);
+  if (err != GRUB_ERR_NONE)
+    return err;
+
+  err = protect_tpm2_get_srk (args, &srk);
+  if (err != GRUB_ERR_NONE)
+    goto exit1;
+
+  authCommand.sessionHandle = TPM_RS_PW;
+
+  /* Templates for creating an RSA signing key */
+  inPublic.publicArea.type = TPM_ALG_RSA;
+  inPublic.publicArea.nameAlg = TPM_ALG_SHA256;
+  inPublic.publicArea.objectAttributes.userWithAuth = 1;
+  inPublic.publicArea.objectAttributes.sign = 1;
+  inPublic.publicArea.objectAttributes.fixedTPM = 1;
+  inPublic.publicArea.objectAttributes.fixedParent = 1;
+  inPublic.publicArea.objectAttributes.sensitiveDataOrigin = 1;
+
+  inPublic.publicArea.parameters.rsaDetail.symmetric.algorithm = TPM_ALG_NULL;
+  inPublic.publicArea.parameters.rsaDetail.scheme.scheme = TPM_ALG_RSASSA;
+  inPublic.publicArea.parameters.rsaDetail.scheme.details.rsassa.hashAlg = TPM_ALG_SHA256;
+  inPublic.publicArea.parameters.rsaDetail.keyBits = 2048;
+  inPublic.publicArea.parameters.rsaDetail.exponent = 0;
+
+  rc = grub_tpm2_create (srk, &authCommand, &inSensitive, &inPublic, &outsideInfo,
+			 &pcr_sel, &outPrivate, &outPublic, NULL, NULL, NULL, NULL);
+  if (rc != TPM_RC_SUCCESS)
+    {
+      fprintf (stderr, "Failed to create authority key (TPM2_Create: 0x%x).\n", rc);
+      err = GRUB_ERR_BAD_DEVICE;
+      goto exit2;
+    }
+
+  key_blob.public = outPublic;
+  key_blob.private = outPrivate;
+
+  err = protect_write_file (args->tpm2_outfile, &key_blob, sizeof (key_blob));
+  if (err != GRUB_ERR_NONE)
+    {
+      fprintf (stderr, "Could not write authority key file.\n");
+      goto exit2;
+    }
+
+ exit2:
+  grub_tpm2_flushcontext (srk);
+
+ exit1:
+  protect_tpm2_close_device ();
+
+  return err;
+}
+
+static grub_err_t
 protect_tpm2_run (protect_args_t *args)
 {
   switch (args->action)
@@ -1198,6 +1267,9 @@ protect_tpm2_run (protect_args_t *args)
 
     case PROTECT_ACTION_REMOVE:
       return protect_tpm2_remove (args);
+
+    case PROTECT_ACTION_GENERATE_AUTHKEY:
+      return protect_tpm2_generate_authkey (args);
 
     default:
       return GRUB_ERR_BAD_ARGUMENT;
@@ -1314,8 +1386,22 @@ protect_tpm2_args_verify (protect_args_t *args)
 
       break;
 
+    case PROTECT_ACTION_GENERATE_AUTHKEY:
+      if (args->srk_type.type == TPM_ALG_ERROR)
+	{
+	  args->srk_type.type = TPM_ALG_ECC;
+	  args->srk_type.detail.ecc_curve = TPM_ECC_NIST_P256;
+	}
+
+      if (args->tpm2_outfile == NULL)
+	{
+	  fprintf (stderr, N_("--tpm2-outfile FILE must be specified for action generate-authkey.\n"));
+	  return GRUB_ERR_BAD_ARGUMENT;
+	}
+      break;
+
     default:
-      fprintf (stderr, N_("The TPM2 key protector only supports the following actions: add, remove.\n"));
+      fprintf (stderr, N_("The TPM2 key protector only supports the following actions: add, remove, generate-authkey.\n"));
       return GRUB_ERR_BAD_ARGUMENT;
     }
 
@@ -1341,6 +1427,8 @@ protect_argp_parser (int key, char *arg, struct argp_state *state)
 	args->action = PROTECT_ACTION_ADD;
       else if (grub_strcmp (arg, "remove") == 0)
 	args->action = PROTECT_ACTION_REMOVE;
+      else if (grub_strcmp (arg, "generate-authkey") == 0)
+	args->action = PROTECT_ACTION_GENERATE_AUTHKEY;
       else
 	{
 	  fprintf (stderr, N_("'%s' is not a valid action.\n"), arg);
