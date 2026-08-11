@@ -356,6 +356,112 @@ EOF
     fi
 }
 
+tpm2_seal_unseal_auth_policy() {
+    pcr_bank="sha256"
+
+    grub_cfg=${tpm2testdir}/testcase.cfg
+    authority_key=${tpm2testdir}/authority.blob
+
+    # Generate authority key
+    grub-protect \
+	--tpm2-device="${tpm2dev}" \
+	--action=generate-authkey \
+	--protector=tpm2 \
+	--tpm2-outfile="${authority_key}" || ret=$?
+    if [ "${ret}" -ne 0 ]; then
+	echo "Failed to generate authority key: ${ret}" >&2
+	return 99
+    fi
+
+    # Seal the password using Authorized Policy
+    grub-protect \
+	--tpm2-device="${tpm2dev}" \
+	--action=add \
+	--protector=tpm2 \
+	--tpm2key \
+	--tpm2-authkey="${authority_key}" \
+	--tpm2-bank="${pcr_bank}" \
+	--tpm2-pcrs=0,1 \
+	--tpm2-keyfile="${lukskeyfile}" \
+	--tpm2-outfile="${sealedkey}" || ret=$?
+    if [ "${ret}" -ne 0 ]; then
+	echo "Failed to seal the secret key using authorized policy: ${ret}" >&2
+	return 99
+    fi
+
+    # Write the TPM unsealing script
+    cat > "${grub_cfg}" <<EOF
+loopback luks (host)${luksfile}
+tpm2_key_protector_init -T (host)${sealedkey}
+if cryptomount -a --protector tpm2; then
+    cat (crypto0)+1
+fi
+EOF
+
+    # Test TPM unsealing with the same PCR
+    ${grubshell} --timeout=${timeout} --emu-opts="-t ${tpm2dev}" < "${grub_cfg}" > "${testoutput}" || ret=$?
+
+    if [ "${ret}" -eq 0 ]; then
+	if ! grep -q "^${vtext}$" "${testoutput}"; then
+	    echo "error: test not verified [`cat ${testoutput}`]" >&2
+	    return 1
+	fi
+    else
+	echo "grub-emu exited with error: ${ret}" >&2
+	return 99
+    fi
+}
+
+tpm2_seal_unseal_auth_policy_sign() {
+    pcr_bank="sha256"
+
+    grub_cfg=${tpm2testdir}/testcase.cfg
+    authority_key=${tpm2testdir}/authority.blob
+
+    # Extend PCR 1
+    tpm2_pcrextend 1:sha256=$(echo "test1" | sha256sum | cut -d ' ' -f 1) || exit 99
+    if [ "${with_sha384}" = "true" ]; then
+        tpm2_pcrextend 1:sha384=$(echo "test1" | sha384sum | cut -d ' ' -f 1) || exit 99
+    fi
+
+    # Sign the policy and update the sealed key in-place
+    grub-protect \
+	--tpm2-device="${tpm2dev}" \
+	--action=sign-policy \
+	--protector=tpm2 \
+	--tpm2key \
+	--tpm2-bank="${pcr_bank}" \
+	--tpm2-pcrs=0,1 \
+	--tpm2-authkey="${authority_key}" \
+	--tpm2-keyfile="${sealedkey}" || ret=$?
+    if [ "${ret}" -ne 0 ]; then
+	echo "Failed to sign policy and update sealed key: ${ret}" >&2
+	return 99
+    fi
+
+    # Write the TPM unsealing script
+    cat > "${grub_cfg}" <<EOF
+loopback luks (host)${luksfile}
+tpm2_key_protector_init -T (host)${sealedkey}
+if cryptomount -a --protector tpm2; then
+    cat (crypto0)+1
+fi
+EOF
+
+    # Test TPM unsealing with the new PCR
+    ${grubshell} --timeout=${timeout} --emu-opts="-t ${tpm2dev}" < "${grub_cfg}" > "${testoutput}" || ret=$?
+
+    if [ "${ret}" -eq 0 ]; then
+	if ! grep -q "^${vtext}$" "${testoutput}"; then
+	    echo "error: test not verified [`cat ${testoutput}`]" >&2
+	    return 1
+	fi
+    else
+	echo "grub-emu exited with error: ${ret}" >&2
+	return 99
+    fi
+}
+
 # Testcases for SRK mode
 declare -a srktests=()
 srktests+=("default transient no_fallback_srk sha256")
@@ -419,6 +525,31 @@ elif [ "${ret}" -eq 1 ]; then
     exit_status=1
 else
     echo "Unexpected failure [PCR Capping]" >&2
+    exit ${ret}
+fi
+
+# Testcase for Authorized Policy
+tpm2_seal_unseal_auth_policy || ret=$?
+if [ "${ret}" -eq 0 ]; then
+    echo "TPM2 [Auth Policy][ADD]: PASS"
+elif [ "${ret}" -eq 1 ]; then
+    echo "TPM2 [Auth Policy][Add]: FAIL"
+    ret=0
+    exit_status=1
+else
+    echo "Unexpected failure [Auth Policy][ADD]" >&2
+    exit ${ret}
+fi
+
+tpm2_seal_unseal_auth_policy_sign || ret=$?
+if [ "${ret}" -eq 0 ]; then
+    echo "TPM2 [Auth Policy][SIGN]: PASS"
+elif [ "${ret}" -eq 1 ]; then
+    echo "TPM2 [Auth Policy][SIGN]: FAIL"
+    ret=0
+    exit_status=1
+else
+    echo "Unexpected failure [Auth Policy][ADD]" >&2
     exit ${ret}
 fi
 
