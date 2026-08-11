@@ -282,9 +282,9 @@ export GRUB_DEFAULT \
   GRUB_DISABLE_MODULE_DEDUPLICATION
 
 if test "x${grub_cfg}" != "x"; then
-  rm -f "${grub_cfg}.new"
+  rm -f "${grub_cfg}.new.$$"
   oldumask=$(umask); umask 077
-  exec > "${grub_cfg}.new"
+  exec > "${grub_cfg}.new.$$"
   umask $oldumask
 fi
 gettext "Generating grub configuration file ..." >&2
@@ -351,21 +351,25 @@ if [ -n "${GRUB_MODULE_STATE_FILE}" ]; then
 fi
 
 if test "x${grub_cfg}" != "x" ; then
-  if ! ${grub_script_check} ${grub_cfg}.new; then
+  if ! ${grub_script_check} "${grub_cfg}".new.$$; then
     # TRANSLATORS: %s is replaced by filename
     gettext_printf "Syntax errors are detected in generated GRUB config file.
 Ensure that there are no errors in /etc/default/grub
 and /etc/grub.d/* files or please file a bug report with
-%s file attached." "${grub_cfg}.new" >&2
+%s file attached." "${grub_cfg}.new.$$" >&2
     echo >&2
     exit 1
   else
     # none of the children aborted with error, install the new grub.cfg
-    oldumask=$(umask)
-    umask 077
-    cat ${grub_cfg}.new > ${grub_cfg}
-    umask $oldumask
-    rm -f ${grub_cfg}.new
+    if test -L "${grub_cfg}"; then
+      oldumask=$(umask)
+      umask 077
+      cat "${grub_cfg}".new.$$ > "${grub_cfg}"
+      umask $oldumask
+      rm -f "${grub_cfg}".new.$$
+    else
+      mv "${grub_cfg}".new.$$ "${grub_cfg}"
+    fi
   fi
 fi
 
