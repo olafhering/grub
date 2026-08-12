@@ -1481,17 +1481,19 @@ module = {
 
 module = {
   name = zstd;
-  common = lib/zstd/debug.c;
-  common = lib/zstd/entropy_common.c;
-  common = lib/zstd/error_private.c;
-  common = lib/zstd/fse_decompress.c;
-  common = lib/zstd/huf_decompress.c;
+  common = lib/zstd/common/debug.c;
+  common = lib/zstd/common/entropy_common.c;
+  common = lib/zstd/common/error_private.c;
+  common = lib/zstd/common/fse_decompress.c;
+  common = lib/zstd/common/xxhash.c;
+  common = lib/zstd/common/zstd_common.c;
+  common = lib/zstd/decompress/huf_decompress.c;
+  common = lib/zstd/decompress/zstd_ddict.c;
+  common = lib/zstd/decompress/zstd_decompress.c;
+  common = lib/zstd/decompress/zstd_decompress_block.c;
   common = lib/zstd/module.c;
-  common = lib/zstd/xxhash.c;
-  common = lib/zstd/zstd_common.c;
-  common = lib/zstd/zstd_decompress.c;
   cflags = '$(CFLAGS_POSIX) -Wno-undef';
-  cppflags = '-I$(srcdir)/lib/posix_wrap -I$(srcdir)/lib/zstd';
+  cppflags = '-I$(srcdir)/lib/posix_wrap -I$(srcdir)/lib/zstd $(CPPFLAGS_ZSTD)';
 };
 
 module = {

@@ -59,7 +59,7 @@ library = {
 library = {
   name = libgrubmods.a;
   cflags = '-fno-builtin -Wno-undef -Wno-unused-but-set-variable';
-  cppflags = '-I$(srcdir)/grub-core/lib/minilzo -I$(srcdir)/grub-core/lib/xzembed -I$(srcdir)/grub-core/lib/zstd -DMINILZO_HAVE_CONFIG_H';
+  cppflags = '-I$(srcdir)/grub-core/lib/minilzo -I$(srcdir)/grub-core/lib/xzembed -I$(srcdir)/grub-core/lib/zstd -DMINILZO_HAVE_CONFIG_H $(CPPFLAGS_ZSTD)';
 
   common_nodist = grub_script.tab.c;
   common_nodist = grub_script.yy.c;
@@ -173,15 +173,17 @@ library = {
   common = grub-core/lib/xzembed/xz_dec_bcj.c;
   common = grub-core/lib/xzembed/xz_dec_lzma2.c;
   common = grub-core/lib/xzembed/xz_dec_stream.c;
-  common = grub-core/lib/zstd/debug.c;
-  common = grub-core/lib/zstd/entropy_common.c;
-  common = grub-core/lib/zstd/error_private.c;
-  common = grub-core/lib/zstd/fse_decompress.c;
-  common = grub-core/lib/zstd/huf_decompress.c;
+  common = grub-core/lib/zstd/common/debug.c;
+  common = grub-core/lib/zstd/common/entropy_common.c;
+  common = grub-core/lib/zstd/common/error_private.c;
+  common = grub-core/lib/zstd/common/fse_decompress.c;
+  common = grub-core/lib/zstd/common/xxhash.c;
+  common = grub-core/lib/zstd/common/zstd_common.c;
+  common = grub-core/lib/zstd/decompress/huf_decompress.c;
+  common = grub-core/lib/zstd/decompress/zstd_ddict.c;
+  common = grub-core/lib/zstd/decompress/zstd_decompress.c;
+  common = grub-core/lib/zstd/decompress/zstd_decompress_block.c;
   common = grub-core/lib/zstd/module.c;
-  common = grub-core/lib/zstd/xxhash.c;
-  common = grub-core/lib/zstd/zstd_common.c;
-  common = grub-core/lib/zstd/zstd_decompress.c;
 };
 
 program = {
