@@ -534,6 +534,7 @@ to update it.
 * Gnulib::
 * jsmn::
 * minilzo::
+* zstd::
 * libtasn1::
 * libgcrypt::
 @end menu
@@ -625,6 +626,57 @@ rm -r grub-core/lib/minilzo/*
 cp minilzo-2.10/*.[hc] grub-core/lib/minilzo
 rm -r minilzo-2.10*
 @end example
+
+@node zstd
+@section zstd
+
+zstd is the reference implementation of the Zstandard compression format.
+GRUB imports only the files needed for decompression, which are used by the
+btrfs and zfs filesystems and by the @command{zstdio} file filter.
+
+The import mirrors the layout of the upstream @file{lib/} directory, because
+the imported sources include each other by path, for example
+@code{#include "../common/mem.h"}. Keeping @file{common/} and
+@file{decompress/} as separate directories means the files can be copied in
+unmodified. The multi-threading helpers (@file{pool.c}, @file{threading.c})
+and the optional x86-64 BMI2 assembly Huffman decoder
+(@file{huf_decompress_amd64.S}) are deliberately not imported.
+
+To upgrade to a new zstd release, download the release tarball and copy the
+files into the target directory:
+
+@example
+VERSION=1.5.7
+curl -L -O https://github.com/facebook/zstd/releases/download/v$VERSION/zstd-$VERSION.tar.gz
+tar -zxf zstd-$VERSION.tar.gz
+rm -rf grub-core/lib/zstd/common grub-core/lib/zstd/decompress
+rm -f grub-core/lib/zstd/zstd.h grub-core/lib/zstd/zstd_errors.h
+mkdir -p grub-core/lib/zstd/common grub-core/lib/zstd/decompress
+cp zstd-$VERSION/lib/zstd.h zstd-$VERSION/lib/zstd_errors.h grub-core/lib/zstd
+for f in allocations.h bits.h bitstream.h compiler.h cpu.h debug.c debug.h \
+         entropy_common.c error_private.c error_private.h fse.h \
+         fse_decompress.c huf.h mem.h portability_macros.h xxhash.c \
+         xxhash.h zstd_common.c zstd_deps.h zstd_internal.h zstd_trace.h; do
+    cp zstd-$VERSION/lib/common/$f grub-core/lib/zstd/common
+done
+for f in huf_decompress.c zstd_ddict.c zstd_ddict.h zstd_decompress.c \
+         zstd_decompress_block.c zstd_decompress_block.h \
+         zstd_decompress_internal.h; do
+    cp zstd-$VERSION/lib/decompress/$f grub-core/lib/zstd/decompress
+done
+rm -r zstd-$VERSION zstd-$VERSION.tar.gz
+@end example
+
+Note that @file{grub-core/lib/zstd/module.c} is GRUB's own and is not part of
+the import. If upstream adds or removes source files, update the file lists
+for the @code{zstd} module in @file{grub-core/Makefile.core.def} and for
+@code{libgrubmods.a} in @file{Makefile.util.def} to match. Both use
+@code{CPPFLAGS_ZSTD} from @file{conf/Makefile.common}, which turns off the
+features that GRUB cannot support; check whether it still covers everything a
+new release needs.
+
+Finally, reapply the GRUB-specific changes on top of the fresh import as a
+separate commit, so that the import commit stays a verbatim copy of upstream.
 
 @node libtasn1
 @section libtasn1
