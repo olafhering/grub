@@ -1228,7 +1228,7 @@ typedef enum { ZSTD_lo_isRegularOffset, ZSTD_lo_isLongOffset=1 } ZSTD_longOffset
 FORCE_INLINE_TEMPLATE seq_t
 ZSTD_decodeSequence(seqState_t* seqState, const ZSTD_longOffset_e longOffsets, const int isLastSeq)
 {
-    seq_t seq;
+    seq_t seq = {0};
     /*
      * ZSTD_seqSymbol is a 64 bits wide structure.
      * It can be loaded in one operation
