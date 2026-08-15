@@ -5670,6 +5670,11 @@ information.
 @section normal
 This module provides support for the normal mode in GRUB. @xref{normal} for
 more information.
+By default this module calls into the @ref{net_module} to search for a
+config file when booting via TFTP. This call can be compiled out via
+@samp{--disable-normal-net-search}, @pxref{Hardening} for more information;
+this is useful to avoid pulling in @code{net} as a dependency when
+@code{normal} is built statically into the image.
 
 @node ntfs_module
 @section ntfs
@@ -10971,7 +10976,15 @@ and booting from removable media.
 interfaces are not configured in the GRUB configuration and consider
 setting environment variable @samp{feature_net_search_cfg} to @samp{n} in an
 embedded GRUB config file in order to disable attempting to use the
-network for obtaining a GRUB config file.
+network for obtaining a GRUB config file. To remove this dependency at
+build time instead -- for example, to keep the @code{net} module out of an
+image where @code{normal} is built statically -- configure GRUB with
+@samp{--disable-normal-net-search}:
+@example
+# @kbd{./configure --disable-normal-net-search}
+@end example
+Please reference the file @file{INSTALL} for detailed instructions on how to
+build GRUB.
 @end itemize
 
 
