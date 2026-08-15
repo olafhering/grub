@@ -69,13 +69,17 @@ grub_net_recv_icmp_packet (struct grub_net_buff *nb,
   if (checksum != grub_net_ip_chksum (nb->data, nb->tail - nb->data))
     {
       icmph->checksum = checksum;
+      grub_netbuff_free (nb);
       return GRUB_ERR_NONE;
     }
   icmph->checksum = checksum;
 
   err = grub_netbuff_pull (nb, sizeof (*icmph));
   if (err)
-    return err;
+    {
+      grub_netbuff_free (nb);
+      return err;
+    }
 
   switch (icmph->type)
     {
