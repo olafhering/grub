@@ -221,6 +221,12 @@ grub_net_recv_icmp6_packet (struct grub_net_buff *nb,
 	for (ptr = (grub_uint8_t *) nb->data; ptr < nb->tail;
 	     ptr += ohdr->len * 8)
 	  {
+	    /* Discard the packet if a whole option header does not fit.  */
+	    if ((grub_size_t) (nb->tail - ptr) < sizeof (struct option_header))
+	      {
+		grub_netbuff_free (nb);
+		return GRUB_ERR_NONE;
+	      }
 	    ohdr = (struct option_header *) ptr;
 	    if (ohdr->len == 0 || ptr + 8 * ohdr->len > nb->tail)
 	      {
@@ -325,6 +331,12 @@ grub_net_recv_icmp6_packet (struct grub_net_buff *nb,
 	for (ptr = (grub_uint8_t *) nb->data; ptr < nb->tail;
 	     ptr += ohdr->len * 8)
 	  {
+	    /* Discard the packet if a whole option header does not fit.  */
+	    if ((grub_size_t) (nb->tail - ptr) < sizeof (struct option_header))
+	      {
+		grub_netbuff_free (nb);
+		return GRUB_ERR_NONE;
+	      }
 	    ohdr = (struct option_header *) ptr;
 	    if (ohdr->len == 0 || ptr + 8 * ohdr->len > nb->tail)
 	      {
@@ -374,6 +386,12 @@ grub_net_recv_icmp6_packet (struct grub_net_buff *nb,
 	for (ptr = (grub_uint8_t *) nb->data; ptr < nb->tail;
 	     ptr += ohdr->len * 8)
 	  {
+	    /* Discard the packet if a whole option header does not fit.  */
+	    if ((grub_size_t) (nb->tail - ptr) < sizeof (struct option_header))
+	      {
+		grub_netbuff_free (nb);
+		return GRUB_ERR_NONE;
+	      }
 	    ohdr = (struct option_header *) ptr;
 	    if (ohdr->len == 0 || ptr + 8 * ohdr->len > nb->tail)
 	      {
