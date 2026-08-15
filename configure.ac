@@ -1962,6 +1962,24 @@ else
 fi
 AC_SUBST([BOOT_TIME_STATS])
 
+# The `normal' module calls into the `net' module (grub_net_search_config_file)
+# to probe for a config file over TFTP.  That reference is enough to pull
+# `net' in as a link-time dependency of `normal', which defeats slimming down
+# an image where `normal' is built statically.  Allow dropping it.
+AC_ARG_ENABLE([normal-net-search],
+	      AS_HELP_STRING([--disable-normal-net-search],
+                             [disable the TFTP config file search that the normal module
+                             otherwise performs via the net module; allows a smaller image
+                             when normal is built-in without also pulling in net
+                             (default=enabled)]))
+
+if test x$enable_normal_net_search = xno; then
+  NORMAL_NET_SEARCH=0
+else
+  NORMAL_NET_SEARCH=1
+fi
+AC_SUBST([NORMAL_NET_SEARCH])
+
 AC_ARG_ENABLE([grub-emu-sdl2],
 	      [AS_HELP_STRING([--enable-grub-emu-sdl2],
                              [build and install the `grub-emu' debugging utility with SDL2 support (default=guessed)])])

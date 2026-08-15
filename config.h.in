@@ -17,6 +17,9 @@
 #define DISK_CACHE_STATS @DISK_CACHE_STATS@
 #define BOOT_TIME_STATS @BOOT_TIME_STATS@
 
+/* Define to 0 to keep the normal module from referencing the net module.  */
+#define NORMAL_NET_SEARCH @NORMAL_NET_SEARCH@
+
 /* We don't need those.  */
 #define MINILZO_CFG_SKIP_LZO_PTR 1
 #define MINILZO_CFG_SKIP_LZO_UTIL 1
