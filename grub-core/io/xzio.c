@@ -321,7 +321,6 @@ grub_xzio_close (grub_file_t file)
 
   /* Device must not be closed twice.  */
   file->device = 0;
-  file->name = 0;
   return grub_errno;
 }
 
