@@ -130,6 +130,7 @@ send_fragmented (struct grub_net_network_level_interface * inf,
   grub_size_t off = 0;
   grub_size_t fraglen;
   grub_err_t err;
+  struct grub_net_buff *nb2 = NULL;
 
   fraglen = (inf->card->mtu - sizeof (struct iphdr)) & ~7;
   id++;
@@ -137,7 +138,6 @@ send_fragmented (struct grub_net_network_level_interface * inf,
   while (nb->tail - nb->data)
     {
       grub_size_t len = fraglen;
-      struct grub_net_buff *nb2;
       struct iphdr *iph;
 
       if ((grub_ssize_t) len > nb->tail - nb->data)
@@ -148,10 +148,10 @@ send_fragmented (struct grub_net_network_level_interface * inf,
 	return grub_errno;
       err = grub_netbuff_reserve (nb2, GRUB_NET_MAX_LINK_HEADER_SIZE);
       if (err)
-	return err;
+	goto fail;
       err = grub_netbuff_put (nb2, sizeof (struct iphdr));
       if (err)
-	return err;
+	goto fail;
 
       iph = (struct iphdr *) nb2->data;
       iph->verhdrlen = ((4 << 4) | 5);
@@ -171,17 +171,24 @@ send_fragmented (struct grub_net_network_level_interface * inf,
       iph->chksum = grub_net_ip_chksum ((void *) nb2->data, sizeof (*iph));
       err = grub_netbuff_put (nb2, len);
       if (err)
-	return err;
+	goto fail;
       grub_memcpy (iph + 1, nb->data, len);
       err = grub_netbuff_pull (nb, len);
       if (err)
-	return err;
+	goto fail;
       err = send_ethernet_packet (inf, nb2, ll_target_addr,
 				  GRUB_NET_ETHERTYPE_IP);
       if (err)
-	return err;
+	goto fail;
+      /* send_ethernet_packet() does not take ownership of nb2, so free it.  */
+      grub_netbuff_free (nb2);
+      nb2 = NULL;
     }
   return GRUB_ERR_NONE;
+
+ fail:
+  grub_netbuff_free (nb2);
+  return err;
 }
 
 static grub_err_t
