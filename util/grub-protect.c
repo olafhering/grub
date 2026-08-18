@@ -935,6 +935,8 @@ protect_tpm2_export_persistent (protect_args_t *args,
   return err;
 }
 
+static grub_err_t protect_tpm2_nv_undefine (TPM_HANDLE_t handle);
+
 static grub_err_t
 protect_tpm2_export_nvindex (protect_args_t *args, void *data, int data_size)
 {
@@ -942,6 +944,7 @@ protect_tpm2_export_nvindex (protect_args_t *args, void *data, int data_size)
   TPM2B_NV_PUBLIC_t pub_info = {0};
   TPM2B_MAX_NV_BUFFER_t nv_data = {0};
   TPM_RC_t rc;
+  grub_err_t err;
 
   if (data_size > TPM_MAX_NV_BUFFER_SIZE || data_size < 0)
     {
@@ -956,6 +959,14 @@ protect_tpm2_export_nvindex (protect_args_t *args, void *data, int data_size)
 
   authCmd.sessionHandle = TPM_RS_PW;
   rc = grub_tpm2_nv_definespace (TPM_RH_OWNER, &authCmd, NULL, &pub_info);
+  if (rc == TPM_RC_NV_DEFINED)
+    {
+      err = protect_tpm2_nv_undefine (nvindex);
+      if (err != GRUB_ERR_NONE)
+	return err;
+
+      rc = grub_tpm2_nv_definespace (TPM_RH_OWNER, &authCmd, NULL, &pub_info);
+    }
   if (rc != TPM_RC_SUCCESS)
     {
       fprintf (stderr, "Failed to define NV space for 0x%x (TPM2_NV_DefineSpace: 0x%x)\n", args->tpm2_nvindex, rc);
