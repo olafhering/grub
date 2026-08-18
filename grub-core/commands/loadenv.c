@@ -79,6 +79,13 @@ open_envblk_file (char *filename,
   return file;
 }
 
+/*
+ * Upper bound on an environment block read from disk.  The block is a small
+ * fixed record -- grub-editenv creates a 1 KiB one -- so 8 megabytes is far
+ * above any typical use while keeping the allocation below bounded.
+ */
+#define GRUB_ENVBLK_MAXSIZE	(1024 * 1024 * 8)
+
 static grub_envblk_t
 read_envblk_file (grub_file_t file)
 {
@@ -86,6 +93,17 @@ read_envblk_file (grub_file_t file)
   char *buf;
   grub_size_t size = grub_file_size (file);
   grub_envblk_t envblk;
+
+  /*
+   * Check the size before allocating: grub_envblk_open() below already
+   * rejects anything shorter than the signature, but only after the whole
+   * file has been read into memory.
+   */
+  if (size < sizeof (GRUB_ENVBLK_SIGNATURE) || size > GRUB_ENVBLK_MAXSIZE)
+    {
+      grub_error (GRUB_ERR_BAD_FILE_TYPE, "invalid environment block size");
+      return 0;
+    }
 
   buf = grub_malloc (size);
   if (! buf)
