@@ -10432,25 +10432,29 @@ key, @file{luks.key}, with PCR 0, 2, 4 and 7 in TPM 2.0 Key File format.
 @end group
 @end example
 
-@command{grub-protect} only seals the key with the current PCR values.
+By default, @command{grub-protect} seals the key with the current PCR values.
 Therefore, when a boot component, such as shim or GRUB, is updated, it is
 necessary to reboot the system to update the measurement results and seal
-the key again. That means the random disk key has to be stored in cleartext
-for the next key sealing. Besides this, the measurement result of some PCRs
-may differ between boot time and OS runtime. For example, PCR 9 measures the
-files loaded by GRUB including the Linux kernel and initrd. To unlock the disk
-containing the kernel and initrd, the key has to be sealed with PCR 9 value
-before loading the kernel and initrd. However, PCR 9 changes after GRUB
-loading the kernel and initrd, so PCR 9 at OS runtime cannot be used directly
-for key sealing.
+the key again. If the basic @samp{add} action is used, the random disk key
+has to be stored in cleartext for the next key sealing. To avoid this,
+@command{grub-protect} also supports ``authorized policy'', which allows the PCR
+policy to be updated with a valid signature using the @samp{sign-policy}
+action, so the user only seals the random disk key once (@pxref{Invoking grub-protect}).
 
-To solve these problems, @command{pcr-oracle} takes a different approach. It
-reads the TPM eventlog and predicts the PCR values. Besides,
+However, since @command{grub-protect} only signs the current PCR values, the
+measurement result of some PCRs may differ between boot time and OS runtime.
+For example, PCR 9 measures the files loaded by GRUB including the Linux kernel
+and initrd. To unlock the disk containing the kernel and initrd, the key has to
+be sealed with PCR 9 value before loading the kernel and initrd. But PCR 9
+changes after GRUB loading the kernel and initrd, so PCR 9 at OS runtime cannot
+be used directly for key sealing or policy signing.
+
+To solve this problem, @command{pcr-oracle} takes a different approach. It
+reads the TPM eventlog and predicts the PCR values. Like @command{grub-protect},
 @command{pcr-oracle} also supports ``authorized policy'' which allows the
-PCR policy to be updated with a valid signature, so that the user only seals
-the random disk key once. If at some later time the PCR values change due to
-an update of the system firmware, bootloader, or config file, the user just
-needs to update the signature of the PCR policy.
+PCR policy to be updated with a valid signature. If at some later time the PCR
+values change due to an update of the system firmware, bootloader, or config
+file, the user just needs to update the signature of the PCR policy.
 
 To seal the key with the authorized policy, the first thing is to generate
 the RSA policy key, @file{policy-key.pem}, and the authorized policy file,
@@ -11844,9 +11848,9 @@ Print a summary of the command-line options and exit.
 @item --version
 Print the version number of GRUB and exit.
 
-@item -a add|remove
-@itemx --action=add|remove
-Add or remove a key protector to or from a key.
+@item -a add|remove|generate-authkey|sign-policy
+@itemx --action=add|remove|generate-authkey|sign-policy
+Add or remove a key protector, generate an authority key, or sign a policy.
 
 @item -p @var{protector}
 @itemx --protector=@var{protector}
@@ -11856,6 +11860,9 @@ protector.
 @item --tpm2-asymmetric=@var{type}
 Choose the type of SRK. The valid options are @samp{RSA} (@samp{RSA2048})
 and @samp{ECC} (@samp{ECC_NIST_P256}).(default: @samp{ECC})
+
+@item --tpm2-authkey=@var{file}
+Specify the path to the authorized TPM2 key file.
 
 @item --tpm2-bank=@var{alg}
 Choose bank of PCRs used to authorize key release: @samp{SHA1}, @samp{SHA256},
@@ -11868,11 +11875,14 @@ Set the path to the TPM2 device. (default: @samp{/dev/tpm0})
 Evict a previously persisted SRK from the TPM, if any.
 
 @item --tpm2-keyfile=@var{file}
-Set the path to a file that contains the cleartext key to protect.
+Set the path to a file that contains the cleartext key to protect. For action
+@samp{sign-policy}, set the path to the TPM 2.0 Key file whose policy is to be
+signed.
 
 @item --tpm2-outfile=@var{file}
-Set the path to the file that will contain the key after sealing
-(must be accessible to GRUB during boot).
+Set the path to the output file (sealed key, generated auth key, or signed TPM
+2.0 Key file). For action @samp{sign-policy}, the file specified by
+@option{--tpm2-keyfile} is updated in place if this option is not specified.
 
 @item --tpm2-pcrs=@var{pcrs}
 Set a comma-separated list of PCRs used to authorize key release e.g., @samp{7,11}.
@@ -12065,6 +12075,58 @@ protector anymore. Here is the command to remove the persistent SRK handle
 @end group
 @end example
 
+@subsection Authorized Policy
+
+The ``authorized policy'' allows the PCR policy to be updated with a valid signature,
+so that the user only seals the random disk key once. If at some later time the
+PCR values change due to an update of the system firmware, bootloader, or config
+file, the user just needs to update the signature of the PCR policy.
+
+To seal the key with the authorized policy, the first thing is to generate
+the authority key, @file{auth.key}:
+
+@example
+@group
+# @kbd{grub-protect --action=generate-authkey \
+               --protector=tpm2 \
+               --tpm2-outfile=auth.key}
+@end group
+@end example
+
+Then, we seal the random disk key, @file{luks.key}, with the authority key.
+In this example, PCR 0, 2, 4 and 7 are chosen for key sealing. Note that
+the sealed key is also signed with the current PCR values using the authority
+key.
+
+@example
+@group
+# @kbd{grub-protect --action=add \
+               --protector=tpm2 \
+               --tpm2-pcrs=0,2,4,7 \
+               --tpm2key \
+               --tpm2-keyfile=luks.key \
+               --tpm2-authkey=auth.key \
+               --tpm2-outfile=/boot/efi/efi/grub/sealed.tpm}
+@end group
+@end example
+
+Since we now have the sealed key, we can remove the random disk key file
+@file{luks.key}.
+
+When/After the shim or GRUB are updated, the user just needs to run the
+@samp{sign-policy} action to update the signature of the PCR policy with the
+current PCR values, assuming the system is currently in a trusted state.
+
+@example
+@group
+# @kbd{grub-protect --action=sign-policy \
+               --protector=tpm2 \
+               --tpm2-pcrs=0,2,4,7 \
+               --tpm2key \
+               --tpm2-authkey=auth.key \
+               --tpm2-keyfile=/boot/efi/efi/grub/sealed.tpm}
+@end group
+@end example
 
 @node Invoking grub-script-check
 @section Invoking grub-script-check
