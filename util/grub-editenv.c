@@ -167,6 +167,7 @@ static fs_envblk_spec_t fs_envblk_spec[] = {
 };
 
 static fs_envblk_t fs_envblk = NULL;
+static void probe_fs_envblk_if_default_path (const char *filename);
 
 static void
 fs_envblk_init (const char *fs_name, const char *dev)
@@ -350,6 +351,7 @@ open_envblk_file (const char *name)
   if (! envblk)
     grub_util_error ("%s", _("invalid environment block"));
 
+  probe_fs_envblk_if_default_path (name);
   return envblk;
 }
 
@@ -653,6 +655,35 @@ probe_fs_envblk (fs_envblk_spec_t *spec)
   grub_util_biosdisk_fini ();
 }
 
+static void
+probe_fs_envblk_if_default_path (const char *filename)
+{
+  char *canon_filename = NULL;
+  char *canon_default_envblk_path = NULL;
+  static int probed = 0;
+
+  if (probed)
+    return;
+
+  canon_filename = grub_canonicalize_file_name (filename);
+
+  if (canon_filename == NULL)
+    goto end;
+
+  canon_default_envblk_path = grub_canonicalize_file_name (DEFAULT_ENVBLK_PATH);
+
+  if (canon_default_envblk_path == NULL)
+    goto end;
+
+  if (strcmp (canon_filename, canon_default_envblk_path) == 0)
+    probe_fs_envblk (fs_envblk_spec);
+
+ end:
+  free (canon_filename);
+  free (canon_default_envblk_path);
+  probed = 1;
+}
+
 int
 main (int argc, char *argv[])
 {
@@ -683,9 +714,6 @@ main (int argc, char *argv[])
         filename = DEFAULT_ENVBLK_PATH;
       command  = argv[curindex++];
     }
-
-  if (strcmp (filename, DEFAULT_ENVBLK_PATH) == 0)
-    probe_fs_envblk (fs_envblk_spec);
 
   if (strcmp (command, "create") == 0)
     grub_util_create_envblk_file (filename);
