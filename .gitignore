@@ -15,6 +15,7 @@
 *.mod
 *.o
 *.pf2
+*.profraw
 *.pp
 *.pyc
 *.trs
@@ -124,6 +125,9 @@ widthspec.bin
 /file_filter_test
 /fortify_abort_test
 /fortify_test
+/fuzz/corpus
+/fuzz/coverage
+/fuzz_*
 /garbage-gen
 /garbage-gen.exe
 /gettext_strings_test
