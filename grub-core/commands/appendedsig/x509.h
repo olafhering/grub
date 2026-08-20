@@ -58,6 +58,13 @@ struct spk_info
 };
 typedef struct spk_info grub_x509_spki_t;
 
+struct validity
+{
+  grub_int64_t before;
+  grub_int64_t after;
+};
+typedef struct validity grub_x509_validity_t;
+
 /*
  * One or more x509 certificates. We do limited parsing:
  * extracting only the version, serial, issuer, subject, RSA public key
@@ -71,6 +78,7 @@ struct x509_cert
   grub_int32_t serial_len;
   char *issuer;
   grub_int32_t issuer_len;
+  grub_x509_validity_t validity;
   char *subject;
   grub_int32_t subject_len;
   grub_x509_spki_t spki;

@@ -21,6 +21,7 @@
 #define ASN1_UTIL_H
 
 #include <libtasn1.h>
+#include <grub/datetime.h>
 
 #define GRUB_MAX_OID_LEN  32
 
@@ -48,6 +49,10 @@ extern void *
 grub_asn1_allocate_and_read (asn1_node node, const char *name, const char *friendly_name,
                              grub_int32_t *content_size);
 
+/* Converts ASN1 time to datetime. */
+extern grub_err_t
+grub_asn1_decode_datetime (const char *time_str, const grub_int32_t len,
+                           grub_int64_t *timestamp);
 extern grub_err_t
 grub_asn1_read_rnd_sequence (asn1_node cert_asn1, const char *root_path, const char *oid,
                              const grub_int32_t oid_len, char **name, grub_int32_t *name_size);

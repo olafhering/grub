@@ -431,6 +431,58 @@ x509_get_serial (asn1_node cert_asn1, grub_x509_cert_t *cert)
 }
 
 static grub_err_t
+x509_get_validity (asn1_node cert_asn1, grub_x509_cert_t *cert)
+{
+  grub_err_t ret;
+  grub_int32_t raw_time_len, type_len;
+  char *raw_time, *type, *validity_path;
+
+  type = grub_asn1_allocate_and_read (cert_asn1, "tbsCertificate.validity.notBefore",
+                                      "certificate validity notBefore type", &type_len);
+  if (type == NULL)
+    return grub_errno;
+
+  validity_path = grub_xasprintf ("tbsCertificate.validity.notBefore.%s", type);
+  grub_free (type);
+  if (validity_path == NULL)
+    return grub_error (GRUB_ERR_OUT_OF_MEMORY, "out of memory");
+
+  raw_time = grub_asn1_allocate_and_read (cert_asn1, validity_path,
+                                          "certificate validity notBefore", &raw_time_len);
+  grub_free (validity_path);
+  if (raw_time == NULL)
+    return grub_errno;
+
+  ret = grub_asn1_decode_datetime (raw_time, raw_time_len - 1, &cert->validity.before);
+  grub_free (raw_time);
+  if (ret != GRUB_ERR_NONE)
+    return ret;
+
+  type = grub_asn1_allocate_and_read (cert_asn1, "tbsCertificate.validity.notAfter",
+                                      "certificate validity notAfter type", &type_len);
+  if (type == NULL)
+    return grub_errno;
+
+  validity_path = grub_xasprintf ("tbsCertificate.validity.notAfter.%s", type);
+  grub_free (type);
+  if (validity_path == NULL)
+    return grub_error (GRUB_ERR_OUT_OF_MEMORY, "out of memory");
+
+  raw_time = grub_asn1_allocate_and_read (cert_asn1, validity_path,
+                                          "certificate validity notAfter", &raw_time_len);
+  grub_free (validity_path);
+  if (raw_time == NULL)
+    return grub_errno;
+
+  ret = grub_asn1_decode_datetime (raw_time, raw_time_len - 1, &cert->validity.after);
+  grub_free (raw_time);
+  if (ret != GRUB_ERR_NONE)
+    return ret;
+
+  return ret;
+}
+
+static grub_err_t
 x509_get_issuer_and_subject (asn1_node cert_asn1, grub_x509_cert_t *cert)
 {
   grub_err_t ret;
@@ -845,10 +897,10 @@ x509_cert_parse_der (const void *der_data, grub_int32_t der_data_size, grub_x509
    * Validity ::= SEQUENCE {
    *     notBefore      Time,
    *     notAfter       Time }
-   *
-   * We can't validate this reasonably, we have no true time source on several
-   * platforms. For now we do not parse them.
    */
+  ret = x509_get_validity (cert_asn1, cert);
+  if (ret != GRUB_ERR_NONE)
+    goto exit;
 
   /*
    * issuer              Name,
@@ -1028,6 +1080,7 @@ x509_cert_release (grub_x509_cert_t *cert)
   grub_free (cert->issuer);
   grub_free (cert->subject);
   grub_free (cert->serial);
+  grub_memset (&cert->validity, 0x00, sizeof (grub_x509_validity_t));
   grub_free (cert->spki.pk.raw);
   _gcry_mpi_release (cert->spki.pk.modulus);
   _gcry_mpi_release (cert->spki.pk.exponent);

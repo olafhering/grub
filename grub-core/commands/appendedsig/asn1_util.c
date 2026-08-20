@@ -37,6 +37,75 @@ static const char *dir_printablestr = "printableString";
 static const grub_int32_t dir_utf8str_len = 10;
 static const grub_int32_t dir_printablestr_len = 15;
 
+/* Convert a two-character numeric string slice into an integer */
+static grub_int32_t
+asn1_str2digit (const char *str)
+{
+  return (str[0] - '0') * 10 + (str[1] - '0');
+}
+
+static grub_uint8_t
+asn1_days_in_month (grub_uint16_t year, grub_uint8_t month)
+{
+  static const grub_uint8_t days[] = { 31, 28, 31, 30, 31, 30,
+                                       31, 31, 30, 31, 30, 31 };
+
+  /* Handle leap year adjustment for February. */
+  if (month == 2 &&
+      (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0))
+    return 29;
+
+  return days[month - 1];
+}
+
+/* Converts ASN1 time to datetime. */
+grub_err_t
+grub_asn1_decode_datetime (const char *time_str, const grub_int32_t len,
+                           grub_int64_t *timestamp)
+{
+  struct grub_datetime dt = { 0 };
+  grub_int64_t ts = 0;
+
+  if (time_str == NULL || len <= 0 || timestamp == NULL)
+    return grub_error (GRUB_ERR_BAD_ARGUMENT, "bad input data");
+
+  *timestamp = 0;
+
+  if (len == 13 && time_str[12] == 'Z') /* UTCTime: YYMMDDHHMMSSZ */
+    {
+      grub_int32_t year = asn1_str2digit (time_str);
+      dt.year = (year < 50) ? (2000 + year) : (1900 + year);
+      time_str += 2;
+    }
+  else if (len == 15 && time_str[14] == 'Z') /* GeneralizedTime: YYYYMMDDHHMMSSZ */
+    {
+      dt.year = asn1_str2digit (time_str) * 100 + asn1_str2digit (time_str + 2);
+      time_str += 4;
+    }
+  else
+    return grub_error (GRUB_ERR_BAD_FILE_TYPE, "Unsupported ASN.1 time format");
+
+  /* Parse remaining identical chunks. */
+  dt.month  = asn1_str2digit (time_str);
+  dt.day    = asn1_str2digit (time_str + 2);
+  dt.hour   = asn1_str2digit (time_str + 4);
+  dt.minute = asn1_str2digit (time_str + 6);
+  dt.second = asn1_str2digit (time_str + 8);
+
+  /* Simple range validating bounds. */
+  if (dt.month < 1 || dt.month > 12 || dt.day < 1 ||
+      dt.day > asn1_days_in_month (dt.year, dt.month) ||
+      dt.hour > 23 || dt.minute > 59 || dt.second > 60)
+    return grub_error (GRUB_ERR_BAD_FILE_TYPE, "Invalid datetime values parsed");
+
+  if (!grub_datetime2unixtime (&dt, &ts))
+    return grub_error (GRUB_ERR_BAD_NUMBER, "failed to get unix time");
+
+  *timestamp = ts;
+
+  return GRUB_ERR_NONE;
+}
+
 /* Decode a string as defined in Appendix A. */
 static grub_err_t
 asn1_decode_string (char *der, grub_int32_t der_size, char **string, grub_int32_t *string_size)
