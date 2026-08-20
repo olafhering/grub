@@ -78,6 +78,7 @@ This edition documents version @value{VERSION}.
 * Finding your way around::
 * Contributing Changes::
 * Tests::
+* Fuzzing::
 * Updating External Code::
 * Debugging::
 * Porting::
@@ -523,6 +524,184 @@ using utilities that would unecessarily add software dependencies. Sometimes
 this is unavoidable. Copy or adapt existing test implementations where feasible.
 If the test is native and requires root, make sure to check that the test is
 run with the root user and return HARD ERROR if it is not.
+
+@node Fuzzing
+@chapter Fuzzing
+
+GRUB includes an LLVM libFuzzer based fuzzing suite aimed at the parsers
+that consume untrusted input.
+
+@menu
+* Fuzzing dependencies::
+* Building the fuzz targets::
+* Running a fuzzer::
+* Writing a new fuzzer::
+@end menu
+
+@node Fuzzing dependencies
+@section Dependencies
+
+Building the fuzz targets requires Clang 6.0 or later with libFuzzer.
+See the @file{INSTALL} file for package names.
+
+@node Building the fuzz targets
+@section Building the fuzz targets
+
+The fuzz targets are built for the @samp{emu} platform.  Configure with
+@option{--enable-fuzzing} and @code{CC} set to Clang:
+
+@example
+CC=clang ./configure --with-platform=emu --enable-fuzzing
+make fuzz_fs_ext2
+@end example
+
+This enables the @code{COND_FUZZING} automake conditional.  Without
+@option{--enable-fuzzing} nothing in this chapter is built and the build
+is entirely unaffected.
+
+@subsection Sanitizer selection
+
+@option{--with-fuzzing-sanitizer} chooses what the build is instrumented
+with.  The choices find different classes of bug, so a target is worth
+running under more than one:
+
+@table @code
+@item asan
+AddressSanitizer plus UndefinedBehaviorSanitizer.  Detects overflows,
+use-after-free and, through LeakSanitizer, memory leaks.  This is the
+default and the best starting point.
+
+@item msan
+MemorySanitizer plus UndefinedBehaviorSanitizer.  Detects reads of
+uninitialized memory, which ASan does not see.  Note that MSan requires
+every linked library to be instrumented; uninstrumented code produces
+false positives.
+
+@item none
+libFuzzer coverage instrumentation only, with no bug detector.  This is
+markedly faster, so it is useful for growing a corpus quickly before
+re-running that corpus under @code{asan} or @code{msan}.
+@end table
+
+Switching between sanitizers changes the flags every object is compiled
+with, so run @command{make clean} first.
+
+Note that a fuzz binary prints a number of UndefinedBehaviorSanitizer
+@samp{member access within null pointer} reports as it starts up.  These
+come from the @code{GRUB_AS_LIST} type-checking idiom in
+@file{include/grub/list.h}, which takes the address of a member of a
+possibly NULL pointer without ever dereferencing it.  They are emitted
+once during module registration, not per iteration, and are harmless.
+
+@node Running a fuzzer
+@section Running a fuzzer
+
+Each target has a @command{make} target that builds it and runs it
+against a corpus directory:
+
+@example
+make fuzz-fs-ext2
+@end example
+
+A fuzzer runs until interrupted.  Extra libFuzzer flags may be passed
+through the @code{FUZZ_FLAGS} variable, for example to bound a run:
+
+@example
+make fuzz-fs-ext2 FUZZ_FLAGS="-max_total_time=300"
+make fuzz-fs-ext2 FUZZ_FLAGS="-runs=100000 -jobs=4"
+@end example
+
+Inputs that trigger a crash, a leak or a timeout are written to the
+current directory as @file{crash-*}, @file{leak-*} or @file{timeout-*}
+files.  Re-running the binary against such a file replays just that
+input:
+
+@example
+./fuzz_fs_ext2 crash-1234abcd
+@end example
+
+The corpus directory starts empty.  A fuzzer works from an empty corpus
+but spends a long time rediscovering the structure of the format, so
+seeding it with a few small, valid images of the format under test is
+strongly recommended.  A dictionary of format constants is passed with
+@option{-dict}; see @file{fuzz/dict/}.
+
+@node Writing a new fuzzer
+@section Writing a new fuzzer
+
+A fuzzer lives in @file{fuzz/} and implements the two entry points
+libFuzzer expects:
+
+@table @code
+@item int LLVMFuzzerInitialize (int *argc, char ***argv)
+Called once before fuzzing starts.  Call @code{fuzz_grub_init} to
+initialise the GRUB subsystems, register the in-memory disk device and
+silence console output.
+
+@item int LLVMFuzzerTestOneInput (const uint8_t *data, size_t size)
+Called for every generated input.  It must not crash on any input, must
+not call @code{exit}, and must return 0.
+@end table
+
+@file{fuzz/grub_fuzzing_platform.c} provides the shared support layer:
+
+@table @code
+@item fuzz_grub_init
+One-time initialisation, as above.
+
+@item fuzz_disk_set_image
+Points the synthetic @code{fuzzdev} block device at the input buffer.
+Call it before opening the disk.  The device is the size of the input,
+rounded up to a whole 512-byte sector; the padding of the last sector
+reads as zeros.  Reads past the end of the device fail with
+@code{GRUB_ERR_OUT_OF_RANGE}, as on a real disk.
+
+@item fuzz_disk_set_min_size
+Sets a minimum size, in bytes, for the @code{fuzzdev} device, so that
+the device geometry seen by the driver no longer depends on the length
+of the fuzz input.  When the input is shorter, reads between its end
+and the minimum size are zero-filled, so a small input can drive a
+driver that requires a large device.  Call it once from
+@code{LLVMFuzzerInitialize}; the setting persists for all iterations.
+The default, 0, makes the device size follow the input size.
+
+@item fuzz_grub_reset
+Per-iteration cleanup: clears @code{grub_errno} and invalidates the disk
+cache so that state cannot leak from one input into the next.  Call it
+at the end of every iteration.
+@end table
+
+@file{fuzz/fuzz_fs_ext2.c} is a working example.  It presents the input as
+a disk, finds the filesystem, and calls into it the way GRUB does during
+a boot.  A few points to consider:
+
+@itemize
+@item
+Drive the code the way GRUB drives it.  Listing a directory, resolving a
+path and reading the label and UUID reach far more of a filesystem than
+merely mounting it does.
+
+@item
+Clear @code{grub_errno} between calls.  A parser that has failed leaves
+it set, and later calls may refuse to run.
+
+@item
+Free what the call returns.  A fuzzer that leaks on its own behalf makes
+LeakSanitizer output useless for finding leaks in GRUB.
+
+@item
+Reset global state every iteration.  Anything a parser registers must be
+undone, or state accumulates across inputs and reports become
+irreproducible.
+@end itemize
+
+@subsection Adding a fuzzer to the build
+
+Add the build rules to @file{Makefile.fuzz.am}, inside the
+@code{COND_FUZZING} conditional, following the existing target: a
+@code{noinst_PROGRAMS} entry, the @code{_SOURCES}, @code{_CFLAGS},
+@code{_LDADD}, @code{_CPPFLAGS} and @code{_LDFLAGS} definitions, and a
+@code{.PHONY} run target.  Add any dictionary to @code{EXTRA_DIST}.
 
 @node Updating External Code
 @chapter Updating external code
