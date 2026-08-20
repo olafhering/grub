@@ -1,0 +1,34 @@
+# libFuzzer dictionary for fuzz_fs_ext2
+# ext2/ext3/ext4 filesystem tokens used by grub_ext2_mount().
+
+# ext2 superblock magic (little-endian, at byte offset 56 in superblock)
+ext2_magic="\x53\xef"
+
+# ext4 extent tree magic (EXT4_EXT_MAGIC = 0xF30A, little-endian)
+ext4_ext_magic="\x0a\xf3"
+
+# ext3/ext4 journal magic (JBD2_MAGIC_NUMBER = 0xC03B3998, big-endian)
+jbd2_magic="\xc0\x3b\x39\x98"
+
+# Revision levels (s_rev_level): GOOD_OLD=0, DYNAMIC=1
+rev_good_old="\x00\x00\x00\x00"
+rev_dynamic="\x01\x00\x00\x00"
+
+# Compatible feature: EXT2_FEATURE_COMPAT_HAS_JOURNAL = 0x0004
+feat_compat_journal="\x04\x00\x00\x00"
+
+# Incompatible features
+feat_incompat_filetype="\x02\x00\x00\x00"
+feat_incompat_extents="\x40\x00\x00\x00"
+
+# Read-only compatible: EXT2_FEATURE_RO_COMPAT_LARGE_FILE = 0x0002
+feat_ro_large_file="\x02\x00\x00\x00"
+
+# Common inode sizes (little-endian uint16)
+inode_size_128="\x80\x00"
+inode_size_256="\x00\x01"
+
+# Directory entry file type values
+ftype_regular="\x01"
+ftype_dir="\x02"
+ftype_symlink="\x07"

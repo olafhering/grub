@@ -492,3 +492,5 @@ tests/syslinux/ubuntu10.04_grub.cfg: $(top_builddir)/config.status tests/syslinu
 	simplified_abs_top_srcdir=`echo "$(abs_top_srcdir)" | sed 's,//,/,g; s,/\./,/,g; :loop; s,/[^/][^/]*/\.\.\(/\|$$\),\1,; t loop'`; \
 	sed "s,@simplified_abs_top_srcdir@,$$simplified_abs_top_srcdir,g" $(srcdir)/tests/syslinux/ubuntu10.04_grub.cfg.in | $(top_builddir)/config.status --file=$@:-
 CLEANFILES += tests/syslinux/ubuntu10.04_grub.cfg
+
+include $(srcdir)/Makefile.fuzz.am

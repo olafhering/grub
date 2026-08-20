@@ -1,0 +1,101 @@
+# Makefile.fuzz.am - LLVM libFuzzer target definitions.
+#
+# Included from the top-level Makefile.am rather than inlined there, since
+# this content is self-contained and is only built when configured with
+# --enable-fuzzing.  automake processes an included file exactly as if its
+# text were pasted in place, so variables, conditionals and rules here behave
+# identically to being written directly in Makefile.am.
+#
+# All fuzz binaries link the same module set as grub-fstest (libgrubmods.a +
+# libgrubkern.a + libgrubgcry.a) and reuse the generated grub_fstest_init.c,
+# which calls every GRUB_MOD_INIT so that the filesystems, partition maps and
+# other parsers are registered.
+#
+# grub_malloc()/grub_free() wrap the libc allocator in the EMU build, so the
+# sanitizers observe every GRUB allocation with no further shims.
+
+if COND_FUZZING
+
+# Helper variables.  The names deliberately avoid automake's per-target
+# suffixes (_LDADD, _LDFLAGS, _CPPFLAGS) so that automake does not read them
+# as belonging to a program called "fuzz".
+fuzz_libs = \
+	libgrubmods.a \
+	libgrubkern.a \
+	libgrubgcry.a \
+	grub-core/lib/gnulib/libgnu.a \
+	$(LIBINTL) $(LIBDEVMAPPER) $(LIBUTIL) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)
+
+# 'make all' builds libgnu.a through SUBDIRS but a direct 'make fuzz-fs-ext2'
+# does not; gnulib's 'all' also generates the headers that libgnu.a needs.
+grub-core/lib/gnulib/libgnu.a:
+	$(MAKE) $(AM_MAKEFLAGS) -C grub-core/lib/gnulib all
+
+fuzz_defs = $(AM_CPPFLAGS) $(CPPFLAGS_PROGRAM) -DFUZZING
+
+# The two --wrap options redirect GRUB's error and debug output to the no-op
+# definitions in fuzz/grub_fuzzing_platform.c.  A fuzz target would otherwise
+# spend much of its time formatting messages nobody reads.
+fuzz_lflags = $(AM_LDFLAGS) $(LDFLAGS_PROGRAM) $(FUZZING_LDFLAGS) \
+	-Wl,--wrap=grub_err_printf \
+	-Wl,--wrap=grub_real_dprintf
+
+# -fsanitize=function (pulled in by -fsanitize=undefined) is unsound for
+# GRUB's fshelp design: a filesystem calls callbacks such as get_block()
+# through a function pointer whose grub_fshelp_node argument is an opaque
+# struct in fshelp.c but a complete, filesystem-specific struct in the module.
+# That is valid C, but the check reports it as a call "through pointer to
+# incorrect function type".  Disable just that sub-sanitizer.  It is appended
+# after the -fsanitize flags carried in AM_CFLAGS and is harmless in
+# non-sanitized builds.
+no_function_san = -fno-sanitize=function
+fuzz_cflags = $(AM_CFLAGS) $(no_function_san)
+
+# The code under test lives in these libraries, so they need the same
+# treatment.
+libgrubmods_a_CFLAGS += $(no_function_san)
+libgrubkern_a_CFLAGS += $(no_function_san)
+libgrubgcry_a_CFLAGS += $(no_function_san)
+
+# Sources compiled into every fuzz binary: the platform shim plus the EMU
+# glue that lets GRUB read from the host filesystem.
+fuzz_common_srcs = \
+	fuzz/grub_fuzzing_platform.c \
+	grub-core/disk/host.c \
+	grub-core/kern/emu/hostfs.c
+
+# ── Fuzzer run targets ───────────────────────────────────────────────────────
+# Build the binary, then run it against its corpus directory.  A fuzzer runs
+# until interrupted; extra libFuzzer flags may be passed via FUZZ_FLAGS:
+#
+#   make fuzz-fs-ext2
+#   make fuzz-fs-ext2 FUZZ_FLAGS="-runs=100000"
+#   make fuzz-fs-ext2 FUZZ_FLAGS="-max_total_time=300 -jobs=4"
+#
+# The corpus directory starts empty, which works but makes the fuzzer spend a
+# long time rediscovering the file format.  Seeding it with a few small,
+# valid images of the format under test is strongly recommended.
+FUZZ_FLAGS =
+
+noinst_PROGRAMS += fuzz_fs_ext2
+fuzz_fs_ext2_SOURCES = fuzz/fuzz_fs_ext2.c $(fuzz_common_srcs)
+nodist_fuzz_fs_ext2_SOURCES = grub_fstest_init.c
+fuzz_fs_ext2_CFLAGS = $(fuzz_cflags)
+fuzz_fs_ext2_LDADD = $(fuzz_libs)
+fuzz_fs_ext2_CPPFLAGS = $(fuzz_defs)
+fuzz_fs_ext2_LDFLAGS = $(fuzz_lflags)
+.PHONY: fuzz-fs-ext2
+fuzz-fs-ext2: fuzz_fs_ext2
+	@mkdir -p fuzz/corpus/fs-ext2
+	./fuzz_fs_ext2 fuzz/corpus/fs-ext2/ -max_len=65536 \
+	  -dict=$(srcdir)/fuzz/dict/ext2.dict $(FUZZ_FLAGS)
+
+endif # COND_FUZZING
+
+# Distributed unconditionally so that a fuzzer can be built from an unpacked
+# tarball without the tarball having been created with --enable-fuzzing.  The
+# .c sources are distributed automatically via _SOURCES, but the header and
+# the dictionary must be listed explicitly.
+EXTRA_DIST += \
+	fuzz/dict/ext2.dict \
+	fuzz/grub_fuzzing_platform.h
