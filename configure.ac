@@ -2594,6 +2594,111 @@ if test x"$enable_werror" != xno ; then
   fi
 fi
 
+# LLVM libFuzzer + sanitizer support
+# Requires Clang >= 6.0 built with libFuzzer.  Adds -fsanitize=<san>,
+# undefined, fuzzer-no-link to HOST_CFLAGS so that every utility library
+# (libgrubkern.a, libgrubmods.a, etc.) is instrumented.  Individual fuzz
+# target binaries are then linked with $(FUZZING_LDFLAGS) which adds
+# -fsanitize=fuzzer to pull in the libFuzzer runtime.
+#
+# Nothing below has any effect unless --enable-fuzzing is given.  Only the
+# option definitions, COND_FUZZING and an empty FUZZING_LDFLAGS are always set.
+AC_ARG_ENABLE([fuzzing],
+  [AS_HELP_STRING([--enable-fuzzing],
+    [build LLVM libFuzzer fuzz targets (requires Clang >= 6.0)])],
+  [enable_fuzzing="$enableval"],
+  [enable_fuzzing=no])
+
+# Sanitizer selection: address (ASan, default), memory (MSan), or none.
+# Only meaningful when --enable-fuzzing is used.  'none' keeps the libFuzzer
+# coverage instrumentation (needed for coverage-guided exploration) but omits
+# the bug-detecting sanitizers, which is markedly faster: use it to explore
+# coverage quickly, then re-run an asan or msan build over the resulting
+# corpus to actually catch the memory-safety bugs.  The two sanitizers find
+# different classes of bug -- ASan detects overflows, use-after-free and,
+# with LeakSanitizer, leaks, while MSan detects reads of uninitialized
+# memory -- so both are worth running.
+AC_ARG_WITH([fuzzing-sanitizer],
+  [AS_HELP_STRING([--with-fuzzing-sanitizer=@<:@asan|msan|none@:>@],
+    [sanitizer to use with --enable-fuzzing: asan (AddressSanitizer,
+     default), msan (MemorySanitizer), or none (coverage only, no bug
+     sanitizer -- fast corpus exploration)])],
+  [fuzzing_sanitizer="$withval"],
+  [fuzzing_sanitizer=asan])
+
+FUZZING_LDFLAGS=
+if test x"$enable_fuzzing" = xyes ; then
+  # Fuzzing is intended for the emu environment only.
+  if test x"$platform" != xemu ; then
+    AC_MSG_ERROR([--enable-fuzzing requires --with-platform=emu])
+  fi
+
+  # HOST_CFLAGS otherwise has no explicit optimization level (see the
+  # "we don't want -g -O2 by default" comment near the top of this file),
+  # which leaves it at the compiler's own default of -O0.  That is a fine
+  # default for the host tools HOST_CFLAGS was originally meant for
+  # (grub-mkimage, grub-probe, etc. -- not performance-sensitive), but it
+  # directly caps fuzzing throughput for every fuzz target, which also
+  # builds with HOST_CFLAGS.  -O2 gives real throughput without optimizing
+  # away the bugs the sanitizers are there to catch.
+  HOST_CFLAGS="$HOST_CFLAGS -O2"
+
+  case "$fuzzing_sanitizer" in
+    asan)
+      fuzz_san_flags="address,undefined"
+      ;;
+    msan)
+      fuzz_san_flags="memory,undefined"
+      ;;
+    none)
+      fuzz_san_flags=""
+      ;;
+    *)
+      AC_MSG_ERROR([unknown --with-fuzzing-sanitizer value '$fuzzing_sanitizer': use 'asan', 'msan' or 'none'])
+      ;;
+  esac
+
+  if test x"$fuzz_san_flags" = x ; then
+    # Coverage instrumentation only: instrument with fuzzer-no-link, and link
+    # both the fuzz targets and the plain utilities against the fuzzer runtime
+    # (which provides the SanitizerCoverage callbacks) with no bug sanitizer.
+    HOST_CFLAGS="$HOST_CFLAGS -fsanitize=fuzzer-no-link -g"
+    HOST_LDFLAGS="$HOST_LDFLAGS -fsanitize=fuzzer-no-link -g"
+    FUZZING_LDFLAGS="-fsanitize=fuzzer"
+  else
+    HOST_CFLAGS="$HOST_CFLAGS -fsanitize=${fuzz_san_flags},fuzzer-no-link -g"
+    HOST_LDFLAGS="$HOST_LDFLAGS -fsanitize=${fuzz_san_flags} -g"
+    FUZZING_LDFLAGS="-fsanitize=fuzzer,${fuzz_san_flags}"
+  fi
+
+  # Link a minimal fuzz target with the flags the fuzz targets themselves
+  # use, so that a compiler lacking the libFuzzer or sanitizer runtimes is
+  # rejected here rather than when the first target is linked: a compile
+  # test would pass without them.  libFuzzer provides main (), so the test
+  # program defines LLVMFuzzerTestOneInput () instead.
+  save_CFLAGS="$CFLAGS"
+  CFLAGS="$FUZZING_LDFLAGS -g"
+  AC_MSG_CHECKING([whether the compiler can link a fuzz target with $FUZZING_LDFLAGS])
+  AC_LINK_IFELSE([AC_LANG_SOURCE([[
+#include <stddef.h>
+#include <stdint.h>
+int LLVMFuzzerTestOneInput (const uint8_t *data, size_t size);
+int
+LLVMFuzzerTestOneInput (const uint8_t *data, size_t size)
+{
+  (void) data;
+  (void) size;
+  return 0;
+}
+]])],
+    [AC_MSG_RESULT([yes])],
+    [AC_MSG_RESULT([no])
+     AC_MSG_ERROR([--enable-fuzzing with --with-fuzzing-sanitizer=$fuzzing_sanitizer requires Clang with the libFuzzer and sanitizer runtimes (try CC=clang CXX=clang++)])])
+  CFLAGS="$save_CFLAGS"
+fi
+
+AC_SUBST([FUZZING_LDFLAGS])
+
 TARGET_CPP="$TARGET_CC -E"
 TARGET_CCAS=$TARGET_CC
 
@@ -2706,6 +2811,7 @@ AM_CONDITIONAL([COND_HAVE_ASM_USCORE], [test x$HAVE_ASM_USCORE = x1])
 AM_CONDITIONAL([COND_STARFIELD], [test "x$starfield_excuse" = x])
 AM_CONDITIONAL([COND_HAVE_EXEC], [test "x$have_exec" = xy])
 AM_CONDITIONAL([COND_HAVE_PCI], [test "x$have_pci" = xy])
+AM_CONDITIONAL([COND_FUZZING], [test x"$enable_fuzzing" = xyes])
 
 test "x$prefix" = xNONE && prefix="$ac_default_prefix"
 test "x$exec_prefix" = xNONE && exec_prefix="${prefix}"

@@ -102,6 +102,28 @@ Note that `make check' will run and many tests may complete successfully
 with only a subset of these prerequisites. However, some tests may fail
 due to missing prerequisites.
 
+Prerequisites for building the fuzzing test suite:
+
+The GRUB fuzzing test suite uses LLVM libFuzzer and requires Clang 6.0 or
+later.  Package names on Debian are versioned; replace X with the LLVM
+version available in your distribution (e.g. 14, 16, or 17).
+
+* clang-X, the C compiler with libFuzzer instrumentation support
+* libfuzzer-X-dev, the libFuzzer runtime library matching clang-X
+
+For example, to install LLVM 16 on Debian:
+
+  apt install clang-16 libfuzzer-16-dev
+
+Once installed, configure and build with:
+
+  ./configure CC=clang --with-platform=emu --enable-fuzzing
+  make
+
+A fuzzer can then be run with e.g. `make fuzz-fs-ext2'.  See
+docs/grub-dev.texi for details on running fuzzers, selecting a sanitizer,
+and writing new fuzz targets.
+
 To build the documentation you'll need:
 * texinfo, for the info and html documentation
 * texlive, for building the dvi and pdf documentation (optional)
