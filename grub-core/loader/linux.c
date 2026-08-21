@@ -5,6 +5,7 @@
 #include <grub/file.h>
 #include <grub/mm.h>
 #include <grub/safemath.h>
+#include <grub/verify.h>
 
 struct newc_head
 {
@@ -227,7 +228,8 @@ grub_initrd_init (int argc, char *argv[],
 	}
       initrd_ctx->components[i].file = grub_file_open (fname,
 						       GRUB_FILE_TYPE_LINUX_INITRD
-						       | GRUB_FILE_TYPE_NO_DECOMPRESS);
+						       | GRUB_FILE_TYPE_NO_DECOMPRESS
+						       | GRUB_FILE_TYPE_VERIFY_IN_PLACE);
       if (!initrd_ctx->components[i].file)
 	{
 	  grub_initrd_close (initrd_ctx);
@@ -291,6 +293,7 @@ grub_initrd_load (struct grub_linux_initrd_context *initrd_ctx,
   int newc = 0;
   struct dir *root = 0;
   grub_ssize_t cursize = 0;
+  grub_err_t status;
 
   for (i = 0; i < initrd_ctx->nfiles; i++)
     {
@@ -304,9 +307,8 @@ grub_initrd_load (struct grub_linux_initrd_context *initrd_ctx,
 	  if (insert_dir (initrd_ctx->components[i].newc_name, &root, ptr,
 			  &dir_size))
 	    {
-	      free_dir (root);
-	      grub_initrd_close (initrd_ctx);
-	      return grub_errno;
+	      status = grub_errno;
+	      goto fail;
 	    }
 	  ptr += dir_size;
 	  ptr = make_header (ptr, initrd_ctx->components[i].newc_name,
@@ -331,9 +333,26 @@ grub_initrd_load (struct grub_linux_initrd_context *initrd_ctx,
 	  if (!grub_errno)
 	    grub_error (GRUB_ERR_FILE_READ_ERROR, N_("premature end of file %s"),
 			initrd_ctx->components[i].file->name);
-	  grub_initrd_close (initrd_ctx);
-	  return grub_errno;
+	  status = grub_errno;
+	  goto fail;
 	}
+
+      /*
+       * Measure the buffer the kernel is actually going to consume. The
+       * verifiers which authenticate the file already ran when it was opened
+       * by grub_initrd_init(), which matters because on the EFI LoadFile2
+       * path we are called from the Linux EFI stub, i.e. after the kernel has
+       * been started.
+       */
+      status = grub_verify_in_place (initrd_ctx->components[i].file, ptr, cursize);
+      if (status != GRUB_ERR_NONE)
+	{
+	  if (grub_errno == GRUB_ERR_NONE)
+	    grub_error (status, N_("in-place verification failed: %s"),
+			initrd_ctx->components[i].file->name);
+	  goto fail;
+	}
+
       ptr += cursize;
     }
   if (newc)
@@ -345,4 +364,20 @@ grub_initrd_load (struct grub_linux_initrd_context *initrd_ctx,
   free_dir (root);
   root = 0;
   return GRUB_ERR_NONE;
+
+ fail:
+  /*
+   * The target is the memory the kernel is going to consume: EFI loader pages
+   * or, on the LoadFile2 path, a buffer owned by the Linux EFI stub. Anything
+   * copied there so far is unverified - either it was never measured or, if
+   * grub_verify_in_place() is what failed, it was measured and rejected - so
+   * do not leave it behind for whoever gets these pages next. Wipe the whole
+   * region, not just the last component, since earlier components are just as
+   * stale once the load is abandoned.
+   */
+  grub_memset (target, 0, initrd_ctx->size);
+  free_dir (root);
+  root = 0;
+  grub_initrd_close (initrd_ctx);
+  return status;
 }
