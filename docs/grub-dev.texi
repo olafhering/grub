@@ -620,11 +620,49 @@ input:
 ./fuzz_fs_ext2 crash-1234abcd
 @end example
 
-The corpus directory starts empty.  A fuzzer works from an empty corpus
-but spends a long time rediscovering the structure of the format, so
-seeding it with a few small, valid images of the format under test is
-strongly recommended.  A dictionary of format constants is passed with
-@option{-dict}; see @file{fuzz/dict/}.
+A dictionary of format constants is passed with @option{-dict}; see
+@file{fuzz/dict/}.
+
+@subsection The seed corpus
+
+The corpus directory starts empty.  A fuzzer works from an empty corpus,
+but it spends a long time rediscovering the structure of the format
+before it reaches anything interesting, so starting from valid inputs
+matters a great deal.
+
+The seed corpus is kept in a separate repository, so that this one does
+not have to carry a large and continually growing collection of binary
+inputs.  Fetching it is opt-in: nothing in the build depends on it, so
+neither building nor running a fuzzer will touch the network.  Ask for it
+explicitly:
+
+@example
+make fuzz-get-corpus
+@end example
+
+That clones the corpus repository and merges it into @file{fuzz/corpus/}.
+Merging rather than replacing means inputs a local run has already
+discovered are kept, so it is safe to re-run.
+
+Two variables control where the corpus comes from, which is useful for a
+local mirror, an offline machine, or a corpus branch that is still being
+worked on:
+
+@table @code
+@item FUZZ_CORPUS_REPO
+The repository to clone.  A local path works as well as a URL.
+
+@item FUZZ_CORPUS_BRANCH
+The branch to take, @samp{main} by default.
+@end table
+
+@example
+make fuzz-get-corpus FUZZ_CORPUS_REPO=/path/to/clone
+make fuzz-get-corpus FUZZ_CORPUS_BRANCH=my-branch
+@end example
+
+New seeds, and the seeds for a newly added fuzz target, belong in that
+repository rather than in this one.
 
 @node Writing a new fuzzer
 @section Writing a new fuzzer

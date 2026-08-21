@@ -74,8 +74,42 @@ fuzz_common_srcs = \
 #
 # The corpus directory starts empty, which works but makes the fuzzer spend a
 # long time rediscovering the file format.  Seeding it with a few small,
-# valid images of the format under test is strongly recommended.
+# valid images of the format under test is strongly recommended; see the
+# fuzz-get-corpus target below.
 FUZZ_FLAGS =
+
+# ── Seed corpus ──────────────────────────────────────────────────────────────
+# The seed corpus is kept in a separate repository so that this one does not
+# have to carry a large and continually growing collection of binary inputs.
+#
+# Fetching it is opt-in.  Nothing depends on this rule, so building or running
+# a fuzzer never touches the network; ask for the corpus explicitly with:
+#
+#   make fuzz-get-corpus
+#
+# Point it elsewhere, e.g. at a local mirror or a work-in-progress branch, by
+# overriding either variable:
+#
+#   make fuzz-get-corpus FUZZ_CORPUS_REPO=/path/to/clone
+#   make fuzz-get-corpus FUZZ_CORPUS_BRANCH=my-branch
+#
+# The corpus is merged into fuzz/corpus/ rather than replacing it, so inputs
+# a local run has discovered are kept.
+FUZZ_CORPUS_REPO ?= https://gitlab.freedesktop.org/gnu-grub/grub-fuzz-corpus.git
+FUZZ_CORPUS_BRANCH ?= main
+
+.PHONY: fuzz-get-corpus
+fuzz-get-corpus:
+	@echo "Fetching fuzz corpus from $(FUZZ_CORPUS_REPO) (branch $(FUZZ_CORPUS_BRANCH))"
+	$(AM_V_GEN)set -e; \
+	tmpdir=`mktemp -d`; \
+	trap 'rm -rf "$$tmpdir"' EXIT; \
+	git clone --depth=1 --filter=blob:none --no-checkout \
+	    -b $(FUZZ_CORPUS_BRANCH) $(FUZZ_CORPUS_REPO) $$tmpdir; \
+	git -C $$tmpdir sparse-checkout set corpus; \
+	git -C $$tmpdir checkout; \
+	mkdir -p fuzz/corpus; \
+	cp -r $$tmpdir/corpus/. fuzz/corpus/
 
 noinst_PROGRAMS += fuzz_fs_ext2
 fuzz_fs_ext2_SOURCES = fuzz/fuzz_fs_ext2.c $(fuzz_common_srcs)
