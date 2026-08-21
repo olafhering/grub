@@ -96,6 +96,8 @@ grub_tpcm_verify_string (char *str, enum grub_verify_string_type type)
 
 struct grub_file_verifier grub_tpcm_verifier = {
     .name = "tpcm",
+    /* Measurement only, so it can run on the final buffer. */
+    .in_place = true,
     .init  = grub_tpcm_verify_init,
     .write = grub_tpcm_verify_write,
     .close = grub_tpcm_verify_close,

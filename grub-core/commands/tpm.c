@@ -125,6 +125,8 @@ grub_tpm_verify_string (char *str, enum grub_verify_string_type type)
 
 struct grub_file_verifier grub_tpm_verifier = {
   .name = "tpm",
+  /* Measurement only, so it can run on the final buffer. */
+  .in_place = true,
   .init = grub_tpm_verify_init,
   .write = grub_tpm_verify_write,
   .verify_string = grub_tpm_verify_string,
