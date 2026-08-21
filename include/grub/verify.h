@@ -46,6 +46,21 @@ struct grub_file_verifier
   const char *name;
 
   /*
+   * Set if this verifier measures a file rather than authenticating it, and
+   * is therefore able to work on the buffer the file has already been loaded
+   * into. For files opened with GRUB_FILE_TYPE_VERIFY_IN_PLACE such a
+   * verifier is not run by grub_verifiers_open() but by the caller's later
+   * grub_verify_in_place() call, which saves keeping a second copy of the
+   * file around just to hash it.
+   *
+   * Verifiers which decide whether a file may be used at all must leave this
+   * unset: they have to run while grub_file_open() is still the enforcement
+   * point, as the in-place call may happen much later - on the EFI LoadFile2
+   * path it happens after the kernel has been started.
+   */
+  bool in_place;
+
+  /*
    * Check if file needs to be verified and set up context.
    * init/read/fini is structured in the same way as hash interface.
    */
@@ -84,5 +99,8 @@ grub_verifier_unregister (struct grub_file_verifier *ver)
 
 extern grub_err_t
 EXPORT_FUNC (grub_verify_string) (char *str, enum grub_verify_string_type type);
+
+extern grub_err_t
+EXPORT_FUNC (grub_verify_in_place) (grub_file_t io, void *buf, grub_size_t size);
 
 #endif /* ! GRUB_VERIFY_HEADER */
