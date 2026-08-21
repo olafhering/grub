@@ -664,6 +664,50 @@ make fuzz-get-corpus FUZZ_CORPUS_BRANCH=my-branch
 New seeds, and the seeds for a newly added fuzz target, belong in that
 repository rather than in this one.
 
+@subsection Coverage reports
+
+libFuzzer always instruments the code for its own coverage-guided
+exploration, but that tells you nothing about which lines of the parser
+were reached.  Setting @code{COVERAGE=1} additionally builds with LLVM
+source-based coverage, so that a report can be produced.
+
+This is worth doing when adding a fuzz target, to check that it reaches
+the code it is supposed to.  It is easy to write a fuzzer that looks busy
+while every input is in fact being rejected by an early magic-number or
+checksum test, and a coverage report makes that obvious.
+
+The flags change how every object is compiled, so start from a clean
+tree:
+
+@example
+make clean
+make fuzz-fs-ext2 COVERAGE=1 FUZZ_FLAGS="-runs=0"
+make coverage
+@end example
+
+@option{-runs=0} replays the existing corpus without generating new
+inputs, which is usually what you want when measuring what a corpus
+reaches.  Each run writes an @file{.profraw} file into
+@file{fuzz/coverage/}; the report targets merge whatever is there:
+
+@table @code
+@item make coverage
+A per-file summary on standard output.
+
+@item make coverage-html
+An annotated, line-by-line HTML report in @file{fuzz/coverage/html/}.
+@end table
+
+Third-party code carried in the tree (gnulib, libgcrypt, minilzo,
+xzembed and zstd) is filtered out of both, since it is not what the
+fuzzer is being measured against.  Generating a report needs
+@command{llvm-profdata} and @command{llvm-cov} from the matching LLVM
+release; see @file{INSTALL}.
+
+Remember to @command{make clean} again before returning to ordinary
+fuzzing, so that the libraries are rebuilt without the coverage
+instrumentation.
+
 @node Writing a new fuzzer
 @section Writing a new fuzzer
 

@@ -38,7 +38,8 @@ fuzz_defs = $(AM_CPPFLAGS) $(CPPFLAGS_PROGRAM) -DFUZZING
 # spend much of its time formatting messages nobody reads.
 fuzz_lflags = $(AM_LDFLAGS) $(LDFLAGS_PROGRAM) $(FUZZING_LDFLAGS) \
 	-Wl,--wrap=grub_err_printf \
-	-Wl,--wrap=grub_real_dprintf
+	-Wl,--wrap=grub_real_dprintf \
+	$(coverage_ldflags)
 
 # -fsanitize=function (pulled in by -fsanitize=undefined) is unsound for
 # GRUB's fshelp design: a filesystem calls callbacks such as get_block()
@@ -49,13 +50,32 @@ fuzz_lflags = $(AM_LDFLAGS) $(LDFLAGS_PROGRAM) $(FUZZING_LDFLAGS) \
 # after the -fsanitize flags carried in AM_CFLAGS and is harmless in
 # non-sanitized builds.
 no_function_san = -fno-sanitize=function
-fuzz_cflags = $(AM_CFLAGS) $(no_function_san)
+
+# ── Optional LLVM source-based coverage ──────────────────────────────────────
+# Set COVERAGE=1 to additionally instrument the fuzz binary and the libraries
+# it links with LLVM source-based coverage, so that the file actually under
+# test (ext2.c, say) shows up in a report rather than just the harness.
+#
+# This is separate from the coverage instrumentation libFuzzer uses to guide
+# its own exploration, which is always on.
+#
+# The flags change how every object is compiled, so run 'make clean' when
+# turning COVERAGE on or off.
+COVERAGE      =
+COVERAGE_DIR  = fuzz/coverage
+LLVM_PROFDATA = llvm-profdata
+LLVM_COV      = llvm-cov
+
+coverage_cflags  = $(if $(COVERAGE),-fprofile-instr-generate -fcoverage-mapping)
+coverage_ldflags = $(if $(COVERAGE),-fprofile-instr-generate)
+
+fuzz_cflags = $(AM_CFLAGS) $(coverage_cflags) $(no_function_san)
 
 # The code under test lives in these libraries, so they need the same
 # treatment.
-libgrubmods_a_CFLAGS += $(no_function_san)
-libgrubkern_a_CFLAGS += $(no_function_san)
-libgrubgcry_a_CFLAGS += $(no_function_san)
+libgrubmods_a_CFLAGS += $(coverage_cflags) $(no_function_san)
+libgrubkern_a_CFLAGS += $(coverage_cflags) $(no_function_san)
+libgrubgcry_a_CFLAGS += $(coverage_cflags) $(no_function_san)
 
 # Sources compiled into every fuzz binary: the platform shim plus the EMU
 # glue that lets GRUB read from the host filesystem.
@@ -118,11 +138,56 @@ fuzz_fs_ext2_CFLAGS = $(fuzz_cflags)
 fuzz_fs_ext2_LDADD = $(fuzz_libs)
 fuzz_fs_ext2_CPPFLAGS = $(fuzz_defs)
 fuzz_fs_ext2_LDFLAGS = $(fuzz_lflags)
+# With COVERAGE=1 the run writes an LLVM .profraw file per process into
+# $(COVERAGE_DIR); %p expands to the pid so parallel runs do not collide.
+ext2_prof = $(if $(COVERAGE),LLVM_PROFILE_FILE="$(COVERAGE_DIR)/ext2-%p.profraw")
+
 .PHONY: fuzz-fs-ext2
 fuzz-fs-ext2: fuzz_fs_ext2
-	@mkdir -p fuzz/corpus/fs-ext2
-	./fuzz_fs_ext2 fuzz/corpus/fs-ext2/ -max_len=65536 \
+	@mkdir -p fuzz/corpus/fs-ext2 $(if $(COVERAGE),$(COVERAGE_DIR))
+	$(ext2_prof) ./fuzz_fs_ext2 fuzz/corpus/fs-ext2/ -max_len=65536 \
 	  -dict=$(srcdir)/fuzz/dict/ext2.dict $(FUZZ_FLAGS)
+
+# ── Coverage reports ─────────────────────────────────────────────────────────
+# Both targets expect the fuzzer to have been built and run with COVERAGE=1:
+#
+#   make clean
+#   make fuzz-fs-ext2 COVERAGE=1 FUZZ_FLAGS="-runs=0"   # replay the corpus
+#   make coverage                                       # text, to stdout
+#   make coverage-html                                  # HTML report
+#
+# -runs=0 replays the existing corpus without generating new inputs, which is
+# usually what you want when measuring what the corpus reaches.
+#
+# Third-party sources carried in-tree are filtered out; they are not what the
+# fuzzer is measuring.
+coverage_ignore_re = grub-core/lib/(gnulib|libgcrypt-grub|libgcrypt_wrap|minilzo|xzembed|zstd)
+
+.PHONY: coverage coverage-html
+
+coverage:
+	@ls $(COVERAGE_DIR)/*.profraw >/dev/null 2>&1 || \
+	  { echo "No .profraw files in $(COVERAGE_DIR)/; run a fuzzer with COVERAGE=1 first."; exit 1; }
+	$(LLVM_PROFDATA) merge -sparse $(COVERAGE_DIR)/*.profraw \
+	  -o $(COVERAGE_DIR)/coverage.profdata
+	$(LLVM_COV) report ./fuzz_fs_ext2 \
+	  -instr-profile=$(COVERAGE_DIR)/coverage.profdata \
+	  --ignore-filename-regex='$(coverage_ignore_re)'
+
+coverage-html:
+	@ls $(COVERAGE_DIR)/*.profraw >/dev/null 2>&1 || \
+	  { echo "No .profraw files in $(COVERAGE_DIR)/; run a fuzzer with COVERAGE=1 first."; exit 1; }
+	$(LLVM_PROFDATA) merge -sparse $(COVERAGE_DIR)/*.profraw \
+	  -o $(COVERAGE_DIR)/coverage.profdata
+	$(LLVM_COV) show ./fuzz_fs_ext2 \
+	  -instr-profile=$(COVERAGE_DIR)/coverage.profdata \
+	  --format=html \
+	  --ignore-filename-regex='$(coverage_ignore_re)' \
+	  --output-dir=$(COVERAGE_DIR)/html
+	@echo "HTML coverage report: $(COVERAGE_DIR)/html/index.html"
+
+clean-local:
+	-rm -rf $(COVERAGE_DIR)
 
 endif # COND_FUZZING
 

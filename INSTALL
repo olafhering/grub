@@ -110,10 +110,13 @@ version available in your distribution (e.g. 14, 16, or 17).
 
 * clang-X, the C compiler with libFuzzer instrumentation support
 * libfuzzer-X-dev, the libFuzzer runtime library matching clang-X
+* llvm-X, for the llvm-profdata and llvm-cov tools, needed only to
+  generate coverage reports
 
-For example, to install LLVM 16 on Debian:
+The clang and llvm version numbers must match.  For example, to install
+LLVM 16 on Debian:
 
-  apt install clang-16 libfuzzer-16-dev
+  apt install clang-16 libfuzzer-16-dev llvm-16
 
 Once installed, configure and build with:
 
