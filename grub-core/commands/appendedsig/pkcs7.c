@@ -36,6 +36,10 @@ static const grub_int32_t oid_pkcs7_data_len = 20;
 static const char *common_name_oid = "2.5.4.3";
 static const grub_int32_t common_name_oid_len = 7;
 
+/* Signed attribute oids. */
+static const char *oid_content_type = "1.2.840.113549.1.9.3";
+static const grub_int32_t oid_content_type_len = 20;
+
 /* RFC 4055 s 2.1. */
 static const grub_pkcs7_mdalgo_t md_algos[] =
 {
@@ -335,6 +339,120 @@ pkcs7_get_signerinfo_md_algo (asn1_node pkcs7_asn1, grub_int32_t signer_index,
 }
 
 static grub_err_t
+pkcs7_get_content_type (const asn1_node pkcs7_asn1,
+                        const grub_int32_t signer_index,
+                        const grub_int32_t attr_index,
+                        grub_pkcs7_signer_t *signer)
+{
+  grub_err_t ret = GRUB_ERR_NONE;
+  char oid[GRUB_MAX_OID_LEN] = { 0 };
+  char *attr_path;
+  grub_uint8_t *content_type;
+  grub_int32_t rc, len, ret_len;
+  grub_int32_t oid_len = sizeof (oid);
+
+  attr_path = grub_xasprintf ("signerInfos.?%d.signedAttrs.?%d.values.?1",
+                              signer_index + 1, attr_index);
+  if (attr_path == NULL)
+    return grub_error (GRUB_ERR_OUT_OF_MEMORY, "out of memory");
+
+  content_type = grub_asn1_allocate_and_read (pkcs7_asn1, attr_path,
+                                              "signedAttrs contentType value", &len);
+  grub_free (attr_path);
+  if (content_type == NULL)
+    return grub_errno;
+
+  if (len <= 2)
+    {
+      ret = grub_error (GRUB_ERR_BAD_FILE_TYPE,
+                        "signer %d: signedAttrs.contentType value is too short",
+                        signer_index);
+      goto exit;
+    }
+
+  /* The tag 0x06 = OBJECT IDENTIFIER. */
+  if (content_type[0] != 0x06)
+    {
+      ret = grub_error (GRUB_ERR_BAD_FILE_TYPE,
+                        "signer %d: signedAttrs.contentType expected tag (0x06): 0x%02x",
+                        signer_index, content_type[0]);
+      goto exit;
+    }
+
+  rc = asn1_get_object_id_der (content_type + 1, len - 1, &ret_len, oid, oid_len);
+  if (rc != ASN1_SUCCESS)
+    {
+      ret = grub_error (GRUB_ERR_BAD_FILE_TYPE,
+                        "signer %d: signedAttrs.contentType failed to translate raw OID: %s",
+                        signer_index, asn1_strerror (rc));
+      goto exit;
+    }
+
+  signer->signed_attrs.ctype = grub_zalloc (grub_strlen (oid) + 1);
+  if (signer->signed_attrs.ctype == NULL)
+    {
+      ret = grub_error (GRUB_ERR_OUT_OF_MEMORY, "out of memory");
+      goto exit;
+    }
+
+  grub_memcpy (signer->signed_attrs.ctype, oid, grub_strlen (oid));
+  signer->signed_attrs.ctype_len = grub_strlen (oid);
+
+ exit:
+  grub_free (content_type);
+
+  return ret;
+}
+
+static grub_err_t
+pkcs7_read_attribute (const asn1_node pkcs7_asn1, const grub_int32_t signer_index,
+                      grub_pkcs7_signer_t *signer)
+{
+  grub_err_t ret = GRUB_ERR_NONE;
+  grub_int32_t rc, i;
+  grub_int32_t attr_count;
+  char *attr_path;
+  char type_oid[GRUB_MAX_OID_LEN];
+  grub_int32_t type_oid_len = sizeof (type_oid);
+
+  attr_path = grub_xasprintf ("signerInfos.?%d.signedAttrs", signer_index + 1);
+  if (attr_path == NULL)
+    return grub_error (GRUB_ERR_OUT_OF_MEMORY, "out of memory");
+
+  rc = asn1_number_of_elements (pkcs7_asn1, attr_path, &attr_count);
+  grub_free (attr_path);
+  if (rc != ASN1_SUCCESS)
+    return grub_error (GRUB_ERR_BAD_SIGNATURE, "error counting signedAttrs: %s",
+                       asn1_strerror (rc));
+
+  for (i = 1; i <= attr_count; i++)
+    {
+      attr_path = grub_xasprintf ("signerInfos.?%d.signedAttrs.?%d.type",
+                                  signer_index + 1, i);
+      if (attr_path == NULL)
+        return grub_error (GRUB_ERR_OUT_OF_MEMORY, "out of memory");
+
+      rc = asn1_read_value(pkcs7_asn1, attr_path, type_oid, &type_oid_len);
+      grub_free (attr_path);
+      if (rc != ASN1_SUCCESS || type_oid_len == 0)
+        return grub_error (GRUB_ERR_BAD_SIGNATURE,
+                           "error reading signer %d's signedAttrs: %s", signer_index,
+                           ((rc != ASN1_SUCCESS) ? asn1_strerror (rc) : "contains zero bytes"));
+
+      if (oid_content_type_len == type_oid_len - 1 &&
+          grub_strncmp (oid_content_type, type_oid, type_oid_len) == 0)
+        {
+          ret = pkcs7_get_content_type (pkcs7_asn1, signer_index, i, signer);
+          break;
+        }
+
+      type_oid_len = sizeof (type_oid);
+    }
+
+  return ret;
+}
+
+static grub_err_t
 pkcs7_get_signerinfo_signed_attrs (const grub_uint8_t *raw_data,
                                    const grub_int32_t raw_data_len,
                                    const asn1_node pkcs7_asn1,
@@ -388,6 +506,8 @@ pkcs7_get_signerinfo_signed_attrs (const grub_uint8_t *raw_data,
 
       signer->signed_attrs.raw = attr_raw;
       signer->signed_attrs.raw_len = attr_raw_len;
+
+      return pkcs7_read_attribute (pkcs7_asn1, signer_index, signer);
     }
 
   return GRUB_ERR_NONE;
@@ -865,6 +985,7 @@ pkcs7_free_signers (grub_pkcs7_signer_t *signers)
       grub_free (signers->serial);
       grub_free (signers->issuer);
       grub_memset (&signers->md_algo, 0x00, sizeof (grub_pkcs7_mdalgo_t));
+      grub_free (signers->signed_attrs.ctype);
       grub_free (signers->signed_attrs.raw);
       grub_memset (&signers->signed_attrs, 0x00, sizeof (grub_pkcs7_signedattr_t));
       grub_memset (&signers->sig_algo, 0x00, sizeof (grub_pkcs7_sigalgo_t));
