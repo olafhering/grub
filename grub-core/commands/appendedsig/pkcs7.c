@@ -39,6 +39,8 @@ static const grub_int32_t common_name_oid_len = 7;
 /* Signed attribute oids. */
 static const char *oid_content_type = "1.2.840.113549.1.9.3";
 static const grub_int32_t oid_content_type_len = 20;
+static const char *oid_msg_digest = "1.2.840.113549.1.9.4";
+static const grub_int32_t oid_msg_digest_len = 20;
 
 /* RFC 4055 s 2.1. */
 static const grub_pkcs7_mdalgo_t md_algos[] =
@@ -405,6 +407,67 @@ pkcs7_get_content_type (const asn1_node pkcs7_asn1,
 }
 
 static grub_err_t
+pkcs7_get_msg_digest (const asn1_node pkcs7_asn1, const grub_int32_t signer_index,
+                      const grub_int32_t attr_index, grub_pkcs7_signer_t *signer)
+{
+  grub_err_t ret = GRUB_ERR_NONE;
+  char *attr_path;
+  grub_uint8_t *msg_digest;
+  grub_int32_t len;
+
+  attr_path = grub_xasprintf ("signerInfos.?%d.signedAttrs.?%d.values.?1",
+                              signer_index + 1, attr_index);
+  if (attr_path == NULL)
+    return grub_error (GRUB_ERR_OUT_OF_MEMORY, "out of memory");
+
+  msg_digest = grub_asn1_allocate_and_read (pkcs7_asn1, attr_path,
+                                            "signedAttrs messageDigest value", &len);
+  grub_free (attr_path);
+  if (msg_digest == NULL)
+    return grub_errno;
+
+  if (len <= 2)
+    {
+      ret = grub_error (GRUB_ERR_BAD_FILE_TYPE,
+                        "signer %d: signedAttrs.messageDigest value is too short",
+                        signer_index);
+      goto exit;
+    }
+
+  /* The tag 0x04 = OCTET STRING. */
+  if (msg_digest[0] != 0x04)
+    {
+      ret = grub_error (GRUB_ERR_BAD_FILE_TYPE,
+                        "signer %d: signedAttrs.messageDigest is expected tag (0x04): 0x%02x",
+                        signer_index, msg_digest[0]);
+      goto exit;
+    }
+
+  if (len - 2 != SHA256_HASH_SIZE && len - 2 != SHA512_HASH_SIZE)
+    {
+      ret = grub_error (GRUB_ERR_BAD_SIGNATURE,
+                        "signer %d: signedAttrs.messageDigest length %d is invalid",
+                        signer_index, len - 2);
+      goto exit;
+    }
+
+  signer->signed_attrs.msgdigest = grub_zalloc (len);
+  if (signer->signed_attrs.msgdigest == NULL)
+    {
+      ret = grub_error (GRUB_ERR_OUT_OF_MEMORY, "out of memory");
+      goto exit;
+    }
+
+  grub_memcpy (signer->signed_attrs.msgdigest, msg_digest + 2, len - 2);
+  signer->signed_attrs.msgdigest_len = len - 2;
+
+ exit:
+  grub_free (msg_digest);
+
+  return ret;
+}
+
+static grub_err_t
 pkcs7_read_attribute (const asn1_node pkcs7_asn1, const grub_int32_t signer_index,
                       grub_pkcs7_signer_t *signer)
 {
@@ -443,7 +506,15 @@ pkcs7_read_attribute (const asn1_node pkcs7_asn1, const grub_int32_t signer_inde
           grub_strncmp (oid_content_type, type_oid, type_oid_len) == 0)
         {
           ret = pkcs7_get_content_type (pkcs7_asn1, signer_index, i, signer);
-          break;
+          if (ret != GRUB_ERR_NONE)
+            break;
+        }
+      else if (oid_msg_digest_len == type_oid_len - 1 &&
+               grub_strncmp (oid_msg_digest, type_oid, oid_msg_digest_len) == 0)
+        {
+          ret = pkcs7_get_msg_digest (pkcs7_asn1, signer_index, i, signer);
+          if (ret != GRUB_ERR_NONE)
+            break;
         }
 
       type_oid_len = sizeof (type_oid);
@@ -986,6 +1057,7 @@ pkcs7_free_signers (grub_pkcs7_signer_t *signers)
       grub_free (signers->issuer);
       grub_memset (&signers->md_algo, 0x00, sizeof (grub_pkcs7_mdalgo_t));
       grub_free (signers->signed_attrs.ctype);
+      grub_free (signers->signed_attrs.msgdigest);
       grub_free (signers->signed_attrs.raw);
       grub_memset (&signers->signed_attrs, 0x00, sizeof (grub_pkcs7_signedattr_t));
       grub_memset (&signers->sig_algo, 0x00, sizeof (grub_pkcs7_sigalgo_t));

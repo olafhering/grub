@@ -46,8 +46,10 @@ typedef struct md_algo grub_pkcs7_mdalgo_t;
 
 struct signedattrs
 {
-  char *ctype;            /* ContentType. */
-  grub_int32_t ctype_len; /* Length of the ContentType. */
+  char *ctype;               /* ContentType. */
+  grub_int32_t ctype_len;    /* Length of the ContentType. */
+  grub_uint8_t *msgdigest;   /* MessageDigest. */
+  grub_int32_t msgdigest_len;/* Length of MessageDigest. */
   grub_uint8_t *raw;
   grub_int32_t raw_len;
 };
