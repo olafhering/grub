@@ -50,6 +50,7 @@ struct signedattrs
   grub_int32_t ctype_len;    /* Length of the ContentType. */
   grub_uint8_t *msgdigest;   /* MessageDigest. */
   grub_int32_t msgdigest_len;/* Length of MessageDigest. */
+  grub_int64_t signing_time; /* SigningTime. */
   grub_uint8_t *raw;
   grub_int32_t raw_len;
 };

@@ -41,6 +41,8 @@ static const char *oid_content_type = "1.2.840.113549.1.9.3";
 static const grub_int32_t oid_content_type_len = 20;
 static const char *oid_msg_digest = "1.2.840.113549.1.9.4";
 static const grub_int32_t oid_msg_digest_len = 20;
+static const char *oid_signing_time = "1.2.840.113549.1.9.5";
+static const grub_int32_t oid_signing_time_len = 20;
 
 /* RFC 4055 s 2.1. */
 static const grub_pkcs7_mdalgo_t md_algos[] =
@@ -468,6 +470,52 @@ pkcs7_get_msg_digest (const asn1_node pkcs7_asn1, const grub_int32_t signer_inde
 }
 
 static grub_err_t
+pkcs7_get_signing_time (const asn1_node pkcs7_asn1, const grub_int32_t signer_index,
+                        const grub_int32_t attr_index, grub_pkcs7_signer_t *signer)
+{
+  grub_err_t ret;
+  char *attr_path, *raw_time;
+  grub_int32_t len;
+
+  attr_path = grub_xasprintf ("signerInfos.?%d.signedAttrs.?%d.values.?1",
+                              signer_index + 1, attr_index);
+  if (attr_path == NULL)
+    return grub_error (GRUB_ERR_OUT_OF_MEMORY, "out of memory");
+
+  raw_time = grub_asn1_allocate_and_read (pkcs7_asn1, attr_path,
+                                          "signedAttrs signingTime value", &len);
+  grub_free (attr_path);
+  if (raw_time == NULL)
+    return grub_errno;
+
+  if (len <= 2)
+    {
+      ret = grub_error (GRUB_ERR_BAD_FILE_TYPE,
+                        "signer %d: signedAttrs.signingTime value is too short",
+                        signer_index);
+      goto exit;
+    }
+
+  /* The tag 0x17 = UTCTime, tag 0x18 = GeneralizedTime. */
+  if (raw_time[0] != 0x17 && raw_time[0] != 0x18)
+    {
+      ret = grub_error (GRUB_ERR_BAD_FILE_TYPE,
+                        "signer %d: signedAttrs.signingTime has unexpected tag 0x%02x, "
+                        "expected UTCTime (0x17) or GeneralizedTime (0x18)",
+                        signer_index, raw_time[0]);
+      goto exit;
+    }
+
+  ret = grub_asn1_decode_datetime (raw_time + 2, len - 2,
+                                   &signer->signed_attrs.signing_time);
+
+ exit:
+  grub_free (raw_time);
+
+  return ret;
+}
+
+static grub_err_t
 pkcs7_read_attribute (const asn1_node pkcs7_asn1, const grub_int32_t signer_index,
                       grub_pkcs7_signer_t *signer)
 {
@@ -513,6 +561,13 @@ pkcs7_read_attribute (const asn1_node pkcs7_asn1, const grub_int32_t signer_inde
                grub_strncmp (oid_msg_digest, type_oid, oid_msg_digest_len) == 0)
         {
           ret = pkcs7_get_msg_digest (pkcs7_asn1, signer_index, i, signer);
+          if (ret != GRUB_ERR_NONE)
+            break;
+        }
+      else if (oid_signing_time_len == type_oid_len - 1 &&
+               grub_strncmp (oid_signing_time, type_oid, oid_signing_time_len) == 0)
+        {
+          ret = pkcs7_get_signing_time (pkcs7_asn1, signer_index, i, signer);
           if (ret != GRUB_ERR_NONE)
             break;
         }
