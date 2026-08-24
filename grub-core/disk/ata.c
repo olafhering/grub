@@ -363,6 +363,7 @@ grub_ata_real_close (struct grub_ata *ata)
 {
   if (ata->dev->close)
     ata->dev->close (ata);
+  grub_free (ata);
 }
 
 static struct grub_ata *
@@ -466,7 +467,10 @@ grub_ata_open (const char *name, grub_disk_t disk)
     return grub_errno;
 
   if (ata->atapi)
-    return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "not an ATA harddisk");
+    {
+      grub_ata_real_close (ata);
+      return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "not an ATA harddisk");
+    }
 
   disk->total_sectors = ata->size;
   disk->max_agglomerate = (ata->maxbuffer >> (GRUB_DISK_CACHE_BITS + GRUB_DISK_SECTOR_BITS));
@@ -574,7 +578,10 @@ grub_atapi_open (int id, int bus, struct grub_scsi *scsi)
     return grub_errno;
 
   if (! ata->atapi)
-    return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "no such ATAPI device");
+    {
+      grub_ata_real_close (ata);
+      return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "no such ATAPI device");
+    }
 
   scsi->data = ata;
   scsi->luns = 1;
