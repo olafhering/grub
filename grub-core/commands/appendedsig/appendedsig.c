@@ -580,7 +580,6 @@ grub_verify_appended_signature (const grub_uint8_t *buf, grub_size_t bufsize)
   grub_size_t datasize;
   grub_append_sig_t sig;
   grub_pkcs7_rcl_t rcl;
-  bool cert_revoked = false;
 
   if (!db.no_of_certs && !db.no_of_hashes)
     return grub_error (GRUB_ERR_BAD_SIGNATURE, "no trusted keys%s to verify against",
@@ -592,7 +591,6 @@ grub_verify_appended_signature (const grub_uint8_t *buf, grub_size_t bufsize)
 
   append_sig_len = sig.signature_len;
   datasize = bufsize - sig.signature_len;
-  ret = GRUB_ERR_BAD_SIGNATURE;
 
   /*
    * If signature verification is enabled with dynamic key management mode,
@@ -614,15 +612,20 @@ grub_verify_appended_signature (const grub_uint8_t *buf, grub_size_t bufsize)
     {
       rcl.certs = dbx.certs;
       rcl.hashes = dbx.hashes;
-      ret = grub_pkcs7_spec->verify (&sig.pkcs7, db.certs, &rcl, buf,
-                                     datasize, &cert_revoked);
+      ret = grub_pkcs7_spec->verify (&sig.pkcs7, db.certs, &rcl, buf, datasize);
     }
+  else
+    ret = GRUB_ERR_FILE_NOT_FOUND;
 
    grub_pkcs7_spec->release (&sig.pkcs7);
 
+   /*
+    * If the signature verification succeeds or If binary hash verification
+    * is successful and the singer key is not found in db and dbx.
+    * Return with success. Otherwise, the return failed.
+    */
    if (ret == GRUB_ERR_NONE ||
-       ((ret == GRUB_ERR_BAD_SIGNATURE && cert_revoked == false) &&
-        err == GRUB_ERR_NONE))
+       (ret == GRUB_ERR_FILE_NOT_FOUND && err == GRUB_ERR_NONE))
      return GRUB_ERR_NONE;
 
   return grub_error (ret, "failed to verify signature against a trusted key");

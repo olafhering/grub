@@ -1013,10 +1013,9 @@ static grub_err_t
 pkcs7_get_signer_cert (const grub_pkcs7_signer_t *signer,
                        const grub_x509_cert_t *trust_certs,
                        const grub_pkcs7_rcl_t *rcl,
-                       const grub_x509_cert_t **signer_cert,
-                       bool *cert_revoked)
+                       const grub_x509_cert_t **signer_cert)
 {
-  grub_err_t ret = GRUB_ERR_BAD_SIGNATURE;
+  grub_err_t ret = GRUB_ERR_FILE_NOT_FOUND;
   const grub_x509_cert_t *pk;
 
   for (pk = trust_certs; pk != NULL; pk = pk->next)
@@ -1029,8 +1028,6 @@ pkcs7_get_signer_cert (const grub_pkcs7_signer_t *signer,
           ret = pkcs7_check_aginst_rcl (rcl, pk);
           if (ret == GRUB_ERR_NONE)
             *signer_cert = pk;
-          else
-            *cert_revoked = true;
 
           return ret;
         }
@@ -1129,13 +1126,12 @@ pkcs7_verify_one (const grub_pkcs7_signer_t *signer,
                   const grub_size_t data_len,
                   const char *econtent_type,
                   const grub_int32_t econtent_type_len,
-                  const grub_int32_t signer_index,
-                  bool *cert_revoked)
+                  const grub_int32_t signer_index)
 {
   grub_err_t ret;
   const grub_x509_cert_t *pk;
 
-  ret = pkcs7_get_signer_cert (signer, trust_certs, rcl, &pk, cert_revoked);
+  ret = pkcs7_get_signer_cert (signer, trust_certs, rcl, &pk);
   if (ret != GRUB_ERR_NONE)
     return ret;
 
@@ -1189,15 +1185,13 @@ pkcs7_signed_data_verify (const grub_pkcs7_signed_data_t *pkcs7,
                           const grub_x509_cert_t *trust_certs,
                           const grub_pkcs7_rcl_t *rcl,
                           const grub_uint8_t *data,
-                          const grub_size_t data_len,
-                          bool *cert_revoked)
+                          const grub_size_t data_len)
 {
   grub_int32_t i = 0;
   grub_err_t ret = GRUB_ERR_BAD_SIGNATURE;
   grub_pkcs7_signer_t *signer;
 
-  if (pkcs7 == NULL || trust_certs == NULL || data == NULL ||
-      data_len == 0 || cert_revoked == NULL)
+  if (pkcs7 == NULL || trust_certs == NULL || data == NULL || data_len == 0)
     return grub_error (GRUB_ERR_BAD_ARGUMENT, "bad input data");
 
   if (pkcs7->no_of_signers == 0 || pkcs7->signers == NULL)
@@ -1206,7 +1200,7 @@ pkcs7_signed_data_verify (const grub_pkcs7_signed_data_t *pkcs7,
   for (signer = pkcs7->signers; signer != NULL; signer = signer->next, i++)
     {
       ret = pkcs7_verify_one (signer, trust_certs, rcl, data, data_len,
-                              pkcs7->eci.type, pkcs7->eci.type_len, i, cert_revoked);
+                              pkcs7->eci.type, pkcs7->eci.type_len, i);
       if (ret != GRUB_ERR_NONE)
         {
           if (ret == GRUB_ERR_OUT_OF_MEMORY)
