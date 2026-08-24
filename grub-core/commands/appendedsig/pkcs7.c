@@ -1044,6 +1044,147 @@ pkcs7_get_signer_cert (const grub_pkcs7_signer_t *signer,
 }
 
 static grub_err_t
+pkcs7_verify_msgdigest (const grub_pkcs7_signedattr_t *signed_attr,
+                        const gcry_md_spec_t *hash,
+                        const grub_uint8_t *data,
+                        const grub_size_t data_len,
+                        const grub_int32_t signer_index)
+{
+  grub_err_t ret = GRUB_ERR_NONE;
+  grub_uint8_t *msgdigest;
+
+  if (signed_attr->msgdigest == NULL)
+    {
+      grub_dprintf ("appendedsig", "signer %d: no message digest\n", signer_index);
+      return GRUB_ERR_BAD_SIGNATURE;
+    }
+
+  msgdigest = grub_zalloc (hash->mdlen);
+  if (msgdigest == NULL)
+    return grub_error (GRUB_ERR_OUT_OF_MEMORY, "out of memory");
+
+  grub_crypto_hash (hash, msgdigest, data, data_len);
+  if ((grub_int32_t) hash->mdlen != signed_attr->msgdigest_len)
+    {
+      grub_dprintf ("appendedsig", "signer %d: invalid digest size (%d)\n",
+                    signer_index, signed_attr->msgdigest_len);
+      ret = GRUB_ERR_BAD_SIGNATURE;
+    }
+  else if (grub_memcmp (signed_attr->msgdigest, msgdigest,
+                        signed_attr->msgdigest_len) != 0)
+    {
+      grub_dprintf ("appendedsig", "signer %d: message digest doesn't match\n",
+                    signer_index);
+      ret = GRUB_ERR_BAD_SIGNATURE;
+    }
+
+  grub_free (msgdigest);
+
+  return ret;
+}
+
+static grub_err_t
+pkcs7_verify_signature (const grub_pkcs7_signer_t *signer,
+                        const grub_uint8_t *data,
+                        const grub_size_t data_len,
+                        const grub_int32_t signer_index,
+                        const grub_x509_cert_t *pk)
+{
+  grub_err_t ret;
+
+  if (signer->signed_attrs.raw != NULL)
+    ret = pk->spki.pk_algo.verify (signer->signed_attrs.raw,
+                                   signer->signed_attrs.raw_len,
+                                   signer->md_algo.hash,
+                                   signer->sig, signer->sig_len,
+                                   &pk->spki.pk, pk->spki.pk_algo.aliases);
+  else
+    ret = pk->spki.pk_algo.verify (data, data_len, signer->md_algo.hash,
+                                   signer->sig, signer->sig_len,
+                                   &pk->spki.pk, pk->spki.pk_algo.aliases);
+  if (ret != GRUB_ERR_NONE)
+    grub_dprintf ("appendedsig",
+                  "verify signer %d signatureAlgorithm (%s), issuer ('%s'), and "
+                  "serialNumber (%s) with key PK-Algorithm (%s), issuer ('%s'), "
+                  "and serialNumber (%s) failed\n",
+                  signer_index, signer->sig_algo.name, signer->issuer, signer->serial,
+                  pk->spki.pk_algo.name, pk->issuer, pk->serial);
+  else
+    grub_dprintf ("appendedsig",
+                  "verify signer %d signatureAlgorithm (%s), issuer ('%s'), and "
+                  "serialNumber (%s) with key PK-Algorithm (%s), issuer ('%s'), "
+                  "and serialNumber (%s) succeeded\n",
+                  signer_index, signer->sig_algo.name, signer->issuer, signer->serial,
+                  pk->spki.pk_algo.name, pk->issuer, pk->serial);
+
+  return ret;
+}
+
+/* Verify one signed information block from a PKCS#7 message. */
+static grub_err_t
+pkcs7_verify_one (const grub_pkcs7_signer_t *signer,
+                  const grub_x509_cert_t *trust_certs,
+                  const grub_pkcs7_rcl_t *rcl,
+                  const grub_uint8_t *data,
+                  const grub_size_t data_len,
+                  const char *econtent_type,
+                  const grub_int32_t econtent_type_len,
+                  const grub_int32_t signer_index,
+                  bool *cert_revoked)
+{
+  grub_err_t ret;
+  const grub_x509_cert_t *pk;
+
+  ret = pkcs7_get_signer_cert (signer, trust_certs, rcl, &pk, cert_revoked);
+  if (ret != GRUB_ERR_NONE)
+    return ret;
+
+  ret = pkcs7_verify_signature (signer, data, data_len, signer_index, pk);
+  if (ret != GRUB_ERR_NONE)
+    return ret;
+
+  /*
+   * If there are authenticated attributes, there must be a
+   * message digest attribute amongst them.
+   */
+  if (signer->signed_attrs.raw != NULL)
+    {
+      if (signer->signed_attrs.ctype_len != econtent_type_len ||
+          grub_strncmp (signer->signed_attrs.ctype, econtent_type,
+                        signer->signed_attrs.ctype_len) != 0)
+        {
+          grub_dprintf ("appendedsig",
+                        "signer %d: mismatch between global ContentType (%s) and "
+                        "signedAttrs contentType (%s)\n",
+                        signer_index, econtent_type, signer->signed_attrs.ctype);
+          return GRUB_ERR_BAD_SIGNATURE;
+        }
+
+      ret = pkcs7_verify_msgdigest (&signer->signed_attrs, signer->md_algo.hash,
+                                    data, data_len, signer_index);
+      if (ret != GRUB_ERR_NONE)
+        return ret;
+
+      /*
+       * Check that the PKCS#7 signing time is valid according to the X.509
+       * certificate.  We can't, however, check against the system clock
+       * since that may not have been set yet and may be wrong.
+       */
+      if (signer->signed_attrs.signing_time != 0 &&
+          (signer->signed_attrs.signing_time < pk->validity.before ||
+           signer->signed_attrs.signing_time > pk->validity.after))
+        {
+          grub_dprintf ("appendedsig",
+                        "signer %d: signed outside of X.509 validity window\n",
+                        signer_index);
+          return GRUB_ERR_BAD_SIGNATURE;
+        }
+    }
+
+  return ret;
+}
+
+static grub_err_t
 pkcs7_signed_data_verify (const grub_pkcs7_signed_data_t *pkcs7,
                           const grub_x509_cert_t *trust_certs,
                           const grub_pkcs7_rcl_t *rcl,
@@ -1054,7 +1195,6 @@ pkcs7_signed_data_verify (const grub_pkcs7_signed_data_t *pkcs7,
   grub_int32_t i = 0;
   grub_err_t ret = GRUB_ERR_BAD_SIGNATURE;
   grub_pkcs7_signer_t *signer;
-  const grub_x509_cert_t *pk;
 
   if (pkcs7 == NULL || trust_certs == NULL || data == NULL ||
       data_len == 0 || cert_revoked == NULL)
@@ -1065,37 +1205,17 @@ pkcs7_signed_data_verify (const grub_pkcs7_signed_data_t *pkcs7,
 
   for (signer = pkcs7->signers; signer != NULL; signer = signer->next, i++)
     {
-      ret = pkcs7_get_signer_cert (signer, trust_certs, rcl, &pk, cert_revoked);
+      ret = pkcs7_verify_one (signer, trust_certs, rcl, data, data_len,
+                              pkcs7->eci.type, pkcs7->eci.type_len, i, cert_revoked);
       if (ret != GRUB_ERR_NONE)
-        continue;
-
-      if (signer->signed_attrs.raw != NULL)
-        ret = pk->spki.pk_algo.verify (signer->signed_attrs.raw,
-                                       signer->signed_attrs.raw_len,
-                                       signer->md_algo.hash,
-                                       signer->sig, signer->sig_len,
-                                       &pk->spki.pk, pk->spki.pk_algo.aliases);
-      else
-        ret = pk->spki.pk_algo.verify (data, data_len, signer->md_algo.hash,
-                                       signer->sig, signer->sig_len,
-                                       &pk->spki.pk, pk->spki.pk_algo.aliases);
-      if (ret == GRUB_ERR_NONE)
         {
-          grub_dprintf ("appendedsig",
-                        "verify signer %d signatureAlgorithm (%s), issuer ('%s'), and "
-                        "serialNumber (%s) with key PK-Algorithm (%s), issuer ('%s'), "
-                        "and serialNumber (%s) succeeded\n",
-                        i, signer->sig_algo.name, signer->issuer, signer->serial,
-                        pk->spki.pk_algo.name, pk->issuer, pk->serial);
-          return ret;
+          if (ret == GRUB_ERR_OUT_OF_MEMORY)
+            return ret;
+
+          continue;
         }
 
-      grub_dprintf ("appendedsig",
-                    "verify signer %d signatureAlgorithm (%s), issuer ('%s'), and "
-                    "serialNumber (%s) with key PK-Algorithm (%s), issuer ('%s'), "
-                    "and serialNumber (%s) failed\n",
-                    i, signer->sig_algo.name, signer->issuer, signer->serial,
-                    pk->spki.pk_algo.name, pk->issuer, pk->serial);
+      return ret;
     }
 
   return ret;
