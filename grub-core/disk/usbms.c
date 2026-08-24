@@ -652,6 +652,8 @@ GRUB_MOD_FINI(usbms)
   unsigned i;
   for (i = 0; i < ARRAY_SIZE (grub_usbms_devices); i++)
     {
+      if (!grub_usbms_devices[i])
+	continue;
       grub_usbms_devices[i]->dev->config[grub_usbms_devices[i]->config]
 	.interf[grub_usbms_devices[i]->interface].detach_hook = 0;
       grub_usbms_devices[i]->dev->config[grub_usbms_devices[i]->config]
