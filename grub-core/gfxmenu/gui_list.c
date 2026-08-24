@@ -40,6 +40,7 @@ struct grub_gui_list_impl
   char *id;
   int visible;
 
+  int icon_offset;
   int icon_width;
   int icon_height;
   int item_height;
@@ -365,7 +366,7 @@ draw_menu (list_impl_t self, int num_shown_items)
   selbox->set_content_size (selbox, cwidth - sel_border_width,
                             text_box_height);
 
-  int text_left_offset = self->icon_width + icon_text_space;
+  int text_left_offset = self->icon_offset + self->icon_width + icon_text_space;
   int item_text_top_offset = (text_box_height - (ascent + descent)) / 2 + ascent;
   int sel_text_top_offset = (text_box_height - (selected_ascent
                                                 + selected_descent)) / 2
@@ -426,7 +427,7 @@ draw_menu (list_impl_t self, int num_shown_items)
       icon = get_item_icon (self, menu_index);
       if (icon != 0)
         grub_video_blit_bitmap (icon, GRUB_VIDEO_BLIT_BLEND,
-                                max_leftpad,
+                                max_leftpad + self->icon_offset,
                                 item_top + icon_top_offset,
                                 0, 0, self->icon_width, self->icon_height);
 
@@ -706,6 +707,10 @@ list_set_property (void *vself, const char *name, const char *value)
               self->selected_item_color_inherit = 0;
             }
         }
+    }
+  else if (grub_strcmp (name, "icon_offset") == 0)
+    {
+      self->icon_offset = grub_strtol (value, 0, 10);
     }
   else if (grub_strcmp (name, "icon_width") == 0)
     {

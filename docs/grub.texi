@@ -2538,6 +2538,8 @@ The following is a list of the components and the properties they support.
    @item selected_item_color
       @tab The color to use for the selected menu item, or ``inherit`` (the default)
       to use ``item_color`` for the selected menu item as well.
+   @item icon_offset
+      @tab The left offset of menu item icons.
    @item icon_width
       @tab The width of menu item icons.  Icons are scaled to the specified size.
    @item icon_height
