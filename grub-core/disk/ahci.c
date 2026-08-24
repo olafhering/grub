@@ -374,6 +374,7 @@ grub_ahci_pciinit (grub_pci_device_t dev,
 	adevs[i]->command_list_chunk = grub_memalign_dma32 (1024, sizeof (struct grub_ahci_cmd_head) * 32);
 	if (!adevs[i]->command_list_chunk)
 	  {
+	    grub_free (adevs[i]);
 	    adevs[i] = 0;
 	    continue;
 	  }
@@ -383,6 +384,7 @@ grub_ahci_pciinit (grub_pci_device_t dev,
 	if (!adevs[i]->command_table_chunk)
 	  {
 	    grub_dma_free (adevs[i]->command_list_chunk);
+	    grub_free (adevs[i]);
 	    adevs[i] = 0;
 	    continue;
 	  }
@@ -458,6 +460,14 @@ grub_ahci_pciinit (grub_pci_device_t dev,
 
 	adevs[i]->rfis = grub_memalign_dma32 (4096,
 					     sizeof (struct grub_ahci_received_fis));
+	if (!adevs[i]->rfis)
+	  {
+	    grub_dma_free (adevs[i]->command_table_chunk);
+	    grub_dma_free (adevs[i]->command_list_chunk);
+	    grub_free (adevs[i]);
+	    adevs[i] = 0;
+	    continue;
+	  }
 	grub_memset ((char *) grub_dma_get_virt (adevs[i]->rfis), 0,
 		     sizeof (struct grub_ahci_received_fis));
 	grub_memset ((char *) grub_dma_get_virt (adevs[i]->command_list_chunk), 0,
@@ -744,6 +754,8 @@ reinit_port (struct grub_ahci_device *dev)
 
   dev->rfis = grub_memalign_dma32 (4096,
 				   sizeof (struct grub_ahci_received_fis));
+  if (!dev->rfis)
+    goto out;
   grub_memset ((char *) grub_dma_get_virt (dev->rfis), 0,
 	       sizeof (struct grub_ahci_received_fis));
   dev->hba->ports[dev->port].fis_base = grub_dma_get_phys (dev->rfis);
@@ -789,7 +801,8 @@ reinit_port (struct grub_ahci_device *dev)
  out:
   grub_dma_free (command_list);
   grub_dma_free (command_table);
-  grub_dma_free (dev->rfis);
+  if (dev->rfis)
+    grub_dma_free (dev->rfis);
   return 1;
 }
 
