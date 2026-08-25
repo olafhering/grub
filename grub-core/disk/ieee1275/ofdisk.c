@@ -151,7 +151,12 @@ ofdisk_hash_add_real (char *devpath)
 static int
 check_string_removable (const char *str)
 {
-  const char *ptr = grub_strrchr (str, '/');
+  const char *ptr;
+
+  if (!str)
+    return 0;
+
+  ptr = grub_strrchr (str, '/');
 
   if (ptr)
     ptr++;
@@ -169,6 +174,12 @@ ofdisk_hash_add (char *devpath, char *curcan)
 
   grub_dprintf ("disk", "devpath = %s, canonical = %s\n", devpath, curcan);
 
+  if (!p)
+    {
+      grub_free (curcan);
+      return NULL;
+    }
+
   if (!curcan)
     {
       p->shortest = p->devpath;
@@ -182,21 +193,26 @@ ofdisk_hash_add (char *devpath, char *curcan)
   if (!pcan)
     pcan = ofdisk_hash_add_real (curcan);
   else
-    grub_free (curcan);
+    {
+      grub_free (curcan);
+      curcan = NULL;
+    }
+
+  if (!pcan)
+    {
+      grub_free (curcan);
+      grub_errno = GRUB_ERR_NONE;
+      return p;
+    }
 
   if (check_string_removable (devpath) || check_string_removable (curcan))
     pcan->is_removable = 1;
 
-  if (!pcan)
-    grub_errno = GRUB_ERR_NONE;
-  else
+  if (!pcan->shortest
+      || grub_strlen (pcan->shortest) > grub_strlen (devpath))
     {
-      if (!pcan->shortest
-	  || grub_strlen (pcan->shortest) > grub_strlen (devpath))
-	{
-	  pcan->shortest = p->devpath;
-	  pcan->grub_shortest = p->grub_devpath;
-	}
+      pcan->shortest = p->devpath;
+      pcan->grub_shortest = p->grub_devpath;
     }
 
   return p;
