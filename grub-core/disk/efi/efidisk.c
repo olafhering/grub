@@ -182,19 +182,50 @@ is_child (struct grub_efidisk_data *child,
 
 #define FOR_CHILDREN(p, dev) for (p = dev; p; p = p->next) if (is_child (p, d))
 
+static int
+is_xen_pv_device (grub_efi_device_path_t *dp)
+{
+  static const grub_guid_t xenbus = GRUB_EFI_VENDOR_XENBUS_GUID;
+
+  while (GRUB_EFI_DEVICE_PATH_VALID (dp)
+	 && ! GRUB_EFI_END_ENTIRE_DEVICE_PATH (dp))
+    {
+      grub_efi_vendor_device_path_t *vendor
+	= (grub_efi_vendor_device_path_t *) dp;
+
+      if (GRUB_EFI_DEVICE_PATH_TYPE (dp) == GRUB_EFI_HARDWARE_DEVICE_PATH_TYPE
+	  && (GRUB_EFI_DEVICE_PATH_SUBTYPE (dp)
+	      == GRUB_EFI_VENDOR_DEVICE_PATH_SUBTYPE)
+	  && GRUB_EFI_DEVICE_PATH_LENGTH (dp) >= sizeof (*vendor)
+	  && grub_memcmp (&vendor->vendor_guid, &xenbus,
+			  sizeof (vendor->vendor_guid)) == 0)
+	return 1;
+
+      dp = GRUB_EFI_NEXT_DEVICE_PATH (dp);
+    }
+
+  return 0;
+}
+
 /* Add a device into a list of devices in an ascending order.  */
 static void
 add_device (struct grub_efidisk_data **devices, struct grub_efidisk_data *d)
 {
   struct grub_efidisk_data **p;
   struct grub_efidisk_data *n;
+  int d_is_pv = is_xen_pv_device (d->device_path);
 
   for (p = devices; *p; p = &((*p)->next))
     {
       int ret;
 
-      ret = grub_efi_compare_device_paths (grub_efi_find_last_device_path ((*p)->device_path),
-					   grub_efi_find_last_device_path (d->device_path));
+      /* Xen HVM guest typically exposes a disk through both PV and emulated backend with
+         identical partition and filesystem UUIDs. Let the PV device take precedence for
+         better performance */
+      ret = d_is_pv - is_xen_pv_device ((*p)->device_path);
+      if (ret == 0)
+	ret = grub_efi_compare_device_paths (grub_efi_find_last_device_path ((*p)->device_path),
+					     grub_efi_find_last_device_path (d->device_path));
       if (ret == 0)
 	ret = grub_efi_compare_device_paths ((*p)->device_path,
 					     d->device_path);
