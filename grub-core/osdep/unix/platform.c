@@ -274,7 +274,7 @@ add_multiple_nvme_bootdevices (const char *install_device)
   if (is_splitter == false && is_FC == false)
     {
       non_splitter_path = xasprintf ("%s/namespace@%x:1 ", get_ofpathname (dirR1), nsid);
-      strncpy (ptr, non_splitter_path, strlen (non_splitter_path));
+      memcpy (ptr, non_splitter_path, strlen (non_splitter_path));
       ptr += strlen (non_splitter_path);
       free (non_splitter_path);
     }
@@ -296,7 +296,7 @@ add_multiple_nvme_bootdevices (const char *install_device)
                   free (path);
                   break;
                 }
-              strncpy (ptr, path, strlen (path));
+              memcpy (ptr, path, strlen (path));
               ptr += strlen (path);
               free (path);
             }
