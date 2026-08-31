@@ -69,11 +69,19 @@ struct pkcs7_signerInfo
 };
 typedef struct pkcs7_signerInfo grub_pkcs7_signer_t;
 
+struct pkcs7_econtentInfo
+{
+  char *type;
+  grub_int32_t type_len;
+};
+typedef struct pkcs7_econtentInfo grub_pkcs7_eci_t;
+
 /* A PKCS#7 signed data. */
 struct pkcs7_signedData
 {
   grub_int32_t version;
   grub_pkcs7_mdalgo_t algo;
+  grub_pkcs7_eci_t eci;
   grub_int32_t no_of_signers;
   grub_pkcs7_signer_t *signers;
 };

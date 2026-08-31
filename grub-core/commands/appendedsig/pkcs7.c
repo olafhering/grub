@@ -30,6 +30,8 @@ static char asn1_error[ASN1_MAX_ERROR_DESCRIPTION_SIZE];
 /* RFC 5652 s 5.1. */
 static const char *signed_data_oid = "1.2.840.113549.1.7.2";
 static const grub_int32_t signed_data_oid_len = 20;
+static const char *oid_pkcs7_data = "1.2.840.113549.1.7.1";
+static const grub_int32_t oid_pkcs7_data_len = 20;
 
 static const char *common_name_oid = "2.5.4.3";
 static const grub_int32_t common_name_oid_len = 7;
@@ -51,6 +53,9 @@ static const grub_pkcs7_sigalgo_t sig_algos[] =
 
 static void
 pkcs7_free_signers (grub_pkcs7_signer_t *signers);
+
+static void
+pkcs7_signed_data_release (grub_pkcs7_signed_data_t *pkcs7_signed_data);
 
 static grub_err_t
 pkcs7_get_version (asn1_node pkcs7_asn1, grub_pkcs7_signed_data_t *pkcs7_signed_data)
@@ -133,6 +138,48 @@ pkcs7_get_md_algorithms (asn1_node pkcs7_asn1, grub_pkcs7_signed_data_t *pkcs7_s
   ret = pkcs7_get_md_algo (pkcs7_asn1, 0, pkcs7_signed_data);
   if (ret != GRUB_ERR_NONE)
     return ret;
+
+  return GRUB_ERR_NONE;
+}
+
+/*
+ * EncapsulatedContentInfo ::= SEQUENCE {
+ *   eContentType ContentType,
+ *   eContent [0] EXPLICIT OCTET STRING OPTIONAL
+ * }
+ */
+static grub_err_t
+pkcs7_get_econtent_info (asn1_node pkcs7_asn1,
+                         grub_pkcs7_signed_data_t *pkcs7_signed_data)
+{
+  grub_int32_t rc;
+  grub_int32_t len = 0;
+  char *econtent_type = NULL;
+  const char *name = "encapContentInfo.eContentType";
+  const char *name_ec = "encapContentInfo.eContent";
+
+  /* The eContent must be absent for detached signatures. */
+  rc = asn1_read_value (pkcs7_asn1, name_ec, NULL, &len);
+  if (rc == ASN1_MEM_ERROR || rc == ASN1_VALUE_NOT_FOUND)
+    return grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET,
+                       "embedded content in PKCS#7 message is not supported");
+
+  econtent_type = grub_asn1_allocate_and_read (pkcs7_asn1, name,
+                                               "encapContentInfo.eContentType",
+                                               &len);
+  if (econtent_type == NULL)
+    return grub_errno;
+
+  if (oid_pkcs7_data_len != len - 1 ||
+      grub_strncmp (oid_pkcs7_data, econtent_type, oid_pkcs7_data_len) != 0)
+    {
+      grub_free (econtent_type);
+      return grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET,
+                         "eContentType has unsupported type");
+    }
+
+  pkcs7_signed_data->eci.type = econtent_type;
+  pkcs7_signed_data->eci.type_len = len - 1;
 
   return GRUB_ERR_NONE;
 }
@@ -568,10 +615,20 @@ pkcs7_parse_signed_data (grub_uint8_t *signed_data, grub_int32_t signed_data_len
   if (ret != GRUB_ERR_NONE)
     goto exit;
 
+  /*
+   * EncapsulatedContentInfo ::= SEQUENCE {
+   *   eContentType ContentType,
+   *   eContent [0] EXPLICIT OCTET STRING OPTIONAL
+   * }
+   */
+  ret = pkcs7_get_econtent_info (pkcs7_asn1, pkcs7_signed_data);
+  if (ret != GRUB_ERR_NONE)
+    goto exit;
+
   /* Read the signerInfos */
   ret = pkcs7_get_signerinfos (signed_data, signed_data_len, pkcs7_asn1, pkcs7_signed_data);
   if (ret != GRUB_ERR_NONE)
-    pkcs7_free_signers (pkcs7_signed_data->signers);
+    pkcs7_signed_data_release (pkcs7_signed_data);
 
  exit:
   asn1_delete_structure (&pkcs7_asn1);
@@ -830,6 +887,8 @@ pkcs7_signed_data_release (grub_pkcs7_signed_data_t *pkcs7_signed_data)
 
   pkcs7_signed_data->version = 0;
   grub_memset (&pkcs7_signed_data->algo, 0x00, sizeof (grub_pkcs7_mdalgo_t));
+  grub_free (pkcs7_signed_data->eci.type);
+  grub_memset (&pkcs7_signed_data->eci, 0x00, sizeof (grub_pkcs7_eci_t));
   pkcs7_free_signers (pkcs7_signed_data->signers);
   grub_memset (pkcs7_signed_data, 0x00, sizeof (grub_pkcs7_signed_data_t));
 }
