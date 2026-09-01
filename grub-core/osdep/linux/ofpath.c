@@ -537,7 +537,7 @@ of_find_fc_host (char* host_wwpn)
 
       /* Ensure buf is null terminated if no data read from fp. */
       buf[0] = '\0';
-      fscanf (fp, "%511s", buf);
+      (void) fscanf (fp, "%511s", buf);
       fclose (fp);
 
       if ((strcmp (buf, host_wwpn) == 0) && grub_strstr (node->filename, "fc_host"))
@@ -712,7 +712,7 @@ of_path_get_nvme_nsid (const char* devname)
       return 0;
     }
 
-  fscanf (fp, "%u", &(nsid));
+  (void) fscanf (fp, "%u", &(nsid));
   fclose (fp);
 
   free (sysfs_path);
