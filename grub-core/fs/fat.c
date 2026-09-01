@@ -449,6 +449,61 @@ grub_fat_mount (grub_disk_t disk)
   return 0;
 }
 
+/* Return 1 and set NEXT_CLUSTER for a valid successor, 0 at end of chain,
+   or -1 on error.  */
+static int
+grub_fat_next_cluster (grub_disk_t disk, struct grub_fat_data *data,
+		       grub_uint32_t cluster, grub_uint32_t *next_cluster)
+{
+  grub_uint32_t fat_offset;
+
+  switch (data->fat_size)
+    {
+    case 32:
+      fat_offset = cluster << 2;
+      break;
+    case 16:
+      fat_offset = cluster << 1;
+      break;
+    default:
+      /* case 12: */
+      fat_offset = cluster + (cluster >> 1);
+      break;
+    }
+
+  if (grub_disk_read (disk, data->fat_sector, fat_offset,
+		      (data->fat_size + 7) >> 3, next_cluster))
+    return -1;
+
+  *next_cluster = grub_le_to_cpu32 (*next_cluster);
+  switch (data->fat_size)
+    {
+    case 16:
+      *next_cluster &= 0xFFFF;
+      break;
+    case 12:
+      if (cluster & 1)
+	*next_cluster >>= 4;
+
+      *next_cluster &= 0x0FFF;
+      break;
+    }
+
+  grub_dprintf ("fat", "fat_size=%d, next_cluster=%u\n",
+		data->fat_size, *next_cluster);
+
+  if (*next_cluster >= data->cluster_eof_mark)
+    return 0;
+
+  if (*next_cluster < 2 || *next_cluster >= data->num_clusters)
+    {
+      grub_error (GRUB_ERR_BAD_FS, "invalid cluster %u", *next_cluster);
+      return -1;
+    }
+
+  return 1;
+}
+
 static grub_ssize_t
 grub_fat_read_data (grub_disk_t disk, grub_fshelp_node_t node,
 		    grub_disk_read_hook_t read_hook, void *read_hook_data,
@@ -512,57 +567,15 @@ grub_fat_read_data (grub_disk_t disk, grub_fshelp_node_t node,
     {
       while (logical_cluster > node->cur_cluster_num)
 	{
-	  /* Find next cluster.  */
 	  grub_uint32_t next_cluster;
-	  grub_uint32_t fat_offset;
+	  int err;
 
-	  switch (node->data->fat_size)
-	    {
-	    case 32:
-	      fat_offset = node->cur_cluster << 2;
-	      break;
-	    case 16:
-	      fat_offset = node->cur_cluster << 1;
-	      break;
-	    default:
-	      /* case 12: */
-	      fat_offset = node->cur_cluster + (node->cur_cluster >> 1);
-	      break;
-	    }
-
-	  /* Read the FAT.  */
-	  if (grub_disk_read (disk, node->data->fat_sector, fat_offset,
-			      (node->data->fat_size + 7) >> 3,
-			      (char *) &next_cluster))
+	  err = grub_fat_next_cluster (disk, node->data,
+				       node->cur_cluster, &next_cluster);
+	  if (err < 0)
 	    return -1;
-
-	  next_cluster = grub_le_to_cpu32 (next_cluster);
-	  switch (node->data->fat_size)
-	    {
-	    case 16:
-	      next_cluster &= 0xFFFF;
-	      break;
-	    case 12:
-	      if (node->cur_cluster & 1)
-		next_cluster >>= 4;
-
-	      next_cluster &= 0x0FFF;
-	      break;
-	    }
-
-	  grub_dprintf ("fat", "fat_size=%d, next_cluster=%u\n",
-			node->data->fat_size, next_cluster);
-
-	  /* Check the end.  */
-	  if (next_cluster >= node->data->cluster_eof_mark)
+	  if (! err)
 	    return ret;
-
-	  if (next_cluster < 2 || next_cluster >= node->data->num_clusters)
-	    {
-	      grub_error (GRUB_ERR_BAD_FS, "invalid cluster %u",
-			  next_cluster);
-	      return -1;
-	    }
 
 	  node->cur_cluster = next_cluster;
 	  node->cur_cluster_num++;
