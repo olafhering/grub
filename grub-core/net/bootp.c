@@ -348,7 +348,7 @@ grub_net_configure_by_dhcp_ack (const char *name,
   const grub_uint8_t *opt;
   grub_uint8_t opt_len, overload = 0;
   const char *boot_file = 0, *server_name = 0;
-  grub_size_t boot_file_len, server_name_len;
+  grub_size_t boot_file_len = 0, server_name_len = 0;
   char *vci_server_name = NULL;
   char *vci_boot_file = NULL;
   char *vci_protocol = NULL;
