@@ -828,9 +828,13 @@ grub_efi_net_config_real (grub_efi_handle_t hnd, char **device,
 	  }
 
 	dup_ldp = grub_efi_find_last_device_path (dup_dp);
-	dup_ldp->type = GRUB_EFI_END_DEVICE_PATH_TYPE;
-	dup_ldp->subtype = GRUB_EFI_END_ENTIRE_DEVICE_PATH_SUBTYPE;
-	dup_ldp->length = sizeof (*dup_ldp);
+	if (GRUB_EFI_DEVICE_PATH_SUBTYPE (dup_ldp) == GRUB_EFI_IPV4_DEVICE_PATH_SUBTYPE
+	    || GRUB_EFI_DEVICE_PATH_SUBTYPE (dup_ldp) == GRUB_EFI_IPV6_DEVICE_PATH_SUBTYPE)
+	  {
+	    dup_ldp->type = GRUB_EFI_END_DEVICE_PATH_TYPE;
+	    dup_ldp->subtype = GRUB_EFI_END_ENTIRE_DEVICE_PATH_SUBTYPE;
+	    dup_ldp->length = sizeof (*dup_ldp);
+	  }
 
 	dup_ldp = grub_efi_find_last_device_path (dup_dp);
 	if (GRUB_EFI_DEVICE_PATH_SUBTYPE (dup_ldp) == GRUB_EFI_VLAN_DEVICE_PATH_SUBTYPE)
