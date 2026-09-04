@@ -6864,6 +6864,7 @@ you forget a command, you can run the command @command{help}
 * cmostest::                    Test bit in CMOS
 * cmp::                         Compare two files
 * configfile::                  Load a configuration file
+* connectefi::                  Connect devices on EFI platforms
 * cpuid::                       Check for CPU features
 * crc::                         Compute or check CRC32 checksums
 * cryptocheck::                 Check if a device is encrypted
