@@ -259,6 +259,7 @@ grub_file_is_not_garbage ()
     case "$1" in
       *.dpkg-*) return 1 ;; # debian dpkg
       *.rpmsave|*.rpmnew) return 1 ;;
+      *.icns|*.ICNS|*.png|*.PNG|*.bmp|*.BMP|*.jpg|*.JPG|*.jpeg|*.JPEG) return 1 ;; # rEFInd loader pictures
       README*|*/README*)  return 1 ;; # documentation
       *.sig) return 1 ;; # signatures
     esac
