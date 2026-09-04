@@ -1,0 +1,12 @@
+diff --git a/lib/argp-help.c b/lib/argp-help.c
+--- a/lib/argp-help.c	(revision 9f48fb992a3d7e96610c4ce8be969cff2d61a01b)
++++ b/lib/argp-help.c	(date 1788513042501)
+@@ -1597,7 +1597,7 @@
+
+   if (doc)
+     {
+-      char *vt = strchr (doc, '\v');
++      char const *vt = strchr (doc, '\v');
+       inp_text = post ? (vt ? vt + 1 : 0) : doc;
+       inp_text_limit = (!post && vt) ? (vt - doc) : 0;
+     }

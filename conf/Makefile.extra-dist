@@ -30,6 +30,7 @@ EXTRA_DIST += grub-core/genemuinit.sh
 EXTRA_DIST += grub-core/genemuinitheader.sh
 
 EXTRA_DIST += grub-core/lib/gnulib-patches/fix-width.patch
+EXTRA_DIST += grub-core/lib/gnulib-patches/fix-dropped-const.patch
 EXTRA_DIST += grub-core/lib/gnulib-patches/fix-regcomp-resource-leak.patch
 EXTRA_DIST += grub-core/lib/gnulib-patches/fix-regexec-resource-leak.patch
 EXTRA_DIST += grub-core/lib/gnulib-patches/fix-gcc-15-compile.patch
