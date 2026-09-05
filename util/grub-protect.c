@@ -981,7 +981,7 @@ protect_tpm2_add (protect_args_t *args)
 {
   grub_err_t err;
   grub_uint8_t *key = NULL;
-  grub_size_t key_size;
+  grub_size_t key_size = 0;
   TPM_HANDLE_t srk;
   TPM2B_DIGEST_t policy_digest;
   void *out_buf = NULL;
