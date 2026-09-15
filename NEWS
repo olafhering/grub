@@ -1,3 +1,320 @@
+New (short version) in 2.16:
+
+* libgcrypt 1.12.2.
+* libtasn1 4.21.0.
+* ML-DSA post-quantum signature support for appended signatures.
+* Certificate revocation (dbx) checks for appended signatures.
+* PKCS#7 signedAttrs verification and X.509 validity period checking.
+* NVMe native disk support.
+* NVMe over Fibre Channel and multiple NVMe boot paths on IEEE 1275.
+* virtio-net driver.
+* AMBA PL011 UART support.
+* DHCPv6 support and network configuration from the UEFI device path.
+* Argon2 password hashing for GRUB users and the grub-mkpasswd-argon2 utility.
+* Access levels for authentication in grub-mkconfig.
+* MFA key protector.
+* TPCM (Trusted Platform Control Module) verifier on x86_64 EFI.
+* New tpm_record_pcrs command exposing a TPM PCR snapshot to the OS.
+* New efibootnext module and 31_efi_bootnext script for one-shot boot entries.
+* New connectefi, lsefivar, btrfs-info, btrfs-list-subvols and
+  btrfs-get-default-subvol commands.
+* Downstream SBAT support and SBAT level validation in grub-mkimage.
+* Serial port addresses restricted to firmware-described UARTs under lockdown.
+* Drop UGA Draw and Console Control protocols support.
+* GitLab CI with multi-architecture builds, clang jobs and weekly Coverity scans.
+* Cygwin and mingw cross-build fixes.
+* Filesystems hardening and fixes.
+* Video readers and font fixes found by fuzzing.
+* EFI code improvements and fixes.
+* Network stack fixes.
+* Coverity and memory leak fixes.
+* ofpath and grub-install host utility robustness fixes.
+* Tests improvements.
+* Documentation improvements.
+* ... and tons of other fixes and cleanups...
+
+New (long version) in 2.16:
+
+* New/improved filesystem and disk support:
+  * Native NVMe disk driver, allowing boot from NVMe devices on coreboot and on
+    systems whose firmware cannot reach them. (833f3b5f9)
+  * NVMe over Fibre Channel support and multiple NVMe boot paths on IEEE 1275,
+    including fibre channel discovery for ofpathname and FCP methods for WWPN
+    and LUNs. (1ffe804c0, 0f13508bc, dab8ef7f8, adeeeeda3, d0773a062,
+    edcdf6598)
+  * New `btrfs-info', `btrfs-list-subvols' and `btrfs-get-default-subvol'
+    commands. (9ade9d031, e31292f7d, 8b23e97f1)
+  * Btrfs on-disk structures are now explicitly packed. (96f2dfb92)
+  * Bound directory iteration, symlink sizes and superblock fields in f2fs, and
+    reject zero-length directory entry names. (a11cc4333, 6fbc6055b, 994e63b1d,
+    8c345080c)
+  * Bound the symlink target size in HFS+. (b157604e0, b1d888d70)
+  * Fix undefined behaviour and uninitialised reads on malformed ext2
+    filesystems. (d1d53ed56, 8908f4bc9)
+  * Fix uninitialised reads in FAT and a possible infinite loop in exFAT.
+    (56d859d14, ba8d0bae2)
+  * Fix an incorrect runlist offset boundary check in NTFS. (ae0143f1d)
+  * Handle root inode read failure when mounting XFS. (006994468)
+  * Fix null pointer member access on mount failure in nilfs2, f2fs and erofs.
+    (246ade44d)
+  * Free the block list on file close and fix a node leak in fshelp.
+    (fc5d56b44, adc0cdd58)
+  * Fix root dataset detection on encrypted ZFS pools, and mark the ZFS
+    bookmark_v2 and bookmark_written features as supported. (248fc0ea7,
+    8cda718c0)
+  * Fix logical partition numbering when no primary partitions exist.
+    (27c157c1e, a4257251f)
+  * LVM metadata buffers are now allocated from the raw contents. (e219cc41e)
+  * Fix raid_disks decoding for mdraid 1.x on big-endian systems. (dcfb9f917)
+  * Reuse free slots when attaching USB mass storage devices. (00f8ad96c)
+  * Disk cache slot thrashing, cache locking and hit-ratio accounting fixes.
+    (63c601d8f, dc0b2735b, 490e0e57f)
+
+* New/improved terminal and video support:
+  * AMBA PL011 UART support. (fcff8f881)
+  * Scan all BARs on PCI serial devices when looking for an I/O port.
+    (af8c7012e)
+  * Jump- and delete-word shortcuts in the command line editor. (ad4cf56cc)
+  * Drop support for the UGA Draw and Console Control protocols; efi_uga is now
+    loaded only on x86 EFI platforms. (ef6ee4ad4, 129588e49)
+  * Fix integer overflow and shift undefined behaviour in the PNG and JPEG
+    decoders, and EOF misdetection in the PNG, JPEG and TGA readers.
+    (368b11823, f08903403, 1d4899bae)
+  * Reject out-of-range and overflowing proportional-spec values in gfxmenu.
+    (b10f26d9b)
+  * Free cached glyphs when freeing a font, plus font memory leak fixes found
+    by fuzzing. (ac4b9c3f5, f3e63f295)
+
+* Boot protocol improvements:
+  * Set the loaded image device path for the EFI Linux and chainloader loaders
+    when firmware leaves it missing. (b13e52e0a, 07243a5e9, b681823b9)
+  * Use device tree bootargs for the EFI Linux loader when no command line is
+    given. (cfba8a4ef, 7272ed9ec)
+  * Ensure the FDT blob is 8-byte aligned. (bcc8f0d71)
+  * Allow xen_hypervisor and xen_module on x86_64-efi. (5754c5a51)
+  * Restrict the x86 relocator preamble page table to FreeBSD, clear its unused
+    entries and move runtime-patched stubs to the .data section. (62289192b,
+    f8617b653, 577272de9, c7a81c2f1, 4347e1bfc)
+  * Inherit the firmware PML4 in the x86 relocator preamble page table and
+    identity map the full 512G of every PML4 entry GRUB overwrites, so that
+    MMIO and EFI boot services mappings above the top of RAM stay reachable.
+    (f40e41a31, 8773969ac)
+  * Append the version to BLS entry titles and the uname to UKI entry titles,
+    and skip UKIs with no PRETTY_NAME. (7f46a3987, 9be1b7564, 00f09ed61)
+
+* New/improved network support:
+  * New `net_dhcp6' command providing DHCPv6 support. (b175570c4, 31a40660a,
+    42bff9bdb)
+  * Configure the network from the UEFI device path and set the DNS server from
+    the UEFI protocol. (2386c1909, fe0a09e85)
+  * Process the DHCPACK packet during HTTP Boot. (3e20a68f9)
+  * Print URI and DNS device path information, and correct the endianness of
+    IPv6 device paths. (a59e894a5, 945fc8647)
+  * Return the HTTP status code from http_establish and handle HTTP error
+    responses more cleanly. (e2cdb5c4c, 176ba4445)
+  * Fix a hang when a TFTP file is a directory. (74a33ddd4)
+  * Fix an uninitialised cmd_server.option causing DNS failures. (7e864f345)
+  * Fix a logical operator in the DHCP option overload check. (9dcd6f100)
+  * Check the result of grub_netbuff_put() in http_receive(). (e5fce9d0c)
+  * New virtio-net driver. (6ebf1c8eb, abfba8add, 65bb6c229)
+
+* New/improved platform support:
+  * New `connectefi' command, connecting UEFI Disk I/O and SCSI I/O devices so
+    that network-booted GRUB can chainload from a local disk. (80d59ed3e)
+  * New `lsefivar' command to dump UEFI runtime variables. (f296813a0,
+    f107c2ad7, bcb738d8c)
+  * New `efibootnext' module and 31_efi_bootnext script for one-shot boot
+    entries, keyed off the ESP PARTUUID and vendor directory. (3d0a81dc0,
+    6b8d690e3, 53b7b754b, ba20519fc, 9cc5ebba6, 69a08ed5f)
+  * Complete the UEFI status code definitions. (72792baa7)
+  * Fix UTF-16 to UTF-8 conversion and variable enumeration in the EFI
+    commands. (c0aaffa8b, e1da075fe)
+  * Try allocating in the lower 4GB first, and limit arm64 allocations to the
+    4GB boundary. (091e50562, 1cae86131)
+  * Enable (u)divdi3 and (u)moddi3 for MIPS and implement __aeabi_uldivmod.
+    (22a15660c, 7dfe88fcc)
+  * Only flush the cache on VIA CPUs when the cpuid family matches. (3b3458f72)
+  * Mandatory install device check for PowerPC. (456ab994a)
+  * Convert several PowerPC IEEE 1275 error logs to debug logs. (147a52298)
+  * Fix a left shift overflow on ia64. (42889fea3)
+
+* Security:
+  * ML-DSA post-quantum signature support for appended signatures, including
+    the algorithm OID parser and test vectors. (c59c042bf, a37b0c0db,
+    d8da70576, 3394f6f9f, ef122da81, ce3ac8f2b, 41081d572, 4e1510370)
+  * Complete dbx image and certificate revocation checks for appended
+    signatures, with db and dbx read at module load on PowerPC IEEE 1275.
+    (15413acb6, e40793ccf)
+  * Parse and verify PKCS#7 signedAttrs -- contentType, messageDigest and
+    signingTime -- against the content and the signer certificate, and decode
+    X.509 certificate validity periods. (d86ddefba, 9badd596c, 59fd2c25a,
+    928904041, 549b988e0, 07635d644, bd9ded192, 96dcc3c29, f7c25f1fa,
+    19200af70, 19abb28a2)
+  * Parse the signer issuer and serial number and the signature algorithm from
+    PKCS#7 signerInfos, and enforce signature length validation. (32855cf73,
+    31c6b0a98, 59fd2c25a)
+  * Large refactor of the appendedsig module: X.509 handling isolated, RSA
+    verification extracted into a pk module, db/dbx hash lists converted to
+    linked lists. (ec5877a3e, 70aa3f557, f0dab014d, 487cd55c6, 719adb7f4,
+    c000ff57e, 6cce77cdd)
+  * TPCM (Trusted Platform Control Module) verifier on x86_64 EFI. (096aa1da6,
+    f5e0c076c, 558411534, 5e4648a61)
+  * New `tpm_record_pcrs' command recording a TPM PCR snapshot for the OS, via
+    an EFI variable or, on PowerPC IEEE 1275, the /chosen device tree node.
+    (1bd155080, 9a8369807, 0e346a131, 178144cb5, 6aa93964c)
+  * Skip TPM measurement of inspection-only file types. (4c6efaca3)
+  * New `password_argon2' command and grub-mkpasswd-argon2 utility, adding
+    Argon2 hashes for GRUB user passwords. (0511c84c0, a2b9258d5, ccc3620a0)
+  * Access levels for authentication in grub-mkconfig, used by all the default
+    grub.d scripts. (9ef06ff1d, 530a02f36, abf868b1b, ed5fbe400)
+  * MFA key protector. (40a1f9e5b, 9ca263d81, 1ea9e4f86)
+  * Downstream SBAT support: an sbat.csv template, validation of the SBAT CSV
+    against the build-time SBAT level, and an empty --sbat now meaning the
+    bundled sbat.csv. (99ab9d04b, bb483e1f4, 3777c2071, 1a7158490)
+  * Reject caller-supplied serial port and MMIO addresses under lockdown: the
+    `serial' command now only accepts a raw address when a port is already
+    registered at it, so it can no longer be used to write to arbitrary memory.
+    Lookups by name and `auto' are unaffected, as is the behaviour outside of
+    lockdown. (26beaa3b2, 92a2f034e)
+  * Print human readable authentication failure messages instead of the source
+    location of the failing check. (0c2822769)
+  * Exclude PKS support from grub-emu in the appendedsig module. (aaaf50378)
+  * Fix an off-by-one out-of-bounds read of the PGP issuer key-ID subpacket,
+    fix new-format packet length parsing, look for the key ID in hashed
+    signature subpackets, and warn when a secret key packet is found.
+    (d0902e62a, 5ee2e04db, f9fe263f0, 6f71f6502, 0a0c5e6bb)
+  * Fix a heap overflow reading the NVMe-oF address in ofpath. (284aa65ef)
+  * Fix an integer overflow in the mmap binary search. (170221b35)
+  * Fix boot failure when shim validation is disabled. (089d0567c)
+  * Cap the PCR unconditionally in the TPM2 key protector. (75f6ee3bb)
+  * Handle cryptodisk_passphrase_tries=0 correctly. (c605317e0)
+  * Do not require authentication to exit a submenu. (6f5955148)
+
+* Performance:
+  * Optimise grub_memmove() with word-by-word copying, restore grub_memcpy() as
+    an inline function, and add a memmove benchmark. (ace5fddc2, 2f0547739,
+    c82f5c540)
+  * Reduce disk cache slot thrashing. (63c601d8f)
+  * Require SSE before enabling AVX and avoid duplicate enable/reset calls in
+    the libgcrypt hardware feature detection. (4aa3a7995, 4cdb8b163, 3b17bc627,
+    bb8d22837, 14e526983, 63c32fde3)
+
+* Installation and other utility improvements:
+  * grub-install skips EFI registration when GRUB is already registered and
+    passes GRUB_DISTRIBUTOR directly for the bootloader ID. (9f682bf19,
+    ddb8f4c1f)
+  * grub-editenv removes a stale env_block on unsupported filesystems.
+    (a0476c1a3)
+  * grub-mkstandalone warns on non-regular files. (7d3e803e3)
+  * Force the device path for diskfilter and dmraid roots in 10_linux and
+    20_linux_xen. (928df0770)
+  * Use findfs for UUID and PARTUUID device lookup in the templates.
+    (26f82dc61)
+  * Default gfxpayload=keep only when booting using EFI. (bcc760dc5)
+  * Skip mount points in grub_find_device. (715c60967)
+  * Support canonical paths not starting with / in render-label. (b4800d434)
+  * Do not treat non-GPT partitions as an error in the bli command. (7b037605e)
+  * Fix an rmmod underflow on autoloaded modules. (74fca99f2)
+  * New grub_list_length() helper counting the elements of a list. (3e1ab0ee0)
+  * ofpath robustness fixes: correct the path_size calculation, bound the
+    fscanf string and read sizes in of_fc_port_name(), initialise nsid in
+    of_path_get_nvme_nsid(), handle lstat errors and harden the strncpy() and
+    strstr() calls. (b71ae6db2, 675d85810, 3b2aff5d4, 02efab276, c6f759f9c,
+    0ff251503, f81b844e9)
+  * Check for NULL in add_multiple_nvme_bootdevices() and initialise sectors
+    and nsec in grub-setup. (ddf942168, 79b76893c)
+  * Save the str[r]chr() return values into const pointers in grub-probe and
+    the device name resolver. (9f4a586f1, ce6f2b57f)
+  * Skip .mo and .gmo directory entries in copy_locales(). (25e9f2154)
+  * Memory and resource leak fixes across ofpath, getroot, platform,
+    grub-mkrescue, efidisk, appendedsig and the configuration parser.
+    (284aa65ef, fc9f05fe2, 0a1877cb1, e6e3ece5b, 28ee8ff77, d67dec8d2,
+    92eb0acb2, 7cafb2fa7, bb2c5c740, dd6cb6deb, 7115cf2ad, 52f113a86)
+
+* Testing and debugging:
+  * New unit and functional tests: tpcm_unit_test, mfa_key_protector_test,
+    rmmod_test, net_http_transfer_test, network protocol integration tests,
+    loadenv unit and end-to-end tests, FDT and Image processing unit tests,
+    MLDSA tests and a memmove benchmark. (558411534, 1ea9e4f86, 807a3f1d9,
+    abfba8add, b74260f8c, 4379c4e02, feb0f7be5, 916327d56, dc74b43b5,
+    3394f6f9f, ef122da81, c82f5c540)
+  * Run the libtasn1 coding-long-oid and Test_errors self-tests. (424b36804)
+  * Serial tests enabled for arm*-efi and loongarch64-efi. (9e9efbe3c,
+    6d76ae440)
+  * New partmap_test case for logical partitions without primaries. (2d9f8846b,
+    df576cac8)
+  * PGP signature tests against Sequoia-PGP generated keys and signatures.
+    (5ef6337a2, 1d0b9fd17)
+  * Fix a loop device race condition in the ext tests. (278263d39)
+  * Fix the -f test on files served over TFTP and HTTP, and clarify what that
+    test guarantees. (ffc05ec96, 83cc0e322)
+  * Distribute the network test scripts. (02d4b7b7b)
+  * Teach grub-fs-tester about luks2_test and remove the emu device.map in the
+    grub-shell cleanup. (03fa65f1f, add20d17b)
+
+* Build system:
+  * libgcrypt 1.12.2, including Dilithium/ML-DSA and support for verifying raw
+    data larger than 65535 bytes. (9469e618d, d5ca1a78b, ce3ac8f2b, c33dadaac)
+  * libtasn1 4.21.0. (7a30313dc, d21625937, 234bb2aaf, 49ef3593a)
+  * Cygwin and mingw cross-compilation fixes: updated i386-cygwin linker
+    script, stripped extra sections, a pei386 runtime relocator stub and
+    correct PE relocation section flags. (7d0a4c07a, 3dce38eb1, 3a509d3b0,
+    6d32b5a87, 87fef5611, a23d4a235, 172a50f07, 747275485, 2e8c7b4c1,
+    feb3115f7)
+  * clang build fixes across x86_64, PowerPC IEEE 1275 and the tests, and
+    llvm/lld link flag fixes for LoongArch, PowerPC, SPARC and MIPS.
+    (047ee58ef, 990544b46, 0459424d3, e35f31246)
+  * i386-pc kernel image generation reworked around --image-base rather than
+    -Ttext. The 2.14 --image-base linker probe and the GNU Autoconf Archive
+    requirement it brought in were reverted in favour of this approach.
+    (ba2f35114, 86283bfd4, ab6f73517, 9922ed133, 1dc2986c7, 7b72d6cbd,
+    935e889ab)
+  * Parallel build support and a parallel build failure fix. (304ba2637,
+    c2a215245)
+  * Fix a linker error on macOS hosts and a build failure with platform=emu and
+    libzfs. (8a58da21a, 943ce33da)
+  * Stop forcibly distributing all gnulib headers. (dc827846a)
+  * Compiler warning cleanups across ofpath, bootp, platform, gnulib,
+    grub-protect and the arm64 Xen boot loader. (6a7fb8f74, 23becbaaf,
+    f2601de58, 1ae2a2cf3, 6a9d21eaf, 081347a87, cf8b48019)
+  * Replace codecs.open() in util/import_gcry.py and drop the unused
+    SHA1_DIGEST_SIZE definition. (89ce24a7b, c592a9d46)
+
+* Continuous integration:
+  * GitLab CI introduced for GRUB, with builds and checks across multiple
+    architectures, a powerpc64le-linux-gnu/ieee1275 job, clang jobs, scheduled
+    Windows mingw builds, weekly Coverity scans, a Signed-off-by check and a
+    release pipeline. (15c99a7a6, da0200d5a, 7bba0975e, ee4a4aa35, 4345af6d3,
+    a3b64ccb1, 5fd3a91e7, b7c5ed972, addd5742c, f89af02ce, 1b9d412ba,
+    a40d8f3fc, 1ab34666a, c1d8befec, e511c82bc)
+  * CI coverage and turnaround improvements: wider clang platform coverage on
+    x86_64, the bootnext functional tests added to the native and non-native
+    test matrices, duplicate target/platform entries removed, failing checks
+    re-run with debug information, bash xtrace enabled in the scripts, build
+    artifacts always stored with a 30 day lifetime for check, and the pages job
+    limited to index.html changes. (4482637b4, 4cdcb3dfa, ae199dfec, 920a440c3,
+    edd057b5c, 206d331b8, c5aa88220, ae792be6b, 94a457f18, c7bf1d032,
+    4a1a96a8e)
+
+* Documentation and project infrastructure:
+  * Documentation for the new commands and features: ML-DSA appended
+    signatures, tpm_record_pcrs, lsefivar, the Btrfs commands, virtionet,
+    net_dhcp6, access levels, the MFA key protector, password_argon2 and
+    grub-mkpasswd-argon2, and device tree boot arguments. (19b933baa,
+    93aedcb21, f107c2ad7, e36337934, 65bb6c229, 42bff9bdb, ed5fbe400,
+    9ca263d81, ccc3620a0, 32a720f36, 7272ed9ec)
+  * Document the serial port restrictions under lockdown, add the missing
+    connectefi entry to the command-line command list, note that cryptomount
+    now supports Argon2 and fix assorted typos in the comments and the
+    documentation. (92a2f034e, 4e284ff4d, 53fae3e8a, c160b5861)
+  * The 'Authentication and Authorisation' section was renamed and access level
+    documentation added. (abf868b1b, ed5fbe400)
+  * CONTRIBUTING and a Code of Conduct were added, and MAINTAINERS and the
+    SECURITY policy were updated. (754a3d867, 9b74ffa69, da3675583, 14949bbd1,
+    b07cc37ca, 342661cb8)
+
+* Hosting moved from Savannah to freedesktop.org. (87e5dda9a)
+
 New in 2.14:
 
 * libgcrypt 1.11.

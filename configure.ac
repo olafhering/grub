@@ -34,7 +34,7 @@ dnl "TARGET_" (such as TARGET_CC, TARGET_CFLAGS, etc.) are used for
 dnl the target type. See INSTALL for full list of variables and
 dnl description of the relationships between them.
 
-AC_INIT([GRUB],[2.16~rc2],[bug-grub@gnu.org])
+AC_INIT([GRUB],[2.16],[bug-grub@gnu.org])
 
 # 1: Initial value
 # 2: https://lists.gnu.org/archive/html/grub-devel/2022-06/msg00035.html
