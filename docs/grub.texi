@@ -6753,6 +6753,38 @@ Note, valid @var{port} values, excluding IO port addresses, can be found
 by listing terminals with @command{terminal_output}, selecting all names
 prefixed by @samp{serial_} and removing that prefix.
 
+When lockdown is enforced (@pxref{Lockdown}) a @var{port} that gives a raw
+I/O or MMIO address is accepted only if a port is already registered at that
+address, which means the platform described that UART. An address nothing is
+registered at is rejected, because nothing in the UART programming sequence
+can tell a real UART from ordinary memory and the configuration supplying the
+address is not authenticated. Matching is on the address, so it does not
+matter how the address is spelled, and the registered port keeps the access
+size the platform gave it.
+
+The ports a platform describes are:
+
+@itemize @bullet
+@item
+the @samp{com@var{N}} legacy UARTs, named by @var{unit} or by their I/O
+address (x86 only)
+@item
+an ACPI SPCR UART, which @command{serial auto} -- or @command{serial} with no
+options at all -- parses the table for (x86 only). Note that
+@option{--port=auto} does @emph{not} select this: @option{--port} parses its
+argument as a number unless it begins with @samp{mmio,} or @samp{pci,}, so
+@samp{auto} there becomes port 0.
+@item
+a UEFI Serial I/O device, named @samp{efi@var{N}}. On platforms with no
+legacy UART and no SPCR support, such as arm64, this is the route to use.
+@item
+an enumerated PCI device, named @samp{pci,XX:XX.X} or by its I/O address
+@end itemize
+
+An SPCR UART is registered only when @command{serial auto} first parses the
+table, so under lockdown it must be reached through @command{serial auto}
+once before it can be named by its address.
+
 Examples:
 @example
 serial --port=0x3f8 --speed=9600
