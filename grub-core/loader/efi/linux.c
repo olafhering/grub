@@ -231,7 +231,7 @@ grub_arch_efi_linux_boot_image (grub_addr_t addr, grub_size_t size, char *args)
       if (status != GRUB_EFI_SUCCESS)
 	{
 	  grub_free (mempath);
-	  return grub_error (GRUB_ERR_BAD_OS, "cannot load image");
+	  return grub_error (GRUB_ERR_BAD_OS, "cannot load image 0x%" PRIxGRUB_EFI_UINTN_T, status);
 	}
     }
 
@@ -263,7 +263,7 @@ grub_arch_efi_linux_boot_image (grub_addr_t addr, grub_size_t size, char *args)
       if (status != GRUB_EFI_SUCCESS)
         {
           grub_error (GRUB_ERR_BAD_FIRMWARE,
-                "missing protocol for loaded image device path");
+                "missing protocol for loaded image device path 0x%" PRIxGRUB_EFI_UINTN_T, status);
           loaded_image->file_path = NULL;
           grub_free (mempath);
           goto unload;

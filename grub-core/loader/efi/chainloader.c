@@ -123,7 +123,7 @@ grub_chainloader_boot (void *context)
 	    }
 	}
       else
-	grub_error (GRUB_ERR_BAD_OS, "unknown error");
+	grub_error (GRUB_ERR_BAD_OS, "start_image() failed 0x%" PRIxGRUB_EFI_UINTN_T, status);
     }
 
   if (exit_data)
@@ -382,7 +382,7 @@ grub_cmd_chainloader (grub_command_t cmd __attribute__ ((unused)),
 	  if (status == GRUB_EFI_OUT_OF_RESOURCES)
 	    grub_error (GRUB_ERR_OUT_OF_MEMORY, "out of resources");
 	  else
-	    grub_error (GRUB_ERR_BAD_OS, "cannot load image");
+	    grub_error (GRUB_ERR_BAD_OS, "cannot load image 0x%" PRIxGRUB_EFI_UINTN_T, status);
 
 	  goto fail;
 	}
@@ -460,7 +460,7 @@ grub_cmd_chainloader (grub_command_t cmd __attribute__ ((unused)),
       if (status != GRUB_EFI_SUCCESS)
         {
           grub_error (GRUB_ERR_BAD_FIRMWARE,
-                "missing protocol for loaded image device path");
+                "missing protocol for loaded image device path 0x%" PRIxGRUB_EFI_UINTN_T, status);
           loaded_image->file_path = NULL;
           goto fail;
         }
