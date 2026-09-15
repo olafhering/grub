@@ -214,17 +214,26 @@ struct grub_serial_driver grub_pl011_driver =
 
 struct grub_serial_port *
 grub_serial_pl011_add_mmio (grub_addr_t addr, unsigned int acc_size,
-                            struct grub_serial_config *config)
+                            struct grub_serial_config *config, bool trusted)
 {
   struct grub_serial_port *p;
 
+  /*
+   * use_mmio and mmio share a union with the private data of every other back
+   * end, so they only mean anything on a port this driver registered.
+   */
   FOR_SERIAL_PORTS (p)
-    if (p->use_mmio == true && p->mmio.base == addr)
+    if (p->driver == &grub_pl011_driver
+        && p->use_mmio == true && p->mmio.base == addr)
       {
         if (config != NULL)
           grub_serial_port_configure (p, config);
         return p;
       }
+
+  /* No port is registered here, so going on means programming the address. */
+  if (grub_serial_reject_untrusted_address (trusted) == true)
+    return NULL;
 
   p = grub_malloc (sizeof (*p));
   if (p == NULL)

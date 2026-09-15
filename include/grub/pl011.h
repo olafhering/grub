@@ -59,7 +59,8 @@
 #ifndef ASM_FILE
 struct grub_serial_port *grub_serial_pl011_add_mmio (grub_addr_t addr,
                               unsigned int acc_size,
-                              struct grub_serial_config *config);
+                              struct grub_serial_config *config,
+                              bool trusted);
 #endif
 
 #endif /* ! GRUB_PL011_HEADER */
