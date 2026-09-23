@@ -64,6 +64,7 @@ typedef enum protect_opt
   PROTECT_OPT_TPM2_EVICT,
   PROTECT_OPT_TPM2_TPM2KEY,
   PROTECT_OPT_TPM2_NVINDEX,
+  PROTECT_OPT_TPM2_AUTHKEY,
 } protect_opt_t;
 
 /* Option flags to keep track of specified arguments */
@@ -82,7 +83,8 @@ typedef enum protect_arg
   PROTECT_ARG_TPM2_OUTFILE    = 1 << 8,
   PROTECT_ARG_TPM2_EVICT      = 1 << 9,
   PROTECT_ARG_TPM2_TPM2KEY    = 1 << 10,
-  PROTECT_ARG_TPM2_NVINDEX    = 1 << 11
+  PROTECT_ARG_TPM2_NVINDEX    = 1 << 11,
+  PROTECT_ARG_TPM2_AUTHKEY    = 1 << 12,
 } protect_arg_t;
 
 typedef enum protect_protector
@@ -96,7 +98,8 @@ typedef enum protect_action
   PROTECT_ACTION_ERROR,
   PROTECT_ACTION_ADD,
   PROTECT_ACTION_REMOVE,
-  PROTECT_ACTION_GENERATE_AUTHKEY
+  PROTECT_ACTION_GENERATE_AUTHKEY,
+  PROTECT_ACTION_SIGN_POLICY,
 } protect_action_t;
 
 typedef struct protect_args
@@ -116,7 +119,26 @@ typedef struct protect_args
   bool tpm2_evict;
   bool tpm2_tpm2key;
   TPM_HANDLE_t tpm2_nvindex;
+  const char *tpm2_authkey;
 } protect_args_t;
+
+/*
+ * The location of the TPM 2.0 Key file to be signed by 'sign-policy'.
+ *
+ * The meanings of the file options vary from action to action, so the caller
+ * has to state where the tpm2key file is loaded from and where the updated
+ * one is stored. This keeps the policy signing code independent of the
+ * options of the action which invokes it.
+ */
+typedef struct protect_tpm2key_loc
+{
+  /* Path to the tpm2key file to be signed, NULL to load from 'nvindex'. */
+  const char *in_file;
+  /* Path to the file receiving the updated tpm2key, NULL to skip. */
+  const char *out_file;
+  /* NV index holding the tpm2key, 0 to skip. */
+  TPM_HANDLE_t nvindex;
+} protect_tpm2key_loc_t;
 
 static struct argp_option protect_options[] =
   {
@@ -124,10 +146,10 @@ static struct argp_option protect_options[] =
    {
       .name  = "action",
       .key   = 'a',
-      .arg   = "add|remove|generate-authkey",
+      .arg   = "add|remove|generate-authkey|sign-policy",
       .flags = 0,
       .doc   =
-	N_("Add or remove a key protector to or from a key, or generate an authority key."),
+	N_("Add or remove a key protector, generate an authority key, or sign a policy."),
       .group = 0
     },
     {
@@ -179,7 +201,9 @@ static struct argp_option protect_options[] =
       .arg   = "FILE",
       .flags = 0,
       .doc   =
-	N_("Set the path to a file that contains the cleartext key to protect."),
+	N_("Set the path to a file that contains the cleartext key to protect. "
+	   "For action 'sign-policy', set the path to the TPM 2.0 Key file "
+	   "whose policy is to be signed."),
       .group = 0
     },
     {
@@ -188,8 +212,10 @@ static struct argp_option protect_options[] =
       .arg   = "FILE",
       .flags = 0,
       .doc   =
-	N_("Set the path to the file that will contain the key after sealing "
-	   "(must be accessible to GRUB during boot)."),
+	N_("Set the path to the output file (sealed key, generated auth key, or "
+	   "signed TPM 2.0 Key file). For action 'sign-policy', the file "
+	   "specified by --tpm2-keyfile is updated in place if this option is "
+	   "not specified."),
       .group = 0
     },
     {
@@ -236,6 +262,15 @@ static struct argp_option protect_options[] =
       .flags = 0,
       .doc   =
 	N_("Store the sealed key in a persistent or NV index handle."),
+      .group = 0
+    },
+    {
+      .name = "tpm2-authkey",
+      .key   = PROTECT_OPT_TPM2_AUTHKEY,
+      .arg   = "FILE",
+      .flags = 0,
+      .doc   =
+	N_("Specify the path to the authorized TPM2 key file."),
       .group = 0
     },
     /* End of list */
@@ -396,7 +431,51 @@ protect_tpm2_close_device (void)
 }
 
 static grub_err_t
-protect_tpm2_get_policy_digest (protect_args_t *args, TPM2B_DIGEST_t *digest)
+protect_tpm2_get_key_name (protect_args_t *args, TPM2B_NAME_t *key_name)
+{
+  grub_err_t err;
+  tpm2_sealed_key_t *auth_key = NULL;
+  grub_size_t auth_key_size = 0;
+  TPM_HANDLE_t pubkey_handle = 0;
+  TPM_RC_t rc;
+
+  if (args->tpm2_authkey == NULL)
+    {
+      fprintf (stderr, "No authority key specified.\n");
+      return GRUB_ERR_BAD_ARGUMENT;
+    }
+
+  err = protect_read_file (args->tpm2_authkey, (void **)&auth_key, &auth_key_size);
+  if (err != GRUB_ERR_NONE)
+    {
+      fprintf (stderr, "Failed to read authority key file (%s).\n", args->tpm2_authkey);
+      return err;
+    }
+
+  if (auth_key_size < sizeof (tpm2_sealed_key_t))
+    {
+      fprintf (stderr, "Invalid authority key file size.\n");
+      grub_free (auth_key);
+      return GRUB_ERR_BAD_ARGUMENT;
+    }
+
+  rc = grub_tpm2_loadexternal (NULL, NULL, &auth_key->public, TPM_RH_OWNER, &pubkey_handle, key_name, NULL);
+  grub_free (auth_key);
+
+  if (rc != TPM_RC_SUCCESS)
+    {
+      fprintf (stderr, "Failed to load public key (TPM2_LoadExternal: 0x%x)\n", rc);
+      return GRUB_ERR_BAD_DEVICE;
+    }
+
+  grub_tpm2_flushcontext (pubkey_handle);
+
+  return GRUB_ERR_NONE;
+}
+
+static grub_err_t
+protect_tpm2_get_policy_digest (protect_args_t *args, bool authorized,
+				TPM2B_DIGEST_t *digest)
 {
   TPM_RC_t rc;
   TPML_PCR_SELECTION_t pcr_sel = {
@@ -505,12 +584,62 @@ protect_tpm2_get_policy_digest (protect_args_t *args, TPM2B_DIGEST_t *digest)
       goto error;
     }
 
+  /* Transition to Authorized Policy if requested */
+  if (authorized)
+    {
+      TPM2B_NAME_t keySignName = {0};
+      TPM2B_NONCE_t policyRef = {0}; /* Usually empty/null */
+      TPMT_TK_VERIFIED_t checkTicket = {0};
+
+      /* Resolve the Name of the Authorized RSA public key */
+      err = protect_tpm2_get_key_name (args, &keySignName);
+      if (err != GRUB_ERR_NONE)
+	goto error;
+
+      /* Start a clean Trial Session */
+      grub_tpm2_flushcontext (session);
+      session = 0;
+      rc = grub_tpm2_startauthsession (TPM_RH_NULL, TPM_RH_NULL, 0, &nonce, &salt,
+				       TPM_SE_TRIAL, &symmetric, TPM_ALG_SHA256,
+				       &session, NULL, 0);
+      if (rc != TPM_RC_SUCCESS)
+	{
+	  fprintf (stderr, "Failed to start trial policy session (TPM2_StartAuthSession: 0x%x).\n", rc);
+	  err = GRUB_ERR_BAD_DEVICE;
+	  goto error;
+	}
+
+      /* Populate checkTicket with null verification (since it is a trial session) */
+      checkTicket.tag = TPM_ST_VERIFIED;
+      checkTicket.hierarchy = TPM_RH_OWNER;
+
+      /* Apply PolicyAuthorize */
+      rc = grub_tpm2_policyauthorize (session, NULL, &policy_digest,
+				      &policyRef, &keySignName, &checkTicket, NULL);
+      if (rc != TPM_RC_SUCCESS)
+	{
+	  fprintf (stderr, "Failed to authorize policy (TPM2_PolicyAuthorize: 0x%x).\n", rc);
+	  err = GRUB_ERR_BAD_DEVICE;
+	  goto error;
+	}
+
+      /* Retrieve the Final Authorized Policy Digest */
+      rc = grub_tpm2_policygetdigest (session, NULL, &policy_digest, NULL);
+      if (rc != TPM_RC_SUCCESS)
+	{
+	  fprintf (stderr, "Failed to get policy digest (TPM2_PolicyGetDigest: 0x%x).\n", rc);
+	  err = GRUB_ERR_BAD_DEVICE;
+	  goto error;
+	}
+    }
+
   /* Epilogue */
   *digest = policy_digest;
   err = GRUB_ERR_NONE;
 
  error:
-  grub_tpm2_flushcontext (session);
+  if (session != 0)
+    grub_tpm2_flushcontext (session);
 
   return err;
 }
@@ -737,30 +866,55 @@ protect_tpm2_export_tpm2key (const protect_args_t *args, tpm2_sealed_key_t *seal
       goto error;
     }
 
-  /* Set 'policy' */
-  ret = asn1_write_value (tpm2key, "policy", "NEW", 1);
-  if (ret != ASN1_SUCCESS)
+  if (args->tpm2_authkey != NULL)
     {
-      fprintf (stderr, "Failed to set 'policy': 0x%x\n", ret);
-      err = GRUB_ERR_BAD_ARGUMENT;
-      goto error;
+      /* Remove 'policy' */
+      ret = asn1_write_value (tpm2key, "policy", NULL, 0);
+      if (ret != ASN1_SUCCESS)
+        {
+          fprintf (stderr, "Failed to remove 'policy': 0x%x\n", ret);
+          err = GRUB_ERR_BAD_ARGUMENT;
+          goto error;
+        }
+
+
     }
-  cmd_code = grub_cpu_to_be32 (TPM_CC_PolicyPCR);
-  ret = asn1_write_value (tpm2key, "policy.?LAST.CommandCode", &cmd_code,
-			  sizeof (cmd_code));
-  if (ret != ASN1_SUCCESS)
+  else
     {
-      fprintf (stderr, "Failed to set 'policy CommandCode': 0x%x\n", ret);
-      err = GRUB_ERR_BAD_ARGUMENT;
-      goto error;
-    }
-  ret = asn1_write_value (tpm2key, "policy.?LAST.CommandPolicy", &pol_buf.data,
-			  pol_buf.size);
-  if (ret != ASN1_SUCCESS)
-    {
-      fprintf (stderr, "Failed to set 'policy CommandPolicy': 0x%x\n", ret);
-      err = GRUB_ERR_BAD_ARGUMENT;
-      goto error;
+      /* Set 'policy' */
+      ret = asn1_write_value (tpm2key, "policy", "NEW", 1);
+      if (ret != ASN1_SUCCESS)
+        {
+          fprintf (stderr, "Failed to set 'policy': 0x%x\n", ret);
+          err = GRUB_ERR_BAD_ARGUMENT;
+          goto error;
+        }
+      cmd_code = grub_cpu_to_be32 (TPM_CC_PolicyPCR);
+      ret = asn1_write_value (tpm2key, "policy.?LAST.CommandCode", &cmd_code,
+			      sizeof (cmd_code));
+      if (ret != ASN1_SUCCESS)
+        {
+          fprintf (stderr, "Failed to set 'policy CommandCode': 0x%x\n", ret);
+          err = GRUB_ERR_BAD_ARGUMENT;
+          goto error;
+        }
+      ret = asn1_write_value (tpm2key, "policy.?LAST.CommandPolicy", &pol_buf.data,
+			      pol_buf.size);
+      if (ret != ASN1_SUCCESS)
+        {
+          fprintf (stderr, "Failed to set 'policy CommandPolicy': 0x%x\n", ret);
+          err = GRUB_ERR_BAD_ARGUMENT;
+          goto error;
+        }
+
+      /* Remove 'authPolicy' */
+      ret = asn1_write_value (tpm2key, "authPolicy", NULL, 0);
+      if (ret != ASN1_SUCCESS)
+        {
+          fprintf (stderr, "Failed to remove 'authPolicy': 0x%x\n", ret);
+          err = GRUB_ERR_BAD_ARGUMENT;
+          goto error;
+        }
     }
 
   /* Remove 'secret' */
@@ -768,15 +922,6 @@ protect_tpm2_export_tpm2key (const protect_args_t *args, tpm2_sealed_key_t *seal
   if (ret != ASN1_SUCCESS)
     {
       fprintf (stderr, "Failed to remove 'secret': 0x%x\n", ret);
-      err = GRUB_ERR_BAD_ARGUMENT;
-      goto error;
-    }
-
-  /* Remove 'authPolicy' */
-  ret = asn1_write_value (tpm2key, "authPolicy", NULL, 0);
-  if (ret != ASN1_SUCCESS)
-    {
-      fprintf (stderr, "Failed to remove 'authPolicy': 0x%x\n", ret);
       err = GRUB_ERR_BAD_ARGUMENT;
       goto error;
     }
@@ -936,10 +1081,48 @@ protect_tpm2_export_persistent (protect_args_t *args,
   return err;
 }
 
+static grub_err_t
+protect_tpm2_import_nvindex (TPM_HANDLE_t handle, void **data, grub_size_t *data_size)
+{
+  TPM_RC_t rc;
+  TPM2B_NV_PUBLIC_t nv_public;
+  TPM2B_NAME_t nv_name;
+  TPMS_AUTH_COMMAND_t authCmd = {0};
+  TPM2B_MAX_NV_BUFFER_t nv_data = {0};
+
+  /* Find the nvindex handle */
+  rc = grub_tpm2_nv_readpublic (handle, NULL, &nv_public, &nv_name);
+  if (rc != TPM_RC_SUCCESS)
+    {
+      fprintf (stderr, "Handle 0x%x not found.\n", handle);
+      return GRUB_ERR_BAD_ARGUMENT;
+    }
+
+  authCmd.sessionHandle = TPM_RS_PW;
+  rc = grub_tpm2_nv_read (TPM_RH_OWNER, handle, &authCmd, nv_public.nvPublic.dataSize, 0, &nv_data);
+  if (rc != TPM_RC_SUCCESS)
+    {
+      fprintf (stderr, "Failed to read data from 0x%x (TPM2_NV_Read: 0x%x)\n", handle, rc);
+      return GRUB_ERR_BAD_DEVICE;
+    }
+
+  *data = grub_malloc (nv_data.size);
+  if (*data == NULL)
+    {
+      fprintf (stderr, "Out of memory.\n");
+      return GRUB_ERR_OUT_OF_MEMORY;
+    }
+
+  grub_memcpy (*data, nv_data.buffer, nv_data.size);
+  *data_size = nv_data.size;
+
+  return GRUB_ERR_NONE;
+}
+
 static grub_err_t protect_tpm2_nv_undefine (TPM_HANDLE_t handle);
 
 static grub_err_t
-protect_tpm2_export_nvindex (protect_args_t *args, void *data, int data_size)
+protect_tpm2_export_nvindex (TPM_HANDLE_t nvindex, void *data, int data_size)
 {
   TPMS_AUTH_COMMAND_t authCmd = {0};
   TPM2B_NV_PUBLIC_t pub_info = {0};
@@ -953,7 +1136,7 @@ protect_tpm2_export_nvindex (protect_args_t *args, void *data, int data_size)
       return GRUB_ERR_OUT_OF_RANGE;
     }
 
-  pub_info.nvPublic.nvIndex = args->tpm2_nvindex;
+  pub_info.nvPublic.nvIndex = nvindex;
   pub_info.nvPublic.nameAlg = TPM_ALG_SHA256;
   pub_info.nvPublic.attributes = TPMA_NV_OWNERWRITE | TPMA_NV_OWNERREAD;
   pub_info.nvPublic.dataSize = (grub_uint16_t) data_size;
@@ -970,7 +1153,7 @@ protect_tpm2_export_nvindex (protect_args_t *args, void *data, int data_size)
     }
   if (rc != TPM_RC_SUCCESS)
     {
-      fprintf (stderr, "Failed to define NV space for 0x%x (TPM2_NV_DefineSpace: 0x%x)\n", args->tpm2_nvindex, rc);
+      fprintf (stderr, "Failed to define NV space for 0x%x (TPM2_NV_DefineSpace: 0x%x)\n", nvindex, rc);
       return GRUB_ERR_BAD_DEVICE;
     }
 
@@ -978,14 +1161,434 @@ protect_tpm2_export_nvindex (protect_args_t *args, void *data, int data_size)
   grub_memcpy (nv_data.buffer, data, data_size);
   nv_data.size = (grub_uint16_t) data_size;
 
-  rc = grub_tpm2_nv_write (TPM_RH_OWNER, args->tpm2_nvindex, &authCmd, &nv_data, 0);
+  rc = grub_tpm2_nv_write (TPM_RH_OWNER, nvindex, &authCmd, &nv_data, 0);
   if (rc != TPM_RC_SUCCESS)
     {
-      fprintf (stderr, "Failed to write data into 0x%x (TPM2_NV_Write: 0x%x)\n", args->tpm2_nvindex, rc);
+      fprintf (stderr, "Failed to write data into 0x%x (TPM2_NV_Write: 0x%x)\n", nvindex, rc);
       return GRUB_ERR_BAD_DEVICE;
     }
 
   return GRUB_ERR_NONE;
+}
+
+/* The 'Name' of the TPMAuthPolicy element maintained by grub-protect. */
+#define TPM2KEY_AUTHPOLICY_NAME "Default"
+
+/*
+ * The number of the policy commands in the authorized policy:
+ * TPM2_PolicyPCR and TPM2_PolicyAuthorize.
+ */
+#define TPM2KEY_AUTHPOLICY_CMDS 2
+
+static grub_err_t
+protect_tpm2_update_tpm2key_signature (const protect_args_t *args,
+                                       const protect_tpm2key_loc_t *tpm2key_loc,
+                                       TPM2B_PUBLIC_t *authorized_key_public,
+                                       TPMT_SIGNATURE_t *policy_signature)
+{
+  asn1_node asn1_def = NULL;
+  asn1_node tpm2key = NULL;
+  void *in_buf = NULL;
+  grub_size_t in_buf_size = 0;
+  void *out_buf = NULL;
+  int out_buf_size = 0;
+  char err_desc[ASN1_MAX_ERROR_DESCRIPTION_SIZE] = {0};
+  grub_err_t err;
+  int ret;
+  int authpol_n;
+  int pol_n;
+  grub_uint32_t cmd_code;
+  struct grub_tpm2_buffer pol_buf;
+  struct grub_tpm2_buffer auth_buf;
+  TPML_PCR_SELECTION_t pcr_sel = {
+    .count = 1,
+    .pcrSelections = {
+      {
+        .hash = args->tpm2_bank,
+        .sizeOfSelect = 3,
+        .pcrSelect = {0}
+      },
+    }
+  };
+  TPM2B_DIGEST_t policyRef = {0};
+  int i;
+
+  if (tpm2key_loc->in_file != NULL)
+    {
+      err = protect_read_file (tpm2key_loc->in_file, &in_buf, &in_buf_size);
+      if (err != GRUB_ERR_NONE)
+        return err;
+    }
+  else if (tpm2key_loc->nvindex != 0)
+    {
+      err = protect_tpm2_import_nvindex (tpm2key_loc->nvindex, &in_buf, &in_buf_size);
+      if (err != GRUB_ERR_NONE)
+        return err;
+    }
+  else
+    {
+      return GRUB_ERR_BAD_ARGUMENT;
+    }
+
+  ret = asn1_array2tree (tpm2key_asn1_tab, &asn1_def, NULL);
+  if (ret != ASN1_SUCCESS)
+    {
+      fprintf (stderr, "Failed to load tpm2key asn1 table: 0x%x\n", ret);
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto error;
+    }
+
+  ret = asn1_create_element (asn1_def, "TPM2KEY.TPMKey", &tpm2key);
+  if (ret != ASN1_SUCCESS)
+    {
+      fprintf (stderr, "Failed to create tpm2key asn1 structure: 0x%x\n", ret);
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto error;
+    }
+
+  ret = asn1_der_decoding (&tpm2key, in_buf, in_buf_size, NULL);
+  if (ret != ASN1_SUCCESS)
+    {
+      fprintf (stderr, "Failed to decode tpm2key file: 0x%x\n", ret);
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto error;
+    }
+
+  for (i = 0; i < args->tpm2_pcr_count; i++)
+    TPMS_PCR_SELECTION_SelectPCR (&pcr_sel.pcrSelections[0], args->tpm2_pcrs[i]);
+
+  grub_tpm2_buffer_init (&pol_buf);
+  grub_tpm2_buffer_pack_u16 (&pol_buf, 0);
+  grub_Tss2_MU_TPML_PCR_SELECTION_Marshal (&pol_buf, &pcr_sel);
+
+  /*
+   * Overwrite the first 'authPolicy' element.
+   *
+   * libtasn1 can only append elements to a SEQUENCE OF, i.e. writing "NEW"
+   * to 'authPolicy' always creates a new TPMAuthPolicy element and there is
+   * no way to write "NEW" to a specific element. Since the tpm2key file may
+   * already carry the 'authPolicy' element created by 'add' or by a previous
+   * 'sign-policy' run, only append a new element when 'authPolicy' is empty
+   * and update the existing element in place otherwise. Appending blindly
+   * would keep the stale authorized policy in the file and the DER encoding
+   * would fail due to the unset 'Name' in the newly appended element.
+   */
+  ret = asn1_number_of_elements (tpm2key, "authPolicy", &authpol_n);
+  if (ret != ASN1_SUCCESS)
+    {
+      fprintf (stderr, "Failed to count the 'authPolicy' elements: 0x%x\n", ret);
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto error;
+    }
+
+  /*
+   * libtasn1 cannot remove an element from a SEQUENCE OF, so the extra
+   * elements, which may authorize an outdated policy, cannot be dropped.
+   */
+  if (authpol_n > 1)
+    {
+      fprintf (stderr, "Cannot update the tpm2key file with %d 'authPolicy' elements\n", authpol_n);
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto error;
+    }
+
+  if (authpol_n == 0)
+    {
+      ret = asn1_write_value (tpm2key, "authPolicy", "NEW", 1);
+      if (ret != ASN1_SUCCESS)
+        {
+          fprintf (stderr, "Failed to create authPolicy: 0x%x\n", ret);
+          err = GRUB_ERR_BAD_ARGUMENT;
+          goto error;
+        }
+    }
+
+  ret = asn1_write_value (tpm2key, "authPolicy.?1.Name", TPM2KEY_AUTHPOLICY_NAME,
+                          sizeof (TPM2KEY_AUTHPOLICY_NAME) - 1);
+  if (ret != ASN1_SUCCESS)
+    {
+      fprintf (stderr, "Failed to set authPolicy name: 0x%x\n", ret);
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto error;
+    }
+
+  /*
+   * Create the missing elements in the 'Policy' sequence inside 'authPolicy'.
+   * The already existing ones are overwritten in the following steps.
+   */
+  ret = asn1_number_of_elements (tpm2key, "authPolicy.?1.Policy", &pol_n);
+  if (ret != ASN1_SUCCESS)
+    {
+      fprintf (stderr, "Failed to count the authPolicy policy commands: 0x%x\n", ret);
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto error;
+    }
+
+  if (pol_n > TPM2KEY_AUTHPOLICY_CMDS)
+    {
+      fprintf (stderr, "Cannot update the authPolicy with %d policy commands\n", pol_n);
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto error;
+    }
+
+  for (i = pol_n; i < TPM2KEY_AUTHPOLICY_CMDS; i++)
+    {
+      ret = asn1_write_value (tpm2key, "authPolicy.?1.Policy", "NEW", 1);
+      if (ret != ASN1_SUCCESS)
+        {
+          fprintf (stderr, "Failed to create authPolicy policy: 0x%x\n", ret);
+          err = GRUB_ERR_BAD_ARGUMENT;
+          goto error;
+        }
+    }
+
+  /* Step 1: PolicyPCR */
+  cmd_code = grub_cpu_to_be32 (TPM_CC_PolicyPCR);
+  ret = asn1_write_value (tpm2key, "authPolicy.?1.Policy.?1.CommandCode", &cmd_code, sizeof (cmd_code));
+  if (ret != ASN1_SUCCESS)
+    {
+      fprintf (stderr, "Failed to set PolicyPCR CommandCode: 0x%x\n", ret);
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto error;
+    }
+
+  ret = asn1_write_value (tpm2key, "authPolicy.?1.Policy.?1.CommandPolicy", &pol_buf.data, pol_buf.size);
+  if (ret != ASN1_SUCCESS)
+    {
+      fprintf (stderr, "Failed to set PolicyPCR CommandPolicy: 0x%x\n", ret);
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto error;
+    }
+
+  /* Step 2: PolicyAuthorize */
+  cmd_code = grub_cpu_to_be32 (TPM_CC_PolicyAuthorize);
+  ret = asn1_write_value (tpm2key, "authPolicy.?1.Policy.?2.CommandCode", &cmd_code, sizeof (cmd_code));
+  if (ret != ASN1_SUCCESS)
+    {
+      fprintf (stderr, "Failed to create PolicyAuthorize CommandCode: 0x%x\n", ret);
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto error;
+    }
+
+  /* Marshal PolicyAuthorize parameters */
+  grub_tpm2_buffer_init (&auth_buf);
+  grub_Tss2_MU_TPM2B_PUBLIC_Marshal (&auth_buf, authorized_key_public);
+  grub_Tss2_MU_TPM2B_Marshal (&auth_buf, policyRef.size, policyRef.buffer);
+  grub_Tss2_MU_TPMT_SIGNATURE_Marshal (&auth_buf, policy_signature);
+
+  if (auth_buf.error != 0)
+    {
+      fprintf (stderr, "Failed to marshal PolicyAuthorize parameters\n");
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto error;
+    }
+
+  ret = asn1_write_value (tpm2key, "authPolicy.?1.Policy.?2.CommandPolicy", &auth_buf.data, auth_buf.size);
+  if (ret != ASN1_SUCCESS)
+    {
+      fprintf (stderr, "Failed to create PolicyAuthorize CommandPolicy: 0x%x\n", ret);
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto error;
+    }
+
+  /* Encode back to DER */
+  out_buf_size = 0;
+  ret = asn1_der_coding (tpm2key, "", NULL, &out_buf_size, err_desc);
+  if (ret != ASN1_MEM_ERROR)
+    {
+      fprintf (stderr, "Failed to get the size of DER output: 0x%x, %s\n", ret, err_desc);
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto error;
+    }
+
+  out_buf = grub_malloc (out_buf_size);
+  if (!out_buf)
+    {
+      fprintf (stderr, "Failed to allocate memory for tpm2key DER\n");
+      err = GRUB_ERR_OUT_OF_MEMORY;
+      goto error;
+    }
+
+  ret = asn1_der_coding (tpm2key, "", out_buf, &out_buf_size, err_desc);
+  if (ret != ASN1_SUCCESS)
+    {
+      fprintf (stderr, "Failed to encode tpm2key to DER: 0x%x, %s\n", ret, err_desc);
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto error;
+    }
+
+  /* Store the updated tpm2key back to all the specified destinations. */
+  if (tpm2key_loc->out_file != NULL)
+    {
+      err = protect_write_file (tpm2key_loc->out_file, out_buf, out_buf_size);
+      if (err != GRUB_ERR_NONE)
+        goto error;
+    }
+
+  if (tpm2key_loc->nvindex != 0)
+    {
+      err = protect_tpm2_export_nvindex (tpm2key_loc->nvindex, out_buf, out_buf_size);
+      if (err != GRUB_ERR_NONE)
+        goto error;
+    }
+
+error:
+  if (tpm2key)
+    asn1_delete_structure (&tpm2key);
+  if (asn1_def)
+    asn1_delete_structure (&asn1_def);
+  grub_free (in_buf);
+  grub_free (out_buf);
+
+  return err;
+}
+
+/*
+ * Sign the PCR policy with the authority key and store the resulting
+ * PolicyAuthorize sequence in the tpm2key file specified by 'tpm2key_loc'.
+ *
+ * The TPM2 device has to be opened and 'srk' has to be loaded by the caller.
+ */
+static grub_err_t
+protect_tpm2_sign_tpm2key (protect_args_t *args, TPM_HANDLE_t srk,
+			   const protect_tpm2key_loc_t *tpm2key_loc)
+{
+  grub_err_t err;
+  TPM_RC_t rc;
+  TPMS_AUTH_COMMAND_t authCmd = {0};
+  tpm2_sealed_key_t *auth_key = NULL;
+  grub_size_t auth_key_size = 0;
+  TPM_HANDLE_t key_handle = 0;
+  TPM2B_NAME_t key_name = {0};
+  TPM2B_DIGEST_t policy_digest = {0};
+  TPM2B_DIGEST_t policy_hash = {0};
+  TPMT_SIG_SCHEME_t inScheme = {0};
+  TPMT_TK_HASHCHECK_t validation = {0};
+  TPMT_SIGNATURE_t signature = {0};
+
+  err = protect_read_file (args->tpm2_authkey, (void **)&auth_key, &auth_key_size);
+  if (err != GRUB_ERR_NONE)
+    {
+      fprintf (stderr, "Failed to read authority key file (%s).\n", args->tpm2_authkey);
+      return err;
+    }
+
+  if (auth_key_size < sizeof (tpm2_sealed_key_t))
+    {
+      fprintf (stderr, "Invalid authority key file size.\n");
+      err = GRUB_ERR_BAD_ARGUMENT;
+      goto exit1;
+    }
+
+  authCmd.sessionHandle = TPM_RS_PW;
+  rc = grub_tpm2_load (srk, &authCmd, &auth_key->private, &auth_key->public,
+		       &key_handle, &key_name, NULL);
+  if (rc != TPM_RC_SUCCESS)
+    {
+      fprintf (stderr, "Failed to load authority key (TPM2_Load: 0x%x).\n", rc);
+      err = GRUB_ERR_BAD_DEVICE;
+      goto exit1;
+    }
+
+  /*
+   * Sign the policy to be authorized, i.e. the policy digest *before*
+   * TPM2_PolicyAuthorize is applied, not the resulting authorized policy.
+   */
+  err = protect_tpm2_get_policy_digest (args, false, &policy_digest);
+  if (err != GRUB_ERR_NONE)
+    {
+      fprintf (stderr, "Failed to get policy digest.\n");
+      goto exit2;
+    }
+
+  /*
+   * TPM2_PolicyAuthorize checks the signature over 'aHash', which is
+   * aHash = H_aHashAlg(approvedPolicy || policyRef), with an empty policyRef
+   * here. TPM2_Sign expects an already hashed message, so hash the policy
+   * digest first instead of handing the policy digest to TPM2_Sign directly.
+   */
+  rc = grub_tpm2_hash (NULL, (TPM2B_MAX_BUFFER_t *) &policy_digest,
+		       TPM_ALG_SHA256, TPM_RH_NULL, &policy_hash, NULL, NULL);
+  if (rc != TPM_RC_SUCCESS)
+    {
+      fprintf (stderr, "Failed to hash the policy digest (TPM2_Hash: 0x%x).\n", rc);
+      err = GRUB_ERR_BAD_DEVICE;
+      goto exit2;
+    }
+
+  inScheme.scheme = TPM_ALG_RSASSA;
+  inScheme.details.rsassa.hashAlg = TPM_ALG_SHA256;
+
+  validation.tag = TPM_ST_HASHCHECK;
+  validation.hierarchy = TPM_RH_NULL;
+
+  authCmd.sessionHandle = TPM_RS_PW;
+  rc = grub_tpm2_sign (key_handle, &authCmd, &policy_hash, &inScheme,
+		       &validation, &signature, NULL);
+  if (rc != TPM_RC_SUCCESS)
+    {
+      fprintf (stderr, "Failed to sign policy (TPM2_Sign: 0x%x).\n", rc);
+      err = GRUB_ERR_BAD_DEVICE;
+      goto exit2;
+    }
+
+  err = protect_tpm2_update_tpm2key_signature (args, tpm2key_loc,
+					       &auth_key->public, &signature);
+  if (err != GRUB_ERR_NONE)
+    {
+      fprintf (stderr, "Failed to update tpm2key file.\n");
+      goto exit2;
+    }
+
+ exit2:
+  if (key_handle != 0)
+    grub_tpm2_flushcontext (key_handle);
+
+ exit1:
+  grub_free (auth_key);
+
+  return err;
+}
+
+/*
+ * The 'sign-policy' action: sign the PCR policy of an existing tpm2key file.
+ *
+ * --tpm2-keyfile specifies the tpm2key file to be signed, --tpm2-outfile the
+ * file to store the signed tpm2key, and --tpm2-nvindex the NV index holding
+ * the tpm2key. Specifying only one of the two files updates that file in
+ * place.
+ */
+static grub_err_t
+protect_tpm2_sign_policy (protect_args_t *args)
+{
+  grub_err_t err;
+  TPM_HANDLE_t srk = 0;
+  protect_tpm2key_loc_t tpm2key_loc = {0};
+
+  if (args->tpm2_keyfile != NULL || args->tpm2_outfile != NULL)
+    {
+      tpm2key_loc.in_file = (args->tpm2_keyfile != NULL) ? args->tpm2_keyfile : args->tpm2_outfile;
+      tpm2key_loc.out_file = (args->tpm2_outfile != NULL) ? args->tpm2_outfile : args->tpm2_keyfile;
+    }
+  else
+    tpm2key_loc.nvindex = args->tpm2_nvindex;
+
+  err = protect_tpm2_open_device (args->tpm2_device);
+  if (err != GRUB_ERR_NONE)
+    return err;
+
+  err = protect_tpm2_get_srk (args, &srk);
+  if (err != GRUB_ERR_NONE)
+    goto exit1;
+
+  err = protect_tpm2_sign_tpm2key (args, srk, &tpm2key_loc);
+
+  grub_tpm2_flushcontext (srk);
+
+ exit1:
+  protect_tpm2_close_device ();
+
+  return err;
 }
 
 static grub_err_t
@@ -994,11 +1597,12 @@ protect_tpm2_add (protect_args_t *args)
   grub_err_t err;
   grub_uint8_t *key = NULL;
   grub_size_t key_size = 0;
-  TPM_HANDLE_t srk;
+  TPM_HANDLE_t srk = 0;
   TPM2B_DIGEST_t policy_digest;
   void *out_buf = NULL;
   int out_buf_size;
   tpm2_sealed_key_t sealed_key;
+  protect_tpm2key_loc_t tpm2key_loc = {0};
 
   err = protect_tpm2_open_device (args->tpm2_device);
   if (err != GRUB_ERR_NONE)
@@ -1019,7 +1623,8 @@ protect_tpm2_add (protect_args_t *args)
   if (err != GRUB_ERR_NONE)
     goto exit2;
 
-  err = protect_tpm2_get_policy_digest (args, &policy_digest);
+  err = protect_tpm2_get_policy_digest (args, args->tpm2_authkey != NULL,
+					&policy_digest);
   if (err != GRUB_ERR_NONE)
     goto exit3;
 
@@ -1058,7 +1663,7 @@ protect_tpm2_add (protect_args_t *args)
 
   if (TPM_HT_IS_NVINDEX (args->tpm2_nvindex) == true)
     {
-      err = protect_tpm2_export_nvindex (args, out_buf, out_buf_size);
+      err = protect_tpm2_export_nvindex (args->tpm2_nvindex, out_buf, out_buf_size);
       if (err != GRUB_ERR_NONE)
 	goto exit3;
     }
@@ -1069,8 +1674,26 @@ protect_tpm2_add (protect_args_t *args)
 	goto exit3;
     }
 
+  if (args->tpm2_authkey != NULL)
+    {
+      /*
+       * Sign the policy of the tpm2key just created and update all the
+       * destinations the tpm2key was stored to. The tpm2key is loaded from
+       * the NV index when --tpm2-outfile is not specified.
+       */
+      tpm2key_loc.in_file = args->tpm2_outfile;
+      tpm2key_loc.out_file = args->tpm2_outfile;
+      if (TPM_HT_IS_NVINDEX (args->tpm2_nvindex) == true)
+	tpm2key_loc.nvindex = args->tpm2_nvindex;
+
+      err = protect_tpm2_sign_tpm2key (args, srk, &tpm2key_loc);
+      if (err != GRUB_ERR_NONE)
+        goto exit3;
+    }
+
  exit3:
-  grub_tpm2_flushcontext (srk);
+  if (srk != 0)
+    grub_tpm2_flushcontext (srk);
   grub_free (out_buf);
 
  exit2:
@@ -1271,6 +1894,9 @@ protect_tpm2_run (protect_args_t *args)
     case PROTECT_ACTION_GENERATE_AUTHKEY:
       return protect_tpm2_generate_authkey (args);
 
+    case PROTECT_ACTION_SIGN_POLICY:
+      return protect_tpm2_sign_policy (args);
+
     default:
       return GRUB_ERR_BAD_ARGUMENT;
     }
@@ -1301,6 +1927,15 @@ protect_tpm2_args_verify (protect_args_t *args)
 	{
 	  fprintf (stderr, N_("--tpm2-outfile or --tpm2-nvindex must be specified.\n"));
 	  return GRUB_ERR_BAD_ARGUMENT;
+	}
+
+      if (args->tpm2_authkey != NULL)
+	{
+	  if (args->tpm2_tpm2key == false)
+	    {
+	      fprintf (stderr, N_("--tpm2key must be specified when using --tpm2-authkey.\n"));
+	      return GRUB_ERR_BAD_ARGUMENT;
+	    }
 	}
 
       if (args->tpm2_nvindex != 0)
@@ -1400,8 +2035,57 @@ protect_tpm2_args_verify (protect_args_t *args)
 	}
       break;
 
+    case PROTECT_ACTION_SIGN_POLICY:
+      if (args->tpm2_authkey == NULL)
+	{
+	  fprintf (stderr, N_("--tpm2-authkey FILE must be specified for action sign-policy.\n"));
+	  return GRUB_ERR_BAD_ARGUMENT;
+	}
+
+      if (args->tpm2_tpm2key == false)
+	{
+	  fprintf (stderr, N_("--tpm2key must be specified for action sign-policy.\n"));
+	  return GRUB_ERR_BAD_ARGUMENT;
+	}
+
+      if (args->tpm2_nvindex != 0)
+	{
+	  if (args->tpm2_keyfile != NULL || args->tpm2_outfile != NULL)
+	    {
+	      fprintf (stderr, N_("--tpm2-nvindex is invalid with --tpm2-keyfile or --tpm2-outfile when --action is 'sign-policy'.\n"));
+	      return GRUB_ERR_BAD_ARGUMENT;
+	    }
+
+	  if (TPM_HT_IS_NVINDEX (args->tpm2_nvindex) == false)
+	    {
+	      fprintf (stderr, N_("--tpm2-nvindex must be an NV index handle for action sign-policy.\n"));
+	      return GRUB_ERR_BAD_ARGUMENT;
+	    }
+	}
+      else if (args->tpm2_keyfile == NULL && args->tpm2_outfile == NULL)
+	{
+	  fprintf (stderr, N_("--tpm2-keyfile FILE, --tpm2-outfile FILE, or --tpm2-nvindex must be specified for action sign-policy.\n"));
+	  return GRUB_ERR_BAD_ARGUMENT;
+	}
+
+      if (args->tpm2_pcr_count == 0)
+	{
+	  args->tpm2_pcrs[0] = 7;
+	  args->tpm2_pcr_count = 1;
+	}
+
+      if (args->srk_type.type == TPM_ALG_ERROR)
+	{
+	  args->srk_type.type = TPM_ALG_ECC;
+	  args->srk_type.detail.ecc_curve = TPM_ECC_NIST_P256;
+	}
+
+      if (args->tpm2_bank == TPM_ALG_ERROR)
+	args->tpm2_bank = TPM_ALG_SHA256;
+      break;
+
     default:
-      fprintf (stderr, N_("The TPM2 key protector only supports the following actions: add, remove, generate-authkey.\n"));
+      fprintf (stderr, N_("The TPM2 key protector only supports the following actions: add, remove, generate-authkey, sign-policy.\n"));
       return GRUB_ERR_BAD_ARGUMENT;
     }
 
@@ -1429,6 +2113,8 @@ protect_argp_parser (int key, char *arg, struct argp_state *state)
 	args->action = PROTECT_ACTION_REMOVE;
       else if (grub_strcmp (arg, "generate-authkey") == 0)
 	args->action = PROTECT_ACTION_GENERATE_AUTHKEY;
+      else if (grub_strcmp (arg, "sign-policy") == 0)
+	args->action = PROTECT_ACTION_SIGN_POLICY;
       else
 	{
 	  fprintf (stderr, N_("'%s' is not a valid action.\n"), arg);
@@ -1600,6 +2286,16 @@ protect_argp_parser (int key, char *arg, struct argp_state *state)
 	}
 
       args->args |= PROTECT_ARG_TPM2_NVINDEX;
+      break;
+
+    case PROTECT_OPT_TPM2_AUTHKEY:
+      if (args->args & PROTECT_ARG_TPM2_AUTHKEY)
+	{
+	  fprintf (stderr, N_("--tpm2-authkey can only be specified once.\n"));
+	  return EINVAL;
+	}
+      args->tpm2_authkey = xstrdup (arg);
+      args->args |= PROTECT_ARG_TPM2_AUTHKEY;
       break;
 
     default:
