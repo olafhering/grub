@@ -948,6 +948,27 @@ grub_script_execute_new_scope (const char *source, int argc, char **args)
   return ret;
 }
 
+/*
+ * Placeholder logged in place of a { ... } block body to prevent overflowing
+ * the TPM event log.
+ *
+ * Dyncmd stubs are excluded because read_command_list() registers all
+ * unloaded module commands with GRUB_COMMAND_FLAG_BLOCKS unconditionally.
+ */
+#define GRUB_SCRIPT_BLOCK_PLACEHOLDER "{...}"
+
+/* Text to log for argument I of ARGV, eliding a { ... } block body.  */
+static const char *
+cmdline_logged_arg (const struct grub_script_argv *argv, unsigned int i,
+		    bool is_block_cmd)
+{
+  if (is_block_cmd && argv->script != NULL && argv->argc > 1 &&
+      i + 1 == argv->argc)
+    return GRUB_SCRIPT_BLOCK_PLACEHOLDER;
+
+  return argv->args[i];
+}
+
 /* Execute a single command line.  */
 grub_err_t
 grub_script_execute_cmdline (struct grub_script_cmd *cmd)
@@ -959,18 +980,30 @@ grub_script_execute_cmdline (struct grub_script_cmd *cmd)
   char errnobuf[18];
   char *cmdname, *cmdstring;
   int argc, offset = 0, cmdlen = 0;
+  bool is_block_cmd = false;
   unsigned int i;
   char **args;
   int invert;
+  const char *check_name;
   struct grub_script_argv argv = { 0, 0, 0 };
 
   /* Lookup the command.  */
   if (grub_script_arglist_to_argv (cmdline->arglist, &argv) || ! argv.args || ! argv.args[0])
     return grub_errno;
 
+  /* Only elide the block if the command actually accepts blocks.  */
+  check_name = argv.args[0];
+  if (grub_strcmp (check_name, "!") == 0 && argv.argc > 1 && argv.args[1])
+    check_name = argv.args[1];
+
+  grubcmd = grub_command_find (check_name);
+  if (grubcmd != NULL && (grubcmd->flags & GRUB_COMMAND_FLAG_BLOCKS) != 0 &&
+      (grubcmd->flags & GRUB_COMMAND_FLAG_DYNCMD) == 0)
+    is_block_cmd = true;
+
   for (i = 0; i < argv.argc; i++)
     {
-      cmdlen += grub_strlen (argv.args[i]) + 1;
+      cmdlen += grub_strlen (cmdline_logged_arg (&argv, i, is_block_cmd)) + 1;
     }
 
   cmdstring = grub_malloc (cmdlen);
@@ -983,7 +1016,7 @@ grub_script_execute_cmdline (struct grub_script_cmd *cmd)
   for (i = 0; i < argv.argc; i++)
     {
       offset += grub_snprintf (cmdstring + offset, cmdlen - offset, "%s ",
-			       argv.args[i]);
+			       cmdline_logged_arg (&argv, i, is_block_cmd));
     }
   cmdstring[cmdlen - 1] = '\0';
   grub_verify_string (cmdstring, GRUB_VERIFY_COMMAND);
