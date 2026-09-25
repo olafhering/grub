@@ -413,6 +413,8 @@ dev_iterate_fcp_nvmeof (const struct grub_ieee1275_devalias *alias)
   int bufptr_pos2;
   grub_uint32_t namespace_index = 0;
   struct nvme_controllers_table_entry* nvme_controllers_table_buf;
+  grub_uint32_t namespaces_table[TABLE_SIZE];
+  grub_uint32_t num_namespaces;
 
   nvme_controllers_table = grub_malloc (sizeof (struct nvme_controllers_table_entry) * TABLE_SIZE);
   /* Allocate memory for building the NVMeoF path */
@@ -529,17 +531,20 @@ dev_iterate_fcp_nvmeof (const struct grub_ieee1275_devalias *alias)
               grub_ieee1275_close (ihandle);
               continue;
             }
-          grub_uint32_t *namespaces = (grub_uint32_t*) nvme_namespaces_args.table;
-          grub_dprintf ("ofdisk", "NVMeoF: found %d namespaces\n", (int)nvme_namespaces_args.nentries);
-	                grub_ieee1275_close (ihandle);
+          num_namespaces = (grub_uint32_t) nvme_namespaces_args.nentries;
+          if (num_namespaces > TABLE_SIZE)
+            num_namespaces = TABLE_SIZE;
+          for (i = 0; i < num_namespaces; i++)
+            namespaces_table[i] = ((grub_uint32_t *) nvme_namespaces_args.table)[i];
+          grub_ieee1275_close (ihandle);
+          grub_dprintf ("ofdisk", "NVMeoF: found %d namespaces\n", (int) num_namespaces);
           namespace_index = 0;
-          for (namespace_index=0; namespace_index < nvme_namespaces_args.nentries; namespace_index++)
+          for (namespace_index = 0; namespace_index < num_namespaces; namespace_index++)
             {
-	      grub_snprintf (bufptr+bufptr_pos2, 512, "/namespace@%"PRIxGRUB_UINT32_T, namespaces[namespace_index]);
+	      grub_snprintf (bufptr+bufptr_pos2, 512, "/namespace@%"PRIxGRUB_UINT32_T, namespaces_table[namespace_index]);
               grub_dprintf ("ofdisk", "NVMeoF: namespace=%s\n", buf);
               dev_iterate_real (buf, buf);
             }
-          dev_iterate_real (buf, buf);
         }
     }
   grub_free (buf);
