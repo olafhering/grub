@@ -301,6 +301,7 @@ static const char *spa_feature_names[] = {
   "com.delphix:bookmark_written",
   /* Not used by the MOS, checked per dataset.  */
   "com.datto:encryption",
+  "org.zfsonlinux:large_dnode",
   NULL
 };
 
@@ -2785,6 +2786,10 @@ dnode_get (dnode_end_t * mdn, grub_uint64_t objnum, grub_uint8_t type,
       buf->endian = data->dnode_endian;
       if (type && buf->dn.dn_type != type)
 	return grub_error(GRUB_ERR_BAD_FS, "incorrect dnode type");
+      if (data->pool_version >= SPA_VERSION_FEATURES
+	  && buf->dn.dn_extra_slots != 0)
+	return grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET,
+			   N_("large dnodes are not supported"));
       return GRUB_ERR_NONE;
     }
 
@@ -2819,6 +2824,11 @@ dnode_get (dnode_end_t * mdn, grub_uint64_t objnum, grub_uint8_t type,
   buf->endian = endian;
   if (type && buf->dn.dn_type != type)
     return grub_error(GRUB_ERR_BAD_FS, "incorrect dnode type");
+  /* Padding before large_dnode.  */
+  if (data->pool_version >= SPA_VERSION_FEATURES
+      && buf->dn.dn_extra_slots != 0)
+    return grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET,
+		       N_("large dnodes are not supported"));
 
   return GRUB_ERR_NONE;
 }
@@ -4141,12 +4151,14 @@ grub_zfs_getmdnobj (grub_device_t dev, const char *fsfilename,
   return err;
 }
 
-/* Encrypted datasets are not supported.  */
+/* Encrypted datasets and large dnodes are not supported.  */
 static grub_err_t
 check_dataset_readable (dnode_end_t *ds, int *readable,
 			struct grub_zfs_data *data)
 {
   dsl_dataset_phys_t *dsp = (dsl_dataset_phys_t *) DN_BONUS (&ds->dn);
+  grub_uint64_t val;
+  grub_err_t err;
 
   *readable = 0;
 
@@ -4154,6 +4166,17 @@ check_dataset_readable (dnode_end_t *ds, int *readable,
   if (data->pool_version >= SPA_VERSION_FEATURES
       && ((grub_zfs_to_cpu64 (dsp->ds_bp.blk_prop, ds->endian) >> 61) & 1))
     return GRUB_ERR_NONE;
+
+  /* Active per-dataset features are keys in the dataset's ZAP.  */
+  if (ds->dn.dn_type == DMU_OTN_ZAP_METADATA)
+    {
+      err = zap_lookup (ds, "org.zfsonlinux:large_dnode", &val, data, 0);
+      if (err == GRUB_ERR_NONE)
+	return GRUB_ERR_NONE;
+      if (err != GRUB_ERR_FILE_NOT_FOUND)
+	return err;
+      grub_errno = GRUB_ERR_NONE;
+    }
 
   *readable = 1;
   return GRUB_ERR_NONE;
