@@ -487,8 +487,16 @@ grub_biosdisk_rw (int cmd, grub_disk_t disk,
 	    return grub_error (GRUB_ERR_WRITE_ERROR, N_("cannot write to CD-ROM"));
 
 	  for (i = 0; i < GRUB_BIOSDISK_CDROM_RETRY_COUNT; i++)
-            if (! grub_biosdisk_rw_int13_extensions (0x42, data->drive, dap))
-	      break;
+	    {
+	      if (! grub_biosdisk_rw_int13_extensions (0x42, data->drive, dap))
+	        break;
+
+	      /*
+	       * The BIOS may have overwritten dap->blocks, e.g. with the number of
+	       * successfully read blocks. Set it again.
+	       */
+	      dap->blocks = size;
+	    }
 
 	  if (i == GRUB_BIOSDISK_CDROM_RETRY_COUNT)
 	    return grub_error (GRUB_ERR_READ_ERROR, N_("failure reading sector 0x%llx "
