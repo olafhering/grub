@@ -963,6 +963,58 @@ check_hba_identifiers (const char *sysfs_path, int *vendor, int *device_id)
   free (path);
   free (p);
 }
+
+static ofpath_sparc_addressing
+hba_addressing (const char *sysfs_path)
+{
+  struct ofpath_sparc_hba *lsi_hba;
+  int vendor = 0, device_id = 0;
+
+  check_hba_identifiers (sysfs_path, &vendor, &device_id);
+
+  if (vendor != LSI_VENDOR_ID)
+    return GRUB_OFPATH_SPARC_TGT_LUN;
+
+  /*
+   * Over time different OF addressing schemes have been supported.
+   * There is no generic addressing scheme that works across
+   * every HBA.
+   */
+  for (lsi_hba = sparc_lsi_hba; lsi_hba->device_id; lsi_hba++)
+    if (lsi_hba->device_id == device_id)
+      return lsi_hba->addressing;
+
+  return GRUB_OFPATH_SPARC_TGT_LUN;
+}
+
+/* SATA gets a synthetic sas_address; OF uses the disk's own WWN, in wwid. */
+static int
+ata_wwn (const char *sysfs_path, unsigned long int *wwn)
+{
+  size_t path_size;
+  char *path, buf[32];
+  int fd, ret = 0;
+
+  path_size = strlen (sysfs_path) + sizeof ("/wwid");
+  path = xmalloc (path_size);
+  snprintf (path, path_size, "%s/wwid", sysfs_path);
+
+  fd = open (path, O_RDONLY);
+  if (fd < 0)
+    goto out;
+
+  memset (buf, 0, sizeof (buf));
+  if (read (fd, buf, sizeof (buf) - 1) > 0
+      && strncmp (buf, "naa.", sizeof ("naa.") - 1) == 0
+      && sscanf (buf + sizeof ("naa.") - 1, "%lx", wwn) == 1)
+    ret = 1;
+
+  close (fd);
+
+ out:
+  free (path);
+  return ret;
+}
 #endif
 
 static void
@@ -1028,17 +1080,30 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
   unsigned long int sas_address = 0;
   char *sysfs_path, disk[MAX_DISK_CAT - sizeof ("/fp@0,0")];
   char *of_path;
+#ifdef __sparc__
+  ofpath_sparc_addressing addressing;
+#endif
 
   sysfs_path = block_device_get_sysfs_path_and_link(devicenode);
   p = get_basename (sysfs_path);
   sscanf(p, "%d:%d:%d:%d", &host, &bus, &tgt, &lun);
   check_sas (sysfs_path, &tgt, &sas_address);
 
+#ifdef __sparc__
+  addressing = hba_addressing (sysfs_path);
+#endif
+
   if (vendor_is_ATA(sysfs_path))
     {
-      of_path = __of_path_common(sysfs_path, device, tgt);
-      free (sysfs_path);
-      return of_path;
+#ifdef __sparc__
+      if (addressing != GRUB_OFPATH_SPARC_WWN_ADDR
+	  || !ata_wwn (sysfs_path, &sas_address))
+#endif
+	{
+	  of_path = __of_path_common(sysfs_path, device, tgt);
+	  free (sysfs_path);
+	  return of_path;
+	}
     }
 
   of_path = find_obppath(sysfs_path);
@@ -1090,28 +1155,7 @@ of_path_of_scsi(const char *sys_devname __attribute__((unused)), const char *dev
   else
     {
 #ifdef __sparc__
-      ofpath_sparc_addressing addressing = GRUB_OFPATH_SPARC_TGT_LUN;
-      int vendor = 0, device_id = 0;
       char *optr = disk;
-
-      check_hba_identifiers (sysfs_path, &vendor, &device_id);
-
-      if (vendor == LSI_VENDOR_ID)
-        {
-          struct ofpath_sparc_hba *lsi_hba;
-
-	  /*
-	   * Over time different OF addressing schemes have been supported.
-	   * There is no generic addressing scheme that works across
-	   * every HBA.
-	   */
-          for (lsi_hba = sparc_lsi_hba; lsi_hba->device_id; lsi_hba++)
-            if (lsi_hba->device_id == device_id)
-              {
-                addressing = lsi_hba->addressing;
-                break;
-              }
-        }
 
       if (addressing == GRUB_OFPATH_SPARC_WWN_ADDR)
         optr += snprintf (disk, sizeof (disk), "/%s@w%lx,%x", disk_name,
