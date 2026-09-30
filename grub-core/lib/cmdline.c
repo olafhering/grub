@@ -27,9 +27,7 @@ static unsigned int check_arg (char *c, int *has_space)
 
   while (*c)
     {
-      if (*c == '\\' || *c == '\'' || *c == '"')
-	size++;
-      else if (*c == ' ')
+      if (*c == ' ')
 	space = 1;
 
       size++;
@@ -86,9 +84,6 @@ grub_create_loader_cmdline (int argc, char *argv[], char *buf,
 
       while (*c)
 	{
-	  if (*c == '\\' || *c == '\'' || *c == '"')
-	    *buf++ = '\\';
-
 	  *buf++ = *c;
 	  c++;
 	}
