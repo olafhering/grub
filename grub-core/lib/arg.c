@@ -439,6 +439,7 @@ grub_arg_parse (grub_extcmd_t cmd, int argc, char **argv,
   return 1;
 
  fail:
+  grub_free (argl);
   return 0;
 }
 
