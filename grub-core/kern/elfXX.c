@@ -7,12 +7,16 @@ grub_elf_is_elfXX (grub_elf_t elf)
 grub_err_t
 grub_elfXX_load_phdrs (grub_elf_t elf)
 {
-  grub_ssize_t phdrs_size;
+  grub_size_t phdrs_size;
 
   if (elf->phdrs)
     return GRUB_ERR_NONE;
 
-  phdrs_size = (grub_uint32_t) elf->ehdr.ehdrXX.e_phnum * elf->ehdr.ehdrXX.e_phentsize;
+  phdrs_size = ((grub_size_t) elf->ehdr.ehdrXX.e_phnum
+		* elf->ehdr.ehdrXX.e_phentsize);
+  if (phdrs_size > (grub_size_t) GRUB_SSIZE_MAX)
+    return grub_error (GRUB_ERR_OUT_OF_RANGE,
+		       N_("program header table is too large"));
 
   grub_dprintf ("elf", "Loading program headers at 0x%llx, size 0x%lx.\n",
 		(unsigned long long) elf->ehdr.ehdrXX.e_phoff,
@@ -23,7 +27,8 @@ grub_elfXX_load_phdrs (grub_elf_t elf)
     return grub_errno;
 
   if ((grub_file_seek (elf->file, elf->ehdr.ehdrXX.e_phoff) == (grub_off_t) -1)
-      || (grub_file_read (elf->file, elf->phdrs, phdrs_size) != phdrs_size))
+      || (grub_file_read (elf->file, elf->phdrs, phdrs_size)
+	  != (grub_ssize_t) phdrs_size))
     {
       if (!grub_errno)
 	grub_error (GRUB_ERR_FILE_READ_ERROR, N_("premature end of file %s"),
