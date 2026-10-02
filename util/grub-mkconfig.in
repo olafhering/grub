@@ -278,7 +278,8 @@ export GRUB_DEFAULT \
   GRUB_SIMPLE_ACCESS_LEVEL \
   GRUB_ADVANCED_ACCESS_LEVEL \
   GRUB_RECOVERY_ACCESS_LEVEL \
-  GRUB_BOOTNEXT_OMIT_INACTIVE
+  GRUB_BOOTNEXT_OMIT_INACTIVE \
+  GRUB_DISABLE_MODULE_DEDUPLICATION
 
 if test "x${grub_cfg}" != "x"; then
   rm -f "${grub_cfg}.new"
@@ -298,6 +299,34 @@ cat << EOF
 #
 EOF
 
+# Track modules loaded unconditionally at the top level of grub.cfg
+# in a state file so that following scripts can omit them.
+if [ "x${GRUB_DISABLE_MODULE_DEDUPLICATION}" != "xtrue" ]; then
+  if test "x${grub_cfg}" != "x"; then
+    GRUB_MODULE_STATE_FILE="${grub_cfg}.modules"
+    rm -f "${GRUB_MODULE_STATE_FILE}"
+  elif GRUB_MODULE_STATE_FILE="`mktemp "${TMPDIR:-/tmp}/grub-mkconfig-modules.XXXXXXXXXX" 2>/dev/null`"; then
+    :
+  else
+    # Never fall back to a predictable name in a world-writable directory.
+    # Without a state file, modules are not deduplicated across scripts.
+    unset GRUB_MODULE_STATE_FILE
+  fi
+  if [ -n "${GRUB_MODULE_STATE_FILE}" ]; then
+    export GRUB_MODULE_STATE_FILE
+    oldumask=$(umask); umask 077
+    > "${GRUB_MODULE_STATE_FILE}"
+    umask $oldumask
+    trap 'test -n "${GRUB_MODULE_STATE_FILE}" && rm -f "${GRUB_MODULE_STATE_FILE}"' EXIT
+    # Some shells (e.g. dash) skip the EXIT trap when killed by a signal.
+    # Exit explicitly instead, so the EXIT trap runs and the script stops.
+    trap 'exit 129' HUP
+    trap 'exit 130' INT
+    trap 'exit 131' QUIT
+    trap 'exit 143' TERM
+  fi
+fi
+
 
 for i in "${grub_mkconfig_dir}"/* ; do
   case "$i" in
@@ -315,6 +344,11 @@ for i in "${grub_mkconfig_dir}"/* ; do
     ;;
   esac
 done
+
+if [ -n "${GRUB_MODULE_STATE_FILE}" ]; then
+  rm -f "${GRUB_MODULE_STATE_FILE}"
+  unset GRUB_MODULE_STATE_FILE
+fi
 
 if test "x${grub_cfg}" != "x" ; then
   if ! ${grub_script_check} ${grub_cfg}.new; then

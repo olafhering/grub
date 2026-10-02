@@ -1511,6 +1511,15 @@ enable the use of partition UUIDs, set this option to @samp{false}.
 If this option is set to @samp{true}, disable the generation of recovery
 mode menu entries.
 
+@item GRUB_DISABLE_MODULE_DEDUPLICATION
+Normally, @command{grub-mkconfig} tracks modules loaded unconditionally at
+the top level of the generated configuration (outside of any menu entry,
+submenu or conditional block), and omits redundant @samp{insmod} commands for
+them in later sections, such as menu entries. Modules loaded inside a menu
+entry are never considered loaded for other entries. If you need each menu
+entry to emit the full set of module insertion commands regardless of prior
+loading, set this option to @samp{true}.
+
 @item GRUB_DISABLE_UUID
 Normally, @command{grub-mkconfig} will generate menu entries that use
 universally-unique identifiers (UUIDs) to identify various filesystems to

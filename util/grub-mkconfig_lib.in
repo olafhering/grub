@@ -118,31 +118,99 @@ EOF
   fi
 }
 
+# Append module $1 to $access_modules unless already listed.  Entries are
+# separated by $IFS, which the caller must set to a newline.
+grub_add_module ()
+{
+  case "${IFS}${access_modules}${IFS}" in
+    *"${IFS}${1}${IFS}"*) ;;
+    *) access_modules="${access_modules}${1}${IFS}" ;;
+  esac
+}
+
+# Succeed if module $1 was already loaded unconditionally at the top level
+# of grub.cfg, i.e. before any menu entry can be executed.
+grub_module_is_loaded ()
+{
+  if [ "x${GRUB_DISABLE_MODULE_DEDUPLICATION}" = "xtrue" ]; then
+    return 1
+  fi
+  if [ -n "${GRUB_MODULE_STATE_FILE}" ] && [ -f "${GRUB_MODULE_STATE_FILE}" ]; then
+    _loaded="`cat "${GRUB_MODULE_STATE_FILE}" 2>/dev/null`" || _loaded=
+  else
+    _loaded="${_grub_loaded_modules}"
+  fi
+  case "
+${_loaded}
+" in
+    *"
+$1
+"*) return 0 ;;
+  esac
+  return 1
+}
+
+# Emit "insmod $1" unless already loaded, and record it as loaded.  Only
+# call this for output placed at the top level of grub.cfg, outside of any
+# menuentry, submenu or conditional block.
+grub_toplevel_insmod ()
+{
+  if grub_module_is_loaded "$1"; then
+    return
+  fi
+  echo "insmod $1"
+  if [ "x${GRUB_DISABLE_MODULE_DEDUPLICATION}" != "xtrue" ]; then
+    if [ -n "${GRUB_MODULE_STATE_FILE}" ]; then
+      echo "$1" >> "${GRUB_MODULE_STATE_FILE}"
+    fi
+    _grub_loaded_modules="${_grub_loaded_modules}$1
+"
+  fi
+}
+
+# Emit commands to access the device(s) given as arguments.  Pass
+# --toplevel first if the output is placed at the top level of grub.cfg
+# (see grub_toplevel_insmod), so that later sections can skip the modules.
 prepare_grub_to_access_device ()
 {
+  toplevel=
+  if [ "x$1" = "x--toplevel" ]; then
+    toplevel=y
+    shift
+  fi
   old_ifs="$IFS"
   IFS='
 '
   partmap="`"${grub_probe}" --device $@ --target=partmap`"
+  access_modules=
   for module in ${partmap} ; do
     case "${module}" in
       netbsd | openbsd)
-        echo "insmod part_bsd";;
+        grub_add_module "part_bsd";;
       *)
-        echo "insmod part_${module}";;
+        grub_add_module "part_${module}";;
     esac
   done
 
   # Abstraction modules aren't auto-loaded.
   abstraction="`"${grub_probe}" --device $@ --target=abstraction`"
   for module in ${abstraction} ; do
-    echo "insmod ${module}"
+    grub_add_module "${module}"
   done
 
   fs="`"${grub_probe}" --device $@ --target=fs`"
   for module in ${fs} ; do
-    echo "insmod ${module}"
+    grub_add_module "${module}"
   done
+
+  for module in ${access_modules} ; do
+    if [ -n "${toplevel}" ]; then
+      grub_toplevel_insmod "${module}"
+    elif ! grub_module_is_loaded "${module}"; then
+      echo "insmod ${module}"
+    fi
+  done
+  unset access_modules toplevel
 
   if [ x$GRUB_ENABLE_CRYPTODISK = xy ]; then
       for uuid in `"${grub_probe}" --device $@ --target=cryptodisk_uuid`; do
