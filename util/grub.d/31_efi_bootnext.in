@@ -156,6 +156,7 @@ fi
 # rejection) do not update grubenv.  Cf. 30_os-prober.in:204.
 SAVEDEFAULT="`save_default_entry`"
 
+bootnext_entries="$(
 printf '%s\n' "${EFI_OUTPUT}" | \
     sed -n "s/^Boot\([0-9A-Fa-f]\{4\}\)${ACTIVE_PAT} *\([^${TAB}]*\)${TAB}\{0,1\}\(.*\)/\1${TAB}\2${TAB}\3/p" | \
 while IFS="${TAB}" read -r bootnum label devpath; do
@@ -231,14 +232,21 @@ while IFS="${TAB}" read -r bootnum label devpath; do
 
     # Cf. 30_uefi-firmware.in:34
     cat << EOF
-if [ "\$grub_platform" = "efi" ]; then
   menuentry '$(gettext_printf "%s (EFI BootNext)" "${label}" | grub_quote)' $CLASS --class os \$menuentry_id_option 'efi-bootnext-${bootnum}' {
     if bootnext ${bootnum}; then
       ${SAVEDEFAULT}
       reboot
     fi
   }
-fi
 EOF
 
 done
+)"
+
+if [ -n "${bootnext_entries}" ]; then
+    cat << EOF
+if [ "\$grub_platform" = "efi" ]; then
+${bootnext_entries}
+fi
+EOF
+fi
