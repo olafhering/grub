@@ -383,7 +383,7 @@ compressed state, so a different module-loading command can be specified
 to avoid uncompressing the modules.
 
 @item Access data on any installed device
-Support reading data from any or all floppies or hard disk(s) recognized
+Support reading data from any bootable device recognized
 by the BIOS, independent of the setting of the root device.
 
 @item Be independent of drive geometry translations
@@ -618,7 +618,7 @@ system (@pxref{Obtaining and Building GRUB}). You can do this either
 from the source tarball, or as a package for your OS.
 
 After you have done that, you need to install the boot loader on a
-drive (floppy or hard disk) by using the utility
+bootable device by using the utility
 @command{grub-install} (@pxref{Invoking grub-install}) on a UNIX-like OS.
 
 GRUB comes with boot images, which are normally put in the directory
