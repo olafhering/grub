@@ -40,6 +40,8 @@ grub_memalign_dma32 (grub_size_t align, grub_size_t size)
 void
 grub_dma_free (struct grub_pci_dma_chunk *ch)
 {
+  if (ch == NULL)
+    return;
   grub_size_t size = (((struct grub_mm_header *) ch) - 1)->size * GRUB_MM_ALIGN;
   grub_arch_sync_dma_caches (ch, size);
   grub_free (ch);
