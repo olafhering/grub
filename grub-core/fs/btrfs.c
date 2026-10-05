@@ -2873,7 +2873,10 @@ grub_btrfs_get_parent_subvol_path (struct grub_btrfs_data *data,
   err = lower_bound(data, &key_in, &key_out, data->sblock.root_tree,
                     &elemaddr, &elemsize, &desc, 0);
   if (err)
-    return err;
+    {
+      free_iterator(&desc);
+      return err;
+    }
 
   if (key_out.type != GRUB_BTRFS_ITEM_TYPE_ROOT_BACKREF || elemaddr == 0)
     next(data, &desc, &elemaddr, &elemsize, &key_out);
