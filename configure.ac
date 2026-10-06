@@ -36,13 +36,15 @@ dnl description of the relationships between them.
 
 AC_INIT([GRUB],[2.17],[bug-grub@gnu.org])
 
+# The SBAT level should always be in sync with https://github.com/rhboot/shim/blob/main/SbatLevel_Variable.txt
 # 1: Initial value
 # 2: https://lists.gnu.org/archive/html/grub-devel/2022-06/msg00035.html
 # 3: https://lists.gnu.org/archive/html/grub-devel/2022-11/msg00059.html
 # 4: https://lists.gnu.org/archive/html/grub-devel/2023-10/msg00028.html
 # 5: https://lists.gnu.org/archive/html/grub-devel/2025-02/msg00024.html
 # 6: https://lists.gnu.org/archive/html/grub-devel/2025-11/msg00155.html
-GLOBAL_SBAT_LEVEL=6
+# 7: https://www.cve.org/CVERecord?id=CVE-2026-97876
+GLOBAL_SBAT_LEVEL=7
 AC_SUBST([GLOBAL_SBAT_LEVEL])
 AC_DEFINE_UNQUOTED([GLOBAL_SBAT_LEVEL], [$GLOBAL_SBAT_LEVEL], [GRUB Global SBAT level])
 
