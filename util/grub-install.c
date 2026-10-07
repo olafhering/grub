@@ -521,6 +521,20 @@ have_bootdev (enum grub_install_plat pl)
 }
 
 static void
+ensure_load_cfg_open (void)
+{
+  if (load_cfg_f)
+    return;
+
+  load_cfg_f = grub_util_fopen (load_cfg, "wb");
+  if (!load_cfg_f)
+    grub_util_error (_("cannot open `%s': %s"), load_cfg,
+		     strerror (errno));
+
+  have_load_cfg = 1;
+}
+
+static void
 probe_cryptodisk_uuid (grub_disk_t disk)
 {
   grub_disk_memberlist_t list = NULL, tmp;
@@ -540,9 +554,7 @@ probe_cryptodisk_uuid (grub_disk_t disk)
   if (disk->dev->id == GRUB_DISK_DEVICE_CRYPTODISK_ID)
     {
       const char *uuid = grub_util_cryptodisk_get_uuid (disk);
-      if (!load_cfg_f)
-	load_cfg_f = grub_util_fopen (load_cfg, "wb");
-      have_load_cfg = 1;
+      ensure_load_cfg_open ();
 
       fprintf (load_cfg_f, "cryptomount -u %s\n",
 	      uuid);
@@ -809,6 +821,9 @@ fill_core_services (const char *core_services)
   free (label);
   label_text = grub_util_path_concat (2, core_services, ".disk_label.contentDetails");
   f = grub_util_fopen (label_text, "wb");
+  if (!f)
+    grub_util_error (_("cannot open `%s': %s"), label_text,
+		     strerror (errno));
   fprintf (f, "%s\n", label_string);
   fclose (f);
   free (label_string);
@@ -816,6 +831,9 @@ fill_core_services (const char *core_services)
 
   sysv_plist = grub_util_path_concat (2, core_services, "SystemVersion.plist");
   f = grub_util_fopen (sysv_plist, "wb");
+  if (!f)
+    grub_util_error (_("cannot open `%s': %s"), sysv_plist,
+		     strerror (errno));
   fprintf (f,
 	   "<plist version=\"1.0\">\n"
 	   "<dict>\n"
@@ -1424,8 +1442,7 @@ main (int argc, char *argv[])
 
   if (debug_image && debug_image[0])
     {
-      load_cfg_f = grub_util_fopen (load_cfg, "wb");
-      have_load_cfg = 1;
+      ensure_load_cfg_open ();
       fprintf (load_cfg_f, "set debug='%s'\n",
               debug_image);
     }
@@ -1449,9 +1466,7 @@ main (int argc, char *argv[])
 	      uuid = NULL;
 	    }
 
-	  if (!load_cfg_f)
-	    load_cfg_f = grub_util_fopen (load_cfg, "wb");
-	  have_load_cfg = 1;
+	  ensure_load_cfg_open ();
 	  if (uuid)
 	    {
 	      fprintf (load_cfg_f, "search.fs_uuid %s root ",
