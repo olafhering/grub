@@ -261,6 +261,9 @@ make_image_abs (enum grub_install_plat plat,
   load_cfg = grub_util_make_temporary_file ();
 
   load_cfg_f = grub_util_fopen (load_cfg, "wb");
+  if (!load_cfg_f)
+    grub_util_error (_("cannot open `%s': %s"), load_cfg,
+		     strerror (errno));
   /*
    * A UEFI bootable media should support file system transposition (e.g. extracting
    * an ISO 9660 content to a FAT32 media that was formatted by the user). Therefore,
