@@ -20,49 +20,50 @@
 #include <grub/lib/cmdline.h>
 #include <grub/misc.h>
 
-static unsigned int check_arg (char *c, int *has_space)
+static unsigned int
+check_arg (char *c, int *has_space)
 {
-  int space = 0;
   unsigned int size = 0;
 
   while (*c)
     {
       if (*c == ' ')
-	space = 1;
-
+	{
+	  if (*has_space == 0)
+	    {
+	      *has_space = 1;
+	      size += 2;
+	    }
+	}
       size++;
       c++;
     }
 
-  if (space)
-    size += 2;
-
-  if (has_space)
-    *has_space = space;
-
-  return size;
+  /* For separator space or NULL.  */
+  return size + 1;
 }
 
-unsigned int grub_loader_cmdline_size (int argc, char *argv[])
+unsigned int
+grub_loader_cmdline_size (int argc, char *argv[])
 {
   int i;
+  int has_space;
   unsigned int size = 0;
 
   for (i = 0; i < argc; i++)
     {
-      size += check_arg (argv[i], 0);
-      size++; /* Separator space or NULL.  */
+      has_space = 0;
+      size += check_arg (argv[i], &has_space);
+
     }
 
-  if (size == 0)
-    size = 1;
-
-  return size;
+  return size ? size : 1;
 }
 
 grub_err_t
 grub_create_loader_cmdline (int argc, char *argv[], char *buf,
-			    grub_size_t size, enum grub_verify_string_type type)
+			    grub_size_t size,
+			    enum grub_verify_string_type type)
 {
   int i, space;
   unsigned int arg_size;
@@ -71,8 +72,8 @@ grub_create_loader_cmdline (int argc, char *argv[], char *buf,
   for (i = 0; i < argc; i++)
     {
       c = argv[i];
-      arg_size = check_arg(argv[i], &space);
-      arg_size++; /* Separator space or NULL.  */
+      space = 0;
+      arg_size = check_arg (argv[i], &space);
 
       if (size < arg_size)
 	break;
@@ -84,21 +85,17 @@ grub_create_loader_cmdline (int argc, char *argv[], char *buf,
 
       while (*c)
 	{
-	  *buf++ = *c;
-	  c++;
+	  *buf++ = *c++;
 	}
 
       if (space)
 	*buf++ = '"';
 
-      *buf++ = ' ';
+      if (i + 1 < argc)
+   *buf++ = ' ';
     }
 
-  /* Replace last space with null.  */
-  if (i)
-    buf--;
-
-  *buf = 0;
+  *buf = '\0';
 
   return grub_verify_string (orig_buf, type);
 }
