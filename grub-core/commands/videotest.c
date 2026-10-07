@@ -36,6 +36,7 @@ grub_cmd_videotest (grub_command_t cmd __attribute__ ((unused)),
 {
   grub_err_t err;
   grub_video_color_t color;
+  grub_font_t font;
   unsigned int x;
   unsigned int y;
   unsigned int width;
@@ -154,6 +155,7 @@ grub_cmd_videotest (grub_command_t cmd __attribute__ ((unused)),
 
   grub_video_set_active_render_target (GRUB_VIDEO_RENDER_TARGET_DISPLAY);
 
+  font = grub_font_get ("Unknown Regular 16");
   for (i = 0; i < 5; i++)
     {
 
@@ -190,6 +192,13 @@ grub_cmd_videotest (grub_command_t cmd __attribute__ ((unused)),
       grub_video_fill_rect (color, 0, 0, width, height);
       grub_video_blit_render_target (text_layer, GRUB_VIDEO_BLIT_BLEND, 0, 0,
                                      0, 0, width, height);
+
+      grub_video_set_viewport (x, y, width, height);
+      color = grub_video_map_rgb (255, 255, 255);
+      grub_font_draw_string (_("Press any key to continue"),
+			     font, color, 16, height - 16);
+      grub_video_set_viewport (x + 150, y + 150,
+			       width - 150 * 2, height - 150 * 2);
       grub_video_swap_buffers ();
     }
 
