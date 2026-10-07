@@ -371,6 +371,7 @@ grub_linux_boot_mmap_find (grub_uint64_t addr, grub_uint64_t size,
 			   grub_memory_type_t type, void *data)
 {
   struct grub_linux_boot_ctx *ctx = data;
+  grub_size_t need_size;
 
   /* We must put real mode code in the traditional space.  */
   if (type != GRUB_MEMORY_AVAILABLE || addr > 0x90000)
@@ -388,14 +389,17 @@ grub_linux_boot_mmap_find (grub_uint64_t addr, grub_uint64_t size,
   if (addr + size > 0x90000)
     size = 0x90000 - addr;
 
-  if (ctx->real_size + efi_mmap_size > size)
+  if (grub_add (ctx->real_size, efi_mmap_size, &need_size))
+    return 0;
+
+  if (need_size > size)
     return 0;
 
   grub_dprintf ("linux", "addr = %lx, size = %x, need_size = %x\n",
 		(unsigned long) addr,
 		(unsigned) size,
-		(unsigned) (ctx->real_size + efi_mmap_size));
-  ctx->real_mode_target = ((addr + size) - (ctx->real_size + efi_mmap_size));
+		(unsigned) need_size);
+  ctx->real_mode_target = ((addr + size) - need_size);
   return 1;
 }
 
