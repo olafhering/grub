@@ -271,11 +271,20 @@ add_multiple_nvme_bootdevices (const char *install_device)
     }
 
   ptr = multipath_boot = xmalloc (BOOTDEV_BUFFER);
+  *ptr = '\0';
   if (is_splitter == false && is_FC == false)
     {
+      size_t len;
       non_splitter_path = xasprintf ("%s/namespace@%x:1 ", get_ofpathname (dirR1), nsid);
-      memcpy (ptr, non_splitter_path, strlen (non_splitter_path));
-      ptr += strlen (non_splitter_path);
+      len = strlen (non_splitter_path);
+      if (len < BOOTDEV_BUFFER)
+	{
+	  memcpy (ptr, non_splitter_path, len);
+	  ptr += len;
+	  *ptr = '\0';
+	}
+      else
+	grub_util_warn (_("Maximum size of bootlist exceeded"));
       free (non_splitter_path);
     }
   else
@@ -290,7 +299,7 @@ add_multiple_nvme_bootdevices (const char *install_device)
                   grub_strstr (ep->d_name, dirR2) == NULL)
                 continue;
               path = xasprintf ("%s/namespace@%x ", get_ofpathname (ep->d_name), nsid);
-              if ((strlen (multipath_boot) + strlen (path)) > BOOTDEV_BUFFER)
+              if ((strlen (multipath_boot) + strlen (path)) >= BOOTDEV_BUFFER)
                 {
                   grub_util_warn (_("Maximum five entries are allowed in the bootlist"));
                   free (path);
@@ -298,11 +307,16 @@ add_multiple_nvme_bootdevices (const char *install_device)
                 }
               memcpy (ptr, path, strlen (path));
               ptr += strlen (path);
+	      *ptr = '\0';
               free (path);
             }
         }
     }
-  *--ptr = '\0';
+
+  /* Remove trailing space if present */
+  if (ptr > multipath_boot && *(ptr - 1) == ' ')
+    *(ptr - 1) = '\0';
+
   closedir (dp);
   free (sysfs_path);
   free (dirR1);
