@@ -1,3 +1,10 @@
+format:
+  stage: metadata
+  script:
+    - $SCRIPT_DIR/metadata-format.sh
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
 signed-off-by:
   stage: metadata
   script:
