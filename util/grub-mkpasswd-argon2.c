@@ -148,6 +148,21 @@ main (int argc, char *argv[])
       exit(1);
     }
 
+  if (arguments.iterations == 0)
+    grub_util_error ("%s", _("iterations must be greater than 0"));
+
+  if (arguments.memory == 0)
+    grub_util_error ("%s", _("memory must be greater than 0"));
+
+  if (arguments.parallelism == 0)
+    grub_util_error ("%s", _("parallelism must be greater than 0"));
+
+  if (arguments.buflen < 4 || arguments.buflen > GRUB_AUTH_MAX_PASSLEN)
+    grub_util_error (_("hash length must be between 4 and %d"), GRUB_AUTH_MAX_PASSLEN);
+
+  if (arguments.saltlen < 8 || arguments.saltlen > GRUB_AUTH_MAX_PASSLEN)
+    grub_util_error (_("salt length must be between 8 and %d"), GRUB_AUTH_MAX_PASSLEN);
+
   printf ("%s", _("Enter password: "));
   if (!grub_password_get (pass1, GRUB_AUTH_MAX_PASSLEN))
     grub_util_error ("%s", _("failure to read password"));
@@ -222,6 +237,7 @@ main (int argc, char *argv[])
   *ptr = '\0';
 
   printf (_("ARGON2 hash of your password is %s\n"), result);
+  free (result);
   memset (buf, 0, arguments.buflen);
   free (buf);
   memset (salt, 0, arguments.saltlen);
