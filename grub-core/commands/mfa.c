@@ -163,7 +163,7 @@ mfa_recover_key (grub_uint8_t **key, grub_size_t *key_size)
     goto error;
 
   total_size = p1_size + p2_size;
-  if (total_size < p1_size || total_size < p2_size || total_size == 0)
+  if (p1_size == 0 || p2_size == 0 || total_size < p1_size || total_size < p2_size)
     {
       err = grub_error (GRUB_ERR_BAD_NUMBER, N_("invalid MFA key size"));
       goto error;
