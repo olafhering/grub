@@ -114,12 +114,24 @@ grub_net_recv_ethernet_packet (struct grub_net_buff *nb,
   grub_uint8_t etherhdr_size = sizeof (*eth);
   grub_uint16_t vlantag = 0;
 
+  /* Drop packet if too short to hold the base Ethernet header. */
+  if (nb->tail - nb->data < (grub_ssize_t) sizeof (*eth))
+    {
+      grub_netbuff_free (nb);
+      return GRUB_ERR_NONE;
+    }
 
   /* Check if a vlan-tag is present. If so, the ethernet header is 4 bytes */
   /* longer than the original one. The vlantag id is extracted and the header */
   /* is reseted to the original size. */
   if (grub_get_unaligned16 (nb->data + etherhdr_size - 2) == grub_cpu_to_be16_compile_time (VLANTAG_IDENTIFIER))
     {
+      /* Drop packet if too short to hold the 4-byte VLAN extension. */
+      if (nb->tail - nb->data < etherhdr_size + 4)
+	{
+	  grub_netbuff_free (nb);
+	  return GRUB_ERR_NONE;
+	}
       vlantag = grub_be_to_cpu16 (grub_get_unaligned16 (nb->data + etherhdr_size));
       etherhdr_size += 4;
       /* Move eth type to the original position */
@@ -135,6 +147,12 @@ grub_net_recv_ethernet_packet (struct grub_net_buff *nb,
 
   if (type <= 1500)
     {
+      /* Drop packet if too short to hold the LLC header. */
+      if (nb->tail - nb->data < (grub_ssize_t) sizeof (*llch))
+	{
+	  grub_netbuff_free (nb);
+	  return GRUB_ERR_NONE;
+	}
       llch = (struct llchdr *) nb->data;
       type = llch->dsap & LLCADDRMASK;
 
@@ -143,6 +161,12 @@ grub_net_recv_ethernet_packet (struct grub_net_buff *nb,
 	  err = grub_netbuff_pull (nb, sizeof (*llch));
 	  if (err)
 	    return err;
+	  /* Drop packet if too short to hold the SNAP header. */
+	  if (nb->tail - nb->data < (grub_ssize_t) sizeof (*snaph))
+	    {
+	      grub_netbuff_free (nb);
+	      return GRUB_ERR_NONE;
+	    }
 	  snaph = (struct snaphdr *) nb->data;
 	  type = snaph->type;
 	}
