@@ -298,7 +298,7 @@ file_recover_key (grub_uint8_t **key, grub_size_t *key_size)
       *key_size = file_ctx.keyfile_size;
     }
   else
-    *key_size = file_size;
+    *key_size = file_size - file_ctx.keyfile_offset;
 
   if (grub_file_seek (file, (grub_off_t) file_ctx.keyfile_offset) == (grub_off_t) -1)
     {
