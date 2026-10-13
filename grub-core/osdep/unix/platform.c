@@ -322,6 +322,12 @@ add_multiple_nvme_bootdevices (const char *install_device)
   free (dirR1);
   free (dirR2);
 
+  if (*multipath_boot == '\0')
+    {
+      free (multipath_boot);
+      return NULL;
+    }
+
   return multipath_boot;
 }
 
@@ -367,6 +373,9 @@ grub_install_register_ieee1275 (int is_prep, const char *install_device,
   else if (grub_strstr (install_device, "nvme"))
     {
       boot_device = add_multiple_nvme_bootdevices (install_device);
+      if (boot_device == NULL)
+	grub_util_error (_("couldn't find IEEE1275 device path for %s.\nYou will have to set `boot-device' variable manually"),
+			install_device);
     }
   else
     {
@@ -375,6 +384,9 @@ grub_install_register_ieee1275 (int is_prep, const char *install_device,
         {
           free (boot_device);
           boot_device = add_multiple_nvme_bootdevices (install_device);
+	  if (boot_device == NULL)
+	    grub_util_error (_("couldn't find IEEE1275 device path for %s.\nYou will have to set `boot-device' variable manually"),
+			    install_device);
         }
     }
 
