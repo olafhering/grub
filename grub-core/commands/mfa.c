@@ -274,10 +274,10 @@ file_recover_key (grub_uint8_t **key, grub_size_t *key_size)
       goto error;
     }
 
-  if (file_ctx.keyfile_offset > file_size)
+  if (file_ctx.keyfile_offset >= file_size)
     {
       err = grub_error (GRUB_ERR_OUT_OF_RANGE,
-			N_("Keyfile offset, %llu, is greater than keyfile size, %llu"),
+			N_("Keyfile offset, %llu, is greater than or equal to file size, %llu"),
 			   file_ctx.keyfile_offset, (unsigned long long) file_size);
       goto error;
     }
