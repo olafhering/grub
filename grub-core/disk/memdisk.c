@@ -47,7 +47,7 @@ grub_memdisk_open (const char *name, grub_disk_t disk)
       return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "not a memdisk");
 
   disk->total_sectors = memdisk_size / GRUB_DISK_SECTOR_SIZE;
-  disk->max_agglomerate = GRUB_DISK_MAX_MAX_AGGLOMERATE;
+  grub_disk_set_max_agglomerate (disk, GRUB_DISK_MAX_MAX_AGGLOMERATE);
   disk->id = 0;
 
   return GRUB_ERR_NONE;

@@ -556,7 +556,7 @@ grub_fat_read_data (grub_disk_t disk, grub_fshelp_node_t node,
 			  + GRUB_DISK_SECTOR_BITS);
   logical_cluster = offset >> logical_cluster_bits;
   offset &= (1ULL << logical_cluster_bits) - 1;
-  max_read = disk->max_agglomerate
+  max_read = (grub_size_t) disk->max_agglomerate
     << (GRUB_DISK_CACHE_BITS + GRUB_DISK_SECTOR_BITS);
 
   if (logical_cluster < node->cur_cluster_num)

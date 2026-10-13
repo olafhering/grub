@@ -577,7 +577,7 @@ grub_nvme_open (const char *name, grub_disk_t disk)
 	  return grub_error (GRUB_ERR_UNKNOWN_DEVICE, "unknown NVMe namespace");
 
 	disk->total_sectors = dev->total_sectors;
-	disk->max_agglomerate = 512;
+	grub_disk_set_max_agglomerate (disk, 512);
 
 	disk->log_sector_size = dev->log_sector_size;
 	disk->id = (devnum << 8) | namespace;

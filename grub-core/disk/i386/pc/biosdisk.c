@@ -428,7 +428,7 @@ grub_biosdisk_open (const char *name, grub_disk_t disk)
 
   disk->total_sectors = total_sectors;
   /* Limit the max to 0x7f because of Phoenix EDD.  */
-  disk->max_agglomerate = 0x7f >> GRUB_DISK_CACHE_BITS;
+  grub_disk_set_max_agglomerate (disk, 0x7f >> GRUB_DISK_CACHE_BITS);
   COMPILE_TIME_ASSERT ((0x7f >> GRUB_DISK_CACHE_BITS
 			<< (GRUB_DISK_SECTOR_BITS + GRUB_DISK_CACHE_BITS))
 		       + sizeof (struct grub_biosdisk_dap)

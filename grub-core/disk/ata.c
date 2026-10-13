@@ -473,9 +473,9 @@ grub_ata_open (const char *name, grub_disk_t disk)
     }
 
   disk->total_sectors = ata->size;
-  disk->max_agglomerate = (ata->maxbuffer >> (GRUB_DISK_CACHE_BITS + GRUB_DISK_SECTOR_BITS));
+  grub_disk_set_max_agglomerate (disk, ata->maxbuffer >> (GRUB_DISK_CACHE_BITS + GRUB_DISK_SECTOR_BITS));
   if (disk->max_agglomerate > (256U >> (GRUB_DISK_CACHE_BITS + GRUB_DISK_SECTOR_BITS - ata->log_sector_size)))
-    disk->max_agglomerate = (256U >> (GRUB_DISK_CACHE_BITS + GRUB_DISK_SECTOR_BITS - ata->log_sector_size));
+    grub_disk_set_max_agglomerate (disk, 256U >> (GRUB_DISK_CACHE_BITS + GRUB_DISK_SECTOR_BITS - ata->log_sector_size));
 
   disk->log_sector_size = ata->log_sector_size;
 

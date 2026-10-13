@@ -569,7 +569,7 @@ grub_efidisk_open (const char *name, struct grub_disk *disk)
 
   disk->total_sectors = m->last_block + 1;
   /* Don't increase this value due to bug in some EFI.  */
-  disk->max_agglomerate = 0xa0000 >> (GRUB_DISK_CACHE_BITS + GRUB_DISK_SECTOR_BITS);
+  grub_disk_set_max_agglomerate (disk, 0xa0000 >> (GRUB_DISK_CACHE_BITS + GRUB_DISK_SECTOR_BITS));
   if (m->block_size & (m->block_size - 1) || !m->block_size)
     return grub_error (GRUB_ERR_IO, "invalid sector size %d",
 		       m->block_size);

@@ -610,8 +610,7 @@ grub_scsi_open (const char *name, grub_disk_t disk)
 	 Not sure about AHCI and USB. If it's confirmed that either of
 	 them can do bigger reads reliably this value can be moved to 'scsi'
 	 structure.  */
-      disk->max_agglomerate = 32768 >> (GRUB_DISK_SECTOR_BITS
-					+ GRUB_DISK_CACHE_BITS);
+      grub_disk_set_max_agglomerate (disk, 32768 >> (GRUB_DISK_SECTOR_BITS + GRUB_DISK_CACHE_BITS));
 
       if (scsi->blocksize & (scsi->blocksize - 1) || !scsi->blocksize)
 	{
