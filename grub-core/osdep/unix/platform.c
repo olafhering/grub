@@ -206,7 +206,7 @@ add_multiple_nvme_bootdevices (const char *install_device)
     return NULL;
 
   sysfs_path = nvme_get_syspath (nvme_ns);
-  ofpath = xasprintf ("%s", get_ofpathname (nvme_ns));
+  ofpath = get_ofpathname (nvme_ns);
 
   if (grub_strstr (ofpath, "fibre-channel"))
     {
@@ -234,6 +234,7 @@ add_multiple_nvme_bootdevices (const char *install_device)
       free (splitter_info_path);
       if (!splitter_dp)
         {
+	  free (sysfs_path);
           free (dirR1);
           return NULL;
         }
@@ -275,7 +276,9 @@ add_multiple_nvme_bootdevices (const char *install_device)
   if (is_splitter == false && is_FC == false)
     {
       size_t len;
-      non_splitter_path = xasprintf ("%s/namespace@%x:1 ", get_ofpathname (dirR1), nsid);
+      char *p = get_ofpathname (dirR1);
+      non_splitter_path = xasprintf ("%s/namespace@%x:1 ", p, nsid);
+      free (p);
       len = strlen (non_splitter_path);
       if (len < BOOTDEV_BUFFER)
 	{
@@ -295,10 +298,13 @@ add_multiple_nvme_bootdevices (const char *install_device)
 
           if (grub_strstr (ep->d_name, "nvme") != NULL)
             {
+	      char *p;
               if (is_FC == false && grub_strstr (ep->d_name, dirR1) == NULL &&
                   grub_strstr (ep->d_name, dirR2) == NULL)
                 continue;
-              path = xasprintf ("%s/namespace@%x ", get_ofpathname (ep->d_name), nsid);
+	      p = get_ofpathname (ep->d_name);
+              path = xasprintf ("%s/namespace@%x ", p, nsid);
+	      free (p);
               if ((strlen (multipath_boot) + strlen (path)) >= BOOTDEV_BUFFER)
                 {
                   grub_util_warn (_("Maximum five entries are allowed in the bootlist"));
