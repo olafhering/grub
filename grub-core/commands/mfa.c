@@ -316,6 +316,7 @@ file_recover_key (grub_uint8_t **key, grub_size_t *key_size)
   read_n = grub_file_read (file, read_buffer, *key_size);
   if (read_n != *key_size)
     {
+      grub_memset (read_buffer, 0, *key_size);
       grub_free (read_buffer);
       err = grub_error (GRUB_ERR_FILE_READ_ERROR, N_("could not retrieve file contents: %s"), filepath);
       goto error;
