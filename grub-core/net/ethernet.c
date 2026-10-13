@@ -25,7 +25,6 @@
 #include <grub/net/netbuff.h>
 #include <grub/net.h>
 #include <grub/time.h>
-#include <grub/net/arp.h>
 
 #define LLCADDRMASK 0x7f
 
