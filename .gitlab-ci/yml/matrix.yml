@@ -79,6 +79,7 @@
           - f2fs_test
           - fat_test
           - fdt_unit_test
+          - fortify_test
           - gettext_strings_test
           - grub_mkconfig_bootnext_self_test
           - grub_mkconfig_bootnext_test
@@ -115,6 +116,7 @@
           - example_grub_script_test
           - fddboot_test
           - file_filter_test
+          - fortify_abort_test
           - grub_cmd_bootnext
           - grub_cmd_bootnext_reboot
           - grub_cmd_cryptomount
