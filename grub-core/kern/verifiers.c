@@ -311,6 +311,9 @@ grub_verify_in_place (grub_file_t io, void *buf, grub_size_t size)
   struct grub_file_verifier *ver;
   grub_err_t err = GRUB_ERR_NONE;
 
+  if (io == NULL)
+    return grub_error (GRUB_ERR_BAD_ARGUMENT, N_("invalid file pointer for in-place verification"));
+
   if ((io->type & GRUB_FILE_TYPE_VERIFY_IN_PLACE) == 0)
     return grub_error (GRUB_ERR_BAD_ARGUMENT, N_("in-place verification not requested: %s"),
 		       io->name);
