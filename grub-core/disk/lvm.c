@@ -528,8 +528,8 @@ grub_lvm_detect (grub_disk_t disk,
 
 	      continue;
 	    pvs_fail:
-	      grub_free (pv->name);
 	      grub_free (pv->id.uuid);
+	      grub_free (pv->name);
 	    pvs_fail_noname:
 	      grub_free (pv);
 	      goto fail4;
