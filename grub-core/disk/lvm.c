@@ -910,7 +910,7 @@ grub_lvm_detect (grub_disk_t disk,
 			  while (q < mda_end && *q != '"')
 			    q++;
 
-			  if (q == mda_end)
+			  if (q >= mda_end)
 			    goto lvs_segment_fail2;
 
 			  s = q - p;
