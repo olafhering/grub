@@ -871,6 +871,15 @@ grub_lvm_detect (grub_disk_t disk,
 			  goto lvs_segment_fail;
 			}
 
+		      if (seg->node_count == 0
+			  || (seg->type == GRUB_DISKFILTER_RAID4 && seg->node_count < 2))
+			{
+#ifdef GRUB_UTIL
+			  grub_util_info ("invalid device_count");
+#endif
+			  goto lvs_segment_fail;
+			}
+
 		      if (seg->type != GRUB_DISKFILTER_MIRROR)
 			{
 			  seg->stripe_size = grub_lvm_getvalue (&p, "stripe_size = ");
