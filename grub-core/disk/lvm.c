@@ -698,7 +698,13 @@ grub_lvm_detect (grub_disk_t disk,
 		    goto lvs_segment_fail;
 		  p += sizeof("type = \"") - 1;
 
-		  lv->size += seg->extent_count * vg->extent_size;
+		  {
+		    grub_uint64_t seg_size;
+
+		    if (grub_mul (seg->extent_count, vg->extent_size, &seg_size)
+			|| grub_add (lv->size, seg_size, &lv->size))
+		      goto lvs_segment_fail;
+		  }
 
 		  if (grub_memcmp (p, "striped\"",
 				   sizeof ("striped\"") - 1) == 0)
