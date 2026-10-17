@@ -1,4 +1,4 @@
-/* efivar.c - dump runtime uefi variables. */
+/* lsefivar.c - dump all UEFI variables. */
 /*
  *  GRUB  --  GRand Unified Bootloader
  *  Copyright (C) 2026  Free Software Foundation, Inc.
@@ -56,6 +56,16 @@ dump_variable_data (const char *variable_name, grub_guid_t *variable_guid)
       grub_puts_ (N_("\tBoot Service Access"));
     if (attributes & GRUB_EFI_VARIABLE_RUNTIME_ACCESS)
       grub_puts_ (N_("\tRuntime Service Access"));
+    if (attributes & GRUB_EFI_VARIABLE_HARDWARE_ERROR_RECORD)
+      grub_puts_ (N_("\tHardware Error Record"));
+    if (attributes & GRUB_EFI_VARIABLE_AUTHENTICATED_WRITE_ACCESS)
+      grub_puts_ (N_("\tAuthenticated Write Access"));
+    if (attributes & GRUB_EFI_VARIABLE_TIME_BASED_AUTHENTICATED_WRITE_ACCESS)
+      grub_puts_ (N_("\tTime Based Authenticated Write Access"));
+    if (attributes & GRUB_EFI_VARIABLE_APPEND_WRITE)
+      grub_puts_ (N_("\tAppend Write"));
+    if (attributes & GRUB_EFI_VARIABLE_ENHANCED_AUTHENTICATED_ACCESS)
+      grub_puts_ (N_("\tEnhanced Authenticated Access"));
 
     grub_puts_ (N_("Value:"));
     hexdump (0, data, data_size);
