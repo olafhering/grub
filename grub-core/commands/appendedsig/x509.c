@@ -900,7 +900,7 @@ x509_cert_parse_der (const void *der_data, grub_int32_t der_data_size, grub_x509
    */
   ret = x509_get_validity (cert_asn1, cert);
   if (ret != GRUB_ERR_NONE)
-    goto exit;
+    goto cleanup_serial;
 
   /*
    * issuer              Name,
@@ -956,9 +956,10 @@ x509_cert_parse_der (const void *der_data, grub_int32_t der_data_size, grub_x509
   _gcry_mpi_release (cert->spki.pk.modulus);
   _gcry_mpi_release (cert->spki.pk.exponent);
  cleanup_exit:
-  grub_free (cert->serial);
   grub_free (cert->issuer);
   grub_free (cert->subject);
+ cleanup_serial:
+  grub_free (cert->serial);
  exit:
   asn1_delete_structure (&cert_asn1);
 
