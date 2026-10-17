@@ -61,9 +61,12 @@ verified_close (struct grub_file *file)
   verified_free (verified);
   file->data = 0;
 
-  /* Device and name are freed by parent. */
+  /*
+   * The device is shared with, and closed by, the parent. The name is not:
+   * grub_file_open() gives each filter its own copy, which grub_file_close()
+   * frees.
+   */
   file->device = 0;
-  file->name = 0;
 
   return grub_errno;
 }
