@@ -1000,8 +1000,13 @@ x509_cert_cmp (const grub_x509_cert_t *cert1, const grub_x509_cert_t *cert2)
   if (cert1 == NULL || cert2 == NULL)
     return false;
 
-  if (cert1->subject == NULL || cert2->subject == NULL ||
-      cert1->issuer == NULL || cert2->issuer == NULL ||
+  /*
+   * The subject and issuer are NULL when the name has no commonName, which
+   * RFC 5280 allows. Such a certificate must still match itself, otherwise a
+   * dbx entry for it could never revoke it, so two missing names are equal.
+   */
+  if ((cert1->subject == NULL) != (cert2->subject == NULL) ||
+      (cert1->issuer == NULL) != (cert2->issuer == NULL) ||
       cert1->serial == NULL || cert2->serial == NULL)
     return false;
 
@@ -1014,8 +1019,10 @@ x509_cert_cmp (const grub_x509_cert_t *cert1, const grub_x509_cert_t *cert2)
       cert1->serial_len != cert2->serial_len)
     return false;
 
-  if (grub_memcmp (cert1->subject, cert2->subject, cert2->subject_len) != 0 ||
-      grub_memcmp (cert1->issuer, cert2->issuer, cert2->issuer_len) != 0 ||
+  if ((cert1->subject != NULL &&
+       grub_memcmp (cert1->subject, cert2->subject, cert2->subject_len) != 0) ||
+      (cert1->issuer != NULL &&
+       grub_memcmp (cert1->issuer, cert2->issuer, cert2->issuer_len) != 0) ||
       grub_memcmp (cert1->serial, cert2->serial, cert2->serial_len) != 0)
     return false;
 

@@ -218,7 +218,9 @@ grub_asn1_read_rnd_sequence (asn1_node cert_asn1, const char *root_path, const c
       name == NULL || name_size == NULL)
     return grub_error (GRUB_ERR_BAD_ARGUMENT, "bad input data");
 
+  /* Both stay like this if there is no component matching OID. */
   *name = NULL;
+  *name_size = 0;
 
   top_path = grub_xasprintf ("%s.rdnSequence", root_path);
   if (top_path == NULL)
