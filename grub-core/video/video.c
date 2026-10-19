@@ -736,6 +736,8 @@ grub_video_set_mode (const char *modestring,
 	  err = p->setup (width, height, flags, flagmask);
 	  if (err != GRUB_ERR_NONE)
 	    {
+	      grub_dprintf ("video", "%s: mode `%s' failed: %s\n",
+			    p->name, current_mode, grub_errmsg);
 	      p->fini ();
 	      grub_errno = GRUB_ERR_NONE;
 	      continue;
@@ -767,6 +769,9 @@ grub_video_set_mode (const char *modestring,
 	  /* Valid mode found from adapter, and it has been activated.
 	     Specify it as active adapter.  */
 	  grub_video_adapter_active = p;
+	  grub_dprintf ("video", "%s: mode `%s' set to %ux%ux%u\n",
+			p->name, current_mode, mode_info.width,
+			mode_info.height, mode_info.bpp);
 
 	  /* Free memory.  */
 	  grub_free (modevar);
