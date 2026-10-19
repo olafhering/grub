@@ -351,7 +351,7 @@ grub_util_biosdisk_get_grub_dev (const char *os_dev)
      */
     if (ctx.start == (grub_disk_addr_t) -1)
       {
-	char *p;
+	const char *p;
 	char *dri;
 
 	dri = make_device_name (drive);
