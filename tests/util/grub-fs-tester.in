@@ -521,7 +521,8 @@ for LOGSECSIZE in $(range "$MINLOGSECSIZE" "$MAXLOGSECSIZE" 1); do
 		xmdraid* | xlvm* | xzfs_mirror | xbtrfs_raid1)
 		    BIGBLOCKCNT=$((100 * 1048576));;
 		# We already test the FS for big files separately. Save some time here.
-		x"zfs_raid"* | x"zfs_stripe"* | x"zfs_mirror"* | x"btrfs_raid"*)
+		x"zfs_raid"* | x"zfs_stripe"* | x"zfs_mirror"* | x"btrfs_raid"* \
+		    | x"zfs_encryption"* | x"zfs_large_dnode"*)
 		    BIGBLOCKCNT=$((100 * 1048576));;
 
 		# OS LIMITATION: bfs_fuse bugs beyond that
@@ -569,6 +570,10 @@ for LOGSECSIZE in $(range "$MINLOGSECSIZE" "$MAXLOGSECSIZE" 1); do
 		# FS LIMITATION: 8.3
 		xmsdos*)
 		    LONGNAME="qwertzui.opa";;
+		# GRUB LIMITATION: LONGNAME is also a symlink target, see
+		# PDIR2COMPNUM below.
+		x"zfs_encryption"* | x"zfs_large_dnode"*)
+		    LONGNAME="`echo $LONGNAME |head -c 100`";;
 	    esac
 	    NOFILETIME=n
 	    NOFSTIME=n
@@ -593,6 +598,10 @@ for LOGSECSIZE in $(range "$MINLOGSECSIZE" "$MAXLOGSECSIZE" 1); do
 		# FS LIMITATION: Compact inodes do not allow for modification
 		#   times that are different from FS creation times.
 		x"erofs_compact")
+		    NOFILETIME=y;;
+		# GRUB LIMITATION: on OpenZFS (system attributes) GRUB shows
+		# the parent directory's access time as the file time.
+		x"zfs_encryption"* | x"zfs_large_dnode"*)
 		    NOFILETIME=y;;
 	    esac
 
@@ -628,6 +637,10 @@ for LOGSECSIZE in $(range "$MINLOGSECSIZE" "$MAXLOGSECSIZE" 1); do
 		# FS LIMITATION: at most 100 on symlink length
 		xcpio_ustar)
 		    PDIRCOMPNUM=84
+		    PDIR2COMPNUM=30;;
+		# GRUB LIMITATION: on OpenZFS (system attributes) GRUB reads
+		# symlinks only from the bonus buffer, not from a spill block.
+		x"zfs_encryption"* | x"zfs_large_dnode"*)
 		    PDIR2COMPNUM=30;;
 		# OS LIMITATION: Linux supports only symlink at most one block long on reiserfs
 		xreiserfs | xreiserfs_old)
@@ -824,6 +837,41 @@ for LOGSECSIZE in $(range "$MINLOGSECSIZE" "$MAXLOGSECSIZE" 1); do
 		    "zpool" create -R "$MNTPOINTRW" "$FSLABEL" $LODEVICES
 		    sleep 1
 		    "zfs" create "$FSLABEL"/"grub fs"
+		    sleep 1;;
+		# GRUB LIMITATION: encrypted datasets and large dnodes are not
+		# readable. "grub fs" is plain, a sibling dataset makes the
+		# feature active in the pool.
+		# OS LIMITATION: OpenZFS mounts the pool root at altroot/poolname,
+		# "-m /" puts it at altroot like the other tests expect.
+		x"zfs_encryption")
+		    "zpool" create -m / -R "$MNTPOINTRW" "$FSLABEL" "${MOUNTDEVICE}"
+		    sleep 1
+		    "zfs" create "$FSLABEL"/"grub fs"
+		    echo "grub fs tester key" | "zfs" create -o encryption=aes-256-gcm \
+			-o keyformat=passphrase -o keylocation=prompt \
+			-o canmount=noauto "$FSLABEL"/enc
+		    "zfs" mount "$FSLABEL"/enc
+		    "zfs" create -o canmount=noauto "$FSLABEL"/enc/sub
+		    echo "$fs" > "$("zfs" get -H -o value mountpoint "$FSLABEL"/enc)"/file
+		    "zpool" sync "$FSLABEL"
+		    "zfs" snapshot "$FSLABEL"/enc@snap
+		    if [ "$("zpool" get -H -o value feature@encryption "$FSLABEL")" != active ]; then
+			echo "ZFS encryption feature not active"
+			exit 1
+		    fi
+		    sleep 1;;
+		x"zfs_large_dnode")
+		    "zpool" create -m / -R "$MNTPOINTRW" "$FSLABEL" "${MOUNTDEVICE}"
+		    sleep 1
+		    "zfs" create "$FSLABEL"/"grub fs"
+		    "zfs" create -o dnodesize=1k "$FSLABEL"/ldn
+		    echo "$fs" > "$("zfs" get -H -o value mountpoint "$FSLABEL"/ldn)"/file
+		    "zpool" sync "$FSLABEL"
+		    "zfs" snapshot "$FSLABEL"/ldn@snap
+		    if [ "$("zpool" get -H -o value feature@large_dnode "$FSLABEL")" != active ]; then
+			echo "ZFS large_dnode feature not active"
+			exit 1
+		    fi
 		    sleep 1;;
 		x"tarfs" | x"cpio_"* | x"iso9660" | xjoliet | xrockridge | xrockridge_joliet | x"iso9660_1999" | xjoliet_1999 | xrockridge_1999 | xrockridge_joliet_1999 | x"ziso9660" | x"romfs" | x"squash4_"* | x"erofs_"*)
 		    INSTDEVICE=/dev/null;;
@@ -1686,6 +1734,58 @@ for LOGSECSIZE in $(range "$MINLOGSECSIZE" "$MAXLOGSECSIZE" 1); do
 		    exit 1
 		fi
 	    fi
+
+	    case x"$fs" in
+		x"zfs_encryption"* | x"zfs_large_dnode"*)
+		    if [ x"$fs" = x"zfs_encryption" ]; then
+			FEATDS=enc
+			FEATSUBDIRS="sub @ @snap"
+			FEATERR="encrypted datasets are not supported"
+		    else
+			FEATDS=ldn
+			FEATSUBDIRS="@ @snap"
+			FEATERR="large dnodes are not supported"
+		    fi
+
+		    # The dataset is listed, only without the mtime of its root.
+		    LSOUT=$(run_grubfstest ls -- -l "($GRUBDEVICE)/")
+		    if echo "$LSOUT" | grep -E "^DIR +$FEATDS/\$" > /dev/null \
+			&& echo "$LSOUT" | grep -E "^DIR +[0-9]{14} grub fs/\$" > /dev/null; then
+			:
+		    else
+			echo FEATURE LIST FAIL
+			echo "$LSOUT"
+			exit 1
+		    fi
+
+		    # Listing the dataset itself lists "@", its children and
+		    # its snapshots, all without mtime.
+		    LSOUT=$(run_grubfstest ls -- -l "($GRUBDEVICE)/$FEATDS")
+		    for i in $FEATSUBDIRS; do
+			if echo "$LSOUT" | grep -E "^DIR +$i/\$" > /dev/null; then
+			    :
+			else
+			    echo FEATURE DATASET LIST FAIL "$i"
+			    echo "$LSOUT"
+			    exit 1
+			fi
+		    done
+
+		    # Files are refused with a clear error.
+		    if FEATOUT=$(run_grubfstest cat "($GRUBDEVICE)/$FEATDS@/file" 2>&1); then
+			echo FEATURE READ FAIL: read succeeded
+			echo "$FEATOUT"
+			exit 1
+		    fi
+		    if echo "$FEATOUT" | grep -F "$FEATERR" > /dev/null; then
+			:
+		    else
+			echo FEATURE READ FAIL
+			echo "$FEATOUT"
+			exit 1
+		    fi
+		    ;;
+	    esac
 
 	    case x"$fs" in
 		x"zfs"*)

@@ -325,5 +325,6 @@ widthspec.bin
 /widthspec.h
 /xfs_test
 /xzcompress_test
+/zfs_features_test
 /zfs_test
 /zfs_zstd_test

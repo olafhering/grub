@@ -1,0 +1,36 @@
+#!@BUILD_SHEBANG@
+
+set -e
+
+if [ "x$EUID" = "x" ] ; then
+  EUID=`id -u`
+fi
+
+if [ "$EUID" != 0 ] ; then
+   exit 99
+fi
+
+if ! which zpool >/dev/null 2>&1; then
+   echo "zpool not installed; cannot test zfs."
+   exit 99
+fi
+
+if ! which zfs >/dev/null 2>&1; then
+   echo "zfs not installed; cannot test zfs."
+   exit 99
+fi
+
+# Native encryption and large dnodes need OpenZFS with feature flags, which
+# zfs-fuse for example does not have, so skip the test.
+if ! zfs get 2>&1 | grep -q "encryption"; then
+   echo "zfs native encryption not supported; cannot test zfs encryption."
+   exit 77
+fi
+
+if ! zfs get 2>&1 | grep -q "dnodesize"; then
+   echo "zfs large dnodes not supported; cannot test zfs large dnodes."
+   exit 77
+fi
+
+"@builddir@/grub-fs-tester" zfs_encryption
+"@builddir@/grub-fs-tester" zfs_large_dnode

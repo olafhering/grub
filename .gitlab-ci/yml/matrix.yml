@@ -52,6 +52,7 @@
       - TYPE: native
         TEST:
           - hfs_test
+          - zfs_features_test
           - zfs_test
           - zfs_zstd_test
 
