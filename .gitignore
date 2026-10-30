@@ -29,6 +29,7 @@ GRTAGS
 GSYMS
 GTAGS
 Makefile
+!/.gitlab-ci/image/Makefile
 Makefile.in
 ascii.bitmaps
 genkernsyms.sh

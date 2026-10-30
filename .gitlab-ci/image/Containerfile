@@ -1,0 +1,125 @@
+FROM debian:trixie AS grub_base
+
+# Package installation
+RUN sed -i "s/main/main non-free/g" /etc/apt/sources.list.d/debian.sources
+
+RUN apt update -y && \
+    apt install -y \
+    attr \
+    autoconf \
+    autoconf-archive \
+    automake \
+    autopoint \
+    bison \
+    btrfs-progs \
+    ccache \
+    clang \
+    cpio \
+    cryptsetup \
+    curl \
+    dosfstools \
+    e2fsprogs \
+    erofs-utils \
+    exfat-fuse \
+    exfatprogs \
+    f2fs-tools \
+    file \
+    flex \
+    fonts-dejavu-core \
+    g++ \
+    gawk \
+    gcc-aarch64-linux-gnu \
+    gcc-arm-linux-gnueabihf \
+    gcc-mips-linux-gnu \
+    gcc-mipsel-linux-gnu \
+    gcc-powerpc64-linux-gnu \
+    gcc-powerpc64le-linux-gnu \
+    gcc-riscv64-linux-gnu \
+    gcc-sparc64-linux-gnu \
+    genromfs \
+    gettext \
+    git \
+    gpg \
+    gzip \
+    hfsprogs \
+    iproute2 \
+    jfsutils \
+    kmod \
+    libdevmapper-dev \
+    libfreetype6-dev \
+    libfuse3-dev \
+    liblzma-dev \
+    libpciaccess-dev \
+    libsdl1.2-dev \
+    libtasn1-6-dev \
+    locales \
+    lzop \
+    make \
+    mingw-w64 \
+    mingw-w64-tools \
+    mtools \
+    multitee \
+    nilfs-tools \
+    ntfs-3g \
+    ovmf \
+    parted \
+    patch \
+    pkg-config \
+    python3 \
+    qemu-system \
+    qemu-system-data \
+    recode \
+    reiserfsprogs \
+    rsync \
+    squashfs-tools \
+    strace \
+    swtpm \
+    tar \
+    texinfo \
+    texlive \
+    tpm2-tools \
+    udftools \
+    unifont \
+    util-linux \
+    util-linux-extra \
+    wamerican \
+    wget \
+    xfsprogs \
+    xorriso \
+    xz-utils \
+    zfs-fuse \
+    zip
+
+RUN sed -i -E -e "s/^# (en_US.UTF-8 UTF-8)/\1/" /etc/locale.gen && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+    update-locale LANG=en_US.UTF-8
+
+ENV LC_ALL=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US.UTF-8
+
+# Clone GRUB, not required for CI but perhaps useful for local testing
+RUN git clone --depth 1 --no-single-branch --tags https://gitlab.freedesktop.org/gnu-grub/grub.git /grub && \
+    git config --global user.email "ci-images@example.com" && \
+    git config --global user.name "ci-images user"
+
+# Extra cross-compiler download & untar
+ENV CROSS_C=/usr/local/lib/gcc-13.2.0-nolibc
+RUN mkdir -p /usr/local/lib && \
+    cd /usr/local/lib && \
+    wget -q https://mirrors.kernel.org/pub/tools/crosstool/files/bin/x86_64/13.2.0/x86_64-gcc-13.2.0-nolibc-ia64-linux.tar.gz && \
+    wget -q https://mirrors.kernel.org/pub/tools/crosstool/files/bin/x86_64/13.2.0/x86_64-gcc-13.2.0-nolibc-loongarch64-linux.tar.gz && \
+    wget -q https://mirrors.kernel.org/pub/tools/crosstool/files/bin/x86_64/13.2.0/x86_64-gcc-13.2.0-nolibc-riscv32-linux.tar.gz && \
+    for f in *.tar.gz; do tar -xzf "$f"; done && \
+    rm -f *.tar.gz
+
+# Fix QEMU_EFI size
+RUN truncate -s 64M /usr/share/qemu-efi-aarch64/QEMU_EFI.fd
+
+FROM grub_base AS grub_coverity
+
+# Coverity build tool
+COPY coverity_tool.tgz /opt/
+RUN cd /opt && tar -xzf coverity_tool.tgz && \
+    mv cov-analysis-linux64-* cov-analysis
+ENV PATH=$PATH:/opt/cov-analysis/bin

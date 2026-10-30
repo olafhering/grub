@@ -358,3 +358,15 @@ operates.
 `--version'
      Print the version of Autoconf used to generate the `configure'
      script, and exit.
+
+Images
+======
+
+If you want to have a ready-to-build environment, one can fetch a container image
+from the register `docker pull quay.io/grub/debian-trixie-grub' and use it on your
+convenience. In fact, this the image that GRUB CI uses to test every merge-request.
+The definition of the latter image is at `.gitlab-ci/image/Containerfile` where you can
+locally build it with the `make' (or `make grub_base') command once you are under
+`.gitlab-ci/image` folder. For Coverity Scans, you need to type  `make grub_coverity'
+but you need to have the proper tool aka coverity_tool.tgz so image can be constructed
+correctly.
