@@ -113,6 +113,15 @@ RUN mkdir -p /usr/local/lib && \
     for f in *.tar.gz; do tar -xzf "$f"; done && \
     rm -f *.tar.gz
 
+# Clone GNULIB for a faster GRUB's bootstrap
+ENV GNULIB_SRCDIR=/gnulib
+
+# A more resilient gnulib's clone: try savannah first then coreutils's mirror
+RUN for repo in https://git.savannah.gnu.org/git/gnulib.git https://github.com/coreutils/gnulib.git; do \
+    	rm -rf "$GNULIB_SRCDIR"; \
+    	git -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=30 clone "$repo" "$GNULIB_SRCDIR" && break; \
+    done
+
 # Fix QEMU_EFI size
 RUN truncate -s 64M /usr/share/qemu-efi-aarch64/QEMU_EFI.fd
 

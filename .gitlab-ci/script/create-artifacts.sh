@@ -61,10 +61,12 @@ make -j $CPU_COUNT dist-zstd
 cd ..
 
 cd grub-build
-cp -av gnulib/doc/gendocs_template docs
+# Use the gnulib cached in the container image, otherwise the one fetched by bootstrap
+GNULIB_DIR="${GNULIB_SRCDIR:-$(pwd)/gnulib}"
+cp -av "$GNULIB_DIR/doc/gendocs_template" docs
 cd docs
-../gnulib/build-aux/gendocs.sh -o "./manual-grub" --email 'bug-grub@gnu.org' grub GRUB
-../gnulib/build-aux/gendocs.sh -o "./manual-grub-dev" --email 'bug-grub@gnu.org' grub-dev GRUB
+"$GNULIB_DIR/build-aux/gendocs.sh" -o "./manual-grub" --email 'bug-grub@gnu.org' grub GRUB
+"$GNULIB_DIR/build-aux/gendocs.sh" -o "./manual-grub-dev" --email 'bug-grub@gnu.org' grub-dev GRUB
 cd ../..
 
 cd zip-merge
