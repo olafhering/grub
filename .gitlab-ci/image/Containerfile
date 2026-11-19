@@ -105,12 +105,15 @@ RUN git clone --depth 1 --no-single-branch --tags https://gitlab.freedesktop.org
 
 # Extra cross-compiler download & untar
 ENV CROSS_C=/usr/local/lib/gcc-13.2.0-nolibc
+ARG CROSSTOOL_URL=https://mirrors.kernel.org/pub/tools/crosstool/files/bin/x86_64/13.2.0
 RUN mkdir -p /usr/local/lib && \
     cd /usr/local/lib && \
-    wget -q https://mirrors.kernel.org/pub/tools/crosstool/files/bin/x86_64/13.2.0/x86_64-gcc-13.2.0-nolibc-ia64-linux.tar.gz && \
-    wget -q https://mirrors.kernel.org/pub/tools/crosstool/files/bin/x86_64/13.2.0/x86_64-gcc-13.2.0-nolibc-loongarch64-linux.tar.gz && \
-    wget -q https://mirrors.kernel.org/pub/tools/crosstool/files/bin/x86_64/13.2.0/x86_64-gcc-13.2.0-nolibc-riscv32-linux.tar.gz && \
-    for f in *.tar.gz; do tar -xzf "$f"; done && \
+    for arch in ia64 loongarch64 riscv32; do \
+        url="$CROSSTOOL_URL/x86_64-gcc-13.2.0-nolibc-$arch-linux.tar.gz"; \
+        echo "Fetching $url"; \
+        wget -nv "$url" || { echo "Failed to fetch $url" >&2; exit 1; }; \
+    done && \
+    for f in *.tar.gz; do tar -xzf "$f" || exit 1; done && \
     rm -f *.tar.gz
 
 # Clone GNULIB for a faster GRUB's bootstrap
