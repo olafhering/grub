@@ -125,6 +125,22 @@ RUN for repo in https://git.savannah.gnu.org/git/gnulib.git https://github.com/c
     	git -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=30 clone "$repo" "$GNULIB_SRCDIR" && break; \
     done
 
+# Rust toolchain for --enable-rust, see grub-core/rust/README: rustc 1.96 or
+# newer and the standard library sources (rust-src) are needed, and rustfmt is
+# useful.  trixie only packages an older rustc, so trixie-backports is used,
+# with the archive key of the main Debian sources.  rust-all is not used: it
+# does not include rust-src.
+RUN signed_by="$(sed -n 's/^Signed-By: *//p' /etc/apt/sources.list.d/debian.sources | head -n 1)" && \
+    test -n "$signed_by" && \
+    printf 'Types: deb\nURIs: http://deb.debian.org/debian\nSuites: trixie-backports\nComponents: main\nSigned-By: %s\n' \
+        "$signed_by" > /etc/apt/sources.list.d/backports.sources && \
+    apt update -y && \
+    apt install -y -t trixie-backports rustc rust-src rustfmt && \
+    rustc --version && \
+    rustfmt --version && \
+    test -f "$(rustc --print sysroot)/lib/rustlib/src/rust/library/core/src/lib.rs" && \
+    test -f "$(rustc --print sysroot)/lib/rustlib/src/rust/library/compiler-builtins/compiler-builtins/src/lib.rs"
+
 # Fix QEMU_EFI size
 RUN truncate -s 64M /usr/share/qemu-efi-aarch64/QEMU_EFI.fd
 
